@@ -1338,10 +1338,10 @@ loadData();
   </div>
 
   <!-- Messages area -->
-  <div id="aiMessages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth"></div>
+  <div id="aiMessages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;min-height:120px"></div>
 
   <!-- Suggested prompts (shown when chat is empty) -->
-  <div id="aiSuggestions" style="padding:0 14px 10px;display:flex;flex-direction:column;gap:6px"></div>
+  <div id="aiSuggestions" style="padding:0 14px 8px;display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;flex-shrink:0"></div>
 
   <!-- Custom Query button -->
   <div style="padding:0 14px 10px;display:flex;gap:8px">
@@ -1524,7 +1524,7 @@ window.aiChatToggle = function() {
 function aiShowWelcome() {
   const msgs = document.getElementById('aiMessages');
   msgs.innerHTML = '';
-  appendBotMessage("Hi. I'm your competitive intelligence analyst. I have full access to the hiring data in this dashboard.\n\nAsk me about any competitor, trend, threat pattern, or signal — or use **⚡ Custom Query** for a guided deep-dive.");
+  appendBotMessage("Hi. I'm your competitive intelligence analyst — grounded in live hiring data. Pick a question below or ask your own.");
 }
 
 // ── Load Dynamic Suggestions from Backend ────────────────────────────────
