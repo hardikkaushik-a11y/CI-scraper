@@ -528,7 +528,7 @@ def compute_relevancy(skills: list[str], location: str, product_focus: str,
     elif company_group in ("Warehouse/Processing", "Monitoring/Platforms"):
         score += 1.5
 
-    return round(min(30.0, max(0.0, score)), 1)
+    return round(min(10.0, max(0.0, score / 1.8)), 1)
 
 
 def compute_trend(title: str, seniority: str) -> float:
