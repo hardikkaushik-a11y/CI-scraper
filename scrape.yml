@@ -1,0 +1,80 @@
+name: CI Job Scraper — Daily Pipeline
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 06:00 UTC
+  workflow_dispatch:      # Manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-and-enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+
+      # ── Restore cached state files ───────────────────────────────────
+      - name: Restore seen_jobs.db from cache
+        uses: actions/cache@v4
+        with:
+          path: seen_jobs.db
+          key: seen-jobs-db-${{ github.run_number }}
+          restore-keys: |
+            seen-jobs-db-
+
+      - name: Restore jobs_enriched.csv from cache
+        uses: actions/cache@v4
+        with:
+          path: jobs_enriched.csv
+          key: jobs-enriched-csv-${{ github.run_number }}
+          restore-keys: |
+            jobs-enriched-csv-
+
+      # ── Run pipeline ─────────────────────────────────────────────────
+      - name: Run scraper
+        run: python scraper.py
+
+      - name: Run enrichment + signal generation
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python enrich.py
+
+      # ── Print summary ────────────────────────────────────────────────
+      - name: Pipeline summary
+        run: |
+          echo "## Pipeline Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          RAW_COUNT=$(wc -l < jobs_raw.csv)
+          ENRICHED_COUNT=$(wc -l < jobs_enriched.csv)
+          SIGNAL_COUNT=$(python -c "import json; print(len(json.load(open('signals.json'))))" 2>/dev/null || echo "0")
+          echo "| Metric | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Raw jobs scraped | $((RAW_COUNT - 1)) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Enriched rows | $((ENRICHED_COUNT - 1)) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Company signals | $SIGNAL_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Run completed at $(date -u '+%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+
+      # ── Commit results back to repo ──────────────────────────────────
+      - name: Commit updated data files
+        run: |
+          git config user.name "CI Bot"
+          git config user.email "ci-bot@actian.com"
+          git add jobs_raw.csv jobs_enriched.csv signals.json dashboard.html
+          git diff --cached --quiet || git commit -m "chore: daily scrape $(date -u '+%Y-%m-%d')"
+          git push

@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /Users/hardikkaushik/Downloads/Scraper/*.csv /Users/hardikkaushik/Downloads/Scraper/*.json /Users/hardikkaushik/Downloads/Scraper/*.yml /Users/hardikkaushik/Downloads/Scraper/*.yaml)",
+      "Bash(pip show:*)",
+      "Bash(pip3 show:*)",
+      "Bash(python3 -c \"import playwright; print\\(playwright.__version__\\)\")",
+      "Bash(python3 -c \"import sys,json; data=json.loads\\(sys.stdin.readline\\(\\)\\); print\\(data.get\\(''''result'''',''''NOT DONE YET''''\\)[:3000]\\)\")",
+      "Bash(python3 -c \"import py_compile; py_compile.compile\\(''scraper.py'', doraise=True\\); print\\(''scraper.py OK''\\)\")",
+      "Bash(python3 -c \"import py_compile; py_compile.compile\\(''enrich.py'', doraise=True\\); print\\(''enrich.py OK''\\)\")",
+      "Bash(python3 -c \":*)",
+      "Bash(python3:*)",
+      "Bash(ls -lh /Users/hardikkaushik/Downloads/Scraper/*.csv /Users/hardikkaushik/Downloads/Scraper/*.json)",
+      "Bash(ls -lah /Users/hardikkaushik/Downloads/Scraper/*.csv)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"Initial commit: Competitive hiring intelligence pipeline:*)",
+      "Bash(rm -f /Users/hardikkaushik/Downloads/Scraper/.git/index.lock)"
+    ]
+  }
+}
