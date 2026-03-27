@@ -441,4 +441,5 @@ if __name__ == "__main__":
     print(f"✓  Running at http://localhost:5001")
     print("━" * 60)
 
-    app.run(port=5001, debug=False, use_reloader=False)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
