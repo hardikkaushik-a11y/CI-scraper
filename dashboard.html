@@ -289,6 +289,7 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
   border-radius: 12px; font-size: 11px; font-weight: 500; color: var(--accent); cursor: pointer;
 }
 .skill-tag:hover { background: #fde2e6; }
+.skill-tag.active { background: var(--red); color: #fff; border-color: var(--red); }
 
 /* ── CHARTS ─────────────────────────────────────────────────────────── */
 .chart-container { position: relative; width: 100%; }
@@ -533,6 +534,7 @@ let allRows = [], filteredRows = [], signals = [];
 let currentPage = 0;
 const PAGE_SIZE = 50;
 let sortCol = '', sortAsc = true;
+let activeSkillFilter = '';
 let charts = {};
 const today = new Date().toISOString().slice(0, 10);
 let signalSegmentFilter = '';
@@ -665,6 +667,10 @@ function applyFilters() {
         !(r.Location||'').toLowerCase().includes(fQ)) return false;
     if (r._relevancy < fR) return false;
     if (fD && r._days > fD) return false;
+    if (activeSkillFilter) {
+      try { if (!JSON.parse(r.Extracted_Skills||'[]').includes(activeSkillFilter)) return false; }
+      catch(e) { return false; }
+    }
     return true;
   });
   if (sortCol) {
@@ -679,11 +685,16 @@ function applyFilters() {
   currentPage = 0;
   updateKPIs(); updateCharts(); updateTable(); updateSidebar(); updateActiveFilters();
 }
+function filterBySkill(skill) {
+  activeSkillFilter = (activeSkillFilter === skill) ? '' : skill;
+  applyFilters();
+}
 function resetFilters() {
   ['fCompany','fGroup','fFunction','fSeniority','fProduct'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('fSearch').value = '';
   document.getElementById('fRelevancy').value = 0;
   document.getElementById('fDays').value = '';
+  activeSkillFilter = '';
   sortCol = ''; sortAsc = true;
   applyFilters();
 }
@@ -710,12 +721,14 @@ function updateActiveFilters() {
   if (fR > 0) pills.push({id:'fRelevancy', label:'Min Relevancy', value: fR});
   const fD = document.getElementById('fDays').value;
   if (fD) pills.push({id:'fDays', label:'Posted Within', value: fD + ' days'});
+  if (activeSkillFilter) pills.push({id:'fSkill', label:'Skill', value: activeSkillFilter});
 
   document.getElementById('activeFilters').innerHTML = pills.map(p =>
     '<span class="filter-pill" onclick="clearFilter(\'' + p.id + '\')">' + p.label + ': ' + p.value + ' <span class="pill-x">x</span></span>'
   ).join('');
 }
 function clearFilter(id) {
+  if (id === 'fSkill') { activeSkillFilter = ''; applyFilters(); return; }
   const el = document.getElementById(id);
   if (id === 'fRelevancy') el.value = 0;
   else el.value = '';
@@ -929,7 +942,7 @@ function updateSidebar() {
   filteredRows.forEach(r => { try { JSON.parse(r.Extracted_Skills||'[]').forEach(s => { sc[s]=(sc[s]||0)+1; }); } catch(e){} });
   const ts = Object.entries(sc).sort((a,b)=>b[1]-a[1]).slice(0,20);
   document.getElementById('sidebarSkills').innerHTML = ts.map(([s,c]) =>
-    '<span class="skill-tag" title="'+c+' jobs">'+s+' ('+c+')</span>'
+    '<span class="skill-tag'+(activeSkillFilter===s?' active':'')+'" title="'+c+' jobs" onclick="filterBySkill(\''+s+'\')">'+s+' ('+c+')</span>'
   ).join('');
 
   // Threat Summary with Vector DB callout
