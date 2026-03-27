@@ -1541,8 +1541,8 @@ function buildLocalContext() {
   rows.forEach(r => { companyCounts[r.Company] = (companyCounts[r.Company] || 0) + 1; });
   const topCompany = Object.entries(companyCounts).sort((a,b) => b[1]-a[1])[0] || ['N/A', 0];
 
-  const critical = sigs.filter(s => s.threat_level === 'CRITICAL').map(s => s.company);
-  const high     = sigs.filter(s => s.threat_level === 'HIGH').map(s => s.company);
+  const critical = sigs.filter(s => (s.threat_level||'').toLowerCase() === 'critical').map(s => s.company);
+  const high     = sigs.filter(s => (s.threat_level||'').toLowerCase() === 'high').map(s => s.company);
   const topThreat = [...critical, ...high][0] || topCompany[0] || 'Snowflake';
 
   const highRel = rows.filter(r => (r._relevancy || 0) >= 10);

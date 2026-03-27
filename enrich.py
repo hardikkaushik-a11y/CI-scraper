@@ -1183,6 +1183,19 @@ def enrich(
             if needs_reclassify:
                 reclassify_rows.append(ex)
             else:
+                # Refresh skills for carried rows that have empty skills
+                existing_skills_raw = ex.get("Extracted_Skills", "[]")
+                try:
+                    existing_skills = json.loads(existing_skills_raw)
+                except Exception:
+                    existing_skills = []
+                if not existing_skills:
+                    title = ex.get("Job Title", "")
+                    skills = extract_skills(title)
+                    ex["Primary_Skill"] = skills[0] if skills else ""
+                    ex["Extracted_Skills"] = json.dumps(skills)
+                    ex["Relevancy_to_Actian"] = compute_relevancy(skills, ex.get("Location", ""), pf, sen, ex.get("Company_Group", ""))
+                    ex["Trend_Score"] = compute_trend(title, sen)
                 carry_rows.append(ex)
         else:
             new_rows.append(row)
