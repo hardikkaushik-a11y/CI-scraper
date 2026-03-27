@@ -75,6 +75,6 @@ jobs:
         run: |
           git config user.name "CI Bot"
           git config user.email "ci-bot@actian.com"
-          git add jobs_raw.csv jobs_enriched.csv signals.json dashboard.html
+          git add -f jobs_enriched.csv signals.json dashboard.html
           git diff --cached --quiet || git commit -m "chore: daily scrape $(date -u '+%Y-%m-%d')"
           git push
