@@ -14,7 +14,9 @@
       "Bash(ls -lah /Users/hardikkaushik/Downloads/Scraper/*.csv)",
       "Bash(git add:*)",
       "Bash(git commit -m \"Initial commit: Competitive hiring intelligence pipeline:*)",
-      "Bash(rm -f /Users/hardikkaushik/Downloads/Scraper/.git/index.lock)"
+      "Bash(rm -f /Users/hardikkaushik/Downloads/Scraper/.git/index.lock)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)"
     ]
   }
 }
