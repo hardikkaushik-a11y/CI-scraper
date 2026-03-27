@@ -793,7 +793,7 @@ function updateCharts() {
   const cd = countBy(rows, 'Company', 15);
   charts.companies = new Chart(document.getElementById('chartCompanies'), {
     type:'bar', data:{ labels:cd.labels, datasets:[{data:cd.data,backgroundColor:'#E31937',borderRadius:4,barThickness:14}] },
-    options:{ ...animOpts, indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{grid:{color:'#e2e5ea'}},y:{grid:{display:false}}},
+    options:{ ...animOpts, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{grid:{color:'#e2e5ea'}},y:{grid:{display:false}}},
       onClick: function(evt) { chartClickFilter(this, 'fCompany', evt); }
     }
   });
@@ -821,7 +821,7 @@ function updateCharts() {
   const fd = countBy(rows, 'Function');
   charts.function = new Chart(document.getElementById('chartFunction'), {
     type:'bar', data:{ labels:fd.labels, datasets:[{data:fd.data,backgroundColor:'#00B4D8',borderRadius:4,barThickness:18}] },
-    options:{ ...animOpts, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false},ticks:{maxRotation:45}},y:{grid:{color:'#e2e5ea'}}},
+    options:{ ...animOpts, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false},ticks:{maxRotation:45}},y:{grid:{color:'#e2e5ea'}}},
       onClick: function(evt) { chartClickFilter(this, 'fFunction', evt); }
     }
   });
@@ -1150,7 +1150,6 @@ function renderSignals() {
     '<option value="">Choose a company...</option>';
   sorted.forEach(s => { html += '<option value="'+s.company+'">'+s.company+' -- '+s.threat_level+' threat ('+s.posting_count+' roles)</option>'; });
   html += '</select></div>';
-  html += '<div><input type="text" id="signalSearch" placeholder="Search companies..." oninput="filterSignalCards()" style="background:var(--bg);color:var(--text);border:1px solid var(--border);padding:8px 14px;border-radius:6px;font-size:13px;width:200px"></div>';
   html += '</div>';
 
   html += '<div class="segment-chips" id="segmentChips">';
