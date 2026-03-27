@@ -4,12 +4,12 @@ assistant_backend.py — Actian Intelligence Assistant Backend
 Lightweight Flask server that:
   • Loads jobs_enriched.csv + signals.json on startup (cached by mtime)
   • Builds dynamic data context from real data
-  • Calls Claude Sonnet for analyst-grade responses
-  • Retries with exponential backoff on API overload
+  • Calls Groq (Llama 3.3 70B) for analyst-grade responses — free tier
+  • Retries with exponential backoff on rate-limit
   • Returns optional dashboard_action for session-based UI control
 
 Usage:
-  export ANTHROPIC_API_KEY=sk-ant-...
+  export GROQ_API_KEY=gsk_...
   python assistant_backend.py
   → Runs on http://localhost:5001
 """
@@ -30,8 +30,8 @@ from flask_cors import CORS
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════
 
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-SONNET_MODEL = "claude-sonnet-4-6"
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+GROQ_MODEL = "llama-3.3-70b-versatile"
 DATA_DIR = Path(__file__).parent
 EXCLUDED_FUNCTIONS = {"Legal", "People/HR"}
 
@@ -242,38 +242,37 @@ or to highlight a page section:
 Only include this if it genuinely helps. Do not include it for general questions."""
 
 
-def call_claude(messages: list[dict], max_retries: int = 3) -> str:
-    """Call Claude Sonnet with exponential backoff on overload/rate-limit."""
-    if not ANTHROPIC_API_KEY:
-        raise ValueError("ANTHROPIC_API_KEY not set. Run: export ANTHROPIC_API_KEY=sk-ant-...")
+def call_llm(messages: list[dict], max_retries: int = 3) -> str:
+    """Call Groq (Llama 3.3 70B) with exponential backoff on rate-limit."""
+    if not GROQ_API_KEY:
+        raise ValueError("GROQ_API_KEY not set. Run: export GROQ_API_KEY=gsk_...")
+
+    groq_messages = [{"role": "system", "content": SYSTEM_PROMPT}] + messages
 
     last_error: Exception = RuntimeError("Unknown error")
     for attempt in range(max_retries):
         try:
             with httpx.Client(timeout=90) as client:
                 resp = client.post(
-                    "https://api.anthropic.com/v1/messages",
+                    "https://api.groq.com/openai/v1/chat/completions",
                     headers={
-                        "x-api-key": ANTHROPIC_API_KEY,
-                        "anthropic-version": "2023-06-01",
+                        "Authorization": f"Bearer {GROQ_API_KEY}",
                         "content-type": "application/json",
                     },
                     json={
-                        "model": SONNET_MODEL,
+                        "model": GROQ_MODEL,
                         "max_tokens": 1200,
-                        "system": SYSTEM_PROMPT,
-                        "messages": messages,
+                        "messages": groq_messages,
                     },
                 )
                 resp.raise_for_status()
-                return resp.json()["content"][0]["text"]
+                return resp.json()["choices"][0]["message"]["content"]
 
         except httpx.HTTPStatusError as e:
             last_error = e
             status = e.response.status_code
-            if status in (429, 529) and attempt < max_retries - 1:
-                wait = 2 ** (attempt + 1)
-                time.sleep(wait)
+            if status == 429 and attempt < max_retries - 1:
+                time.sleep(2 ** (attempt + 1))
                 continue
             raise
 
@@ -304,10 +303,10 @@ def health():
         rows, signals = load_data()
         return jsonify({
             "status": "ok",
-            "model": SONNET_MODEL,
+            "model": GROQ_MODEL,
             "roles": len(rows),
             "signals": len(signals),
-            "api_key_set": bool(ANTHROPIC_API_KEY),
+            "api_key_set": bool(GROQ_API_KEY),
         })
     except Exception as e:
         return jsonify({"status": "error", "error": str(e)}), 500
@@ -359,10 +358,10 @@ def get_context_summary():
 @app.route("/chat", methods=["POST"])
 def chat():
     """Main chat endpoint. Accepts message + conversation history."""
-    if not ANTHROPIC_API_KEY:
+    if not GROQ_API_KEY:
         return jsonify({
-            "error": "ANTHROPIC_API_KEY not set.",
-            "hint": "Run: export ANTHROPIC_API_KEY=sk-ant-... then restart the backend."
+            "error": "GROQ_API_KEY not set.",
+            "hint": "Run: export GROQ_API_KEY=gsk_... then restart the backend."
         }), 400
 
     body = request.json or {}
@@ -390,7 +389,7 @@ def chat():
 
         messages.append({"role": "user", "content": content})
 
-        response_text = call_claude(messages)
+        response_text = call_llm(messages)
 
         # Parse optional dashboard_action block
         dashboard_action = None
@@ -423,11 +422,11 @@ if __name__ == "__main__":
     print("  Actian Intelligence Assistant Backend")
     print("━" * 60)
 
-    if not ANTHROPIC_API_KEY:
-        print("⚠  ANTHROPIC_API_KEY not set.")
-        print("   Run: export ANTHROPIC_API_KEY=sk-ant-...")
+    if not GROQ_API_KEY:
+        print("⚠  GROQ_API_KEY not set.")
+        print("   Run: export GROQ_API_KEY=gsk_...")
     else:
-        print(f"✓  API key set ({ANTHROPIC_API_KEY[:12]}...)")
+        print(f"✓  API key set ({GROQ_API_KEY[:12]}...)")
 
     try:
         rows, signals = load_data()
@@ -437,7 +436,7 @@ if __name__ == "__main__":
         print(f"⚠  Data load warning: {e}")
         print("   Place jobs_enriched.csv and signals.json in the same directory.")
 
-    print(f"✓  Model: {SONNET_MODEL}")
+    print(f"✓  Model: {GROQ_MODEL}")
     print(f"✓  Running at http://localhost:5001")
     print("━" * 60)
 
