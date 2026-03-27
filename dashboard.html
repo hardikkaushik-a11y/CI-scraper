@@ -460,7 +460,7 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
 
   <div class="kpi-strip">
     <div class="kpi-box"><div class="kpi-value blue" id="kpiTotal">--</div><div class="kpi-label">Total Roles</div></div>
-    <div class="kpi-box"><div class="kpi-value amber" id="kpiHighSignal">--</div><div class="kpi-label">High Signal (Relevancy 15+)</div></div>
+    <div class="kpi-box"><div class="kpi-value amber" id="kpiHighSignal">--</div><div class="kpi-label">High Signal (Relevancy 8+)</div></div>
     <div class="kpi-box"><div class="kpi-value" id="kpiDirector">--</div><div class="kpi-label">Director+ Roles</div></div>
     <div class="kpi-box"><div class="kpi-value green" id="kpiRecent">--</div><div class="kpi-label">New This Week</div><div class="kpi-sublabel">(posted within 7 days)</div></div>
     <div class="kpi-box"><div class="kpi-value" id="kpiAvgRel">--</div><div class="kpi-label">Avg. Relevancy Score</div></div>
@@ -739,7 +739,7 @@ function clearFilter(id) {
 function updateKPIs() {
   const rows = filteredRows;
   document.getElementById('kpiTotal').textContent = rows.length.toLocaleString();
-  document.getElementById('kpiHighSignal').textContent = rows.filter(r => r._relevancy >= 15).length;
+  document.getElementById('kpiHighSignal').textContent = rows.filter(r => r._relevancy >= 8).length;
   document.getElementById('kpiDirector').textContent = rows.filter(r => r.Seniority === 'Director+').length;
   const recentCount = rows.filter(r => {
     const days = parseInt(r['Days Since Posted']);
