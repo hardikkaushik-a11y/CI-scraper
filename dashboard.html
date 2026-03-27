@@ -623,6 +623,8 @@ async function loadData() {
   // Expose to AI assistant for local context
   window._allRows = allRows;
   window._allSignals = signals;
+  // Re-render suggestions now that data is ready (panel may already be open)
+  if (!_chatHistory.length) renderSuggestions(buildLocalContext());
 }
 
 // ── Filters ────────────────────────────────────────────────────────────
@@ -1541,7 +1543,7 @@ function buildLocalContext() {
 
   const critical = sigs.filter(s => s.threat_level === 'CRITICAL').map(s => s.company);
   const high     = sigs.filter(s => s.threat_level === 'HIGH').map(s => s.company);
-  const topThreat = [...critical, ...high][0] || topCompany[0];
+  const topThreat = [...critical, ...high][0] || topCompany[0] || 'Snowflake';
 
   const highRel = rows.filter(r => (r._relevancy || 0) >= 10);
   const recent  = rows.filter(r => (r._days || 9999) <= 7);
