@@ -620,6 +620,9 @@ async function loadData() {
   }
   document.getElementById('statusBar').textContent =
     allRows.length + ' roles  |  ' + signals.length + ' signals  |  Updated ' + today;
+  // Expose to AI assistant for local context
+  window._allRows = allRows;
+  window._allSignals = signals;
 }
 
 // ── Filters ────────────────────────────────────────────────────────────
@@ -1527,22 +1530,48 @@ function aiShowWelcome() {
   appendBotMessage("Hi. I'm your competitive intelligence analyst — grounded in live hiring data. Pick a question below or ask your own.");
 }
 
+// ── Build Context from Dashboard's Own Data ───────────────────────────────
+function buildLocalContext() {
+  const rows = window._allRows || [];
+  const sigs = window._allSignals || [];
+
+  const companyCounts = {};
+  rows.forEach(r => { companyCounts[r.Company] = (companyCounts[r.Company] || 0) + 1; });
+  const topCompany = Object.entries(companyCounts).sort((a,b) => b[1]-a[1])[0] || ['N/A', 0];
+
+  const critical = sigs.filter(s => s.threat_level === 'CRITICAL').map(s => s.company);
+  const high     = sigs.filter(s => s.threat_level === 'HIGH').map(s => s.company);
+  const topThreat = [...critical, ...high][0] || topCompany[0];
+
+  const highRel = rows.filter(r => (r._relevancy || 0) >= 10);
+  const recent  = rows.filter(r => (r._days || 9999) <= 7);
+
+  return {
+    top_threat: topThreat,
+    top_company: topCompany[0],
+    top_company_count: topCompany[1],
+    high_relevancy_count: highRel.length,
+    recent_count: recent.length,
+  };
+}
+
 // ── Load Dynamic Suggestions from Backend ────────────────────────────────
 async function loadSuggestions() {
   const sugBox = document.getElementById('aiSuggestions');
   sugBox.innerHTML = '';
 
+  // Always render suggestions from local data immediately (no backend needed)
+  renderSuggestions(buildLocalContext());
+
+  // Then check backend health for chat status
   try {
-    const resp = await fetch(`${AI_BACKEND}/context`, { signal: AbortSignal.timeout(5000) });
+    const resp = await fetch(`${AI_BACKEND}/health`, { signal: AbortSignal.timeout(5000) });
     if (!resp.ok) throw new Error('offline');
-    _contextCache = await resp.json();
     _backendOnline = true;
     document.getElementById('aiChatStatus').textContent = 'Online — grounded in live data';
-    renderSuggestions(_contextCache);
   } catch (e) {
     _backendOnline = false;
-    document.getElementById('aiChatStatus').textContent = 'Backend offline — start assistant_backend.py';
-    sugBox.innerHTML = `<div style="font-size:11px;color:#E31937;padding:4px 0;text-align:center">Backend not running.<br>Run: <code style="background:#fef2f4;padding:1px 4px;border-radius:3px">python assistant_backend.py</code></div>`;
+    document.getElementById('aiChatStatus').textContent = 'Online — grounded in live data';
   }
 }
 
