@@ -1,8 +1,5 @@
-# Data files (change frequently)
-*.csv
-signals.json
+# Data files (raw scrape output only - exclude, keep enriched + signals for dashboard)
 jobs_raw.csv
-jobs_enriched.csv
 
 # Python
 __pycache__/
