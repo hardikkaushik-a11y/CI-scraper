@@ -607,7 +607,7 @@ async function loadData() {
   if (csvOk) {
     allRows.forEach(r => {
       r._relevancy = parseFloat(r.Relevancy_to_Actian) || 0;
-      r._days = parseInt(r['Days Since Posted']) || 9999;
+      r._days = r['Days Since Posted'] !== '' && r['Days Since Posted'] != null ? parseInt(r['Days Since Posted']) : 9999;
       r._trend = parseFloat(r.Trend_Score) || 0;
     });
     populateFilters();
@@ -894,7 +894,7 @@ function updateTable() {
       '<td>'+r.Company+nb+vb+'</td>'+
       '<td class="title-cell" title="'+(r['Job Title']||'').replace(/"/g,'&quot;')+'">'+r['Job Title']+'</td>'+
       '<td>'+senBadge(r.Seniority||'Mid')+'</td><td>'+r.Function+'</td><td>'+r.Product_Focus+'</td>'+
-      '<td>'+r.Location+'</td><td style="text-align:center">'+(r['Days Since Posted']||'--')+'</td>'+
+      '<td>'+r.Location+'</td><td style="text-align:center">'+(r['Days Since Posted']!==''&&r['Days Since Posted']!=null?r['Days Since Posted']:'N/A')+'</td>'+
       '<td>'+relBar(r._relevancy)+'</td><td>'+(r.Primary_Skill||'')+'</td>'+
       '<td>'+(link?'<a href="'+link+'" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600">Open &rarr;</a>':'')+'</td></tr>';
   }).join('');
@@ -1559,8 +1559,9 @@ function renderSuggestions(ctx) {
     `Where is the biggest ETL/Integration competitive threat to Actian?`,
   ];
 
-  sugBox.innerHTML = suggestions.map(s =>
-    `<button class="ai-suggestion" onclick="aiSendSuggestion(this,${JSON.stringify(s)})">${s}</button>`
+  window._aiSuggestions = suggestions;
+  sugBox.innerHTML = suggestions.map((s, i) =>
+    `<button class="ai-suggestion" onclick="aiSendSuggestion(this,window._aiSuggestions[${i}])">${s}</button>`
   ).join('');
 }
 
@@ -1616,7 +1617,7 @@ window.aiSend = async function() {
 
   } catch (e) {
     removeTyping(typingId);
-    appendErrorMessage('Could not reach assistant backend. Is it running on port 5001?');
+    appendErrorMessage('Could not reach assistant. The server may still be waking up — try again in a moment.');
   }
 };
 
@@ -1730,15 +1731,24 @@ function appendErrorMessage(text) {
 }
 
 let _typingCounter = 0;
-function appendTyping() {
+function appendTyping(wakeUp = false) {
   const id = 'ai-typing-' + (++_typingCounter);
   const msgs = document.getElementById('aiMessages');
   const div = document.createElement('div');
   div.id = id;
   div.className = 'ai-msg-bot ai-typing';
-  div.innerHTML = '<span></span><span></span><span></span>';
+  div.innerHTML = wakeUp
+    ? '<span></span><span></span><span></span><small style="display:block;margin-top:6px;opacity:0.6;font-size:10px">Waking up server (~30s)…</small>'
+    : '<span></span><span></span><span></span>';
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
+  // If first message, show wake-up hint after 5s
+  if (!wakeUp) {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = '<span></span><span></span><span></span><small style="display:block;margin-top:6px;opacity:0.6;font-size:10px">Waking up server (~30s)…</small>';
+    }, 5000);
+  }
   return id;
 }
 function removeTyping(id) {
@@ -1808,11 +1818,14 @@ window.aiDismissBanner = function() {
 };
 
 // ── Fetch with Retry (exponential backoff) ────────────────────────────────
-async function fetchWithRetry(url, opts, maxRetries = 3) {
+async function fetchWithRetry(url, opts, maxRetries = 2) {
   let lastErr;
   for (let i = 0; i < maxRetries; i++) {
     try {
-      const resp = await fetch(url, { ...opts, signal: AbortSignal.timeout(90000) });
+      // First attempt: 60s timeout (handles Render cold-start ~50s)
+      // Subsequent: 20s timeout
+      const timeout = i === 0 ? 60000 : 20000;
+      const resp = await fetch(url, { ...opts, signal: AbortSignal.timeout(timeout) });
       if (resp.status === 429 || resp.status === 529) {
         await sleep(Math.pow(2, i + 1) * 1000);
         continue;
@@ -1820,7 +1833,7 @@ async function fetchWithRetry(url, opts, maxRetries = 3) {
       return resp;
     } catch (e) {
       lastErr = e;
-      if (i < maxRetries - 1) await sleep(Math.pow(2, i) * 800);
+      if (i < maxRetries - 1) await sleep(1500);
     }
   }
   throw lastErr;

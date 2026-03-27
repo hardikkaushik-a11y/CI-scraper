@@ -133,8 +133,8 @@ def detect_seniority(title: str) -> str:
     if re.search(r'\b(junior|jr\.?|entry|graduate|new grad|early career|associate)\b', t):
         return "Entry"
 
-    # Intern
-    if re.search(r'\b(intern|internship|werkstudent|trainee|co-?op|apprentice)\b', t):
+    # Intern — exclude "internal" (negative lookahead for "al")
+    if re.search(r'\b(intern(?!al)|internship|werkstudent|trainee|co-?op|apprentice)\b', t):
         return "Intern"
 
     # Mid-level explicit markers

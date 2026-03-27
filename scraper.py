@@ -102,7 +102,15 @@ GARBAGE_TITLE_RE = re.compile(
     r'filter|sort|show|hide|close|menu|home|login|sign in|'
     r'apply here|apply now|see all|view all|learn more|'
     r'explore our roles|join our team|work with us|'
-    r'search results|no results|page \d)$', re.I
+    r'search results|no results|page \d|'
+    r'internal developer portal|developer portal|product overview|'
+    r'documentation|docs|blog|pricing|platform|solutions|resources)$', re.I
+)
+
+# URLs that indicate a product/marketing page, not a job listing
+GARBAGE_URL_RE = re.compile(
+    r'/(product|products|solutions|platform|features|pricing|blog|docs|documentation|resources|about|news)/',
+    re.I
 )
 
 HEADERS = {
@@ -352,6 +360,8 @@ def is_job_url(href: str, text: str) -> bool:
     if not href:
         return False
     if FORBIDDEN_URL_RE.search(href):
+        return False
+    if GARBAGE_URL_RE.search(href):
         return False
     if FORBIDDEN_TEXT_RE.search(text):
         return False
