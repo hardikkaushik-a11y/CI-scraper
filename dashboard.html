@@ -507,16 +507,16 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
 
     <div>
       <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Threat Summary</div>
+        <div id="sidebarSignalStats" style="font-size:13px;color:var(--text-secondary)">--</div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
         <div class="card-title">Top 15 Companies</div>
         <div class="sidebar" id="sidebarCompanies"></div>
       </div>
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Top Skills Mentioned</div>
         <div class="skill-tags" id="sidebarSkills"></div>
-      </div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Threat Summary</div>
-        <div id="sidebarSignalStats" style="font-size:13px;color:var(--text-secondary)">--</div>
       </div>
     </div>
   </div>
@@ -539,7 +539,7 @@ let signalSegmentFilter = '';
 let signalSearchFilter = '';
 
 // ── Actian Colors ──────────────────────────────────────────────────────
-const COLORS = ['#E31937','#1B2A4A','#00B4D8','#FF6B35','#2ECC71','#8E44AD','#F39C12','#3498DB','#E74C3C','#1ABC9C','#9B59B6','#34495E','#D35400','#27AE60','#C0392B'];
+const COLORS = ['#1B2A4A','#00B4D8','#2ECC71','#8E44AD','#F39C12','#3498DB','#1ABC9C','#9B59B6','#34495E','#27AE60','#FF6B35','#E31937','#D35400','#E74C3C','#C0392B'];
 
 // ── Vector DB / AI Companies ───────────────────────────────────────────
 const VECTOR_AI_COMPANIES = ['Pinecone','Weaviate','Qdrant','Zilliz'];
