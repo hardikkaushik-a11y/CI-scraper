@@ -450,7 +450,7 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
     <div class="filter-group"><label>Seniority</label><select id="fSeniority"><option value="">All Levels</option></select></div>
     <div class="filter-group"><label>Product Focus</label><select id="fProduct"><option value="">All Products</option></select></div>
     <div class="filter-group"><label>Search</label><input type="text" id="fSearch" placeholder="keyword..." style="width:130px"></div>
-    <div class="filter-group"><label>Min Relevancy: <span id="relVal">0</span></label><input type="range" id="fRelevancy" min="0" max="30" value="0"></div>
+    <div class="filter-group"><label>Min Relevancy: <span id="relVal">0</span></label><input type="range" id="fRelevancy" min="0" max="18" value="0"></div>
     <div class="filter-group"><label>Posted Within (days)</label><input type="number" id="fDays" placeholder="any" style="width:70px" min="0"></div>
     <button class="btn" onclick="resetFilters()">Reset</button>
     <button class="btn btn-primary" onclick="exportCSV()">Export CSV</button>
@@ -895,7 +895,7 @@ function senBadge(s) {
   return '<span class="badge '+c+'">'+s+'</span>';
 }
 function relBar(v) {
-  const pct = Math.min(100, (v/30)*100);
+  const pct = Math.min(100, (v/18)*100);
   const col = v>=15?'#F39C12':v>=8?'#00B4D8':'#d1d5db';
   return '<div class="rel-bar"><div class="rel-bar-track"><div class="rel-bar-fill" style="width:'+pct+'%;background:'+col+'"></div></div><span class="rel-bar-value">'+v+'</span></div>';
 }
@@ -1311,7 +1311,7 @@ loadData();
       <div style="margin-bottom:20px">
         <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#8492a6;margin-bottom:10px">Key Metrics Explained</div>
         <div style="display:grid;gap:8px;font-size:13px">
-          <div style="display:flex;gap:10px"><span style="font-weight:600;min-width:140px;color:#E31937">Relevancy Score</span><span>0–17.5. How strategically important a job is to Actian — based on skill overlap, product focus, seniority, and company segment.</span></div>
+          <div style="display:flex;gap:10px"><span style="font-weight:600;min-width:140px;color:#E31937">Relevancy Score</span><span>0–18. How strategically important a job is to Actian. Factors: # of relevant skills (×3 each), product focus (+5 for high-relevance areas), seniority level (+0.1 to +3), geography (+2 for target regions), AI/ML skills (+2), and competitive segment (+1.5 to +3).</span></div>
           <div style="display:flex;gap:10px"><span style="font-weight:600;min-width:140px;color:#E31937">Threat Level</span><span>CRITICAL / HIGH / MEDIUM / LOW. AI-assessed risk from each company based on hiring volume, seniority mix, product focus, and competitive proximity.</span></div>
           <div style="display:flex;gap:10px"><span style="font-weight:600;min-width:140px;color:#E31937">Trend Score</span><span>1 = this role is trending (recently posted or high-signal job title). 0 = steady-state.</span></div>
           <div style="display:flex;gap:10px"><span style="font-weight:600;min-width:140px;color:#E31937">Product Focus</span><span>AI-classified product area the job is hiring for — e.g. ETL/Integration, ML/AI infra, Data Governance.</span></div>
