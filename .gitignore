@@ -1,29 +1,32 @@
-## Data Files (change frequently, not versioned)
+# Data files (change frequently)
 *.csv
 signals.json
 jobs_raw.csv
 jobs_enriched.csv
 
-## Environment
-.env
-.env.local
-.DS_Store
-
-## Python
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.egg-info/
-.Python
-venv/
-env/
+dist/
+build/
 
-## IDE
+# Environment
+.env
+.env.local
+.venv/
+venv/
+
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-## OS
+# OS
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
