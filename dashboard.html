@@ -292,7 +292,7 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
 
 /* ── CHARTS ─────────────────────────────────────────────────────────── */
 .chart-container { position: relative; width: 100%; }
-.chart-container canvas { max-height: 280px; }
+.chart-container canvas { max-height: 380px; }
 
 /* ── SIGNALS PAGE ───────────────────────────────────────────────────── */
 .signal-strip {
@@ -468,9 +468,9 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
   <div class="main-layout">
     <div>
       <div class="grid-3">
-        <div class="card"><div class="card-title">Top 15 Companies by Open Roles</div><div class="chart-container"><canvas id="chartCompanies"></canvas></div></div>
-        <div class="card"><div class="card-title">Seniority Distribution</div><div class="chart-container"><canvas id="chartSeniority"></canvas></div></div>
-        <div class="card"><div class="card-title">Function Breakdown</div><div class="chart-container"><canvas id="chartFunction"></canvas></div></div>
+        <div class="card"><div class="card-title">Top 15 Companies by Open Roles</div><div class="chart-container" style="height:380px"><canvas id="chartCompanies"></canvas></div></div>
+        <div class="card"><div class="card-title">Seniority Distribution</div><div class="chart-container" style="height:380px"><canvas id="chartSeniority"></canvas></div></div>
+        <div class="card"><div class="card-title">Function Breakdown</div><div class="chart-container" style="height:380px"><canvas id="chartFunction"></canvas></div></div>
       </div>
       <div class="grid-2">
         <div class="card"><div class="card-title">Product Focus Areas</div><div class="chart-container"><canvas id="chartProduct"></canvas></div></div>
@@ -1267,7 +1267,6 @@ loadData();
         <div style="font-size:17px;font-weight:700;color:#1a1f2e">Actian Competitive Intelligence</div>
         <div style="font-size:12px;color:#8492a6;margin-top:2px">Dashboard Guide</div>
       </div>
-      <button onclick="aiInfoClose()" style="width:32px;height:32px;border-radius:50%;border:1px solid #e2e5ea;background:#f5f6f8;cursor:pointer;font-size:18px;color:#4a5568;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
     </div>
     <div style="padding:24px 28px;font-size:14px;color:#1a1f2e;line-height:1.7">
 
@@ -1337,7 +1336,6 @@ loadData();
       <div style="font-size:14px;font-weight:700;color:#fff">Intelligence Assistant</div>
       <div id="aiChatStatus" style="font-size:11px;color:#94a3b8">Ask anything about the competitive data</div>
     </div>
-    <button onclick="aiChatToggle()" style="width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#94a3b8;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">×</button>
   </div>
 
   <!-- Messages area -->
@@ -1360,9 +1358,8 @@ loadData();
 </div>
 
 <!-- ── DASHBOARD ACTION BANNER ─────────────────────────────────────────── -->
-<div id="aiActionBanner" style="display:none;position:fixed;top:68px;right:16px;z-index:8500;background:#1B2A4A;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);max-width:320px;display:flex;gap:10px;align-items:center">
+<div id="aiActionBanner" style="display:none;position:fixed;top:68px;right:16px;z-index:8500;background:#1B2A4A;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);max-width:320px;gap:10px;align-items:center">
   <span id="aiActionText"></span>
-  <button onclick="aiDismissBanner()" style="background:transparent;border:none;color:#94a3b8;cursor:pointer;font-size:16px;padding:0;margin-left:4px">×</button>
 </div>
 
 <!-- ── AI LAYER STYLES ─────────────────────────────────────────────────── -->
