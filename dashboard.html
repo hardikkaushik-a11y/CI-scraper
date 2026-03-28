@@ -460,16 +460,15 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
 
   <div class="active-filters" id="activeFilters"></div>
 
-  <div class="kpi-strip">
-    <div class="kpi-box"><div class="kpi-value blue" id="kpiTotal">--</div><div class="kpi-label">Total Roles</div></div>
-    <div class="kpi-box"><div class="kpi-value amber" id="kpiHighSignal">--</div><div class="kpi-label">High Signal (Relevancy 8+)</div></div>
-    <div class="kpi-box"><div class="kpi-value" id="kpiDirector">--</div><div class="kpi-label">Director+ Roles</div></div>
-    <div class="kpi-box"><div class="kpi-value green" id="kpiRecent">--</div><div class="kpi-label">New This Week</div><div class="kpi-sublabel">(posted within 7 days)</div></div>
-    <div class="kpi-box"><div class="kpi-value" id="kpiAvgRel">--</div><div class="kpi-label">Avg. Relevancy Score</div></div>
-  </div>
-
   <div class="main-layout">
     <div>
+      <div class="kpi-strip">
+        <div class="kpi-box"><div class="kpi-value blue" id="kpiTotal">--</div><div class="kpi-label">Total Roles</div></div>
+        <div class="kpi-box"><div class="kpi-value amber" id="kpiHighSignal">--</div><div class="kpi-label">High Signal (Relevancy 8+)</div></div>
+        <div class="kpi-box"><div class="kpi-value" id="kpiDirector">--</div><div class="kpi-label">Director+ Roles</div></div>
+        <div class="kpi-box"><div class="kpi-value green" id="kpiRecent">--</div><div class="kpi-label">New This Week</div><div class="kpi-sublabel">(posted within 7 days)</div></div>
+        <div class="kpi-box"><div class="kpi-value" id="kpiAvgRel">--</div><div class="kpi-label">Avg. Relevancy Score</div></div>
+      </div>
       <div class="grid-3">
         <div class="card"><div class="card-title">Top 15 Companies by Open Roles</div><div class="chart-container" style="height:380px"><canvas id="chartCompanies"></canvas></div></div>
         <div class="card"><div class="card-title">Seniority Distribution</div><div class="chart-container" style="height:380px"><canvas id="chartSeniority"></canvas></div></div>
