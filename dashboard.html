@@ -94,7 +94,7 @@ a { color: var(--accent); }
 .main-layout-filters { grid-area: filters; }
 .main-layout-left { grid-area: left; display: flex; flex-direction: column; min-width: 0; }
 .main-layout-right { grid-area: right; display: flex; flex-direction: column; }
-.main-layout-left .table-wrap { max-height: 520px; overflow-y: auto; overflow-x: auto; }
+.main-layout-left .table-wrap { overflow-y: auto; overflow-x: auto; min-height: 0; }
 
 /* ── CARDS ──────────────────────────────────────────────────────────── */
 .card {
@@ -484,9 +484,9 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
         <div class="card"><div class="card-title">Product Focus Areas</div><div class="chart-container"><canvas id="chartProduct"></canvas></div></div>
         <div class="card"><div class="card-title">Global Hiring Locations</div><div id="hiringMap" style="height:320px;border-radius:8px;overflow:hidden"></div></div>
       </div>
-      <div class="card" style="flex:1;display:flex;flex-direction:column">
+      <div class="card" style="flex:1;display:flex;flex-direction:column;min-height:0">
         <div class="card-title">Job Listings</div>
-        <div class="table-wrap" style="flex:1;max-height:none">
+        <div class="table-wrap" style="flex:1;min-height:0">
           <table>
             <thead><tr>
               <th data-sort="Company">Company</th>
