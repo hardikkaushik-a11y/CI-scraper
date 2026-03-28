@@ -145,6 +145,24 @@
     "last_updated": "2026-03-28"
   },
   {
+    "company": "Cloudera",
+    "company_group": "Warehouse/Processing",
+    "posting_count": 19,
+    "signal_summary": "Cloudera is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "implications": [
+      "Cloud infrastructure hiring (2 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
+      "Aggressive go-to-market expansion (4 sales/marketing roles) in Czech Republic-Prague, Czechia, Indonesia-Jakarta, Indonesia, Italy-Milan, Italy — likely preparing for a major product launch or entering new market segments",
+      "Heavy infrastructure hiring (5 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
+      "High senior-to-total ratio (63%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "Cloudera (Warehouse/Processing) could expand into data integration through Platform / Infra capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian"
+    ],
+    "hiring_intensity": "medium",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Platform / Infra",
+    "threat_level": "medium",
+    "last_updated": "2026-03-28"
+  },
+  {
     "company": "Collate",
     "company_group": "Data Intelligence",
     "posting_count": 5,
@@ -165,14 +183,14 @@
   {
     "company": "Collibra",
     "company_group": "Data Intelligence",
-    "posting_count": 41,
-    "signal_summary": "Collibra is actively hiring 41 roles across Operations focused on Corporate Functions, with high intensity — steady investment in their Data Intelligence capabilities.",
+    "posting_count": 21,
+    "signal_summary": "Collibra is actively hiring 21 roles across Operations focused on Corporate Functions, with high intensity — steady investment in their Data Intelligence capabilities.",
     "implications": [
-      "5 AI/ML roles (12% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "2 AI/ML roles (10% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "Aggressive go-to-market expansion (3 sales/marketing roles)  — likely preparing for a major product launch or entering new market segments",
       "Collibra is a direct competitor in Data Intelligence but current hiring focuses on Corporate Functions — monitor for lateral expansion into Actian's core areas",
       "Monitor Collibra's blog, press releases, and conference talks for product announcements aligned with their Operations hiring pattern",
-      "Review Collibra's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
-      "Track Collibra's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
+      "Review Collibra's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering"
     ],
     "hiring_intensity": "high",
     "dominant_function": "Operations",
@@ -251,6 +269,24 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
+    "last_updated": "2026-03-28"
+  },
+  {
+    "company": "Datadog",
+    "company_group": "Monitoring/Platforms",
+    "posting_count": 3,
+    "signal_summary": "Datadog is actively hiring 3 roles across Engineering focused on Platform / Infra, with low intensity — steady investment in their Monitoring/Platforms capabilities.",
+    "implications": [
+      "Majority mid/entry-level hiring suggests scaling existing product execution rather than strategic pivots — focus on feature velocity and customer onboarding",
+      "Datadog (Monitoring/Platforms) could expand into data integration through Platform / Infra capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian",
+      "Monitor Datadog's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
+      "Review Datadog's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
+      "Track Datadog's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
+    ],
+    "hiring_intensity": "low",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Platform / Infra",
+    "threat_level": "low",
     "last_updated": "2026-03-28"
   },
   {
