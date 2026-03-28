@@ -1215,8 +1215,11 @@ def enrich(
                     skills = extract_skills(title)
                     ex["Primary_Skill"] = skills[0] if skills else ""
                     ex["Extracted_Skills"] = json.dumps(skills)
-                    ex["Relevancy_to_Actian"] = compute_relevancy(skills, ex.get("Location", ""), pf, sen, ex.get("Company_Group", ""))
                     ex["Trend_Score"] = compute_trend(title, sen)
+                else:
+                    skills = existing_skills
+                # Always recompute relevancy so the cap (min 10.0) is applied to old rows
+                ex["Relevancy_to_Actian"] = compute_relevancy(skills, ex.get("Location", ""), pf, sen, ex.get("Company_Group", ""))
                 carry_rows.append(ex)
         else:
             new_rows.append(row)
