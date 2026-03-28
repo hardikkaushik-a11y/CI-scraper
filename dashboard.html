@@ -643,7 +643,7 @@ async function loadData() {
 
   if (csvOk) {
     allRows.forEach(r => {
-      r._relevancy = parseFloat(r.Relevancy_to_Actian) || 0;
+      r._relevancy = Math.min(10, parseFloat(r.Relevancy_to_Actian) || 0);
       r._days = r['Days Since Posted'] !== '' && r['Days Since Posted'] != null ? parseInt(r['Days Since Posted']) : 9999;
       r._trend = parseFloat(r.Trend_Score) || 0;
     });
