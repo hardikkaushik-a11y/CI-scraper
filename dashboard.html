@@ -475,7 +475,7 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
       </div>
       <div class="grid-2">
         <div class="card"><div class="card-title">Product Focus Areas</div><div class="chart-container"><canvas id="chartProduct"></canvas></div></div>
-        <div class="card"><div class="card-title">New Roles Over Time (by First Seen week)</div><div class="chart-container"><canvas id="chartVelocity"></canvas></div></div>
+        <div class="card"><div class="card-title">Avg Relevancy Trend (by Week)</div><div class="chart-container"><canvas id="chartVelocity"></canvas></div></div>
       </div>
       <div class="card">
         <div class="card-title">Job Listings</div>
@@ -868,9 +868,9 @@ function updateCharts() {
     }
   });
 
-  // Velocity line chart
+  // Avg Relevancy Trend line chart
   destroyChart('velocity');
-  const wc = {};
+  const wr = {}; // week -> {sum, count}
   rows.forEach(r => {
     const fs = r.First_Seen || '';
     if (!fs) return;
@@ -879,16 +879,18 @@ function updateCharts() {
       const day = d.getDay();
       const diff = d.getDate() - day + (day===0?-6:1);
       const ws = new Date(d.setDate(diff)).toISOString().slice(0,10);
-      wc[ws] = (wc[ws]||0)+1;
+      if (!wr[ws]) wr[ws] = {sum:0, count:0};
+      wr[ws].sum += (r._relevancy || 0);
+      wr[ws].count += 1;
     } catch(e){}
   });
-  const we = Object.entries(wc).sort((a,b)=>a[0].localeCompare(b[0])).slice(-20);
+  const we = Object.entries(wr).map(([k,v]) => [k, (v.sum/v.count).toFixed(1)]).sort((a,b)=>a[0].localeCompare(b[0])).slice(-20);
   charts.velocity = new Chart(document.getElementById('chartVelocity'), {
     type:'line', data:{ labels:we.map(e=>e[0]),
-      datasets:[{data:we.map(e=>e[1]),borderColor:'#E31937',backgroundColor:'rgba(227,25,55,0.08)',
-        fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#E31937'}] },
+      datasets:[{data:we.map(e=>parseFloat(e[1])),borderColor:'#8E7CC3',backgroundColor:'rgba(142,124,195,0.08)',
+        fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#8E7CC3'}] },
     options:{ ...animOpts, plugins:{legend:{display:false}},
-      scales:{x:{grid:{color:'#e2e5ea'},ticks:{maxRotation:45}},y:{grid:{color:'#e2e5ea'},beginAtZero:true}} }
+      scales:{x:{grid:{color:'#e2e5ea'},ticks:{maxRotation:45}},y:{grid:{color:'#e2e5ea'},beginAtZero:true,max:10}} }
   });
 
   // Relevancy Distribution histogram
@@ -904,7 +906,19 @@ function updateCharts() {
   });
   charts.relevancy = new Chart(document.getElementById('chartRelevancy'), {
     type:'bar', data:{ labels:['0-2','2-4','4-6','6-8','8-10'], datasets:[{data:relBins,backgroundColor:'#8E7CC3',borderRadius:4,barThickness:32}] },
-    options:{ ...animOpts, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false}},y:{grid:{color:'#e2e5ea'},beginAtZero:true}} }
+    options:{ ...animOpts, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false},ticks:{display:true}},y:{grid:{color:'#e2e5ea'},beginAtZero:true}},
+      onClick: function(evt) {
+        const points = this.getElementsAtEventForMode(evt, 'nearest', {intersect: true}, true);
+        if (!points.length) return;
+        const idx = points[0].index;
+        const bands = [[0,2],[2,4],[4,6],[6,8],[8,10]];
+        const [min, max] = bands[idx];
+        // Filter to jobs in this relevancy band
+        filteredRows = allRows.filter(r => r._relevancy >= min && r._relevancy < max);
+        currentPage = 0;
+        updateKPIs(); updateCharts(); updateTable(); updateSidebar(); updateActiveFilters();
+      }
+    }
   });
 }
 
