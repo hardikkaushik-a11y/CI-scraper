@@ -87,14 +87,15 @@ a { color: var(--accent); }
 
 /* ── LAYOUT ─────────────────────────────────────────────────────────── */
 .page { display: none; padding: 24px 28px; max-width: 1440px; margin: 0 auto; }
-.page.active { display: block; }
+.page.active { display: block; min-height: calc(100vh - 56px); }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
 .main-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; grid-template-areas: "filters filters" "left right"; }
 .main-layout-filters { grid-area: filters; }
-.main-layout-left { grid-area: left; display: flex; flex-direction: column; min-width: 0; }
+.main-layout-left { grid-area: left; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
 .main-layout-right { grid-area: right; display: flex; flex-direction: column; }
-.main-layout-left .table-wrap { overflow-y: auto; overflow-x: hidden; min-height: 0; }
+.main-layout-left > .card:last-child { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+.main-layout-left .table-wrap { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; }
 .main-layout-left .table-wrap table { table-layout: fixed; }
 .main-layout-left .table-wrap th:nth-child(1) { width: 9%; }
 .main-layout-left .table-wrap th:nth-child(2) { width: 18%; }
