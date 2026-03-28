@@ -90,7 +90,8 @@ a { color: var(--accent); }
 .page.active { display: block; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-.main-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; align-items: start; }
+.main-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; align-items: start; grid-auto-rows: max-content; }
+.main-layout > div:last-child { align-self: start; margin-top: 0; }
 
 /* ── CARDS ──────────────────────────────────────────────────────────── */
 .card {
