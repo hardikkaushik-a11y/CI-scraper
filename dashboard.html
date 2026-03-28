@@ -90,11 +90,12 @@ a { color: var(--accent); }
 .page.active { display: block; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-.main-layout { display: flex; gap: 20px; align-items: stretch; }
-.main-layout > div:first-child { flex: 1; display: flex; flex-direction: column; }
-.main-layout > div:first-child .card:last-child { flex: 1; display: flex; flex-direction: column; }
-.main-layout > div:first-child .card:last-child .table-wrap { flex: 1; max-height: none; }
-.main-layout > div:last-child { width: 280px; flex-shrink: 0; }
+.main-layout { display: grid; grid-template-columns: 1fr 280px; grid-template-rows: auto 1fr; gap: 20px; }
+.main-layout-filters { grid-column: 1 / -1; }
+.main-layout-left { display: flex; flex-direction: column; min-width: 0; }
+.main-layout-left .card:last-child { flex: 1; display: flex; flex-direction: column; }
+.main-layout-left .card:last-child .table-wrap { flex: 1; max-height: none; }
+.main-layout-right { display: flex; flex-direction: column; }
 
 /* ── CARDS ──────────────────────────────────────────────────────────── */
 .card {
@@ -151,7 +152,7 @@ a { color: var(--accent); }
   flex-wrap: wrap;
   gap: 10px;
   align-items: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   padding: 16px 20px;
   width: 100%;
   box-sizing: border-box;
@@ -450,7 +451,8 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
 
 <!-- ═══ PAGE 1 — MARKET OVERVIEW ═══════════════════════════════════════ -->
 <div id="page-market" class="page active">
-
+  <div class="main-layout">
+  <div class="main-layout-filters">
   <div class="filter-bar" id="filterBar">
     <div class="filter-group"><label>Company</label><select id="fCompany"><option value="">All Companies</option></select></div>
     <div class="filter-group"><label>Segment</label><select id="fGroup"><option value="">All Segments</option></select></div>
@@ -465,9 +467,8 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
   </div>
 
   <div class="active-filters" id="activeFilters"></div>
-
-  <div class="main-layout">
-    <div>
+  </div><!-- /main-layout-filters -->
+    <div class="main-layout-left">
       <div class="kpi-strip">
         <div class="kpi-box"><div class="kpi-value blue" id="kpiTotal">--</div><div class="kpi-label">Total Roles</div></div>
         <div class="kpi-box"><div class="kpi-value amber" id="kpiHighSignal">--</div><div class="kpi-label">High Signal (Relevancy 8+)</div></div>
@@ -511,9 +512,9 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
           </div>
         </div>
       </div>
-    </div>
+    </div><!-- /main-layout-left -->
 
-    <div>
+    <div class="main-layout-right">
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Relevancy Distribution</div>
         <div class="chart-container" style="height:280px"><canvas id="chartRelevancy"></canvas></div>
