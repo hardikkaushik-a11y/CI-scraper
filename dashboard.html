@@ -477,7 +477,7 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
       </div>
       <div class="grid-3">
         <div class="card"><div class="card-title">Top 15 Companies by Open Roles</div><div class="chart-container" style="height:380px"><canvas id="chartCompanies"></canvas></div></div>
-        <div class="card"><div class="card-title">Seniority Distribution</div><div class="chart-container" style="height:380px"><canvas id="chartSeniority"></canvas></div></div>
+        <div class="card"><div class="card-title">Seniority Distribution</div><div class="chart-container" style="height:420px"><canvas id="chartSeniority"></canvas></div></div>
         <div class="card"><div class="card-title">Function Breakdown</div><div class="chart-container" style="height:380px"><canvas id="chartFunction"></canvas></div></div>
       </div>
       <div class="grid-2">
@@ -856,7 +856,7 @@ function updateCharts() {
   const sd = countBy(rows, 'Seniority');
   charts.seniority = new Chart(document.getElementById('chartSeniority'), {
     type:'doughnut', data:{ labels:sd.labels, datasets:[{data:sd.data,backgroundColor:sd.labels.map(label => SENIORITY_COLORS[label] || '#95A5A6'),borderWidth:2,borderColor:'#fff'}] },
-    options:{ ...animOpts, cutout:'55%', plugins:{legend:{position:'right',labels:{boxWidth:12,padding:8,font:{size:11}}}},
+    options:{ ...animOpts, cutout:'40%', plugins:{legend:{position:'right',labels:{boxWidth:12,padding:8,font:{size:11}}}},
       onClick: function(evt) {
         const points = this.getElementsAtEventForMode(evt, 'nearest', {intersect: true}, true);
         if (!points.length) return;
