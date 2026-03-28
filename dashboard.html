@@ -476,7 +476,7 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
       </div>
       <div class="grid-2">
         <div class="card"><div class="card-title">Product Focus Areas</div><div class="chart-container"><canvas id="chartProduct"></canvas></div></div>
-        <div class="card"><div class="card-title">Avg Relevancy Trend (by Week)</div><div class="chart-container"><canvas id="chartVelocity"></canvas></div></div>
+        <div class="card"><div class="card-title">AI/ML Hiring Surge (by Week)</div><div class="chart-container"><canvas id="chartVelocity"></canvas></div></div>
       </div>
       <div class="card">
         <div class="card-title">Job Listings</div>
@@ -540,6 +540,7 @@ let currentPage = 0;
 const PAGE_SIZE = 50;
 let sortCol = '', sortAsc = true;
 let activeSkillFilter = '';
+let activeRelevancyBand = null; // [min, max] or null
 let charts = {};
 const today = new Date().toISOString().slice(0, 10);
 let signalSegmentFilter = '';
@@ -686,6 +687,10 @@ function applyFilters() {
       try { if (!JSON.parse(r.Extracted_Skills||'[]').includes(activeSkillFilter)) return false; }
       catch(e) { return false; }
     }
+    if (activeRelevancyBand) {
+      const [min, max] = activeRelevancyBand;
+      if (r._relevancy < min || r._relevancy >= max) return false;
+    }
     return true;
   });
   if (sortCol) {
@@ -710,6 +715,7 @@ function resetFilters() {
   document.getElementById('fRelevancy').value = 0;
   document.getElementById('fDays').value = '';
   activeSkillFilter = '';
+  activeRelevancyBand = null;
   sortCol = ''; sortAsc = true;
   applyFilters();
 }
@@ -879,9 +885,9 @@ function updateCharts() {
     }
   });
 
-  // Avg Relevancy Trend line chart
+  // AI/ML Hiring Surge line chart
   destroyChart('velocity');
-  const wr = {}; // week -> {sum, count}
+  const wc = {}; // week -> count of AI/ML jobs
   rows.forEach(r => {
     const fs = r.First_Seen || '';
     if (!fs) return;
@@ -890,18 +896,18 @@ function updateCharts() {
       const day = d.getDay();
       const diff = d.getDate() - day + (day===0?-6:1);
       const ws = new Date(d.setDate(diff)).toISOString().slice(0,10);
-      if (!wr[ws]) wr[ws] = {sum:0, count:0};
-      wr[ws].sum += (r._relevancy || 0);
-      wr[ws].count += 1;
+      const skills = (r.Extracted_Skills || '[]').toLowerCase();
+      const hasAIML = /ai|ml|llm|gpt|rag|mlops|genai|machine learning|deep learning|neural|transformer|langchain|huggingface/.test(skills);
+      if (hasAIML) wc[ws] = (wc[ws] || 0) + 1;
     } catch(e){}
   });
-  const we = Object.entries(wr).map(([k,v]) => [k, (v.sum/v.count).toFixed(1)]).sort((a,b)=>a[0].localeCompare(b[0])).slice(-20);
+  const we = Object.entries(wc).sort((a,b)=>a[0].localeCompare(b[0])).slice(-20);
   charts.velocity = new Chart(document.getElementById('chartVelocity'), {
     type:'line', data:{ labels:we.map(e=>e[0]),
-      datasets:[{data:we.map(e=>parseFloat(e[1])),borderColor:'#8E7CC3',backgroundColor:'rgba(142,124,195,0.08)',
-        fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#8E7CC3'}] },
+      datasets:[{data:we.map(e=>e[1]),borderColor:'#8E44AD',backgroundColor:'rgba(142,68,173,0.12)',
+        fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:'#8E44AD',pointBorderColor:'#fff',pointBorderWidth:2,borderWidth:3}] },
     options:{ ...animOpts, plugins:{legend:{display:false}},
-      scales:{x:{grid:{color:'#e2e5ea'},ticks:{maxRotation:45}},y:{grid:{color:'#e2e5ea'},beginAtZero:true,max:10}} }
+      scales:{x:{grid:{color:'#e2e5ea'},ticks:{maxRotation:45}},y:{grid:{color:'#e2e5ea'},beginAtZero:true}} }
   });
 
   // Relevancy Distribution histogram
@@ -924,10 +930,13 @@ function updateCharts() {
         const idx = points[0].index;
         const bands = [[0,2],[2,4],[4,6],[6,8],[8,10]];
         const [min, max] = bands[idx];
-        // Filter to jobs in this relevancy band
-        filteredRows = allRows.filter(r => r._relevancy >= min && r._relevancy < max);
-        currentPage = 0;
-        updateKPIs(); updateCharts(); updateTable(); updateSidebar(); updateActiveFilters();
+        // Toggle: if already selected, deselect; otherwise select
+        if (activeRelevancyBand && activeRelevancyBand[0] === min && activeRelevancyBand[1] === max) {
+          activeRelevancyBand = null;
+        } else {
+          activeRelevancyBand = [min, max];
+        }
+        applyFilters();
       }
     }
   });
