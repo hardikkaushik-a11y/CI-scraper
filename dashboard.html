@@ -547,6 +547,16 @@ let signalSearchFilter = '';
 // ── Actian Colors ──────────────────────────────────────────────────────
 const COLORS = ['#1B2A4A','#00B4D8','#2ECC71','#8E44AD','#F39C12','#3498DB','#1ABC9C','#9B59B6','#34495E','#27AE60','#FF6B35','#E31937','#D35400','#E74C3C','#C0392B'];
 
+const SENIORITY_COLORS = {
+  'Director+': '#E31937',
+  'Principal/Staff': '#8E44AD',
+  'Senior': '#00B4D8',
+  'Manager': '#F39C12',
+  'Mid': '#2ECC71',
+  'Entry': '#3498DB',
+  'Intern': '#95A5A6'
+};
+
 // ── Vector DB / AI Companies ───────────────────────────────────────────
 const VECTOR_AI_COMPANIES = ['Pinecone','Weaviate','Qdrant','Zilliz'];
 
@@ -824,7 +834,7 @@ function updateCharts() {
   destroyChart('seniority');
   const sd = countBy(rows, 'Seniority');
   charts.seniority = new Chart(document.getElementById('chartSeniority'), {
-    type:'doughnut', data:{ labels:sd.labels, datasets:[{data:sd.data,backgroundColor:COLORS,borderWidth:2,borderColor:'#fff'}] },
+    type:'doughnut', data:{ labels:sd.labels, datasets:[{data:sd.data,backgroundColor:sd.labels.map(label => SENIORITY_COLORS[label] || '#95A5A6'),borderWidth:2,borderColor:'#fff'}] },
     options:{ ...animOpts, cutout:'55%', plugins:{legend:{position:'right',labels:{boxWidth:12,padding:8,font:{size:11}}}},
       onClick: function(evt) {
         const points = this.getElementsAtEventForMode(evt, 'nearest', {intersect: true}, true);
