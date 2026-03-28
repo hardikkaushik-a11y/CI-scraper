@@ -39,6 +39,15 @@ ALLOWED_FUNCTIONS = {
 }
 # Functions to exclude entirely — these jobs are not relevant to CI analysis
 EXCLUDED_FUNCTIONS = {"Legal", "People/HR"}
+# Job title patterns to exclude — these are not real job postings
+JUNK_TITLE_PATTERNS = {
+    r"download",
+    r"product\s+(page|download)",
+    r"careers\s+(page|hub)",
+    r"job\s+board",
+    r"apply\s+now",
+    r"contact\s+us",
+}
 ALLOWED_PRODUCT_FOCUS = {
     "Data Quality", "Data Observability", "Data Governance", "ETL/Integration",
     "Streaming / Real-time", "ML/AI infra", "Platform / Infra",
@@ -47,6 +56,18 @@ ALLOWED_PRODUCT_FOCUS = {
     "Go-to-Market", "Corporate Functions", "Product Management",
     "Vector / AI",  # Actian's upcoming product line
 }
+
+# ══════════════════════════════════════════════════════════════════════════
+# JUNK DETECTION
+# ══════════════════════════════════════════════════════════════════════════
+
+def is_junk_job(title: str) -> bool:
+    """Check if a job title is junk (product pages, downloads, etc.)"""
+    title_lower = (title or "").lower()
+    for pattern in JUNK_TITLE_PATTERNS:
+        if re.search(pattern, title_lower):
+            return True
+    return False
 
 FIELDNAMES = [
     "Company", "Job Title", "Job Link", "Location",
@@ -1298,7 +1319,10 @@ def enrich(
             dedup[link] = r
 
     # Remove Legal and People/HR — not relevant for competitive intelligence
-    dedup = {k: v for k, v in dedup.items() if v.get("Function", "") not in EXCLUDED_FUNCTIONS}
+    # Also remove junk jobs (product pages, downloads, etc.)
+    dedup = {k: v for k, v in dedup.items()
+             if v.get("Function", "") not in EXCLUDED_FUNCTIONS
+             and not is_junk_job(v.get("Job Title", ""))}
 
     out = sorted(dedup.values(), key=lambda x: (x.get("Company", ""), x.get("Job Title", "")))
 
