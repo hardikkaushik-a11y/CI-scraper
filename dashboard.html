@@ -95,8 +95,8 @@ a { color: var(--accent); }
 .main-layout-left { grid-area: left; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
 .main-layout-right { grid-area: right; display: flex; flex-direction: column; }
 .main-layout-left > .card:last-child { display: flex; flex-direction: column; }
-.main-layout-left .table-wrap { max-height: calc(100vh - 660px); min-height: 250px; overflow-y: auto; overflow-x: hidden; }
-.main-layout-left .table-wrap table { table-layout: fixed; }
+.main-layout-left .table-wrap { max-height: calc(100vh - 660px); min-height: 250px; overflow-y: scroll; overflow-x: hidden; }
+.main-layout-left .table-wrap table { table-layout: fixed; width: calc(100% - 2px); }
 .main-layout-left .table-wrap th:nth-child(1) { width: 9%; }
 .main-layout-left .table-wrap th:nth-child(2) { width: 18%; }
 .main-layout-left .table-wrap th:nth-child(3) { width: 8%; }
