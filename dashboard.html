@@ -90,12 +90,12 @@ a { color: var(--accent); }
 .page.active { display: block; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-.main-layout { display: grid; grid-template-columns: 1fr 280px; grid-template-rows: auto 1fr; gap: 20px; }
-.main-layout-filters { grid-column: 1 / -1; }
-.main-layout-left { display: flex; flex-direction: column; min-width: 0; }
-.main-layout-left .card:last-child { flex: 1; display: flex; flex-direction: column; }
-.main-layout-left .card:last-child .table-wrap { flex: 1; max-height: none; }
-.main-layout-right { display: flex; flex-direction: column; }
+.main-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; grid-template-areas: "filters filters" "left right" "table table"; }
+.main-layout-filters { grid-area: filters; }
+.main-layout-left { grid-area: left; display: flex; flex-direction: column; min-width: 0; }
+.main-layout-right { grid-area: right; display: flex; flex-direction: column; }
+.main-layout-table { grid-area: table; }
+.main-layout-table .table-wrap { max-height: 520px; overflow-y: auto; overflow-x: auto; }
 
 /* ── CARDS ──────────────────────────────────────────────────────────── */
 .card {
@@ -485,6 +485,28 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
         <div class="card"><div class="card-title">Product Focus Areas</div><div class="chart-container"><canvas id="chartProduct"></canvas></div></div>
         <div class="card"><div class="card-title">Global Hiring Locations</div><div id="hiringMap" style="height:320px;border-radius:8px;overflow:hidden"></div></div>
       </div>
+    </div><!-- /main-layout-left -->
+
+    <div class="main-layout-right">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Relevancy Distribution</div>
+        <div class="chart-container" style="height:280px"><canvas id="chartRelevancy"></canvas></div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Threat Summary</div>
+        <div id="sidebarSignalStats" style="font-size:13px;color:var(--text-secondary)">--</div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Top 15 Companies</div>
+        <div class="sidebar" id="sidebarCompanies"></div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Top Skills Mentioned</div>
+        <div class="skill-tags" id="sidebarSkills"></div>
+      </div>
+    </div><!-- /main-layout-right -->
+
+    <div class="main-layout-table">
       <div class="card">
         <div class="card-title">Job Listings</div>
         <div class="table-wrap">
@@ -512,27 +534,9 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
           </div>
         </div>
       </div>
-    </div><!-- /main-layout-left -->
+    </div><!-- /main-layout-table -->
 
-    <div class="main-layout-right">
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Relevancy Distribution</div>
-        <div class="chart-container" style="height:280px"><canvas id="chartRelevancy"></canvas></div>
-      </div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Threat Summary</div>
-        <div id="sidebarSignalStats" style="font-size:13px;color:var(--text-secondary)">--</div>
-      </div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Top 15 Companies</div>
-        <div class="sidebar" id="sidebarCompanies"></div>
-      </div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Top Skills Mentioned</div>
-        <div class="skill-tags" id="sidebarSkills"></div>
-      </div>
-    </div>
-  </div>
+  </div><!-- /main-layout -->
 </div>
 
 <!-- ═══ PAGE 2 — STRATEGIC SIGNALS ═════════════════════════════════════ -->
@@ -698,6 +702,12 @@ function applyFilters() {
       const [min, max] = activeRelevancyBand;
       if (r._relevancy < min || r._relevancy >= max) return false;
     }
+    if (_activeMapLocation) {
+      const coords = resolveLocation(r.Location || '');
+      if (!coords) return false;
+      const key = coords[0].toFixed(2) + ',' + coords[1].toFixed(2);
+      if (key !== _activeMapLocation) return false;
+    }
     return true;
   });
   if (sortCol) {
@@ -723,6 +733,7 @@ function resetFilters() {
   document.getElementById('fDays').value = '';
   activeSkillFilter = '';
   activeRelevancyBand = null;
+  _activeMapLocation = null;
   sortCol = ''; sortAsc = true;
   applyFilters();
 }
@@ -939,7 +950,7 @@ function relBar(v) {
   return '<div class="rel-bar"><div class="rel-bar-track"><div class="rel-bar-fill" style="width:'+pct+'%;background:'+col+'"></div></div><span class="rel-bar-value">'+v.toFixed(1)+'</span></div>';
 }
 // ── Hiring Map ─────────────────────────────────────────────────────────
-let _hiringMap = null, _hiringMarkers = null;
+let _hiringMap = null, _hiringMarkers = null, _activeMapLocation = null;
 
 const LOC_COORDS = {
   // USA
@@ -1034,10 +1045,18 @@ function updateHiringMap(rows) {
     const [lat, lng] = key.split(',').map(Number);
     const r = Math.max(8, Math.min(40, 8 + (count / maxCount) * 32));
     const opacity = 0.5 + (count / maxCount) * 0.4;
+    const isActive = _activeMapLocation === key;
     const circle = L.circleMarker([lat, lng], {
-      radius: r, fillColor: '#E31937', color: '#fff',
-      weight: 1.5, opacity: 1, fillOpacity: opacity
-    }).bindTooltip(`<strong>${locLabels[key]}</strong><br>${count} job${count>1?'s':''}`, {direction:'top'});
+      radius: r,
+      fillColor: isActive ? '#F39C12' : '#E31937',
+      color: isActive ? '#fff' : '#fff',
+      weight: isActive ? 2.5 : 1.5,
+      opacity: 1, fillOpacity: isActive ? 0.95 : opacity
+    }).bindTooltip(`<strong>${locLabels[key]}</strong><br>${count} job${count>1?'s':''}<br><em style="font-size:10px;opacity:0.7">Click to filter</em>`, {direction:'top'});
+    circle.on('click', () => {
+      _activeMapLocation = (_activeMapLocation === key) ? null : key;
+      applyFilters();
+    });
     _hiringMarkers.addLayer(circle);
   });
 
