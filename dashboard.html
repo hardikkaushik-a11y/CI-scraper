@@ -94,7 +94,18 @@ a { color: var(--accent); }
 .main-layout-filters { grid-area: filters; }
 .main-layout-left { grid-area: left; display: flex; flex-direction: column; min-width: 0; }
 .main-layout-right { grid-area: right; display: flex; flex-direction: column; }
-.main-layout-left .table-wrap { overflow-y: auto; overflow-x: auto; min-height: 0; }
+.main-layout-left .table-wrap { overflow-y: auto; overflow-x: hidden; min-height: 0; }
+.main-layout-left .table-wrap table { table-layout: fixed; }
+.main-layout-left .table-wrap th:nth-child(1) { width: 9%; }
+.main-layout-left .table-wrap th:nth-child(2) { width: 18%; }
+.main-layout-left .table-wrap th:nth-child(3) { width: 8%; }
+.main-layout-left .table-wrap th:nth-child(4) { width: 10%; }
+.main-layout-left .table-wrap th:nth-child(5) { width: 11%; }
+.main-layout-left .table-wrap th:nth-child(6) { width: 14%; }
+.main-layout-left .table-wrap th:nth-child(7) { width: 5%; }
+.main-layout-left .table-wrap th:nth-child(8) { width: 9%; }
+.main-layout-left .table-wrap th:nth-child(9) { width: 9%; }
+.main-layout-left .table-wrap th:nth-child(10) { width: 7%; }
 
 /* ── CARDS ──────────────────────────────────────────────────────────── */
 .card {
