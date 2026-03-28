@@ -433,6 +433,8 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
   .kpi-box { min-width: 100%; }
 }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -480,7 +482,7 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
       </div>
       <div class="grid-2">
         <div class="card"><div class="card-title">Product Focus Areas</div><div class="chart-container"><canvas id="chartProduct"></canvas></div></div>
-        <div class="card"><div class="card-title">AI/ML Hiring Surge (by Week)</div><div class="chart-container"><canvas id="chartVelocity"></canvas></div></div>
+        <div class="card"><div class="card-title">Global Hiring Locations</div><div id="hiringMap" style="height:320px;border-radius:8px;overflow:hidden"></div></div>
       </div>
       <div class="card">
         <div class="card-title">Job Listings</div>
@@ -889,30 +891,8 @@ function updateCharts() {
     }
   });
 
-  // AI/ML Hiring Surge line chart
-  destroyChart('velocity');
-  const wc = {}; // week -> count of AI/ML jobs
-  rows.forEach(r => {
-    const fs = r.First_Seen || '';
-    if (!fs) return;
-    try {
-      const d = new Date(fs);
-      const day = d.getDay();
-      const diff = d.getDate() - day + (day===0?-6:1);
-      const ws = new Date(d.setDate(diff)).toISOString().slice(0,10);
-      const skills = (r.Extracted_Skills || '[]').toLowerCase();
-      const hasAIML = /ai|ml|llm|gpt|rag|mlops|genai|machine learning|deep learning|neural|transformer|langchain|huggingface/.test(skills);
-      if (hasAIML) wc[ws] = (wc[ws] || 0) + 1;
-    } catch(e){}
-  });
-  const we = Object.entries(wc).sort((a,b)=>a[0].localeCompare(b[0])).slice(-20);
-  charts.velocity = new Chart(document.getElementById('chartVelocity'), {
-    type:'line', data:{ labels:we.map(e=>e[0]),
-      datasets:[{data:we.map(e=>e[1]),borderColor:'#8E44AD',backgroundColor:'rgba(142,68,173,0.12)',
-        fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:'#8E44AD',pointBorderColor:'#fff',pointBorderWidth:2,borderWidth:3}] },
-    options:{ ...animOpts, plugins:{legend:{display:false}},
-      scales:{x:{grid:{color:'#e2e5ea'},ticks:{maxRotation:45}},y:{grid:{color:'#e2e5ea'},beginAtZero:true}} }
-  });
+  // Global Hiring Locations Map
+  updateHiringMap(rows);
 
   // Relevancy Distribution histogram
   destroyChart('relevancy');
@@ -957,6 +937,113 @@ function relBar(v) {
   const col = v>=8?'#F39C12':v>=5?'#00B4D8':'#d1d5db';
   return '<div class="rel-bar"><div class="rel-bar-track"><div class="rel-bar-fill" style="width:'+pct+'%;background:'+col+'"></div></div><span class="rel-bar-value">'+v.toFixed(1)+'</span></div>';
 }
+// ── Hiring Map ─────────────────────────────────────────────────────────
+let _hiringMap = null, _hiringMarkers = null;
+
+const LOC_COORDS = {
+  // USA
+  'menlo park':[37.453,-122.182],'san francisco':[37.775,-122.419],'sf':[37.775,-122.419],
+  'new york':[40.713,-74.006],'new york city':[40.713,-74.006],'nyc':[40.713,-74.006],
+  'seattle':[47.606,-122.332],'bellevue':[47.610,-122.201],'redmond':[47.674,-122.121],
+  'denver':[39.739,-104.990],'boulder':[40.015,-105.271],'austin':[30.267,-97.743],
+  'boston':[42.360,-71.059],'chicago':[41.878,-87.630],'atlanta':[33.749,-84.388],
+  'los angeles':[34.052,-118.244],'mountain view':[37.386,-122.084],'sunnyvale':[37.369,-122.036],
+  'palo alto':[37.441,-122.143],'santa clara':[37.355,-121.955],'san jose':[37.338,-121.886],
+  'oakland':[37.804,-122.271],'portland':[45.523,-122.676],'minneapolis':[44.977,-93.265],
+  'dallas':[32.776,-96.797],'houston':[29.760,-95.370],'phoenix':[33.448,-112.074],
+  'united states':[37.090,-95.713],'us':[37.090,-95.713],'usa':[37.090,-95.713],
+  'us-ca':[37.775,-122.419],'us-wa':[47.606,-122.332],'us-ny':[40.713,-74.006],
+  'remote':[20.0,0.0],
+  // Canada
+  'toronto':[43.653,-79.383],'kitchener':[43.452,-80.493],'vancouver':[49.283,-123.120],
+  'montreal':[45.508,-73.554],'ottawa':[45.421,-75.690],'canada':[56.130,-106.347],
+  // UK
+  'london':[51.507,-0.128],'manchester':[53.481,-2.243],'edinburgh':[55.953,-3.189],
+  'gb-london':[51.507,-0.128],'united kingdom':[55.378,-3.436],'uk':[55.378,-3.436],
+  // Europe
+  'berlin':[52.520,13.405],'munich':[48.135,11.582],'hamburg':[53.551,9.994],'germany':[51.165,10.452],
+  'paris':[48.857,2.352],'france':[46.228,2.213],'amsterdam':[52.368,4.904],
+  'netherlands':[52.133,5.291],'warsaw':[52.230,21.012],'poland':[51.919,19.145],
+  'pl-warsaw':[52.230,21.012],'madrid':[40.417,-3.704],'spain':[40.463,-3.749],
+  'stockholm':[59.333,18.065],'oslo':[59.913,10.752],'copenhagen':[55.676,12.568],
+  'dublin':[53.350,-6.260],'ireland':[53.142,-7.692],'zurich':[47.377,8.541],
+  'milan':[45.465,9.190],'rome':[41.902,12.496],'italy':[41.872,12.567],
+  'novi sad':[45.267,19.834],'serbia':[44.017,21.006],
+  // India
+  'bengaluru':[12.972,77.595],'bangalore':[12.972,77.595],'ind-bangalore':[12.972,77.595],
+  'india':[20.594,78.963],'ind':[20.594,78.963],'chennai':[13.083,80.271],
+  'hyderabad':[17.385,78.487],'mumbai':[19.076,72.878],'pune':[18.520,73.857],
+  'delhi':[28.614,77.209],'new delhi':[28.614,77.209],
+  // APAC
+  'singapore':[1.352,103.820],'tokyo':[35.676,139.650],'japan':[36.205,138.252],
+  'sydney':[-33.869,151.209],'melbourne':[-37.814,144.963],'australia':[-25.274,133.775],
+  'beijing':[39.905,116.391],'shanghai':[31.230,121.473],'china':[35.861,104.195],
+  'seoul':[37.566,126.978],'south korea':[35.908,127.767],
+  'kuala lumpur':[3.140,101.687],'malaysia':[4.211,101.976],
+  'hong kong':[22.319,114.170],'taipei':[25.033,121.565],
+  // Middle East / Africa
+  'tel aviv':[32.085,34.782],'israel':[31.047,34.852],
+  'dubai':[25.205,55.271],'uae':[23.424,53.848],
+  'cairo':[30.044,31.236],'nairobi':[-1.286,36.817],
+  // Latin America
+  'sao paulo':[-23.550,-46.633],'brazil':[-14.235,-51.925],
+  'mexico city':[19.433,-99.133],'mexico':[23.635,-102.553],
+  'bogota':[4.711,-74.073],'buenos aires':[-34.604,-58.382],
+};
+
+function resolveLocation(locStr) {
+  const s = (locStr || '').toLowerCase().replace(/[,\.\-]/g,' ').trim();
+  // Try full string first
+  if (LOC_COORDS[s]) return LOC_COORDS[s];
+  // Try each word/phrase against keys
+  for (const key of Object.keys(LOC_COORDS)) {
+    if (s.includes(key)) return LOC_COORDS[key];
+  }
+  return null;
+}
+
+function updateHiringMap(rows) {
+  // Count jobs per resolved location
+  const locCounts = {};
+  const locLabels = {};
+  rows.forEach(r => {
+    const loc = (r.Location || '').trim();
+    if (!loc || loc === 'Search by Location') return;
+    const coords = resolveLocation(loc);
+    if (!coords) return;
+    const key = coords[0].toFixed(2) + ',' + coords[1].toFixed(2);
+    locCounts[key] = (locCounts[key] || 0) + 1;
+    if (!locLabels[key]) locLabels[key] = loc;
+  });
+
+  // Init map once
+  if (!_hiringMap) {
+    _hiringMap = L.map('hiringMap', { zoomControl: true, scrollWheelZoom: false })
+      .setView([20, 10], 2);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap © CARTO', maxZoom: 10
+    }).addTo(_hiringMap);
+    _hiringMarkers = L.layerGroup().addTo(_hiringMap);
+  }
+
+  _hiringMarkers.clearLayers();
+  const maxCount = Math.max(...Object.values(locCounts), 1);
+
+  Object.entries(locCounts).forEach(([key, count]) => {
+    const [lat, lng] = key.split(',').map(Number);
+    const r = Math.max(8, Math.min(40, 8 + (count / maxCount) * 32));
+    const opacity = 0.5 + (count / maxCount) * 0.4;
+    const circle = L.circleMarker([lat, lng], {
+      radius: r, fillColor: '#E31937', color: '#fff',
+      weight: 1.5, opacity: 1, fillOpacity: opacity
+    }).bindTooltip(`<strong>${locLabels[key]}</strong><br>${count} job${count>1?'s':''}`, {direction:'top'});
+    _hiringMarkers.addLayer(circle);
+  });
+
+  // Force map to recalculate size after render
+  setTimeout(() => _hiringMap.invalidateSize(), 100);
+}
+
 function updateTable() {
   const start = currentPage * PAGE_SIZE;
   const pr = filteredRows.slice(start, start+PAGE_SIZE);
