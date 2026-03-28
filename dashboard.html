@@ -90,8 +90,10 @@ a { color: var(--accent); }
 .page.active { display: block; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-.main-layout { display: flex; gap: 20px; align-items: flex-start; }
-.main-layout > div:first-child { flex: 1; }
+.main-layout { display: flex; gap: 20px; align-items: stretch; }
+.main-layout > div:first-child { flex: 1; display: flex; flex-direction: column; }
+.main-layout > div:first-child .card:last-child { flex: 1; display: flex; flex-direction: column; }
+.main-layout > div:first-child .card:last-child .table-wrap { flex: 1; max-height: none; }
 .main-layout > div:last-child { width: 280px; flex-shrink: 0; }
 
 /* ── CARDS ──────────────────────────────────────────────────────────── */
@@ -151,6 +153,8 @@ a { color: var(--accent); }
   align-items: flex-end;
   margin-bottom: 20px;
   padding: 16px 20px;
+  width: 100%;
+  box-sizing: border-box;
   background: var(--bg-white);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -202,7 +206,7 @@ a { color: var(--accent); }
 .filter-pill .pill-x { font-weight: 700; margin-left: 2px; }
 
 /* ── TABLE ──────────────────────────────────────────────────────────── */
-.table-wrap { overflow-x: auto; max-height: 600px; overflow-y: auto; }
+.table-wrap { overflow-x: auto; overflow-y: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 thead th {
   position: sticky;
