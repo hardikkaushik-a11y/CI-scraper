@@ -15,7 +15,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Airtable",
@@ -33,7 +33,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Alation",
@@ -51,7 +51,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Cloud Infrastructure",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Alteryx",
@@ -69,7 +69,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "medium",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Ataccama",
@@ -87,7 +87,7 @@
     "dominant_function": "Marketing",
     "dominant_product_focus": "Go-to-Market",
     "threat_level": "medium",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Atlan",
@@ -105,7 +105,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Boomi",
@@ -124,7 +124,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "CastorDoc",
@@ -142,25 +142,25 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "medium",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Cloudera",
     "company_group": "Warehouse/Processing",
     "posting_count": 19,
-    "signal_summary": "Cloudera is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "signal_summary": "Cloudera is scaling infrastructure with 5 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
     "implications": [
-      "Cloud infrastructure hiring (2 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
-      "Aggressive go-to-market expansion (4 sales/marketing roles) in Czech Republic-Prague, Czechia, Indonesia-Jakarta, Indonesia, Italy-Milan, Italy — likely preparing for a major product launch or entering new market segments",
+      "Cloud infrastructure hiring (3 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
+      "Aggressive go-to-market expansion (3 sales/marketing roles) in Czech Republic-Prague, Czechia, Hungary-Budapest, Hungary, Indonesia-Jakarta, Indonesia — likely preparing for a major product launch or entering new market segments",
       "Heavy infrastructure hiring (5 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
-      "High senior-to-total ratio (63%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "High senior-to-total ratio (74%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
       "Cloudera (Warehouse/Processing) could expand into data integration through Platform / Infra capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian"
     ],
     "hiring_intensity": "medium",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "medium",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Collate",
@@ -178,25 +178,25 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Go-to-Market",
     "threat_level": "medium",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Collibra",
     "company_group": "Data Intelligence",
-    "posting_count": 31,
-    "signal_summary": "Collibra is in aggressive GTM expansion mode with 5 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "posting_count": 24,
+    "signal_summary": "Collibra is doubling down on data engineering with 4 pipeline/integration roles — direct competitive move against Actian in the data integration space.",
     "implications": [
-      "Aggressive go-to-market expansion (5 sales/marketing roles)  — likely preparing for a major product launch or entering new market segments",
-      "Collibra is a direct competitor in Data Intelligence but current hiring focuses on Corporate Functions — monitor for lateral expansion into Actian's core areas",
-      "Monitor Collibra's blog, press releases, and conference talks for product announcements aligned with their Operations hiring pattern",
-      "Review Collibra's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
-      "Track Collibra's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
+      "4 AI/ML roles (17% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "Data engineering focus (4 roles) — likely expanding connector ecosystem, improving data pipeline performance, or building new integration capabilities — direct competitive overlap with Actian's data integration offering",
+      "Aggressive go-to-market expansion (3 sales/marketing roles)  — likely preparing for a major product launch or entering new market segments",
+      "Collibra is a direct competitor in Data Intelligence but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
+      "Monitor Collibra's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern"
     ],
     "hiring_intensity": "high",
-    "dominant_function": "Operations",
-    "dominant_product_focus": "Corporate Functions",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Couchbase",
@@ -214,7 +214,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "DataGalaxy",
@@ -232,7 +232,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Data Governance",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "DataHub",
@@ -250,7 +250,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Databricks",
@@ -269,12 +269,30 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
+  },
+  {
+    "company": "Datadog",
+    "company_group": "Monitoring/Platforms",
+    "posting_count": 3,
+    "signal_summary": "Datadog is actively hiring 3 roles across Engineering focused on Platform / Infra, with low intensity — steady investment in their Monitoring/Platforms capabilities.",
+    "implications": [
+      "Majority mid/entry-level hiring suggests scaling existing product execution rather than strategic pivots — focus on feature velocity and customer onboarding",
+      "Datadog (Monitoring/Platforms) could expand into data integration through Platform / Infra capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian",
+      "Monitor Datadog's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
+      "Review Datadog's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
+      "Track Datadog's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
+    ],
+    "hiring_intensity": "low",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Platform / Infra",
+    "threat_level": "low",
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Decube",
     "company_group": "Data Observability",
-    "posting_count": 11,
+    "posting_count": 9,
     "signal_summary": "Decube is scaling infrastructure with 3 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
     "implications": [
       "Heavy infrastructure hiring (3 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
@@ -286,8 +304,8 @@
     "hiring_intensity": "medium",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
-    "threat_level": "medium",
-    "last_updated": "2026-03-29"
+    "threat_level": "high",
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Fivetran",
@@ -306,7 +324,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "critical",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Matillion",
@@ -324,12 +342,12 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "MongoDB",
     "company_group": "Warehouse/Processing",
-    "posting_count": 168,
+    "posting_count": 167,
     "signal_summary": "MongoDB is in aggressive GTM expansion mode with 5 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
       "9 AI/ML roles (5% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
@@ -337,13 +355,13 @@
       "Security/compliance hiring (20 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
       "Aggressive go-to-market expansion (5 sales/marketing roles) in Dublin, Toronto, New York City, Palo Alto — likely preparing for a major product launch or entering new market segments",
       "Heavy infrastructure hiring (16 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
-      "High senior-to-total ratio (73%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite"
+      "High senior-to-total ratio (74%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite"
     ],
     "hiring_intensity": "high",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "OneTrust",
@@ -362,7 +380,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "critical",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Pinecone",
@@ -380,7 +398,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "critical",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Precisely",
@@ -398,15 +416,15 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Salesforce",
     "company_group": "Enterprise",
-    "posting_count": 12,
-    "signal_summary": "Salesforce is assembling senior leadership (58% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "posting_count": 14,
+    "signal_summary": "Salesforce is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
-      "High senior-to-total ratio (58%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "Aggressive go-to-market expansion (4 sales/marketing roles) in India - Hyderabad, Virginia - Mclean, Japan - Tokyo — likely preparing for a major product launch or entering new market segments",
       "Salesforce operates in Enterprise — indirect competitive pressure but potential partnership opportunity for Actian's integration platform",
       "Monitor Salesforce's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
       "Review Salesforce's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
@@ -416,25 +434,25 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "low",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Sifflet",
     "company_group": "Data Observability",
-    "posting_count": 6,
-    "signal_summary": "Sifflet is actively hiring 6 roles across Engineering focused on Data Observability, with low intensity — steady investment in their Data Observability capabilities.",
+    "posting_count": 3,
+    "signal_summary": "Sifflet is assembling senior leadership (67% senior+ roles) — signals a strategic pivot or new product line launch in Corporate Functions.",
     "implications": [
-      "Sifflet is a direct competitor in Data Observability but current hiring focuses on Data Observability — monitor for lateral expansion into Actian's core areas",
-      "Monitor Sifflet's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
+      "High senior-to-total ratio (67%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "Sifflet is a direct competitor in Data Observability but current hiring focuses on Corporate Functions — monitor for lateral expansion into Actian's core areas",
+      "Monitor Sifflet's blog, press releases, and conference talks for product announcements aligned with their Finance hiring pattern",
       "Review Sifflet's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
-      "Track Sifflet's open-source contributions and GitHub activity for early signals of new developer-focused tooling",
-      "Assess whether Sifflet's hiring in Data Observability creates an opportunity for Actian to differentiate on performance, compliance, or integration depth"
+      "Track Sifflet's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
     ],
     "hiring_intensity": "low",
-    "dominant_function": "Engineering",
-    "dominant_product_focus": "Data Observability",
+    "dominant_function": "Finance",
+    "dominant_product_focus": "Corporate Functions",
     "threat_level": "medium",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Snowflake",
@@ -453,7 +471,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Syniti",
@@ -471,7 +489,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Weaviate",
@@ -489,7 +507,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   },
   {
     "company": "Zilliz",
@@ -507,6 +525,6 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Developer Tools",
     "threat_level": "high",
-    "last_updated": "2026-03-29"
+    "last_updated": "2026-03-30"
   }
 ]
