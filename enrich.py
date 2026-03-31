@@ -887,6 +887,12 @@ Return ONLY the JSON object, no markdown fences or other text."""
         # Fallback: smart local analysis
         signals.append(_fallback_signal(company, company_group, rows))
 
+    # Include companies with <3 postings using rule-based signal so all tracked
+    # companies appear in Market Pulse metrics (consistent universe with page 1)
+    for company, rows in sorted(ineligible.items()):
+        company_group = rows[0].get("Company_Group", "Other")
+        signals.append(_fallback_signal(company, company_group, rows))
+
     return signals
 
 
