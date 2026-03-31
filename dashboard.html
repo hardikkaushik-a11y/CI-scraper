@@ -1672,6 +1672,95 @@ loadData();
 
 <!-- ── AI LAYER JAVASCRIPT ─────────────────────────────────────────────── -->
 <script>
+// ── Pulse Card Tooltips ───────────────────────────────────────────────────
+const PULSE_TOOLTIPS = {
+  velocity: {
+    title: 'Total Market Hiring Velocity',
+    rows: [
+      ['What', 'Total active job postings across all tracked competitor companies.'],
+      ['How calculated', 'Sum of posting_count from signals.json — each company\'s deduplicated, 365-day active roles.'],
+      ['Why it matters', 'Measures how aggressively the competitive landscape is hiring overall. A rising velocity signals market expansion.'],
+      ['Why differs from page 1 total', 'Page 1 shows all rows in jobs_enriched.csv including Acceldata\'s own postings. This count covers competitor companies only (Acceldata excluded), so it will be slightly lower.'],
+    ]
+  },
+  ai: {
+    title: 'AI Investment Race',
+    rows: [
+      ['What', 'Number of competitors actively investing in AI/ML capabilities based on their hiring signals.'],
+      ['How calculated', 'Scans each company\'s signal summary and strategic implications for AI-related keywords: ai, ml, llm, genai, machine learning, vector.'],
+      ['Why it matters', 'Tracks which rivals are building AI/ML products that could compete with Actian\'s upcoming vector capabilities.'],
+      ['Note', 'Detection is keyword-based from Claude\'s daily analysis of hiring patterns — a company must show AI language in its strategic signal to be counted.'],
+    ]
+  },
+  threat: {
+    title: 'Direct Threat Index',
+    rows: [
+      ['What', 'Count of companies rated Critical or High threat to Actian.'],
+      ['How calculated', 'Threat level is assigned by Claude Sonnet in enrich.py based on hiring volume, product focus, and competitive positioning relative to Actian\'s market.'],
+      ['Why it matters', 'Identifies the companies that need immediate attention. Critical = active competitive risk now; High = significant threat building.'],
+      ['Exclusions', 'Medium and Low threat companies are excluded from this count. The role total shown is the sum of all postings from Critical + High companies only.'],
+    ]
+  },
+  segment: {
+    title: 'Segment Heatmap',
+    rows: [
+      ['What', 'The market segment with the highest total hiring volume across all tracked companies.'],
+      ['How calculated', 'Roles are grouped by company_group (segment label from competitors.csv), then summed. The segment with the most roles wins.'],
+      ['Why it matters', 'Shows where competitive pressure is concentrating. A dominant segment signals where rivals are scaling capacity and where Actian should focus defensively.'],
+      ['Note', 'Each company is assigned one primary segment. If a company spans multiple areas, only their assigned segment receives the count.'],
+    ]
+  },
+  seniority: {
+    title: 'Seniority Signal',
+    rows: [
+      ['What', 'A cross-company pattern detecting whether rivals are broadly hiring senior and leadership talent.'],
+      ['How calculated', 'Checks each company\'s strategic implications for senior-level keywords: senior, director, VP, executive, staff, principal. If 3+ companies show this pattern, it triggers "leadership churn detected".'],
+      ['Why it matters', 'Industry-wide senior hiring waves often precede major product launches, acquisitions, or strategic pivots — early warning for Actian\'s strategy team.'],
+      ['Note', 'Based on Claude\'s qualitative analysis per company, not raw seniority counts from job titles. Refreshed daily.'],
+    ]
+  },
+  gtm: {
+    title: 'GTM Surge Indicator',
+    rows: [
+      ['What', 'Count of competitors actively expanding their go-to-market teams.'],
+      ['How calculated', 'Detects GTM-related keywords in company signal summaries and implications: sales, gtm, go-to-market, revenue, market expansion, demand gen.'],
+      ['Why it matters', 'A GTM surge means rivals are building capacity to win more customers — a direct threat to Actian\'s pipeline and renewal base.'],
+      ['Note', 'A company is counted once regardless of how many GTM signals it shows. Refreshed daily from signals.json.'],
+    ]
+  },
+};
+
+let _pulseTooltipEl = null;
+
+function showPulseTooltip(key, event) {
+  event.stopPropagation();
+  const data = PULSE_TOOLTIPS[key];
+  if (!data) return;
+
+  if (!_pulseTooltipEl) {
+    _pulseTooltipEl = document.createElement('div');
+    _pulseTooltipEl.className = 'pulse-tooltip';
+    document.body.appendChild(_pulseTooltipEl);
+    document.addEventListener('click', () => { if (_pulseTooltipEl) _pulseTooltipEl.remove(); _pulseTooltipEl = null; });
+  }
+
+  _pulseTooltipEl.innerHTML = '<div class="pulse-tooltip-title">' + data.title + '</div>' +
+    data.rows.map(r => '<div class="pulse-tooltip-row"><strong>' + r[0] + ':</strong> ' + r[1] + '</div>').join('');
+
+  const btn = event.currentTarget;
+  const rect = btn.getBoundingClientRect();
+  const tw = 300;
+  let left = rect.left - tw + rect.width;
+  if (left < 8) left = 8;
+  if (left + tw > window.innerWidth - 8) left = window.innerWidth - tw - 8;
+  let top = rect.bottom + 6;
+  _pulseTooltipEl.style.left = left + 'px';
+  _pulseTooltipEl.style.top = top + 'px';
+  document.body.appendChild(_pulseTooltipEl);
+}
+
+<!-- ── AI LAYER JAVASCRIPT ─────────────────────────────────────────────── -->
+<script>
 (function() {
 'use strict';
 
