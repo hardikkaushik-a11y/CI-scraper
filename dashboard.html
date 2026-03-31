@@ -1679,55 +1679,55 @@ const PULSE_TOOLTIPS = {
   velocity: {
     title: 'Total Market Hiring Velocity',
     rows: [
-      ['What', 'Total active job postings across all tracked competitor companies.'],
-      ['How calculated', 'Sum of posting_count from signals.json — each company\'s deduplicated, 365-day active roles.'],
-      ['Why it matters', 'Measures how aggressively the competitive landscape is hiring overall. A rising velocity signals market expansion.'],
-      ['Why differs from page 1 total', 'Page 1 shows all rows in jobs_enriched.csv including Acceldata\'s own postings. This count covers competitor companies only (Acceldata excluded), so it will be slightly lower.'],
+      ['What', 'The total number of active job postings across all companies tracked in this dashboard.'],
+      ['How derived', 'Each tracked company\'s current open roles are summed after deduplication. Roles older than 365 days are excluded.'],
+      ['Why it matters', 'A high or rising velocity means the competitive landscape is expanding capacity — more hiring across the board signals market growth or competitive pressure building.'],
+      ['Coverage', 'Covers all tracked companies, including Acceldata. May differ slightly from the Page 1 total if any company had too few roles to generate a full signal profile in the current cycle.'],
     ]
   },
   ai: {
     title: 'AI Investment Race',
     rows: [
-      ['What', 'Number of competitors actively investing in AI/ML capabilities based on their hiring signals.'],
-      ['How calculated', 'Scans each company\'s signal summary and strategic implications for AI-related keywords: ai, ml, llm, genai, machine learning, vector.'],
-      ['Why it matters', 'Tracks which rivals are building AI/ML products that could compete with Actian\'s upcoming vector capabilities.'],
-      ['Note', 'Detection is keyword-based from Claude\'s daily analysis of hiring patterns — a company must show AI language in its strategic signal to be counted.'],
+      ['What', 'The number of tracked companies showing clear signals of investment in AI or machine learning capabilities.'],
+      ['How derived', 'Each company\'s strategic hiring profile is reviewed daily. Companies whose hiring patterns indicate AI or ML product development are counted here.'],
+      ['Why it matters', 'Tracks how many rivals are building AI-native products — relevant to Actian\'s positioning in the vector and AI data infrastructure space.'],
+      ['Coverage', 'Each company is counted once. A company appears here only if its overall hiring profile — not just individual job titles — indicates AI investment.'],
     ]
   },
   threat: {
     title: 'Direct Threat Index',
     rows: [
-      ['What', 'Count of companies rated Critical or High threat to Actian.'],
-      ['How calculated', 'Threat level is assigned by Claude Sonnet in enrich.py based on hiring volume, product focus, and competitive positioning relative to Actian\'s market.'],
-      ['Why it matters', 'Identifies the companies that need immediate attention. Critical = active competitive risk now; High = significant threat building.'],
-      ['Exclusions', 'Medium and Low threat companies are excluded from this count. The role total shown is the sum of all postings from Critical + High companies only.'],
+      ['What', 'The number of companies rated Critical or High competitive threat to Actian.'],
+      ['How derived', 'Each company receives a daily threat assessment based on their hiring volume, product focus, and positioning relative to Actian\'s core markets. Critical means active risk now; High means a significant threat is building.'],
+      ['Why it matters', 'Surfaces the companies that warrant immediate attention from Actian\'s product and strategy teams.'],
+      ['Inclusions', 'Only Critical and High companies are counted. The role total shown beneath the number reflects all open postings from those companies combined.'],
     ]
   },
   segment: {
     title: 'Segment Heatmap',
     rows: [
-      ['What', 'The market segment with the highest total hiring volume across all tracked companies.'],
-      ['How calculated', 'Roles are grouped by company_group (segment label from competitors.csv), then summed. The segment with the most roles wins.'],
-      ['Why it matters', 'Shows where competitive pressure is concentrating. A dominant segment signals where rivals are scaling capacity and where Actian should focus defensively.'],
-      ['Note', 'Each company is assigned one primary segment. If a company spans multiple areas, only their assigned segment receives the count.'],
+      ['What', 'The market segment with the highest total hiring activity across all tracked companies right now.'],
+      ['How derived', 'All tracked companies are grouped into segments (e.g. ETL/Connectors, Data Observability, Warehouse/Processing). Total open roles per segment are summed and ranked.'],
+      ['Why it matters', 'Identifies where competitive hiring pressure is concentrating. A dominant segment is where rivals are scaling fastest and where Actian may face the most near-term competition.'],
+      ['Coverage', 'Each company contributes to one segment. All tracked companies are included.'],
     ]
   },
   seniority: {
     title: 'Seniority Signal',
     rows: [
-      ['What', 'A cross-company pattern detecting whether rivals are broadly hiring senior and leadership talent.'],
-      ['How calculated', 'Checks each company\'s strategic implications for senior-level keywords: senior, director, VP, executive, staff, principal. If 3+ companies show this pattern, it triggers "leadership churn detected".'],
-      ['Why it matters', 'Industry-wide senior hiring waves often precede major product launches, acquisitions, or strategic pivots — early warning for Actian\'s strategy team.'],
-      ['Note', 'Based on Claude\'s qualitative analysis per company, not raw seniority counts from job titles. Refreshed daily.'],
+      ['What', 'A market-wide pattern indicating whether multiple competitors are simultaneously hiring heavily at senior and leadership levels.'],
+      ['How derived', 'Each company\'s hiring profile is reviewed for senior-level concentration. If a significant number of tracked companies show this pattern simultaneously, the signal triggers.'],
+      ['Why it matters', 'Industry-wide waves of senior hiring often precede major product launches, acquisitions, or strategic pivots. When many competitors do this at once, it suggests a broader market shift.'],
+      ['Coverage', 'Based on each company\'s overall hiring profile across all tracked companies. Refreshed daily.'],
     ]
   },
   gtm: {
     title: 'GTM Surge Indicator',
     rows: [
-      ['What', 'Count of competitors actively expanding their go-to-market teams.'],
-      ['How calculated', 'Detects GTM-related keywords in company signal summaries and implications: sales, gtm, go-to-market, revenue, market expansion, demand gen.'],
-      ['Why it matters', 'A GTM surge means rivals are building capacity to win more customers — a direct threat to Actian\'s pipeline and renewal base.'],
-      ['Note', 'A company is counted once regardless of how many GTM signals it shows. Refreshed daily from signals.json.'],
+      ['What', 'The number of tracked companies actively building out their sales, marketing, and go-to-market teams.'],
+      ['How derived', 'Each company\'s daily hiring profile is reviewed for go-to-market expansion signals — including sales, demand generation, and revenue roles. Companies showing this pattern are counted.'],
+      ['Why it matters', 'A GTM surge means competitors are preparing to compete more aggressively for customers. Multiple companies surging simultaneously is a leading indicator of increased competitive activity in Actian\'s market.'],
+      ['Coverage', 'Each company is counted once. All tracked companies are included in the assessment.'],
     ]
   },
 };
