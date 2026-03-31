@@ -359,7 +359,23 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
 .pulse-card-title {
   font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
   font-weight: 700; color: var(--text-muted); margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: space-between;
 }
+.pulse-info-btn {
+  width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--text-muted);
+  background: none; color: var(--text-muted); font-size: 9px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.15s; line-height: 1; padding: 0;
+}
+.pulse-info-btn:hover { background: var(--text-muted); color: #fff; }
+.pulse-tooltip {
+  position: fixed; z-index: 9999; background: #1a202c; color: #e2e8f0;
+  border-radius: 10px; padding: 14px 16px; max-width: 300px; font-size: 12px;
+  line-height: 1.6; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.pulse-tooltip-title { font-weight: 700; color: #fff; margin-bottom: 8px; font-size: 12.5px; }
+.pulse-tooltip-row { margin-bottom: 6px; }
+.pulse-tooltip-row strong { color: #90cdf4; }
 .pulse-card-value { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
 .pulse-card-detail { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
 
