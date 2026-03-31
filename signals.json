@@ -2,10 +2,10 @@
   {
     "company": "Acceldata",
     "company_group": "Data Observability",
-    "posting_count": 16,
+    "posting_count": 17,
     "signal_summary": "Acceldata is scaling infrastructure with 6 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
     "implications": [
-      "Cloud infrastructure hiring (2 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
+      "Cloud infrastructure hiring (3 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
       "Heavy infrastructure hiring (6 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
       "Acceldata is a direct competitor in Data Observability but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
       "Monitor Acceldata's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
@@ -15,16 +15,16 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Airtable",
     "company_group": "Data Intelligence",
-    "posting_count": 41,
-    "signal_summary": "Airtable is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "posting_count": 44,
+    "signal_summary": "Airtable is in aggressive GTM expansion mode with 5 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
-      "8 AI/ML roles (20% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
-      "Aggressive go-to-market expansion (4 sales/marketing roles) in San Francisco, CA, US, Austin, TX — likely preparing for a major product launch or entering new market segments",
+      "8 AI/ML roles (18% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "Aggressive go-to-market expansion (5 sales/marketing roles) in San Francisco, CA, US, Austin, TX — likely preparing for a major product launch or entering new market segments",
       "Heavy infrastructure hiring (3 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
       "Airtable is a direct competitor in Data Intelligence but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
       "Monitor Airtable's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern"
@@ -33,15 +33,15 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Alation",
     "company_group": "Data Intelligence",
     "posting_count": 17,
-    "signal_summary": "Alation is assembling senior leadership (71% senior+ roles) — signals a strategic pivot or new product line launch in Cloud Infrastructure.",
+    "signal_summary": "Alation is assembling senior leadership (65% senior+ roles) — signals a strategic pivot or new product line launch in Cloud Infrastructure.",
     "implications": [
-      "High senior-to-total ratio (71%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "High senior-to-total ratio (65%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
       "Alation is a direct competitor in Data Intelligence but current hiring focuses on Cloud Infrastructure — monitor for lateral expansion into Actian's core areas",
       "Monitor Alation's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
       "Review Alation's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
@@ -51,17 +51,17 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Cloud Infrastructure",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Alteryx",
     "company_group": "Warehouse/Processing",
-    "posting_count": 18,
-    "signal_summary": "Alteryx is assembling senior leadership (56% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "posting_count": 17,
+    "signal_summary": "Alteryx is assembling senior leadership (53% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
     "implications": [
-      "Cloud infrastructure hiring (3 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
-      "Security/compliance hiring (2 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
-      "High senior-to-total ratio (56%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "Cloud infrastructure hiring (2 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
+      "Security/compliance hiring (3 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
+      "High senior-to-total ratio (53%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
       "Alteryx (Warehouse/Processing) could expand into data integration through Platform / Infra capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian",
       "Monitor Alteryx's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern"
     ],
@@ -69,7 +69,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "medium",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Ataccama",
@@ -87,44 +87,44 @@
     "dominant_function": "Marketing",
     "dominant_product_focus": "Go-to-Market",
     "threat_level": "medium",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Atlan",
     "company_group": "Data Intelligence",
-    "posting_count": 13,
-    "signal_summary": "Atlan is scaling infrastructure with 3 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
+    "posting_count": 12,
+    "signal_summary": "Atlan is assembling senior leadership (83% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
     "implications": [
-      "Heavy infrastructure hiring (3 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
-      "High senior-to-total ratio (85%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "High senior-to-total ratio (83%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
       "Atlan is a direct competitor in Data Intelligence but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
       "Monitor Atlan's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
-      "Review Atlan's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering"
+      "Review Atlan's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
+      "Track Atlan's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
     ],
     "hiring_intensity": "medium",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Boomi",
     "company_group": "ETL/Connectors",
     "posting_count": 80,
-    "signal_summary": "Boomi is in aggressive GTM expansion mode with 19 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "signal_summary": "Boomi is in aggressive GTM expansion mode with 22 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
-      "15 AI/ML roles (19% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "14 AI/ML roles (18% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
       "Security/compliance hiring (3 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
       "Data engineering focus (2 roles) — likely expanding connector ecosystem, improving data pipeline performance, or building new integration capabilities — direct competitive overlap with Actian's data integration offering",
-      "Aggressive go-to-market expansion (19 sales/marketing roles)  — likely preparing for a major product launch or entering new market segments",
+      "Aggressive go-to-market expansion (22 sales/marketing roles)  — likely preparing for a major product launch or entering new market segments",
       "Heavy infrastructure hiring (6 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
       "Boomi is a direct competitor in ETL/Connectors but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas"
     ],
     "hiring_intensity": "high",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
-    "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "threat_level": "critical",
+    "last_updated": "2026-03-31"
   },
   {
     "company": "CastorDoc",
@@ -142,25 +142,26 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "medium",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Cloudera",
     "company_group": "Warehouse/Processing",
     "posting_count": 19,
-    "signal_summary": "Cloudera is scaling infrastructure with 5 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
+    "signal_summary": "Cloudera is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
-      "Cloud infrastructure hiring (3 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
-      "Aggressive go-to-market expansion (3 sales/marketing roles) in Czech Republic-Prague, Czechia, Hungary-Budapest, Hungary, Indonesia-Jakarta, Indonesia — likely preparing for a major product launch or entering new market segments",
-      "Heavy infrastructure hiring (5 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
-      "High senior-to-total ratio (74%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "2 AI/ML roles (11% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "Cloud infrastructure hiring (4 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
+      "Aggressive go-to-market expansion (4 sales/marketing roles) in Czech Republic-Prague, Czechia, US-Texas-Austin, United States of America, US-California-Remote, United States of America — likely preparing for a major product launch or entering new market segments",
+      "Heavy infrastructure hiring (6 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
+      "High senior-to-total ratio (84%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
       "Cloudera (Warehouse/Processing) could expand into data integration through Platform / Infra capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian"
     ],
     "hiring_intensity": "medium",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "medium",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Collate",
@@ -178,35 +179,35 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Go-to-Market",
     "threat_level": "medium",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Collibra",
     "company_group": "Data Intelligence",
-    "posting_count": 24,
-    "signal_summary": "Collibra is doubling down on data engineering with 4 pipeline/integration roles — direct competitive move against Actian in the data integration space.",
+    "posting_count": 29,
+    "signal_summary": "Collibra is actively hiring 29 roles across Operations focused on Platform / Infra, with high intensity — steady investment in their Data Intelligence capabilities.",
     "implications": [
-      "4 AI/ML roles (17% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
-      "Data engineering focus (4 roles) — likely expanding connector ecosystem, improving data pipeline performance, or building new integration capabilities — direct competitive overlap with Actian's data integration offering",
-      "Aggressive go-to-market expansion (3 sales/marketing roles)  — likely preparing for a major product launch or entering new market segments",
+      "2 AI/ML roles (7% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
       "Collibra is a direct competitor in Data Intelligence but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
-      "Monitor Collibra's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern"
+      "Monitor Collibra's blog, press releases, and conference talks for product announcements aligned with their Operations hiring pattern",
+      "Review Collibra's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
+      "Track Collibra's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
     ],
     "hiring_intensity": "high",
-    "dominant_function": "Engineering",
+    "dominant_function": "Operations",
     "dominant_product_focus": "Platform / Infra",
-    "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "threat_level": "critical",
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Couchbase",
     "company_group": "Warehouse/Processing",
-    "posting_count": 21,
-    "signal_summary": "Couchbase is assembling senior leadership (76% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "posting_count": 22,
+    "signal_summary": "Couchbase is assembling senior leadership (77% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
     "implications": [
-      "2 AI/ML roles (10% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
-      "Aggressive go-to-market expansion (3 sales/marketing roles) in Bangalore, India, United States, Raleigh, NC — likely preparing for a major product launch or entering new market segments",
-      "High senior-to-total ratio (76%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "2 AI/ML roles (9% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "Aggressive go-to-market expansion (3 sales/marketing roles) in Bangalore, India, Raleigh, NC, United States — likely preparing for a major product launch or entering new market segments",
+      "High senior-to-total ratio (77%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
       "Couchbase (Warehouse/Processing) could expand into data integration through Platform / Infra capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian",
       "Monitor Couchbase's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern"
     ],
@@ -214,7 +215,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "DataGalaxy",
@@ -232,25 +233,25 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Data Governance",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "DataHub",
     "company_group": "Data Intelligence",
-    "posting_count": 11,
+    "posting_count": 10,
     "signal_summary": "DataHub is scaling infrastructure with 5 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
     "implications": [
       "Heavy infrastructure hiring (5 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
-      "High senior-to-total ratio (55%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
       "DataHub is a direct competitor in Data Intelligence but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
       "Monitor DataHub's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
-      "Review DataHub's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering"
+      "Review DataHub's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
+      "Track DataHub's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
     ],
     "hiring_intensity": "medium",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Databricks",
@@ -258,7 +259,7 @@
     "posting_count": 191,
     "signal_summary": "Databricks is in aggressive GTM expansion mode with 31 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
-      "25 AI/ML roles (13% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "24 AI/ML roles (13% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
       "Security/compliance hiring (3 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
       "Data engineering focus (2 roles) — likely expanding connector ecosystem, improving data pipeline performance, or building new integration capabilities — direct competitive overlap with Actian's data integration offering",
       "Aggressive go-to-market expansion (31 sales/marketing roles) in Bengaluru, India, San Francisco, California, United States — likely preparing for a major product launch or entering new market segments",
@@ -269,25 +270,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
-  },
-  {
-    "company": "Datadog",
-    "company_group": "Monitoring/Platforms",
-    "posting_count": 3,
-    "signal_summary": "Datadog is actively hiring 3 roles across Engineering focused on Platform / Infra, with low intensity — steady investment in their Monitoring/Platforms capabilities.",
-    "implications": [
-      "Majority mid/entry-level hiring suggests scaling existing product execution rather than strategic pivots — focus on feature velocity and customer onboarding",
-      "Datadog (Monitoring/Platforms) could expand into data integration through Platform / Infra capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian",
-      "Monitor Datadog's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
-      "Review Datadog's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
-      "Track Datadog's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
-    ],
-    "hiring_intensity": "low",
-    "dominant_function": "Engineering",
-    "dominant_product_focus": "Platform / Infra",
-    "threat_level": "low",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Decube",
@@ -305,7 +288,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Fivetran",
@@ -316,7 +299,7 @@
       "2 AI/ML roles (2% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
       "Security/compliance hiring (4 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
       "Data engineering focus (7 roles) — likely expanding connector ecosystem, improving data pipeline performance, or building new integration capabilities — direct competitive overlap with Actian's data integration offering",
-      "Aggressive go-to-market expansion (25 sales/marketing roles) in Oakland, California, United States, AMER, Denver, Colorado, United States, AMER, Bengaluru, Karnataka, India, APAC — likely preparing for a major product launch or entering new market segments",
+      "Aggressive go-to-market expansion (26 sales/marketing roles) in Oakland, California, United States, AMER, Denver, Colorado, United States, AMER, Bengaluru, Karnataka, India, APAC — likely preparing for a major product launch or entering new market segments",
       "Heavy infrastructure hiring (12 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
       "High senior-to-total ratio (74%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite"
     ],
@@ -324,71 +307,71 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "critical",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Matillion",
     "company_group": "ETL/Connectors",
-    "posting_count": 10,
-    "signal_summary": "Matillion is assembling senior leadership (70% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "posting_count": 8,
+    "signal_summary": "Matillion is assembling senior leadership (75% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
     "implications": [
-      "2 AI/ML roles (20% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
-      "High senior-to-total ratio (70%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "High senior-to-total ratio (75%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
       "Matillion is a direct competitor in ETL/Connectors but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
       "Monitor Matillion's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
-      "Review Matillion's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering"
+      "Review Matillion's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
+      "Track Matillion's open-source contributions and GitHub activity for early signals of new developer-focused tooling"
     ],
     "hiring_intensity": "medium",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "MongoDB",
     "company_group": "Warehouse/Processing",
-    "posting_count": 167,
-    "signal_summary": "MongoDB is in aggressive GTM expansion mode with 5 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "posting_count": 152,
+    "signal_summary": "MongoDB is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
-      "9 AI/ML roles (5% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "7 AI/ML roles (5% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
       "Cloud infrastructure hiring (4 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
       "Security/compliance hiring (20 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
-      "Aggressive go-to-market expansion (5 sales/marketing roles) in Dublin, Toronto, New York City, Palo Alto — likely preparing for a major product launch or entering new market segments",
+      "Aggressive go-to-market expansion (4 sales/marketing roles) in Dublin, Toronto, Dublin, Ireland — likely preparing for a major product launch or entering new market segments",
       "Heavy infrastructure hiring (16 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
-      "High senior-to-total ratio (74%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite"
-    ],
-    "hiring_intensity": "high",
-    "dominant_function": "Engineering",
-    "dominant_product_focus": "Platform / Infra",
-    "threat_level": "high",
-    "last_updated": "2026-03-30"
-  },
-  {
-    "company": "OneTrust",
-    "company_group": "Data Intelligence",
-    "posting_count": 58,
-    "signal_summary": "OneTrust is in aggressive GTM expansion mode with 6 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
-    "implications": [
-      "5 AI/ML roles (9% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
-      "Cloud infrastructure hiring (4 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
-      "Security/compliance hiring (3 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
-      "Aggressive go-to-market expansion (6 sales/marketing roles) in Bengaluru, India, Madrid, Spain, Atlanta, Georgia — likely preparing for a major product launch or entering new market segments",
-      "Heavy infrastructure hiring (3 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
       "High senior-to-total ratio (72%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite"
     ],
     "hiring_intensity": "high",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
+    "threat_level": "high",
+    "last_updated": "2026-03-31"
+  },
+  {
+    "company": "OneTrust",
+    "company_group": "Data Intelligence",
+    "posting_count": 58,
+    "signal_summary": "OneTrust is in aggressive GTM expansion mode with 5 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "implications": [
+      "5 AI/ML roles (9% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "Cloud infrastructure hiring (3 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
+      "Security/compliance hiring (3 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
+      "Aggressive go-to-market expansion (5 sales/marketing roles) in Bengaluru, India, Atlanta, Georgia, Madrid, Spain — likely preparing for a major product launch or entering new market segments",
+      "Heavy infrastructure hiring (3 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
+      "High senior-to-total ratio (74%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite"
+    ],
+    "hiring_intensity": "high",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Platform / Infra",
     "threat_level": "critical",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Pinecone",
     "company_group": "Vector DB / AI",
-    "posting_count": 9,
-    "signal_summary": "Pinecone is assembling senior leadership (67% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "posting_count": 8,
+    "signal_summary": "Pinecone is assembling senior leadership (75% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
     "implications": [
-      "High senior-to-total ratio (67%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "High senior-to-total ratio (75%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
       "Pinecone operates in Vector DB / AI — indirect competitive pressure but potential partnership opportunity for Actian's integration platform",
       "Monitor Pinecone's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
       "Review Pinecone's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
@@ -398,16 +381,16 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "critical",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Precisely",
     "company_group": "ETL/Connectors",
-    "posting_count": 28,
-    "signal_summary": "Precisely is in aggressive GTM expansion mode with 13 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "posting_count": 27,
+    "signal_summary": "Precisely is in aggressive GTM expansion mode with 12 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
-      "6 AI/ML roles (21% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
-      "Aggressive go-to-market expansion (13 sales/marketing roles) in United States — likely preparing for a major product launch or entering new market segments",
+      "5 AI/ML roles (19% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "Aggressive go-to-market expansion (12 sales/marketing roles) in United States — likely preparing for a major product launch or entering new market segments",
       "Precisely is a direct competitor in ETL/Connectors but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
       "Monitor Precisely's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
       "Review Precisely's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering"
@@ -416,15 +399,15 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Salesforce",
     "company_group": "Enterprise",
-    "posting_count": 14,
-    "signal_summary": "Salesforce is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "posting_count": 16,
+    "signal_summary": "Salesforce is actively hiring 16 roles across Engineering focused on Platform / Infra, with medium intensity — steady investment in their Enterprise capabilities.",
     "implications": [
-      "Aggressive go-to-market expansion (4 sales/marketing roles) in India - Hyderabad, Virginia - Mclean, Japan - Tokyo — likely preparing for a major product launch or entering new market segments",
+      "Aggressive go-to-market expansion (3 sales/marketing roles) in Virginia - Mclean, Japan - Tokyo, New York - New York Washington - Seattle Illinois - Chicago California - Irvine Massachusetts - Boston Georgia - Atlanta Texas - Dallas California - San Francisco Colorado - Denver — likely preparing for a major product launch or entering new market segments",
       "Salesforce operates in Enterprise — indirect competitive pressure but potential partnership opportunity for Actian's integration platform",
       "Monitor Salesforce's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
       "Review Salesforce's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering",
@@ -434,7 +417,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "low",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Sifflet",
@@ -452,44 +435,44 @@
     "dominant_function": "Finance",
     "dominant_product_focus": "Corporate Functions",
     "threat_level": "medium",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Snowflake",
     "company_group": "Warehouse/Processing",
     "posting_count": 194,
-    "signal_summary": "Snowflake is doubling down on data engineering with 7 pipeline/integration roles — direct competitive move against Actian in the data integration space.",
+    "signal_summary": "Snowflake is doubling down on data engineering with 6 pipeline/integration roles — direct competitive move against Actian in the data integration space.",
     "implications": [
-      "26 AI/ML roles (13% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "27 AI/ML roles (14% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
       "Cloud infrastructure hiring (7 roles) suggests expanding AWS deployment options — potential new managed service or marketplace listing",
-      "Security/compliance hiring (6 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
-      "Data engineering focus (7 roles) — likely expanding connector ecosystem, improving data pipeline performance, or building new integration capabilities — direct competitive overlap with Actian's data integration offering",
-      "Aggressive go-to-market expansion (32 sales/marketing roles) in US-CA-Menlo Park, US-WA-Bellevue, PL-Warsaw — likely preparing for a major product launch or entering new market segments",
-      "Heavy infrastructure hiring (10 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model"
+      "Security/compliance hiring (7 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
+      "Data engineering focus (6 roles) — likely expanding connector ecosystem, improving data pipeline performance, or building new integration capabilities — direct competitive overlap with Actian's data integration offering",
+      "Aggressive go-to-market expansion (33 sales/marketing roles) in US-CA-Menlo Park, US-WA-Bellevue, PL-Warsaw — likely preparing for a major product launch or entering new market segments",
+      "Heavy infrastructure hiring (9 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model"
     ],
     "hiring_intensity": "high",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Syniti",
     "company_group": "ETL/Connectors",
-    "posting_count": 22,
+    "posting_count": 21,
     "signal_summary": "Syniti is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
       "Aggressive go-to-market expansion (4 sales/marketing roles) in Search by Location, Location US, Location FR — likely preparing for a major product launch or entering new market segments",
-      "High senior-to-total ratio (59%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
-      "Syniti is a direct competitor in ETL/Connectors but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
+      "High senior-to-total ratio (57%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "DIRECT THREAT: Syniti (ETL/Connectors) is investing in ETL/Integration — this is core Actian territory. Monitor for product announcements, pricing changes, and customer wins in overlapping accounts",
       "Monitor Syniti's blog, press releases, and conference talks for product announcements aligned with their Engineering hiring pattern",
       "Review Syniti's pricing and packaging — hiring patterns suggest a possible tier change or new enterprise offering"
     ],
     "hiring_intensity": "high",
     "dominant_function": "Engineering",
-    "dominant_product_focus": "Platform / Infra",
-    "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "dominant_product_focus": "ETL/Integration",
+    "threat_level": "critical",
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Weaviate",
@@ -507,7 +490,7 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Platform / Infra",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   },
   {
     "company": "Zilliz",
@@ -525,6 +508,6 @@
     "dominant_function": "Engineering",
     "dominant_product_focus": "Developer Tools",
     "threat_level": "high",
-    "last_updated": "2026-03-30"
+    "last_updated": "2026-03-31"
   }
 ]
