@@ -1727,21 +1727,34 @@ function buildLocalContext() {
 
   const companyCounts = {};
   rows.forEach(r => { companyCounts[r.Company] = (companyCounts[r.Company] || 0) + 1; });
-  const topCompany = Object.entries(companyCounts).sort((a,b) => b[1]-a[1])[0] || ['N/A', 0];
+  const topCompanies = Object.entries(companyCounts).sort((a,b) => b[1]-a[1]);
+  const topCompany = topCompanies[0] || ['N/A', 0];
+  const topCompany2 = topCompanies[1] || ['N/A', 0];
 
   const critical = sigs.filter(s => (s.threat_level||'').toLowerCase() === 'critical').map(s => s.company);
   const high     = sigs.filter(s => (s.threat_level||'').toLowerCase() === 'high').map(s => s.company);
   const topThreat = [...critical, ...high][0] || topCompany[0] || 'Snowflake';
 
-  const highRel = rows.filter(r => (r._relevancy || 0) >= 10);
+  const highRel = rows.filter(r => (r._relevancy || 0) >= 8);
   const recent  = rows.filter(r => (r._days || 9999) <= 7);
+
+  // Most common product focus
+  const focusCounts = {};
+  rows.forEach(r => { const pf = r.Product_Focus || 'Unknown'; focusCounts[pf] = (focusCounts[pf] || 0) + 1; });
+  const topFocus = Object.entries(focusCounts).sort((a,b) => b[1]-a[1])[0] || ['Unknown', 0];
 
   return {
     top_threat: topThreat,
     top_company: topCompany[0],
     top_company_count: topCompany[1],
+    top_company_2: topCompany2[0],
+    top_company_2_count: topCompany2[1],
     high_relevancy_count: highRel.length,
     recent_count: recent.length,
+    top_focus: topFocus[0],
+    top_focus_count: topFocus[1],
+    critical_count: critical.length,
+    high_threat_count: high.length,
   };
 }
 
