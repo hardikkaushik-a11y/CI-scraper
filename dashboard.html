@@ -1352,6 +1352,9 @@ function renderSignals() {
 
   html += '<div id="signalDetailContainer"></div>';
 
+  // Search bar
+  html += '<div style="margin-top:24px;margin-bottom:12px"><input type="text" id="signalSearch" placeholder="Search companies..." oninput="filterSignalCards()" style="background:var(--bg);color:var(--text);border:1px solid var(--border);padding:8px 14px;border-radius:6px;font-size:13px;width:200px"></div>';
+
   // Summary table
   html += '<div class="card" style="margin-top:28px"><div class="card-title">All Company Signals</div><div class="table-wrap"><table>' +
     '<thead><tr><th>Company</th><th>Segment</th><th>Threat Level</th><th>Intensity</th><th>Key Signal</th><th>Focus Area</th><th>Roles</th></tr></thead><tbody id="signalTableBody">';
