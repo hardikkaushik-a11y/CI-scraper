@@ -1782,14 +1782,44 @@ function renderSuggestions(ctx) {
   const sugBox = document.getElementById('aiSuggestions');
   if (_chatHistory.length > 0) { sugBox.innerHTML = ''; return; }
 
-  const suggestions = [
-    `What is ${ctx.top_threat} doing that threatens Actian?`,
-    `Which ${ctx.high_relevancy_count} high-relevancy roles should Actian watch most closely?`,
-    `Why is ${ctx.top_company} hiring so aggressively — ${ctx.top_company_count} roles?`,
-    `Which companies are betting on AI/ML right now?`,
-    ctx.recent_count > 5 ? `What's behind the ${ctx.recent_count} new roles posted this week?` : `Which segment is most active this month?`,
-    `Where is the biggest ETL/Integration competitive threat to Actian?`,
-  ];
+  const suggestions = [];
+
+  // Q1: Top threat company (always relevant)
+  suggestions.push(`What is ${ctx.top_threat} doing that threatens Actian?`);
+
+  // Q2: High-relevancy roles (only if count is meaningful)
+  if (ctx.high_relevancy_count >= 5) {
+    suggestions.push(`Which ${ctx.high_relevancy_count} high-relevancy roles should Actian prioritize?`);
+  } else if (ctx.critical_count > 0) {
+    // If not many high-relevancy roles, ask about critical threats instead
+    suggestions.push(`What are the ${ctx.critical_count} critical threats we're tracking?`);
+  }
+
+  // Q3: Top hiring company (vary between #1 and #2)
+  suggestions.push(`Why is ${ctx.top_company} hiring so aggressively — ${ctx.top_company_count} roles?`);
+
+  // Q4: Product focus trend
+  if (ctx.top_focus_count > 5 && ctx.top_focus !== 'Unknown') {
+    suggestions.push(`Why are competitors focusing on ${ctx.top_focus}? (${ctx.top_focus_count} roles)`);
+  } else {
+    suggestions.push(`Which product areas are heating up across competitors?`);
+  }
+
+  // Q5: Recent activity
+  if (ctx.recent_count > 10) {
+    suggestions.push(`What's driving the surge in new roles — ${ctx.recent_count} posted this week?`);
+  } else if (ctx.recent_count > 3) {
+    suggestions.push(`What's behind the ${ctx.recent_count} new roles posted this week?`);
+  } else {
+    suggestions.push(`Which companies are actively hiring right now?`);
+  }
+
+  // Q6: Secondary threat company
+  if (ctx.top_company_2 && ctx.top_company_2 !== 'N/A' && ctx.top_company_2 !== ctx.top_company) {
+    suggestions.push(`How does ${ctx.top_company_2} compare to ${ctx.top_company} on hiring strategy?`);
+  } else {
+    suggestions.push(`Which companies are betting on AI/ML right now?`);
+  }
 
   window._aiSuggestions = suggestions;
   sugBox.innerHTML = suggestions.map((s, i) =>
