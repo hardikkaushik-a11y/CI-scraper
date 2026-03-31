@@ -1256,7 +1256,9 @@ function renderMarketPulse(sorted) {
   // 1. Total Market Hiring Velocity
   const totalPostings = sorted.reduce((s, c) => s + (c.posting_count || 0), 0);
   const avgPerCompany = sorted.length ? (totalPostings / sorted.length).toFixed(0) : 0;
-  html += '<div class="pulse-card"><div class="pulse-card-title">Total Market Hiring Velocity</div>' +
+  const iBtn = key => '<button class="pulse-info-btn" onclick="showPulseTooltip(\''+key+'\',event)" title="How this is calculated">i</button>';
+
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>Total Market Hiring Velocity</span>' + iBtn('velocity') + '</div>' +
     '<div class="pulse-card-value" style="color:var(--cyan)">' + totalPostings.toLocaleString() + '</div>' +
     '<div class="pulse-card-detail">' + sorted.length + ' companies tracked, avg ' + avgPerCompany + ' roles per company</div></div>';
 
@@ -1266,7 +1268,7 @@ function renderMarketPulse(sorted) {
     const summary = (s.signal_summary || '').toLowerCase();
     return /\b(ai|ml|llm|genai|machine learn|vector)/.test(imps + ' ' + summary);
   });
-  html += '<div class="pulse-card"><div class="pulse-card-title">AI Investment Race</div>' +
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>AI Investment Race</span>' + iBtn('ai') + '</div>' +
     '<div class="pulse-card-value" style="color:#8E44AD">' + aiCompanies.length + '</div>' +
     '<div class="pulse-card-detail">companies with AI/ML signals: ' +
     (aiCompanies.length ? aiCompanies.slice(0,6).map(c => c.company).join(', ') + (aiCompanies.length > 6 ? '...' : '') : 'None detected') +
@@ -1275,7 +1277,7 @@ function renderMarketPulse(sorted) {
   // 3. Direct Threat Index
   const threatCompanies = sorted.filter(s => s.threat_level === 'critical' || s.threat_level === 'high');
   const threatRoles = threatCompanies.reduce((s, c) => s + (c.posting_count || 0), 0);
-  html += '<div class="pulse-card"><div class="pulse-card-title">Direct Threat Index</div>' +
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>Direct Threat Index</span>' + iBtn('threat') + '</div>' +
     '<div class="pulse-card-value" style="color:var(--red)">' + threatCompanies.length + '</div>' +
     '<div class="pulse-card-detail">' + threatRoles + ' total roles across critical/high threats: ' +
     threatCompanies.slice(0,5).map(c => c.company + ' (' + c.posting_count + ')').join(', ') + '</div></div>';
@@ -1284,7 +1286,7 @@ function renderMarketPulse(sorted) {
   const segCounts = {};
   sorted.forEach(s => { const g = s.company_group || 'Other'; segCounts[g] = (segCounts[g]||0) + (s.posting_count||0); });
   const topSeg = Object.entries(segCounts).sort((a,b) => b[1]-a[1]);
-  html += '<div class="pulse-card"><div class="pulse-card-title">Segment Heatmap</div>' +
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>Segment Heatmap</span>' + iBtn('segment') + '</div>' +
     '<div class="pulse-card-value" style="color:var(--navy)">' + (topSeg[0] ? topSeg[0][0] : '--') + '</div>' +
     '<div class="pulse-card-detail">Hottest segment by role count. ' +
     topSeg.slice(0,4).map(e => e[0] + ': ' + e[1]).join(' | ') + '</div></div>';
@@ -1295,7 +1297,7 @@ function renderMarketPulse(sorted) {
     return /\b(senior|director|leadership|vp|executive|staff|principal)/.test(imps);
   });
   const seniorSignal = seniorHeavy.length >= 3 ? 'Industry-wide leadership churn detected' : 'Normal seniority patterns';
-  html += '<div class="pulse-card"><div class="pulse-card-title">Seniority Signal</div>' +
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>Seniority Signal</span>' + iBtn('seniority') + '</div>' +
     '<div class="pulse-card-value" style="color:#FF6B35;font-size:18px">' + seniorSignal + '</div>' +
     '<div class="pulse-card-detail">' + seniorHeavy.length + ' companies show senior hiring patterns: ' +
     seniorHeavy.slice(0,5).map(c => c.company).join(', ') + '</div></div>';
@@ -1306,7 +1308,7 @@ function renderMarketPulse(sorted) {
     const summary = (s.signal_summary || '').toLowerCase();
     return /\b(sales|gtm|go-to-market|revenue|market expansion|demand gen)/.test(imps + ' ' + summary);
   });
-  html += '<div class="pulse-card"><div class="pulse-card-title">GTM Surge Indicator</div>' +
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>GTM Surge Indicator</span>' + iBtn('gtm') + '</div>' +
     '<div class="pulse-card-value" style="color:var(--green)">' + gtmCompanies.length + '</div>' +
     '<div class="pulse-card-detail">companies expanding go-to-market: ' +
     (gtmCompanies.length ? gtmCompanies.slice(0,6).map(c => c.company).join(', ') : 'No surge detected') +
