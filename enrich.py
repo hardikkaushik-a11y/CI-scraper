@@ -824,7 +824,10 @@ def generate_signals(enriched_rows: list[dict]) -> list[dict]:
 
     signals = []
     eligible = {c: rows for c, rows in by_company.items() if len(rows) >= 3}
+    ineligible = {c: rows for c, rows in by_company.items() if len(rows) < 3}
     print(f"\n[SIGNALS] Generating strategic signals for {len(eligible)} companies (3+ postings each)")
+    if ineligible:
+        print(f"[SIGNALS] {len(ineligible)} companies with <3 postings will use rule-based signal: {', '.join(sorted(ineligible))}")
 
     for i, (company, rows) in enumerate(sorted(eligible.items())):
         print(f"  [{i+1}/{len(eligible)}] Analyzing {company} ({len(rows)} postings)...")
