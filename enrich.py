@@ -1428,6 +1428,16 @@ def _fallback_signal(company: str, company_group: str, rows: list[dict]) -> dict
             f"{company} announcing partnerships with cloud data platforms (Snowflake, Databricks) — "
             f"would signal an embedded integration play that threatens Actian's standalone value proposition"
         )
+        if senior_ratio > 0.4:
+            watch_for_items.append(
+                f"{company}'s senior hiring concentration ({round(senior_ratio*100)}%) shifting toward "
+                f"product or architecture roles — indicates new product line formation, not just scaling"
+            )
+        watch_for_items.append(
+            f"{company} hiring in new geographies or verticals beyond their current footprint — "
+            f"geographic expansion in {company_group} typically precedes competitive displacement campaigns "
+            f"against incumbents like Actian"
+        )
     elif company_group == "Vector DB / AI":
         watch_for_items.append(
             f"{company} releasing enterprise features (RBAC, audit logs, SOC2) — signals readiness "
