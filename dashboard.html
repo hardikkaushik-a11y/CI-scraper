@@ -644,6 +644,12 @@ async function loadData() {
     if (!allRows.length) throw new Error('Empty CSV');
     // REMOVE Legal and People/HR rows
     allRows = allRows.filter(r => !EXCLUDED_FUNCTIONS.includes(r.Function));
+    // Apply 365-day rolling window — same filter as enrich.py
+    // Keeps jobs with no date (undated roles are assumed current)
+    allRows = allRows.filter(r => {
+      const d = parseInt(r['Days Since Posted']);
+      return isNaN(d) || d <= 365;
+    });
     csvOk = true;
   } catch (e) {
     document.getElementById('page-market').innerHTML =
