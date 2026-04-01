@@ -840,6 +840,79 @@ async def extract_workable_jobs(
         print(f"  [Workable API WARN] {company}: {e}")
         return []
 
+async def extract_smartrecruiters_jobs(
+    client: httpx.AsyncClient, company: str, url: str
+) -> list[dict]:
+    """Extract jobs via SmartRecruiters public API (jobs.smartrecruiters.com/{slug})."""
+    try:
+        # Extract company slug from URL: jobs.smartrecruiters.com/Collibra → Collibra
+        slug = url.rstrip("/").split("/")[-1].split("?")[0]
+        jobs = []
+        offset = 0
+        limit = 100
+
+        while True:
+            api_url = f"https://api.smartrecruiters.com/v1/companies/{slug}/postings?status=PUBLIC&offset={offset}&limit={limit}"
+            await rate_limiter.wait(api_url)
+            r = await client.get(api_url, headers=HEADERS, timeout=20, follow_redirects=True)
+            if r.status_code != 200:
+                break
+
+            data = r.json()
+            postings = data.get("content", [])
+            if not postings:
+                break
+
+            for item in postings:
+                title = clean_title(item.get("name", ""))
+                if not title or not ROLE_RE.search(title):
+                    continue
+
+                loc_obj = item.get("location", {})
+                loc_parts = []
+                city = loc_obj.get("city", "")
+                country = loc_obj.get("country", "")
+                if city:
+                    loc_parts.append(city)
+                if country and country != city:
+                    loc_parts.append(country)
+                location = clean_location(", ".join(loc_parts))
+
+                released = item.get("releasedDate", "")
+                posting_date = ""
+                if released:
+                    try:
+                        posting_date = datetime.fromisoformat(released.split("T")[0]).date().isoformat()
+                    except Exception:
+                        pass
+
+                if is_too_old(posting_date):
+                    continue
+
+                job_url = item.get("ref", f"https://jobs.smartrecruiters.com/{slug}/{item.get('id', '')}")
+
+                jobs.append({
+                    "Company": company,
+                    "Job Title": title,
+                    "Job Link": job_url,
+                    "Location": location,
+                    "Posting Date": posting_date,
+                    "Seniority": "Mid",
+                })
+
+            total_found = data.get("totalFound", 0)
+            offset += limit
+            if offset >= total_found or offset >= MAX_JOBS_PER_COMPANY:
+                break
+
+        jobs = dedup_and_cap(jobs, company)
+        print(f"  [SmartRecruiters API] {len(jobs)} jobs extracted for {company}")
+        return jobs
+    except Exception as e:
+        print(f"  [SmartRecruiters API WARN] {company}: {e}")
+        return []
+
+
 # ══════════════════════════════════════════════════════════════════════════
 # CORE EXTRACTION — SINGLE PATH
 # ══════════════════════════════════════════════════════════════════════════
