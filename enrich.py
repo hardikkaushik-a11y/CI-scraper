@@ -1338,6 +1338,13 @@ def _fallback_signal(company: str, company_group: str, rows: list[dict]) -> dict
     else:
         threat = "low"
 
+    roadmap = _infer_roadmap(
+        company=company, company_group=company_group, n=n, all_titles=all_titles,
+        ai_count=ai_count, cloud_count=cloud_count, data_eng_count=data_eng_count,
+        go_to_market=go_to_market, infra_count=infra_count, security_count=security_count,
+        senior_ratio=senior_ratio, dom_pf=dom_pf, dom_fn=dom_fn,
+    )
+
     return {
         "company": company,
         "company_group": company_group,
@@ -1348,6 +1355,7 @@ def _fallback_signal(company: str, company_group: str, rows: list[dict]) -> dict
         "dominant_function": dom_fn,
         "dominant_product_focus": dom_pf,
         "threat_level": threat,
+        "roadmap": roadmap,
         "last_updated": date.today().isoformat(),
     }
 
