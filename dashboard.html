@@ -1497,6 +1497,21 @@ function showSignalDetail(company) {
     h += '</div>';
   }
 
+  // Leading Indicators (Opus-generated watch_for signals)
+  const watchFor = s.watch_for || [];
+  if (watchFor.length) {
+    h += '<div style="margin-bottom:20px"><div style="margin-bottom:10px"><h3 style="font-size:15px;font-weight:700">Leading Indicators to Track</h3>'+
+      '<p style="font-size:12px;color:var(--text-muted);margin-top:2px">Specific signals that would confirm or deny the inferred strategy</p></div>';
+    h += '<div style="display:flex;flex-direction:column;gap:8px">';
+    watchFor.forEach((w, i) => {
+      const icons = ['&#128269;', '&#128200;', '&#127919;'];
+      h += '<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)">'+
+        '<span style="font-size:15px;flex-shrink:0;margin-top:1px">'+(icons[i]||'&#128269;')+'</span>'+
+        '<span style="font-size:13px;color:var(--text);line-height:1.6">'+w+'</span></div>';
+    });
+    h += '</div></div>';
+  }
+
   h += '<div class="actions-section"><div class="actions-title">Recommended Actions for Actian</div>';
   actions.forEach(a => { h += '<div class="action-item">'+a+'</div>'; });
   h += '</div></div>';
