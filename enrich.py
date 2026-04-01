@@ -976,16 +976,45 @@ def _infer_roadmap(company: str, company_group: str, n: int, all_titles: list[st
             f"without a sharp strategic pivot visible from hiring alone."
         )
 
-    # Watch for: tailored to the primary signal
+    # Watch for: specific leading indicators tied to the primary signal and company context
     watch_map = {
-        "ai":       f"AI feature launch, LLM-powered product announcement, or developer preview from {company}",
-        "cloud":    f"New cloud marketplace listing, managed service launch, or SaaS pricing tier from {company}",
-        "infra":    f"Major version release, performance benchmark publication, or architectural redesign blog from {company}",
-        "gtm":      f"New vertical campaigns, pricing overhaul, or partner ecosystem announcement from {company}",
-        "data_eng": f"New connector releases, integration marketplace update, or pipeline tooling blog from {company}",
-        "security": f"SOC2/FedRAMP certification, security whitepaper, or compliance feature launch from {company}",
+        "ai": [
+            f"New AI/ML job postings appearing in product or applied research teams at {company} — would confirm they're building, not just exploring",
+            f"{company} publishing technical blog posts about embedding models, RAG architectures, or LLM integration patterns — signals imminent feature launch",
+            f"Senior AI hires from competitors or big tech joining {company} — indicates serious commitment vs exploratory investment",
+        ],
+        "cloud": [
+            f"{company} posting cloud partnership roles (AWS/GCP/Azure) or marketplace integration engineers — signals managed service launch is approaching",
+            f"New SaaS pricing page or consumption-based billing mentions in {company}'s marketing materials — indicates cloud-native pivot",
+            f"{company} hiring site reliability or platform engineers in new regions — geographic cloud expansion underway",
+        ],
+        "infra": [
+            f"{company} hiring database internals or systems engineers with distributed systems expertise — suggests core engine rewrite or performance overhaul",
+            f"Open-source contributions or benchmark publications from {company}'s engineering team — precursor to major version release",
+            f"Staff/Principal engineer concentration at {company} increasing — indicates architectural-level investment, not feature work",
+        ],
+        "gtm": [
+            f"{company} posting industry-specific sales roles (healthcare, finance, government) — signals vertical expansion strategy",
+            f"New partner channel or alliances roles at {company} — indicates shift from direct sales to ecosystem-driven growth",
+            f"{company} hiring competitive intelligence or product marketing roles — suggests positioning shift or new market entry",
+        ],
+        "data_eng": [
+            f"{company} posting connector or integration engineer roles for new platforms — directly expands their competitive surface against Actian",
+            f"New data pipeline or transformation-focused roles at {company} beyond their core product — signals adjacency expansion",
+            f"{company} hiring solutions engineers or field engineers specializing in migration — indicates they're targeting incumbent displacement",
+        ],
+        "security": [
+            f"{company} posting compliance or audit-focused roles (SOC2, FedRAMP, HIPAA) — signals push into regulated verticals where Actian competes",
+            f"New security product manager or security engineer roles at {company} — indicates standalone compliance feature, not just table stakes",
+            f"{company} pursuing government or financial services certifications — would open enterprise segments where Actian has existing presence",
+        ],
     }
-    watch_for = watch_map.get(primary_key, f"Product announcements or engineering blog from {company}")
+    indicators = watch_map.get(primary_key, [
+        f"Track {company}'s engineering blog and conference talks for product direction signals",
+        f"Monitor job posting velocity changes at {company} — acceleration indicates strategic investment",
+        f"Watch for {company} executive hires that signal new business unit formation",
+    ])
+    watch_for = indicators[0]  # Primary indicator for the roadmap tile
 
     return {
         "direction": direction,
