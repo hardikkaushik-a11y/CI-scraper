@@ -169,7 +169,7 @@ Top roles by relevancy:
     context = f"""
 ACTIAN COMPETITIVE HIRING INTELLIGENCE — LIVE DATASET
 Snapshot date: {datetime.now().strftime("%B %d, %Y")}
-Data source: Scraped career pages of 34 competitor companies (365-day rolling window)
+Data source: Scraped career pages of 61 competitor companies (365-day rolling window)
 Excluded: Legal, People/HR roles (not competitively relevant)
 
 ━━━ MARKET OVERVIEW ━━━
