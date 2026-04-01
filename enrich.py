@@ -1410,12 +1410,149 @@ def _fallback_signal(company: str, company_group: str, rows: list[dict]) -> dict
         senior_ratio=senior_ratio, dom_pf=dom_pf, dom_fn=dom_fn,
     )
 
+    # ── Watch For: specific leading indicators tailored to company ────
+    watch_for_items = []
+
+    if company_group in direct_threat_groups:
+        if data_eng_count >= 2:
+            watch_for_items.append(
+                f"{company} posting new connector or integration-specific roles — each new connector "
+                f"directly expands their overlap with Actian's integration catalog"
+            )
+        if go_to_market >= 3:
+            watch_for_items.append(
+                f"Uptick in {company}'s enterprise AE or solution architect hiring in Actian's "
+                f"core verticals (manufacturing, financial services) — signals direct competitive displacement effort"
+            )
+        watch_for_items.append(
+            f"{company} announcing partnerships with cloud data platforms (Snowflake, Databricks) — "
+            f"would signal an embedded integration play that threatens Actian's standalone value proposition"
+        )
+    elif company_group == "Vector DB / AI":
+        watch_for_items.append(
+            f"{company} releasing enterprise features (RBAC, audit logs, SOC2) — signals readiness "
+            f"to compete for the same enterprise buyers Actian targets with its upcoming vector product"
+        )
+        watch_for_items.append(
+            f"{company} hiring data integration or ETL engineers — would indicate expansion from "
+            f"vector search into data pipeline territory, creating direct Actian overlap"
+        )
+        watch_for_items.append(
+            f"Developer community growth metrics for {company} (GitHub stars, Discord members, "
+            f"conference presence) — leading indicator of mindshare capture before Actian's vector launch"
+        )
+    elif company_group in adjacent_threat:
+        watch_for_items.append(
+            f"{company} adding integration or connector capabilities to their {company_group} platform — "
+            f"bundled integration would undercut Actian's standalone pricing"
+        )
+        watch_for_items.append(
+            f"{company} hiring product managers focused on data movement or pipeline orchestration — "
+            f"signals adjacency expansion into Actian's core territory"
+        )
+        watch_for_items.append(
+            f"Changes in {company}'s pricing model (consumption-based, freemium tiers) — "
+            f"aggressive pricing in adjacent space pressures Actian's value narrative"
+        )
+    else:
+        watch_for_items.append(
+            f"Track {company}'s job posting velocity — sustained increase (>20% quarter-over-quarter) "
+            f"signals strategic investment acceleration, not just backfill"
+        )
+        watch_for_items.append(
+            f"{company} hiring product roles focused on data integration or analytics — "
+            f"would signal expansion into Actian's competitive territory"
+        )
+        watch_for_items.append(
+            f"{company} executive hires from data infrastructure companies — "
+            f"leadership moves telegraph strategic direction 6-12 months before product announcements"
+        )
+
+    if ai_count >= 2 and not any("AI" in w or "vector" in w for w in watch_for_items):
+        watch_for_items.insert(0,
+            f"{company}'s AI team growing past {ai_count} roles — crossing 5+ AI hires typically "
+            f"precedes a standalone AI feature launch within 2 quarters"
+        )
+
+    watch_for_items = watch_for_items[:3]
+
+    # ── Recommended Actions: strategic, non-generic, tied to this competitor ──
+    rec_actions = []
+
+    if threat in ("critical", "high"):
+        if dom_pf in ("ETL/Integration", "Data Quality", "Data Governance"):
+            rec_actions.append(
+                f"[Immediate / GTM] Pull recent win/loss data against {company} in {dom_pf} deals — "
+                f"identify the 3 accounts most at risk and arm AEs with differentiated positioning "
+                f"around Actian's hybrid deployment and legacy system connectivity"
+            )
+        else:
+            rec_actions.append(
+                f"[Immediate / GTM] Brief enterprise AEs on {company}'s trajectory in {dom_pf} — "
+                f"their {n}-role hiring surge signals aggressive expansion that will hit Actian's "
+                f"pipeline within 1-2 quarters"
+            )
+    else:
+        rec_actions.append(
+            f"[Next Quarter / Product] Evaluate {company}'s {dom_pf} trajectory against Actian's "
+            f"roadmap — determine if Actian needs to build competitive parity or can differentiate "
+            f"by doubling down on integration depth"
+        )
+
+    if company_group == "Vector DB / AI":
+        rec_actions.append(
+            f"[Immediate / Product] Accelerate Actian's vector/AI launch to establish enterprise "
+            f"positioning before {company} captures developer and buyer mindshare — {company}'s "
+            f"{n} active roles suggest they're building production-grade capabilities now"
+        )
+    elif ai_count >= 2:
+        rec_actions.append(
+            f"[Next Quarter / Product] Assess whether {company}'s AI investment (currently {ai_count} "
+            f"roles) threatens Actian's analytics value proposition — if they ship AI-powered {dom_pf}, "
+            f"Actian needs to counter with AI capabilities in the integration layer"
+        )
+    elif go_to_market >= 3:
+        rec_actions.append(
+            f"[Immediate / GTM] Preemptively engage {company}'s target accounts — their "
+            f"{go_to_market} GTM hires signal a land-grab in progress. Focus on demonstrating "
+            f"Actian's time-to-value advantage in competitive evaluations"
+        )
+    else:
+        rec_actions.append(
+            f"[Next Quarter / Product] Map {company}'s {dom_pf} capability evolution against "
+            f"Actian's integration platform — identify where {company}'s feature expansion could "
+            f"make them a viable substitute for Actian in mid-market deals"
+        )
+
+    if intensity == "high":
+        rec_actions.append(
+            f"[Immediate / GTM] Add {company} to Actian's top-5 competitive watchlist — "
+            f"their {n}-role hiring velocity combined with {dom_fn} concentration "
+            f"indicates a product launch cycle. Prepare competitive battle cards by end of quarter"
+        )
+    elif senior_ratio > 0.5:
+        rec_actions.append(
+            f"[Monitor / Product] {company}'s senior-heavy hiring ({round(senior_ratio*100)}%) "
+            f"suggests an architectural rebuild — the resulting product will likely be significantly "
+            f"different from their current offering. Re-assess competitive positioning when they ship"
+        )
+    else:
+        rec_actions.append(
+            f"[Next Quarter / GTM] Include {company}'s {company_group} trajectory in Actian's "
+            f"quarterly competitive review — share {dom_pf} hiring patterns with product leadership "
+            f"to inform roadmap prioritization decisions"
+        )
+
+    rec_actions = rec_actions[:3]
+
     return {
         "company": company,
         "company_group": company_group,
         "posting_count": n,
         "signal_summary": summary,
         "implications": implications,
+        "watch_for": watch_for_items,
+        "recommended_actions": rec_actions,
         "hiring_intensity": intensity,
         "dominant_function": dom_fn,
         "dominant_product_focus": dom_pf,
