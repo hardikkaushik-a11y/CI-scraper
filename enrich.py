@@ -919,13 +919,13 @@ def _infer_roadmap(company: str, company_group: str, n: int, all_titles: list[st
     # Only use a specific key if its score is meaningfully above default threshold
     direction = group_ctx[primary_key] if primary_score > 0.1 else group_ctx["default"]
 
-    # Confidence
-    if primary_score > 1.2:
-        confidence = "High"
-    elif primary_score > 0.5:
-        confidence = "Medium"
+    # Confidence — based on clarity of hiring signal
+    if primary_score > 0.8:
+        confidence = "High"  # Strong, focused hiring pattern in one area
+    elif primary_score > 0.25:
+        confidence = "Medium"  # Clear signal but spread across multiple areas
     else:
-        confidence = "Low"
+        confidence = "Low"  # Limited data or mixed hiring signals
 
     # Timeline
     if n >= 20 and primary_score > 1.0:
