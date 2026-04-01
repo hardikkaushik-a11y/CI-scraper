@@ -29,6 +29,7 @@ import httpx
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 HAIKU_MODEL = "claude-haiku-4-5-20251001"
 SONNET_MODEL = "claude-sonnet-4-6"
+OPUS_MODEL = "claude-opus-4-5-20250115"
 MAX_JOB_AGE_DAYS = 365
 
 # Allowed values — anything outside these sets gets remapped via fallback
