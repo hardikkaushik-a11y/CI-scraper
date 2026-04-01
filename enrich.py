@@ -1397,9 +1397,9 @@ def _fallback_signal(company: str, company_group: str, rows: list[dict]) -> dict
     # ── Scale threat by posting volume magnitude ──────────────────────
     # Large hiring volumes are inherently threatening regardless of category
     if n >= 150:
-        threat_score += 2  # Very high volume
+        threat_score += 3  # Very high volume — strategic commitment
     elif n >= 100:
-        threat_score += 1  # High volume
+        threat_score += 2  # High volume
 
     if threat_score >= 7:
         threat = "critical"
