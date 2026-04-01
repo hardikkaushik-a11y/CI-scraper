@@ -316,6 +316,40 @@
     "last_updated": "2026-04-01"
   },
   {
+    "company": "Datadog",
+    "company_group": "Monitoring/Platforms",
+    "posting_count": 3,
+    "signal_summary": "Datadog is actively hiring 3 roles across Engineering focused on Platform / Infra, with low intensity — steady investment in their Monitoring/Platforms capabilities.",
+    "implications": [
+      "Majority mid/entry-level hiring suggests scaling existing product execution rather than strategic pivots — focus on feature velocity and customer onboarding",
+      "Datadog (Monitoring/Platforms) could expand into data integration through Platform / Infra capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian",
+      "Minimal hiring (3 roles) suggests maintenance mode or resource constraints — potential opportunity window if Actian can capture mindshare with faster innovation",
+      "Monitor Datadog's quarterly earnings calls and product roadmaps for announcements aligned with their engineering hiring surge"
+    ],
+    "watch_for": [
+      "Datadog adding integration or connector capabilities to their Monitoring/Platforms platform — bundled integration would undercut Actian's standalone pricing",
+      "Datadog hiring product managers focused on data movement or pipeline orchestration — signals adjacency expansion into Actian's core territory",
+      "Changes in Datadog's pricing model (consumption-based, freemium tiers) — aggressive pricing in adjacent space pressures Actian's value narrative"
+    ],
+    "recommended_actions": [
+      "[Next Quarter / Product] Evaluate Datadog's Platform / Infra trajectory against Actian's roadmap — determine if Actian needs to build competitive parity or can differentiate by doubling down on integration depth",
+      "[Next Quarter / Product] Map Datadog's Platform / Infra capability evolution against Actian's integration platform — identify where Datadog's feature expansion could make them a viable substitute for Actian in mid-market deals",
+      "[Next Quarter / GTM] Include Datadog's Monitoring/Platforms trajectory in Actian's quarterly competitive review — share Platform / Infra hiring patterns with product leadership to inform roadmap prioritization decisions"
+    ],
+    "hiring_intensity": "low",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Platform / Infra",
+    "threat_level": "low",
+    "roadmap": {
+      "direction": "Comprehensive Platform Observability Suite",
+      "rationale": "With 3 active roles concentrated in Platform / Infra, Datadog appears to be in steady execution mode — iterating on its existing monitoring/platforms platform without a sharp strategic pivot visible from hiring alone.",
+      "confidence": "Low",
+      "timeline": "12+ months out",
+      "watch_for": "New AI/ML job postings appearing in product or applied research teams at Datadog — would confirm they're building, not just exploring"
+    },
+    "last_updated": "2026-04-01"
+  },
+  {
     "company": "Decube",
     "company_group": "Data Observability",
     "posting_count": 9,
@@ -735,36 +769,36 @@
     "last_updated": "2026-04-01"
   },
   {
-    "company": "Datadog",
-    "company_group": "Monitoring/Platforms",
-    "posting_count": 2,
-    "signal_summary": "Datadog is actively hiring 2 roles across Design focused on Product Management, with low intensity — steady investment in their Monitoring/Platforms capabilities.",
+    "company": "OvalEdge",
+    "company_group": "Data Intelligence",
+    "posting_count": 1,
+    "signal_summary": "OvalEdge is actively hiring 1 roles across Engineering focused on Platform / Infra, with low intensity — steady investment in their Data Intelligence capabilities.",
     "implications": [
       "Majority mid/entry-level hiring suggests scaling existing product execution rather than strategic pivots — focus on feature velocity and customer onboarding",
-      "Datadog (Monitoring/Platforms) could expand into data integration through Product Management capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian",
-      "Minimal hiring (2 roles) suggests maintenance mode or resource constraints — potential opportunity window if Actian can capture mindshare with faster innovation",
-      "Monitor Datadog's quarterly earnings calls and product roadmaps for announcements aligned with their design hiring surge"
+      "OvalEdge is a direct competitor in Data Intelligence but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core areas",
+      "Minimal hiring (1 roles) suggests maintenance mode or resource constraints — potential opportunity window if Actian can capture mindshare with faster innovation",
+      "Monitor OvalEdge's quarterly earnings calls and product roadmaps for announcements aligned with their engineering hiring surge"
     ],
     "watch_for": [
-      "Datadog adding integration or connector capabilities to their Monitoring/Platforms platform — bundled integration would undercut Actian's standalone pricing",
-      "Datadog hiring product managers focused on data movement or pipeline orchestration — signals adjacency expansion into Actian's core territory",
-      "Changes in Datadog's pricing model (consumption-based, freemium tiers) — aggressive pricing in adjacent space pressures Actian's value narrative"
+      "OvalEdge announcing partnerships with cloud data platforms (Snowflake, Databricks) — would signal an embedded integration play that threatens Actian's standalone value proposition",
+      "OvalEdge hiring in new geographies or verticals beyond their current footprint — geographic expansion in Data Intelligence typically precedes competitive displacement campaigns against incumbents like Actian",
+      "OvalEdge's job posting velocity changing quarter-over-quarter — sustained acceleration (>20%) in Engineering roles signals strategic investment, not just backfill"
     ],
     "recommended_actions": [
-      "[Next Quarter / Product] Evaluate Datadog's Product Management trajectory against Actian's roadmap — determine if Actian needs to build competitive parity or can differentiate by doubling down on integration depth",
-      "[Next Quarter / Product] Map Datadog's Product Management capability evolution against Actian's integration platform — identify where Datadog's feature expansion could make them a viable substitute for Actian in mid-market deals",
-      "[Next Quarter / GTM] Include Datadog's Monitoring/Platforms trajectory in Actian's quarterly competitive review — share Product Management hiring patterns with product leadership to inform roadmap prioritization decisions"
+      "[Next Quarter / Product] Evaluate OvalEdge's Platform / Infra trajectory against Actian's roadmap — determine if Actian needs to build competitive parity or can differentiate by doubling down on integration depth",
+      "[Next Quarter / Product] Map OvalEdge's Platform / Infra capability evolution against Actian's integration platform — identify where OvalEdge's feature expansion could make them a viable substitute for Actian in mid-market deals",
+      "[Next Quarter / GTM] Include OvalEdge's Data Intelligence trajectory in Actian's quarterly competitive review — share Platform / Infra hiring patterns with product leadership to inform roadmap prioritization decisions"
     ],
     "hiring_intensity": "low",
-    "dominant_function": "Design",
-    "dominant_product_focus": "Product Management",
-    "threat_level": "low",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Platform / Infra",
+    "threat_level": "medium",
     "roadmap": {
-      "direction": "Comprehensive Platform Observability Suite",
-      "rationale": "With 2 active roles concentrated in Product Management, Datadog appears to be in steady execution mode — iterating on its existing monitoring/platforms platform without a sharp strategic pivot visible from hiring alone.",
+      "direction": "Intelligent Data Catalog & Governance Expansion",
+      "rationale": "With 1 active roles concentrated in Platform / Infra, OvalEdge appears to be in steady execution mode — iterating on its existing data intelligence platform without a sharp strategic pivot visible from hiring alone.",
       "confidence": "Low",
       "timeline": "12+ months out",
-      "watch_for": "New AI/ML job postings appearing in product or applied research teams at Datadog — would confirm they're building, not just exploring"
+      "watch_for": "New AI/ML job postings appearing in product or applied research teams at OvalEdge — would confirm they're building, not just exploring"
     },
     "last_updated": "2026-04-01"
   },
