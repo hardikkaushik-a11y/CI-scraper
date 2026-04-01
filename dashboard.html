@@ -1470,7 +1470,7 @@ function showSignalDetail(company) {
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
         <span style="font-size:18px">&#128506;</span>
         <span style="font-size:14px;font-weight:700;color:var(--text);letter-spacing:-0.2px">Inferred Product Roadmap</span>
-        <button class="pulse-info-btn" title="Confidence shows how clear the hiring signal is. High = focused hiring in one area. Medium = clear signal but spread across multiple areas. Low = limited data or mixed signals. Based on analyzing job titles and roles.">i</button>
+        <button class="pulse-info-btn" onclick="showPulseTooltip('roadmap', event)" title="How this is calculated">i</button>
         <span style="margin-left:auto;font-size:11px;color:var(--text-muted);font-style:italic">Based on hiring signals — not confirmed</span>
       </div>
       <div style="font-size:19px;font-weight:700;color:var(--navy);line-height:1.3;margin-bottom:12px">${rm.direction}</div>
