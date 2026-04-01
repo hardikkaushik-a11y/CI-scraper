@@ -673,6 +673,12 @@ async function loadData() {
   }
   document.getElementById('statusBar').textContent =
     allRows.length + ' roles  |  ' + signals.length + ' signals  |  Updated ' + today;
+  // Sync dynamic company count in info panel
+  const _cc = signals.length;
+  ['infoCompanyCount','infoCompanyCountSrc'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = _cc;
+  });
   // Expose to AI assistant for local context
   window._allRows = allRows;
   window._allSignals = signals;
