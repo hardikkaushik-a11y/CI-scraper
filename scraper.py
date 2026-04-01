@@ -913,6 +913,90 @@ async def extract_smartrecruiters_jobs(
         return []
 
 
+async def extract_datadog_jobs(
+    client: httpx.AsyncClient, company: str, url: str
+) -> list[dict]:
+    """Extract jobs from Datadog's Typesense-powered career site.
+
+    Datadog embeds a Typesense search index with a public read-only key.
+    We page through all results using the documented search API.
+    """
+    TYPESENSE_HOST = "gk6e3zbyuntvc5dap"
+    TYPESENSE_KEY = "1Hwq7hntXp211hKvRS3CSI2QSU7w2gFm"
+    COLLECTION = "careers_alias"
+    PER_PAGE = 100
+
+    try:
+        jobs = []
+        page = 1
+        total_found = None
+
+        while True:
+            api_url = (
+                f"https://{TYPESENSE_HOST}.a1.typesense.net"
+                f"/collections/{COLLECTION}/documents/search"
+                f"?q=*&query_by=title&per_page={PER_PAGE}&page={page}&filter_by=language:en"
+            )
+            await rate_limiter.wait(api_url)
+            r = await client.get(
+                api_url,
+                headers={**HEADERS, "x-typesense-api-key": TYPESENSE_KEY},
+                timeout=20,
+            )
+            if r.status_code != 200:
+                print(f"  [Datadog Typesense] HTTP {r.status_code}")
+                break
+
+            data = r.json()
+            if total_found is None:
+                total_found = data.get("found", 0)
+
+            hits = data.get("hits", [])
+            if not hits:
+                break
+
+            for hit in hits:
+                doc = hit.get("document", {})
+                title = clean_title(doc.get("title", ""))
+                if not title or not ROLE_RE.search(title):
+                    continue
+
+                location = clean_location(doc.get("location_string", ""))
+                job_url = doc.get("absolute_url", "")
+
+                # last_mod is ISO datetime e.g. "2026-03-31T17:08:56-04:00"
+                posting_date = ""
+                last_mod = doc.get("last_mod", "")
+                if last_mod:
+                    try:
+                        posting_date = datetime.fromisoformat(last_mod).date().isoformat()
+                    except Exception:
+                        posting_date = last_mod[:10]
+
+                if is_too_old(posting_date):
+                    continue
+
+                jobs.append({
+                    "Company": company,
+                    "Job Title": title,
+                    "Job Link": job_url,
+                    "Location": location,
+                    "Posting Date": posting_date,
+                    "Seniority": "Mid",
+                })
+
+            page += 1
+            if len(jobs) >= MAX_JOBS_PER_COMPANY or (page - 1) * PER_PAGE >= (total_found or 0):
+                break
+
+        jobs = dedup_and_cap(jobs, company)
+        print(f"  [Datadog Typesense] {len(jobs)} jobs extracted for {company}")
+        return jobs
+    except Exception as e:
+        print(f"  [Datadog Typesense WARN] {company}: {e}")
+        return []
+
+
 async def extract_workday_jobs(
     client: httpx.AsyncClient, company: str, url: str
 ) -> list[dict]:
