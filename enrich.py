@@ -1051,7 +1051,7 @@ Return a JSON object with these fields:
 Return ONLY the JSON object, no markdown fences or other text."""
 
         if ANTHROPIC_API_KEY:
-            text = _call_claude(SONNET_MODEL, SIGNAL_SYSTEM, prompt, max_tokens=2048)
+            text = _call_claude(OPUS_MODEL, SIGNAL_SYSTEM, prompt, max_tokens=3000)
             if text:
                 try:
                     text = re.sub(r'^```json\s*|\s*```$', '', text, flags=re.MULTILINE).strip()
