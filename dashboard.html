@@ -1220,33 +1220,39 @@ function impIcon(text) {
 }
 
 function deriveActions(s) {
+  // Use Opus-generated strategic actions if available
+  if (s.recommended_actions && s.recommended_actions.length) {
+    return s.recommended_actions.slice(0, 4);
+  }
+  // Fallback for legacy signals without Opus-generated actions
   const actions = [];
-  const imps = s.implications || [];
   const tl = s.threat_level || 'low';
   const dp = s.dominant_product_focus || '';
   const company = s.company || '';
+  const group = s.company_group || '';
 
   if (tl === 'critical' || tl === 'high') {
-    actions.push('Conduct a win/loss analysis against ' + company + ' in overlapping accounts -- identify where they are gaining ground and why.');
+    actions.push('[Immediate / GTM] Run win/loss analysis on recent deals where ' + company + ' competed — identify their positioning gaps and arm sales with counter-narratives specific to ' + dp + '.');
   } else {
-    actions.push('Add ' + company + ' to quarterly competitive review -- track product announcements and pricing changes.');
+    actions.push('[Next Quarter / Product] Evaluate ' + company + '\'s ' + dp + ' trajectory — determine if Actian needs to differentiate or can deprioritize this vector.');
   }
 
   if (dp.includes('ETL') || dp.includes('Integration')) {
-    actions.push('Benchmark Actian\'s connector coverage and pipeline performance against ' + company + '\'s latest offering -- identify feature gaps.');
+    actions.push('[Immediate / Product] Audit Actian\'s connector parity against ' + company + ' — prioritize building connectors for any platforms where ' + company + ' has coverage and Actian does not.');
   } else if (dp.includes('AI') || dp.includes('ML') || dp.includes('Vector')) {
-    actions.push('Evaluate whether Actian should accelerate AI/ML feature roadmap to match ' + company + '\'s investment -- assess build vs. partner options.');
+    actions.push('[Next Quarter / Product] Accelerate Actian\'s vector/AI launch timeline — ' + company + '\'s AI investment creates urgency to establish positioning before they capture developer mindshare.');
   } else if (dp.includes('Cloud') || dp.includes('Platform')) {
-    actions.push('Review Actian\'s cloud deployment options and managed service pricing relative to ' + company + '\'s infrastructure plays.');
+    actions.push('[Immediate / GTM] Target ' + company + '\'s on-prem customer base with Actian\'s hybrid deployment story — their cloud push likely creates migration anxiety among legacy customers.');
+  } else if (dp.includes('Governance') || dp.includes('Quality')) {
+    actions.push('[Next Quarter / Product] Strengthen Actian\'s data governance capabilities in integration workflows — ' + company + '\'s expansion here threatens to pull governance upstream of Actian\'s touch point.');
   } else {
-    actions.push('Monitor ' + company + '\'s product blog and conference appearances for announcements in ' + dp + '.');
+    actions.push('[Monitor / Product] Track ' + company + '\'s ' + dp + ' build-out for adjacency overlap with Actian\'s integration and analytics core.');
   }
 
-  const hasGTM = imps.some(i => i.toLowerCase().includes('sales') || i.toLowerCase().includes('market'));
-  if (hasGTM) {
-    actions.push('Alert sales team about ' + company + '\'s go-to-market expansion -- prepare competitive positioning materials and talk tracks.');
+  if (s.hiring_intensity === 'high') {
+    actions.push('[Immediate / GTM] Brief sales leadership on ' + company + '\'s hiring surge — high-velocity hiring in ' + dp + ' typically precedes aggressive market expansion within 1-2 quarters.');
   } else {
-    actions.push('Share this signal with product leadership -- ' + company + '\'s hiring patterns may indicate upcoming features that affect Actian\'s roadmap.');
+    actions.push('[Next Quarter / Product] Share ' + company + '\'s capability trajectory with product leadership — use as input for Actian\'s quarterly roadmap prioritization.');
   }
 
   return actions.slice(0, 3);
