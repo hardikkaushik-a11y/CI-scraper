@@ -913,6 +913,161 @@ async def extract_smartrecruiters_jobs(
         return []
 
 
+async def extract_workday_jobs(
+    client: httpx.AsyncClient, company: str, url: str
+) -> list[dict]:
+    """Extract jobs via Workday CXS public API (myworkdayjobs.com).
+
+    Converts a standard Workday URL like:
+      https://alteryx.wd108.myworkdayjobs.com/AlteryxCareers
+    into the CXS API call:
+      POST https://alteryx.wd108.myworkdayjobs.com/wday/cxs/alteryx/AlteryxCareers/jobs
+    """
+    try:
+        parsed = urlparse(url)
+        hostname = parsed.netloc  # e.g. alteryx.wd108.myworkdayjobs.com
+        company_slug = hostname.split(".")[0]  # e.g. alteryx
+        board = parsed.path.strip("/").split("/")[0]  # e.g. AlteryxCareers
+        if not board:
+            return []
+
+        api_base = f"https://{hostname}/wday/cxs/{company_slug}/{board}/jobs"
+        jobs = []
+        offset = 0
+        limit = 20
+
+        while True:
+            payload = {
+                "appliedFacets": {},
+                "limit": limit,
+                "offset": offset,
+                "searchText": "",
+            }
+            await rate_limiter.wait(api_base)
+            r = await client.post(
+                api_base,
+                json=payload,
+                headers={**HEADERS, "Content-Type": "application/json"},
+                timeout=20,
+            )
+            if r.status_code != 200:
+                print(f"  [Workday API] {company}: HTTP {r.status_code}")
+                break
+
+            data = r.json()
+            postings = data.get("jobPostings", [])
+            if not postings:
+                break
+
+            for item in postings:
+                title = clean_title(item.get("title", ""))
+                if not title or not ROLE_RE.search(title):
+                    continue
+
+                # Workday returns locationsText like "3 Locations" or a city name
+                location = clean_location(item.get("locationsText", "") or item.get("primaryLocation", ""))
+
+                # Build full job URL
+                ext_url = item.get("externalPath", "")
+                job_url = f"https://{hostname}{ext_url}" if ext_url else ""
+
+                # Workday dates in postedOn like "Posted 30+ Days Ago" — no exact date
+                posting_date = ""
+                posted_on = item.get("postedOn", "")
+                if "Today" in posted_on or "1 Day" in posted_on:
+                    posting_date = date.today().isoformat()
+
+                jobs.append({
+                    "Company": company,
+                    "Job Title": title,
+                    "Job Link": job_url,
+                    "Location": location,
+                    "Posting Date": posting_date,
+                    "Seniority": "Mid",
+                })
+
+            total = data.get("total", 0)
+            offset += limit
+            if offset >= total or offset >= MAX_JOBS_PER_COMPANY:
+                break
+
+        jobs = dedup_and_cap(jobs, company)
+        print(f"  [Workday API] {len(jobs)} jobs extracted for {company}")
+        return jobs
+    except Exception as e:
+        print(f"  [Workday API WARN] {company}: {e}")
+        return []
+
+
+async def extract_phenom_jobs(
+    client: httpx.AsyncClient, company: str, url: str
+) -> list[dict]:
+    """Extract jobs from Phenom People career sites (e.g. careers.salesforce.com).
+
+    Phenom renders server-side paginated HTML. Paginates through ?page=N until
+    no more job links are found. Works for any Phenom-powered site.
+    """
+    try:
+        base_url = url.rstrip("/").split("?")[0].split("#")[0]
+        jobs = []
+        page = 1
+        base_domain = f"{urlparse(url).scheme}://{urlparse(url).netloc}"
+
+        while len(jobs) < MAX_JOBS_PER_COMPANY:
+            page_url = f"{base_url}?page={page}"
+            await rate_limiter.wait(page_url)
+            r = await client.get(page_url, headers=HEADERS, timeout=20, follow_redirects=True)
+            if r.status_code != 200:
+                break
+
+            soup = BeautifulSoup(r.text, "lxml")
+
+            # Salesforce: links like /en/jobs/jr{id}/{slug}/
+            job_links = [
+                (a.get_text(strip=True), a["href"])
+                for a in soup.find_all("a", href=True)
+                if re.match(r"/\w+/jobs?/\w+\d+/", a["href"])
+            ]
+
+            if not job_links:
+                break  # No more jobs — stop pagination
+
+            for raw_title, href in job_links:
+                title = clean_title(raw_title)
+                if not title or not ROLE_RE.search(title):
+                    continue
+
+                # Find location from card container
+                a_tag = soup.find("a", href=href)
+                location = ""
+                if a_tag:
+                    card = a_tag.find_parent(["li", "div", "article"])
+                    if card:
+                        loc_el = card.find(class_=re.compile(r"location|loc-", re.I))
+                        if loc_el:
+                            location = clean_location(loc_el.get_text(strip=True))
+
+                job_url = href if href.startswith("http") else f"{base_domain}{href}"
+
+                jobs.append({
+                    "Company": company,
+                    "Job Title": title,
+                    "Job Link": job_url,
+                    "Location": location,
+                    "Posting Date": "",
+                    "Seniority": "Mid",
+                })
+
+            page += 1
+
+        jobs = dedup_and_cap(jobs, company)
+        print(f"  [Phenom Pages] {len(jobs)} jobs extracted for {company}")
+        return jobs
+    except Exception as e:
+        print(f"  [Phenom Pages WARN] {company}: {e}")
+        return []
+
+
 # ══════════════════════════════════════════════════════════════════════════
 # CORE EXTRACTION — SINGLE PATH
 # ══════════════════════════════════════════════════════════════════════════
