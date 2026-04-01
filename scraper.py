@@ -1259,6 +1259,10 @@ async def scrape_all(competitors_path: str = "competitors.csv") -> list[dict]:
                     jobs = await extract_workable_jobs(client, company, url)
                 elif "smartrecruiters.com" in url:
                     jobs = await extract_smartrecruiters_jobs(client, company, url)
+                elif "myworkdayjobs.com" in url:
+                    jobs = await extract_workday_jobs(client, company, url)
+                elif "careers.salesforce.com" in url:
+                    jobs = await extract_phenom_jobs(client, company, url)
                 else:
                     # HTML scraping fallback
                     if needs_playwright(company, url):
