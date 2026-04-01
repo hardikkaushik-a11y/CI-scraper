@@ -1026,27 +1026,27 @@ def generate_signals(enriched_rows: list[dict]) -> list[dict]:
         company_group = rows[0].get("Company_Group", "Other")
         context = "\n".join(job_summaries)
 
-        prompt = f"""Based on the following {len(rows)} job postings from {company} (segment: {company_group}), infer what strategic moves this company is likely making.
+        prompt = f"""Analyze {len(rows)} job postings from {company} (segment: {company_group}).
 
-Consider:
-- What products or features they might be building or releasing
-- What markets they are expanding into
-- Whether they are preparing an acquisition or partnership
-- Whether they are shifting technical focus
-- What this means as a threat or opportunity for Actian — a data integration and analytics platform competing in the same space
+Actian context: Enterprise data integration & analytics platform. Core strengths: hybrid data integration, real-time analytics, legacy modernization, embedded analytics. Upcoming: vector/AI product launch. Competes on data management, integration, and analytics.
 
 Job postings:
 {context}
 
+Produce analyst-grade competitive intelligence. For each field, reason from the COMBINATION of signals — role clusters, seniority patterns, function ratios, geographic spread — not individual postings.
+
 Return a JSON object with these fields:
-- company (string): "{company}"
-- signal_summary (string): 1 sentence, the single most important inference
-- implications (array of 5-6 strings): each a specific actionable inference like "Likely building a native observability layer — direct threat to Actian's monitoring capabilities" or "Heavy ML/AI hiring suggests an upcoming LLM-powered feature release, not a core product shift"
-- hiring_intensity (string): "low" / "medium" / "high" based on volume and seniority
-- dominant_function (string): the function with most postings
-- dominant_product_focus (string): the product area with most postings
-- threat_level (string): "low" / "medium" / "high" / "critical" to Actian
-- last_updated (string): "{date.today().isoformat()}"
+
+- "company" (string): "{company}"
+- "signal_summary" (string): 1 sharp sentence — the single most important strategic inference. Not a description of hiring, but what it MEANS for the market.
+- "implications" (array of 5 strings): Each must be a specific, reasoned inference that connects a hiring pattern to a strategic move. Format: "[What they're doing] — [why it matters for Actian]". Example: "Clustering 4 senior ML engineers + 2 product managers in SF suggests an AI feature team forming around a new product line — if they ship an AI-powered data quality tool, it directly threatens Actian's integration reliability story."
+- "watch_for" (array of 3 strings): Specific, observable leading indicators that would confirm or deny the inferred strategy. These must be things we can actually track: job posting changes, product announcements, conference talks, partnership signals, pricing moves, geographic expansion patterns. Each should clearly state WHAT to watch and WHAT it would indicate.
+- "recommended_actions" (array of 3 strings): Non-generic, strategic actions for Actian. Each must specify: (a) action type — product (build/partner/deprioritize/differentiate), GTM (target segment/messaging/sales focus), or timing (immediate/next quarter/monitor), (b) the specific action, and (c) WHY — tied to this competitor's inferred direction. Never use "monitor closely" or "invest in innovation".
+- "hiring_intensity" (string): "low" / "medium" / "high" based on volume and seniority concentration
+- "dominant_function" (string): the function with most postings
+- "dominant_product_focus" (string): the product area with most postings
+- "threat_level" (string): "low" / "medium" / "high" / "critical" — assessed relative to Actian's specific product areas and market position
+- "last_updated" (string): "{date.today().isoformat()}"
 
 Return ONLY the JSON object, no markdown fences or other text."""
 
