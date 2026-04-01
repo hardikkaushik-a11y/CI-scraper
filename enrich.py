@@ -813,6 +813,176 @@ def _fallback_classify(title: str) -> dict:
 
 SIGNAL_SYSTEM = """You are a competitive intelligence analyst at Actian Corporation, a data integration and analytics platform. You analyze hiring patterns from competitor companies and produce structured strategic inferences. Always return valid JSON. Be specific, actionable, and direct — no hedging language."""
 
+# Context-aware product direction labels per company segment
+_GROUP_DIRECTION = {
+    "Data Observability": {
+        "ai":       "AI-Driven Pipeline Intelligence & Anomaly Detection",
+        "cloud":    "SaaS-First Data Reliability Platform",
+        "infra":    "Enterprise-Scale Observability Infrastructure",
+        "gtm":      "SMB & Mid-Market Data Observability Expansion",
+        "data_eng": "Deep Pipeline Monitoring for Complex ETL Workflows",
+        "security": "Compliance-Ready Observability for Regulated Industries",
+        "default":  "Next-Gen Data Pipeline Observability Suite",
+    },
+    "Warehouse/Processing": {
+        "ai":       "AI-Native Lakehouse with Embedded ML Governance",
+        "cloud":    "Multi-Cloud Managed Warehouse Platform",
+        "infra":    "High-Performance Query Engine & Storage Replatform",
+        "gtm":      "Enterprise Warehouse Land-and-Expand Motion",
+        "data_eng": "Unified Batch & Streaming Data Processing Engine",
+        "security": "Secure Data Warehouse for Regulated Enterprise Workloads",
+        "default":  "Modern Cloud Lakehouse Platform Expansion",
+    },
+    "ETL/Connectors": {
+        "ai":       "AI-Augmented Data Integration & Smart Mapping",
+        "cloud":    "Cloud-Native ELT with Auto-Provisioned Connectors",
+        "infra":    "High-Throughput Real-Time Data Pipeline Platform",
+        "gtm":      "Mid-Market Data Integration Push via New Pricing",
+        "data_eng": "Next-Gen Connector Ecosystem & Transformation Engine",
+        "security": "Enterprise-Grade Secure Data Movement & Lineage",
+        "default":  "Expanded Data Integration Connector Marketplace",
+    },
+    "Data Intelligence": {
+        "ai":       "AI-Powered Data Catalog with Automated Governance",
+        "cloud":    "Cloud Metadata & Data Discovery as a Service",
+        "infra":    "Scalable Metadata Platform for Enterprise Data Estates",
+        "gtm":      "Self-Service Data Governance for Business Teams",
+        "data_eng": "Automated Data Lineage & Pipeline Governance",
+        "security": "Data Privacy & Compliance Intelligence Platform",
+        "default":  "Intelligent Data Catalog & Governance Expansion",
+    },
+    "Vector DB / AI": {
+        "ai":       "LLM-Native Vector Platform with Retrieval Augmentation",
+        "cloud":    "Fully-Managed Serverless Vector Search Infrastructure",
+        "infra":    "High-Scale Vector Index for Production AI Workloads",
+        "gtm":      "Developer-Led Expansion into AI Application Market",
+        "data_eng": "Hybrid Vector + Relational Data Pipeline Tooling",
+        "security": "Secure & Compliant AI Infrastructure for Enterprise",
+        "default":  "Next-Gen AI-Native Data Retrieval Platform",
+    },
+    "Monitoring/Platforms": {
+        "ai":       "AIOps & Intelligent Anomaly Detection Platform",
+        "cloud":    "Unified Cloud Monitoring & Observability SaaS",
+        "infra":    "Platform-Scale Infrastructure Reliability Engineering",
+        "gtm":      "Platform Monitoring Expansion into New Verticals",
+        "data_eng": "Metrics & Log Pipeline Optimization Engine",
+        "security": "Security Observability & Threat Detection Integration",
+        "default":  "Comprehensive Platform Observability Suite",
+    },
+    "Analytics / BI": {
+        "ai":       "AI-Augmented BI with Natural Language Query",
+        "cloud":    "Embedded Analytics Cloud Platform",
+        "infra":    "High-Performance Analytics Engine Replatform",
+        "gtm":      "Self-Service Analytics Expansion for Business Users",
+        "data_eng": "Real-Time Analytics on Live Operational Data",
+        "security": "Governed Analytics for Regulated Enterprise Data",
+        "default":  "Modern Self-Service Analytics Platform",
+    },
+    "Enterprise": {
+        "ai":       "AI-First Enterprise Data & Automation Platform",
+        "cloud":    "Multi-Cloud Enterprise Data Cloud Migration",
+        "infra":    "Enterprise Infrastructure Modernization at Scale",
+        "gtm":      "Enterprise Suite Expansion into New Industry Verticals",
+        "data_eng": "Enterprise Data Integration & Transformation Overhaul",
+        "security": "Enterprise-Grade Data Security & Compliance Suite",
+        "default":  "Enterprise Data Platform Modernization Initiative",
+    },
+}
+
+
+def _infer_roadmap(company: str, company_group: str, n: int, all_titles: list[str],
+                   ai_count: int, cloud_count: int, data_eng_count: int, go_to_market: int,
+                   infra_count: int, security_count: int, senior_ratio: float,
+                   dom_pf: str, dom_fn: str) -> dict:
+    """Infer the most likely next product direction from hiring signal patterns."""
+    ai_r       = ai_count / max(n, 1)
+    cloud_r    = cloud_count / max(n, 1)
+    data_eng_r = data_eng_count / max(n, 1)
+    gtm_r      = go_to_market / max(n, 1)
+    infra_r    = infra_count / max(n, 1)
+    sec_r      = security_count / max(n, 1)
+
+    # Score each direction dimension
+    scores = {
+        "ai":       ai_r * 3.0 + (0.4 if dom_fn == "AI/ML & Vector" else 0),
+        "cloud":    cloud_r * 2.5,
+        "data_eng": data_eng_r * 2.5,
+        "gtm":      gtm_r * 2.0,
+        "infra":    infra_r * 2.0 + (0.3 if senior_ratio > 0.5 else 0),
+        "security": sec_r * 3.0,
+    }
+    ranked = sorted(scores.items(), key=lambda x: -x[1])
+    primary_key, primary_score = ranked[0]
+
+    # Get direction label from group context
+    group_ctx = _GROUP_DIRECTION.get(company_group, _GROUP_DIRECTION["Enterprise"])
+    # Only use a specific key if its score is meaningfully above default threshold
+    direction = group_ctx[primary_key] if primary_score > 0.1 else group_ctx["default"]
+
+    # Confidence
+    if primary_score > 1.2:
+        confidence = "High"
+    elif primary_score > 0.5:
+        confidence = "Medium"
+    else:
+        confidence = "Low"
+
+    # Timeline
+    if n >= 20 and primary_score > 1.0:
+        timeline = "Next 3–6 months"
+    elif n >= 8:
+        timeline = "Next 6–12 months"
+    else:
+        timeline = "12+ months out"
+
+    # Build a specific rationale from actual numbers
+    evidence = []
+    if ai_count >= 2:
+        evidence.append(f"{ai_count} AI/ML roles ({round(ai_r*100)}% of hiring)")
+    if infra_count >= 2:
+        evidence.append(f"{infra_count} platform/infrastructure roles")
+    if go_to_market >= 3:
+        evidence.append(f"{go_to_market} sales and marketing hires pointing to market readiness")
+    if data_eng_count >= 2:
+        evidence.append(f"{data_eng_count} data engineering roles")
+    if cloud_count >= 2:
+        evidence.append(f"{cloud_count} cloud-specialist roles")
+    if security_count >= 2:
+        evidence.append(f"{security_count} security/compliance roles")
+    if senior_ratio > 0.5:
+        evidence.append(f"{round(senior_ratio*100)}% senior+ hiring suggesting deliberate strategic build")
+
+    if evidence:
+        rationale = (
+            f"{company} is signalling this direction through {', '.join(evidence[:3])}. "
+            f"{'This volume of hiring in a focused area typically precedes a product launch or major feature announcement within one to two quarters.' if n >= 15 else 'The pattern suggests early-stage investment — laying groundwork before a broader push.'}"
+        )
+    else:
+        rationale = (
+            f"With {n} active roles concentrated in {dom_pf}, {company} appears to be "
+            f"in steady execution mode — iterating on its existing {company_group.lower()} platform "
+            f"without a sharp strategic pivot visible from hiring alone."
+        )
+
+    # Watch for: tailored to the primary signal
+    watch_map = {
+        "ai":       f"AI feature launch, LLM-powered product announcement, or developer preview from {company}",
+        "cloud":    f"New cloud marketplace listing, managed service launch, or SaaS pricing tier from {company}",
+        "infra":    f"Major version release, performance benchmark publication, or architectural redesign blog from {company}",
+        "gtm":      f"New vertical campaigns, pricing overhaul, or partner ecosystem announcement from {company}",
+        "data_eng": f"New connector releases, integration marketplace update, or pipeline tooling blog from {company}",
+        "security": f"SOC2/FedRAMP certification, security whitepaper, or compliance feature launch from {company}",
+    }
+    watch_for = watch_map.get(primary_key, f"Product announcements or engineering blog from {company}")
+
+    return {
+        "direction": direction,
+        "rationale": rationale,
+        "confidence": confidence,
+        "timeline":   timeline,
+        "watch_for":  watch_for,
+    }
+
 
 def generate_signals(enriched_rows: list[dict]) -> list[dict]:
     """Generate strategic signals for each company with 3+ postings."""
