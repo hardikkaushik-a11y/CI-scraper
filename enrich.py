@@ -1401,7 +1401,11 @@ def _fallback_signal(company: str, company_group: str, rows: list[dict]) -> dict
     elif n >= 100:
         threat_score += 2  # High volume
 
-    if threat_score >= 7:
+    # ── Final threat level assignment ─────────────────────────────────
+    # Volume threshold: 150+ jobs is automatically CRITICAL
+    if n >= 150 and threat_score >= 5:
+        threat = "critical"
+    elif threat_score >= 7:
         threat = "critical"
     elif threat_score >= 5:
         threat = "high"
