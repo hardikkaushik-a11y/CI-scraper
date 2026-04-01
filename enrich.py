@@ -1484,6 +1484,21 @@ def _fallback_signal(company: str, company_group: str, rows: list[dict]) -> dict
             f"precedes a standalone AI feature launch within 2 quarters"
         )
 
+    # Ensure minimum 3 indicators — add context-specific fillers if needed
+    _extra_indicators = [
+        f"{company}'s job posting velocity changing quarter-over-quarter — sustained "
+        f"acceleration (>20%) in {dom_fn} roles signals strategic investment, not just backfill",
+        f"Executive or VP-level hires at {company} from data infrastructure companies — "
+        f"leadership moves telegraph strategic direction 6-12 months before product shifts",
+        f"{company} increasing presence at data engineering conferences (dbt Coalesce, "
+        f"Data Council, Subsurface) — conference strategy reveals go-to-market timing",
+    ]
+    for extra in _extra_indicators:
+        if len(watch_for_items) >= 3:
+            break
+        if not any(extra[:40] in w for w in watch_for_items):
+            watch_for_items.append(extra)
+
     watch_for_items = watch_for_items[:3]
 
     # ── Recommended Actions: strategic, non-generic, tied to this competitor ──
