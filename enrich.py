@@ -1046,23 +1046,65 @@ def _fallback_signal(company: str, company_group: str, rows: list[dict]) -> dict
             f"but potential partnership opportunity for Actian's integration platform"
         )
 
-    # Pad to 5-6 if needed — use a pool of distinct fillers
-    filler_pool = [
-        f"Monitor {company}'s blog, press releases, and conference talks for "
-        f"product announcements aligned with their {dom_fn} hiring pattern",
-        f"Review {company}'s pricing and packaging — hiring patterns suggest "
-        f"a possible tier change or new enterprise offering",
-        f"Track {company}'s open-source contributions and GitHub activity "
-        f"for early signals of new developer-focused tooling",
-        f"Assess whether {company}'s hiring in {dom_pf} creates an opportunity "
-        f"for Actian to differentiate on performance, compliance, or integration depth",
-        f"Brief the sales team on {company}'s expansion signals — prepare "
-        f"competitive positioning for overlapping deal cycles",
-    ]
+    # ── Company-specific insights ────────────────────────────────────────
+    # Build nuanced fillers based on actual data patterns
+    specific_insights = []
+
+    # Location diversity signal
+    if len(locations) > 5:
+        specific_insights.append(
+            f"Distributed hiring across {len(locations)} locations ({', '.join(list(locations.keys())[:3])}+) "
+            f"indicates global expansion or multi-hub strategy — suggests new regional offices or remote-first shift"
+        )
+
+    # Dominant function signal
+    top_fn = max(functions.items(), key=lambda x: x[1])[0] if functions else "Unknown"
+    if top_fn != dom_fn:
+        fn_pct = round(functions.get(top_fn, 0) / n * 100)
+        specific_insights.append(
+            f"{top_fn} is the dominant hiring function ({fn_pct}% of roles), not {dom_fn} — "
+            f"suggests core product buildout in that area, with secondary support in {dom_fn}"
+        )
+
+    # Product focus diversity
+    if len(products) > 2:
+        specific_insights.append(
+            f"Hiring across {len(products)} product areas ({', '.join(list(products.keys())[:2])}...) "
+            f"suggests portfolio expansion or major platform consolidation"
+        )
+
+    # Hiring intensity + growth trajectory
+    if intensity == "high" and n >= 15:
+        specific_insights.append(
+            f"Aggressive {n}-role hiring surge indicates rapid product iteration or "
+            f"preparation for a major launch window — expect feature announcements within 3-6 months"
+        )
+    elif intensity == "low" and n < 4:
+        specific_insights.append(
+            f"Minimal hiring ({n} roles) suggests maintenance mode or resource constraints "
+            f"— potential opportunity window if Actian can capture mindshare with faster innovation"
+        )
+
+    # Technical depth signal
+    technical_roles = sum(1 for t in all_titles
+                         if re.search(r'engineer|architect|data|developer|scientist|research', t))
+    if technical_roles > n * 0.7:
+        specific_insights.append(
+            f"Heavy technical hiring ({technical_roles}/{n} roles are engineering-heavy) "
+            f"— indicates R&D investment rather than GTM expansion"
+        )
+
+    # Year-over-year hiring pattern (if we have data)
+    specific_insights.append(
+        f"Monitor {company}'s quarterly earnings calls and product roadmaps for announcements "
+        f"aligned with their {top_fn.lower()} hiring surge"
+    )
+
+    # Pad implications with specific insights instead of generic fillers
     filler_idx = 0
-    while len(implications) < 5 and filler_idx < len(filler_pool):
-        candidate = filler_pool[filler_idx]
-        # Avoid near-duplicate by checking first 40 chars
+    while len(implications) < 6 and filler_idx < len(specific_insights):
+        candidate = specific_insights[filler_idx]
+        # Avoid near-duplicate
         if not any(candidate[:40] in imp for imp in implications):
             implications.append(candidate)
         filler_idx += 1
