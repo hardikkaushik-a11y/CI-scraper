@@ -77,5 +77,5 @@ jobs:
           git config user.email "ci-bot@actian.com"
           git add -f jobs_enriched.csv signals.json dashboard.html
           git diff --cached --quiet || git commit -m "chore: daily scrape $(date -u '+%Y-%m-%d')"
-          git pull --rebase -X ours origin main
+          git pull --rebase --autostash -X ours origin main
           git push
