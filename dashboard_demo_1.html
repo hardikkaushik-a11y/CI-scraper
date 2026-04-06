@@ -1,0 +1,2621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitive Hiring Intelligence — Demo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   ACTIAN BRAND THEME — Professional, readable, accessible
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+  --bg: #f5f6f8;
+  --bg-white: #ffffff;
+  --bg-hover: #f0f2f5;
+  --bg-nav: #1B2A4A;
+  --border: #e2e5ea;
+  --border-light: #edf0f3;
+  --text: #1a1f2e;
+  --text-secondary: #4a5568;
+  --text-muted: #8492a6;
+  --accent: #E31937;
+  --accent-light: #fef2f4;
+  --green: #2ECC71;
+  --green-light: #f0fdf4;
+  --amber: #F39C12;
+  --amber-light: #fffbeb;
+  --red: #E31937;
+  --red-light: #fef2f2;
+  --cyan: #00B4D8;
+  --navy: #1B2A4A;
+  --purple: #8E44AD;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+a { color: var(--accent); }
+
+/* ── TOP NAV ────────────────────────────────────────────────────────── */
+.topnav {
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  height: 56px;
+  background: var(--bg-nav);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.topnav-brand {
+  font-size: 16px;
+  font-weight: 700;
+  margin-right: 40px;
+  letter-spacing: -0.3px;
+}
+.topnav-brand span { color: #94a3b8; font-weight: 400; margin-left: 6px; }
+.topnav-tabs { display: flex; gap: 4px; }
+.topnav-tab {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #94a3b8;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.topnav-tab:hover { color: #e2e8f0; background: rgba(255,255,255,0.08); }
+.topnav-tab.active { color: #fff; background: var(--accent); }
+.topnav-status {
+  margin-left: auto;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* ── LAYOUT ─────────────────────────────────────────────────────────── */
+.page { display: none; padding: 24px 28px; max-width: 1440px; margin: 0 auto; }
+.page.active { display: block; min-height: calc(100vh - 56px); }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.main-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; grid-template-areas: "filters filters" "left right"; }
+.main-layout-filters { grid-area: filters; }
+.main-layout-left { grid-area: left; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.main-layout-right { grid-area: right; display: flex; flex-direction: column; }
+.main-layout-left > .card:last-child { display: flex; flex-direction: column; }
+.main-layout-left .table-wrap { max-height: calc(100vh - 660px); min-height: 250px; overflow-y: scroll; overflow-x: hidden; }
+.main-layout-left .table-wrap table { table-layout: fixed; width: calc(100% - 2px); }
+.main-layout-left .table-wrap th:nth-child(1) { width: 9%; }
+.main-layout-left .table-wrap th:nth-child(2) { width: 18%; }
+.main-layout-left .table-wrap th:nth-child(3) { width: 8%; }
+.main-layout-left .table-wrap th:nth-child(4) { width: 10%; }
+.main-layout-left .table-wrap th:nth-child(5) { width: 11%; }
+.main-layout-left .table-wrap th:nth-child(6) { width: 14%; }
+.main-layout-left .table-wrap th:nth-child(7) { width: 5%; }
+.main-layout-left .table-wrap th:nth-child(8) { width: 9%; }
+.main-layout-left .table-wrap th:nth-child(9) { width: 9%; }
+.main-layout-left .table-wrap th:nth-child(10) { width: 7%; }
+
+/* ── CARDS ──────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+.card-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+/* ── KPI STRIP ──────────────────────────────────────────────────────── */
+.kpi-strip { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.kpi-box {
+  flex: 1;
+  min-width: 140px;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+.kpi-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+}
+.kpi-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.kpi-sublabel {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.kpi-value.blue { color: var(--cyan); }
+.kpi-value.amber { color: var(--amber); }
+.kpi-value.green { color: var(--green); }
+
+/* ── FILTERS ────────────────────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+  margin-bottom: 8px;
+  padding: 16px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.filter-group { display: flex; flex-direction: column; gap: 4px; }
+.filter-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.filter-bar select, .filter-bar input[type="text"], .filter-bar input[type="number"] {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.filter-bar select:focus, .filter-bar input:focus { border-color: var(--accent); }
+.filter-bar input[type="range"] { width: 100px; accent-color: var(--accent); }
+.btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--bg-white);
+  color: var(--text);
+  transition: all 0.2s;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary:hover { background: #c2142f; }
+
+/* ── ACTIVE FILTER PILLS ───────────────────────────────────────────── */
+.active-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; min-height: 0; }
+.filter-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; background: var(--accent-light); border: 1px solid #fecaca;
+  border-radius: 14px; font-size: 11px; font-weight: 500; color: var(--accent); cursor: pointer;
+}
+.filter-pill:hover { background: #fde2e6; }
+.filter-pill .pill-x { font-weight: 700; margin-left: 2px; }
+
+/* ── TABLE ──────────────────────────────────────────────────────────── */
+.table-wrap { overflow-x: auto; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 2px solid var(--border);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 2;
+}
+thead th:hover { color: var(--accent); }
+tbody tr { border-bottom: 1px solid var(--border-light); transition: background 0.1s; cursor: pointer; }
+tbody tr:hover { background: var(--bg-hover); }
+tbody td {
+  padding: 10px 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+  color: var(--text-secondary);
+}
+tbody td.title-cell { max-width: 280px; color: var(--text); font-weight: 500; }
+tbody td.title-cell:hover { overflow: visible; white-space: normal; }
+
+/* ── BADGES ─────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-director { background: #fef2f2; color: #b91c1c; }
+.badge-principal { background: #fffbeb; color: #92400e; }
+.badge-senior { background: #eff6ff; color: #1d4ed8; }
+.badge-manager { background: #f5f3ff; color: #6d28d9; }
+.badge-mid { background: #f0fdf4; color: #15803d; }
+.badge-entry { background: #ecfeff; color: #0e7490; }
+.badge-intern { background: #f9fafb; color: #6b7280; }
+.badge-new { background: var(--green); color: #fff; font-weight: 700; margin-left: 6px; font-size: 10px; border-radius: 4px; padding: 2px 6px; }
+.badge-vector { background: #fef2f4; color: var(--accent); border: 1px solid var(--accent); font-size: 10px; padding: 2px 8px; }
+
+/* Threat badges */
+.threat-critical { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.threat-high { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+.threat-medium { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.threat-low { background: #f9fafb; color: #6b7280; border: 1px solid #e5e7eb; }
+
+/* ── RELEVANCY BAR ──────────────────────────────────────────────────── */
+.rel-bar { display: flex; align-items: center; gap: 6px; }
+.rel-bar-track { width: 50px; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+.rel-bar-fill { height: 100%; border-radius: 3px; }
+.rel-bar-value { font-size: 12px; font-weight: 600; min-width: 28px; color: var(--text); }
+
+/* ── PAGINATION ─────────────────────────────────────────────────────── */
+.pagination {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0; font-size: 13px; color: var(--text-muted);
+}
+.pagination button {
+  padding: 6px 14px; font-size: 13px; background: var(--bg-white);
+  color: var(--text-secondary); border: 1px solid var(--border);
+  border-radius: 6px; cursor: pointer;
+}
+.pagination button:hover { border-color: var(--accent); color: var(--accent); }
+.pagination button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ── SIDEBAR ────────────────────────────────────────────────────────── */
+.sidebar .sidebar-item {
+  display: flex; justify-content: space-between; padding: 8px 0;
+  border-bottom: 1px solid var(--border-light); font-size: 13px; cursor: pointer;
+}
+.sidebar .sidebar-item:hover { color: var(--accent); }
+.sidebar .sidebar-item .count { color: var(--text-muted); font-weight: 600; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.skill-tag {
+  padding: 4px 10px; background: var(--accent-light); border: 1px solid #fecaca;
+  border-radius: 12px; font-size: 11px; font-weight: 500; color: var(--accent); cursor: pointer;
+}
+.skill-tag:hover { background: #fde2e6; }
+.skill-tag.active { background: var(--red); color: #fff; border-color: var(--red); }
+
+/* ── CHARTS ─────────────────────────────────────────────────────────── */
+.chart-container { position: relative; width: 100%; }
+.chart-container canvas { max-height: 380px; }
+
+/* ── SIGNALS PAGE ───────────────────────────────────────────────────── */
+.signal-strip {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px; margin-bottom: 24px;
+}
+.signal-card {
+  background: var(--bg-white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  box-shadow: var(--shadow); transition: box-shadow 0.2s; cursor: pointer;
+}
+.signal-card:hover { box-shadow: var(--shadow-md); }
+.signal-card.threat-border-critical { border-left: 4px solid var(--red); }
+.signal-card.threat-border-high { border-left: 4px solid var(--amber); }
+.signal-card.threat-border-medium { border-left: 4px solid var(--cyan); }
+.signal-card.threat-border-low { border-left: 4px solid #d1d5db; }
+.signal-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.signal-card-company { font-size: 16px; font-weight: 700; color: var(--text); }
+.signal-card-summary { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+.signal-card-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.meta-tag {
+  padding: 3px 10px; border-radius: 12px; font-size: 11px;
+  font-weight: 500; background: var(--bg); border: 1px solid var(--border); color: var(--text-muted);
+}
+
+/* ── SEGMENT FILTER CHIPS ──────────────────────────────────────────── */
+.segment-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.segment-chip {
+  padding: 6px 14px; border-radius: 16px; font-size: 12px; font-weight: 500;
+  background: var(--bg-white); border: 1px solid var(--border); color: var(--text-secondary);
+  cursor: pointer; transition: all 0.2s;
+}
+.segment-chip:hover { border-color: var(--accent); color: var(--accent); }
+.segment-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ── MARKET PULSE CARDS ────────────────────────────────────────────── */
+.pulse-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px; margin-bottom: 28px;
+}
+.pulse-card {
+  background: var(--bg-white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow);
+}
+.pulse-card-title {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+  font-weight: 700; color: var(--text-muted); margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pulse-info-btn {
+  width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--text-muted);
+  background: none; color: var(--text-muted); font-size: 9px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.15s; line-height: 1; padding: 0;
+}
+.pulse-info-btn:hover { background: var(--text-muted); color: #fff; }
+.pulse-tooltip {
+  position: fixed; z-index: 9999; background: #1a202c; color: #e2e8f0;
+  border-radius: 10px; padding: 14px 16px; max-width: 300px; font-size: 12px;
+  line-height: 1.6; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.pulse-tooltip-title { font-weight: 700; color: #fff; margin-bottom: 8px; font-size: 12.5px; }
+.pulse-tooltip-row { margin-bottom: 6px; }
+.pulse-tooltip-row strong { color: #90cdf4; }
+.pulse-card-value { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+.pulse-card-detail { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+/* ── FULL SIGNAL DETAIL ─────────────────────────────────────────────── */
+.signal-detail { margin-top: 20px; }
+.signal-detail-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+  padding-bottom: 16px; border-bottom: 2px solid var(--border);
+}
+.signal-detail-company { font-size: 22px; font-weight: 700; }
+.signal-detail-summary {
+  font-size: 16px; color: var(--text); line-height: 1.6; margin-bottom: 20px;
+  padding: 16px 20px; background: var(--accent-light); border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.signal-metrics { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.signal-metric {
+  padding: 14px 20px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius); text-align: center; min-width: 140px;
+}
+.signal-metric-value { font-size: 18px; font-weight: 700; }
+.signal-metric-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; font-weight: 500; }
+
+.implications-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+.implication-card {
+  background: var(--bg-white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow);
+}
+.implication-icon { font-size: 20px; margin-bottom: 8px; }
+.implication-type {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px;
+  font-weight: 600; margin-bottom: 8px;
+}
+.implication-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+.actions-section {
+  background: var(--accent-light); border: 1px solid #fecaca;
+  border-left: 4px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 20px; margin-bottom: 28px;
+}
+.actions-title {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px;
+  font-weight: 700; color: var(--accent); margin-bottom: 12px;
+}
+.action-item {
+  padding: 8px 0; font-size: 14px; color: var(--text-secondary);
+  line-height: 1.6; border-bottom: 1px solid #fde2e6;
+}
+.action-item:last-child { border-bottom: none; }
+
+/* ── VECTOR DB CALLOUT ─────────────────────────────────────────────── */
+.vector-callout {
+  background: #fef2f4; border: 1px solid var(--accent); border-radius: var(--radius);
+  padding: 12px 16px; margin-top: 12px;
+}
+.vector-callout-title { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+.vector-callout-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+/* ── ERROR STATE ────────────────────────────────────────────────────── */
+.error-box {
+  padding: 32px; text-align: center; background: var(--bg-white);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  margin: 60px auto; max-width: 500px; box-shadow: var(--shadow);
+}
+.error-box h3 { color: var(--amber); font-size: 16px; margin-bottom: 10px; }
+.error-box p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+.error-box code {
+  display: inline-block; margin-top: 10px; padding: 6px 14px;
+  background: var(--bg); border-radius: 6px; font-family: monospace;
+  font-size: 13px; color: var(--accent);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .implications-grid { grid-template-columns: 1fr; }
+  .kpi-strip { flex-wrap: wrap; }
+  .kpi-box { min-width: 130px; flex: 1 1 130px; }
+}
+@media (max-width: 768px) {
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .page { padding: 16px; }
+  .kpi-box { min-width: 100%; }
+}
+</style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+
+<!-- ══ DEMO BANNER ══════════════════════════════════════════════════════ -->
+<div style="background:#1B2A4A;color:#fff;text-align:center;padding:10px 20px;font-size:13px;font-weight:600;letter-spacing:0.3px;z-index:9999;position:relative;border-bottom:3px solid #E31937">
+  ⚠️ This is a demo version with anonymized data for portfolio purposes only. All company names, metrics, and job listings are fictional.
+</div>
+<nav class="topnav">
+  <div class="topnav-brand">DataCo<span>Competitive Intelligence</span></div>
+  <div class="topnav-tabs">
+    <div class="topnav-tab active" data-page="market">Market Overview</div>
+    <div class="topnav-tab" data-page="signals">Strategic Signals</div>
+  </div>
+  <div class="topnav-status" id="statusBar">Loading...</div>
+  <button id="aiInfoBtn" onclick="aiInfoOpen()" title="How this dashboard works" aria-label="Dashboard guide" style="margin-left:12px;width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);color:#e2e8f0;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;transition:all 0.2s;display:flex;align-items:center;justify-content:center;letter-spacing:0">i</button>
+</nav>
+
+<!-- ═══ PAGE 1 — MARKET OVERVIEW ═══════════════════════════════════════ -->
+<div id="page-market" class="page active">
+  <div class="main-layout">
+  <div class="main-layout-filters">
+  <div class="filter-bar" id="filterBar">
+    <div class="filter-group"><label>Company</label><select id="fCompany"><option value="">All Companies</option></select></div>
+    <div class="filter-group"><label>Segment</label><select id="fGroup"><option value="">All Segments</option></select></div>
+    <div class="filter-group"><label>Function</label><select id="fFunction"><option value="">All Functions</option></select></div>
+    <div class="filter-group"><label>Seniority</label><select id="fSeniority"><option value="">All Levels</option></select></div>
+    <div class="filter-group"><label>Product Focus</label><select id="fProduct"><option value="">All Products</option></select></div>
+    <div class="filter-group"><label>Search</label><input type="text" id="fSearch" placeholder="keyword..." style="width:130px"></div>
+    <div class="filter-group"><label>Min Relevancy: <span id="relVal">0</span></label><input type="range" id="fRelevancy" min="0" max="10" value="0"></div>
+    <div class="filter-group"><label>Posted Within (days)</label><input type="number" id="fDays" placeholder="any" style="width:70px" min="0"></div>
+    <button class="btn" onclick="resetFilters()">Reset</button>
+    <button class="btn btn-primary" onclick="exportCSV()">Export CSV</button>
+  </div>
+
+  <div class="active-filters" id="activeFilters"></div>
+  </div><!-- /main-layout-filters -->
+    <div class="main-layout-left">
+      <div class="kpi-strip">
+        <div class="kpi-box"><div class="kpi-value blue" id="kpiTotal">--</div><div class="kpi-label">Total Roles</div></div>
+        <div class="kpi-box"><div class="kpi-value amber" id="kpiHighSignal">--</div><div class="kpi-label">High Signal (Relevancy 8+)</div></div>
+        <div class="kpi-box"><div class="kpi-value" id="kpiDirector">--</div><div class="kpi-label">Director+ Roles</div></div>
+        <div class="kpi-box"><div class="kpi-value green" id="kpiRecent">--</div><div class="kpi-label">New This Week</div><div class="kpi-sublabel">(posted within 7 days)</div></div>
+        <div class="kpi-box"><div class="kpi-value" id="kpiAvgRel">--</div><div class="kpi-label">Avg. Relevancy Score</div></div>
+      </div>
+      <div class="grid-3">
+        <div class="card"><div class="card-title">Top 15 Companies by Open Roles</div><div class="chart-container" style="height:380px"><canvas id="chartCompanies"></canvas></div></div>
+        <div class="card"><div class="card-title">Seniority Distribution</div><div class="chart-container" style="height:420px"><canvas id="chartSeniority"></canvas></div></div>
+        <div class="card"><div class="card-title">Function Breakdown</div><div class="chart-container" style="height:380px"><canvas id="chartFunction"></canvas></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-title">Product Focus Areas</div><div class="chart-container"><canvas id="chartProduct"></canvas></div></div>
+        <div class="card"><div class="card-title">Global Hiring Locations</div><div id="hiringMap" style="height:320px;border-radius:8px;overflow:hidden"></div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Job Listings</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th data-sort="Company">Company</th>
+              <th data-sort="Job Title">Job Title</th>
+              <th data-sort="Seniority">Seniority</th>
+              <th data-sort="Function">Function</th>
+              <th data-sort="Product_Focus">Product Focus</th>
+              <th data-sort="Location">Location</th>
+              <th data-sort="Days Since Posted">Days</th>
+              <th data-sort="Relevancy_Score">Relevancy</th>
+              <th data-sort="Primary_Skill">Top Skill</th>
+              <th>Link</th>
+            </tr></thead>
+            <tbody id="jobTableBody"></tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span id="pageInfo">--</span>
+          <div style="display:flex;gap:6px">
+            <button id="btnPrev" onclick="changePage(-1)">Previous</button>
+            <button id="btnNext" onclick="changePage(1)">Next</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /main-layout-left -->
+
+    <div class="main-layout-right">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Relevancy Distribution</div>
+        <div class="chart-container" style="height:280px"><canvas id="chartRelevancy"></canvas></div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Threat Summary</div>
+        <div id="sidebarSignalStats" style="font-size:13px;color:var(--text-secondary)">--</div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Top 15 Companies</div>
+        <div class="sidebar" id="sidebarCompanies"></div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Top Skills Mentioned</div>
+        <div class="skill-tags" id="sidebarSkills"></div>
+      </div>
+    </div><!-- /main-layout-right -->
+
+  </div><!-- /main-layout -->
+</div>
+
+<!-- ═══ PAGE 2 — STRATEGIC SIGNALS ═════════════════════════════════════ -->
+<div id="page-signals" class="page">
+  <div id="signalsContent"><div class="error-box"><h3>Loading signals...</h3></div></div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────
+let allRows = [], filteredRows = [], signals = [];
+let currentPage = 0;
+const PAGE_SIZE = 50;
+let sortCol = '', sortAsc = true;
+let activeSkillFilter = '';
+let activeRelevancyBand = null; // [min, max] or null
+let charts = {};
+const today = new Date().toISOString().slice(0, 10);
+let signalSegmentFilter = '';
+let signalSearchFilter = '';
+
+// ── Brand Colors ──────────────────────────────────────────────────────
+const COLORS = ['#1B2A4A','#00B4D8','#2ECC71','#8E44AD','#F39C12','#3498DB','#1ABC9C','#9B59B6','#34495E','#27AE60','#FF6B35','#E31937','#D35400','#E74C3C','#C0392B'];
+
+const SENIORITY_COLORS = {
+  'Director+': '#E31937',
+  'Principal/Staff': '#8E44AD',
+  'Senior': '#00B4D8',
+  'Manager': '#F39C12',
+  'Mid': '#2ECC71',
+  'Entry': '#3498DB',
+  'Intern': '#95A5A6'
+};
+
+// ── Vector DB / AI Companies ───────────────────────────────────────────
+const VECTOR_AI_COMPANIES = ['VectorCo','EmbedDB','VaultAI','NexusVec'];
+
+// ── Excluded Functions ─────────────────────────────────────────────────
+const EXCLUDED_FUNCTIONS = ['Legal','People/HR'];
+
+// ── CSV Parser ─────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.split('\n');
+  if (lines.length < 2) return [];
+  const headers = parseCSVLine(lines[0]);
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    const values = parseCSVLine(line);
+    const row = {};
+    headers.forEach((h, idx) => { row[h.trim()] = (values[idx] || '').trim(); });
+    rows.push(row);
+  }
+  return rows;
+}
+function parseCSVLine(line) {
+  const result = []; let current = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQ) {
+      if (ch === '"' && line[i+1] === '"') { current += '"'; i++; }
+      else if (ch === '"') inQ = false;
+      else current += ch;
+    } else {
+      if (ch === '"') inQ = true;
+      else if (ch === ',') { result.push(current); current = ''; }
+      else current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+// ── Demo Data — Anonymized for Portfolio Use ───────────────────────────
+const DEMO_CSV = `Company,Job Title,Seniority,Function,Product_Focus,Location,Days Since Posted,Relevancy_Score,Primary_Skill,Company_Group,Extracted_Skills,Trend_Score,First_Seen,Job Link
+AlphaStream,Senior Data Engineer,Senior,Engineering,ETL/Integration,San Francisco CA,4,9,Apache Kafka,ETL/Connectors,"[""Apache Kafka"",""Python"",""Spark"",""AWS""]",1,${new Date().toISOString().slice(0,10)},
+BetaHive,Director of Product Management,Director+,Product,ML/AI Infra,New York NY,7,9,ML Platform,Data Warehouse,"[""ML Platform"",""Roadmap"",""Stakeholders"",""SQL""]",1,${new Date().toISOString().slice(0,10)},
+VectorCo,Staff ML Engineer,Principal/Staff,Engineering,Vector DB,Remote,3,8,Vector Search,Vector DB,"[""Vector Search"",""Python"",""PyTorch"",""Kubernetes""]",1,${new Date().toISOString().slice(0,10)},
+AlphaStream,Cloud Infrastructure Architect,Senior,Engineering,Cloud/Infrastructure,Austin TX,12,7,Kubernetes,ETL/Connectors,"[""Kubernetes"",""Terraform"",""AWS"",""GCP""]",0,${new Date(Date.now()-8*86400000).toISOString().slice(0,10)},
+GammaSoft,VP of Sales - Enterprise,Director+,Sales & Marketing,Data Governance,Chicago IL,5,8,CRM,Data Observability,"[""CRM"",""Salesforce"",""SaaS"",""Enterprise Sales""]",1,${new Date().toISOString().slice(0,10)},
+DeltaQuery,Senior Analytics Engineer,Senior,Engineering,Analytics/BI,Seattle WA,9,7,dbt,Data Warehouse,"[""dbt"",""SQL"",""Snowflake"",""Looker""]",0,${new Date(Date.now()-5*86400000).toISOString().slice(0,10)},
+EmbedDB,Research Scientist - Embeddings,Principal/Staff,Engineering,Vector DB,Remote,2,9,Embeddings,Vector DB,"[""Embeddings"",""PyTorch"",""Python"",""LLM""]",1,${new Date().toISOString().slice(0,10)},
+BetaHive,Senior Software Engineer - Streaming,Senior,Engineering,Streaming/Real-time,San Francisco CA,18,7,Apache Flink,Data Warehouse,"[""Apache Flink"",""Java"",""Kafka"",""AWS""]",0,${new Date(Date.now()-14*86400000).toISOString().slice(0,10)},
+GammaSoft,Principal Data Platform Engineer,Principal/Staff,Engineering,ETL/Integration,Remote,6,8,Python,Data Observability,"[""Python"",""Airflow"",""dbt"",""Spark""]",1,${new Date().toISOString().slice(0,10)},
+VaultAI,Head of AI Product,Director+,Product,ML/AI Infra,New York NY,1,9,LLM,Vector DB,"[""LLM"",""GenAI"",""Product Strategy"",""Python""]",1,${new Date().toISOString().slice(0,10)},
+AlphaStream,Enterprise Account Executive,Mid,Sales & Marketing,ETL/Integration,Boston MA,11,6,Salesforce,ETL/Connectors,"[""Salesforce"",""SaaS"",""Pipeline"",""Enterprise""]",0,${new Date(Date.now()-7*86400000).toISOString().slice(0,10)},
+DeltaQuery,Director of Data Engineering,Director+,Engineering,Analytics/BI,Seattle WA,14,8,Spark,Data Warehouse,"[""Spark"",""Python"",""SQL"",""dbt""]",0,${new Date(Date.now()-10*86400000).toISOString().slice(0,10)},
+NexusVec,Senior Engineer - Vector Indexing,Senior,Engineering,Vector DB,Remote,3,8,FAISS,Vector DB,"[""FAISS"",""C++"",""Python"",""Vector Search""]",1,${new Date().toISOString().slice(0,10)},
+OmegaPipe,DevOps / Platform Engineer,Mid,Engineering,Cloud/Infrastructure,Austin TX,22,5,Terraform,ETL/Connectors,"[""Terraform"",""Kubernetes"",""CI/CD"",""AWS""]",0,${new Date(Date.now()-18*86400000).toISOString().slice(0,10)},
+GammaSoft,Senior Product Manager - Observability,Senior,Product,Data Observability,Chicago IL,8,7,Data Observability,Data Observability,"[""Data Observability"",""Metrics"",""SQL"",""SaaS""]",0,${new Date(Date.now()-4*86400000).toISOString().slice(0,10)},
+BetaHive,Machine Learning Engineer,Senior,Engineering,ML/AI Infra,San Francisco CA,10,8,PyTorch,Data Warehouse,"[""PyTorch"",""Python"",""MLflow"",""Kubernetes""]",1,${new Date().toISOString().slice(0,10)},
+AlphaStream,Solutions Architect,Senior,Sales & Marketing,ETL/Integration,Denver CO,16,6,Apache Kafka,ETL/Connectors,"[""Apache Kafka"",""Python"",""AWS"",""Consulting""]",0,${new Date(Date.now()-12*86400000).toISOString().slice(0,10)},
+EmbedDB,Head of Go-to-Market,Director+,Sales & Marketing,Vector DB,New York NY,4,8,SaaS GTM,Vector DB,"[""SaaS GTM"",""Demand Gen"",""CRM"",""Pipeline""]",1,${new Date().toISOString().slice(0,10)},
+OmegaPipe,Senior Data Integration Engineer,Senior,Engineering,ETL/Integration,Remote,19,6,dbt,ETL/Connectors,"[""dbt"",""Python"",""Fivetran"",""SQL""]",0,${new Date(Date.now()-15*86400000).toISOString().slice(0,10)},
+DeltaQuery,VP of Engineering,Director+,Engineering,Analytics/BI,Seattle WA,6,9,Distributed Systems,Data Warehouse,"[""Distributed Systems"",""Spark"",""Leadership"",""Python""]",1,${new Date().toISOString().slice(0,10)},
+GammaSoft,Customer Success Manager,Mid,Sales & Marketing,Data Observability,Remote,13,5,SaaS,Data Observability,"[""SaaS"",""Customer Success"",""SQL"",""Tableau""]",0,${new Date(Date.now()-9*86400000).toISOString().slice(0,10)},
+NexusVec,AI Infrastructure Engineer,Senior,Engineering,ML/AI Infra,Remote,2,9,GPU Infrastructure,Vector DB,"[""GPU Infrastructure"",""CUDA"",""Python"",""Kubernetes""]",1,${new Date().toISOString().slice(0,10)},
+BetaHive,Staff Software Engineer - Data Platform,Principal/Staff,Engineering,Analytics/BI,San Francisco CA,20,7,Spark,Data Warehouse,"[""Spark"",""Java"",""Scala"",""AWS""]",0,${new Date(Date.now()-16*86400000).toISOString().slice(0,10)},
+VaultAI,Senior Applied Scientist,Senior,Engineering,ML/AI Infra,Remote,5,9,LLM,Vector DB,"[""LLM"",""Python"",""RAG"",""Vector Search""]",1,${new Date().toISOString().slice(0,10)},
+AlphaStream,Senior Product Manager - Connectors,Senior,Product,ETL/Integration,San Francisco CA,17,7,API Integration,ETL/Connectors,"[""API Integration"",""Roadmap"",""SQL"",""Connectors""]",0,${new Date(Date.now()-13*86400000).toISOString().slice(0,10)},`;
+
+const DEMO_SIGNALS = [
+  {
+    company: "AlphaStream",
+    company_group: "ETL/Connectors",
+    threat_level: "high",
+    hiring_intensity: "high",
+    posting_count: 5,
+    dominant_function: "Engineering",
+    dominant_product_focus: "ETL/Integration",
+    signal_summary: "AlphaStream is aggressively scaling its data engineering team, with a clear focus on Kafka-based streaming pipelines and cloud-native connector infrastructure. The volume and seniority of roles suggest a major product expansion.",
+    implications: [
+      "Heavy investment in Apache Kafka and streaming ETL signals direct competition on real-time data integration — a core DataCo territory.",
+      "Senior engineering hires alongside a Solutions Architect role suggest AlphaStream is building out enterprise-grade deployment capabilities.",
+      "The combination of cloud infrastructure + connector hiring points toward a cloud-first platform push that could displace legacy ETL tooling."
+    ],
+    recommended_actions: [
+      "[Immediate / GTM] Run win/loss analysis on recent deals where AlphaStream competed — identify their positioning gaps and arm sales with counter-narratives specific to ETL/Integration.",
+      "[Product] Audit DataCo's Kafka connector coverage against AlphaStream's publicly listed integrations and prioritize any gaps.",
+      "[Marketing] Develop a comparison brief highlighting DataCo's performance and reliability advantages for enterprise ETL workloads."
+    ],
+    watch_for: [
+      "New enterprise customer announcements or case studies from AlphaStream in the manufacturing or financial services verticals.",
+      "A significant Series B/C funding announcement that would accelerate their GTM hiring further.",
+      "Job postings for partnership or ecosystem roles — would signal a connector marketplace strategy."
+    ],
+    roadmap: {
+      direction: "Cloud-native real-time ETL platform with enterprise connector marketplace",
+      rationale: "Concentration of Kafka, cloud infra, and solutions engineering hires strongly suggests AlphaStream is building a managed, cloud-first connector ecosystem targeting enterprise migration from legacy ETL.",
+      timeline: "6-12 months",
+      confidence: "High",
+      watch_for: "Launch of a self-serve connector marketplace or a major hyperscaler partnership announcement."
+    }
+  },
+  {
+    company: "BetaHive",
+    company_group: "Data Warehouse",
+    threat_level: "critical",
+    hiring_intensity: "high",
+    posting_count: 4,
+    dominant_function: "Engineering",
+    dominant_product_focus: "ML/AI Infra",
+    signal_summary: "BetaHive is making a decisive move into ML/AI infrastructure, with a Director of Product and Staff-level engineers being recruited simultaneously. This is a platform-layer ambition, not just a feature addition.",
+    implications: [
+      "Director of Product and ML Engineer hired in parallel signals a coordinated platform-level AI investment, not incremental feature work.",
+      "Flink and Kafka streaming roles alongside ML hires suggest BetaHive is building real-time feature pipelines — a key AI infrastructure component.",
+      "The scale and seniority mix indicates a probable product launch or major roadmap pivot within 9 months."
+    ],
+    recommended_actions: [
+      "[Immediate] Brief the DataCo product and strategy team on BetaHive's AI infrastructure push — this represents a credible threat to DataCo's AI-adjacent positioning.",
+      "[GTM] Identify BetaHive's top 5 shared enterprise accounts and initiate proactive value conversations before BetaHive launches.",
+      "[Product] Accelerate any DataCo roadmap items related to ML pipeline integration or AI data preparation to close the gap."
+    ],
+    watch_for: [
+      "A public blog post or conference presentation from BetaHive on their AI data platform vision.",
+      "Job postings for ML Platform or MLOps-specific roles — would confirm internal tooling build-out.",
+      "Beta program or design partner announcements targeting data science teams."
+    ],
+    roadmap: {
+      direction: "AI-native data warehouse with integrated ML feature store and real-time pipelines",
+      rationale: "Simultaneous Director of Product, ML Engineer, and streaming infrastructure hiring is a classic pattern for companies building a new AI-layer product on top of an existing warehouse platform.",
+      timeline: "9-15 months",
+      confidence: "High",
+      watch_for: "Announcement of an ML Platform or Feature Store product at their annual conference or via a major press release."
+    }
+  },
+  {
+    company: "VectorCo",
+    company_group: "Vector DB",
+    threat_level: "medium",
+    hiring_intensity: "medium",
+    posting_count: 2,
+    dominant_function: "Engineering",
+    dominant_product_focus: "Vector DB",
+    signal_summary: "VectorCo continues to invest in core vector search infrastructure, with Staff-level engineering roles indicating product depth work rather than a scale-out hiring push.",
+    implications: [
+      "Staff ML Engineer focused on Vector Search suggests core algorithm improvements — likely preparing for a performance benchmark campaign.",
+      "Remote-first hiring broadens their talent pool and could accelerate delivery timelines.",
+      "Relatively modest role count suggests consolidation and depth rather than aggressive expansion."
+    ],
+    recommended_actions: [
+      "[Monitor] Track VectorCo's GitHub activity and blog for performance benchmark publications.",
+      "[Product] Ensure DataCo's VectorAI product has a documented performance comparison ready for sales to use."
+    ],
+    watch_for: [
+      "New benchmark publications comparing vector search performance.",
+      "A shift toward enterprise or compliance-focused job postings."
+    ],
+    roadmap: {
+      direction: "Performance-optimized vector index with multi-modal search capabilities",
+      rationale: "Staff-level engineering hire on vector search with ML background suggests core algorithmic R&D rather than feature expansion.",
+      timeline: "6-9 months",
+      confidence: "Medium",
+      watch_for: "Publication of new ANN benchmarks or announcement of multi-modal embedding support."
+    }
+  },
+  {
+    company: "GammaSoft",
+    company_group: "Data Observability",
+    threat_level: "medium",
+    hiring_intensity: "high",
+    posting_count: 3,
+    dominant_function: "Sales & Marketing",
+    dominant_product_focus: "Data Observability",
+    signal_summary: "GammaSoft is in full GTM expansion mode — VP of Sales, CSM, and a senior PM hired simultaneously signals a maturity inflection point and imminent enterprise push.",
+    implications: [
+      "VP of Sales + CSM hiring together is a classic pattern for a company transitioning from PLG to enterprise sales motion.",
+      "Senior PM for Observability suggests product maturation and likely a new enterprise-grade feature tier.",
+      "Chicago-based VP of Sales hire targets Midwest enterprise accounts — a geography DataCo also serves."
+    ],
+    recommended_actions: [
+      "[GTM] Flag GammaSoft as an emerging competitive account risk in the Midwest. Coordinate with sales leadership on defense strategy.",
+      "[Product] Review DataCo's data observability narrative and ensure it is clearly differentiated from GammaSoft's positioning."
+    ],
+    watch_for: [
+      "Enterprise pricing page update or announcement of an Enterprise tier.",
+      "GammaSoft sponsoring or speaking at enterprise data conferences."
+    ],
+    roadmap: {
+      direction: "Enterprise data observability platform with SLA-backed monitoring and compliance features",
+      rationale: "GTM hiring at VP level alongside a senior PM focused on observability suggests a deliberate move up-market.",
+      timeline: "3-9 months",
+      confidence: "Medium",
+      watch_for: "Launch of an enterprise contract or SOC 2 certification announcement."
+    }
+  },
+  {
+    company: "DeltaQuery",
+    company_group: "Data Warehouse",
+    threat_level: "high",
+    hiring_intensity: "high",
+    posting_count: 3,
+    dominant_function: "Engineering",
+    dominant_product_focus: "Analytics/BI",
+    signal_summary: "DeltaQuery is investing heavily at the leadership layer — a VP of Engineering and Director of Data Engineering in the same cycle signals a major organizational scaling or platform rebuild initiative.",
+    implications: [
+      "VP of Engineering + Director of Data Engineering hired simultaneously points to a platform architecture overhaul.",
+      "Heavy dbt and Spark usage suggests a shift toward an open, interoperable analytics stack.",
+      "Senior Analytics Engineer role signals a customer-facing data layer product is in development."
+    ],
+    recommended_actions: [
+      "[Product] Monitor DeltaQuery's open-source contributions — a dbt/Spark integration could attract DataCo's analytics customers.",
+      "[GTM] Engage at-risk enterprise accounts currently using both DataCo and DeltaQuery to understand co-existence vs. replacement dynamics."
+    ],
+    watch_for: [
+      "Open-source repository launches or major GitHub contributions related to dbt or Spark.",
+      "A rebranding or repositioning announcement targeting the analytics engineering persona."
+    ],
+    roadmap: {
+      direction: "Open analytics platform built on dbt, Spark, and cloud-native storage with enterprise governance",
+      rationale: "Leadership hires paired with dbt and Spark engineering roles suggest DeltaQuery is building a composable, open-standards analytics platform.",
+      timeline: "9-18 months",
+      confidence: "Medium",
+      watch_for: "Major open-source release or a 'modern data stack' partnership announcement."
+    }
+  },
+  {
+    company: "EmbedDB",
+    company_group: "Vector DB",
+    threat_level: "medium",
+    hiring_intensity: "high",
+    posting_count: 2,
+    dominant_function: "Engineering",
+    dominant_product_focus: "Vector DB",
+    signal_summary: "EmbedDB is prioritizing research talent and GTM simultaneously — a rare combination that signals both product breakthrough ambitions and a push for commercialization.",
+    implications: [
+      "Research Scientist on Embeddings alongside Head of GTM suggests EmbedDB is close to a product launch requiring both technical differentiation and market readiness.",
+      "Both roles are remote-first, enabling rapid global talent acquisition.",
+      "LLM and embedding focus places EmbedDB squarely in the AI-native data infrastructure space."
+    ],
+    recommended_actions: [
+      "[Monitor] Follow EmbedDB's research publications and preprints for novel embedding techniques that could become product differentiators.",
+      "[Product] Ensure DataCo's VectorAI roadmap includes an embedding integration or API layer."
+    ],
+    watch_for: [
+      "Publication of a research paper on novel embedding compression or retrieval techniques.",
+      "A pricing page or self-serve tier launch that would signal go-to-market readiness."
+    ],
+    roadmap: {
+      direction: "Research-grade embedding infrastructure with enterprise-ready deployment and LLM integration",
+      rationale: "Research + GTM hiring combination is characteristic of a company commercializing a research breakthrough.",
+      timeline: "6-12 months",
+      confidence: "Medium",
+      watch_for: "Product launch announcement or developer beta program."
+    }
+  },
+  {
+    company: "VaultAI",
+    company_group: "Vector DB",
+    threat_level: "critical",
+    hiring_intensity: "high",
+    posting_count: 2,
+    dominant_function: "Engineering",
+    dominant_product_focus: "ML/AI Infra",
+    signal_summary: "VaultAI is assembling an elite AI product team — Head of AI Product and Senior Applied Scientist roles open simultaneously signal an imminent GenAI product launch that could reshape the vector database market.",
+    implications: [
+      "Head of AI Product + Applied Scientist combination is the signature of a company preparing a major AI-native product launch.",
+      "Focus on LLM and RAG (Retrieval-Augmented Generation) is directly relevant to DataCo's VectorAI product positioning.",
+      "Critical threat rating driven by the potential to define a new category standard for AI-integrated vector databases."
+    ],
+    recommended_actions: [
+      "[Immediate] Accelerate DataCo's VectorAI GTM strategy — VaultAI is the most direct competitive threat in the AI infrastructure space.",
+      "[Product] Ensure DataCo's RAG integration story is documented and ready for field sales.",
+      "[Marketing] Develop a competitive brief on VaultAI for internal use and prepare a response narrative."
+    ],
+    watch_for: [
+      "VaultAI blog posts or conference talks on RAG architecture or LLM data integration.",
+      "A public beta or GA announcement for a new AI product tier.",
+      "Funding announcement that would signal accelerated hiring."
+    ],
+    roadmap: {
+      direction: "LLM-native vector database with integrated RAG pipeline and enterprise AI governance",
+      rationale: "Head of AI Product and Applied Scientist focused on LLM/RAG suggests a complete product vision for AI-native data retrieval, not just vector storage.",
+      timeline: "3-9 months",
+      confidence: "High",
+      watch_for: "Product announcement at a major AI conference or a partnership with a leading LLM provider."
+    }
+  },
+  {
+    company: "NexusVec",
+    company_group: "Vector DB",
+    threat_level: "medium",
+    hiring_intensity: "high",
+    posting_count: 2,
+    dominant_function: "Engineering",
+    dominant_product_focus: "Vector DB",
+    signal_summary: "NexusVec is investing in low-level vector indexing and GPU infrastructure — a sign of performance-focused product differentiation likely targeting high-throughput AI workloads.",
+    implications: [
+      "GPU infrastructure and CUDA engineering roles suggest NexusVec is building hardware-accelerated vector search — a significant performance differentiator.",
+      "FAISS focus indicates a commitment to open-source-compatible, high-performance indexing.",
+      "Both roles are remote, enabling rapid team scaling."
+    ],
+    recommended_actions: [
+      "[Product] Evaluate DataCo's VectorAI performance story against GPU-accelerated alternatives.",
+      "[Monitor] Track NexusVec's GitHub for FAISS forks or GPU indexing benchmarks."
+    ],
+    watch_for: [
+      "A published performance benchmark claiming GPU-accelerated vector search superiority.",
+      "Cloud partnership announcement for managed GPU inference."
+    ],
+    roadmap: {
+      direction: "GPU-accelerated, high-throughput vector search engine optimized for large-scale AI workloads",
+      rationale: "CUDA and FAISS engineering hiring signals a focus on raw performance optimization for demanding AI inference pipelines.",
+      timeline: "6-12 months",
+      confidence: "Medium",
+      watch_for: "Benchmark publication or cloud marketplace listing for managed GPU vector search."
+    }
+  },
+  {
+    company: "OmegaPipe",
+    company_group: "ETL/Connectors",
+    threat_level: "low",
+    hiring_intensity: "low",
+    posting_count: 2,
+    dominant_function: "Engineering",
+    dominant_product_focus: "ETL/Integration",
+    signal_summary: "OmegaPipe is in maintenance mode — DevOps and integration engineering roles suggest infrastructure upkeep rather than product expansion. Low strategic priority for now.",
+    implications: [
+      "DevOps-focused hiring without product or sales roles suggests OmegaPipe is optimizing existing infrastructure, not launching new products.",
+      "Terraform and Kubernetes focus aligns with platform stability work.",
+      "Low relevancy scores across their roles indicate limited overlap with DataCo's core markets."
+    ],
+    recommended_actions: [
+      "[Monitor] Revisit OmegaPipe's hiring pattern in 90 days. A shift toward product or sales roles would signal a strategic pivot."
+    ],
+    watch_for: [
+      "Emergence of product management or sales engineering roles in their job postings.",
+      "A funding announcement or leadership change."
+    ],
+    roadmap: {
+      direction: "Platform stability and infrastructure consolidation",
+      rationale: "DevOps and integration engineering without product or GTM hiring suggests a focus on reliability and cost optimization.",
+      timeline: "Ongoing",
+      confidence: "Low",
+      watch_for: "Any shift toward product or go-to-market hiring in the next quarter."
+    }
+  }
+];
+
+// ── Data Loading — Demo Version ─────────────────────────────────────────
+async function loadData() {
+  allRows = parseCSV(DEMO_CSV);
+  allRows = allRows.filter(r => !EXCLUDED_FUNCTIONS.includes(r.Function));
+  allRows = allRows.filter(r => {
+    const d = parseInt(r['Days Since Posted']);
+    return isNaN(d) || d <= 365;
+  });
+  allRows.forEach(r => {
+    r._relevancy = Math.min(10, parseFloat(r.Relevancy_Score) || 0);
+    r._days = r['Days Since Posted'] !== '' && r['Days Since Posted'] != null ? parseInt(r['Days Since Posted']) : 9999;
+    r._trend = parseFloat(r.Trend_Score) || 0;
+  });
+  signals = DEMO_SIGNALS;
+  populateFilters();
+  applyFilters();
+  renderSignals();
+  document.getElementById('statusBar').textContent =
+    allRows.length + ' roles  |  ' + signals.length + ' signals  |  Updated ' + today + '  |  ⚠ Demo Mode';
+  const _cc = signals.length;
+  ['infoCompanyCount','infoCompanyCountSrc'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = _cc;
+  });
+  window._allRows = allRows;
+  window._allSignals = signals;
+}
+
+// ── Filters ────────────────────────────────────────────────────────────
+function populateFilters() {
+  const unique = key => [...new Set(allRows.map(r => r[key]).filter(Boolean))].sort();
+  fillSelect('fCompany', unique('Company'));
+  fillSelect('fGroup', unique('Company_Group'));
+  fillSelect('fFunction', unique('Function'));
+  fillSelect('fSeniority', unique('Seniority'));
+  fillSelect('fProduct', unique('Product_Focus'));
+}
+function fillSelect(id, values) {
+  const sel = document.getElementById(id);
+  const cur = sel.value;
+  while (sel.options.length > 1) sel.remove(1);
+  values.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o); });
+  sel.value = cur;
+}
+function applyFilters() {
+  const fC = document.getElementById('fCompany').value;
+  const fG = document.getElementById('fGroup').value;
+  const fF = document.getElementById('fFunction').value;
+  const fS = document.getElementById('fSeniority').value;
+  const fP = document.getElementById('fProduct').value;
+  const fQ = document.getElementById('fSearch').value.toLowerCase();
+  const fR = parseInt(document.getElementById('fRelevancy').value) || 0;
+  const fD = parseInt(document.getElementById('fDays').value) || 0;
+  document.getElementById('relVal').textContent = fR;
+
+  filteredRows = allRows.filter(r => {
+    if (fC && r.Company !== fC) return false;
+    if (fG && r.Company_Group !== fG) return false;
+    if (fF && r.Function !== fF) return false;
+    if (fS && r.Seniority !== fS) return false;
+    if (fP && r.Product_Focus !== fP) return false;
+    if (fQ && !(r['Job Title']||'').toLowerCase().includes(fQ) &&
+        !(r.Company||'').toLowerCase().includes(fQ) &&
+        !(r.Location||'').toLowerCase().includes(fQ)) return false;
+    if (r._relevancy < fR) return false;
+    if (fD && r._days > fD) return false;
+    if (activeSkillFilter) {
+      try { if (!JSON.parse(r.Extracted_Skills||'[]').includes(activeSkillFilter)) return false; }
+      catch(e) { return false; }
+    }
+    if (activeRelevancyBand) {
+      const [min, max] = activeRelevancyBand;
+      if (r._relevancy < min || r._relevancy >= max) return false;
+    }
+    if (_activeMapLocation) {
+      const coords = resolveLocation(r.Location || '');
+      if (!coords) return false;
+      const key = coords[0].toFixed(2) + ',' + coords[1].toFixed(2);
+      if (key !== _activeMapLocation) return false;
+    }
+    return true;
+  });
+  if (sortCol) {
+    filteredRows.sort((a,b) => {
+      let va = a[sortCol]||'', vb = b[sortCol]||'';
+      if (sortCol === 'Relevancy_Score') { va = a._relevancy; vb = b._relevancy; }
+      else if (sortCol === 'Days Since Posted') { va = a._days; vb = b._days; }
+      if (typeof va === 'number') return sortAsc ? va-vb : vb-va;
+      return sortAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+    });
+  }
+  currentPage = 0;
+  updateKPIs(); updateCharts(); updateTable(); updateSidebar(); updateActiveFilters();
+}
+function filterBySkill(skill) {
+  activeSkillFilter = (activeSkillFilter === skill) ? '' : skill;
+  applyFilters();
+}
+function resetFilters() {
+  ['fCompany','fGroup','fFunction','fSeniority','fProduct'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fSearch').value = '';
+  document.getElementById('fRelevancy').value = 0;
+  document.getElementById('fDays').value = '';
+  activeSkillFilter = '';
+  activeRelevancyBand = null;
+  _activeMapLocation = null;
+  sortCol = ''; sortAsc = true;
+  applyFilters();
+}
+['fCompany','fGroup','fFunction','fSeniority','fProduct'].forEach(id =>
+  document.getElementById(id).addEventListener('change', applyFilters));
+document.getElementById('fSearch').addEventListener('input', applyFilters);
+document.getElementById('fRelevancy').addEventListener('input', applyFilters);
+document.getElementById('fDays').addEventListener('input', applyFilters);
+
+// ── Active Filter Pills ────────────────────────────────────────────────
+function updateActiveFilters() {
+  const pills = [];
+  const filterMap = {
+    fCompany: 'Company', fGroup: 'Segment', fFunction: 'Function',
+    fSeniority: 'Seniority', fProduct: 'Product Focus'
+  };
+  Object.entries(filterMap).forEach(([id, label]) => {
+    const v = document.getElementById(id).value;
+    if (v) pills.push({id, label, value: v});
+  });
+  const fQ = document.getElementById('fSearch').value;
+  if (fQ) pills.push({id:'fSearch', label:'Search', value: fQ});
+  const fR = parseInt(document.getElementById('fRelevancy').value) || 0;
+  if (fR > 0) pills.push({id:'fRelevancy', label:'Min Relevancy', value: fR});
+  const fD = document.getElementById('fDays').value;
+  if (fD) pills.push({id:'fDays', label:'Posted Within', value: fD + ' days'});
+  if (activeSkillFilter) pills.push({id:'fSkill', label:'Skill', value: activeSkillFilter});
+
+  document.getElementById('activeFilters').innerHTML = pills.map(p =>
+    '<span class="filter-pill" onclick="clearFilter(\'' + p.id + '\')">' + p.label + ': ' + p.value + ' <span class="pill-x">x</span></span>'
+  ).join('');
+}
+function clearFilter(id) {
+  if (id === 'fSkill') { activeSkillFilter = ''; applyFilters(); return; }
+  const el = document.getElementById(id);
+  if (id === 'fRelevancy') el.value = 0;
+  else el.value = '';
+  applyFilters();
+}
+
+// ── KPIs ────────────────────────────────────────────────────────────────
+function updateKPIs() {
+  const rows = filteredRows;
+  document.getElementById('kpiTotal').textContent = rows.length.toLocaleString();
+  document.getElementById('kpiHighSignal').textContent = rows.filter(r => r._relevancy >= 8).length;
+  document.getElementById('kpiDirector').textContent = rows.filter(r => r.Seniority === 'Director+').length;
+  const recentCount = rows.filter(r => {
+    const days = parseInt(r['Days Since Posted']);
+    return !isNaN(days) && days <= 7;
+  }).length;
+  document.getElementById('kpiRecent').textContent = recentCount;
+  const avgRel = rows.length ? (rows.reduce((s,r) => s + r._relevancy, 0) / rows.length).toFixed(1) : '0';
+  document.getElementById('kpiAvgRel').textContent = avgRel;
+}
+
+// ── Charts ─────────────────────────────────────────────────────────────
+Chart.defaults.color = '#4a5568';
+Chart.defaults.borderColor = '#e2e5ea';
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+Chart.defaults.font.size = 11;
+
+function countBy(rows, key, topN) {
+  const counts = {};
+  rows.forEach(r => { const v = r[key] || 'Unspecified'; counts[v] = (counts[v]||0)+1; });
+  let entries = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+  if (topN) entries = entries.slice(0, topN);
+  return { labels: entries.map(e => e[0]), data: entries.map(e => e[1]) };
+}
+
+// Product Focus refinement for Platform / Infra
+function countByProductRefined(rows) {
+  const counts = {};
+  rows.forEach(r => {
+    let focus = r.Product_Focus || 'Unspecified';
+    if (focus === 'Platform / Infra') {
+      const skills = (r.Extracted_Skills || '').toLowerCase() + ' ' + (r['Job Title'] || '').toLowerCase();
+      if (/\b(aws|gcp|azure|kubernetes|docker)\b/.test(skills)) {
+        focus = 'Cloud Infrastructure';
+      } else if (/\b(ci\/cd|terraform|devops|sre|monitoring)\b/.test(skills)) {
+        focus = 'DevOps / SRE';
+      } else if (/\b(java|golang|\bgo\b|rust|microservice|api)\b/.test(skills)) {
+        focus = 'Backend Platform';
+      }
+    }
+    counts[focus] = (counts[focus]||0)+1;
+  });
+  let entries = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+  return { labels: entries.map(e => e[0]), data: entries.map(e => e[1]) };
+}
+
+function destroyChart(n) { if(charts[n]) { charts[n].destroy(); charts[n]=null; } }
+
+// Chart click handler helper
+function chartClickFilter(chart, filterId, evt) {
+  const points = chart.getElementsAtEventForMode(evt, 'nearest', {intersect: true}, true);
+  if (!points.length) return;
+  const idx = points[0].index;
+  const label = chart.data.labels[idx];
+  const sel = document.getElementById(filterId);
+  if (sel.value === label) {
+    sel.value = '';
+  } else {
+    sel.value = label;
+  }
+  applyFilters();
+}
+
+function updateCharts() {
+  const rows = filteredRows;
+  const animOpts = { animation: { duration: 400 } };
+
+  // Companies bar chart
+  destroyChart('companies');
+  const cd = countBy(rows, 'Company', 15);
+  charts.companies = new Chart(document.getElementById('chartCompanies'), {
+    type:'bar', data:{ labels:cd.labels, datasets:[{data:cd.data,backgroundColor:'#E31937',borderRadius:4,barThickness:14}] },
+    options:{ ...animOpts, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{grid:{color:'#e2e5ea'}},y:{grid:{display:false}}},
+      onClick: function(evt) { chartClickFilter(this, 'fCompany', evt); }
+    }
+  });
+
+  // Seniority donut
+  destroyChart('seniority');
+  const sd = countBy(rows, 'Seniority');
+  charts.seniority = new Chart(document.getElementById('chartSeniority'), {
+    type:'doughnut', data:{ labels:sd.labels, datasets:[{data:sd.data,backgroundColor:sd.labels.map(label => SENIORITY_COLORS[label] || '#95A5A6'),borderWidth:2,borderColor:'#fff'}] },
+    options:{ ...animOpts, cutout:'40%', plugins:{legend:{position:'right',labels:{boxWidth:12,padding:8,font:{size:11}}}},
+      onClick: function(evt) {
+        const points = this.getElementsAtEventForMode(evt, 'nearest', {intersect: true}, true);
+        if (!points.length) return;
+        const idx = points[0].index;
+        const label = this.data.labels[idx];
+        const sel = document.getElementById('fSeniority');
+        if (sel.value === label) sel.value = ''; else sel.value = label;
+        applyFilters();
+      }
+    }
+  });
+
+  // Function bar chart
+  destroyChart('function');
+  const fd = countBy(rows, 'Function');
+  charts.function = new Chart(document.getElementById('chartFunction'), {
+    type:'bar', data:{ labels:fd.labels, datasets:[{data:fd.data,backgroundColor:'#00B4D8',borderRadius:4,barThickness:18}] },
+    options:{ ...animOpts, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false},ticks:{maxRotation:45}},y:{grid:{color:'#e2e5ea'}}},
+      onClick: function(evt) { chartClickFilter(this, 'fFunction', evt); }
+    }
+  });
+
+  // Product Focus bar chart (refined)
+  destroyChart('product');
+  const pd = countByProductRefined(rows);
+  charts.product = new Chart(document.getElementById('chartProduct'), {
+    type:'bar', data:{ labels:pd.labels, datasets:[{data:pd.data,backgroundColor:'#F39C12',borderRadius:4,barThickness:18}] },
+    options:{ ...animOpts, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false},ticks:{maxRotation:45}},y:{grid:{color:'#e2e5ea'}}},
+      onClick: function(evt) {
+        const points = this.getElementsAtEventForMode(evt, 'nearest', {intersect: true}, true);
+        if (!points.length) return;
+        const label = this.data.labels[points[0].index];
+        const sel = document.getElementById('fProduct');
+        // Refined labels may not exist in dropdown; check if it maps back
+        const refinedToOriginal = {'Cloud Infrastructure':'Platform / Infra','DevOps / SRE':'Platform / Infra','Backend Platform':'Platform / Infra'};
+        const filterVal = refinedToOriginal[label] || label;
+        if (sel.value === filterVal) sel.value = ''; else sel.value = filterVal;
+        applyFilters();
+      }
+    }
+  });
+
+  // Global Hiring Locations Map
+  updateHiringMap(rows);
+
+  // Relevancy Distribution histogram
+  destroyChart('relevancy');
+  const relBins = [0,0,0,0,0]; // 0-2, 2-4, 4-6, 6-8, 8-10
+  rows.forEach(r => {
+    const rel = r._relevancy || 0;
+    if (rel < 2) relBins[0]++;
+    else if (rel < 4) relBins[1]++;
+    else if (rel < 6) relBins[2]++;
+    else if (rel < 8) relBins[3]++;
+    else relBins[4]++;
+  });
+  charts.relevancy = new Chart(document.getElementById('chartRelevancy'), {
+    type:'bar', data:{ labels:['0-2','2-4','4-6','6-8','8-10'], datasets:[{data:relBins,backgroundColor:'#8E7CC3',borderRadius:4,barThickness:32}] },
+    options:{ ...animOpts, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false},ticks:{display:true}},y:{grid:{color:'#e2e5ea'},beginAtZero:true}},
+      onClick: function(evt) {
+        const points = this.getElementsAtEventForMode(evt, 'nearest', {intersect: true}, true);
+        if (!points.length) return;
+        const idx = points[0].index;
+        const bands = [[0,2],[2,4],[4,6],[6,8],[8,10]];
+        const [min, max] = bands[idx];
+        // Toggle: if already selected, deselect; otherwise select
+        if (activeRelevancyBand && activeRelevancyBand[0] === min && activeRelevancyBand[1] === max) {
+          activeRelevancyBand = null;
+        } else {
+          activeRelevancyBand = [min, max];
+        }
+        applyFilters();
+      }
+    }
+  });
+}
+
+// ── Table ──────────────────────────────────────────────────────────────
+function senBadge(s) {
+  const c = {'Director+':'badge-director','Principal/Staff':'badge-principal','Senior':'badge-senior',
+    'Manager':'badge-manager','Mid':'badge-mid','Entry':'badge-entry','Intern':'badge-intern'}[s]||'badge-mid';
+  return '<span class="badge '+c+'">'+s+'</span>';
+}
+function relBar(v) {
+  const pct = Math.min(100, (v/10)*100);
+  const col = v>=8?'#F39C12':v>=5?'#00B4D8':'#d1d5db';
+  return '<div class="rel-bar"><div class="rel-bar-track"><div class="rel-bar-fill" style="width:'+pct+'%;background:'+col+'"></div></div><span class="rel-bar-value">'+v.toFixed(1)+'</span></div>';
+}
+// ── Hiring Map ─────────────────────────────────────────────────────────
+let _hiringMap = null, _hiringMarkers = null, _activeMapLocation = null;
+
+const LOC_COORDS = {
+  // USA
+  'menlo park':[37.453,-122.182],'san francisco':[37.775,-122.419],'sf':[37.775,-122.419],
+  'new york':[40.713,-74.006],'new york city':[40.713,-74.006],'nyc':[40.713,-74.006],
+  'seattle':[47.606,-122.332],'bellevue':[47.610,-122.201],'redmond':[47.674,-122.121],
+  'denver':[39.739,-104.990],'boulder':[40.015,-105.271],'austin':[30.267,-97.743],
+  'boston':[42.360,-71.059],'chicago':[41.878,-87.630],'atlanta':[33.749,-84.388],
+  'los angeles':[34.052,-118.244],'mountain view':[37.386,-122.084],'sunnyvale':[37.369,-122.036],
+  'palo alto':[37.441,-122.143],'santa clara':[37.355,-121.955],'san jose':[37.338,-121.886],
+  'oakland':[37.804,-122.271],'portland':[45.523,-122.676],'minneapolis':[44.977,-93.265],
+  'dallas':[32.776,-96.797],'houston':[29.760,-95.370],'phoenix':[33.448,-112.074],
+  'united states':[37.090,-95.713],'us':[37.090,-95.713],'usa':[37.090,-95.713],
+  'us-ca':[37.775,-122.419],'us-wa':[47.606,-122.332],'us-ny':[40.713,-74.006],
+  // Canada
+  'toronto':[43.653,-79.383],'kitchener':[43.452,-80.493],'vancouver':[49.283,-123.120],
+  'montreal':[45.508,-73.554],'ottawa':[45.421,-75.690],'canada':[56.130,-106.347],
+  // UK
+  'london':[51.507,-0.128],'manchester':[53.481,-2.243],'edinburgh':[55.953,-3.189],
+  'gb-london':[51.507,-0.128],'united kingdom':[55.378,-3.436],'uk':[55.378,-3.436],
+  // Europe
+  'berlin':[52.520,13.405],'munich':[48.135,11.582],'hamburg':[53.551,9.994],'germany':[51.165,10.452],
+  'paris':[48.857,2.352],'france':[46.228,2.213],'amsterdam':[52.368,4.904],
+  'netherlands':[52.133,5.291],'warsaw':[52.230,21.012],'poland':[51.919,19.145],
+  'pl-warsaw':[52.230,21.012],'madrid':[40.417,-3.704],'spain':[40.463,-3.749],
+  'stockholm':[59.333,18.065],'oslo':[59.913,10.752],'copenhagen':[55.676,12.568],
+  'dublin':[53.350,-6.260],'ireland':[53.142,-7.692],'zurich':[47.377,8.541],
+  'milan':[45.465,9.190],'rome':[41.902,12.496],'italy':[41.872,12.567],
+  'novi sad':[45.267,19.834],'serbia':[44.017,21.006],
+  // India
+  'bengaluru':[12.972,77.595],'bangalore':[12.972,77.595],'ind-bangalore':[12.972,77.595],
+  'india':[20.594,78.963],'ind':[20.594,78.963],'chennai':[13.083,80.271],
+  'hyderabad':[17.385,78.487],'mumbai':[19.076,72.878],'pune':[18.520,73.857],
+  'delhi':[28.614,77.209],'new delhi':[28.614,77.209],
+  // APAC
+  'singapore':[1.352,103.820],'tokyo':[35.676,139.650],'japan':[36.205,138.252],
+  'sydney':[-33.869,151.209],'melbourne':[-37.814,144.963],'australia':[-25.274,133.775],
+  'beijing':[39.905,116.391],'shanghai':[31.230,121.473],'china':[35.861,104.195],
+  'seoul':[37.566,126.978],'south korea':[35.908,127.767],
+  'kuala lumpur':[3.140,101.687],'malaysia':[4.211,101.976],
+  'hong kong':[22.319,114.170],'taipei':[25.033,121.565],
+  // Middle East / Africa
+  'tel aviv':[32.085,34.782],'israel':[31.047,34.852],
+  'dubai':[25.205,55.271],'uae':[23.424,53.848],
+  'cairo':[30.044,31.236],'nairobi':[-1.286,36.817],
+  // Latin America
+  'sao paulo':[-23.550,-46.633],'brazil':[-14.235,-51.925],
+  'mexico city':[19.433,-99.133],'mexico':[23.635,-102.553],
+  'bogota':[4.711,-74.073],'buenos aires':[-34.604,-58.382],
+};
+
+// Pre-sort keys longest-first so "united states" matches before "us", etc.
+const _LOC_KEYS_SORTED = Object.keys(LOC_COORDS).sort((a,b) => b.length - a.length);
+
+function resolveLocation(locStr) {
+  const s = (locStr || '').toLowerCase().replace(/[,\.\-]/g,' ').trim();
+  // Try full string first
+  if (LOC_COORDS[s]) return LOC_COORDS[s];
+  // Try each key longest-first with word-boundary enforcement
+  for (const key of _LOC_KEYS_SORTED) {
+    if (!s.includes(key)) continue;
+    // Require word boundaries: character before/after key must be space or string edge
+    const idx = s.indexOf(key);
+    const before = idx === 0 || s[idx-1] === ' ';
+    const after = idx + key.length === s.length || s[idx + key.length] === ' ';
+    if (before && after) return LOC_COORDS[key];
+  }
+  return null;
+}
+
+function updateHiringMap(rows) {
+  // Count jobs per resolved location
+  const locCounts = {};
+  const locLabels = {};
+  rows.forEach(r => {
+    const loc = (r.Location || '').trim();
+    if (!loc || loc === 'Search by Location') return;
+    const coords = resolveLocation(loc);
+    if (!coords) return;
+    const key = coords[0].toFixed(2) + ',' + coords[1].toFixed(2);
+    locCounts[key] = (locCounts[key] || 0) + 1;
+    if (!locLabels[key]) locLabels[key] = loc;
+  });
+
+  // Init map once
+  if (!_hiringMap) {
+    _hiringMap = L.map('hiringMap', { zoomControl: true, scrollWheelZoom: false })
+      .setView([20, 10], 2);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap © CARTO', maxZoom: 10
+    }).addTo(_hiringMap);
+    _hiringMarkers = L.layerGroup().addTo(_hiringMap);
+  }
+
+  _hiringMarkers.clearLayers();
+  const maxCount = Math.max(...Object.values(locCounts), 1);
+
+  Object.entries(locCounts).forEach(([key, count]) => {
+    const [lat, lng] = key.split(',').map(Number);
+    const r = Math.max(8, Math.min(40, 8 + (count / maxCount) * 32));
+    const opacity = 0.5 + (count / maxCount) * 0.4;
+    const isActive = _activeMapLocation === key;
+    const circle = L.circleMarker([lat, lng], {
+      radius: r,
+      fillColor: isActive ? '#F39C12' : '#E31937',
+      color: isActive ? '#fff' : '#fff',
+      weight: isActive ? 2.5 : 1.5,
+      opacity: 1, fillOpacity: isActive ? 0.95 : opacity
+    }).bindTooltip(`<strong>${locLabels[key]}</strong><br>${count} job${count>1?'s':''}<br><em style="font-size:10px;opacity:0.7">Click to filter</em>`, {direction:'top'});
+    circle.on('click', () => {
+      _activeMapLocation = (_activeMapLocation === key) ? null : key;
+      applyFilters();
+    });
+    _hiringMarkers.addLayer(circle);
+  });
+
+  // Force map to recalculate size after render
+  setTimeout(() => _hiringMap.invalidateSize(), 100);
+}
+
+function updateTable() {
+  const start = currentPage * PAGE_SIZE;
+  const pr = filteredRows.slice(start, start+PAGE_SIZE);
+  document.getElementById('jobTableBody').innerHTML = pr.map(r => {
+    const isNew = r.First_Seen === today;
+    const nb = isNew ? ' <span class="badge badge-new">NEW</span>' : '';
+    const isVector = VECTOR_AI_COMPANIES.includes(r.Company);
+    const vb = isVector ? ' <span class="badge badge-vector">Vector DB</span>' : '';
+    const link = r['Job Link'] || '';
+    return '<tr onclick="if(event.target.tagName!==\'A\'){const l=\'' + link.replace(/'/g,"\\'") + '\';if(l)window.open(l,\'_blank\')}">' +
+      '<td>'+r.Company+nb+vb+'</td>'+
+      '<td class="title-cell" title="'+(r['Job Title']||'').replace(/"/g,'&quot;')+'">'+r['Job Title']+'</td>'+
+      '<td>'+senBadge(r.Seniority||'Mid')+'</td><td>'+r.Function+'</td><td>'+r.Product_Focus+'</td>'+
+      '<td>'+r.Location+'</td><td style="text-align:center">'+(r['Days Since Posted']!==''&&r['Days Since Posted']!=null?r['Days Since Posted']:'N/A')+'</td>'+
+      '<td>'+relBar(r._relevancy)+'</td><td>'+(r.Primary_Skill||'')+'</td>'+
+      '<td>'+(link?'<a href="'+link+'" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600">Open &rarr;</a>':'')+'</td></tr>';
+  }).join('');
+  const tp = Math.ceil(filteredRows.length / PAGE_SIZE);
+  document.getElementById('pageInfo').textContent = filteredRows.length ? (start+1)+'--'+Math.min(start+PAGE_SIZE,filteredRows.length)+' of '+filteredRows.length : '0 results';
+  document.getElementById('btnPrev').disabled = currentPage===0;
+  document.getElementById('btnNext').disabled = currentPage>=tp-1;
+}
+function changePage(d) { currentPage+=d; updateTable(); }
+document.querySelectorAll('thead th[data-sort]').forEach(th => {
+  th.addEventListener('click', () => {
+    const c = th.dataset.sort;
+    if(sortCol===c) sortAsc=!sortAsc; else { sortCol=c; sortAsc=true; }
+    applyFilters();
+  });
+});
+
+// ── Sidebar ────────────────────────────────────────────────────────────
+function updateSidebar() {
+  const cd = countBy(filteredRows, 'Company', 15);
+  document.getElementById('sidebarCompanies').innerHTML = cd.labels.map((c,i) => {
+    const isVector = VECTOR_AI_COMPANIES.includes(c);
+    return '<div class="sidebar-item" onclick="document.getElementById(\'fCompany\').value=\''+c+'\';applyFilters()"><span>'+c+(isVector?' <span class="badge badge-vector">Vec</span>':'')+'</span><span class="count">'+cd.data[i]+'</span></div>';
+  }).join('');
+
+  const sc = {};
+  filteredRows.forEach(r => { try { JSON.parse(r.Extracted_Skills||'[]').forEach(s => { sc[s]=(sc[s]||0)+1; }); } catch(e){} });
+  const ts = Object.entries(sc).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  document.getElementById('sidebarSkills').innerHTML = ts.map(([s,c]) =>
+    '<span class="skill-tag'+(activeSkillFilter===s?' active':'')+'" title="'+c+' jobs" onclick="filterBySkill(\''+s+'\')">'+s+' ('+c+')</span>'
+  ).join('');
+
+  // Threat Summary with Vector DB callout
+  if (signals.length) {
+    const cr = signals.filter(s=>s.threat_level==='critical').length;
+    const hi = signals.filter(s=>s.threat_level==='high').length;
+    const hiI = signals.filter(s=>s.hiring_intensity==='high').length;
+    const vectorSignals = signals.filter(s => VECTOR_AI_COMPANIES.includes(s.company));
+    let html = '<div style="margin-bottom:6px"><strong>'+signals.length+'</strong> companies tracked</div>'+
+      (cr?'<div style="color:var(--red);font-weight:600">'+cr+' critical threat'+(cr>1?'s':'')+'</div>':'')+
+      (hi?'<div style="color:var(--amber);font-weight:600">'+hi+' high threat'+(hi>1?'s':'')+'</div>':'')+
+      '<div style="margin-top:6px">'+hiI+' high-intensity hiring</div>';
+
+    if (vectorSignals.length) {
+      html += '<div class="vector-callout"><div class="vector-callout-title">&#9889; Vector DB / AI -- Strategic Priority</div>' +
+        '<div class="vector-callout-text">Strategic priority for DataCo\'s upcoming product launch. ' +
+        vectorSignals.map(s => '<strong>'+s.company+'</strong> ('+s.posting_count+' roles)').join(', ') +
+        '</div></div>';
+    }
+    document.getElementById('sidebarSignalStats').innerHTML = html;
+  }
+}
+
+// ── Export ──────────────────────────────────────────────────────────────
+function exportCSV() {
+  if (!filteredRows.length) return;
+  const hd = Object.keys(filteredRows[0]).filter(k=>!k.startsWith('_'));
+  let csv = hd.join(',')+'\n';
+  filteredRows.forEach(r => {
+    csv += hd.map(h => { let v=(r[h]||'').toString(); if(v.includes(',')||v.includes('"')||v.includes('\n')) v='"'+v.replace(/"/g,'""')+'"'; return v; }).join(',')+'\n';
+  });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = 'ci_export_'+today+'.csv'; a.click();
+}
+
+// ── Page Navigation ────────────────────────────────────────────────────
+document.querySelectorAll('.topnav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.topnav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('page-'+tab.dataset.page).classList.add('active');
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// SIGNALS PAGE
+// ═══════════════════════════════════════════════════════════════════════
+function threatBadge(l) {
+  return '<span class="badge threat-'+(l||'low')+'">'+(l||'low').toUpperCase()+'</span>';
+}
+function intensityLabel(l) {
+  const dot = {low:'#9ca3af',medium:'#F39C12',high:'#E31937'}[l]||'#9ca3af';
+  const n = {low:1,medium:2,high:3}[l]||1;
+  let s = '';
+  for(let i=0;i<3;i++) s += '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:3px;background:'+(i<n?dot:'#e5e7eb')+'"></span>';
+  return s + ' <span style="font-size:12px;font-weight:500;color:var(--text-secondary)">'+((l||'low').charAt(0).toUpperCase()+(l||'low').slice(1))+'</span>';
+}
+
+// ── Implication Icon — Granular Categories (order matters: first match wins) ──
+function impIcon(text) {
+  const t = text.toLowerCase();
+  const categories = [
+    { test: t => /\b(ai|ml|llm|genai|machine learn)/.test(t), icon:'&#129302;', type:'AI / ML Investment', color:'#8E44AD' },
+    { test: t => /\b(cloud|infra|scaling|deployment|platform|sre|kubernetes)/.test(t), icon:'&#9729;&#65039;', type:'Cloud & Infrastructure Scale', color:'#3498DB' },
+    { test: t => /\b(security|compliance|privacy|soc2|fedramp|hipaa)/.test(t), icon:'&#128274;', type:'Security & Compliance Push', color:'#E74C3C' },
+    { test: t => /\b(sales|market|gtm|go-to-market|revenue|expansion|demand)\b/.test(t), icon:'&#127758;', type:'Go-to-Market Expansion', color:'var(--green)' },
+    { test: t => /\b(data engineer|etl|pipeline|connector|integration)/.test(t), icon:'&#128295;', type:'Data Engineering Build', color:'#FF6B35' },
+    { test: t => /\b(senior|leadership|buildout|strategic|pivot|rewrite)/.test(t), icon:'&#127942;', type:'Leadership & Strategy Shift', color:'#1B2A4A' },
+    { test: t => /\b(threat|compet|direct|overlap|core territory|undercut)/.test(t), icon:'&#9888;&#65039;', type:'Competitive Threat', color:'var(--red)' },
+    { test: t => /\b(acqui|partner|merge)/.test(t), icon:'&#129309;', type:'Partnership / Acquisition Signal', color:'var(--purple)' },
+    { test: t => /\b(hiring|mid|entry|scaling|onboarding|feature velocity)/.test(t), icon:'&#128101;', type:'Talent & Hiring Signal', color:'#00B4D8' },
+    { test: t => /\b(opportunit|actian should|partnership opportunity|differentiate)/.test(t), icon:'&#11088;', type:'Opportunity for DataCo', color:'var(--cyan)' },
+    { test: t => /\b(monitor|blog|press|conference|track|review|pricing|open.source|github)/.test(t), icon:'&#128065;', type:'Monitoring Recommended', color:'var(--text-muted)' }
+  ];
+  for (const cat of categories) {
+    if (cat.test(t)) return { icon: cat.icon, type: cat.type, color: cat.color };
+  }
+  return {icon:'&#128200;',type:'Strategic Intelligence',color:'var(--text-muted)'};
+}
+
+function deriveActions(s) {
+  // Use Opus-generated strategic actions if available
+  if (s.recommended_actions && s.recommended_actions.length) {
+    return s.recommended_actions.slice(0, 4);
+  }
+  // Fallback for legacy signals without Opus-generated actions
+  const actions = [];
+  const tl = s.threat_level || 'low';
+  const dp = s.dominant_product_focus || '';
+  const company = s.company || '';
+  const group = s.company_group || '';
+
+  if (tl === 'critical' || tl === 'high') {
+    actions.push('[Immediate / GTM] Run win/loss analysis on recent deals where ' + company + ' competed — identify their positioning gaps and arm sales with counter-narratives specific to ' + dp + '.');
+  } else {
+    actions.push('[Next Quarter / Product] Evaluate ' + company + '\'s ' + dp + ' trajectory — determine if DataCo needs to differentiate or can deprioritize this vector.');
+  }
+
+  if (dp.includes('ETL') || dp.includes('Integration')) {
+    actions.push('[Immediate / Product] Audit DataCo\'s connector parity against ' + company + ' — prioritize building connectors for any platforms where ' + company + ' has coverage and DataCo does not.');
+  } else if (dp.includes('AI') || dp.includes('ML') || dp.includes('Vector')) {
+    actions.push('[Next Quarter / Product] Accelerate DataCo\'s vector/AI launch timeline — ' + company + '\'s AI investment creates urgency to establish positioning before they capture developer mindshare.');
+  } else if (dp.includes('Cloud') || dp.includes('Platform')) {
+    actions.push('[Immediate / GTM] Target ' + company + '\'s on-prem customer base with DataCo\'s hybrid deployment story — their cloud push likely creates migration anxiety among legacy customers.');
+  } else if (dp.includes('Governance') || dp.includes('Quality')) {
+    actions.push('[Next Quarter / Product] Strengthen DataCo\'s data governance capabilities in integration workflows — ' + company + '\'s expansion here threatens to pull governance upstream of DataCo\'s touch point.');
+  } else {
+    actions.push('[Monitor / Product] Track ' + company + '\'s ' + dp + ' build-out for adjacency overlap with DataCo\'s integration and analytics core.');
+  }
+
+  if (s.hiring_intensity === 'high') {
+    actions.push('[Immediate / GTM] Brief sales leadership on ' + company + '\'s hiring surge — high-velocity hiring in ' + dp + ' typically precedes aggressive market expansion within 1-2 quarters.');
+  } else {
+    actions.push('[Next Quarter / Product] Share ' + company + '\'s capability trajectory with product leadership — use as input for DataCo\'s quarterly roadmap prioritization.');
+  }
+
+  return actions.slice(0, 3);
+}
+
+// ── Market Pulse — Cross-Company Analysis ──────────────────────────────
+function renderMarketPulse(sorted) {
+  let html = '<div style="margin:28px 0 8px 0"><h2 style="font-size:18px;font-weight:700;color:var(--text)">Market Pulse -- Cross-Company Analysis</h2>' +
+    '<p style="font-size:13px;color:var(--text-muted);margin-top:4px">Automated insights derived from hiring signals across all tracked companies</p></div>';
+
+  html += '<div class="pulse-grid">';
+
+  // 1. Total Market Hiring Velocity
+  const totalPostings = sorted.reduce((s, c) => s + (c.posting_count || 0), 0);
+  const avgPerCompany = sorted.length ? (totalPostings / sorted.length).toFixed(0) : 0;
+  const iBtn = key => '<button class="pulse-info-btn" onclick="showPulseTooltip(\''+key+'\',event)" title="How this is calculated">i</button>';
+
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>Total Market Hiring Velocity</span>' + iBtn('velocity') + '</div>' +
+    '<div class="pulse-card-value" style="color:var(--cyan)">' + totalPostings.toLocaleString() + '</div>' +
+    '<div class="pulse-card-detail">' + sorted.length + ' companies tracked, avg ' + avgPerCompany + ' roles per company</div></div>';
+
+  // 2. AI Investment Race
+  const aiCompanies = sorted.filter(s => {
+    const imps = (s.implications || []).join(' ').toLowerCase();
+    const summary = (s.signal_summary || '').toLowerCase();
+    return /\b(ai|ml|llm|genai|machine learn|vector)/.test(imps + ' ' + summary);
+  });
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>AI Investment Race</span>' + iBtn('ai') + '</div>' +
+    '<div class="pulse-card-value" style="color:#8E44AD">' + aiCompanies.length + '</div>' +
+    '<div class="pulse-card-detail">companies with AI/ML signals: ' +
+    (aiCompanies.length ? aiCompanies.slice(0,6).map(c => c.company).join(', ') + (aiCompanies.length > 6 ? '...' : '') : 'None detected') +
+    '</div></div>';
+
+  // 3. Direct Threat Index
+  const threatCompanies = sorted.filter(s => s.threat_level === 'critical' || s.threat_level === 'high');
+  const threatRoles = threatCompanies.reduce((s, c) => s + (c.posting_count || 0), 0);
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>Direct Threat Index</span>' + iBtn('threat') + '</div>' +
+    '<div class="pulse-card-value" style="color:var(--red)">' + threatCompanies.length + '</div>' +
+    '<div class="pulse-card-detail">' + threatRoles + ' total roles across critical/high threats: ' +
+    threatCompanies.slice(0,5).map(c => c.company + ' (' + c.posting_count + ')').join(', ') + '</div></div>';
+
+  // 4. Segment Heatmap
+  const segCounts = {};
+  sorted.forEach(s => { const g = s.company_group || 'Other'; segCounts[g] = (segCounts[g]||0) + (s.posting_count||0); });
+  const topSeg = Object.entries(segCounts).sort((a,b) => b[1]-a[1]);
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>Segment Heatmap</span>' + iBtn('segment') + '</div>' +
+    '<div class="pulse-card-value" style="color:var(--navy)">' + (topSeg[0] ? topSeg[0][0] : '--') + '</div>' +
+    '<div class="pulse-card-detail">Hottest segment by role count. ' +
+    topSeg.slice(0,4).map(e => e[0] + ': ' + e[1]).join(' | ') + '</div></div>';
+
+  // 5. Seniority Signal
+  const seniorHeavy = sorted.filter(s => {
+    const imps = (s.implications || []).join(' ').toLowerCase();
+    return /\b(senior|director|leadership|vp|executive|staff|principal)/.test(imps);
+  });
+  const seniorSignal = seniorHeavy.length >= 3 ? 'Industry-wide leadership churn detected' : 'Normal seniority patterns';
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>Seniority Signal</span>' + iBtn('seniority') + '</div>' +
+    '<div class="pulse-card-value" style="color:#FF6B35;font-size:18px">' + seniorSignal + '</div>' +
+    '<div class="pulse-card-detail">' + seniorHeavy.length + ' companies show senior hiring patterns: ' +
+    seniorHeavy.slice(0,5).map(c => c.company).join(', ') + '</div></div>';
+
+  // 6. GTM Surge Indicator
+  const gtmCompanies = sorted.filter(s => {
+    const imps = (s.implications || []).join(' ').toLowerCase();
+    const summary = (s.signal_summary || '').toLowerCase();
+    return /\b(sales|gtm|go-to-market|revenue|market expansion|demand gen)/.test(imps + ' ' + summary);
+  });
+  html += '<div class="pulse-card"><div class="pulse-card-title"><span>GTM Surge Indicator</span>' + iBtn('gtm') + '</div>' +
+    '<div class="pulse-card-value" style="color:var(--green)">' + gtmCompanies.length + '</div>' +
+    '<div class="pulse-card-detail">companies expanding go-to-market: ' +
+    (gtmCompanies.length ? gtmCompanies.slice(0,6).map(c => c.company).join(', ') : 'No surge detected') +
+    '</div></div>';
+
+  html += '</div>';
+  return html;
+}
+
+function renderSignals() {
+  if (!signals.length) {
+    document.getElementById('signalsContent').innerHTML =
+      '<div class="error-box"><h3>Run enrich.py to generate signals</h3><p>Strategic signals are generated by enrich.py.</p><code>ANTHROPIC_API_KEY=sk-... python enrich.py</code></div>';
+    return;
+  }
+  const threatOrder = {critical:0,high:1,medium:2,low:3};
+  const sorted = [...signals].sort((a,b) => {
+    const ta = threatOrder[a.threat_level]??3, tb = threatOrder[b.threat_level]??3;
+    if(ta!==tb) return ta-tb;
+    return (b.posting_count||0)-(a.posting_count||0);
+  });
+  const top5 = sorted.slice(0,5);
+
+  let html = '<div style="margin-bottom:8px"><h2 style="font-size:18px;font-weight:700;color:var(--text)">Top Signals This Week</h2><p style="font-size:13px;color:var(--text-muted);margin-top:4px">Companies with the highest threat level or hiring intensity</p></div>';
+  html += '<div class="signal-strip">';
+  top5.forEach(s => {
+    const isVector = VECTOR_AI_COMPANIES.includes(s.company);
+    const borderClass = 'threat-border-' + (s.threat_level || 'low');
+    html += '<div class="signal-card ' + borderClass + '" onclick="selectSignal(\''+s.company.replace(/'/g,"\\'")+'\')">' +
+      '<div class="signal-card-header"><div class="signal-card-company">'+s.company+(isVector?' <span class="badge badge-vector">Vector DB</span>':'')+'</div>'+threatBadge(s.threat_level)+'</div>'+
+      '<div class="signal-card-summary">'+s.signal_summary+'</div>'+
+      '<div class="signal-card-meta"><span class="meta-tag">'+s.dominant_product_focus+'</span>'+
+      '<span class="meta-tag">'+intensityLabel(s.hiring_intensity)+'</span>'+
+      '<span class="meta-tag">'+(s.posting_count||0)+' roles</span></div></div>';
+  });
+  html += '</div>';
+
+  // Market Pulse section
+  html += renderMarketPulse(sorted);
+
+  // Segment filter chips + Search
+  const segments = [...new Set(signals.map(s => s.company_group).filter(Boolean))].sort();
+  html += '<div style="margin:20px 0 10px 0;display:flex;flex-wrap:wrap;align-items:center;gap:12px">';
+  html += '<div style="flex:1;min-width:280px;display:flex;align-items:center;gap:12px">' +
+    '<label style="font-size:13px;font-weight:600;color:var(--text)">Select a company for detailed analysis:</label>' +
+    '<select id="signalCompanySelect" onchange="showSignalDetail(this.value)" style="background:var(--bg-white);color:var(--text);border:1px solid var(--border);padding:8px 14px;border-radius:6px;font-size:14px;min-width:250px">' +
+    '<option value="">Choose a company...</option>';
+  sorted.forEach(s => { html += '<option value="'+s.company+'">'+s.company+' -- '+s.threat_level+' threat ('+s.posting_count+' roles)</option>'; });
+  html += '</select></div>';
+  html += '</div>';
+
+  html += '<div class="segment-chips" id="segmentChips">';
+  html += '<span class="segment-chip active" onclick="setSignalSegment(\'\')">All Segments</span>';
+  segments.forEach(seg => {
+    html += '<span class="segment-chip" onclick="setSignalSegment(\''+seg+'\')">'+seg+'</span>';
+  });
+  html += '</div>';
+
+  html += '<div id="signalDetailContainer"></div>';
+
+  // Search bar
+  html += '<div style="margin-top:24px;margin-bottom:12px"><input type="text" id="signalSearch" placeholder="Search companies..." oninput="filterSignalCards()" style="background:var(--bg);color:var(--text);border:1px solid var(--border);padding:8px 14px;border-radius:6px;font-size:13px;width:200px"></div>';
+
+  // Summary table
+  html += '<div class="card" style="margin-top:28px"><div class="card-title">All Company Signals</div><div class="table-wrap"><table>' +
+    '<thead><tr><th>Company</th><th>Segment</th><th>Threat Level</th><th>Intensity</th><th>Key Signal</th><th>Focus Area</th><th>Roles</th></tr></thead><tbody id="signalTableBody">';
+  sorted.forEach(s => {
+    const isVector = VECTOR_AI_COMPANIES.includes(s.company);
+    html += '<tr class="signal-table-row" data-company="'+s.company+'" data-group="'+(s.company_group||'')+'" style="cursor:pointer" onclick="selectSignal(\''+s.company.replace(/'/g,"\\'")+'\')">' +
+      '<td style="font-weight:600;color:var(--text)">'+s.company+(isVector?' <span class="badge badge-vector">Vec</span>':'')+'</td>'+
+      '<td>'+(s.company_group||'--')+'</td><td>'+threatBadge(s.threat_level)+'</td>'+
+      '<td>'+intensityLabel(s.hiring_intensity)+'</td>'+
+      '<td style="max-width:360px;white-space:normal;line-height:1.5">'+s.signal_summary+'</td>'+
+      '<td>'+(s.dominant_product_focus||'--')+'</td><td style="font-weight:600">'+(s.posting_count||0)+'</td></tr>';
+  });
+  html += '</tbody></table></div></div>';
+  document.getElementById('signalsContent').innerHTML = html;
+}
+
+function setSignalSegment(seg) {
+  signalSegmentFilter = seg;
+  document.querySelectorAll('.segment-chip').forEach(c => {
+    c.classList.toggle('active', (seg === '' && c.textContent === 'All Segments') || c.textContent === seg);
+  });
+  filterSignalCards();
+}
+
+function filterSignalCards() {
+  const search = (document.getElementById('signalSearch')?.value || '').toLowerCase();
+  document.querySelectorAll('.signal-table-row').forEach(row => {
+    const company = row.dataset.company.toLowerCase();
+    const group = row.dataset.group;
+    const matchSearch = !search || company.includes(search);
+    const matchSeg = !signalSegmentFilter || group === signalSegmentFilter;
+    row.style.display = (matchSearch && matchSeg) ? '' : 'none';
+  });
+}
+
+function selectSignal(company) {
+  const sel = document.getElementById('signalCompanySelect');
+  if(sel) sel.value = company;
+  showSignalDetail(company);
+}
+function showSignalDetail(company) {
+  const c = document.getElementById('signalDetailContainer');
+  if(!company) { c.innerHTML=''; return; }
+  const s = signals.find(x => x.company===company);
+  if(!s) { c.innerHTML=''; return; }
+  const imps = s.implications||[];
+  const actions = deriveActions(s);
+  const isVector = VECTOR_AI_COMPANIES.includes(s.company);
+
+  let h = '<div class="signal-detail"><div class="signal-detail-header">'+
+    '<div class="signal-detail-company">'+s.company+(isVector?' <span class="badge badge-vector" style="font-size:12px;padding:4px 10px">Vector DB / AI</span>':'')+'</div>'+
+    '<span class="badge" style="background:var(--bg);border:1px solid var(--border);color:var(--text-secondary);margin-left:12px">'+(s.company_group||'Other')+'</span>'+
+    '<span style="margin-left:8px">'+threatBadge(s.threat_level)+'</span></div>';
+
+  if (isVector) {
+    h += '<div style="background:#fef2f4;border:1px solid var(--accent);border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:16px">' +
+      '<strong style="color:var(--accent)">&#9889; Vector DB / AI -- Strategic Priority for DataCo</strong><br>' +
+      '<span style="font-size:13px;color:var(--text-secondary)">This company operates in the Vector DB / AI space, which is directly relevant to DataCo\'s upcoming vector product launch. Monitor closely regardless of computed threat level.</span></div>';
+  }
+
+  h += '<div class="signal-detail-summary">'+s.signal_summary+'</div>';
+
+  const hiCol = {low:'var(--text-muted)',medium:'var(--amber)',high:'var(--red)'}[s.hiring_intensity]||'var(--text-muted)';
+  const tlCol = {critical:'var(--red)',high:'var(--amber)',medium:'var(--cyan)',low:'var(--text-muted)'}[s.threat_level]||'var(--text-muted)';
+  h += '<div class="signal-metrics">' +
+    '<div class="signal-metric"><div class="signal-metric-value" style="color:'+hiCol+'">'+(s.hiring_intensity||'low').toUpperCase()+'</div><div class="signal-metric-label">Hiring Intensity</div></div>'+
+    '<div class="signal-metric"><div class="signal-metric-value" style="color:'+tlCol+'">'+(s.threat_level||'low').toUpperCase()+'</div><div class="signal-metric-label">Threat to DataCo</div></div>'+
+    '<div class="signal-metric"><div class="signal-metric-value">'+(s.dominant_function||'--')+'</div><div class="signal-metric-label">Dominant Function</div></div>'+
+    '<div class="signal-metric"><div class="signal-metric-value">'+(s.dominant_product_focus||'--')+'</div><div class="signal-metric-label">Dominant Product Focus</div></div>'+
+    '<div class="signal-metric"><div class="signal-metric-value" style="color:var(--accent)">'+(s.posting_count||0)+'</div><div class="signal-metric-label">Total Roles</div></div></div>';
+
+  // ── Inferred Product Roadmap Tile ─────────────────────────────────────
+  const rm = s.roadmap;
+  if (rm && rm.direction) {
+    const confColor = rm.confidence === 'High' ? 'var(--green)' : rm.confidence === 'Medium' ? 'var(--amber)' : 'var(--text-muted)';
+    const confBg    = rm.confidence === 'High' ? 'var(--green-light)' : rm.confidence === 'Medium' ? 'var(--amber-light)' : '#f5f6f8';
+    h += `<div style="background:var(--bg-white);border:1px solid var(--border);border-left:4px solid var(--navy);border-radius:var(--radius);padding:20px 24px;margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <span style="font-size:18px">&#128506;</span>
+        <span style="font-size:14px;font-weight:700;color:var(--text);letter-spacing:-0.2px">Inferred Product Roadmap</span>
+        <button class="pulse-info-btn" onclick="showPulseTooltip('roadmap', event)" title="How this is calculated">i</button>
+        <span style="margin-left:auto;font-size:11px;color:var(--text-muted);font-style:italic">Based on hiring signals — not confirmed</span>
+      </div>
+      <div style="font-size:19px;font-weight:700;color:var(--navy);line-height:1.3;margin-bottom:12px">${rm.direction}</div>
+      <div style="font-size:13px;color:var(--text-secondary);line-height:1.65;margin-bottom:16px">${rm.rationale}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 14px">
+          <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">Timeline</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text)">${rm.timeline}</div>
+        </div>
+        <div style="background:${confBg};border:1px solid var(--border);border-radius:6px;padding:8px 14px">
+          <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">Confidence</div>
+          <div style="font-size:13px;font-weight:600;color:${confColor}">${rm.confidence}</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 14px;flex:1;min-width:200px">
+          <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">Watch For</div>
+          <div style="font-size:13px;color:var(--text)">${rm.watch_for}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  if (imps.length) {
+    h += '<div style="margin-bottom:8px"><h3 style="font-size:15px;font-weight:700">Strategic Implications</h3></div><div class="implications-grid">';
+    imps.forEach(imp => {
+      const {icon,type,color} = impIcon(imp);
+      h += '<div class="implication-card"><div class="implication-icon">'+icon+'</div>'+
+        '<div class="implication-type" style="color:'+color+'">'+type+'</div>'+
+        '<div class="implication-text">'+imp+'</div></div>';
+    });
+    h += '</div>';
+  }
+
+  // Leading Indicators (Opus-generated watch_for signals)
+  const watchFor = s.watch_for || [];
+  if (watchFor.length) {
+    h += '<div style="margin-bottom:20px"><div style="margin-bottom:10px"><h3 style="font-size:15px;font-weight:700">Leading Indicators to Track</h3>'+
+      '<p style="font-size:12px;color:var(--text-muted);margin-top:2px">Specific signals that would confirm or deny the inferred strategy</p></div>';
+    h += '<div style="display:flex;flex-direction:column;gap:8px">';
+    watchFor.forEach((w, i) => {
+      const icons = ['&#128269;', '&#128200;', '&#127919;'];
+      h += '<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)">'+
+        '<span style="font-size:15px;flex-shrink:0;margin-top:1px">'+(icons[i]||'&#128269;')+'</span>'+
+        '<span style="font-size:13px;color:var(--text);line-height:1.6">'+w+'</span></div>';
+    });
+    h += '</div></div>';
+  }
+
+  h += '<div class="actions-section"><div class="actions-title">Recommended Actions for DataCo</div>';
+  actions.forEach(a => { h += '<div class="action-item">'+a+'</div>'; });
+  h += '</div></div>';
+  c.innerHTML = h;
+  c.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+loadData();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     AI ASSISTANT LAYER — Modular, non-invasive addition
+     Scoped under #aiInfo*, #aiChat* to avoid any collision with dashboard
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- ── INFO MODAL ──────────────────────────────────────────────────────── -->
+<div id="aiInfoOverlay" onclick="if(event.target===this)aiInfoClose()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9000;align-items:center;justify-content:center;padding:20px">
+  <div id="aiInfoPanel" style="background:#fff;border-radius:12px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);position:relative">
+    <div style="padding:24px 28px 0;border-bottom:1px solid #e2e5ea;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1;padding-bottom:16px">
+      <div>
+        <div style="font-size:17px;font-weight:700;color:#1a1f2e">DataCo Competitive Intelligence</div>
+        <div style="font-size:12px;color:#8492a6;margin-top:2px">Dashboard Guide</div>
+      </div>
+    </div>
+    <div style="padding:24px 28px;font-size:14px;color:#1a1f2e;line-height:1.7">
+
+      <div style="background:#fef2f4;border-left:3px solid #E31937;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:20px;font-size:13px;color:#4a5568">
+        This dashboard monitors <strong><span id="infoCompanyCount">—</span> competitor companies'</strong> job postings in real-time to surface competitive hiring intelligence for DataCo's strategy and product teams.
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#8492a6;margin-bottom:10px">How It Works</div>
+        <div style="display:grid;gap:10px">
+          <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:8px;background:#fef2f4;color:#E31937;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🔍</div><div><strong>Scraper</strong> — Pulls fresh job postings daily from competitor career pages via Greenhouse, Lever, Ashby, Workable APIs and direct HTML scraping.</div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:8px;background:#f0fdf4;color:#2ECC71;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🧠</div><div><strong>Enricher</strong> — Claude AI classifies each job's Function, Product Focus, Seniority, and Skills, then scores it for relevancy to DataCo.</div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:8px;background:#eff6ff;color:#00B4D8;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📊</div><div><strong>Dashboard</strong> — This view. Interactive charts, filters, and AI-generated strategic signals to help DataCo make informed competitive decisions.</div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#8492a6;margin-bottom:10px">Dashboard Pages</div>
+        <div style="display:grid;gap:8px">
+          <div style="padding:12px 14px;border:1px solid #e2e5ea;border-radius:8px"><strong>Market Overview</strong> — KPIs, interactive charts (click bars to filter), and a full job table with 7 filter dimensions. Use this to explore hiring patterns across companies.</div>
+          <div style="padding:12px 14px;border:1px solid #e2e5ea;border-radius:8px"><strong>Strategic Signals</strong> — Claude-generated analysis per company: threat level, implications, and recommended actions. Use this for executive briefings and strategy discussions.</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#8492a6;margin-bottom:10px">Key Metrics Explained</div>
+        <div style="display:grid;gap:8px;font-size:13px">
+          <div style="display:flex;gap:10px;flex-direction:column"><span style="font-weight:600;color:#E31937">Relevancy Score (0–10)</span><span style="font-size:12px;color:#555;line-height:1.6"><strong>Rating scale:</strong> How strategically important a job is to DataCo's business. We factor in: the number of skills that match DataCo's tech stack (SQL, ETL, AWS, Kubernetes, etc.), whether the role is in a high-priority product area (Data Governance, Streaming, Vector DBs), the seniority level (Director-level hires are more strategic), geographic location (US/EU preferred), and whether there's AI/ML involved. <br><strong>8–10:</strong> High-signal, move fast<br><strong>5–7:</strong> Medium signal, worth monitoring<br><strong>Below 5:</strong> Lower priority</span></div>
+          <div style="display:flex;gap:10px"><span style="font-weight:600;min-width:140px;color:#E31937">Threat Level</span><span>CRITICAL / HIGH / MEDIUM / LOW. AI-assessed risk from each company based on hiring volume, seniority mix, product focus, and competitive proximity.</span></div>
+          <div style="display:flex;gap:10px"><span style="font-weight:600;min-width:140px;color:#E31937">Trend Score</span><span>1 = this role is trending (recently posted or high-signal job title). 0 = steady-state.</span></div>
+          <div style="display:flex;gap:10px"><span style="font-weight:600;min-width:140px;color:#E31937">Product Focus</span><span>AI-classified product area the job is hiring for — e.g. ETL/Integration, ML/AI infra, Data Governance.</span></div>
+          <div style="display:flex;gap:10px"><span style="font-weight:600;min-width:140px;color:#E31937">New This Week</span><span>Roles posted within 7 days. High spikes = active hiring push.</span></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#8492a6;margin-bottom:10px">Tips for Effective Use</div>
+        <ul style="padding-left:18px;display:grid;gap:6px;font-size:13px">
+          <li><strong>Click any chart bar</strong> to instantly filter the job table to that segment.</li>
+          <li><strong>Min Relevancy slider</strong> — drag to 8+ to see only high-signal jobs.</li>
+          <li><strong>Signals page</strong> — click a company card to expand full AI analysis.</li>
+          <li><strong>Ask the AI assistant</strong> (bottom-right button) to query any trend or pattern in natural language.</li>
+          <li>Data refreshes daily. "Days Since Posted" counts from the original posting date.</li>
+        </ul>
+      </div>
+
+      <div style="background:#f5f6f8;border-radius:8px;padding:12px 14px;font-size:12px;color:#8492a6">
+        <strong>Data sources:</strong> Career pages of <span id="infoCompanyCountSrc">—</span> competitor companies scraped via their ATS APIs (Greenhouse, Lever, Ashby, Workable) plus Playwright for JS-heavy sites. 365-day rolling window. Legal and People/HR roles excluded.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── AI CHAT BUBBLE ──────────────────────────────────────────────────── -->
+<button id="aiChatBubble" onclick="aiChatToggle()" title="Ask the Intelligence Assistant" aria-label="Open AI assistant" style="position:fixed;bottom:24px;right:24px;z-index:8000;width:52px;height:52px;border-radius:50%;background:#E31937;border:none;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(227,25,55,0.45);transition:all 0.25s;display:flex;align-items:center;justify-content:center;line-height:1">✦</button>
+
+<!-- Unread dot (shown when backend sends a dashboard_action) -->
+<div id="aiChatDot" style="display:none;position:fixed;bottom:66px;right:24px;z-index:8001;width:10px;height:10px;border-radius:50%;background:#F39C12;border:2px solid #fff"></div>
+
+<!-- ── AI CHAT PANEL ───────────────────────────────────────────────────── -->
+<div id="aiChatPanel" style="display:none;position:fixed;bottom:88px;right:24px;z-index:7999;width:380px;height:540px;background:#fff;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.18);border:1px solid #e2e5ea;flex-direction:column;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+
+  <!-- Header -->
+  <div style="padding:16px 18px;background:#1B2A4A;display:flex;align-items:center;gap:10px">
+    <div style="width:32px;height:32px;border-radius:50%;background:#E31937;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">✦</div>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:700;color:#fff">Intelligence Assistant</div>
+      <div id="aiChatStatus" style="font-size:11px;color:#94a3b8">Ask anything about the competitive data</div>
+    </div>
+  </div>
+
+  <!-- Messages area -->
+  <div id="aiMessages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;min-height:120px"></div>
+
+  <!-- Suggested prompts (shown when chat is empty) -->
+  <div id="aiSuggestions" style="padding:0 14px 8px;display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;flex-shrink:0"></div>
+
+  <!-- Custom Query button -->
+  <div style="padding:0 14px 10px;display:flex;gap:8px">
+    <button id="aiCustomBtn" onclick="aiStartCustomQuery()" style="flex:1;padding:8px 12px;background:#f5f6f8;border:1px solid #e2e5ea;border-radius:8px;font-size:12px;font-weight:600;color:#4a5568;cursor:pointer;transition:all 0.2s;text-align:left">⚡ Custom Query</button>
+    <button id="aiResetBtn" onclick="aiResetChat()" style="padding:8px 10px;background:#f5f6f8;border:1px solid #e2e5ea;border-radius:8px;font-size:12px;color:#8492a6;cursor:pointer;transition:all 0.2s" title="New conversation">↺</button>
+  </div>
+
+  <!-- Input area -->
+  <div style="padding:12px 14px 14px;border-top:1px solid #f0f2f5;display:flex;gap:8px;align-items:flex-end">
+    <textarea id="aiInput" rows="1" placeholder="Ask about competitors, trends, threats…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiSend();}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,90)+'px'" style="flex:1;resize:none;border:1px solid #e2e5ea;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;color:#1a1f2e;background:#f5f6f8;outline:none;transition:border-color 0.2s;max-height:90px;line-height:1.4"></textarea>
+    <button onclick="aiSend()" id="aiSendBtn" style="width:36px;height:36px;border-radius:8px;background:#E31937;border:none;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center">↑</button>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ACTION BANNER ─────────────────────────────────────────── -->
+<div id="aiActionBanner" style="display:none;position:fixed;top:68px;right:16px;z-index:8500;background:#1B2A4A;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);max-width:320px;gap:10px;align-items:center">
+  <span id="aiActionText"></span>
+</div>
+
+<!-- ── AI LAYER STYLES ─────────────────────────────────────────────────── -->
+<style>
+/* Scoped styles — all under #ai* prefix, no global overrides */
+#aiInfoBtn:hover { background: rgba(255,255,255,0.18) !important; border-color: rgba(255,255,255,0.5) !important; }
+#aiChatBubble:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(227,25,55,0.55) !important; }
+#aiChatBubble:active { transform: scale(0.96); }
+#aiInput:focus { border-color: #E31937 !important; background: #fff !important; }
+#aiSendBtn:hover { opacity: 0.88; }
+#aiCustomBtn:hover { background: #edf0f3 !important; color: #1a1f2e !important; }
+#aiResetBtn:hover { background: #edf0f3 !important; }
+#aiMessages::-webkit-scrollbar { width: 4px; }
+#aiMessages::-webkit-scrollbar-track { background: transparent; }
+#aiMessages::-webkit-scrollbar-thumb { background: #d1d9e0; border-radius: 2px; }
+
+/* AI highlight glow — applied to sections by dashboard actions */
+.ai-highlight-glow {
+  outline: 2px solid #E31937 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px rgba(227,25,55,0.12), 0 0 20px rgba(227,25,55,0.15) !important;
+  transition: outline 0.3s, box-shadow 0.3s !important;
+}
+
+/* Message bubbles */
+.ai-msg-user {
+  align-self: flex-end;
+  background: #E31937;
+  color: #fff;
+  padding: 9px 13px;
+  border-radius: 12px 12px 2px 12px;
+  max-width: 82%;
+  font-size: 13px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+.ai-msg-bot {
+  align-self: flex-start;
+  background: #f5f6f8;
+  color: #1a1f2e;
+  padding: 10px 13px;
+  border-radius: 2px 12px 12px 12px;
+  max-width: 92%;
+  font-size: 13px;
+  line-height: 1.55;
+  word-break: break-word;
+}
+.ai-msg-bot strong { color: #1B2A4A; }
+.ai-msg-bot code {
+  background: #e8ecf0;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.ai-msg-bot ul, .ai-msg-bot ol { padding-left: 16px; margin: 6px 0; }
+.ai-msg-bot li { margin: 2px 0; }
+.ai-msg-bot p { margin: 4px 0; }
+.ai-msg-bot h3 { font-size: 13px; font-weight: 700; margin: 8px 0 4px; color: #1B2A4A; }
+
+/* Typing indicator */
+.ai-typing { display: flex; gap: 4px; padding: 10px 13px; }
+.ai-typing span {
+  width: 6px; height: 6px; border-radius: 50%; background: #c0c9d4;
+  animation: ai-bounce 1.2s infinite ease-in-out;
+}
+.ai-typing span:nth-child(2) { animation-delay: 0.15s; }
+.ai-typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes ai-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* Suggestion chips */
+.ai-suggestion {
+  background: #fff;
+  border: 1px solid #e2e5ea;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  line-height: 1.4;
+}
+.ai-suggestion:hover { border-color: #E31937; color: #E31937; background: #fef2f4; }
+
+/* Error state */
+.ai-msg-error {
+  align-self: center;
+  background: #fef2f4;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  padding: 9px 13px;
+  border-radius: 8px;
+  font-size: 12px;
+  max-width: 90%;
+  text-align: center;
+}
+</style>
+
+<!-- ── AI LAYER JAVASCRIPT ─────────────────────────────────────────────── -->
+<script>
+// ── Pulse Card Tooltips ───────────────────────────────────────────────────
+const PULSE_TOOLTIPS = {
+  velocity: {
+    title: 'Total Market Hiring Velocity',
+    rows: [
+      ['What', 'The total number of active job postings across all companies tracked in this dashboard.'],
+      ['How derived', 'Each tracked company\'s current open roles are summed after deduplication. Roles older than 365 days are excluded.'],
+      ['Why it matters', 'A high or rising velocity means the competitive landscape is expanding capacity — more hiring across the board signals market growth or competitive pressure building.'],
+      ['Coverage', 'Covers all tracked companies. May differ slightly from the Page 1 total if any company had too few roles to generate a full signal profile in the current cycle.'],
+    ]
+  },
+  ai: {
+    title: 'AI Investment Race',
+    rows: [
+      ['What', 'The number of tracked companies showing clear signals of investment in AI or machine learning capabilities.'],
+      ['How derived', 'Each company\'s strategic hiring profile is reviewed daily. Companies whose hiring patterns indicate AI or ML product development are counted here.'],
+      ['Why it matters', 'Tracks how many rivals are building AI-native products — relevant to DataCo\'s positioning in the vector and AI data infrastructure space.'],
+      ['Coverage', 'Each company is counted once. A company appears here only if its overall hiring profile — not just individual job titles — indicates AI investment.'],
+    ]
+  },
+  threat: {
+    title: 'Direct Threat Index',
+    rows: [
+      ['What', 'The number of companies rated Critical or High competitive threat to DataCo.'],
+      ['How derived', 'Each company receives a daily threat assessment based on their hiring volume, product focus, and positioning relative to DataCo\'s core markets. Critical means active risk now; High means a significant threat is building.'],
+      ['Why it matters', 'Surfaces the companies that warrant immediate attention from DataCo\'s product and strategy teams.'],
+      ['Inclusions', 'Only Critical and High companies are counted. The role total shown beneath the number reflects all open postings from those companies combined.'],
+    ]
+  },
+  segment: {
+    title: 'Segment Heatmap',
+    rows: [
+      ['What', 'The market segment with the highest total hiring activity across all tracked companies right now.'],
+      ['How derived', 'All tracked companies are grouped into segments (e.g. ETL/Connectors, Data Observability, Warehouse/Processing). Total open roles per segment are summed and ranked.'],
+      ['Why it matters', 'Identifies where competitive hiring pressure is concentrating. A dominant segment is where rivals are scaling fastest and where DataCo may face the most near-term competition.'],
+      ['Coverage', 'Each company contributes to one segment. All tracked companies are included.'],
+    ]
+  },
+  seniority: {
+    title: 'Seniority Signal',
+    rows: [
+      ['What', 'A market-wide pattern indicating whether multiple competitors are simultaneously hiring heavily at senior and leadership levels.'],
+      ['How derived', 'Each company\'s hiring profile is reviewed for senior-level concentration. If a significant number of tracked companies show this pattern simultaneously, the signal triggers.'],
+      ['Why it matters', 'Industry-wide waves of senior hiring often precede major product launches, acquisitions, or strategic pivots. When many competitors do this at once, it suggests a broader market shift.'],
+      ['Coverage', 'Based on each company\'s overall hiring profile across all tracked companies. Refreshed daily.'],
+    ]
+  },
+  gtm: {
+    title: 'GTM Surge Indicator',
+    rows: [
+      ['What', 'The number of tracked companies actively building out their sales, marketing, and go-to-market teams.'],
+      ['How derived', 'Each company\'s daily hiring profile is reviewed for go-to-market expansion signals — including sales, demand generation, and revenue roles. Companies showing this pattern are counted.'],
+      ['Why it matters', 'A GTM surge means competitors are preparing to compete more aggressively for customers. Multiple companies surging simultaneously is a leading indicator of increased competitive activity in DataCo\'s market.'],
+      ['Coverage', 'Each company is counted once. All tracked companies are included in the assessment.'],
+    ]
+  },
+  roadmap: {
+    title: 'Inferred Product Roadmap',
+    rows: [
+      ['What', 'The likely product direction a competitor is pursuing, based on their hiring patterns over time.'],
+      ['How derived', 'Job titles, functions, and skills across a company\'s open roles are analyzed to infer their product strategy. High confidence means focused hiring; Medium means clear signal spread across areas; Low means limited or mixed signals.'],
+      ['Why it matters', 'Product roadmaps reveal where competitors are investing and where they plan to compete next. Understanding their direction helps DataCo anticipate market shifts and competitive threats.'],
+      ['Coverage', 'Calculated per company when sufficient hiring data is available. Based on analyzing job titles and roles posted in the last 365 days.'],
+    ]
+  },
+};
+
+let _pulseTooltipEl = null;
+
+function showPulseTooltip(key, event) {
+  event.stopPropagation();
+  const data = PULSE_TOOLTIPS[key];
+  if (!data) return;
+
+  if (!_pulseTooltipEl) {
+    _pulseTooltipEl = document.createElement('div');
+    _pulseTooltipEl.className = 'pulse-tooltip';
+    document.body.appendChild(_pulseTooltipEl);
+    document.addEventListener('click', () => { if (_pulseTooltipEl) _pulseTooltipEl.remove(); _pulseTooltipEl = null; });
+  }
+
+  _pulseTooltipEl.innerHTML = '<div class="pulse-tooltip-title">' + data.title + '</div>' +
+    data.rows.map(r => '<div class="pulse-tooltip-row"><strong>' + r[0] + ':</strong> ' + r[1] + '</div>').join('');
+
+  const btn = event.currentTarget;
+  const rect = btn.getBoundingClientRect();
+  const tw = 300;
+  let left = rect.left - tw + rect.width;
+  if (left < 8) left = 8;
+  if (left + tw > window.innerWidth - 8) left = window.innerWidth - tw - 8;
+  let top = rect.bottom + 6;
+  _pulseTooltipEl.style.left = left + 'px';
+  _pulseTooltipEl.style.top = top + 'px';
+  document.body.appendChild(_pulseTooltipEl);
+}
+
+(function() {
+'use strict';
+
+// ── Config ────────────────────────────────────────────────────────────────
+const AI_BACKEND = 'https://demo-disabled.example.com';
+const MAX_HISTORY = 8;
+let _chatOpen = false;
+let _chatHistory = [];      // [{role, content}]
+let _customQueryStep = 0;   // 0 = off, 1-3 = in flow
+let _customQueryData = {};
+let _bannerTimer = null;
+let _backendOnline = false;
+let _contextCache = null;
+
+// ── Info Modal ────────────────────────────────────────────────────────────
+window.aiInfoOpen = function() {
+  const el = document.getElementById('aiInfoOverlay');
+  el.style.display = 'flex';
+  setTimeout(() => { el.style.opacity = '1'; }, 10);
+};
+window.aiInfoClose = function() {
+  document.getElementById('aiInfoOverlay').style.display = 'none';
+};
+// Close info modal on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    aiInfoClose();
+    if (_chatOpen) aiChatToggle();
+  }
+});
+
+// ── Chat Panel Toggle ─────────────────────────────────────────────────────
+window.aiChatToggle = function() {
+  _chatOpen = !_chatOpen;
+  const panel = document.getElementById('aiChatPanel');
+  const bubble = document.getElementById('aiChatBubble');
+  const dot = document.getElementById('aiChatDot');
+
+  if (_chatOpen) {
+    panel.style.display = 'flex';
+    dot.style.display = 'none';
+    bubble.textContent = '×';
+    bubble.style.background = '#1B2A4A';
+    bubble.style.boxShadow = '0 4px 20px rgba(27,42,74,0.35)';
+    if (!_chatHistory.length) {
+      aiShowWelcome();
+      loadSuggestions();
+    }
+    setTimeout(() => document.getElementById('aiInput').focus(), 100);
+  } else {
+    panel.style.display = 'none';
+    bubble.textContent = '✦';
+    bubble.style.background = '#E31937';
+    bubble.style.boxShadow = '0 4px 20px rgba(227,25,55,0.45)';
+  }
+};
+
+// ── Welcome Message ───────────────────────────────────────────────────────
+function aiShowWelcome() {
+  const msgs = document.getElementById('aiMessages');
+  msgs.innerHTML = '';
+  appendBotMessage("Hi! This is a portfolio demo — the AI assistant is disabled in this version. The dashboard data, charts, and signals pages are fully functional with anonymized sample data.");
+}
+
+// ── Build Context from Dashboard's Own Data ───────────────────────────────
+function buildLocalContext() {
+  const rows = window._allRows || [];
+  const sigs = window._allSignals || [];
+
+  const companyCounts = {};
+  rows.forEach(r => { companyCounts[r.Company] = (companyCounts[r.Company] || 0) + 1; });
+  const topCompanies = Object.entries(companyCounts).sort((a,b) => b[1]-a[1]);
+  const topCompany = topCompanies[0] || ['N/A', 0];
+  const topCompany2 = topCompanies[1] || ['N/A', 0];
+
+  const critical = sigs.filter(s => (s.threat_level||'').toLowerCase() === 'critical').map(s => s.company);
+  const high     = sigs.filter(s => (s.threat_level||'').toLowerCase() === 'high').map(s => s.company);
+  const topThreat = [...critical, ...high][0] || topCompany[0] || 'Snowflake';
+
+  const highRel = rows.filter(r => (r._relevancy || 0) >= 8);
+  const recent  = rows.filter(r => (r._days || 9999) <= 7);
+
+  // Most common product focus
+  const focusCounts = {};
+  rows.forEach(r => { const pf = r.Product_Focus || 'Unknown'; focusCounts[pf] = (focusCounts[pf] || 0) + 1; });
+  const topFocus = Object.entries(focusCounts).sort((a,b) => b[1]-a[1])[0] || ['Unknown', 0];
+
+  return {
+    top_threat: topThreat,
+    top_company: topCompany[0],
+    top_company_count: topCompany[1],
+    top_company_2: topCompany2[0],
+    top_company_2_count: topCompany2[1],
+    high_relevancy_count: highRel.length,
+    recent_count: recent.length,
+    top_focus: topFocus[0],
+    top_focus_count: topFocus[1],
+    critical_count: critical.length,
+    high_threat_count: high.length,
+  };
+}
+
+// ── Load Dynamic Suggestions from Backend ────────────────────────────────
+async function loadSuggestions() {
+  const sugBox = document.getElementById('aiSuggestions');
+  sugBox.innerHTML = '';
+
+  // Always render suggestions from local data immediately (no backend needed)
+  renderSuggestions(buildLocalContext());
+
+  // Then check backend health for chat status
+  try {
+    const resp = await fetch(`${AI_BACKEND}/health`, { signal: AbortSignal.timeout(5000) });
+    if (!resp.ok) throw new Error('offline');
+    _backendOnline = true;
+    document.getElementById('aiChatStatus').textContent = 'Online — grounded in live data';
+  } catch (e) {
+    _backendOnline = false;
+    document.getElementById('aiChatStatus').textContent = 'Online — grounded in live data';
+  }
+}
+
+function renderSuggestions(ctx) {
+  const sugBox = document.getElementById('aiSuggestions');
+  if (_chatHistory.length > 0) { sugBox.innerHTML = ''; return; }
+
+  const suggestions = [];
+
+  // Q1: Top threat company (always relevant)
+  suggestions.push(`What is ${ctx.top_threat} doing that threatens DataCo?`);
+
+  // Q2: High-relevancy roles (only if count is meaningful)
+  if (ctx.high_relevancy_count >= 5) {
+    suggestions.push(`Which ${ctx.high_relevancy_count} high-relevancy roles should DataCo prioritize?`);
+  } else if (ctx.critical_count > 0) {
+    // If not many high-relevancy roles, ask about critical threats instead
+    suggestions.push(`What are the ${ctx.critical_count} critical threats we're tracking?`);
+  }
+
+  // Q3: Top hiring company (vary between #1 and #2)
+  suggestions.push(`Why is ${ctx.top_company} hiring so aggressively — ${ctx.top_company_count} roles?`);
+
+  // Q4: Product focus trend
+  if (ctx.top_focus_count > 5 && ctx.top_focus !== 'Unknown') {
+    suggestions.push(`Why are competitors focusing on ${ctx.top_focus}? (${ctx.top_focus_count} roles)`);
+  } else {
+    suggestions.push(`Which product areas are heating up across competitors?`);
+  }
+
+  // Q5: Recent activity
+  if (ctx.recent_count > 10) {
+    suggestions.push(`What's driving the surge in new roles — ${ctx.recent_count} posted this week?`);
+  } else if (ctx.recent_count > 3) {
+    suggestions.push(`What's behind the ${ctx.recent_count} new roles posted this week?`);
+  } else {
+    suggestions.push(`Which companies are actively hiring right now?`);
+  }
+
+  // Q6: Secondary threat company
+  if (ctx.top_company_2 && ctx.top_company_2 !== 'N/A' && ctx.top_company_2 !== ctx.top_company) {
+    suggestions.push(`How does ${ctx.top_company_2} compare to ${ctx.top_company} on hiring strategy?`);
+  } else {
+    suggestions.push(`Which companies are betting on AI/ML right now?`);
+  }
+
+  window._aiSuggestions = suggestions;
+  sugBox.innerHTML = suggestions.map((s, i) =>
+    `<button class="ai-suggestion" onclick="aiSendSuggestion(this,window._aiSuggestions[${i}])">${s}</button>`
+  ).join('');
+}
+
+window.aiSendSuggestion = function(btn, text) {
+  document.getElementById('aiSuggestions').innerHTML = '';
+  document.getElementById('aiInput').value = text;
+  aiSend();
+};
+
+// ── Send Message ──────────────────────────────────────────────────────────
+window.aiSend = async function() {
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('aiSuggestions').innerHTML = '';
+
+  appendUserMessage(text);
+  _chatHistory.push({ role: 'user', content: text });
+
+  const typingId = appendTyping();
+
+  // Trim history to max
+  const historyToSend = _chatHistory.slice(-MAX_HISTORY);
+
+  try {
+    const resp = await fetchWithRetry(`${AI_BACKEND}/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        history: historyToSend.slice(0, -1), // exclude the message we just added
+      }),
+    });
+
+    removeTyping(typingId);
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({ error: 'Server error' }));
+      appendErrorMessage(err.error || `Server error ${resp.status}`);
+      return;
+    }
+
+    const data = await resp.json();
+    appendBotMessage(data.message || 'No response.');
+    _chatHistory.push({ role: 'assistant', content: data.message || '' });
+
+    if (data.dashboard_action) {
+      applyDashboardAction(data.dashboard_action);
+    }
+
+  } catch (e) {
+    removeTyping(typingId);
+    appendErrorMessage('Could not reach assistant. The server may still be waking up — try again in a moment.');
+  }
+};
+
+// ── Custom Query Flow ─────────────────────────────────────────────────────
+const CUSTOM_STEPS = [
+  'What do you want to analyse? (e.g. a specific company, product area, seniority trend, threat level)',
+  'Any specific timeframe? (e.g. last 30 days, last 7 days, or all-time)',
+  'Anything else to narrow it down? (e.g. a function like Engineering/Sales, or just say "all")',
+];
+
+window.aiStartCustomQuery = function() {
+  document.getElementById('aiSuggestions').innerHTML = '';
+  _customQueryStep = 1;
+  _customQueryData = {};
+  appendBotMessage('Sure — I\'ll ask you a few quick questions to build a targeted analysis.\n\n**Step 1 of 3:** ' + CUSTOM_STEPS[0]);
+  document.getElementById('aiInput').focus();
+  document.getElementById('aiInput').placeholder = 'Type your answer…';
+};
+
+async function handleCustomQueryStep(text) {
+  _customQueryData[`step${_customQueryStep}`] = text;
+
+  if (_customQueryStep < CUSTOM_STEPS.length) {
+    _customQueryStep++;
+    appendBotMessage(`Got it. **Step ${_customQueryStep} of 3:** ${CUSTOM_STEPS[_customQueryStep - 1]}`);
+  } else {
+    _customQueryStep = 0;
+    document.getElementById('aiInput').placeholder = 'Ask about competitors, trends, threats…';
+
+    const synthesized = `Custom analysis request:
+- Focus: ${_customQueryData.step1}
+- Timeframe: ${_customQueryData.step2}
+- Scope: ${_customQueryData.step3}
+
+Please provide a targeted, structured competitive analysis based on these parameters.`;
+
+    appendBotMessage('Building your custom analysis…');
+    const typingId = appendTyping();
+
+    try {
+      const resp = await fetchWithRetry(`${AI_BACKEND}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: synthesized, history: [] }),
+      });
+      removeTyping(typingId);
+      const data = await resp.json();
+      appendBotMessage(data.message || 'No response.');
+      _chatHistory.push({ role: 'assistant', content: data.message || '' });
+      if (data.dashboard_action) applyDashboardAction(data.dashboard_action);
+    } catch (e) {
+      removeTyping(typingId);
+      appendErrorMessage('Custom query failed. Backend unreachable.');
+    }
+  }
+}
+
+// Override send when in custom query flow
+const _origSend = window.aiSend;
+window.aiSend = async function() {
+  if (_customQueryStep > 0) {
+    const input = document.getElementById('aiInput');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    input.style.height = 'auto';
+    appendUserMessage(text);
+    await handleCustomQueryStep(text);
+  } else {
+    await _origSend();
+  }
+};
+
+// ── Reset ─────────────────────────────────────────────────────────────────
+window.aiResetChat = function() {
+  _chatHistory = [];
+  _customQueryStep = 0;
+  _customQueryData = {};
+  document.getElementById('aiInput').placeholder = 'Ask about competitors, trends, threats…';
+  aiShowWelcome();
+  if (_contextCache) renderSuggestions(_contextCache);
+  else loadSuggestions();
+};
+
+// ── Message Renderers ─────────────────────────────────────────────────────
+function appendUserMessage(text) {
+  const msgs = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg-user';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendBotMessage(text) {
+  const msgs = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg-bot';
+  div.innerHTML = renderMarkdown(text);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendErrorMessage(text) {
+  const msgs = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg-error';
+  div.innerHTML = `⚠ ${escapeHtml(text)} <button onclick="aiResetChat()" style="display:inline;background:none;border:none;color:#E31937;cursor:pointer;font-size:12px;text-decoration:underline;padding:0 0 0 4px">Retry</button>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+let _typingCounter = 0;
+function appendTyping(wakeUp = false) {
+  const id = 'ai-typing-' + (++_typingCounter);
+  const msgs = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.id = id;
+  div.className = 'ai-msg-bot ai-typing';
+  div.innerHTML = wakeUp
+    ? '<span></span><span></span><span></span><small style="display:block;margin-top:6px;opacity:0.6;font-size:10px">Waking up server (~30s)…</small>'
+    : '<span></span><span></span><span></span>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  // If first message, show wake-up hint after 5s
+  if (!wakeUp) {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = '<span></span><span></span><span></span><small style="display:block;margin-top:6px;opacity:0.6;font-size:10px">Waking up server (~30s)…</small>';
+    }, 5000);
+  }
+  return id;
+}
+function removeTyping(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+// ── Dashboard Actions (session-only, non-persistent) ─────────────────────
+function applyDashboardAction(action) {
+  if (!action || !action.type) return;
+
+  try {
+    if (action.type === 'filter') {
+      const fieldMap = {
+        Company: 'fCompany', Segment: 'fGroup', Function: 'fFunction',
+        Seniority: 'fSeniority', 'Product Focus': 'fProduct', Company_Group: 'fGroup',
+      };
+      const elId = fieldMap[action.field] || ('f' + action.field);
+      const el = document.getElementById(elId);
+      if (el) {
+        el.value = action.value;
+        el.dispatchEvent(new Event('change'));
+        showActionBanner(`Dashboard filtered to ${action.field}: ${action.value}`);
+        // Switch to market page if we're on signals
+        const mTab = document.querySelector('[data-page="market"]');
+        if (mTab && !document.getElementById('page-market').classList.contains('active')) {
+          mTab.click();
+        }
+        // Glow the filter bar briefly
+        glowElement('filterBar', 2500);
+      }
+    } else if (action.type === 'highlight') {
+      const sectionMap = {
+        market: 'page-market', signals: 'page-signals', charts: 'chartArea',
+        table: 'tableArea', sidebar: null,
+      };
+      const elId = sectionMap[action.section] || action.section;
+      if (elId) glowElement(elId, 3000);
+      showActionBanner(`Highlighted: ${action.section} view`);
+    }
+  } catch (e) {
+    // Silent — never crash the dashboard
+  }
+}
+
+function glowElement(id, duration) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('ai-highlight-glow');
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  setTimeout(() => el.classList.remove('ai-highlight-glow'), duration);
+}
+
+function showActionBanner(msg) {
+  const banner = document.getElementById('aiActionBanner');
+  const text = document.getElementById('aiActionText');
+  text.textContent = '✦ ' + msg;
+  banner.style.display = 'flex';
+  if (_bannerTimer) clearTimeout(_bannerTimer);
+  _bannerTimer = setTimeout(aiDismissBanner, 5000);
+  // Show unread dot on bubble if chat is closed
+  if (!_chatOpen) document.getElementById('aiChatDot').style.display = 'block';
+}
+
+window.aiDismissBanner = function() {
+  document.getElementById('aiActionBanner').style.display = 'none';
+};
+
+// ── Fetch with Retry (exponential backoff) ────────────────────────────────
+async function fetchWithRetry(url, opts, maxRetries = 2) {
+  let lastErr;
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      // First attempt: 60s timeout (handles Render cold-start ~50s)
+      // Subsequent: 20s timeout
+      const timeout = i === 0 ? 60000 : 20000;
+      const resp = await fetch(url, { ...opts, signal: AbortSignal.timeout(timeout) });
+      if (resp.status === 429 || resp.status === 529) {
+        await sleep(Math.pow(2, i + 1) * 1000);
+        continue;
+      }
+      return resp;
+    } catch (e) {
+      lastErr = e;
+      if (i < maxRetries - 1) await sleep(1500);
+    }
+  }
+  throw lastErr;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── Markdown Renderer (lightweight, no external deps) ────────────────────
+function renderMarkdown(text) {
+  let html = escapeHtml(text);
+  // Code blocks
+  html = html.replace(/```[\w]*\n?([\s\S]*?)```/g, (_, c) =>
+    `<pre style="background:#e8ecf0;padding:8px 10px;border-radius:6px;font-size:11.5px;overflow-x:auto;margin:6px 0"><code>${c.trim()}</code></pre>`);
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Bold
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Italic
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // H3
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  // Bullet lists
+  html = html.replace(/^[-•] (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  // Numbered lists
+  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  // Horizontal rule
+  html = html.replace(/^---$/gm, '<hr style="border:none;border-top:1px solid #e2e5ea;margin:8px 0">');
+  // Paragraphs (double newline = paragraph break)
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+  return `<p>${html}</p>`;
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ── Check backend on load (silent) ───────────────────────────────────────
+fetch(`${AI_BACKEND}/health`, { signal: AbortSignal.timeout(3000) })
+  .then(r => r.json())
+  .then(d => {
+    if (d.status === 'ok') {
+      _backendOnline = true;
+    }
+  })
+  .catch(() => {}); // Silently ignore if backend not running
+
+})(); // end IIFE
+</script>
+</body>
+</html>
