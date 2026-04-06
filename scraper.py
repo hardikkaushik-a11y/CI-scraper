@@ -62,6 +62,7 @@ PLAYWRIGHT_URL_DOMAINS = {
     "boomi.com",               # React-powered career portal
     "data.world",              # Greenhouse embed, needs JS render
     "careers.teradata.com",    # gr8people Next.js portal, needs JS render
+    "careerhub.qlik.com",      # Eightfold AI — fully JS-rendered
 }
 
 # ATS patterns that indicate a real job detail URL
