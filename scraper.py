@@ -1133,12 +1133,26 @@ async def extract_phenom_jobs(
 
                 job_url = href if href.startswith("http") else f"{base_domain}{href}"
 
+                # Fetch detail page to extract posting date
+                posting_date = ""
+                try:
+                    await rate_limiter.wait(job_url)
+                    detail_r = await client.get(job_url, headers=HEADERS, timeout=20, follow_redirects=True)
+                    if detail_r.status_code == 200:
+                        posting_date = extract_date(detail_r.text)
+                except Exception:
+                    pass
+
+                # Skip jobs older than MAX_JOB_AGE_DAYS
+                if is_too_old(posting_date):
+                    continue
+
                 jobs.append({
                     "Company": company,
                     "Job Title": title,
                     "Job Link": job_url,
                     "Location": location,
-                    "Posting Date": "",
+                    "Posting Date": posting_date,
                     "Seniority": "Mid",
                 })
 
