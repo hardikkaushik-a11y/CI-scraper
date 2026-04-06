@@ -1652,6 +1652,14 @@ def enrich(
                 continue
 
             ex["Last_Seen"] = today
+
+            # Backfill posting date from raw row if previously missing
+            if not posting_date:
+                raw_date = row.get("Posting Date", "")
+                if raw_date:
+                    ex["Posting Date"] = raw_date
+                    posting_date = raw_date
+
             if posting_date:
                 try:
                     d = datetime.fromisoformat(posting_date).date()
