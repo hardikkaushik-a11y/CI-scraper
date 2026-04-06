@@ -1038,13 +1038,21 @@ const LOC_COORDS = {
   'bogota':[4.711,-74.073],'buenos aires':[-34.604,-58.382],
 };
 
+// Pre-sort keys longest-first so "united states" matches before "us", etc.
+const _LOC_KEYS_SORTED = Object.keys(LOC_COORDS).sort((a,b) => b.length - a.length);
+
 function resolveLocation(locStr) {
   const s = (locStr || '').toLowerCase().replace(/[,\.\-]/g,' ').trim();
   // Try full string first
   if (LOC_COORDS[s]) return LOC_COORDS[s];
-  // Try each word/phrase against keys
-  for (const key of Object.keys(LOC_COORDS)) {
-    if (s.includes(key)) return LOC_COORDS[key];
+  // Try each key longest-first with word-boundary enforcement
+  for (const key of _LOC_KEYS_SORTED) {
+    if (!s.includes(key)) continue;
+    // Require word boundaries: character before/after key must be space or string edge
+    const idx = s.indexOf(key);
+    const before = idx === 0 || s[idx-1] === ' ';
+    const after = idx + key.length === s.length || s[idx + key.length] === ' ';
+    if (before && after) return LOC_COORDS[key];
   }
   return null;
 }
