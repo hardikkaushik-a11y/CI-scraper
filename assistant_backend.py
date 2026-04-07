@@ -101,88 +101,236 @@ def _count(rows: list[dict], key: str) -> dict:
     return dict(sorted(counts.items(), key=lambda x: -x[1]))
 
 
+def build_semantic_layer(rows: list[dict], signals: list[dict]) -> dict:
+    """
+    Compute the Semantic Layer — defined business metrics per company.
+    These are the ground-truth numbers the AI agent reasons against,
+    not raw data dumps.
+    """
+    company_counts = _count(rows, "Company")
+    sig_by_company = {s.get("company", ""): s for s in signals}
+
+    metrics = {}
+    for company, total in company_counts.items():
+        c_rows = [r for r in rows if r["Company"] == company]
+
+        # ── Hiring Velocity ──────────────────────────────────────────────
+        # Roles posted in last 30 days vs 31-90 days (momentum proxy)
+        recent_30  = [r for r in c_rows if r["_days"] <= 30]
+        recent_90  = [r for r in c_rows if r["_days"] <= 90]
+        prior_60   = [r for r in c_rows if 30 < r["_days"] <= 90]
+        velocity_score = round(len(recent_30) / max(len(prior_60), 1) * 100)  # % ratio
+
+        # ── AI Investment Ratio ──────────────────────────────────────────
+        ai_roles = [r for r in c_rows if r.get("Function") in ("AI/ML & Vector", "Engineering")
+                    and any(k in (r.get("Job Title", "") + r.get("Product_Focus", "")).lower()
+                            for k in ["ai", "ml", "llm", "vector", "machine learning", "deep learning", "rag"])]
+        ai_ratio = round(len(ai_roles) / total * 100) if total else 0
+
+        # ── Competitive Overlap Score ────────────────────────────────────
+        # % of roles in product areas that directly compete with Actian
+        direct_focus = {"ETL/Integration", "Data Governance", "Data Observability", "Data Quality", "Vector / AI"}
+        overlap_roles = [r for r in c_rows if r.get("Product_Focus") in direct_focus]
+        overlap_score = round(len(overlap_roles) / total * 100) if total else 0
+
+        # ── Seniority Composition ────────────────────────────────────────
+        senior_levels = {"Director+", "Principal/Staff", "Manager", "Senior"}
+        senior_count  = len([r for r in c_rows if r.get("Seniority") in senior_levels])
+        senior_ratio  = round(senior_count / total * 100) if total else 0
+
+        # ── Engineering Concentration ────────────────────────────────────
+        eng_roles  = [r for r in c_rows if r.get("Function") == "Engineering"]
+        eng_ratio  = round(len(eng_roles) / total * 100) if total else 0
+
+        # ── GTM Concentration ────────────────────────────────────────────
+        gtm_roles  = [r for r in c_rows if r.get("Function") in ("Sales", "Marketing", "Customer Success")]
+        gtm_ratio  = round(len(gtm_roles) / total * 100) if total else 0
+
+        # ── Mean Relevancy ────────────────────────────────────────────────
+        mean_rel   = round(sum(r["_relevancy"] for r in c_rows) / total, 1) if total else 0
+        high_rel   = len([r for r in c_rows if r["_relevancy"] >= 10])
+
+        # ── Dominant Function & Product ──────────────────────────────────
+        dom_fn  = list(_count(c_rows, "Function").keys())[0]  if c_rows else "—"
+        dom_pf  = list(_count(c_rows, "Product_Focus").keys())[0] if c_rows else "—"
+
+        # ── Threat Signal ────────────────────────────────────────────────
+        sig    = sig_by_company.get(company, {})
+        threat = sig.get("threat_level", "low").lower()
+
+        metrics[company] = {
+            "total_roles":        total,
+            "threat_level":       threat,
+            "hiring_velocity":    velocity_score,      # 100 = same pace, >100 = accelerating
+            "ai_investment_pct":  ai_ratio,            # % of roles AI/ML related
+            "competitive_overlap_pct": overlap_score,  # % of roles in Actian-competitive areas
+            "senior_pct":         senior_ratio,        # % Director+ / Senior
+            "engineering_pct":    eng_ratio,
+            "gtm_pct":            gtm_ratio,
+            "mean_relevancy":     mean_rel,
+            "high_signal_roles":  high_rel,
+            "dominant_function":  dom_fn,
+            "dominant_product":   dom_pf,
+            "recent_30d":         len(recent_30),
+            "company_group":      sig.get("company_group", ""),
+        }
+
+    return metrics
+
+
 def build_context(query: str, rows: list[dict], signals: list[dict]) -> str:
-    """Assemble focused, data-grounded context for the LLM."""
-    total = len(rows)
+    """
+    Assemble focused, data-grounded context for the LLM.
+    Includes a full Semantic Layer and query-aware analytics.
+    """
+    total          = len(rows)
     company_counts = _count(rows, "Company")
     seniority_counts = _count(rows, "Seniority")
-    function_counts = _count(rows, "Function")
-    product_counts = _count(rows, "Product_Focus")
-    group_counts = _count(rows, "Company_Group")
+    function_counts  = _count(rows, "Function")
+    product_counts   = _count(rows, "Product_Focus")
+    group_counts     = _count(rows, "Company_Group")
+    query_lower      = query.lower()
 
-    top_companies = dict(list(company_counts.items())[:10])
+    # ── Semantic Layer ────────────────────────────────────────────────────
+    sem = build_semantic_layer(rows, signals)
 
-    # Top high-relevancy roles
-    high_rel = sorted([r for r in rows if r["_relevancy"] >= 10], key=lambda x: -x["_relevancy"])[:15]
-    top_roles = [
-        {
-            "company": r["Company"],
-            "title": r["Job Title"],
-            "function": r["Function"],
-            "seniority": r["Seniority"],
-            "product": r["Product_Focus"],
-            "relevancy": r["_relevancy"],
-            "location": r.get("Location", ""),
-        }
-        for r in high_rel
-    ]
+    # ── Market Pressure Index ─────────────────────────────────────────────
+    # Weighted sum: CRITICAL=3, HIGH=2, MEDIUM=1
+    threat_weights = {"critical": 3, "high": 2, "medium": 1, "low": 0}
+    market_pressure = sum(threat_weights.get(m["threat_level"], 0) * m["total_roles"]
+                          for m in sem.values())
 
-    # Signal summaries
+    # ── Top Movers (highest velocity) ────────────────────────────────────
+    top_velocity = sorted(sem.items(), key=lambda x: -x[1]["hiring_velocity"])[:5]
+
+    # ── AI Leaders ───────────────────────────────────────────────────────
+    ai_leaders = sorted(sem.items(), key=lambda x: -x[1]["ai_investment_pct"])[:5]
+
+    # ── High Overlap (direct Actian threats) ──────────────────────────────
+    overlap_leaders = sorted(sem.items(), key=lambda x: -x[1]["competitive_overlap_pct"])[:5]
+
+    # ── Signal summaries ──────────────────────────────────────────────────
     signal_summary = [
         {
-            "company": s.get("company", ""),
-            "threat": s.get("threat_level", ""),
-            "roles": s.get("total_postings", 0),
-            "focus": s.get("dominant_product", ""),
-            "group": s.get("company_group", ""),
-            "implications": s.get("implications", [])[:3],
-            "actions": s.get("recommended_actions", [])[:2],
+            "company":      s.get("company", ""),
+            "threat":       s.get("threat_level", ""),
+            "roles":        s.get("total_postings", 0),
+            "focus":        s.get("dominant_product", ""),
+            "group":        s.get("company_group", ""),
+            "roadmap":      s.get("roadmap", ""),
+            "implications": s.get("implications", [])[:2],
+            "actions":      s.get("recommended_actions", [])[:1],
         }
-        for s in signals[:25]
+        for s in signals[:30]
     ]
 
-    # Query-specific company drill-down
-    specific_context = ""
-    query_lower = query.lower()
-    for company in company_counts.keys():
-        if company.lower() in query_lower:
-            c_rows = [r for r in rows if r["Company"] == company]
-            c_seniority = _count(c_rows, "Seniority")
-            c_function = _count(c_rows, "Function")
-            c_product = _count(c_rows, "Product_Focus")
-            c_top = sorted(c_rows, key=lambda x: -x["_relevancy"])[:8]
-            specific_context = f"""
-━━━ DETAILED DRILL-DOWN: {company.upper()} ━━━
-Total roles: {len(c_rows)}
-Seniority breakdown: {json.dumps(c_seniority)}
-Function breakdown: {json.dumps(c_function)}
-Product focus: {json.dumps(c_product)}
-Top roles by relevancy:
-{json.dumps([{"title": r["Job Title"], "seniority": r["Seniority"], "relevancy": r["_relevancy"], "location": r.get("Location","")} for r in c_top], indent=2)}
-"""
-            break
+    # ── Top high-relevancy roles ──────────────────────────────────────────
+    high_rel_rows = sorted([r for r in rows if r["_relevancy"] >= 10],
+                           key=lambda x: -x["_relevancy"])[:12]
+    top_roles = [
+        {
+            "company":   r["Company"],
+            "title":     r["Job Title"],
+            "function":  r["Function"],
+            "seniority": r["Seniority"],
+            "product":   r["Product_Focus"],
+            "relevancy": r["_relevancy"],
+        }
+        for r in high_rel_rows
+    ]
 
-    # Recent postings (last 7 days)
+    # ── Recent postings ───────────────────────────────────────────────────
     recent = [r for r in rows if r["_days"] <= 7]
     recent_by_company = _count(recent, "Company")
 
+    # ── Query-aware analytics ─────────────────────────────────────────────
+    specific_context = ""
+
+    # COMPANY DRILL-DOWN: if query names a specific company
+    mentioned = [c for c in company_counts if c.lower() in query_lower]
+
+    if len(mentioned) == 1:
+        # Single company deep-dive
+        company   = mentioned[0]
+        c_rows    = [r for r in rows if r["Company"] == company]
+        c_sem     = sem.get(company, {})
+        c_sig     = next((s for s in signals if s.get("company") == company), {})
+        c_top     = sorted(c_rows, key=lambda x: -x["_relevancy"])[:10]
+
+        specific_context = f"""
+━━━ COMPANY DEEP-DIVE: {company.upper()} ━━━
+{json.dumps(c_sem, indent=2)}
+
+Strategic signal: {c_sig.get("narrative", "")}
+Roadmap inference: {c_sig.get("roadmap", "")}
+Implications: {json.dumps(c_sig.get("implications", []), indent=2)}
+Recommended actions: {json.dumps(c_sig.get("recommended_actions", []), indent=2)}
+Watch for: {json.dumps(c_sig.get("watch_for", []), indent=2)}
+
+Top roles by relevancy to Actian:
+{json.dumps([{"title": r["Job Title"], "seniority": r["Seniority"], "product": r["Product_Focus"],
+              "relevancy": r["_relevancy"]} for r in c_top], indent=2)}
+"""
+
+    elif len(mentioned) >= 2:
+        # COMPARISON: two or more companies side-by-side
+        comparison = {}
+        for company in mentioned[:3]:
+            comparison[company] = sem.get(company, {})
+        specific_context = f"""
+━━━ COMPANY COMPARISON ━━━
+{json.dumps(comparison, indent=2)}
+"""
+
+    # SEGMENT QUERY: if asking about a segment/group
+    segments = {
+        "etl": "ETL/Connectors", "integration": "ETL/Connectors", "fivetran": "ETL/Connectors",
+        "governance": "Data Intelligence", "catalog": "Data Intelligence", "alation": "Data Intelligence",
+        "vector": "Vector DB / AI", "ai": "Vector DB / AI", "pinecone": "Vector DB / AI",
+        "observability": "Data Observability", "warehouse": "Warehouse/Processing",
+        "snowflake": "Warehouse/Processing", "databricks": "Warehouse/Processing",
+    }
+    matched_segment = next((v for k, v in segments.items() if k in query_lower), None)
+    if matched_segment and not mentioned:
+        seg_rows     = [r for r in rows if r.get("Company_Group") == matched_segment]
+        seg_companies = {c: sem[c] for c in _count(seg_rows, "Company") if c in sem}
+        specific_context = f"""
+━━━ SEGMENT DEEP-DIVE: {matched_segment.upper()} ━━━
+Companies: {json.dumps(list(seg_companies.keys()))}
+Per-company semantic metrics:
+{json.dumps(seg_companies, indent=2)}
+"""
+
     context = f"""
 ACTIAN COMPETITIVE HIRING INTELLIGENCE — LIVE DATASET
-Snapshot date: {datetime.now().strftime("%B %d, %Y")}
-Data source: Scraped career pages of 24 competitor companies (365-day rolling window, from universe of 61)
-Excluded: Legal, People/HR roles (not competitively relevant)
+Snapshot: {datetime.now().strftime("%B %d, %Y")}
+Data: {total} roles across {len(company_counts)} companies (365-day rolling window)
+Excluded: Legal, People/HR roles
+
+━━━ SEMANTIC LAYER — BUSINESS METRICS ━━━
+Market Pressure Index: {market_pressure}  (CRITICAL×3 + HIGH×2 + MEDIUM×1 × role count; higher = more competitive threat)
+
+Top 5 by Hiring Velocity (recent acceleration):
+{json.dumps([{"company": c, "velocity_index": m["hiring_velocity"], "recent_30d": m["recent_30d"], "threat": m["threat_level"]} for c,m in top_velocity], indent=2)}
+
+Top 5 by AI Investment %:
+{json.dumps([{"company": c, "ai_pct": m["ai_investment_pct"], "total_roles": m["total_roles"]} for c,m in ai_leaders], indent=2)}
+
+Top 5 by Competitive Overlap with Actian:
+{json.dumps([{"company": c, "overlap_pct": m["competitive_overlap_pct"], "dominant_product": m["dominant_product"]} for c,m in overlap_leaders], indent=2)}
+
+Full Semantic Metrics (all companies):
+{json.dumps(sem, indent=2)}
 
 ━━━ MARKET OVERVIEW ━━━
 Total tracked roles: {total}
-Companies tracked: {len(company_counts)}
-New this week (≤7 days): {len(recent)} roles across {len(recent_by_company)} companies
-
-Top companies by volume: {json.dumps(top_companies)}
-Seniority distribution: {json.dumps(seniority_counts)}
+Companies: {len(company_counts)}
+New this week: {len(recent)} roles across {len(recent_by_company)} companies
 Function breakdown: {json.dumps(function_counts)}
-Product focus (top 10): {json.dumps(dict(list(product_counts.items())[:10]))}
-Company segments: {json.dumps(group_counts)}
-Recent hiring surge (last 7 days): {json.dumps(dict(list(recent_by_company.items())[:8]))}
+Product focus: {json.dumps(dict(list(product_counts.items())[:10]))}
+Segments: {json.dumps(group_counts)}
+Seniority: {json.dumps(seniority_counts)}
+Recent activity (last 7d): {json.dumps(dict(list(recent_by_company.items())[:8]))}
 
 ━━━ HIGH-SIGNAL ROLES (Relevancy ≥ 10 / max 17.5) ━━━
 {json.dumps(top_roles, indent=2)}
@@ -190,24 +338,17 @@ Recent hiring surge (last 7 days): {json.dumps(dict(list(recent_by_company.items
 ━━━ STRATEGIC THREAT SIGNALS ━━━
 {json.dumps(signal_summary, indent=2)}
 
-━━━ RELEVANCY SCORING SYSTEM ━━━
-Each job is scored 0–17.5 based on:
-  +3 per Actian-relevant skill match (ETL, SQL, Kafka, Python, Spark, dbt, governance, vector, RAG, LLM, MLOps, etc.)
-  +5 for high-relevance product focus (ETL/Integration, Data Governance, Data Observability, Vector/AI)
-  +2 for medium-relevance product focus (Platform/Infra, ML/AI infra)
-  +3.0 Director+ seniority, +2.5 Principal/Staff, +1.5 Senior/Manager, +0.8 Mid
-  +2 if AI/ML keywords appear in title/description
-  +2 if job is in Actian's key markets (US, UK, Germany, India, etc.)
-  +3 if company is a direct competitor (ETL/Connectors, Data Intelligence, Observability)
-  +1.5 if company is adjacent threat (Warehouse/Processing, Monitoring)
+━━━ RELEVANCY SCORING ━━━
+0–17.5 scale: +3/skill match (ETL,SQL,Kafka,Python,Spark,dbt,governance,vector,RAG,LLM,MLOps)
++5 high-compete product, +2 mid-compete product, +3.0 Director+, +2 AI in title, +2 key market, +3 direct competitor
 
 ━━━ COMPETITIVE SEGMENTS ━━━
-  ETL/Connectors     → Fivetran, Boomi, Talend, MuleSoft — DIRECT Actian competitors
-  Data Intelligence  → Collibra, Alation, Atlan — data governance & catalog space
-  Warehouse/Processing → Snowflake, Databricks, MongoDB — adjacent, strategic
-  Data Observability → Acceldata, Monte Carlo, Collate — data quality adjacent
-  Vector DB / AI     → Pinecone, Weaviate, Qdrant, Zilliz — strategic priority (Actian launching vector)
-  Enterprise         → Salesforce, SAP — platform adjacency
+ETL/Connectors → Fivetran, Boomi — DIRECT Actian competitors
+Data Intelligence → Collibra, Alation, Atlan — governance/catalog
+Warehouse/Processing → Snowflake, Databricks, MongoDB — adjacent
+Data Observability → Acceldata, Monte Carlo — quality adjacent
+Vector DB / AI → Pinecone, Weaviate, Qdrant — strategic (Actian launching vector)
+Enterprise → Salesforce, SAP — platform adjacency
 {specific_context}
 """
     return context
@@ -217,29 +358,67 @@ Each job is scored 0–17.5 based on:
 # CLAUDE API CALLER WITH RETRY
 # ══════════════════════════════════════════════════════════════════════════
 
-SYSTEM_PROMPT = """You are an elite competitive intelligence analyst embedded in Actian's internal hiring-signal dashboard. You have real-time access to competitor hiring data across 34 companies in the data infrastructure, ETL, governance, and AI/ML space.
+SYSTEM_PROMPT = """You are an elite competitive intelligence analyst embedded in Actian's internal hiring-signal dashboard. You have real-time access to competitor hiring data across 30+ companies in the data infrastructure, ETL, governance, and AI/ML space.
 
-Actian is a data integration and management platform competing primarily in ETL/connectors, data management, and increasingly AI-powered data pipelines and vector search.
+Actian is a data integration and management platform competing in ETL/connectors, data management, and AI-powered data pipelines and vector search.
 
-YOUR ROLE:
-— Provide sharp, data-grounded analysis. Reason from the specific numbers provided.
-— Be concise, direct, and confident. No hedging. No generic statements.
-— Sound like a senior analyst briefing a C-suite executive.
-— When the data supports a conclusion, state it clearly.
-— Format with markdown when it aids clarity (bold key points, bullet lists for breakdowns).
-— Do NOT repeat back the user's question. Get straight to the answer.
+━━━ SEMANTIC LAYER — HOW TO REASON WITH THE DATA ━━━
+You have access to pre-computed business metrics for every company. Reason with these directly:
+
+• hiring_velocity: Index where 100 = same pace as prior period, >100 = accelerating, <100 = slowing.
+  A company at 180 is hiring 80% faster than 30 days ago — that's a strategic signal.
+
+• ai_investment_pct: % of roles that are AI/ML-related. Industry average is ~12%.
+  A company at 35% is betting heavily on AI — interpret what product bet that implies.
+
+• competitive_overlap_pct: % of roles in product areas that directly compete with Actian
+  (ETL/Integration, Data Governance, Data Observability, Vector/AI).
+  A company at 60%+ overlap is building directly into Actian's market.
+
+• senior_pct: % of Director+/Principal/Senior roles. >50% = building leadership, new product lines.
+  High senior ratio + high volume = strategic expansion, not headcount backfill.
+
+• engineering_pct vs gtm_pct: Engineering-heavy = product build phase. GTM-heavy = go-to-market push.
+  A shift from engineering to GTM in a competitor = they're about to sell, not just build.
+
+• mean_relevancy: Average relevancy score to Actian (0–17.5). >8.0 = high competitive pressure.
+
+• Market Pressure Index: Weighted threat score across all companies. Use to frame urgency.
+
+━━━ HOW TO ANSWER ━━━
+— Lead with the most important number or insight. No preamble.
+— When comparing companies, use the semantic metrics side-by-side.
+— When asked about a trend, reason from velocity + recent_30d + senior_pct together.
+— When asked who poses the biggest threat, use competitive_overlap_pct + threat_level + velocity together.
+— Be concise, direct, confident. Sound like a senior analyst briefing the C-suite.
+— Format with markdown for clarity (bold key points, bullet lists for breakdowns).
 — Do NOT make up data. If something isn't in the context, say so.
+— Do NOT repeat back the user's question. Get straight to the answer.
 
-DASHBOARD CONTROL:
-If your response would be significantly more useful with the dashboard filtered to specific data, append a dashboard action at the very end of your response in this exact format (nothing after it):
+━━━ DASHBOARD CONTROL ━━━
+If filtering the dashboard would make the response more useful, append ONE action at the very end:
+
+Filter by company:
 ```dashboard_action
 {"type": "filter", "field": "Company", "value": "ExactCompanyName"}
 ```
-or to highlight a page section:
+Filter by segment:
 ```dashboard_action
-{"type": "highlight", "section": "market"}
+{"type": "filter", "field": "Company_Group", "value": "ETL/Connectors"}
 ```
-Only include this if it genuinely helps. Do not include it for general questions."""
+Filter by function:
+```dashboard_action
+{"type": "filter", "field": "Function", "value": "Engineering"}
+```
+Filter by seniority:
+```dashboard_action
+{"type": "filter", "field": "Seniority", "value": "Director+"}
+```
+Highlight a section:
+```dashboard_action
+{"type": "highlight", "section": "signals"}
+```
+Only include a dashboard action if it genuinely adds value. Never include more than one."""
 
 
 def call_llm(messages: list[dict], max_retries: int = 3) -> str:
