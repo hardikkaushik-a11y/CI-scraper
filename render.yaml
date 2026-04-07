@@ -3,7 +3,7 @@ services:
     name: actian-intelligence-assistant
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn assistant_backend:app
+    startCommand: gunicorn src.assistant_backend:app
     envVars:
       - key: GROQ_API_KEY
         sync: false
