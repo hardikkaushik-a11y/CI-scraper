@@ -181,7 +181,7 @@ def build_semantic_layer(rows: list[dict], signals: list[dict]) -> dict:
 def build_context(query: str, rows: list[dict], signals: list[dict]) -> str:
     """
     Assemble focused, data-grounded context for the LLM.
-    Includes a full Semantic Layer and query-aware analytics.
+    Payload-optimized: limits semantic layer to top threats + query-relevant companies.
     """
     total          = len(rows)
     company_counts = _count(rows, "Company")
@@ -209,31 +209,23 @@ def build_context(query: str, rows: list[dict], signals: list[dict]) -> str:
     # ── High Overlap (direct Actian threats) ──────────────────────────────
     overlap_leaders = sorted(sem.items(), key=lambda x: -x[1]["competitive_overlap_pct"])[:5]
 
-    # ── Signal summaries ──────────────────────────────────────────────────
+    # ── Signal summaries — TRUNCATED to top 15 signals ─────────────────────
     signal_summary = [
         {
-            "company":      s.get("company", ""),
-            "threat":       s.get("threat_level", ""),
-            "roles":        s.get("total_postings", 0),
-            "focus":        s.get("dominant_product", ""),
-            "group":        s.get("company_group", ""),
-            "roadmap":      s.get("roadmap", ""),
-            "implications": s.get("implications", [])[:2],
-            "actions":      s.get("recommended_actions", [])[:1],
+            "company": s.get("company", ""),
+            "threat":  s.get("threat_level", ""),
+            "roles":   s.get("total_postings", 0),
         }
-        for s in signals[:30]
+        for s in signals[:15]
     ]
 
-    # ── Top high-relevancy roles ──────────────────────────────────────────
+    # ── Top high-relevancy roles — REDUCED to 6 ──────────────────────────
     high_rel_rows = sorted([r for r in rows if r["_relevancy"] >= 10],
-                           key=lambda x: -x["_relevancy"])[:12]
+                           key=lambda x: -x["_relevancy"])[:6]
     top_roles = [
         {
             "company":   r["Company"],
-            "title":     r["Job Title"],
-            "function":  r["Function"],
-            "seniority": r["Seniority"],
-            "product":   r["Product_Focus"],
+            "title":     r["Job Title"][:50],  # Truncate long titles
             "relevancy": r["_relevancy"],
         }
         for r in high_rel_rows
@@ -255,28 +247,28 @@ def build_context(query: str, rows: list[dict], signals: list[dict]) -> str:
         c_rows    = [r for r in rows if r["Company"] == company]
         c_sem     = sem.get(company, {})
         c_sig     = next((s for s in signals if s.get("company") == company), {})
-        c_top     = sorted(c_rows, key=lambda x: -x["_relevancy"])[:10]
+        c_top     = sorted(c_rows, key=lambda x: -x["_relevancy"])[:5]  # Reduced from 10 to 5
 
         specific_context = f"""
 ━━━ COMPANY DEEP-DIVE: {company.upper()} ━━━
-{json.dumps(c_sem, indent=2)}
-
-Strategic signal: {c_sig.get("narrative", "")}
-Roadmap inference: {c_sig.get("roadmap", "")}
-Implications: {json.dumps(c_sig.get("implications", []), indent=2)}
-Recommended actions: {json.dumps(c_sig.get("recommended_actions", []), indent=2)}
-Watch for: {json.dumps(c_sig.get("watch_for", []), indent=2)}
-
-Top roles by relevancy to Actian:
-{json.dumps([{"title": r["Job Title"], "seniority": r["Seniority"], "product": r["Product_Focus"],
-              "relevancy": r["_relevancy"]} for r in c_top], indent=2)}
+Metrics: total={c_sem.get('total_roles', 0)}, velocity={c_sem.get('hiring_velocity', 0)}, threat={c_sem.get('threat_level', '')}
+AI investment: {c_sem.get('ai_investment_pct', 0)}%, Competitive overlap: {c_sem.get('competitive_overlap_pct', 0)}%
+Signal: {c_sig.get('narrative', '')[:200] if c_sig.get('narrative') else 'N/A'}
+Top {len(c_top)} roles: {json.dumps([{"title": r["Job Title"][:40], "seniority": r.get("Seniority", "")} for r in c_top])}
 """
 
     elif len(mentioned) >= 2:
         # COMPARISON: two or more companies side-by-side
         comparison = {}
-        for company in mentioned[:3]:
-            comparison[company] = sem.get(company, {})
+        for company in mentioned[:2]:  # Limit to 2 for comparison
+            m = sem.get(company, {})
+            comparison[company] = {
+                "total": m.get("total_roles", 0),
+                "velocity": m.get("hiring_velocity", 0),
+                "threat": m.get("threat_level", ""),
+                "ai_pct": m.get("ai_investment_pct", 0),
+                "overlap_pct": m.get("competitive_overlap_pct", 0),
+            }
         specific_context = f"""
 ━━━ COMPANY COMPARISON ━━━
 {json.dumps(comparison, indent=2)}
@@ -292,63 +284,63 @@ Top roles by relevancy to Actian:
     }
     matched_segment = next((v for k, v in segments.items() if k in query_lower), None)
     if matched_segment and not mentioned:
-        seg_rows     = [r for r in rows if r.get("Company_Group") == matched_segment]
+        seg_rows = [r for r in rows if r.get("Company_Group") == matched_segment]
         seg_companies = {c: sem[c] for c in _count(seg_rows, "Company") if c in sem}
+        # Limit segment companies to top 8 by threat level
+        top_seg = sorted(seg_companies.items(),
+                        key=lambda x: {"critical": 3, "high": 2, "medium": 1, "low": 0}.get(x[1].get("threat_level", ""), 0),
+                        reverse=True)[:8]
         specific_context = f"""
-━━━ SEGMENT DEEP-DIVE: {matched_segment.upper()} ━━━
-Companies: {json.dumps(list(seg_companies.keys()))}
-Per-company semantic metrics:
-{json.dumps(seg_companies, indent=2)}
+━━━ SEGMENT: {matched_segment.upper()} ━━━
+Companies ({len(top_seg)}): {', '.join(c for c, _ in top_seg)}
 """
+
+    # ── PAYLOAD-OPTIMIZED Semantic Layer ──────────────────────────────────
+    # Instead of all 63 companies, include: top threats + top by velocity/overlap
+    critical_companies = {c: m for c, m in sem.items() if m["threat_level"] == "critical"}
+    high_companies = {c: m for c, m in sem.items() if m["threat_level"] == "high"}
+    top_sem = {c: m for c, m in dict(top_velocity + ai_leaders + overlap_leaders).items() if c in sem}
+
+    # Merge and deduplicate (max 20 companies)
+    priority_sem = {**critical_companies, **high_companies, **top_sem}
+    priority_sem = dict(list(priority_sem.items())[:20])
 
     context = f"""
 ACTIAN COMPETITIVE HIRING INTELLIGENCE — LIVE DATASET
 Snapshot: {datetime.now().strftime("%B %d, %Y")}
 Data: {total} roles across {len(company_counts)} companies (365-day rolling window)
-Excluded: Legal, People/HR roles
 
-━━━ SEMANTIC LAYER — BUSINESS METRICS ━━━
-Market Pressure Index: {market_pressure}  (CRITICAL×3 + HIGH×2 + MEDIUM×1 × role count; higher = more competitive threat)
+━━━ SEMANTIC LAYER — TOP THREATS & MOVERS ━━━
+Market Pressure Index: {market_pressure}
 
-Top 5 by Hiring Velocity (recent acceleration):
-{json.dumps([{"company": c, "velocity_index": m["hiring_velocity"], "recent_30d": m["recent_30d"], "threat": m["threat_level"]} for c,m in top_velocity], indent=2)}
+Top 5 Hiring Velocity:
+{json.dumps([{"company": c, "velocity": m["hiring_velocity"], "threat": m["threat_level"]} for c,m in top_velocity])}
 
-Top 5 by AI Investment %:
-{json.dumps([{"company": c, "ai_pct": m["ai_investment_pct"], "total_roles": m["total_roles"]} for c,m in ai_leaders], indent=2)}
+Top 5 AI Investment:
+{json.dumps([{"company": c, "ai_pct": m["ai_investment_pct"]} for c,m in ai_leaders])}
 
-Top 5 by Competitive Overlap with Actian:
-{json.dumps([{"company": c, "overlap_pct": m["competitive_overlap_pct"], "dominant_product": m["dominant_product"]} for c,m in overlap_leaders], indent=2)}
+Top 5 Competitive Overlap:
+{json.dumps([{"company": c, "overlap_pct": m["competitive_overlap_pct"]} for c,m in overlap_leaders])}
 
-Full Semantic Metrics (all companies):
-{json.dumps(sem, indent=2)}
+Priority Companies (CRITICAL + HIGH + Top movers):
+{json.dumps(priority_sem, indent=2)}
 
-━━━ MARKET OVERVIEW ━━━
-Total tracked roles: {total}
-Companies: {len(company_counts)}
-New this week: {len(recent)} roles across {len(recent_by_company)} companies
-Function breakdown: {json.dumps(function_counts)}
-Product focus: {json.dumps(dict(list(product_counts.items())[:10]))}
-Segments: {json.dumps(group_counts)}
-Seniority: {json.dumps(seniority_counts)}
-Recent activity (last 7d): {json.dumps(dict(list(recent_by_company.items())[:8]))}
+━━━ MARKET SNAPSHOT ━━━
+Total roles: {total}, Companies: {len(company_counts)}, New (7d): {len(recent)}
+Top functions: {json.dumps(dict(list(function_counts.items())[:3]))}
+Top products: {json.dumps(dict(list(product_counts.items())[:3]))}
 
-━━━ HIGH-SIGNAL ROLES (Relevancy ≥ 10 / max 17.5) ━━━
-{json.dumps(top_roles, indent=2)}
+━━━ HIGH-SIGNAL ROLES ━━━
+{json.dumps(top_roles)}
 
-━━━ STRATEGIC THREAT SIGNALS ━━━
-{json.dumps(signal_summary, indent=2)}
+━━━ STRATEGIC SIGNALS (Top 15) ━━━
+{json.dumps(signal_summary)}
 
 ━━━ RELEVANCY SCORING ━━━
-0–17.5 scale: +3/skill match (ETL,SQL,Kafka,Python,Spark,dbt,governance,vector,RAG,LLM,MLOps)
-+5 high-compete product, +2 mid-compete product, +3.0 Director+, +2 AI in title, +2 key market, +3 direct competitor
+Scale 0–17.5: +3 skill match, +5 direct compete, +3 Director+, +2 AI title
 
-━━━ COMPETITIVE SEGMENTS ━━━
-ETL/Connectors → Fivetran, Boomi — DIRECT Actian competitors
-Data Intelligence → Collibra, Alation, Atlan — governance/catalog
-Warehouse/Processing → Snowflake, Databricks, MongoDB — adjacent
-Data Observability → Acceldata, Monte Carlo — quality adjacent
-Vector DB / AI → Pinecone, Weaviate, Qdrant — strategic (Actian launching vector)
-Enterprise → Salesforce, SAP — platform adjacency
+━━━ COMPETITIVE LANDSCAPE ━━━
+ETL/Connectors → Fivetran, Boomi | Data Intelligence → Collibra, Alation | Warehouse → Snowflake, Databricks | Vector/AI → Pinecone, Weaviate
 {specific_context}
 """
     return context
@@ -428,6 +420,11 @@ def call_llm(messages: list[dict], max_retries: int = 3) -> str:
 
     groq_messages = [{"role": "system", "content": SYSTEM_PROMPT}] + messages
 
+    # Estimate payload size (rough check: Groq has ~2.5MB limit for free tier)
+    payload_estimate = len(json.dumps(groq_messages))
+    if payload_estimate > 2000000:  # 2MB safety threshold
+        print(f"⚠️  Payload estimate: {payload_estimate / 1024:.1f}KB — may exceed limits")
+
     last_error: Exception = RuntimeError("Unknown error")
     for attempt in range(max_retries):
         try:
@@ -450,6 +447,12 @@ def call_llm(messages: list[dict], max_retries: int = 3) -> str:
         except httpx.HTTPStatusError as e:
             last_error = e
             status = e.response.status_code
+            if status == 413:
+                # Payload Too Large — reduce future contexts
+                raise ValueError(
+                    "Payload too large (413). Context is being optimized. "
+                    "Try a more specific query (single company, product, segment) for better results."
+                ) from e
             if status == 429 and attempt < max_retries - 1:
                 time.sleep(2 ** (attempt + 1))
                 continue
