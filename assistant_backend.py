@@ -115,11 +115,17 @@ def build_semantic_layer(rows: list[dict], signals: list[dict]) -> dict:
         c_rows = [r for r in rows if r["Company"] == company]
 
         # ── Hiring Velocity ──────────────────────────────────────────────
-        # Roles posted in last 30 days vs 31-90 days (momentum proxy)
+        # Normalized daily rate: recent 30 days vs prior 60 days
+        # 100 = same pace, >100 = accelerating, <100 = slowing
         recent_30  = [r for r in c_rows if r["_days"] <= 30]
-        recent_90  = [r for r in c_rows if r["_days"] <= 90]
         prior_60   = [r for r in c_rows if 30 < r["_days"] <= 90]
-        velocity_score = round(len(recent_30) / max(len(prior_60), 1) * 100)  # % ratio
+        daily_recent = len(recent_30) / 30
+        daily_prior  = len(prior_60) / 60
+        if daily_prior == 0:
+            # No prior data — new entrant or data gap; cap at 200 to avoid nonsense
+            velocity_score = min(200, round(daily_recent * 100)) if daily_recent > 0 else 100
+        else:
+            velocity_score = min(500, round(daily_recent / daily_prior * 100))
 
         # ── AI Investment Ratio ──────────────────────────────────────────
         ai_roles = [r for r in c_rows if r.get("Function") in ("AI/ML & Vector", "Engineering")
@@ -388,9 +394,15 @@ You have access to pre-computed business metrics for every company. Reason with 
 — Do NOT repeat back the user's question. Get straight to the answer.
 
 ━━━ DASHBOARD CONTROL ━━━
-If filtering the dashboard would make the response more useful, append ONE action at the very end:
+Sometimes filtering the dashboard makes the response more useful. Rules:
+— NEVER include a dashboard action for comparison queries (2+ companies). A comparison needs both.
+— NEVER include a dashboard action for segment or broad market queries.
+— ONLY include an action for single-company drill-downs or explicit "show me X function" requests.
+— Never include more than ONE action.
 
-Filter by company:
+If and only if appropriate, append ONE action at the very end:
+
+Filter by company (single-company only):
 ```dashboard_action
 {"type": "filter", "field": "Company", "value": "ExactCompanyName"}
 ```
@@ -409,8 +421,7 @@ Filter by seniority:
 Highlight a section:
 ```dashboard_action
 {"type": "highlight", "section": "signals"}
-```
-Only include a dashboard action if it genuinely adds value. Never include more than one."""
+```"""
 
 
 def call_llm(messages: list[dict], max_retries: int = 3) -> str:
