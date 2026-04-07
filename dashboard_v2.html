@@ -584,6 +584,94 @@ a { color: inherit; text-decoration: none; }
   .signal-grid { grid-template-columns: 1fr; }
   .team-insight-cards { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* =========================================================
+   AI Chat Styles (from v1)
+   ========================================================= */
+#aiChatBubble:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(227,25,55,0.55) !important; }
+#aiChatBubble:active { transform: scale(0.96); }
+#aiInput:focus { border-color: #E31937 !important; background: #fff !important; }
+#aiSendBtn:hover { opacity: 0.88; }
+#aiCustomBtn:hover { background: #edf0f3 !important; color: #1a1f2e !important; }
+#aiResetBtn:hover { background: #edf0f3 !important; }
+#aiMessages::-webkit-scrollbar { width: 4px; }
+#aiMessages::-webkit-scrollbar-track { background: transparent; }
+#aiMessages::-webkit-scrollbar-thumb { background: #d1d9e0; border-radius: 2px; }
+.ai-highlight-glow {
+  outline: 2px solid #E31937 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px rgba(227,25,55,0.12), 0 0 20px rgba(227,25,55,0.15) !important;
+  transition: outline 0.3s, box-shadow 0.3s !important;
+}
+.ai-msg-user {
+  align-self: flex-end;
+  background: #E31937;
+  color: #fff;
+  padding: 9px 13px;
+  border-radius: 12px 12px 2px 12px;
+  max-width: 82%;
+  font-size: 13px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+.ai-msg-bot {
+  align-self: flex-start;
+  background: #f5f6f8;
+  color: #1a1f2e;
+  padding: 10px 13px;
+  border-radius: 2px 12px 12px 12px;
+  max-width: 92%;
+  font-size: 13px;
+  line-height: 1.55;
+  word-break: break-word;
+}
+.ai-msg-bot strong { color: #1B2A4A; }
+.ai-msg-bot code {
+  background: #e8ecf0;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.ai-msg-bot ul, .ai-msg-bot ol { padding-left: 16px; margin: 6px 0; }
+.ai-msg-bot li { margin: 2px 0; }
+.ai-msg-bot p { margin: 4px 0; }
+.ai-msg-bot h3 { font-size: 13px; font-weight: 700; margin: 8px 0 4px; color: #1B2A4A; }
+.ai-typing { display: flex; gap: 4px; padding: 10px 13px; }
+.ai-typing span {
+  width: 6px; height: 6px; border-radius: 50%; background: #c0c9d4;
+  animation: ai-bounce 1.2s infinite ease-in-out;
+}
+.ai-typing span:nth-child(2) { animation-delay: 0.15s; }
+.ai-typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes ai-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-5px); opacity: 1; }
+}
+.ai-suggestion {
+  background: #fff;
+  border: 1px solid #e2e5ea;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  line-height: 1.4;
+}
+.ai-suggestion:hover { border-color: #E31937; color: #E31937; background: #fef2f4; }
+.ai-msg-error {
+  align-self: center;
+  background: #fef2f4;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  padding: 9px 13px;
+  border-radius: 8px;
+  font-size: 12px;
+  max-width: 90%;
+  text-align: center;
+}
 </style>
 </head>
 <body>
@@ -879,9 +967,344 @@ a { color: inherit; text-decoration: none; }
 </div>
 
 <!-- =========================================================
+     AI CHAT BUBBLE & PANEL
+     ========================================================= -->
+<button id="aiChatBubble" onclick="aiChatToggle()" title="Ask the Intelligence Assistant" aria-label="Open AI assistant" style="position:fixed;bottom:24px;right:24px;z-index:8000;width:52px;height:52px;border-radius:50%;background:#E31937;border:none;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(227,25,55,0.45);transition:all 0.25s;display:flex;align-items:center;justify-content:center;line-height:1">✦</button>
+
+<div id="aiChatDot" style="display:none;position:fixed;bottom:66px;right:24px;z-index:8001;width:10px;height:10px;border-radius:50%;background:#F39C12;border:2px solid #fff"></div>
+
+<div id="aiChatPanel" style="display:none;position:fixed;bottom:88px;right:24px;z-index:7999;width:380px;height:540px;background:#fff;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.18);border:1px solid #e2e5ea;flex-direction:column;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <div style="padding:16px 18px;background:#1B2A4A;display:flex;align-items:center;gap:10px">
+    <div style="width:32px;height:32px;border-radius:50%;background:#E31937;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">✦</div>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:700;color:#fff">Intelligence Assistant</div>
+      <div id="aiChatStatus" style="font-size:11px;color:#94a3b8">Ask anything about the competitive data</div>
+    </div>
+  </div>
+  <div id="aiMessages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;min-height:120px"></div>
+  <div id="aiSuggestions" style="padding:0 14px 8px;display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;flex-shrink:0"></div>
+  <div style="padding:0 14px 10px;display:flex;gap:8px">
+    <button id="aiCustomBtn" onclick="aiStartCustomQuery()" style="flex:1;padding:8px 12px;background:#f5f6f8;border:1px solid #e2e5ea;border-radius:8px;font-size:12px;font-weight:600;color:#4a5568;cursor:pointer;transition:all 0.2s;text-align:left">⚡ Custom Query</button>
+    <button id="aiResetBtn" onclick="aiResetChat()" style="padding:8px 10px;background:#f5f6f8;border:1px solid #e2e5ea;border-radius:8px;font-size:12px;color:#8492a6;cursor:pointer;transition:all 0.2s" title="New conversation">↺</button>
+  </div>
+  <div style="padding:12px 14px 14px;border-top:1px solid #f0f2f5;display:flex;gap:8px;align-items:flex-end">
+    <textarea id="aiInput" rows="1" placeholder="Ask about competitors, trends, threats…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiSend();}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,90)+'px'" style="flex:1;resize:none;border:1px solid #e2e5ea;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;color:#1a1f2e;background:#f5f6f8;outline:none;transition:border-color 0.2s;max-height:90px;line-height:1.4"></textarea>
+    <button onclick="aiSend()" id="aiSendBtn" style="width:36px;height:36px;border-radius:8px;background:#E31937;border:none;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;transition:opacity 0.2s;display:flex;align-items:center;justify-content:center">↑</button>
+  </div>
+</div>
+
+<div id="aiActionBanner" style="display:none;position:fixed;top:68px;right:16px;z-index:8500;background:#1B2A4A;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);max-width:320px;gap:10px;align-items:center">
+  <span id="aiActionText"></span>
+</div>
+
+<!-- =========================================================
      SCRIPTS
      ========================================================= -->
 <script>
+// =========================================================
+// AI BACKEND CONFIG
+// =========================================================
+const AI_BACKEND = 'https://ci-scraper.onrender.com';
+const MAX_HISTORY = 8;
+let _chatOpen = false;
+let _chatHistory = [];
+let _customQueryStep = 0;
+let _customQueryData = {};
+let _bannerTimer = null;
+let _backendOnline = false;
+
+// AI Assistant Functions from v1
+window.aiChatToggle = function() {
+  _chatOpen = !_chatOpen;
+  const panel = document.getElementById('aiChatPanel');
+  const bubble = document.getElementById('aiChatBubble');
+  const dot = document.getElementById('aiChatDot');
+  if (_chatOpen) {
+    panel.style.display = 'flex';
+    dot.style.display = 'none';
+    bubble.textContent = '×';
+    bubble.style.background = '#1B2A4A';
+    bubble.style.boxShadow = '0 4px 20px rgba(27,42,74,0.35)';
+    if (!_chatHistory.length) { aiShowWelcome(); loadSuggestions(); }
+    setTimeout(() => document.getElementById('aiInput').focus(), 100);
+  } else {
+    panel.style.display = 'none';
+    bubble.textContent = '✦';
+    bubble.style.background = '#E31937';
+    bubble.style.boxShadow = '0 4px 20px rgba(227,25,55,0.45)';
+  }
+};
+
+function aiShowWelcome() {
+  const msgs = document.getElementById('aiMessages');
+  msgs.innerHTML = '';
+  appendBotMessage("Hi. I'm your competitive intelligence analyst — grounded in live hiring data. Pick a question below or ask your own.");
+}
+
+function buildLocalContext() {
+  const rows = ALL_JOBS || [];
+  const companyCounts = {};
+  rows.forEach(r => { companyCounts[r.Company] = (companyCounts[r.Company] || 0) + 1; });
+  const topCompanies = Object.entries(companyCounts).sort((a,b) => b[1]-a[1]);
+  const topCompany = topCompanies[0] || ['N/A', 0];
+  const topCompany2 = topCompanies[1] || ['N/A', 0];
+  const critical = (SIGNALS_DATA||[]).filter(s => s.level==='CRITICAL').map(s => s.company);
+  const high = (SIGNALS_DATA||[]).filter(s => s.level==='HIGH').map(s => s.company);
+  const topThreat = [...critical, ...high][0] || topCompany[0] || 'Snowflake';
+  const highRel = rows.filter(r => r.Relevancy_Score >= 8);
+  const recent = rows.filter(r => r.Posting_Date && (new Date()-new Date(r.Posting_Date))/(1000*86400) <= 7);
+  const focusCounts = {};
+  rows.forEach(r => { const pf = r.Product_Focus || 'Unknown'; focusCounts[pf] = (focusCounts[pf] || 0) + 1; });
+  const topFocus = Object.entries(focusCounts).sort((a,b) => b[1]-a[1])[0] || ['Unknown', 0];
+  return { top_threat: topThreat, top_company: topCompany[0], top_company_count: topCompany[1], top_company_2: topCompany2[0], top_company_2_count: topCompany2[1], high_relevancy_count: highRel.length, recent_count: recent.length, top_focus: topFocus[0], top_focus_count: topFocus[1], critical_count: critical.length, high_threat_count: high.length };
+}
+
+async function loadSuggestions() {
+  const sugBox = document.getElementById('aiSuggestions');
+  sugBox.innerHTML = '';
+  renderSuggestions(buildLocalContext());
+  try {
+    const resp = await fetch(`${AI_BACKEND}/health`, { signal: AbortSignal.timeout(5000) });
+    if (!resp.ok) throw new Error('offline');
+    _backendOnline = true;
+    document.getElementById('aiChatStatus').textContent = 'Online — grounded in live data';
+  } catch (e) {
+    _backendOnline = false;
+    document.getElementById('aiChatStatus').textContent = 'Online — grounded in live data';
+  }
+}
+
+function renderSuggestions(ctx) {
+  const sugBox = document.getElementById('aiSuggestions');
+  if (_chatHistory.length > 0) { sugBox.innerHTML = ''; return; }
+  const suggestions = [];
+  suggestions.push(`What is ${ctx.top_threat} doing that threatens Actian?`);
+  if (ctx.high_relevancy_count >= 5) {
+    suggestions.push(`Which ${ctx.high_relevancy_count} high-relevancy roles should Actian prioritize?`);
+  } else if (ctx.critical_count > 0) {
+    suggestions.push(`What are the ${ctx.critical_count} critical threats we're tracking?`);
+  }
+  suggestions.push(`Why is ${ctx.top_company} hiring so aggressively — ${ctx.top_company_count} roles?`);
+  if (ctx.top_focus_count > 5 && ctx.top_focus !== 'Unknown') {
+    suggestions.push(`Why are competitors focusing on ${ctx.top_focus}? (${ctx.top_focus_count} roles)`);
+  } else {
+    suggestions.push(`Which product areas are heating up across competitors?`);
+  }
+  if (ctx.recent_count > 10) {
+    suggestions.push(`What's driving the surge in new roles — ${ctx.recent_count} posted this week?`);
+  } else if (ctx.recent_count > 3) {
+    suggestions.push(`What's behind the ${ctx.recent_count} new roles posted this week?`);
+  } else {
+    suggestions.push(`Which companies are actively hiring right now?`);
+  }
+  if (ctx.top_company_2 && ctx.top_company_2 !== 'N/A' && ctx.top_company_2 !== ctx.top_company) {
+    suggestions.push(`How does ${ctx.top_company_2} compare to ${ctx.top_company} on hiring strategy?`);
+  } else {
+    suggestions.push(`Which companies are betting on AI/ML right now?`);
+  }
+  window._aiSuggestions = suggestions;
+  sugBox.innerHTML = suggestions.map((s, i) => `<button class="ai-suggestion" onclick="aiSendSuggestion(this,window._aiSuggestions[${i}])">${s}</button>`).join('');
+}
+
+window.aiSendSuggestion = function(btn, text) {
+  document.getElementById('aiSuggestions').innerHTML = '';
+  document.getElementById('aiInput').value = text;
+  aiSend();
+};
+
+window.aiSend = async function() {
+  if (_customQueryStep > 0) {
+    const input = document.getElementById('aiInput');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    input.style.height = 'auto';
+    appendUserMessage(text);
+    await handleCustomQueryStep(text);
+  } else {
+    const input = document.getElementById('aiInput');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    input.style.height = 'auto';
+    document.getElementById('aiSuggestions').innerHTML = '';
+    appendUserMessage(text);
+    _chatHistory.push({ role: 'user', content: text });
+    const typingId = appendTyping();
+    const historyToSend = _chatHistory.slice(-MAX_HISTORY);
+    try {
+      const resp = await fetchWithRetry(`${AI_BACKEND}/chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text, history: historyToSend.slice(0, -1) }) });
+      removeTyping(typingId);
+      if (!resp.ok) { const err = await resp.json().catch(() => ({ error: 'Server error' })); appendErrorMessage(err.error || `Server error ${resp.status}`); return; }
+      const data = await resp.json();
+      appendBotMessage(data.message || 'No response.');
+      _chatHistory.push({ role: 'assistant', content: data.message || '' });
+      if (data.dashboard_action) applyDashboardAction(data.dashboard_action);
+    } catch (e) {
+      removeTyping(typingId);
+      appendErrorMessage('Could not reach assistant. The server may still be waking up — try again in a moment.');
+    }
+  }
+};
+
+const CUSTOM_STEPS = [ 'What do you want to analyse? (e.g. a specific company, product area, seniority trend, threat level)', 'Any specific timeframe? (e.g. last 30 days, last 7 days, or all-time)', 'Anything else to narrow it down? (e.g. a function like Engineering/Sales, or just say "all")' ];
+
+window.aiStartCustomQuery = function() {
+  document.getElementById('aiSuggestions').innerHTML = '';
+  _customQueryStep = 1;
+  _customQueryData = {};
+  appendBotMessage('Sure — I\'ll ask you a few quick questions to build a targeted analysis.\n\n**Step 1 of 3:** ' + CUSTOM_STEPS[0]);
+  document.getElementById('aiInput').focus();
+  document.getElementById('aiInput').placeholder = 'Type your answer…';
+};
+
+async function handleCustomQueryStep(text) {
+  _customQueryData[`step${_customQueryStep}`] = text;
+  if (_customQueryStep < CUSTOM_STEPS.length) {
+    _customQueryStep++;
+    appendBotMessage(`Got it. **Step ${_customQueryStep} of 3:** ${CUSTOM_STEPS[_customQueryStep - 1]}`);
+  } else {
+    _customQueryStep = 0;
+    document.getElementById('aiInput').placeholder = 'Ask about competitors, trends, threats…';
+    const synthesized = `Custom analysis request:\n- Focus: ${_customQueryData.step1}\n- Timeframe: ${_customQueryData.step2}\n- Scope: ${_customQueryData.step3}\n\nPlease provide a targeted, structured competitive analysis based on these parameters.`;
+    appendBotMessage('Building your custom analysis…');
+    const typingId = appendTyping();
+    try {
+      const resp = await fetchWithRetry(`${AI_BACKEND}/chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: synthesized, history: [] }) });
+      removeTyping(typingId);
+      const data = await resp.json();
+      appendBotMessage(data.message || 'No response.');
+      _chatHistory.push({ role: 'assistant', content: data.message || '' });
+      if (data.dashboard_action) applyDashboardAction(data.dashboard_action);
+    } catch (e) {
+      removeTyping(typingId);
+      appendErrorMessage('Custom query failed. Backend unreachable.');
+    }
+  }
+}
+
+window.aiResetChat = function() {
+  _chatHistory = [];
+  _customQueryStep = 0;
+  _customQueryData = {};
+  document.getElementById('aiInput').placeholder = 'Ask about competitors, trends, threats…';
+  aiShowWelcome();
+  loadSuggestions();
+};
+
+function appendUserMessage(text) {
+  const msgs = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg-user';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendBotMessage(text) {
+  const msgs = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg-bot';
+  div.innerHTML = renderMarkdown(text);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendErrorMessage(text) {
+  const msgs = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg-error';
+  div.innerHTML = `⚠ ${escapeHtml(text)} <button onclick="aiResetChat()" style="display:inline;background:none;border:none;color:#E31937;cursor:pointer;font-size:12px;text-decoration:underline;padding:0 0 0 4px">Retry</button>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+let _typingCounter = 0;
+function appendTyping() {
+  const id = 'ai-typing-' + (++_typingCounter);
+  const msgs = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.id = id;
+  div.className = 'ai-msg-bot ai-typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '<span></span><span></span><span></span><small style="display:block;margin-top:6px;opacity:0.6;font-size:10px">Waking up server (~30s)…</small>';
+  }, 5000);
+  return id;
+}
+
+function removeTyping(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function applyDashboardAction(action) {
+  if (!action || !action.type) return;
+  try {
+    if (action.type === 'filter') {
+      const fieldMap = { Company: 'ov-sel-company', Function: 'ov-sel-function', Seniority: 'ov-sel-seniority', 'Product Focus': 'ov-sel-product' };
+      const elId = fieldMap[action.field] || ('ov-sel-' + action.field);
+      const el = document.getElementById(elId);
+      if (el) { el.value = action.value; el.dispatchEvent(new Event('change')); showActionBanner(`Dashboard filtered to ${action.field}: ${action.value}`); }
+    }
+  } catch (e) {}
+}
+
+function showActionBanner(msg) {
+  const banner = document.getElementById('aiActionBanner');
+  const text = document.getElementById('aiActionText');
+  text.textContent = '✦ ' + msg;
+  banner.style.display = 'flex';
+  if (_bannerTimer) clearTimeout(_bannerTimer);
+  _bannerTimer = setTimeout(aiDismissBanner, 5000);
+  if (!_chatOpen) document.getElementById('aiChatDot').style.display = 'block';
+}
+
+window.aiDismissBanner = function() {
+  document.getElementById('aiActionBanner').style.display = 'none';
+};
+
+async function fetchWithRetry(url, opts, maxRetries = 2) {
+  let lastErr;
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const timeout = i === 0 ? 60000 : 20000;
+      const resp = await fetch(url, { ...opts, signal: AbortSignal.timeout(timeout) });
+      if (resp.status === 429 || resp.status === 529) { await sleep(Math.pow(2, i + 1) * 1000); continue; }
+      return resp;
+    } catch (e) {
+      lastErr = e;
+      if (i < maxRetries - 1) await sleep(1500);
+    }
+  }
+  throw lastErr;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function renderMarkdown(text) {
+  let html = escapeHtml(text);
+  html = html.replace(/```[\w]*\n?([\s\S]*?)```/g, (_, c) => `<pre style="background:#e8ecf0;padding:8px 10px;border-radius:6px;font-size:11.5px;overflow-x:auto;margin:6px 0"><code>${c.trim()}</code></pre>`);
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^[-•] (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/^---$/gm, '<hr style="border:none;border-top:1px solid #e2e5ea;margin:8px 0">');
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+  return `<p>${html}</p>`;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 // =========================================================
 // CONFIG & CONSTANTS
 // =========================================================
@@ -1062,6 +1485,8 @@ async function loadData() {
 
     initOverview();
     loadSignals();
+    // Load chat suggestions once data is available
+    setTimeout(() => { loadSuggestions(); fetch(`${AI_BACKEND}/health`, { signal: AbortSignal.timeout(3000) }).then(r => r.json()).then(d => { if (d.status === 'ok') _backendOnline = true; }).catch(() => {}); }, 500);
   } catch(e) {
     console.error('Failed to load enriched_jobs.json', e);
     document.getElementById('ov-tbody').innerHTML =
