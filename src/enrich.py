@@ -1614,9 +1614,9 @@ def load_existing(path: str) -> dict:
 
 
 def enrich(
-    raw_path: str = "jobs_raw.csv",
-    enriched_path: str = "jobs_enriched.csv",
-    signals_path: str = "signals.json",
+    raw_path: str = "data/jobs_raw.csv",
+    enriched_path: str = "data/jobs_enriched.csv",
+    signals_path: str = "data/signals.json",
     competitors_path: str = "competitors.csv",
 ):
     _load_csv_groups(competitors_path)

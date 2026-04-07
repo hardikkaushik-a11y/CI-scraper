@@ -158,7 +158,7 @@ def needs_playwright(company: str, url: str) -> bool:
 # SQLITE DEDUP DATABASE
 # ══════════════════════════════════════════════════════════════════════════
 
-def init_db(db_path: str = "seen_jobs.db") -> sqlite3.Connection:
+def init_db(db_path: str = "data/seen_jobs.db") -> sqlite3.Connection:
     conn = sqlite3.connect(db_path)
     conn.execute("""
         CREATE TABLE IF NOT EXISTS seen_jobs (
@@ -1313,7 +1313,7 @@ async def extract_jobs_from_page(
 # MAIN SCRAPE LOOP
 # ══════════════════════════════════════════════════════════════════════════
 
-async def scrape_all(competitors_path: str = "competitors.csv") -> list[dict]:
+async def scrape_all(competitors_path: str = "data/competitors.csv") -> list[dict]:
     competitors = load_competitors(competitors_path)
     conn = init_db()
     prune_old_jobs(conn)
@@ -1394,7 +1394,7 @@ async def scrape_all(competitors_path: str = "competitors.csv") -> list[dict]:
     return all_jobs
 
 
-def write_csv(jobs: list[dict], path: str = "jobs_raw.csv") -> int:
+def write_csv(jobs: list[dict], path: str = "data/jobs_raw.csv") -> int:
     fieldnames = [
         "Company", "Job Title", "Job Link", "Location",
         "Posting Date", "Seniority", "First_Seen", "Last_Seen",

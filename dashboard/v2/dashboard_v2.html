@@ -1460,21 +1460,59 @@ function switchTab(name) {
 }
 
 // =========================================================
+// CSV PARSING HELPERS
+// =========================================================
+function parseCSV(text) {
+  const lines = text.split('\n');
+  if (lines.length < 2) return [];
+  const headers = parseCSVLine(lines[0]);
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    const values = parseCSVLine(line);
+    const row = {};
+    headers.forEach((h, idx) => { row[h.trim()] = (values[idx] || '').trim(); });
+    rows.push(row);
+  }
+  return rows;
+}
+function parseCSVLine(line) {
+  const result = []; let current = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQ) {
+      if (ch === '"' && line[i+1] === '"') { current += '"'; i++; }
+      else if (ch === '"') inQ = false;
+      else current += ch;
+    } else {
+      if (ch === '"') inQ = true;
+      else if (ch === ',') { result.push(current); current = ''; }
+      else current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+// =========================================================
 // DATA LOADING
 // =========================================================
 async function loadData() {
   try {
-    const r = await fetch('enriched_jobs.json');
+    const r = await fetch('../../data/jobs_enriched.csv');
     if (!r.ok) throw new Error('HTTP ' + r.status);
-    const data = await r.json();
-    ALL_JOBS = Array.isArray(data) ? data : (data.jobs || []);
+    const rows = parseCSV(await r.text());
+    ALL_JOBS = rows;
 
     // Normalise fields
     ALL_JOBS.forEach(j => {
-      j.Relevancy_Score = parseFloat(j.Relevancy_Score) || 0;
+      j.Relevancy_Score = parseFloat(j.Relevancy_Score || j.Relevancy_to_Actian) || 0;
       j.Skills = j.Skills || '';
       j.Posting_Date = j.Posting_Date || j.Date_Posted || '';
+      j.Seniority = j.Seniority || j.Level || 'Mid';
       j.Product_Focus = PRODUCT_AREA_MAP[j.Company] || j.Product_Focus || 'Other';
+      j._days = j['Days Since Posted'] !== '' && j['Days Since Posted'] != null ? parseInt(j['Days Since Posted']) : 9999;
     });
 
     // Last updated
@@ -1488,15 +1526,15 @@ async function loadData() {
     // Load chat suggestions once data is available
     setTimeout(() => { loadSuggestions(); fetch(`${AI_BACKEND}/health`, { signal: AbortSignal.timeout(3000) }).then(r => r.json()).then(d => { if (d.status === 'ok') _backendOnline = true; }).catch(() => {}); }, 500);
   } catch(e) {
-    console.error('Failed to load enriched_jobs.json', e);
+    console.error('Failed to load jobs_enriched.csv', e);
     document.getElementById('ov-tbody').innerHTML =
-      '<tr><td colspan="9" class="empty-state">⚠ Could not load enriched_jobs.json — run scraper first</td></tr>';
+      '<tr><td colspan="9" class="empty-state">⚠ Could not load jobs_enriched.csv — run scraper first</td></tr>';
   }
 }
 
 async function loadSignals() {
   try {
-    const r = await fetch('signals.json');
+    const r = await fetch('../../data/signals.json');
     if (!r.ok) throw new Error('HTTP ' + r.status);
     SIGNALS_DATA = await r.json();
     if (SIGNALS_DATA.signals) SIGNALS_DATA = SIGNALS_DATA.signals;

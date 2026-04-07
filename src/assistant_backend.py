@@ -32,7 +32,7 @@ from flask_cors import CORS
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL = "llama-3.3-70b-versatile"
-DATA_DIR = Path(__file__).parent
+DATA_DIR = Path(__file__).parent.parent / "data"
 EXCLUDED_FUNCTIONS = {"Legal", "People/HR"}
 
 app = Flask(__name__)

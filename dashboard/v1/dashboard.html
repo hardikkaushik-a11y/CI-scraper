@@ -638,7 +638,7 @@ function parseCSVLine(line) {
 async function loadData() {
   let csvOk = false, sigOk = false;
   try {
-    const r = await fetch('jobs_enriched.csv');
+    const r = await fetch('../../data/jobs_enriched.csv');
     if (!r.ok) throw new Error('HTTP ' + r.status);
     allRows = parseCSV(await r.text());
     if (!allRows.length) throw new Error('Empty CSV');
@@ -656,7 +656,7 @@ async function loadData() {
       '<div class="error-box"><h3>Could not load jobs_enriched.csv</h3><p>Place jobs_enriched.csv in the same directory as this file.</p><code>python scraper.py && python enrich.py</code></div>';
   }
   try {
-    const r = await fetch('signals.json');
+    const r = await fetch('../../data/signals.json');
     if (!r.ok) throw new Error('HTTP ' + r.status);
     signals = await r.json();
     if (!Array.isArray(signals)) throw new Error('Invalid format');
