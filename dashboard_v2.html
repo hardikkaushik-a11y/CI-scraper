@@ -9,7 +9,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 /* =========================================================
-   CSS Variables — match V1 exactly
+   CSS Variables
    ========================================================= */
 :root {
   --bg: #f5f6f8;
@@ -37,9 +37,6 @@
   --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
 }
 
-/* =========================================================
-   Reset & Base
-   ========================================================= */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
@@ -47,1569 +44,1961 @@ table { border-collapse: collapse; width: 100%; }
 th, td { text-align: left; padding: 8px 12px; }
 
 /* =========================================================
-   Nav
+   Top Nav
    ========================================================= */
 .top-nav {
-  background: var(--bg-nav); color: #fff; display: flex; align-items: center;
-  padding: 0 24px; height: 52px; position: sticky; top: 0; z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  background: var(--bg-nav);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  height: 52px;
+  gap: 4px;
+  position: sticky; top: 0; z-index: 1000;
 }
-.nav-brand { font-weight: 700; font-size: 15px; margin-right: 32px; white-space: nowrap; }
+.nav-brand {
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  margin-right: 20px;
+  white-space: nowrap;
+}
 .nav-brand span { color: var(--accent); }
-.nav-tabs { display: flex; gap: 2px; flex: 1; }
 .nav-tab {
-  padding: 6px 18px; border-radius: 6px; font-size: 13px; font-weight: 500;
-  color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  color: rgba(255,255,255,0.65);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
 }
-.nav-tab:hover { color: #fff; background: rgba(255,255,255,0.08); }
-.nav-tab.active { color: #fff; background: var(--accent); }
-.nav-status { font-size: 11px; color: rgba(255,255,255,0.5); white-space: nowrap; margin-left: auto; }
+.nav-tab:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.nav-tab.active { background: rgba(255,255,255,0.15); color: #fff; }
+.nav-spacer { flex: 1; }
+.nav-badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 4px;
+}
+.last-updated { color: rgba(255,255,255,0.45); font-size: 12px; }
 
 /* =========================================================
-   Layout
+   Tab Panels
    ========================================================= */
-.page { display: none; padding: 24px; max-width: 1600px; margin: 0 auto; }
-.page.active { display: block; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
 
 /* =========================================================
-   KPI Strip
+   Page Layout (Market Overview)
    ========================================================= */
-.kpi-strip { display: flex; gap: 14px; margin-bottom: 20px; flex-wrap: wrap; }
+.page-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 52px);
+}
+.sidebar {
+  background: var(--bg-white);
+  border-right: 1px solid var(--border);
+  padding: 16px 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 52px);
+  position: sticky; top: 52px;
+}
+.sidebar-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 8px 16px 4px;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.12s;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.sidebar-item:hover { background: var(--bg-hover); }
+.sidebar-item.active { background: var(--accent-light); color: var(--accent); font-weight: 600; }
+.sidebar-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sidebar-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+.main-content { padding: 20px; overflow-y: auto; }
+
+/* =========================================================
+   KPI Cards
+   ========================================================= */
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
 .kpi-card {
-  flex: 1; min-width: 140px; background: var(--bg-white); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow);
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
 }
-.kpi-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.kpi-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); }
+.kpi-card.active { border-color: var(--accent); background: var(--accent-light); }
+.kpi-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px; }
 .kpi-value { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
-.kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
-
-/* =========================================================
-   Grids
-   ========================================================= */
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-.grid-sidebar { display: grid; grid-template-columns: 1fr 300px; gap: 16px; }
-@media (max-width: 1100px) {
-  .grid-3 { grid-template-columns: 1fr 1fr; }
-  .grid-sidebar { grid-template-columns: 1fr; }
-}
-@media (max-width: 700px) {
-  .grid-3, .grid-2 { grid-template-columns: 1fr; }
-}
-
-/* =========================================================
-   Cards
-   ========================================================= */
-.card {
-  background: var(--bg-white); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
-}
-.card-title {
-  font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px;
-  padding-bottom: 10px; border-bottom: 1px solid var(--border-light);
-}
-.card-sm { padding: 16px; }
+.kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
 /* =========================================================
    Filter Bar
    ========================================================= */
 .filter-bar {
-  background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 14px 16px; margin-bottom: 16px; box-shadow: var(--shadow);
-  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+  background: var(--bg-white);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
-.filter-bar select, .filter-bar input {
-  padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
-  font-size: 13px; color: var(--text); background: var(--bg); outline: none;
-  transition: border-color 0.2s;
+.filter-bar select {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  cursor: pointer;
+  outline: none;
 }
-.filter-bar select:focus, .filter-bar input:focus { border-color: var(--accent); }
-.filter-bar input[type=text] { min-width: 180px; }
-.filter-bar input[type=number] { width: 80px; }
-.btn-reset {
-  padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
-  background: var(--accent); color: #fff; cursor: pointer; transition: opacity 0.2s;
+.filter-bar select:focus { border-color: var(--accent); }
+.filter-bar .reset-btn {
+  padding: 6px 14px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
 }
-.btn-reset:hover { opacity: 0.85; }
+.filter-bar .reset-btn:hover { opacity: 0.85; }
+.export-btn {
+  padding: 6px 14px;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  margin-left: auto;
+}
+.export-btn:hover { opacity: 0.85; }
 
-/* Filter pills */
-.filter-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+/* Active filter pills */
+.filter-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
 .filter-pill {
-  display: flex; align-items: center; gap: 4px; padding: 3px 10px;
-  background: var(--accent-light); border: 1px solid rgba(227,25,55,0.2);
-  border-radius: 12px; font-size: 11px; font-weight: 600; color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid rgba(227,25,55,0.25);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
 }
-.filter-pill button { color: var(--accent); font-size: 13px; line-height: 1; padding: 0 2px; }
+.filter-pill .pill-x { cursor: pointer; font-weight: 700; margin-left: 2px; }
 
 /* =========================================================
-   Tables
+   Charts Grid
    ========================================================= */
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.chart-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.chart-card.wide { grid-column: span 2; }
+.chart-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+.chart-wrap { position: relative; }
+
+/* =========================================================
+   Map
+   ========================================================= */
+.map-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+#ov-map { height: 300px; border-radius: 6px; }
+
+/* =========================================================
+   Job Table
+   ========================================================= */
+.table-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.table-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.table-header h3 { font-size: 14px; font-weight: 600; }
+.table-count { color: var(--text-muted); font-size: 13px; }
 .table-wrap { overflow-x: auto; }
-.data-table { font-size: 12px; }
-.data-table thead { background: var(--bg); }
-.data-table th {
-  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
-  color: var(--text-muted); padding: 8px 12px; white-space: nowrap; cursor: pointer;
-  user-select: none; border-bottom: 1px solid var(--border);
+.job-table th {
+  background: var(--bg);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
 }
-.data-table th:hover { color: var(--accent); }
-.data-table th.sort-asc::after { content: ' ▲'; font-size: 9px; }
-.data-table th.sort-desc::after { content: ' ▼'; font-size: 9px; }
-.data-table td { padding: 7px 12px; border-bottom: 1px solid var(--border-light); }
-.data-table tbody tr:hover { background: var(--bg-hover); }
-.data-table a { color: var(--accent); text-decoration: none; }
-.data-table a:hover { text-decoration: underline; }
-.table-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 0 0; }
-.pager { display: flex; gap: 4px; }
-.pager button {
-  padding: 4px 10px; border-radius: 4px; font-size: 12px; border: 1px solid var(--border);
-  background: var(--bg-white); color: var(--text); cursor: pointer;
+.job-table th:hover { background: var(--bg-hover); color: var(--text); }
+.job-table th .sort-indicator { margin-left: 4px; opacity: 0.4; font-size: 10px; }
+.job-table th.sort-asc .sort-indicator::after { content: '▲'; opacity: 1; }
+.job-table th.sort-desc .sort-indicator::after { content: '▼'; opacity: 1; }
+.job-table td { border-bottom: 1px solid var(--border-light); font-size: 13px; vertical-align: middle; }
+.job-table tr:last-child td { border-bottom: none; }
+.job-table tr:hover td { background: var(--bg-hover); cursor: pointer; }
+.co-link {
+  color: var(--navy);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
 }
-.pager button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-.pager button:hover:not(.active) { background: var(--bg-hover); }
-
-/* =========================================================
-   Badges
-   ========================================================= */
+.co-link:hover { color: var(--accent); text-decoration: underline; }
 .badge {
-  display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px;
-  font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
 }
-.badge-director  { background: #fef2f2; color: #E31937; }
-.badge-principal { background: #f5f0fa; color: #8E44AD; }
-.badge-senior    { background: #e8f8fd; color: #0083a3; }
-.badge-manager   { background: #fffbeb; color: #b7800a; }
-.badge-mid       { background: #f0fdf4; color: #1a9048; }
-.badge-entry     { background: #eff6ff; color: #2563eb; }
-.badge-intern    { background: #f3f4f6; color: #6b7280; }
-
-.badge-threat-critical { background: #fef2f2; color: #E31937; }
-.badge-threat-high     { background: #fffbeb; color: #b7800a; }
-.badge-threat-medium   { background: #e8f8fd; color: #0083a3; }
-.badge-threat-low      { background: #f0fdf4; color: #1a9048; }
+.badge-critical { background: var(--red-light); color: var(--red); }
+.badge-high { background: var(--amber-light); color: var(--amber); }
+.badge-medium { background: #e8f4fd; color: #2980b9; }
+.badge-low { background: var(--green-light); color: var(--green); }
+.badge-senior { background: var(--accent-light); color: var(--accent); }
+.badge-mid { background: var(--bg); color: var(--text-muted); }
+.badge-junior { background: var(--green-light); color: var(--green); }
+.rel-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.skill-tag {
+  display: inline-block;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin: 1px;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
+}
+.skill-tag:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.skill-tag.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+}
+.page-btn {
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  background: var(--bg-white);
+  color: var(--text);
+  transition: all 0.1s;
+}
+.page-btn:hover { border-color: var(--accent); color: var(--accent); }
+.page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.page-btn:disabled { opacity: 0.4; cursor: default; }
+.page-info { font-size: 13px; color: var(--text-muted); }
 
 /* =========================================================
-   Relevancy bar
+   Strategic Signals Page
    ========================================================= */
-.rel-bar { display: flex; align-items: center; gap: 6px; min-width: 90px; }
-.rel-bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.rel-bar-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
-.rel-bar-value { font-size: 11px; font-weight: 600; color: var(--text-secondary); min-width: 24px; text-align: right; }
+.signals-page { padding: 20px; }
+.signals-header { margin-bottom: 20px; }
+.signals-header h2 { font-size: 20px; font-weight: 700; color: var(--text); }
+.signals-header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+.market-pulse {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.market-pulse h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+.pulse-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.pulse-stat { text-align: center; }
+.pulse-val { font-size: 24px; font-weight: 700; color: var(--text); }
+.pulse-lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+.segment-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.segment-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 2px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--bg-white);
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+.segment-chip:hover { border-color: var(--accent); color: var(--accent); }
+.segment-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.signal-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.signal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.signal-header:hover { background: var(--bg-hover); }
+.signal-type-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.sig-launch { background: #e8f4fd; color: #2980b9; }
+.sig-event { background: var(--amber-light); color: var(--amber); }
+.sig-hiring_trend { background: var(--green-light); color: #16a34a; }
+.sig-role_signal { background: var(--accent-light); color: var(--accent); }
+.sig-announcement { background: #f3e8ff; color: #7c3aed; }
+.sig-thought_leadership { background: var(--bg); color: var(--text-muted); }
+.signal-title { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
+.signal-company { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+.signal-date { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+.signal-toggle { font-size: 12px; color: var(--text-muted); transition: transform 0.2s; }
+.signal-toggle.open { transform: rotate(180deg); }
+.signal-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--border-light);
+  display: none;
+}
+.signal-body.open { display: block; }
+.signal-summary { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; padding-top: 12px; }
+.signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.signal-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 6px; }
+.signal-list { list-style: none; }
+.signal-list li { font-size: 12px; color: var(--text-secondary); padding: 2px 0 2px 12px; position: relative; }
+.signal-list li::before { content: '•'; position: absolute; left: 0; color: var(--accent); }
+.signal-view-jobs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  border: none;
+}
+.signal-view-jobs:hover { opacity: 0.85; }
 
 /* =========================================================
-   Sidebar widgets
+   Team Page
    ========================================================= */
-.sidebar { display: flex; flex-direction: column; gap: 14px; }
-.threat-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border-light); }
-.threat-row:last-child { border-bottom: none; }
-.threat-company { font-size: 12px; font-weight: 600; }
-.company-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 12px; }
-.company-rank { color: var(--text-muted); font-weight: 700; width: 18px; }
-.company-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.company-bar-fill { height: 100%; background: var(--navy); border-radius: 3px; }
-.skill-tag { display: inline-block; padding: 3px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; font-size: 11px; color: var(--text-secondary); margin: 2px; }
+.team-page { padding: 20px; }
+.team-page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.team-page-header h2 { font-size: 20px; font-weight: 700; }
+.team-page-header p { font-size: 13px; color: var(--text-muted); }
+.team-insight-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.team-insight-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+.team-insight-card .ti-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px; }
+.team-insight-card .ti-value { font-size: 22px; font-weight: 700; color: var(--text); }
+.team-insight-card .ti-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.team-section {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.team-section-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+}
+.team-section-header h3 { font-size: 14px; font-weight: 600; }
+.team-section-sub { font-size: 12px; color: var(--text-muted); }
+.team-table th {
+  background: var(--bg);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.team-table th:hover { color: var(--text); }
+.team-table td { border-bottom: 1px solid var(--border-light); font-size: 13px; }
+.team-table tr:last-child td { border-bottom: none; }
+.team-table tr:hover td { background: var(--bg-hover); cursor: pointer; }
 
 /* =========================================================
-   Hiring map
+   Executives Page
    ========================================================= */
-#ov_hiringMap { height: 340px; border-radius: var(--radius); }
-
-/* =========================================================
-   V2 — Product area pills
-   ========================================================= */
-.area-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-.area-pill {
-  padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;
-  background: var(--bg-white); border: 1.5px solid var(--border);
-  color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
-}
-.area-pill:hover { border-color: var(--accent); color: var(--accent); }
-.area-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-/* =========================================================
-   V2 — Signal cards
-   ========================================================= */
-.signal-feed { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
-.sig-card {
-  background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 16px 20px; box-shadow: var(--shadow);
-}
-.sig-card.urgency-high   { border-left: 4px solid var(--red); }
-.sig-card.urgency-medium { border-left: 4px solid var(--amber); }
-.sig-card.urgency-low    { border-left: 4px solid #d1d5db; }
-.sig-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.sig-type-badge {
-  display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px;
-  border-radius: 12px; font-size: 11px; font-weight: 600;
-  background: var(--bg); border: 1px solid var(--border);
-}
-.sig-company { font-size: 15px; font-weight: 700; }
-.sig-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.sig-summary { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 8px; }
-.sig-implication {
-  font-size: 12px; color: var(--text-secondary); padding: 8px 12px;
-  background: var(--accent-light); border-left: 3px solid var(--accent);
-  border-radius: 0 6px 6px 0; margin-top: 8px;
-}
-.sig-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-.sig-empty-state {
-  padding: 32px; text-align: center; background: var(--bg);
-  border: 2px dashed var(--border); border-radius: var(--radius);
-  color: var(--text-muted); font-size: 14px;
-}
-
-/* =========================================================
-   V2 — Team header
-   ========================================================= */
-.team-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-.team-icon { font-size: 24px; }
-.team-title { font-size: 20px; font-weight: 700; }
-.team-desc { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-
-/* =========================================================
-   V2 — Executives threat grid
-   ========================================================= */
-.threat-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px; margin-bottom: 24px;
-}
+.exec-page { padding: 20px; }
+.threat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
 .threat-card {
-  background: var(--bg-white); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow);
+  background: var(--bg-white);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.1s;
 }
-.threat-card.threat-border-critical { border-left: 4px solid var(--red); }
-.threat-card.threat-border-high     { border-left: 4px solid var(--amber); }
-.threat-card.threat-border-medium   { border-left: 4px solid var(--cyan); }
-.threat-card.threat-border-low      { border-left: 4px solid #d1d5db; }
-.threat-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-.threat-card-company { font-size: 15px; font-weight: 700; }
-.threat-card-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-.threat-card-narrative { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
-.threat-card-footer { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.threat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.threat-card.critical { border-color: var(--red); }
+.threat-card.high { border-color: var(--amber); }
+.threat-card.medium { border-color: #2980b9; }
+.threat-card.low { border-color: var(--green); }
+.tc-company { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.tc-group { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.tc-jobs { font-size: 22px; font-weight: 700; }
+.tc-jobs-label { font-size: 11px; color: var(--text-muted); }
+.tc-threat { margin-top: 8px; }
+.exec-chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
 
 /* =========================================================
-   Section title
+   Misc Utilities
    ========================================================= */
-.section-title {
-  font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;
-  letter-spacing: 0.5px; margin-bottom: 12px;
+.section-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.empty-state { text-align: center; padding: 40px; color: var(--text-muted); font-size: 13px; }
+.loading { text-align: center; padding: 20px; color: var(--text-muted); }
+a { color: inherit; text-decoration: none; }
+.trend-up { color: var(--red); }
+.trend-down { color: var(--green); }
+
+/* Phase 2 banner */
+.phase-banner {
+  background: var(--amber-light);
+  border: 1px solid var(--amber);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-size: 12px;
+  color: #92400e;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* =========================================================
-   Loading / error states
-   ========================================================= */
-.loading {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  height: 300px; color: var(--text-muted); font-size: 14px; gap: 12px;
-}
-.spinner {
-  width: 32px; height: 32px; border: 3px solid var(--border);
-  border-top-color: var(--accent); border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.error-state {
-  background: var(--red-light); border: 1px solid rgba(227,25,55,0.2);
-  border-radius: var(--radius); padding: 20px; color: var(--red); font-size: 13px;
+/* Responsive */
+@media (max-width: 900px) {
+  .page-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .charts-grid { grid-template-columns: 1fr; }
+  .chart-card.wide { grid-column: span 1; }
+  .threat-grid { grid-template-columns: repeat(2, 1fr); }
+  .pulse-grid { grid-template-columns: repeat(2, 1fr); }
+  .signal-grid { grid-template-columns: 1fr; }
+  .team-insight-cards { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>
 <body>
 
 <!-- =========================================================
-     NAV
+     TOP NAV
      ========================================================= -->
 <nav class="top-nav">
-  <div class="nav-brand">Actian <span>CI</span></div>
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchTab('overview')">Overview</button>
-    <button class="nav-tab" onclick="switchTab('marketing')">Marketing</button>
-    <button class="nav-tab" onclick="switchTab('product')">Product</button>
-    <button class="nav-tab" onclick="switchTab('sdrs')">SDRs</button>
-    <button class="nav-tab" onclick="switchTab('pmm')">PMM</button>
-    <button class="nav-tab" onclick="switchTab('executives')">Executives</button>
-  </div>
-  <div class="nav-status" id="statusBar">Loading...</div>
+  <div class="nav-brand">Actian <span>CI</span> v2</div>
+  <button class="nav-tab active" onclick="switchTab('overview')">Market Overview</button>
+  <button class="nav-tab" onclick="switchTab('signals')">Strategic Signals</button>
+  <button class="nav-tab" onclick="switchTab('marketing')">Marketing</button>
+  <button class="nav-tab" onclick="switchTab('product')">Product</button>
+  <button class="nav-tab" onclick="switchTab('sdrs')">SDRs</button>
+  <button class="nav-tab" onclick="switchTab('pmm')">PMM</button>
+  <button class="nav-tab" onclick="switchTab('executives')">Executives</button>
+  <div class="nav-spacer"></div>
+  <span class="last-updated" id="lastUpdated">Loading…</span>
 </nav>
 
 <!-- =========================================================
-     OVERVIEW PAGE
+     TAB: MARKET OVERVIEW
      ========================================================= -->
-<div class="page active" id="page-overview">
-  <!-- Filter Bar -->
-  <div class="filter-bar">
-    <select id="ov_fCompany" onchange="ov_applyFilters()">
-      <option value="">All Companies</option>
-    </select>
-    <select id="ov_fSegment" onchange="ov_applyFilters()">
-      <option value="">All Segments</option>
-    </select>
-    <select id="ov_fFunction" onchange="ov_applyFilters()">
-      <option value="">All Functions</option>
-    </select>
-    <select id="ov_fSeniority" onchange="ov_applyFilters()">
-      <option value="">All Seniority</option>
-    </select>
-    <select id="ov_fProduct" onchange="ov_applyFilters()">
-      <option value="">All Product Focus</option>
-    </select>
-    <input type="text" id="ov_fSearch" placeholder="Search jobs..." oninput="ov_applyFilters()">
-    <label style="font-size:12px;color:var(--text-muted)">Min Rel:
-      <input type="number" id="ov_fMinRel" min="0" max="10" step="0.5" value="0" style="width:56px" onchange="ov_applyFilters()">
-    </label>
-    <label style="font-size:12px;color:var(--text-muted)">Days ≤
-      <input type="number" id="ov_fDays" min="1" max="365" value="365" style="width:60px" onchange="ov_applyFilters()">
-    </label>
-    <button class="btn-reset" onclick="ov_resetFilters()">Reset</button>
-  </div>
+<div id="tab-overview" class="tab-panel active">
+  <div class="page-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section-title">Company Groups</div>
+      <div id="ov-sidebar"></div>
+    </aside>
 
-  <!-- Active Filter Pills -->
-  <div class="filter-pills" id="ov_filterPills"></div>
-
-  <!-- KPI Strip -->
-  <div class="kpi-strip">
-    <div class="kpi-card">
-      <div class="kpi-label">Total Roles</div>
-      <div class="kpi-value" id="ov_kpiTotal">—</div>
-      <div class="kpi-sub" id="ov_kpiTotalSub"></div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">High Signal (8+)</div>
-      <div class="kpi-value" id="ov_kpiHighSignal">—</div>
-      <div class="kpi-sub" id="ov_kpiHighSignalSub"></div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Director+ Roles</div>
-      <div class="kpi-value" id="ov_kpiDirector">—</div>
-      <div class="kpi-sub" id="ov_kpiDirectorSub"></div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">New This Week</div>
-      <div class="kpi-value" id="ov_kpiNew7d">—</div>
-      <div class="kpi-sub">Posted in last 7 days</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Avg Relevancy</div>
-      <div class="kpi-value" id="ov_kpiAvgRel">—</div>
-      <div class="kpi-sub">Out of 10.0</div>
-    </div>
-  </div>
-
-  <!-- Main content + sidebar -->
-  <div class="grid-sidebar">
-    <!-- Left: charts + table -->
-    <div>
-      <!-- Row 1: 3 charts -->
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-title">Jobs by Company</div>
-          <canvas id="ov_chartCompanies" height="240"></canvas>
+    <!-- Main -->
+    <main class="main-content">
+      <!-- KPI Cards -->
+      <div class="kpi-row">
+        <div class="kpi-card" id="kpi-total" onclick="ov_kpiFilter('total')">
+          <div class="kpi-label">Total Jobs</div>
+          <div class="kpi-value" id="kpi-total-val">—</div>
+          <div class="kpi-sub">across all competitors</div>
         </div>
-        <div class="card">
-          <div class="card-title">Seniority Distribution</div>
-          <canvas id="ov_chartSeniority" height="240"></canvas>
+        <div class="kpi-card" id="kpi-signal" onclick="ov_kpiFilter('signal')">
+          <div class="kpi-label">High Signal</div>
+          <div class="kpi-value" id="kpi-signal-val">—</div>
+          <div class="kpi-sub">relevancy ≥ 8</div>
         </div>
-        <div class="card">
-          <div class="card-title">Function Distribution</div>
-          <canvas id="ov_chartFunction" height="240"></canvas>
+        <div class="kpi-card" id="kpi-director" onclick="ov_kpiFilter('director')">
+          <div class="kpi-label">Director+</div>
+          <div class="kpi-value" id="kpi-director-val">—</div>
+          <div class="kpi-sub">senior hiring signals</div>
+        </div>
+        <div class="kpi-card" id="kpi-new" onclick="ov_kpiFilter('new')">
+          <div class="kpi-label">New This Week</div>
+          <div class="kpi-value" id="kpi-new-val">—</div>
+          <div class="kpi-sub">posted ≤ 7 days ago</div>
         </div>
       </div>
 
-      <!-- Row 2: product focus + map -->
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">Product Focus Areas</div>
-          <canvas id="ov_chartProduct" height="220"></canvas>
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <select id="ov-sel-company" onchange="ov_applyFilters()"><option value="">All Companies</option></select>
+        <select id="ov-sel-function" onchange="ov_applyFilters()"><option value="">All Functions</option></select>
+        <select id="ov-sel-seniority" onchange="ov_applyFilters()"><option value="">All Levels</option></select>
+        <select id="ov-sel-product" onchange="ov_applyFilters()"><option value="">All Product Areas</option></select>
+        <select id="ov-sel-days" onchange="ov_applyFilters()">
+          <option value="">All Dates</option>
+          <option value="7">Last 7 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+        </select>
+        <button class="reset-btn" onclick="ov_resetAll()">Reset All</button>
+        <button class="export-btn" onclick="ov_exportCSV()">⬇ Export CSV</button>
+      </div>
+
+      <!-- Active pills -->
+      <div class="filter-pills" id="ov-pills"></div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title">Jobs by Company (Top 20)</div>
+          <div class="chart-wrap"><canvas id="ov-chart-company" height="220"></canvas></div>
         </div>
-        <div class="card" style="padding:0;overflow:hidden;">
-          <div style="padding:14px 16px 10px;border-bottom:1px solid var(--border-light);font-size:13px;font-weight:700;">Hiring Map</div>
-          <div id="ov_hiringMap"></div>
+        <div class="chart-card">
+          <div class="chart-title">Jobs by Function</div>
+          <div class="chart-wrap"><canvas id="ov-chart-function" height="220"></canvas></div>
         </div>
+        <div class="chart-card">
+          <div class="chart-title">Jobs by Seniority</div>
+          <div class="chart-wrap"><canvas id="ov-chart-seniority" height="220"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Jobs by Product Area</div>
+          <div class="chart-wrap"><canvas id="ov-chart-product" height="220"></canvas></div>
+        </div>
+        <div class="chart-card wide">
+          <div class="chart-title">Threat Score by Company (Top 20)</div>
+          <div class="chart-wrap"><canvas id="ov-chart-threat" height="160"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="map-card">
+        <div class="chart-title">Global Hiring Distribution</div>
+        <div id="ov-map"></div>
       </div>
 
       <!-- Job Table -->
-      <div class="card" style="margin-top:0;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <div class="card-title" style="margin:0;border:none;padding:0" id="ov_tableTitle">Job Listings</div>
-          <div style="font-size:12px;color:var(--text-muted)" id="ov_tableCount"></div>
+      <div class="table-card">
+        <div class="table-header">
+          <h3>All Jobs</h3>
+          <span class="table-count" id="ov-table-count"></span>
         </div>
         <div class="table-wrap">
-          <table class="data-table">
+          <table class="job-table">
             <thead>
               <tr>
-                <th onclick="ov_sortTable('Company')">Company</th>
-                <th onclick="ov_sortTable('Job Title')">Job Title</th>
-                <th onclick="ov_sortTable('Seniority')">Seniority</th>
-                <th onclick="ov_sortTable('Function')">Function</th>
-                <th onclick="ov_sortTable('Location')">Location</th>
-                <th onclick="ov_sortTable('_days')">Days</th>
-                <th onclick="ov_sortTable('Relevancy_to_Actian')">Relevancy</th>
+                <th onclick="ov_sort('Company')" id="th-Company">Company <span class="sort-indicator"></span></th>
+                <th onclick="ov_sort('Job_Title')" id="th-Job_Title">Title <span class="sort-indicator"></span></th>
+                <th onclick="ov_sort('Function')" id="th-Function">Function <span class="sort-indicator"></span></th>
+                <th onclick="ov_sort('Seniority')" id="th-Seniority">Seniority <span class="sort-indicator"></span></th>
+                <th onclick="ov_sort('Product_Focus')" id="th-Product_Focus">Product Area <span class="sort-indicator"></span></th>
+                <th onclick="ov_sort('Location')" id="th-Location">Location <span class="sort-indicator"></span></th>
+                <th onclick="ov_sort('Posting_Date')" id="th-Posting_Date">Posted <span class="sort-indicator"></span></th>
+                <th onclick="ov_sort('Relevancy_Score')" id="th-Relevancy_Score">Rel. <span class="sort-indicator"></span></th>
+                <th>Skills</th>
               </tr>
             </thead>
-            <tbody id="ov_jobTableBody"></tbody>
+            <tbody id="ov-tbody"></tbody>
           </table>
         </div>
-        <div class="table-footer">
-          <div style="font-size:12px;color:var(--text-muted)" id="ov_pageMeta"></div>
-          <div class="pager" id="ov_pager"></div>
+        <div class="pagination" id="ov-pagination"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- =========================================================
+     TAB: STRATEGIC SIGNALS
+     ========================================================= -->
+<div id="tab-signals" class="tab-panel">
+  <div class="signals-page">
+    <div class="signals-header">
+      <h2>Strategic Signals</h2>
+      <p>Competitive intelligence signals derived from hiring patterns and role analysis</p>
+    </div>
+
+    <!-- Market Pulse -->
+    <div class="market-pulse">
+      <h3>Market Pulse</h3>
+      <div class="pulse-grid">
+        <div class="pulse-stat">
+          <div class="pulse-val" id="sig-total-companies">—</div>
+          <div class="pulse-lbl">Companies Active</div>
+        </div>
+        <div class="pulse-stat">
+          <div class="pulse-val" id="sig-critical-count">—</div>
+          <div class="pulse-lbl">Critical Threats</div>
+        </div>
+        <div class="pulse-stat">
+          <div class="pulse-val" id="sig-ai-pct">—</div>
+          <div class="pulse-lbl">AI/ML Roles</div>
+        </div>
+        <div class="pulse-stat">
+          <div class="pulse-val" id="sig-gtm-count">—</div>
+          <div class="pulse-lbl">GTM Roles</div>
         </div>
       </div>
     </div>
 
-    <!-- Right sidebar -->
-    <div class="sidebar">
-      <div class="card card-sm">
-        <div class="card-title">Relevancy Distribution</div>
-        <canvas id="ov_chartRelevancy" height="160"></canvas>
-      </div>
+    <!-- Segment chips -->
+    <div class="segment-chips" id="sig-chips"></div>
 
-      <div class="card card-sm">
-        <div class="card-title">Threat Summary</div>
-        <div id="ov_threatSummary">—</div>
-      </div>
+    <!-- Signal cards -->
+    <div id="sig-cards-container"></div>
 
-      <div class="card card-sm">
-        <div class="card-title">Top 15 Companies</div>
-        <div id="ov_topCompanies"></div>
-      </div>
+    <!-- Phase 2 placeholder -->
+    <div class="phase-banner" id="sig-phase2-banner" style="display:none">
+      ⚡ <strong>Phase 2:</strong> Live signal enrichment from <code>competitive_signals.json</code> — connect to activate real-time market signals
+    </div>
+  </div>
+</div>
 
-      <div class="card card-sm">
-        <div class="card-title">Top Skills</div>
-        <div id="ov_topSkills"></div>
+<!-- =========================================================
+     TAB: MARKETING
+     ========================================================= -->
+<div id="tab-marketing" class="tab-panel">
+  <div class="team-page">
+    <div class="team-page-header">
+      <div>
+        <h2>Marketing Intelligence</h2>
+        <p>Competitor messaging, campaign signals, and brand positioning moves</p>
+      </div>
+    </div>
+    <div class="team-insight-cards" id="mkt-kpis"></div>
+    <div id="mkt-content"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     TAB: PRODUCT
+     ========================================================= -->
+<div id="tab-product" class="tab-panel">
+  <div class="team-page">
+    <div class="team-page-header">
+      <div>
+        <h2>Product Intelligence</h2>
+        <p>Competitor product area investment, R&D hiring, and roadmap signals</p>
+      </div>
+    </div>
+    <div class="team-insight-cards" id="prod-kpis"></div>
+    <div id="prod-content"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     TAB: SDRs
+     ========================================================= -->
+<div id="tab-sdrs" class="tab-panel">
+  <div class="team-page">
+    <div class="team-page-header">
+      <div>
+        <h2>SDR Battlecard Intelligence</h2>
+        <p>Account expansion signals, GTM hiring, and territory intelligence</p>
+      </div>
+    </div>
+    <div class="team-insight-cards" id="sdr-kpis"></div>
+    <div id="sdr-content"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     TAB: PMM
+     ========================================================= -->
+<div id="tab-pmm" class="tab-panel">
+  <div class="team-page">
+    <div class="team-page-header">
+      <div>
+        <h2>PMM Competitive Intelligence</h2>
+        <p>Go-to-market positioning, pricing signals, and analyst engagement</p>
+      </div>
+    </div>
+    <div class="team-insight-cards" id="pmm-kpis"></div>
+    <div id="pmm-content"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     TAB: EXECUTIVES
+     ========================================================= -->
+<div id="tab-executives" class="tab-panel">
+  <div class="exec-page">
+    <div class="team-page-header">
+      <div>
+        <h2>Executive Threat Dashboard</h2>
+        <p>Board-ready competitive threat overview — click any company to drill in</p>
+      </div>
+    </div>
+    <div class="kpi-row" style="margin-bottom:20px">
+      <div class="kpi-card" style="cursor:default">
+        <div class="kpi-label">Critical Threats</div>
+        <div class="kpi-value trend-up" id="exec-critical">—</div>
+        <div class="kpi-sub">immediate action required</div>
+      </div>
+      <div class="kpi-card" style="cursor:default">
+        <div class="kpi-label">High Threats</div>
+        <div class="kpi-value" id="exec-high">—</div>
+        <div class="kpi-sub">monitor closely</div>
+      </div>
+      <div class="kpi-card" style="cursor:default">
+        <div class="kpi-label">Total Competitors</div>
+        <div class="kpi-value" id="exec-total">—</div>
+        <div class="kpi-sub">tracked companies</div>
+      </div>
+      <div class="kpi-card" style="cursor:default">
+        <div class="kpi-label">Market Pressure</div>
+        <div class="kpi-value" id="exec-pressure">—</div>
+        <div class="kpi-sub">weighted threat index</div>
+      </div>
+    </div>
+    <div class="section-title">Threat Grid — Click to Drill Down</div>
+    <div class="threat-grid" id="exec-threat-grid"></div>
+    <div class="exec-chart-row">
+      <div class="chart-card">
+        <div class="chart-title">Threat Distribution</div>
+        <div class="chart-wrap"><canvas id="exec-chart-threat-dist" height="220"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Top 10 — Hiring Volume</div>
+        <div class="chart-wrap"><canvas id="exec-chart-volume" height="220"></canvas></div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- =========================================================
-     TEAM PAGES (dynamic content injected by renderTeamView)
+     SCRIPTS
      ========================================================= -->
-<div class="page" id="page-marketing">
-  <div id="marketing-content"></div>
-</div>
-<div class="page" id="page-product">
-  <div id="product-content"></div>
-</div>
-<div class="page" id="page-sdrs">
-  <div id="sdrs-content"></div>
-</div>
-<div class="page" id="page-pmm">
-  <div id="pmm-content"></div>
-</div>
-<div class="page" id="page-executives">
-  <div id="executives-content"></div>
-</div>
-
 <script>
-/* =============================================================
-   CONSTANTS & CONFIG
-   ============================================================= */
+// =========================================================
+// CONFIG & CONSTANTS
+// =========================================================
+const TAB_ORDER = ['overview','signals','marketing','product','sdrs','pmm','executives'];
 
-const COLORS = [
-  '#1B2A4A','#00B4D8','#2ECC71','#8E44AD','#F39C12','#3498DB',
-  '#1ABC9C','#9B59B6','#34495E','#27AE60','#FF6B35','#E31937',
-  '#D35400','#E74C3C','#C0392B'
-];
-
-const SENIORITY_COLORS = {
-  'Director+':     '#E31937',
-  'Principal/Staff':'#8E44AD',
-  'Senior':        '#00B4D8',
-  'Manager':       '#F39C12',
-  'Mid':           '#2ECC71',
-  'Entry':         '#3498DB',
-  'Intern':        '#95A5A6'
+// Strict company → product area map (NO keyword matching elsewhere)
+const PRODUCT_AREA_MAP = {
+  'Atlan':              'Data Intelligence',
+  'Collibra':           'Data Intelligence',
+  'Alation':            'Data Intelligence',
+  'Informatica':        'Data Intelligence',
+  'Talend':             'Data Intelligence',
+  'IBM DataStage':      'Data Integration',
+  'Fivetran':           'Data Integration',
+  'Matillion':          'Data Integration',
+  'Airbyte':            'Data Integration',
+  'Stitch':             'Data Integration',
+  'MuleSoft':           'Data Integration',
+  'Boomi':              'Data Integration',
+  'SnapLogic':          'Data Integration',
+  'Palantir':           'Data Analytics',
+  'ThoughtSpot':        'Data Analytics',
+  'Tableau':            'Data Analytics',
+  'Looker':             'Data Analytics',
+  'Domo':               'Data Analytics',
+  'Mode':               'Data Analytics',
+  'Sigma':              'Data Analytics',
+  'Qlik':               'Data Analytics',
+  'MicroStrategy':      'Data Analytics',
+  'Monte Carlo':        'Observability',
+  'Bigeye':             'Observability',
+  'Acceldata':          'Observability',
+  'Soda':               'Observability',
+  'Great Expectations': 'Observability',
+  'Pinecone':           'VectorAI',
+  'Qdrant':             'VectorAI',
+  'Milvus':             'VectorAI',
+  'Weaviate':           'VectorAI',
+  'Chroma':             'VectorAI',
+  'Snowflake':          'AI Analyst',
+  'Databricks':         'AI Analyst',
+  'dbt Labs':           'AI Analyst',
+  'MongoDB':            'Database',
+  'Redis':              'Database',
+  'Cockroach Labs':     'Database',
+  'SingleStore':        'Database',
+  'PlanetScale':        'Database',
+  'Couchbase':          'Database',
+  'Cassandra':          'Database',
+  'Datadog':            'Monitoring & AIOps',
+  'New Relic':          'Monitoring & AIOps',
+  'Dynatrace':          'Monitoring & AIOps',
+  'Splunk':             'Monitoring & AIOps',
+  'Salesforce':         'CRM & Cloud',
+  'HubSpot':            'CRM & Cloud',
+  'Zendesk':            'CRM & Cloud',
+  'OneTrust':           'Data Governance',
+  'Privacera':          'Data Governance',
+  'Immuta':             'Data Governance',
+  'BigID':              'Data Governance',
 };
 
-/* CRITICAL: Company-to-product-area map.
-   Product area is ONLY assigned via this map — never by keyword matching. */
-const PRODUCT_AREA_COMPANIES = {
-  'Data Intelligence': ['Atlan', 'Collibra', 'Alation'],
-  'Observability':     ['Monte Carlo', 'Bigeye', 'Acceldata'],
-  'VectorAI':          ['Pinecone', 'Qdrant', 'Milvus'],
-  'AI Analyst':        ['Snowflake', 'Databricks'],
-};
-
-const COMPANY_TO_AREA = {};
-Object.entries(PRODUCT_AREA_COMPANIES).forEach(([area, companies]) => {
-  companies.forEach(c => { COMPANY_TO_AREA[c] = area; });
-});
-
-const PRODUCT_AREAS = ['All', 'Data Intelligence', 'Observability', 'VectorAI', 'AI Analyst'];
-
-/* Phase 2: Signal type taxonomy */
-const SIGNAL_TYPES = {
-  launch:             { icon: '🚀', label: 'Launch',             urgencyDefault: 'high' },
-  event:              { icon: '📅', label: 'Event',              urgencyDefault: 'high' },
-  hiring_trend:       { icon: '📈', label: 'Hiring Trend',       urgencyDefault: 'medium' },
-  role_signal:        { icon: '🎯', label: 'Role Signal',        urgencyDefault: 'medium' },
-  announcement:       { icon: '📣', label: 'Announcement',       urgencyDefault: 'medium' },
-  thought_leadership: { icon: '📖', label: 'Thought Leadership', urgencyDefault: 'low' },
-};
-
-/* Team configs */
-const TEAM_CONFIG = {
+// Team configs
+const TEAM_CONFIGS = {
   marketing: {
-    label: 'Marketing',
-    icon: '📢',
-    description: 'Competitor messaging, launches, and events',
     functions: ['Marketing'],
-    signalTypes: ['launch', 'event', 'announcement'],
+    title: 'Marketing',
+    insightLabels: ['Competitor Marketers', 'Content & Demand Gen', 'Avg. Seniority Score'],
+    tableColumns: ['Company','Job_Title','Function','Seniority','Location','Posting_Date'],
+    colLabels:    ['Company','Title','Function','Level','Location','Posted'],
   },
   product: {
-    label: 'Product',
-    icon: '🛠',
-    description: 'Engineering build signals and product launches',
-    functions: ['Engineering', 'Product Management', 'AI/ML & Vector'],
-    signalTypes: ['launch', 'hiring_trend', 'role_signal'],
+    functions: ['Engineering','Product Management','Data Science'],
+    title: 'Product & Engineering',
+    insightLabels: ['Engineers Hired','Product Managers','R&D Investment %'],
+    tableColumns: ['Company','Job_Title','Function','Seniority','Product_Focus','Posting_Date'],
+    colLabels:    ['Company','Title','Function','Level','Product Area','Posted'],
   },
   sdrs: {
-    label: 'SDRs',
-    icon: '🎯',
-    description: 'Competitor events and sales expansion signals',
-    functions: ['Sales', 'Solution Engineering', 'Partnerships/Alliances'],
-    signalTypes: ['event', 'hiring_trend', 'announcement'],
+    functions: ['Sales','Business Development'],
+    title: 'GTM / Sales',
+    insightLabels: ['Competitor AEs/BDRs', 'Avg Rel. Score', 'High-Priority Accounts'],
+    tableColumns: ['Company','Job_Title','Function','Seniority','Location','Relevancy_Score'],
+    colLabels:    ['Company','Title','Function','Level','Location','Rel.'],
   },
   pmm: {
-    label: 'PMM',
-    icon: '🗺',
-    description: 'Positioning changes and battlecard triggers',
-    functions: ['Marketing', 'Product Management'],
-    signalTypes: ['launch', 'event', 'announcement', 'role_signal'],
-  },
-  executives: {
-    label: 'Executives',
-    icon: '📊',
-    description: 'Strategic threat overview and market pressure',
-    functions: null,
-    signalTypes: ['launch', 'event', 'announcement'],
+    functions: ['Product Marketing','Marketing','Sales Engineering'],
+    title: 'PMM & Competitive',
+    insightLabels: ['PMM Roles', 'SE Roles', 'Positioning Signals'],
+    tableColumns: ['Company','Job_Title','Function','Seniority','Product_Focus','Posting_Date'],
+    colLabels:    ['Company','Title','Function','Level','Product Area','Posted'],
   },
 };
 
-/* Functions to exclude globally (same as V1) */
-const EXCLUDED_FUNCTIONS = ['Legal', 'People/HR'];
+const GROUP_COLORS = {
+  'Data Integration':    '#3B82F6',
+  'Data Intelligence':   '#8B5CF6',
+  'Analytics':           '#F59E0B',
+  'Cloud Platforms':     '#10B981',
+  'Data Governance':     '#EF4444',
+  'AIOps & Monitoring':  '#6366F1',
+  'Vector / AI':         '#EC4899',
+  'Database':            '#14B8A6',
+  'Other':               '#94A3B8',
+};
 
-/* =============================================================
-   STATE
-   ============================================================= */
-let allRows = [];          // all parsed CSV rows (after exclusions + 365d filter)
-let signals = [];          // signals.json array
-let competitiveSignals = [];  // competitive_signals.json (Phase 2)
+const REL_COLORS = {high:'#E31937', med:'#F39C12', low:'#2ECC71'};
 
-// Overview tab state
-let ov_filtered = [];
-let ov_sortCol = 'Relevancy_to_Actian';
+// =========================================================
+// GLOBAL STATE
+// =========================================================
+let ALL_JOBS = [];
+let SIGNALS_DATA = [];
+let ov_filteredJobs = [];
+let ov_sortCol = 'Relevancy_Score';
 let ov_sortDir = 'desc';
 let ov_page = 1;
 const OV_PAGE_SIZE = 50;
 
-// Overview Chart instances (stored to destroy on re-render)
-const ov_charts = {};
+let ov_activeSkill = null;
+let ov_activeLocation = null;
+let ov_activeRelBand = null;
+let ov_activeKpi = null;
 
-// Team tab product area state
-const teamProductArea = {
-  marketing: 'All',
-  product: 'All',
-  sdrs: 'All',
-  pmm: 'All',
-  executives: 'All',
-};
+// Team page state per team
+const TEAM_STATE = {};
+['marketing','product','sdrs','pmm'].forEach(t => {
+  TEAM_STATE[t] = { page: 1, sortCol: 'Relevancy_Score', sortDir: 'desc' };
+});
+const TEAM_PAGE_SIZE = 25;
 
-// Track current active tab
-let currentTab = 'overview';
+let ov_charts = {};
+let ov_map = null;
+let exec_charts = {};
 
-/* =============================================================
-   UTILITY FUNCTIONS
-   ============================================================= */
+// Signal state
+let sig_activeSegment = 'All';
 
-/** Parse a CSV string into array of objects, handling quoted fields */
-function parseCSV(text) {
-  const lines = text.split('\n');
-  if (lines.length < 2) return [];
-  const headers = parseCSVLine(lines[0]);
-  const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-    const vals = parseCSVLine(line);
-    const obj = {};
-    headers.forEach((h, idx) => { obj[h] = (vals[idx] || '').trim(); });
-    rows.push(obj);
-  }
-  return rows;
-}
-
-function parseCSVLine(line) {
-  const result = [];
-  let current = '';
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (ch === '"') {
-      if (inQuotes && line[i+1] === '"') { current += '"'; i++; }
-      else { inQuotes = !inQuotes; }
-    } else if (ch === ',' && !inQuotes) {
-      result.push(current);
-      current = '';
-    } else {
-      current += ch;
-    }
-  }
-  result.push(current);
-  return result;
-}
-
-/** Enrich a raw CSV row with computed fields */
-function enrichRow(row) {
-  row._days = parseInt(row['Days Since Posted']) || 0;
-  row._relevancy = parseFloat(row['Relevancy_to_Actian']) || 0;
-  // Normalize Function field (CSV has 'Product' but spec uses 'Product Management')
-  if (row['Function'] === 'Product') row['Function'] = 'Product Management';
-  return row;
-}
-
-/** Seniority badge HTML */
-function senBadge(s) {
-  const map = {
-    'Director+': 'director', 'Principal/Staff': 'principal',
-    'Senior': 'senior', 'Manager': 'manager',
-    'Mid': 'mid', 'Entry': 'entry', 'Intern': 'intern'
-  };
-  return '<span class="badge badge-'+(map[s]||'mid')+'">'+s+'</span>';
-}
-
-/** Relevancy bar HTML */
-function relBar(v) {
-  const pct = Math.min(100, (v / 10) * 100);
-  const color = v >= 8 ? '#E31937' : v >= 5 ? '#F39C12' : '#2ECC71';
-  return '<div class="rel-bar"><div class="rel-bar-track"><div class="rel-bar-fill" style="width:'+pct+'%;background:'+color+'"></div></div><span class="rel-bar-value">'+v.toFixed(1)+'</span></div>';
-}
-
-/** Threat badge HTML */
-function threatBadge(level) {
-  const labels = { critical: 'CRITICAL', high: 'HIGH', medium: 'MEDIUM', low: 'LOW' };
-  return '<span class="badge badge-threat-'+(level||'low')+'">'+( labels[level]||level )+'</span>';
-}
-
-/** Count occurrences in array of objects by key */
-function countBy(arr, key) {
-  const counts = {};
-  arr.forEach(r => {
-    const v = r[key] || 'Unknown';
-    counts[v] = (counts[v] || 0) + 1;
+// =========================================================
+// TAB SWITCHING
+// =========================================================
+function switchTab(name) {
+  TAB_ORDER.forEach(t => {
+    document.getElementById('tab-' + t).classList.toggle('active', t === name);
   });
-  return counts;
+  document.querySelectorAll('.nav-tab').forEach((btn, i) => {
+    btn.classList.toggle('active', TAB_ORDER[i] === name);
+  });
+  if (name === 'overview' && ov_map) { setTimeout(() => ov_map.invalidateSize(), 100); }
+  if (name === 'executives') { renderExecPage(); }
+  if (['marketing','product','sdrs','pmm'].includes(name)) { renderTeamPage(name); }
+  if (name === 'signals') { renderSignalsPage(); }
 }
 
-/** Sort object entries by value descending, return top N */
-function topN(counts, n) {
-  return Object.entries(counts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, n);
-}
-
-/** Escape HTML */
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-/** Format days ago */
-function fmtDays(d) {
-  if (d === 0) return 'Today';
-  if (d === 1) return '1d';
-  if (d < 7) return d+'d';
-  if (d < 30) return Math.round(d/7)+'w';
-  return Math.round(d/30)+'mo';
-}
-
-/* =============================================================
-   LOCATION RESOLVER (exact copy — prevents "australia" substring bug)
-   ============================================================= */
-function resolveLocation(loc) {
-  if (!loc) return null;
-  const lower = loc.toLowerCase();
-  const GEO = [
-    // Long keys first to prevent substring false-positives
-    ['united states', [37.1, -95.7]], ['united kingdom', [55.4, -3.4]],
-    ['australia', [-25.3, 133.7]], ['new zealand', [-40.9, 174.9]],
-    ['netherlands', [52.1, 5.3]], ['germany', [51.2, 10.5]],
-    ['singapore', [1.4, 103.8]], ['india', [20.6, 79.1]],
-    ['canada', [60.0, -96.0]], ['france', [46.2, 2.2]],
-    ['ireland', [53.1, -8.2]], ['israel', [31.0, 34.9]],
-    ['brazil', [-14.2, -51.9]], ['spain', [40.5, -3.7]],
-    ['italy', [41.9, 12.6]], ['poland', [51.9, 19.1]],
-    ['sweden', [60.1, 18.6]], ['denmark', [56.3, 9.5]],
-    ['norway', [60.5, 8.5]], ['switzerland', [46.8, 8.2]],
-    ['austria', [47.5, 14.6]], ['portugal', [39.4, -8.2]],
-    ['belgium', [50.5, 4.5]], ['finland', [61.9, 25.7]],
-    ['czech', [49.8, 15.5]], ['romania', [45.9, 24.9]],
-    ['mexico', [23.6, -102.5]], ['argentina', [-38.4, -63.6]],
-    ['colombia', [4.6, -74.1]], ['chile', [-35.7, -71.5]],
-    ['japan', [36.2, 138.3]], ['china', [35.9, 104.2]],
-    ['korea', [35.9, 127.8]], ['taiwan', [23.7, 121.0]],
-    ['remote', [20, 0]], ['usa', [37.1, -95.7]], ['uk', [55.4, -3.4]],
-    ['us', [37.1, -95.7]],
-  ];
-  for (const [key, coords] of GEO) {
-    const idx = lower.indexOf(key);
-    if (idx === -1) continue;
-    const before = idx === 0 || /[\s,.\-]/.test(lower[idx-1]);
-    const after = idx + key.length >= lower.length || /[\s,.\-]/.test(lower[idx+key.length]);
-    if (before && after) return coords;
-  }
-  return null;
-}
-
-/* =============================================================
-   DATA LOADING
-   ============================================================= */
+// =========================================================
+// DATA LOADING
+// =========================================================
 async function loadData() {
   try {
-    // Load CSV
-    const csvResp = await fetch('jobs_enriched.csv');
-    if (!csvResp.ok) throw new Error('Cannot load jobs_enriched.csv');
-    const csvText = await csvResp.text();
-    const rawRows = parseCSV(csvText);
+    const r = await fetch('enriched_jobs.json');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    ALL_JOBS = Array.isArray(data) ? data : (data.jobs || []);
 
-    // Enrich + filter
-    allRows = rawRows
-      .map(enrichRow)
-      .filter(r => !EXCLUDED_FUNCTIONS.includes(r['Function']))
-      .filter(r => r._days <= 365);
-
-    // Load signals.json
-    try {
-      const sigResp = await fetch('signals.json');
-      if (sigResp.ok) {
-        signals = await sigResp.json();
-        if (!Array.isArray(signals)) signals = [];
-      }
-    } catch(e) { signals = []; }
-
-    // Phase 2: try competitive_signals.json (graceful fail)
-    try {
-      const csResp = await fetch('competitive_signals.json');
-      if (csResp.ok) {
-        competitiveSignals = await csResp.json();
-        if (!Array.isArray(competitiveSignals)) competitiveSignals = [];
-      }
-    } catch(e) { competitiveSignals = []; } // Phase 2 not yet deployed
-
-    // Update status bar
-    const today = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-    document.getElementById('statusBar').textContent =
-      `${allRows.length} roles | ${signals.length} signals | ${competitiveSignals.length} competitive signals | v2 | Updated ${today}`;
-
-    // Build Overview
-    ov_populateFilters();
-    ov_applyFilters();
-
-  } catch(err) {
-    console.error(err);
-    document.getElementById('statusBar').textContent = 'Error loading data';
-    document.getElementById('page-overview').innerHTML =
-      '<div class="error-state" style="margin:24px">Failed to load data: '+esc(err.message)+'<br><br>Make sure jobs_enriched.csv is in the same directory and open via a local server (not file://).</div>';
-  }
-}
-
-/* =============================================================
-   TAB SWITCHING
-   ============================================================= */
-function switchTab(tabId) {
-  currentTab = tabId;
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + tabId).classList.add('active');
-
-  // Highlight correct nav tab
-  const tabs = document.querySelectorAll('.nav-tab');
-  const tabOrder = ['overview','marketing','product','sdrs','pmm','executives'];
-  const idx = tabOrder.indexOf(tabId);
-  if (idx >= 0) tabs[idx].classList.add('active');
-
-  // Render team views
-  if (tabId !== 'overview') {
-    renderTeamView(tabId);
-  }
-}
-
-/* =============================================================
-   OVERVIEW — FILTER SETUP
-   ============================================================= */
-function ov_populateFilters() {
-  const sel = (id, values) => {
-    const el = document.getElementById(id);
-    values.sort().forEach(v => {
-      if (!v) return;
-      const o = document.createElement('option');
-      o.value = v; o.textContent = v;
-      el.appendChild(o);
+    // Normalise fields
+    ALL_JOBS.forEach(j => {
+      j.Relevancy_Score = parseFloat(j.Relevancy_Score) || 0;
+      j.Skills = j.Skills || '';
+      j.Posting_Date = j.Posting_Date || j.Date_Posted || '';
+      j.Product_Focus = PRODUCT_AREA_MAP[j.Company] || j.Product_Focus || 'Other';
     });
-  };
 
-  sel('ov_fCompany',   [...new Set(allRows.map(r => r.Company))]);
-  sel('ov_fSegment',   [...new Set(allRows.map(r => r.Company_Group))]);
-  sel('ov_fFunction',  [...new Set(allRows.map(r => r.Function))]);
-  sel('ov_fSeniority', [...new Set(allRows.map(r => r.Seniority))]);
-  sel('ov_fProduct',   [...new Set(allRows.map(r => r.Product_Focus))]);
+    // Last updated
+    const dates = ALL_JOBS.map(j => j.Posting_Date).filter(Boolean).sort();
+    if (dates.length) {
+      document.getElementById('lastUpdated').textContent = 'Updated ' + dates[dates.length-1];
+    }
+
+    initOverview();
+    loadSignals();
+  } catch(e) {
+    console.error('Failed to load enriched_jobs.json', e);
+    document.getElementById('ov-tbody').innerHTML =
+      '<tr><td colspan="9" class="empty-state">⚠ Could not load enriched_jobs.json — run scraper first</td></tr>';
+  }
 }
 
-function ov_getFilters() {
-  return {
-    company:   document.getElementById('ov_fCompany').value,
-    segment:   document.getElementById('ov_fSegment').value,
-    func:      document.getElementById('ov_fFunction').value,
-    seniority: document.getElementById('ov_fSeniority').value,
-    product:   document.getElementById('ov_fProduct').value,
-    search:    document.getElementById('ov_fSearch').value.toLowerCase(),
-    minRel:    parseFloat(document.getElementById('ov_fMinRel').value) || 0,
-    days:      parseInt(document.getElementById('ov_fDays').value) || 365,
-  };
+async function loadSignals() {
+  try {
+    const r = await fetch('signals.json');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    SIGNALS_DATA = await r.json();
+    if (SIGNALS_DATA.signals) SIGNALS_DATA = SIGNALS_DATA.signals;
+  } catch(e) {
+    SIGNALS_DATA = buildSyntheticSignals();
+  }
 }
 
+// Build synthetic signals from job data when signals.json missing
+function buildSyntheticSignals() {
+  const signals = [];
+  // Top companies by job count → generate hiring trend signals
+  const byCo = {};
+  ALL_JOBS.forEach(j => { byCo[j.Company] = (byCo[j.Company]||0)+1; });
+  Object.entries(byCo).sort((a,b)=>b[1]-a[1]).slice(0,10).forEach(([co, cnt]) => {
+    signals.push({
+      type: 'hiring_trend',
+      company: co,
+      title: `${co} is accelerating hiring with ${cnt} open roles`,
+      summary: `${co} currently has ${cnt} open positions, indicating significant growth investment.`,
+      segment: PRODUCT_AREA_MAP[co] || 'Other',
+      date: new Date().toISOString().slice(0,10),
+      roadmap: [`Expanding team across multiple functions`, `${cnt} open roles signal active budget`],
+      implications: [`Increased competitive pressure in ${PRODUCT_AREA_MAP[co]||'their market'}`, `Potential talent acquisition from Actian's pipeline`],
+      actions: [`Strengthen Actian positioning against ${co}`, `Monitor ${co} product announcements`],
+      watch_for: [`New ${co} product launches`, `Executive hires at ${co}`],
+      jobs_company: co,
+    });
+  });
+  return signals;
+}
+
+// =========================================================
+// OVERVIEW — INIT
+// =========================================================
+function initOverview() {
+  populateSelects();
+  buildSidebar();
+  ov_applyFilters();
+  buildCharts();
+  buildMap();
+}
+
+function populateSelects() {
+  const companies = [...new Set(ALL_JOBS.map(j=>j.Company))].sort();
+  const functions_ = [...new Set(ALL_JOBS.map(j=>j.Function).filter(Boolean))].sort();
+  const seniorities = [...new Set(ALL_JOBS.map(j=>j.Seniority).filter(Boolean))].sort();
+  const products = [...new Set(ALL_JOBS.map(j=>j.Product_Focus).filter(Boolean))].sort();
+
+  const fill = (id, vals) => {
+    const el = document.getElementById(id);
+    const first = el.options[0];
+    el.innerHTML = '';
+    el.appendChild(first);
+    vals.forEach(v => { const o=document.createElement('option'); o.value=o.textContent=v; el.appendChild(o); });
+  };
+  fill('ov-sel-company', companies);
+  fill('ov-sel-function', functions_);
+  fill('ov-sel-seniority', seniorities);
+  fill('ov-sel-product', products);
+}
+
+function buildSidebar() {
+  const groups = {};
+  ALL_JOBS.forEach(j => {
+    const g = j.Company_Group || 'Other';
+    if (!groups[g]) groups[g] = new Set();
+    groups[g].add(j.Company);
+  });
+  const container = document.getElementById('ov-sidebar');
+  container.innerHTML = '';
+
+  // "All" item
+  const allEl = document.createElement('div');
+  allEl.className = 'sidebar-item active';
+  allEl.id = 'sidebar-all';
+  allEl.innerHTML = `<span class="sidebar-dot" style="background:#94A3B8"></span> All Companies <span class="sidebar-count">${ALL_JOBS.length}</span>`;
+  allEl.onclick = () => { document.getElementById('ov-sel-company').value=''; ov_applyFilters(); };
+  container.appendChild(allEl);
+
+  Object.entries(groups).sort().forEach(([g, companies]) => {
+    const cnt = ALL_JOBS.filter(j=>(j.Company_Group||'Other')===g).length;
+    const color = GROUP_COLORS[g] || '#94A3B8';
+    const grpEl = document.createElement('div');
+    grpEl.className = 'sidebar-section-title';
+    grpEl.style.marginTop = '8px';
+    grpEl.textContent = g;
+    container.appendChild(grpEl);
+
+    [...companies].sort().forEach(co => {
+      const coCnt = ALL_JOBS.filter(j=>j.Company===co).length;
+      const el = document.createElement('div');
+      el.className = 'sidebar-item';
+      el.id = 'sidebar-' + co.replace(/\s+/g,'_');
+      el.innerHTML = `<span class="sidebar-dot" style="background:${color}"></span> ${co} <span class="sidebar-count">${coCnt}</span>`;
+      el.onclick = () => { document.getElementById('ov-sel-company').value=co; ov_applyFilters(); };
+      container.appendChild(el);
+    });
+  });
+}
+
+// =========================================================
+// OVERVIEW — FILTERING
+// =========================================================
 function ov_applyFilters() {
-  const f = ov_getFilters();
-  ov_filtered = allRows.filter(r => {
-    if (f.company   && r.Company !== f.company) return false;
-    if (f.segment   && r.Company_Group !== f.segment) return false;
-    if (f.func      && r.Function !== f.func) return false;
-    if (f.seniority && r.Seniority !== f.seniority) return false;
-    if (f.product   && r.Product_Focus !== f.product) return false;
-    if (f.minRel    && r._relevancy < f.minRel) return false;
-    if (f.days      && r._days > f.days) return false;
-    if (f.search) {
-      const hay = (r['Job Title'] + ' ' + r.Company + ' ' + r.Location).toLowerCase();
-      if (!hay.includes(f.search)) return false;
+  const company = document.getElementById('ov-sel-company').value;
+  const func = document.getElementById('ov-sel-function').value;
+  const seniority = document.getElementById('ov-sel-seniority').value;
+  const product = document.getElementById('ov-sel-product').value;
+  const days = document.getElementById('ov-sel-days').value;
+
+  let jobs = ALL_JOBS.filter(j => {
+    if (company && j.Company !== company) return false;
+    if (func && j.Function !== func) return false;
+    if (seniority && j.Seniority !== seniority) return false;
+    if (product && j.Product_Focus !== product) return false;
+    if (days && j.Posting_Date) {
+      const d = new Date(j.Posting_Date);
+      const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - parseInt(days));
+      if (d < cutoff) return false;
+    }
+    // KPI filters
+    if (ov_activeKpi === 'signal' && j.Relevancy_Score < 8) return false;
+    if (ov_activeKpi === 'director' && !['Director','VP','C-Level','Executive'].includes(j.Seniority)) return false;
+    if (ov_activeKpi === 'new') {
+      if (!j.Posting_Date) return false;
+      const d = new Date(j.Posting_Date);
+      const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-7);
+      if (d < cutoff) return false;
+    }
+    // Skill filter
+    if (ov_activeSkill) {
+      const skills = (j.Skills||'').split(',').map(s=>s.trim().toLowerCase());
+      if (!skills.includes(ov_activeSkill.toLowerCase())) return false;
+    }
+    // Location filter
+    if (ov_activeLocation) {
+      const loc = (j.Location||'').toLowerCase();
+      if (!loc.includes(ov_activeLocation.toLowerCase())) return false;
+    }
+    // Rel band filter
+    if (ov_activeRelBand) {
+      const s = j.Relevancy_Score;
+      if (ov_activeRelBand==='high' && s<8) return false;
+      if (ov_activeRelBand==='med' && (s<5||s>=8)) return false;
+      if (ov_activeRelBand==='low' && s>=5) return false;
     }
     return true;
   });
 
+  ov_filteredJobs = jobs;
   ov_page = 1;
-  ov_renderPills(f);
-  ov_renderKPIs();
-  ov_renderCharts();
-  ov_renderTable();
-  ov_renderSidebar();
+
+  // KPI counts (always from ALL_JOBS for context)
+  document.getElementById('kpi-total-val').textContent = jobs.length.toLocaleString();
+  document.getElementById('kpi-signal-val').textContent = jobs.filter(j=>j.Relevancy_Score>=8).length.toLocaleString();
+  document.getElementById('kpi-director-val').textContent = jobs.filter(j=>['Director','VP','C-Level','Executive'].includes(j.Seniority)).length.toLocaleString();
+  const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate()-7);
+  document.getElementById('kpi-new-val').textContent = jobs.filter(j=>j.Posting_Date && new Date(j.Posting_Date)>=weekAgo).length.toLocaleString();
+
+  // Sidebar active state
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  const coSel = document.getElementById('ov-sel-company').value;
+  if (!coSel) {
+    const a = document.getElementById('sidebar-all');
+    if (a) a.classList.add('active');
+  } else {
+    const a = document.getElementById('sidebar-' + coSel.replace(/\s+/g,'_'));
+    if (a) a.classList.add('active');
+  }
+
+  renderPills();
+  renderTable();
+  updateCharts();
 }
 
-function ov_resetFilters() {
-  ['ov_fCompany','ov_fSegment','ov_fFunction','ov_fSeniority','ov_fProduct'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('ov_fSearch').value = '';
-  document.getElementById('ov_fMinRel').value = '0';
-  document.getElementById('ov_fDays').value = '365';
+function ov_kpiFilter(type) {
+  if (ov_activeKpi === type && type !== 'total') {
+    ov_activeKpi = null;
+    document.querySelectorAll('.kpi-card').forEach(c=>c.classList.remove('active'));
+  } else if (type === 'total') {
+    ov_activeKpi = null;
+    document.querySelectorAll('.kpi-card').forEach(c=>c.classList.remove('active'));
+    ov_resetAll();
+    return;
+  } else {
+    ov_activeKpi = type;
+    document.querySelectorAll('.kpi-card').forEach(c=>c.classList.remove('active'));
+    document.getElementById('kpi-' + type).classList.add('active');
+  }
   ov_applyFilters();
 }
 
-function ov_renderPills(f) {
-  const container = document.getElementById('ov_filterPills');
-  const pills = [];
-  if (f.company)   pills.push(['Company: '+f.company, () => { document.getElementById('ov_fCompany').value=''; ov_applyFilters(); }]);
-  if (f.segment)   pills.push(['Segment: '+f.segment, () => { document.getElementById('ov_fSegment').value=''; ov_applyFilters(); }]);
-  if (f.func)      pills.push(['Function: '+f.func, () => { document.getElementById('ov_fFunction').value=''; ov_applyFilters(); }]);
-  if (f.seniority) pills.push(['Seniority: '+f.seniority, () => { document.getElementById('ov_fSeniority').value=''; ov_applyFilters(); }]);
-  if (f.product)   pills.push(['Product: '+f.product, () => { document.getElementById('ov_fProduct').value=''; ov_applyFilters(); }]);
-  if (f.search)    pills.push(['Search: "'+f.search+'"', () => { document.getElementById('ov_fSearch').value=''; ov_applyFilters(); }]);
-  if (f.minRel > 0) pills.push(['Min Rel: '+f.minRel, () => { document.getElementById('ov_fMinRel').value='0'; ov_applyFilters(); }]);
-  if (f.days < 365) pills.push(['Days ≤ '+f.days, () => { document.getElementById('ov_fDays').value='365'; ov_applyFilters(); }]);
-
-  container.innerHTML = pills.map((p, i) =>
-    `<div class="filter-pill">${esc(p[0])}<button onclick="ov_removePill(${i})">×</button></div>`
-  ).join('');
-  container._pillActions = pills.map(p => p[1]);
+function ov_filterByCompany(co) {
+  document.getElementById('ov-sel-company').value = co;
+  ov_applyFilters();
 }
 
-function ov_removePill(i) {
-  const container = document.getElementById('ov_filterPills');
-  if (container._pillActions && container._pillActions[i]) {
-    container._pillActions[i]();
+function ov_filterBySkill(skill) {
+  if (ov_activeSkill === skill) {
+    ov_activeSkill = null;
+  } else {
+    ov_activeSkill = skill;
   }
+  ov_applyFilters();
 }
 
-/* =============================================================
-   OVERVIEW — KPIs
-   ============================================================= */
-function ov_renderKPIs() {
-  const rows = ov_filtered;
-  const total = rows.length;
-  const highSignal = rows.filter(r => r._relevancy >= 8).length;
-  const director = rows.filter(r => r.Seniority === 'Director+').length;
-  const new7d = rows.filter(r => r._days <= 7).length;
-  const avgRel = total > 0 ? (rows.reduce((s, r) => s + r._relevancy, 0) / total) : 0;
-
-  document.getElementById('ov_kpiTotal').textContent = total.toLocaleString();
-  document.getElementById('ov_kpiTotalSub').textContent = [...new Set(rows.map(r => r.Company))].length + ' companies';
-  document.getElementById('ov_kpiHighSignal').textContent = highSignal.toLocaleString();
-  document.getElementById('ov_kpiHighSignalSub').textContent = total > 0 ? Math.round(highSignal/total*100)+'% of total' : '';
-  document.getElementById('ov_kpiDirector').textContent = director.toLocaleString();
-  document.getElementById('ov_kpiDirectorSub').textContent = total > 0 ? Math.round(director/total*100)+'% director+' : '';
-  document.getElementById('ov_kpiNew7d').textContent = new7d.toLocaleString();
-  document.getElementById('ov_kpiAvgRel').textContent = avgRel.toFixed(1);
+function ov_filterByLocation(loc) {
+  if (ov_activeLocation === loc) {
+    ov_activeLocation = null;
+  } else {
+    ov_activeLocation = loc;
+  }
+  ov_applyFilters();
 }
 
-/* =============================================================
-   OVERVIEW — CHARTS
-   ============================================================= */
-function ov_destroyChart(id) {
-  if (ov_charts[id]) { ov_charts[id].destroy(); delete ov_charts[id]; }
+function ov_resetAll() {
+  document.getElementById('ov-sel-company').value = '';
+  document.getElementById('ov-sel-function').value = '';
+  document.getElementById('ov-sel-seniority').value = '';
+  document.getElementById('ov-sel-product').value = '';
+  document.getElementById('ov-sel-days').value = '';
+  ov_activeSkill = null;
+  ov_activeLocation = null;
+  ov_activeRelBand = null;
+  ov_activeKpi = null;
+  document.querySelectorAll('.kpi-card').forEach(c=>c.classList.remove('active'));
+  ov_sortCol = 'Relevancy_Score'; ov_sortDir = 'desc';
+  ov_applyFilters();
 }
 
-function ov_renderCharts() {
-  ov_renderCompaniesChart();
-  ov_renderSeniorityChart();
-  ov_renderFunctionChart();
-  ov_renderProductChart();
-  ov_renderRelevancyChart();
-  ov_renderMap();
+// =========================================================
+// OVERVIEW — FILTER PILLS
+// =========================================================
+function renderPills() {
+  const container = document.getElementById('ov-pills');
+  container.innerHTML = '';
+
+  function addPill(label, clearFn) {
+    const p = document.createElement('div');
+    p.className = 'filter-pill';
+    p.innerHTML = `${label} <span class="pill-x" onclick="${clearFn}">✕</span>`;
+    container.appendChild(p);
+  }
+
+  const company = document.getElementById('ov-sel-company').value;
+  const func = document.getElementById('ov-sel-function').value;
+  const seniority = document.getElementById('ov-sel-seniority').value;
+  const product = document.getElementById('ov-sel-product').value;
+  const days = document.getElementById('ov-sel-days').value;
+
+  if (company) addPill('Company: '+company, "document.getElementById('ov-sel-company').value='';ov_applyFilters()");
+  if (func) addPill('Function: '+func, "document.getElementById('ov-sel-function').value='';ov_applyFilters()");
+  if (seniority) addPill('Level: '+seniority, "document.getElementById('ov-sel-seniority').value='';ov_applyFilters()");
+  if (product) addPill('Product: '+product, "document.getElementById('ov-sel-product').value='';ov_applyFilters()");
+  if (days) addPill('Days: '+days, "document.getElementById('ov-sel-days').value='';ov_applyFilters()");
+  if (ov_activeSkill) addPill('Skill: '+ov_activeSkill, "ov_filterBySkill(ov_activeSkill)");
+  if (ov_activeLocation) addPill('Location: '+ov_activeLocation, "ov_filterByLocation(ov_activeLocation)");
+  if (ov_activeRelBand) addPill('Rel: '+ov_activeRelBand, "ov_activeRelBand=null;ov_applyFilters()");
+  if (ov_activeKpi && ov_activeKpi!=='total') addPill('KPI: '+ov_activeKpi, "ov_kpiFilter(ov_activeKpi)");
 }
 
-function ov_renderCompaniesChart() {
-  ov_destroyChart('companies');
-  const counts = countBy(ov_filtered, 'Company');
-  const sorted = topN(counts, 20);
-  const ctx = document.getElementById('ov_chartCompanies').getContext('2d');
-  ov_charts.companies = new Chart(ctx, {
+// =========================================================
+// OVERVIEW — TABLE
+// =========================================================
+function ov_sort(col) {
+  if (ov_sortCol === col) {
+    ov_sortDir = ov_sortDir==='asc' ? 'desc' : 'asc';
+  } else {
+    ov_sortCol = col;
+    ov_sortDir = 'desc';
+  }
+  document.querySelectorAll('.job-table th').forEach(th => {
+    th.classList.remove('sort-asc','sort-desc');
+  });
+  const th = document.getElementById('th-'+col);
+  if (th) th.classList.add('sort-'+ov_sortDir);
+  renderTable();
+}
+
+function renderTable() {
+  const sorted = [...ov_filteredJobs].sort((a,b) => {
+    let av = a[ov_sortCol] || '';
+    let bv = b[ov_sortCol] || '';
+    if (typeof av === 'number' || !isNaN(av)) {
+      av = parseFloat(av)||0; bv = parseFloat(bv)||0;
+      return ov_sortDir==='asc' ? av-bv : bv-av;
+    }
+    return ov_sortDir==='asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+  });
+
+  document.getElementById('ov-table-count').textContent = `${ov_filteredJobs.length.toLocaleString()} roles`;
+
+  const total = sorted.length;
+  const pages = Math.max(1, Math.ceil(total/OV_PAGE_SIZE));
+  ov_page = Math.min(ov_page, pages);
+  const slice = sorted.slice((ov_page-1)*OV_PAGE_SIZE, ov_page*OV_PAGE_SIZE);
+
+  const tbody = document.getElementById('ov-tbody');
+  if (!slice.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty-state">No jobs match current filters</td></tr>';
+    document.getElementById('ov-pagination').innerHTML='';
+    return;
+  }
+
+  tbody.innerHTML = slice.map(j => {
+    const rel = j.Relevancy_Score;
+    const relColor = rel>=8 ? REL_COLORS.high : rel>=5 ? REL_COLORS.med : REL_COLORS.low;
+    const senBadge = j.Seniority==='Senior'||j.Seniority==='Director'||j.Seniority==='VP'||j.Seniority==='C-Level' ? 'badge-senior' : j.Seniority==='Junior' ? 'badge-junior' : 'badge-mid';
+    const skills = (j.Skills||'').split(',').map(s=>s.trim()).filter(Boolean).slice(0,4);
+    const skillsHtml = skills.map(s => {
+      const active = ov_activeSkill===s ? ' active' : '';
+      return `<span class="skill-tag${active}" onclick="event.stopPropagation();ov_filterBySkill('${s.replace(/'/g,"\\'")}')">${s}</span>`;
+    }).join('');
+    const url = j.Job_URL || j.URL || '#';
+    const days = j.Posting_Date ? Math.round((new Date()-new Date(j.Posting_Date))/(1000*86400)) : null;
+    const daysStr = days===null ? '—' : days===0 ? 'Today' : days===1 ? '1d ago' : days+'d ago';
+    return `<tr onclick="window.open('${url}','_blank')">
+      <td><span class="co-link" onclick="event.stopPropagation();ov_filterByCompany('${j.Company.replace(/'/g,"\\'")}')">${j.Company}</span></td>
+      <td>${j.Job_Title||'—'}</td>
+      <td>${j.Function||'—'}</td>
+      <td><span class="badge ${senBadge}">${j.Seniority||'Mid'}</span></td>
+      <td>${j.Product_Focus||'—'}</td>
+      <td>${j.Location||'—'}</td>
+      <td>${daysStr}</td>
+      <td><span class="rel-dot" style="background:${relColor}"></span>${rel.toFixed(1)}</td>
+      <td>${skillsHtml}</td>
+    </tr>`;
+  }).join('');
+
+  // Pagination
+  renderPagination('ov-pagination', ov_page, pages, p => { ov_page=p; renderTable(); });
+}
+
+function renderPagination(containerId, currentPage, totalPages, onClick) {
+  const container = document.getElementById(containerId);
+  if (totalPages <= 1) { container.innerHTML=''; return; }
+
+  let html = `<button class="page-btn" ${currentPage===1?'disabled':''} onclick="(${onClick.toString()})(${currentPage-1})">‹ Prev</button>`;
+
+  const range = [];
+  for (let i=1;i<=totalPages;i++) {
+    if (i===1||i===totalPages||Math.abs(i-currentPage)<=2) range.push(i);
+    else if (range[range.length-1]!=='…') range.push('…');
+  }
+  range.forEach(p => {
+    if (p==='…') { html+=`<span class="page-info">…</span>`; }
+    else { html+=`<button class="page-btn ${p===currentPage?'active':''}" onclick="(${onClick.toString()})(${p})">${p}</button>`; }
+  });
+
+  html += `<button class="page-btn" ${currentPage===totalPages?'disabled':''} onclick="(${onClick.toString()})(${currentPage+1})">Next ›</button>`;
+  html += `<span class="page-info">${((currentPage-1)*OV_PAGE_SIZE+1).toLocaleString()}–${Math.min(currentPage*OV_PAGE_SIZE, ov_filteredJobs.length).toLocaleString()} of ${ov_filteredJobs.length.toLocaleString()}</span>`;
+  container.innerHTML = html;
+}
+
+// =========================================================
+// OVERVIEW — EXPORT CSV
+// =========================================================
+function ov_exportCSV() {
+  const cols = ['Company','Job_Title','Function','Seniority','Product_Focus','Location','Posting_Date','Relevancy_Score','Skills','Job_URL'];
+  const rows = [cols.join(',')];
+  ov_filteredJobs.forEach(j => {
+    rows.push(cols.map(c => {
+      const v = String(j[c]||'').replace(/"/g,'""');
+      return `"${v}"`;
+    }).join(','));
+  });
+  const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'actian_ci_jobs_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+// =========================================================
+// OVERVIEW — CHARTS
+// =========================================================
+function buildCharts() {
+  ov_charts.company = buildBarChart('ov-chart-company', [], [], '#3B82F6', (val) => {
+    document.getElementById('ov-sel-company').value = val; ov_applyFilters();
+  });
+  ov_charts.function = buildBarChart('ov-chart-function', [], [], '#8B5CF6', (val) => {
+    document.getElementById('ov-sel-function').value = val; ov_applyFilters();
+  });
+  ov_charts.seniority = buildBarChart('ov-chart-seniority', [], [], '#F59E0B', (val) => {
+    document.getElementById('ov-sel-seniority').value = val; ov_applyFilters();
+  });
+  ov_charts.product = buildBarChart('ov-chart-product', [], [], '#10B981', (val) => {
+    document.getElementById('ov-sel-product').value = val; ov_applyFilters();
+  });
+  ov_charts.threat = buildThreatChart();
+  updateCharts();
+}
+
+function buildBarChart(canvasId, labels, data, color, onClickFn) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  return new Chart(ctx, {
     type: 'bar',
-    data: {
-      labels: sorted.map(e => e[0]),
-      datasets: [{ data: sorted.map(e => e[1]), backgroundColor: COLORS, borderRadius: 4 }]
-    },
+    data: { labels, datasets: [{ data, backgroundColor: color + 'CC', borderRadius: 4 }] },
     options: {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
-        y: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 0 } }
-      }
-    }
-  });
-  document.getElementById('ov_chartCompanies').parentElement.style.height = '300px';
-}
-
-function ov_renderSeniorityChart() {
-  ov_destroyChart('seniority');
-  const order = ['Director+','Principal/Staff','Senior','Manager','Mid','Entry','Intern'];
-  const counts = countBy(ov_filtered, 'Seniority');
-  const labels = order.filter(s => counts[s]);
-  const data = labels.map(s => counts[s]);
-  const ctx = document.getElementById('ov_chartSeniority').getContext('2d');
-  ov_charts.seniority = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels,
-      datasets: [{ data, backgroundColor: labels.map(s => SENIORITY_COLORS[s]||'#ccc'), borderWidth: 2, borderColor: '#fff' }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 10, padding: 8 } }
+        x: { grid: { color: 'rgba(0,0,0,0.04)' } },
+        y: { ticks: { font: { size: 11 } } }
+      },
+      onClick: (evt, elements) => {
+        if (elements.length) {
+          const idx = elements[0].index;
+          const lbl = ov_charts[canvasId.replace('ov-chart-','')]?.data?.labels?.[idx];
+          if (lbl && onClickFn) onClickFn(lbl);
+        }
       }
     }
   });
 }
 
-function ov_renderFunctionChart() {
-  ov_destroyChart('function');
-  const counts = countBy(ov_filtered, 'Function');
-  const sorted = topN(counts, 12);
-  const ctx = document.getElementById('ov_chartFunction').getContext('2d');
-  ov_charts.function = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: sorted.map(e => e[0]),
-      datasets: [{ data: sorted.map(e => e[1]), backgroundColor: COLORS, borderWidth: 2, borderColor: '#fff' }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 10, padding: 6 } }
-      }
-    }
-  });
-}
-
-function ov_renderProductChart() {
-  ov_destroyChart('product');
-  const counts = countBy(ov_filtered, 'Product_Focus');
-  const sorted = topN(counts, 12);
-  const ctx = document.getElementById('ov_chartProduct').getContext('2d');
-  ov_charts.product = new Chart(ctx, {
+function buildThreatChart() {
+  const ctx = document.getElementById('ov-chart-threat').getContext('2d');
+  return new Chart(ctx, {
     type: 'bar',
-    data: {
-      labels: sorted.map(e => e[0]),
-      datasets: [{ data: sorted.map(e => e[1]), backgroundColor: COLORS, borderRadius: 4 }]
-    },
+    data: { labels: [], datasets: [{ data: [], backgroundColor: [], borderRadius: 4 }] },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 35 } },
-        y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } }
+      scales: { y: { min: 0, max: 10 }, x: { ticks: { font: { size: 11 } } } },
+      onClick: (evt, elements) => {
+        if (elements.length) {
+          const idx = elements[0].index;
+          const lbl = ov_charts.threat?.data?.labels?.[idx];
+          if (lbl) { document.getElementById('ov-sel-company').value=lbl; ov_applyFilters(); }
+        }
       }
     }
   });
 }
 
-function ov_renderRelevancyChart() {
-  ov_destroyChart('relevancy');
-  const buckets = [0,1,2,3,4,5,6,7,8,9,10];
-  const counts = new Array(10).fill(0);
-  ov_filtered.forEach(r => {
-    const b = Math.min(9, Math.floor(r._relevancy));
-    counts[b]++;
-  });
-  const ctx = document.getElementById('ov_chartRelevancy').getContext('2d');
-  ov_charts.relevancy = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: buckets.slice(0,10).map((b,i) => b+'-'+(b+1)),
-      datasets: [{
-        data: counts,
-        backgroundColor: counts.map((_, i) =>
-          i >= 8 ? '#E31937' : i >= 5 ? '#F39C12' : '#2ECC71'
-        ),
-        borderRadius: 3
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 9 } } },
-        y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 9 } } }
-      }
-    }
-  });
+function updateCharts() {
+  const jobs = ov_filteredJobs.length ? ov_filteredJobs : ALL_JOBS;
+
+  // Company chart
+  const byCo = {}; jobs.forEach(j=>{ byCo[j.Company]=(byCo[j.Company]||0)+1; });
+  const coSorted = Object.entries(byCo).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  updateBarChart('company', coSorted.map(e=>e[0]), coSorted.map(e=>e[1]));
+
+  // Function chart
+  const byFn = {}; jobs.forEach(j=>{ if(j.Function){ byFn[j.Function]=(byFn[j.Function]||0)+1; } });
+  const fnSorted = Object.entries(byFn).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  updateBarChart('function', fnSorted.map(e=>e[0]), fnSorted.map(e=>e[1]));
+
+  // Seniority chart
+  const bySen = {}; jobs.forEach(j=>{ if(j.Seniority){ bySen[j.Seniority]=(bySen[j.Seniority]||0)+1; } });
+  const senSorted = Object.entries(bySen).sort((a,b)=>b[1]-a[1]);
+  updateBarChart('seniority', senSorted.map(e=>e[0]), senSorted.map(e=>e[1]));
+
+  // Product chart
+  const byProd = {}; jobs.forEach(j=>{ if(j.Product_Focus){ byProd[j.Product_Focus]=(byProd[j.Product_Focus]||0)+1; } });
+  const prodSorted = Object.entries(byProd).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  updateBarChart('product', prodSorted.map(e=>e[0]), prodSorted.map(e=>e[1]));
+
+  // Threat chart
+  updateThreatChartData();
 }
 
-/* =============================================================
-   OVERVIEW — MAP
-   ============================================================= */
-let mapInstance = null;
-let mapMarkers = [];
+function updateBarChart(key, labels, data) {
+  const chart = ov_charts[key];
+  if (!chart) return;
+  chart.data.labels = labels;
+  chart.data.datasets[0].data = data;
+  chart.update();
+}
 
-function ov_renderMap() {
-  if (!mapInstance) {
-    mapInstance = L.map('ov_hiringMap', { zoomControl: true, scrollWheelZoom: false })
-      .setView([20, 0], 2);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap',
-      maxZoom: 10
-    }).addTo(mapInstance);
+function updateThreatChartData() {
+  const threatScores = computeThreatScores();
+  const top20 = threatScores.slice(0,20);
+  const colors = top20.map(t =>
+    t.level==='CRITICAL' ? '#E31937' : t.level==='HIGH' ? '#F39C12' : t.level==='MEDIUM' ? '#2980b9' : '#2ECC71'
+  );
+  const chart = ov_charts.threat;
+  if (!chart) return;
+  chart.data.labels = top20.map(t=>t.company);
+  chart.data.datasets[0].data = top20.map(t=>Math.min(10,t.score));
+  chart.data.datasets[0].backgroundColor = colors;
+  chart.update();
+}
+
+function computeThreatScores() {
+  const byCo = {};
+  ALL_JOBS.forEach(j => {
+    if (!byCo[j.Company]) byCo[j.Company] = { company:j.Company, jobs:[], group: j.Company_Group||'Other' };
+    byCo[j.Company].jobs.push(j);
+  });
+
+  return Object.values(byCo).map(d => {
+    const n = d.jobs.length;
+    const avgRel = d.jobs.reduce((s,j)=>s+j.Relevancy_Score,0)/Math.max(n,1);
+    const seniorPct = d.jobs.filter(j=>['Director','VP','C-Level','Executive'].includes(j.Seniority)).length/Math.max(n,1);
+    let score = Math.min(10, Math.round(avgRel * 0.6 + seniorPct*10*0.2 + Math.min(n/50,1)*10*0.2));
+    if (n>=100) score = Math.min(10, score+2);
+    if (n>=150) score = Math.min(10, score+3);
+    const level = (n>=150 && score>=5) || score>=8 ? 'CRITICAL' : score>=6 ? 'HIGH' : score>=4 ? 'MEDIUM' : 'LOW';
+    return { company:d.company, group:d.group, score, level, jobCount:n };
+  }).sort((a,b) => b.score-a.score || b.jobCount-a.jobCount);
+}
+
+// =========================================================
+// OVERVIEW — MAP
+// =========================================================
+function resolveLocation(loc) {
+  const LOCATION_MAP = {
+    // Country keys sorted longest-first to prevent substring false-positives
+    'United States':  { lat: 37.09, lng: -95.71, region: 'North America' },
+    'United Kingdom': { lat: 55.37, lng: -3.43,  region: 'Europe' },
+    'Netherlands':    { lat: 52.13, lng: 5.29,   region: 'Europe' },
+    'Australia':      { lat: -25.27, lng: 133.77, region: 'Oceania' },
+    'Singapore':      { lat: 1.35, lng: 103.82,  region: 'Asia' },
+    'Germany':        { lat: 51.16, lng: 10.45,  region: 'Europe' },
+    'Canada':         { lat: 56.13, lng: -106.35, region: 'North America' },
+    'France':         { lat: 46.23, lng: 2.21,   region: 'Europe' },
+    'India':          { lat: 20.59, lng: 78.96,  region: 'Asia' },
+    'Ireland':        { lat: 53.14, lng: -7.69,  region: 'Europe' },
+    'Israel':         { lat: 31.05, lng: 34.85,  region: 'Middle East' },
+    'Brazil':         { lat: -14.24, lng: -51.93, region: 'South America' },
+    'Sweden':         { lat: 60.13, lng: 18.64,  region: 'Europe' },
+    'Poland':         { lat: 51.92, lng: 19.14,  region: 'Europe' },
+    'Japan':          { lat: 36.20, lng: 138.25, region: 'Asia' },
+    'Spain':          { lat: 40.46, lng: -3.75,  region: 'Europe' },
+    'Italy':          { lat: 41.87, lng: 12.57,  region: 'Europe' },
+    'Remote':         { lat: 20, lng: 0,          region: 'Remote' },
+    'New York':       { lat: 40.71, lng: -74.01, region: 'North America' },
+    'San Francisco':  { lat: 37.77, lng: -122.42, region: 'North America' },
+    'London':         { lat: 51.51, lng: -0.13,  region: 'Europe' },
+    'Berlin':         { lat: 52.52, lng: 13.40,  region: 'Europe' },
+    'Paris':          { lat: 48.86, lng: 2.35,   region: 'Europe' },
+    'Toronto':        { lat: 43.65, lng: -79.38, region: 'North America' },
+    'Austin':         { lat: 30.27, lng: -97.74, region: 'North America' },
+    'Seattle':        { lat: 47.61, lng: -122.33, region: 'North America' },
+    'Boston':         { lat: 42.36, lng: -71.06, region: 'North America' },
+    'Chicago':        { lat: 41.88, lng: -87.63, region: 'North America' },
+    'Denver':         { lat: 39.74, lng: -104.98, region: 'North America' },
+    'Atlanta':        { lat: 33.75, lng: -84.39, region: 'North America' },
+    'US':             { lat: 37.09, lng: -95.71, region: 'North America' },
+    'UK':             { lat: 55.37, lng: -3.43,  region: 'Europe' },
+  };
+
+  const locLower = (loc||'').toLowerCase();
+  // Sort by key length desc to prevent short key substring matches
+  const sortedKeys = Object.keys(LOCATION_MAP).sort((a,b)=>b.length-a.length);
+  for (const key of sortedKeys) {
+    const kl = key.toLowerCase();
+    const idx = locLower.indexOf(kl);
+    if (idx === -1) continue;
+    // Word boundary check
+    const before = idx === 0 ? true : /[\s,\-\/\(]/.test(loc[idx-1]);
+    const after  = idx+kl.length >= loc.length ? true : /[\s,\-\/\)]/.test(loc[idx+kl.length]);
+    if (before && after) return { key, ...LOCATION_MAP[key] };
   }
+  return null;
+}
 
-  // Clear old markers
-  mapMarkers.forEach(m => m.remove());
-  mapMarkers = [];
+function buildMap() {
+  ov_map = L.map('ov-map', { zoomControl: true, scrollWheelZoom: false }).setView([20,0], 2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(ov_map);
+  updateMapMarkers();
+}
 
-  // Aggregate by location
+function updateMapMarkers() {
+  if (!ov_map) return;
+  ov_map.eachLayer(layer => { if (layer instanceof L.CircleMarker) ov_map.removeLayer(layer); });
+
   const locCounts = {};
-  ov_filtered.forEach(r => {
-    const coords = resolveLocation(r.Location);
-    if (!coords) return;
-    const key = coords.join(',');
-    if (!locCounts[key]) locCounts[key] = { coords, count: 0, locations: new Set() };
-    locCounts[key].count++;
-    locCounts[key].locations.add(r.Location || 'Unknown');
+  const locMeta = {};
+  ALL_JOBS.forEach(j => {
+    const resolved = resolveLocation(j.Location||'');
+    if (!resolved) return;
+    const k = resolved.key;
+    locCounts[k] = (locCounts[k]||0)+1;
+    locMeta[k] = resolved;
   });
 
-  const maxCount = Math.max(...Object.values(locCounts).map(v => v.count), 1);
-
-  Object.values(locCounts).forEach(({ coords, count, locations }) => {
-    const radius = 6 + Math.sqrt(count / maxCount) * 20;
-    const marker = L.circleMarker(coords, {
-      radius,
-      fillColor: '#E31937',
+  Object.entries(locCounts).forEach(([key, count]) => {
+    const meta = locMeta[key];
+    const r = Math.max(5, Math.min(30, Math.sqrt(count)*2));
+    const isActive = ov_activeLocation === key;
+    const marker = L.circleMarker([meta.lat, meta.lng], {
+      radius: r,
+      fillColor: isActive ? '#F39C12' : '#E31937',
       color: '#fff',
-      weight: 1.5,
-      opacity: 1,
-      fillOpacity: 0.7
+      weight: 2,
+      fillOpacity: 0.7,
     });
-    marker.bindTooltip(`${count} role${count!==1?'s':''}<br><small>${[...locations].slice(0,3).join(', ')}</small>`);
-    marker.addTo(mapInstance);
-    mapMarkers.push(marker);
+    marker.bindTooltip(`<strong>${key}</strong><br>${count} jobs`, { direction:'top', sticky:true });
+    marker.on('click', () => { ov_filterByLocation(key); updateMapMarkers(); });
+    marker.addTo(ov_map);
   });
 }
 
-/* =============================================================
-   OVERVIEW — TABLE
-   ============================================================= */
-function ov_sortTable(col) {
-  if (ov_sortCol === col) {
-    ov_sortDir = ov_sortDir === 'asc' ? 'desc' : 'asc';
-  } else {
-    ov_sortCol = col;
-    ov_sortDir = 'desc';
-  }
-  ov_page = 1;
-  ov_renderTable();
+// =========================================================
+// STRATEGIC SIGNALS PAGE
+// =========================================================
+function renderSignalsPage() {
+  if (!ALL_JOBS.length) return;
+  if (!SIGNALS_DATA.length) SIGNALS_DATA = buildSyntheticSignals();
+
+  // Market pulse
+  const threats = computeThreatScores();
+  document.getElementById('sig-total-companies').textContent = [...new Set(ALL_JOBS.map(j=>j.Company))].length;
+  document.getElementById('sig-critical-count').textContent = threats.filter(t=>t.level==='CRITICAL').length;
+  const aiJobs = ALL_JOBS.filter(j => {
+    const title = (j.Job_Title||'').toLowerCase();
+    const fn = (j.Function||'').toLowerCase();
+    return title.includes('ai') || title.includes('ml') || title.includes('machine learning') || fn.includes('data science');
+  });
+  document.getElementById('sig-ai-pct').textContent = Math.round(aiJobs.length/Math.max(ALL_JOBS.length,1)*100)+'%';
+  const gtmJobs = ALL_JOBS.filter(j=>['Sales','Marketing','Business Development','Customer Success'].includes(j.Function));
+  document.getElementById('sig-gtm-count').textContent = gtmJobs.length.toLocaleString();
+
+  // Segment chips
+  const segments = ['All', ...new Set(SIGNALS_DATA.map(s=>s.segment||'Other').filter(Boolean))].sort();
+  const chipsEl = document.getElementById('sig-chips');
+  chipsEl.innerHTML = segments.map(s =>
+    `<div class="segment-chip ${s===sig_activeSegment?'active':''}" onclick="sig_setSegment('${s}')">${s}</div>`
+  ).join('');
+
+  renderSignalCards();
+
+  // Show phase 2 banner if signals.json not available
+  const banner = document.getElementById('sig-phase2-banner');
+  if (SIGNALS_DATA.length < 5) banner.style.display='flex';
 }
 
-function ov_renderTable() {
-  const sorted = [...ov_filtered].sort((a, b) => {
-    let av = a[ov_sortCol], bv = b[ov_sortCol];
-    // Numeric sort for numeric columns
-    if (ov_sortCol === '_days' || ov_sortCol === 'Relevancy_to_Actian') {
-      av = parseFloat(av) || 0; bv = parseFloat(bv) || 0;
-    } else {
-      av = String(av||'').toLowerCase(); bv = String(bv||'').toLowerCase();
-    }
-    if (av < bv) return ov_sortDir === 'asc' ? -1 : 1;
-    if (av > bv) return ov_sortDir === 'asc' ? 1 : -1;
-    return 0;
+function sig_setSegment(seg) {
+  sig_activeSegment = seg;
+  renderSignalsPage();
+}
+
+function renderSignalCards() {
+  const filtered = sig_activeSegment==='All' ? SIGNALS_DATA : SIGNALS_DATA.filter(s=>(s.segment||'Other')===sig_activeSegment);
+  const container = document.getElementById('sig-cards-container');
+  if (!filtered.length) {
+    container.innerHTML = '<div class="empty-state">No signals for this segment yet</div>';
+    return;
+  }
+  container.innerHTML = filtered.map((s,i) => {
+    const typeClass = 'sig-' + (s.type||'announcement');
+    const roadmap = Array.isArray(s.roadmap) ? s.roadmap : [];
+    const implications = Array.isArray(s.implications) ? s.implications : [];
+    const actions = Array.isArray(s.actions) ? s.actions : [];
+    const watchFor = Array.isArray(s.watch_for) ? s.watch_for : [];
+    return `
+    <div class="signal-card">
+      <div class="signal-header" onclick="sig_toggle(${i})">
+        <span class="signal-type-badge ${typeClass}">${(s.type||'signal').replace('_',' ')}</span>
+        <span class="signal-title">${s.title||'Signal'}</span>
+        <span class="signal-company">${s.company||''}</span>
+        <span class="signal-date">${s.date||''}</span>
+        <span class="signal-toggle" id="sig-toggle-${i}">▼</span>
+      </div>
+      <div class="signal-body" id="sig-body-${i}">
+        <div class="signal-summary">${s.summary||''}</div>
+        <div class="signal-grid">
+          ${roadmap.length ? `<div>
+            <div class="signal-section-title">Roadmap Signals</div>
+            <ul class="signal-list">${roadmap.map(r=>`<li>${r}</li>`).join('')}</ul>
+          </div>` : ''}
+          ${implications.length ? `<div>
+            <div class="signal-section-title">Implications for Actian</div>
+            <ul class="signal-list">${implications.map(r=>`<li>${r}</li>`).join('')}</ul>
+          </div>` : ''}
+          ${actions.length ? `<div>
+            <div class="signal-section-title">Recommended Actions</div>
+            <ul class="signal-list">${actions.map(r=>`<li>${r}</li>`).join('')}</ul>
+          </div>` : ''}
+          ${watchFor.length ? `<div>
+            <div class="signal-section-title">Watch For</div>
+            <ul class="signal-list">${watchFor.map(r=>`<li>${r}</li>`).join('')}</ul>
+          </div>` : ''}
+        </div>
+        ${s.jobs_company ? `<button class="signal-view-jobs" onclick="sig_viewJobs('${s.jobs_company}')">View ${s.jobs_company} Jobs →</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function sig_toggle(i) {
+  const body = document.getElementById('sig-body-'+i);
+  const tog = document.getElementById('sig-toggle-'+i);
+  const isOpen = body.classList.toggle('open');
+  tog.classList.toggle('open', isOpen);
+}
+
+function sig_viewJobs(company) {
+  document.getElementById('ov-sel-company').value = company;
+  ov_applyFilters();
+  switchTab('overview');
+}
+
+// =========================================================
+// TEAM PAGES
+// =========================================================
+function renderTeamPage(team) {
+  if (!ALL_JOBS.length) return;
+  const cfg = TEAM_CONFIGS[team];
+  const state = TEAM_STATE[team];
+
+  // Filter jobs to team functions
+  const jobs = ALL_JOBS.filter(j => cfg.functions.includes(j.Function));
+
+  // KPI cards
+  renderTeamKPIs(team, cfg, jobs);
+
+  // Table content
+  renderTeamTable(team, cfg, state, jobs);
+}
+
+function renderTeamKPIs(team, cfg, jobs) {
+  const el = document.getElementById(team+'-kpis');
+  const total = jobs.length;
+  const companies = new Set(jobs.map(j=>j.Company)).size;
+  const avgRel = jobs.length ? (jobs.reduce((s,j)=>s+j.Relevancy_Score,0)/jobs.length).toFixed(1) : '—';
+
+  el.innerHTML = `
+    <div class="team-insight-card">
+      <div class="ti-label">Total Roles</div>
+      <div class="ti-value">${total.toLocaleString()}</div>
+      <div class="ti-sub">across ${companies} companies</div>
+    </div>
+    <div class="team-insight-card">
+      <div class="ti-label">Functions Tracked</div>
+      <div class="ti-value">${cfg.functions.length}</div>
+      <div class="ti-sub">${cfg.functions.slice(0,2).join(', ')}${cfg.functions.length>2?'…':''}</div>
+    </div>
+    <div class="team-insight-card">
+      <div class="ti-label">Avg. Relevancy</div>
+      <div class="ti-value">${avgRel}</div>
+      <div class="ti-sub">signal strength</div>
+    </div>
+  `;
+}
+
+function renderTeamTable(team, cfg, state, jobs) {
+  const container = document.getElementById(team+'-content');
+
+  // Sort
+  const sorted = [...jobs].sort((a,b) => {
+    let av = a[state.sortCol]||''; let bv = b[state.sortCol]||'';
+    if (!isNaN(parseFloat(av))) { av=parseFloat(av)||0; bv=parseFloat(bv)||0; return state.sortDir==='asc'?av-bv:bv-av; }
+    return state.sortDir==='asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
   });
 
   const total = sorted.length;
-  const totalPages = Math.max(1, Math.ceil(total / OV_PAGE_SIZE));
-  ov_page = Math.min(ov_page, totalPages);
-  const start = (ov_page - 1) * OV_PAGE_SIZE;
-  const pageRows = sorted.slice(start, start + OV_PAGE_SIZE);
+  const pages = Math.max(1,Math.ceil(total/TEAM_PAGE_SIZE));
+  state.page = Math.min(state.page, pages);
+  const slice = sorted.slice((state.page-1)*TEAM_PAGE_SIZE, state.page*TEAM_PAGE_SIZE);
 
-  document.getElementById('ov_tableTitle').textContent = 'Job Listings';
-  document.getElementById('ov_tableCount').textContent = total.toLocaleString() + ' matching roles';
-  document.getElementById('ov_pageMeta').textContent =
-    `Showing ${start+1}–${Math.min(start+OV_PAGE_SIZE, total)} of ${total}`;
+  const colHeaders = cfg.tableColumns.map((col,i) => {
+    const dir = state.sortCol===col ? state.sortDir : '';
+    return `<th onclick="teamSort('${team}','${col}')" class="${dir?'sort-'+dir:''}">${cfg.colLabels[i]} <span class="sort-indicator"></span></th>`;
+  }).join('');
 
-  const tbody = document.getElementById('ov_jobTableBody');
-  tbody.innerHTML = pageRows.map(r =>
-    `<tr>
-      <td style="font-weight:600">${esc(r.Company)}</td>
-      <td><a href="${esc(r['Job Link'])}" target="_blank" rel="noopener">${esc(r['Job Title'])}</a></td>
-      <td>${senBadge(r.Seniority)}</td>
-      <td>${esc(r.Function)}</td>
-      <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(r.Location)}">${esc(r.Location||'—')}</td>
-      <td style="color:var(--text-muted)">${fmtDays(r._days)}</td>
-      <td>${relBar(r._relevancy)}</td>
-    </tr>`
-  ).join('');
+  const rows = slice.map(j => {
+    const url = j.Job_URL||j.URL||'#';
+    const cells = cfg.tableColumns.map(col => {
+      if (col==='Company') return `<td><span class="co-link" onclick="event.stopPropagation();teamDrillCompany('${j.Company.replace(/'/g,"\\'")}')">${j.Company}</span></td>`;
+      if (col==='Relevancy_Score') { const r=j.Relevancy_Score||0; const c=r>=8?REL_COLORS.high:r>=5?REL_COLORS.med:REL_COLORS.low; return `<td><span class="rel-dot" style="background:${c}"></span>${r.toFixed(1)}</td>`; }
+      if (col==='Posting_Date') { const d=j.Posting_Date?Math.round((new Date()-new Date(j.Posting_Date))/86400000):null; return `<td>${d===null?'—':d===0?'Today':d+'d ago'}</td>`; }
+      if (col==='Seniority') { const bc=j.Seniority==='Senior'||j.Seniority==='Director'||j.Seniority==='VP'?'badge-senior':j.Seniority==='Junior'?'badge-junior':'badge-mid'; return `<td><span class="badge ${bc}">${j.Seniority||'Mid'}</span></td>`; }
+      return `<td>${j[col]||'—'}</td>`;
+    }).join('');
+    return `<tr onclick="window.open('${url}','_blank')">${cells}</tr>`;
+  }).join('');
 
-  // Update sort indicators in headers
-  document.querySelectorAll('#page-overview .data-table th').forEach(th => {
-    th.classList.remove('sort-asc','sort-desc');
-  });
-
-  // Pager
-  ov_renderPager(totalPages);
-}
-
-function ov_renderPager(totalPages) {
-  const pager = document.getElementById('ov_pager');
-  if (totalPages <= 1) { pager.innerHTML = ''; return; }
-
-  let html = '';
-  const pages = [];
-  // Always show first, last, current ± 2
-  const show = new Set([1, totalPages]);
-  for (let p = Math.max(1, ov_page-2); p <= Math.min(totalPages, ov_page+2); p++) show.add(p);
-
-  let prev = 0;
-  [...show].sort((a,b)=>a-b).forEach(p => {
-    if (prev && p - prev > 1) html += '<span style="padding:0 4px;color:var(--text-muted)">…</span>';
-    html += `<button class="${p===ov_page?'active':''}" onclick="ov_goPage(${p})">${p}</button>`;
-    prev = p;
-  });
-  pager.innerHTML = html;
-}
-
-function ov_goPage(p) {
-  ov_page = p;
-  ov_renderTable();
-  document.getElementById('page-overview').scrollIntoView({ behavior: 'smooth' });
-}
-
-/* =============================================================
-   OVERVIEW — SIDEBAR
-   ============================================================= */
-function ov_renderSidebar() {
-  ov_renderThreatSummary();
-  ov_renderTopCompanies();
-  ov_renderTopSkills();
-}
-
-function ov_renderThreatSummary() {
-  const container = document.getElementById('ov_threatSummary');
-  if (!signals.length) { container.innerHTML = '<div style="color:var(--text-muted);font-size:12px">No signals loaded</div>'; return; }
-
-  const byLevel = { critical: 0, high: 0, medium: 0, low: 0 };
-  signals.forEach(s => { byLevel[s.threat_level] = (byLevel[s.threat_level]||0) + 1; });
-
-  container.innerHTML = Object.entries(byLevel)
-    .filter(([,n]) => n > 0)
-    .map(([level, n]) =>
-      `<div class="threat-row">
-        <span class="threat-company">${n} ${level.charAt(0).toUpperCase()+level.slice(1)}</span>
-        ${threatBadge(level)}
-      </div>`
-    ).join('');
-}
-
-function ov_renderTopCompanies() {
-  const container = document.getElementById('ov_topCompanies');
-  const counts = countBy(ov_filtered, 'Company');
-  const sorted = topN(counts, 15);
-  const max = sorted[0] ? sorted[0][1] : 1;
-
-  container.innerHTML = sorted.map(([company, count], i) =>
-    `<div class="company-row">
-      <span class="company-rank">${i+1}</span>
-      <span style="flex:0 0 110px;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(company)}">${esc(company)}</span>
-      <div class="company-bar">
-        <div class="company-bar-fill" style="width:${Math.round(count/max*100)}%"></div>
-      </div>
-      <span style="font-size:11px;color:var(--text-muted);min-width:24px;text-align:right">${count}</span>
-    </div>`
-  ).join('');
-}
-
-function ov_renderTopSkills() {
-  const container = document.getElementById('ov_topSkills');
-  const skillCounts = {};
-  ov_filtered.forEach(r => {
-    let skills = [];
-    try { skills = JSON.parse(r.Extracted_Skills || '[]'); } catch(e) {}
-    if (Array.isArray(skills)) {
-      skills.forEach(s => {
-        if (s && s !== 'null') {
-          skillCounts[s] = (skillCounts[s]||0) + 1;
-        }
-      });
-    } else if (r.Primary_Skill) {
-      skillCounts[r.Primary_Skill] = (skillCounts[r.Primary_Skill]||0) + 1;
+  // Pagination HTML
+  let pagHtml = '';
+  if (pages > 1) {
+    pagHtml = `<div class="pagination">`;
+    pagHtml += `<button class="page-btn" ${state.page===1?'disabled':''} onclick="teamGoPage('${team}',${state.page-1})">‹ Prev</button>`;
+    for (let p=1;p<=Math.min(pages,10);p++) {
+      pagHtml+=`<button class="page-btn ${p===state.page?'active':''}" onclick="teamGoPage('${team}',${p})">${p}</button>`;
     }
-  });
-
-  const sorted = topN(skillCounts, 30);
-  container.innerHTML = sorted.map(([skill, count]) =>
-    `<span class="skill-tag" title="${count} roles">${esc(skill)}</span>`
-  ).join('');
-}
-
-/* =============================================================
-   TEAM VIEWS — MAIN RENDER
-   ============================================================= */
-function renderTeamView(team) {
-  const config = TEAM_CONFIG[team];
-  const container = document.getElementById(team + '-content');
-  if (!container) return;
-
-  // Filter rows to this team's functions and product area
-  let teamRows = team_filterRows(team);
-  const areaFilter = teamProductArea[team];
-  const displayRows = areaFilter === 'All'
-    ? teamRows
-    : teamRows.filter(r => COMPANY_TO_AREA[r.Company] === areaFilter);
-
-  // Build HTML
-  const kpis = team_computeKPIs(team, teamRows, displayRows);
-  const kpiHTML = team_renderKPIs(kpis);
-  const pillsHTML = team_renderAreaPills(team);
-  const signalsHTML = team_renderSignalFeed(team, areaFilter);
-  const bodyHTML = team === 'executives'
-    ? team_renderExecutivesBody(displayRows, areaFilter)
-    : team_renderHiringTable(displayRows);
+    pagHtml += `<button class="page-btn" ${state.page===pages?'disabled':''} onclick="teamGoPage('${team}',${state.page+1})">Next ›</button>`;
+    pagHtml += `<span class="page-info">${total.toLocaleString()} roles</span>`;
+    pagHtml += `</div>`;
+  }
 
   container.innerHTML = `
-    <div class="team-header">
-      <div class="team-icon">${config.icon}</div>
-      <div>
-        <div class="team-title">${esc(config.label)} Intelligence</div>
-        <div class="team-desc">${esc(config.description)}</div>
+    <div class="team-section">
+      <div class="team-section-header">
+        <h3>${cfg.title} Roles</h3>
+        <span class="team-section-sub">${total.toLocaleString()} roles across ${new Set(jobs.map(j=>j.Company)).size} companies</span>
       </div>
-    </div>
-    ${kpiHTML}
-    ${pillsHTML}
-    <div class="section-title">Competitive Signals</div>
-    ${signalsHTML}
-    ${bodyHTML}
-  `;
-}
-
-/* Filter rows for a team (by function + 365d + exclusions already applied to allRows) */
-function team_filterRows(team) {
-  const config = TEAM_CONFIG[team];
-  if (!config.functions) return allRows; // executives = all
-  return allRows.filter(r => config.functions.includes(r.Function));
-}
-
-/* =============================================================
-   TEAM VIEWS — KPI COMPUTATION
-   ============================================================= */
-function team_computeKPIs(team, teamRows, displayRows) {
-  const now30 = teamRows.filter(r => r._days <= 30);
-  const now30All = allRows.filter(r => r._days <= 30);
-
-  if (team === 'marketing') {
-    // Top competitor activity: company with most roles in last 30d across ALL companies
-    const comp30Counts = countBy(now30All, 'Company');
-    const topComp = topN(comp30Counts, 1)[0];
-    return [
-      { label: 'Marketing Roles (30d)', value: now30.length, sub: 'marketing posts' },
-      { label: 'Top Competitor Activity', value: topComp ? topComp[0] : '—', sub: topComp ? topComp[1]+' new roles' : '' },
-      { label: 'Competitive Reach', value: new Set(teamRows.map(r => r.Company)).size, sub: 'unique competitors' },
-      { label: 'High Signal Roles', value: teamRows.filter(r => r._relevancy >= 8).length, sub: 'relevancy 8+' },
-    ];
-  }
-
-  if (team === 'product') {
-    const aiMl = teamRows.filter(r => r.Function === 'AI/ML & Vector');
-    const aiPct = teamRows.length > 0 ? Math.round(aiMl.length / teamRows.length * 100) : 0;
-    const senior = teamRows.filter(r => ['Director+','Principal/Staff','Senior'].includes(r.Seniority));
-    // Eng velocity: daily rate 0-30d vs 31-90d
-    const d30 = teamRows.filter(r => r._days <= 30).length;
-    const d90 = teamRows.filter(r => r._days > 30 && r._days <= 90).length;
-    const velocity = d90 > 0 ? Math.min(500, Math.round((d30/30) / (d90/60) * 100)) : (d30 > 0 ? 500 : 0);
-    return [
-      { label: 'Engineering Roles (30d)', value: now30.length, sub: 'posted last 30 days' },
-      { label: 'AI/ML Investment %', value: aiPct+'%', sub: aiMl.length+' AI/ML roles' },
-      { label: 'Senior Eng Roles', value: senior.length, sub: 'director, principal, senior' },
-      { label: 'Eng Velocity', value: velocity, sub: 'normalized 30d/60d daily rate' },
-    ];
-  }
-
-  if (team === 'sdrs') {
-    const salesRows = allRows.filter(r => r.Function === 'Sales');
-    const seRows = allRows.filter(r => r.Function === 'Solution Engineering');
-    const activeCompanies = new Set(allRows.filter(r => r._days <= 30).map(r => r.Company)).size;
-    const critHigh = signals.filter(s => s.threat_level === 'critical' || s.threat_level === 'high').length;
-    return [
-      { label: 'Sales Roles (30d)', value: salesRows.filter(r => r._days <= 30).length, sub: 'sales function' },
-      { label: 'SE/Solutions Roles', value: seRows.length, sub: 'solution engineering' },
-      { label: 'Active Threat Companies', value: activeCompanies, sub: 'with roles in last 30d' },
-      { label: 'High Priority Threats', value: critHigh, sub: 'critical + high signals' },
-    ];
-  }
-
-  if (team === 'pmm') {
-    const pmMarketing = allRows.filter(r => r.Function === 'Product Management' || r.Function === 'Marketing');
-    const pm30 = pmMarketing.filter(r => r._days <= 30).length;
-    const overlap = allRows.filter(r => COMPANY_TO_AREA[r.Company] != null).length;
-    const launches = competitiveSignals.filter(s => s.signal_type === 'launch' && s.teams && s.teams.includes('pmm')).length;
-    const seniorPM = pmMarketing.filter(r => ['Director+','Principal/Staff'].includes(r.Seniority)).length;
-    return [
-      { label: 'PM Roles (30d)', value: pm30, sub: 'product + marketing' },
-      { label: 'Competitive Overlap', value: overlap, sub: 'roles at direct-area cos' },
-      { label: 'Launches Need Tracking', value: launches, sub: launches === 0 ? 'Phase 2 pending' : 'from competitive signals' },
-      { label: 'Senior PM Hires', value: seniorPM, sub: 'director+ or principal' },
-    ];
-  }
-
-  if (team === 'executives') {
-    // Market pressure index
-    const weights = { critical: 3, high: 2, medium: 1, low: 0 };
-    const mpi = signals.reduce((sum, s) => sum + (weights[s.threat_level]||0) * (s.posting_count||0), 0);
-    const criticalCount = signals.filter(s => s.threat_level === 'critical').length;
-    // Top mover by velocity
-    const companyCounts = {};
-    allRows.forEach(r => {
-      if (!companyCounts[r.Company]) companyCounts[r.Company] = { d30: 0, d60: 0 };
-      if (r._days <= 30) companyCounts[r.Company].d30++;
-      else if (r._days <= 60) companyCounts[r.Company].d60++;
-    });
-    let topMover = '—';
-    let topVel = 0;
-    Object.entries(companyCounts).forEach(([co, v]) => {
-      const vel = v.d60 > 0 ? (v.d30/30) / (v.d60/60) * 100 : (v.d30 > 0 ? 999 : 0);
-      if (vel > topVel) { topVel = vel; topMover = co; }
-    });
-    return [
-      { label: 'Market Pressure Index', value: mpi.toLocaleString(), sub: 'weighted threat score' },
-      { label: 'Critical Threats', value: criticalCount, sub: 'companies at CRITICAL level' },
-      { label: 'Top Mover', value: topMover, sub: 'highest 30d hiring velocity' },
-      { label: 'Total Active Roles', value: allRows.length.toLocaleString(), sub: 'across all competitors' },
-    ];
-  }
-
-  return [];
-}
-
-function team_renderKPIs(kpis) {
-  return '<div class="kpi-strip">' + kpis.map(k =>
-    `<div class="kpi-card">
-      <div class="kpi-label">${esc(k.label)}</div>
-      <div class="kpi-value">${esc(String(k.value))}</div>
-      <div class="kpi-sub">${esc(k.sub||'')}</div>
-    </div>`
-  ).join('') + '</div>';
-}
-
-/* =============================================================
-   TEAM VIEWS — PRODUCT AREA PILLS
-   ============================================================= */
-function team_renderAreaPills(team) {
-  return '<div class="area-pills">' +
-    PRODUCT_AREAS.map(area =>
-      `<button class="area-pill ${teamProductArea[team] === area ? 'active' : ''}"
-        onclick="setProductArea('${team}', '${area}')">${esc(area)}</button>`
-    ).join('') +
-    '</div>';
-}
-
-function setProductArea(team, area) {
-  teamProductArea[team] = area;
-  renderTeamView(team);
-}
-
-/* =============================================================
-   TEAM VIEWS — SIGNAL FEED (Phase 2 ready)
-   ============================================================= */
-function team_renderSignalFeed(team, areaFilter) {
-  // Phase 2: filter by team + optionally by product area
-  let filtered = competitiveSignals.filter(s => s.teams && s.teams.includes(team));
-  if (areaFilter !== 'All') {
-    filtered = filtered.filter(s => s.product_area === areaFilter);
-  }
-
-  if (filtered.length === 0) {
-    return `<div class="signal-feed">
-      <div class="sig-empty-state">
-        🔮 Competitive signals will appear here once <code>competitive_signals.json</code> is deployed (Phase 2)
-      </div>
-    </div>`;
-  }
-
-  // Sort by urgency (high first), then date
-  const urgencyOrder = { high: 0, medium: 1, low: 2 };
-  filtered.sort((a, b) => (urgencyOrder[a.urgency]||99) - (urgencyOrder[b.urgency]||99));
-
-  return '<div class="signal-feed">' + filtered.slice(0, 10).map(s => {
-    const st = SIGNAL_TYPES[s.signal_type] || { icon: '📌', label: s.signal_type };
-    return `<div class="sig-card urgency-${s.urgency||'medium'}">
-      <div class="sig-card-header">
-        <span class="sig-company">${esc(s.company)}</span>
-        <div style="display:flex;gap:8px;align-items:center">
-          <span class="sig-type-badge">${st.icon} ${esc(st.label)}</span>
-          <span class="badge badge-threat-${s.urgency==='high'?'high':s.urgency==='low'?'low':'medium'}">${(s.urgency||'medium').toUpperCase()}</span>
-        </div>
-      </div>
-      <div class="sig-title">${esc(s.title)}</div>
-      <div class="sig-summary">${esc(s.summary)}</div>
-      ${s.actian_implication ? `<div class="sig-implication"><strong>Actian impact:</strong> ${esc(s.actian_implication)}</div>` : ''}
-      <div class="sig-meta">
-        <span style="font-size:11px;color:var(--text-muted)">${esc(s.date||'')}</span>
-        ${s.product_area ? `<span class="badge" style="background:var(--bg);border:1px solid var(--border);color:var(--text-secondary)">${esc(s.product_area)}</span>` : ''}
-      </div>
-    </div>`;
-  }).join('') + '</div>';
-}
-
-/* =============================================================
-   TEAM VIEWS — HIRING INTELLIGENCE TABLE
-   ============================================================= */
-function team_renderHiringTable(rows) {
-  const sorted = [...rows].sort((a, b) => b._relevancy - a._relevancy).slice(0, 30);
-
-  if (sorted.length === 0) {
-    return `<div class="card" style="text-align:center;color:var(--text-muted);padding:40px">No matching roles found for current filters</div>`;
-  }
-
-  return `<div class="section-title">Hiring Intelligence (Top ${sorted.length} by Relevancy)</div>
-    <div class="card" style="padding:0">
       <div class="table-wrap">
-        <table class="data-table">
-          <thead><tr>
-            <th>Company</th>
-            <th>Job Title</th>
-            <th>Seniority</th>
-            <th>Function</th>
-            <th>Product Area</th>
-            <th>Days</th>
-            <th>Relevancy</th>
-          </tr></thead>
-          <tbody>${sorted.map(r =>
-            `<tr>
-              <td style="font-weight:600">${esc(r.Company)}</td>
-              <td><a href="${esc(r['Job Link'])}" target="_blank" rel="noopener">${esc(r['Job Title'])}</a></td>
-              <td>${senBadge(r.Seniority)}</td>
-              <td>${esc(r.Function)}</td>
-              <td>${COMPANY_TO_AREA[r.Company] ? `<span class="badge" style="background:var(--bg);border:1px solid var(--border);color:var(--text-secondary)">${esc(COMPANY_TO_AREA[r.Company])}</span>` : '<span style="color:var(--text-muted)">—</span>'}</td>
-              <td style="color:var(--text-muted)">${fmtDays(r._days)}</td>
-              <td>${relBar(r._relevancy)}</td>
-            </tr>`
-          ).join('')}</tbody>
+        <table class="team-table">
+          <thead><tr>${colHeaders}</tr></thead>
+          <tbody>${rows || '<tr><td colspan="6" class="empty-state">No roles found</td></tr>'}</tbody>
         </table>
       </div>
-    </div>`;
-}
-
-/* =============================================================
-   EXECUTIVES — SPECIAL LAYOUT
-   ============================================================= */
-function team_renderExecutivesBody(displayRows, areaFilter) {
-  // Threat Grid from signals.json
-  let filteredSignals = signals;
-  if (areaFilter !== 'All') {
-    // Filter signals by product area companies
-    const areaCompanies = PRODUCT_AREA_COMPANIES[areaFilter] || [];
-    filteredSignals = signals.filter(s => areaCompanies.includes(s.company));
-  }
-
-  // Sort: critical first, then high, medium, low
-  const levelOrder = { critical: 0, high: 1, medium: 2, low: 3 };
-  filteredSignals = [...filteredSignals].sort((a, b) => (levelOrder[a.threat_level]||99) - (levelOrder[b.threat_level]||99));
-
-  const threatGridHTML = filteredSignals.length === 0
-    ? `<div class="sig-empty-state">No signals match current filter</div>`
-    : `<div class="threat-grid">${filteredSignals.slice(0, 12).map(s =>
-        `<div class="threat-card threat-border-${s.threat_level||'low'}">
-          <div class="threat-card-header">
-            <div class="threat-card-company">${esc(s.company)}</div>
-            ${threatBadge(s.threat_level)}
-          </div>
-          <div class="threat-card-meta">
-            ${s.posting_count||0} roles · ${esc(s.dominant_function||'—')} · ${esc(s.company_group||'—')}
-          </div>
-          <div class="threat-card-narrative">${esc((s.signal_summary||'').slice(0, 180))}${s.signal_summary && s.signal_summary.length > 180 ? '…' : ''}</div>
-          <div class="threat-card-footer">
-            ${s.roadmap ? `<span class="badge" style="background:var(--bg);border:1px solid var(--border);color:var(--text-secondary)">${esc(s.roadmap.direction||'')}</span>` : ''}
-            <span style="font-size:11px;color:var(--text-muted)">${esc(s.last_updated||'')}</span>
-          </div>
-        </div>`
-      ).join('')}</div>`;
-
-  return `
-    <div class="section-title">Threat Intelligence Grid</div>
-    ${threatGridHTML}
+      ${pagHtml}
+    </div>
   `;
-  // Note: executives tab intentionally has no hiring table (too detailed)
 }
 
-/* =============================================================
-   PHASE 2 — competitive_signals.json SCHEMA (for reference)
-   =============================================================
-   {
-     "id": "unique-string",
-     "company": "Collibra",
-     "signal_type": "launch",           // see SIGNAL_TYPES
-     "title": "AI Lineage Studio GA",
-     "summary": "Short human-readable summary",
-     "actian_implication": "Why this matters for Actian specifically",
-     "teams": ["pmm", "product", "marketing"],
-     "product_area": "Data Intelligence",
-     "urgency": "high",                 // high | medium | low
-     "date": "2026-04-07",
-     "url": "https://...",
-     "slack_sent": false,
-     "slack_channels": ["#ci-launches", "#ci-product-intel"]
-   }
-   ============================================================= */
+function teamSort(team, col) {
+  const state = TEAM_STATE[team];
+  if (state.sortCol === col) { state.sortDir = state.sortDir==='asc'?'desc':'asc'; }
+  else { state.sortCol=col; state.sortDir='desc'; }
+  state.page = 1;
+  renderTeamPage(team);
+}
 
-/* =============================================================
-   PHASE 3 — Slack routing (for reference)
-   =============================================================
-   Signal Type        → Channels
-   launch (high)      → #ci-launches, #ci-product-intel, #ci-alerts
-   event              → #ci-events
-   hiring_trend       → #ci-product-intel
-   critical threat    → #ci-alerts + exec digest
-   weekly digest      → #ci-exec-digest (Sundays)
-   ============================================================= */
+function teamGoPage(team, page) {
+  TEAM_STATE[team].page = page;
+  renderTeamPage(team);
+}
 
-/* =============================================================
-   INIT
-   ============================================================= */
+function teamDrillCompany(company) {
+  document.getElementById('ov-sel-company').value = company;
+  ov_applyFilters();
+  switchTab('overview');
+}
+
+// =========================================================
+// EXECUTIVES PAGE
+// =========================================================
+function renderExecPage() {
+  if (!ALL_JOBS.length) return;
+  const threats = computeThreatScores();
+  const critical = threats.filter(t=>t.level==='CRITICAL').length;
+  const high = threats.filter(t=>t.level==='HIGH').length;
+  const companies = threats.length;
+
+  document.getElementById('exec-critical').textContent = critical;
+  document.getElementById('exec-high').textContent = high;
+  document.getElementById('exec-total').textContent = companies;
+
+  // Market pressure index
+  const totalScore = threats.reduce((s,t)=>s+t.score,0);
+  const pressure = Math.round(totalScore/Math.max(companies,1)*10);
+  document.getElementById('exec-pressure').textContent = pressure+'/100';
+
+  // Threat grid
+  const grid = document.getElementById('exec-threat-grid');
+  grid.innerHTML = threats.slice(0,20).map(t => {
+    const cls = t.level.toLowerCase();
+    const badgeCls = 'badge-'+cls;
+    return `
+    <div class="threat-card ${cls}" onclick="execDrill('${t.company}')">
+      <div class="tc-company">${t.company}</div>
+      <div class="tc-group">${t.group}</div>
+      <div class="tc-jobs">${t.jobCount}</div>
+      <div class="tc-jobs-label">open roles</div>
+      <div class="tc-threat"><span class="badge ${badgeCls}">${t.level}</span> Score: ${t.score}/10</div>
+    </div>`;
+  }).join('');
+
+  // Charts
+  renderExecCharts(threats);
+}
+
+function execDrill(company) {
+  document.getElementById('ov-sel-company').value = company;
+  ov_applyFilters();
+  switchTab('overview');
+}
+
+function renderExecCharts(threats) {
+  // Threat distribution pie
+  const dist = { CRITICAL:0, HIGH:0, MEDIUM:0, LOW:0 };
+  threats.forEach(t => dist[t.level]++);
+
+  if (exec_charts.dist) exec_charts.dist.destroy();
+  const ctx1 = document.getElementById('exec-chart-threat-dist').getContext('2d');
+  exec_charts.dist = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(dist),
+      datasets: [{ data: Object.values(dist), backgroundColor: ['#E31937','#F39C12','#2980b9','#2ECC71'], borderWidth: 2 }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'right'} } }
+  });
+
+  // Volume bar
+  const top10 = threats.slice(0,10);
+  if (exec_charts.vol) exec_charts.vol.destroy();
+  const ctx2 = document.getElementById('exec-chart-volume').getContext('2d');
+  exec_charts.vol = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: top10.map(t=>t.company),
+      datasets: [{ data: top10.map(t=>t.jobCount), backgroundColor: top10.map(t=>t.level==='CRITICAL'?'#E31937':t.level==='HIGH'?'#F39C12':'#3B82F6'), borderRadius:4 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,0.04)'}}},
+      onClick:(evt,els)=>{ if(els.length) execDrill(top10[els[0].index].company); }
+    }
+  });
+}
+
+// =========================================================
+// PHASE 2/3 STUBS (preserve for future activation)
+// =========================================================
+/*
+ * PHASE 2 — competitive_signals.json
+ * When competitive_signals.json is available:
+ *   - Load from fetch('competitive_signals.json')
+ *   - Merge with synthetic signals in SIGNALS_DATA
+ *   - Schema: { signals: [{ type, company, title, summary, segment, date, roadmap[], implications[], actions[], watch_for[], jobs_company }] }
+ *
+ * PHASE 3 — Slack webhook routing
+ * Signal routing by team:
+ *   marketing: type='announcement'|'launch' → #comp-intel-marketing
+ *   product:   type='launch'|'hiring_trend' → #comp-intel-product
+ *   sdrs:      type='hiring_trend'|'role_signal' → #comp-intel-sdrs
+ *   pmm:       type='announcement'|'event' → #comp-intel-pmm
+ *   execs:     level='CRITICAL' → #exec-alerts
+ */
+
+// =========================================================
+// INIT
+// =========================================================
 document.addEventListener('DOMContentLoaded', loadData);
 </script>
 </body>
