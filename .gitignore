@@ -1,5 +1,14 @@
-# Data files (raw scrape output only - exclude, keep enriched + signals for dashboard)
-jobs_raw.csv
+# Data files — generated outputs (excluded, keep signals.json & competitors.csv for dashboard)
+data/jobs_raw.csv
+data/jobs_enriched.csv
+data/enriched_jobs.json
+data/seen_jobs.db
+
+# Claude-specific (local development)
+.claude/
+.cursorrules
+.windsurfrules
+.mcp.json
 
 # Python
 __pycache__/
