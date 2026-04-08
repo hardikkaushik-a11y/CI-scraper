@@ -821,7 +821,8 @@ async function loadData() {
     csvOk = true;
   } catch (e) {
     document.getElementById('page-market').innerHTML =
-      '<div class="error-box"><h3>Could not load jobs_enriched.csv</h3><p>Place jobs_enriched.csv in the same directory as this file.</p><code>python scraper.py && python enrich.py</code></div>';
+      '<div class="error-box"><h3>Could not load jobs_enriched.csv</h3><p>Place jobs_enriched.csv in the same directory as this file.</p><code>python scraper.py && python enrich.py</code><br><br><strong style="color:#E31937">Debug:</strong> <code style="color:#1a1f2e">' + (e && e.message ? e.message : String(e)) + '</code></div>';
+    console.error('[loadData] CSV error:', e);
   }
   try {
     const r = await fetch('../../data/signals.json');
