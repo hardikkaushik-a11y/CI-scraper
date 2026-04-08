@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: actian-intelligence-assistant
+    name: CI-scraper
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn src.assistant_backend:app --timeout 120
