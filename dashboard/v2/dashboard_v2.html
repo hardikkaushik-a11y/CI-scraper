@@ -648,7 +648,7 @@ tbody td.title-cell:hover { overflow: visible; white-space: normal; }
   <div class="main-layout-filters">
   <div class="filter-bar" id="filterBar">
     <div class="filter-group"><label>Company</label><select id="fCompany"><option value="">All Companies</option></select></div>
-    <div class="filter-group"><label>Segment</label><select id="fGroup"><option value="">All Segments</option></select></div>
+    <div class="filter-group"><label>Product Area</label><select id="fGroup"><option value="">All Areas</option></select></div>
     <div class="filter-group"><label>Function</label><select id="fFunction"><option value="">All Functions</option></select></div>
     <div class="filter-group"><label>Seniority</label><select id="fSeniority"><option value="">All Levels</option></select></div>
     <div class="filter-group"><label>Product Focus</label><select id="fProduct"><option value="">All Products</option></select></div>
@@ -768,8 +768,25 @@ const SENIORITY_COLORS = {
 // These 11 companies are the only ones that should appear in v2
 const ALLOWED_COMPANIES = ['Atlan','Collibra','Alation','Monte Carlo','Bigeye','Acceldata','Pinecone','Qdrant','Milvus','Snowflake','Databricks'];
 
-// ── Vector DB / AI Companies ───────────────────────────────────────────
-const VECTOR_AI_COMPANIES = ['Pinecone','Weaviate','Qdrant','Zilliz'];
+// ── Strict V2 Product Area Mapping ────────────────────────────────────
+// Deterministic company → product_area. No keyword matching. No fallback.
+// Any company not in this map is excluded from v2 entirely.
+const V2_PRODUCT_AREA_MAP = {
+  'Atlan':       'Data Intelligence',
+  'Collibra':    'Data Intelligence',
+  'Alation':     'Data Intelligence',
+  'Monte Carlo': 'Data Observability',
+  'Bigeye':      'Data Observability',
+  'Acceldata':   'Data Observability',
+  'Pinecone':    'VectorAI',
+  'Qdrant':      'VectorAI',
+  'Milvus':      'VectorAI',
+  'Snowflake':   'AI Analyst',
+  'Databricks':  'AI Analyst',
+};
+
+// ── Vector DB / AI Companies (v2 only — Weaviate/Zilliz excluded) ──────
+const VECTOR_AI_COMPANIES = ['Pinecone','Qdrant','Milvus'];
 
 // ── Excluded Functions ─────────────────────────────────────────────────
 const EXCLUDED_FUNCTIONS = ['Legal','People/HR'];
@@ -844,6 +861,9 @@ async function loadData() {
       r._relevancy = Math.min(10, parseFloat(r.Relevancy_to_Actian) || 0);
       r._days = r['Days Since Posted'] !== '' && r['Days Since Posted'] != null ? parseInt(r['Days Since Posted']) : 9999;
       r._trend = parseFloat(r.Trend_Score) || 0;
+      // STRICT: Override Company_Group with v2 product area — no keyword fallback
+      const strictArea = V2_PRODUCT_AREA_MAP[r.Company];
+      if (strictArea) r.Company_Group = strictArea;
     });
     populateFilters();
     applyFilters();
@@ -887,14 +907,29 @@ function fillSelect(id, values) {
 // ── Team Tab matcher ───────────────────────────────────────────────────
 function matchesTeamTab(r, tab) {
   if (!tab || tab === 'overview') return true;
-  const fn = r.Function || '';
+  const fn    = r.Function || '';
   const title = (r['Job Title'] || '').toLowerCase();
-  const sen = r.Seniority || '';
-  if (tab === 'marketing') return fn === 'Marketing';
-  if (tab === 'product')   return fn === 'Product';
-  if (tab === 'sdrs')      return fn === 'Sales' || /\b(sdr|bdr)\b/.test(title);
-  if (tab === 'pmm')       return fn === 'Marketing' && /product\s*marketing|gtm|go[- ]to[- ]market/.test(title);
+  const sen   = r.Seniority || '';
+
+  // Pre-compute role-type flags from job title for clean, non-overlapping tabs
+  const isSalesEng = /\b(sales\s+engineer|solutions?\s+engineer|solutions?\s+architect|presales|pre-sales)\b/.test(title);
+  const isPMM      = /\b(product\s+marketing|pmm|go[- ]to[- ]market|gtm)\b/.test(title);
+
+  // Marketing: Function=Marketing, but NOT PMM titles (PMM has its own tab)
+  if (tab === 'marketing')  return fn === 'Marketing' && !isPMM;
+
+  // Product: Function=Product only — PMM roles in Product function go to PMM tab
+  if (tab === 'product')    return fn === 'Product' && !isPMM;
+
+  // SDRs / Sales: Function=Sales, excluding Sales Engineers (they are technical)
+  if (tab === 'sdrs')       return fn === 'Sales' && !isSalesEng;
+
+  // PMM: title must contain PMM/GTM keywords, regardless of whether function is Marketing or Product
+  if (tab === 'pmm')        return isPMM && (fn === 'Marketing' || fn === 'Product');
+
+  // Executives: Director+ seniority across all functions
   if (tab === 'executives') return sen === 'Director+';
+
   return true;
 }
 
