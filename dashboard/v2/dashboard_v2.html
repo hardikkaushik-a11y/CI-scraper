@@ -764,6 +764,10 @@ const SENIORITY_COLORS = {
   'Intern': '#95A5A6'
 };
 
+// ── Allowed Companies for V2 Dashboard ────────────────────────────────
+// These 11 companies are the only ones that should appear in v2
+const ALLOWED_COMPANIES = ['Atlan','Collibra','Alation','Monte Carlo','Bigeye','Acceldata','Pinecone','Qdrant','Milvus','Snowflake','Databricks'];
+
 // ── Vector DB / AI Companies ───────────────────────────────────────────
 const VECTOR_AI_COMPANIES = ['Pinecone','Weaviate','Qdrant','Zilliz'];
 
@@ -830,6 +834,8 @@ async function loadData() {
     if (!r.ok) throw new Error('HTTP ' + r.status);
     signals = await r.json();
     if (!Array.isArray(signals)) throw new Error('Invalid format');
+    // FILTER to allowed companies only (v2 restriction)
+    signals = signals.filter(s => ALLOWED_COMPANIES.includes(s.company));
     sigOk = true;
   } catch(e) { signals = []; }
 
