@@ -79,7 +79,7 @@ NON_ENGLISH_RE = re.compile(r'[\u3000-\u9fff\uac00-\ud7af\u0400-\u04ff]')
 ROLE_RE = re.compile(
     r'\b(engineer|developer|manager|director|architect|scientist|analyst|'
     r'product|sre|intern|specialist|consultant|lead|head|vp|chief|officer|'
-    r'recruiter|designer|researcher|strategist|coordinator|accountant|'
+    r'executive|recruiter|designer|researcher|strategist|coordinator|accountant|'
     r'counsel|attorney|writer|advocate)\b', re.I
 )
 
@@ -841,6 +841,167 @@ async def extract_workable_jobs(
         print(f"  [Workable API WARN] {company}: {e}")
         return []
 
+async def extract_gem_jobs(
+    client: httpx.AsyncClient, company: str, url: str
+) -> list[dict]:
+    """Extract jobs via Gem job board GraphQL API (jobs.gem.com/{board})."""
+    try:
+        board_id = url.rstrip("/").split("/")[-1].split("?")[0]
+        gql_url = "https://jobs.gem.com/api/public/graphql/batch"
+        payload = [{
+            "operationName": "JobBoardList",
+            "variables": {"boardId": board_id},
+            "query": (
+                "query JobBoardList($boardId: String!) {"
+                "  oatsExternalJobPostings(boardId: $boardId) {"
+                "    jobPostings {"
+                "      id extId title"
+                "      locations { name city isoCountry isRemote }"
+                "      job { department { name } locationType employmentType }"
+                "    }"
+                "  }"
+                "}"
+            ),
+        }]
+        await rate_limiter.wait(gql_url)
+        r = await client.post(
+            gql_url,
+            json=payload,
+            headers={**HEADERS, "Content-Type": "application/json",
+                     "Origin": "https://jobs.gem.com",
+                     "Referer": f"https://jobs.gem.com/{board_id}"},
+            timeout=20,
+        )
+        if r.status_code != 200:
+            return []
+
+        resp = r.json()
+        postings = resp[0]["data"]["oatsExternalJobPostings"]["jobPostings"]
+        jobs = []
+
+        for item in postings:
+            title = clean_title(item.get("title", ""))
+            if not title or not ROLE_RE.search(title):
+                continue
+
+            loc_parts = []
+            for loc in item.get("locations", []):
+                city = loc.get("city", "") or loc.get("name", "")
+                country = loc.get("isoCountry", "")
+                if loc.get("isRemote"):
+                    loc_parts.append("Remote")
+                    break
+                if city:
+                    loc_parts.append(city)
+                if country and country not in loc_parts:
+                    loc_parts.append(country)
+                break  # use first location only
+            location = clean_location(", ".join(loc_parts))
+
+            ext_id = item.get("extId", item.get("id", ""))
+            job_url = f"https://jobs.gem.com/{board_id}/jobs/{ext_id}" if ext_id else ""
+
+            jobs.append({
+                "Company": company,
+                "Job Title": title,
+                "Job Link": job_url,
+                "Location": location,
+                "Posting Date": "",
+                "Seniority": "Mid",
+            })
+
+        jobs = dedup_and_cap(jobs, company)
+        print(f"  [Gem API] {len(jobs)} jobs extracted for {company}")
+        return jobs
+    except Exception as e:
+        print(f"  [Gem API WARN] {company}: {e}")
+        return []
+
+
+async def extract_join_jobs(
+    client: httpx.AsyncClient, company: str, url: str
+) -> list[dict]:
+    """Extract jobs via join.com (Next.js SPA, data in __NEXT_DATA__)."""
+    try:
+        slug = url.rstrip("/").split("/")[-1].split("?")[0]
+        jobs = []
+        page = 1
+
+        while True:
+            page_url = f"https://join.com/companies/{slug}?page={page}"
+            await rate_limiter.wait(page_url)
+            r = await client.get(page_url, headers=HEADERS, timeout=20, follow_redirects=True)
+            if r.status_code != 200:
+                break
+
+            # Jobs are embedded in __NEXT_DATA__ JSON
+            match = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
+            if not match:
+                break
+
+            data = json.loads(match.group(1))
+            jobs_state = data["props"]["pageProps"]["initialState"]["jobs"]
+            items = jobs_state.get("items", [])
+            pagination = jobs_state.get("pagination", {})
+
+            if not items:
+                break
+
+            company_id = data["props"]["pageProps"]["initialState"]["company"].get("id", "")
+
+            for item in items:
+                title = clean_title(item.get("title", ""))
+                if not title or not ROLE_RE.search(title):
+                    continue
+
+                city_obj = item.get("city") or {}
+                country_obj = item.get("country") or {}
+                loc_parts = []
+                city_name = city_obj.get("cityName", "") if isinstance(city_obj, dict) else ""
+                country_name = country_obj.get("countryName", "") if isinstance(country_obj, dict) else ""
+                if city_name:
+                    loc_parts.append(city_name)
+                if country_name and country_name != city_name:
+                    loc_parts.append(country_name)
+                location = clean_location(", ".join(loc_parts))
+
+                created_at = item.get("createdAt", "")
+                posting_date = ""
+                if created_at:
+                    try:
+                        posting_date = datetime.fromisoformat(created_at.split("T")[0]).date().isoformat()
+                    except Exception:
+                        pass
+
+                if is_too_old(posting_date):
+                    continue
+
+                job_id = item.get("id", "")
+                id_param = item.get("idParam", job_id)
+                job_url = f"https://join.com/companies/{slug}/jobs/{id_param}" if id_param else ""
+
+                jobs.append({
+                    "Company": company,
+                    "Job Title": title,
+                    "Job Link": job_url,
+                    "Location": location,
+                    "Posting Date": posting_date,
+                    "Seniority": "Mid",
+                })
+
+            total_pages = pagination.get("pageCount", 1)
+            if page >= total_pages:
+                break
+            page += 1
+
+        jobs = dedup_and_cap(jobs, company)
+        print(f"  [Join.com] {len(jobs)} jobs extracted for {company}")
+        return jobs
+    except Exception as e:
+        print(f"  [Join.com WARN] {company}: {e}")
+        return []
+
+
 async def extract_smartrecruiters_jobs(
     client: httpx.AsyncClient, company: str, url: str
 ) -> list[dict]:
@@ -1328,7 +1489,8 @@ async def scrape_all(competitors_path: str = "data/competitors.csv") -> list[dic
                   and "greenhouse.io/" not in c["Career_URL"]
                   and "ashbyhq.com/" not in c["Career_URL"]
                   and "bamboohr.com" not in c["Career_URL"]
-                  and "workable.com" not in c["Career_URL"])
+                  and "workable.com" not in c["Career_URL"]
+                  and "join.com/companies/" not in c["Career_URL"])
 
     if need_pw and PLAYWRIGHT_AVAILABLE:
         print("[PLAYWRIGHT] Launching shared browser...")
@@ -1358,6 +1520,10 @@ async def scrape_all(competitors_path: str = "data/competitors.csv") -> list[dic
                     jobs = await extract_workable_jobs(client, company, url)
                 elif "smartrecruiters.com" in url:
                     jobs = await extract_smartrecruiters_jobs(client, company, url)
+                elif "join.com/companies/" in url:
+                    jobs = await extract_join_jobs(client, company, url)
+                elif "jobs.gem.com/" in url:
+                    jobs = await extract_gem_jobs(client, company, url)
                 elif "datadoghq.com" in url:
                     jobs = await extract_datadog_jobs(client, company, url)
                 elif "myworkdayjobs.com" in url:
