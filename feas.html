@@ -602,11 +602,12 @@ function setVerdictSeg(seg,el){
 
 function renderVerdicts(){
   const to={critical:0,high:1,medium:2,low:3};
-  let data=getFilteredData([...VERDICTS]).filter(v=>{
-    if(currentVerdictSeg==='all') return true;
+  let data=getFilteredData([...VERDICTS]).
+    
+  if(currentVerdictSeg==='all'){
     const seg=currentVerdictSeg==='VectorAI'?'Vector DB / AI':currentVerdictSeg;
-    return v.segment===seg;
-  }).sort((a,b)=>{
+    data = data.filter(v.segment===seg;
+  }.sort((a,b)=>{
     if(currentTeam!=='overview'){
       const sd=(b.team_relevance[currentTeam]||0)-(a.team_relevance[currentTeam]||0);
       if(sd!==0)return sd;
