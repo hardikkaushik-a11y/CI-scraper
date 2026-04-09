@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -438,6 +437,26 @@ tbody td.strong{color:var(--text);font-weight:500;}
 </div>
 
 <script>
+  function getAreaCompanies(area) {
+  if (area === "Data Intelligence") return ["Atlan", "Collibra", "Alation"];
+  if (area === "Data Observability") return ["Monte Carlo", "Bigeye", "Acceldata", "Anomalo"];
+  if (area === "VectorAI") return ["Pinecone", "Qdrant", "Milvus", "Zilliz"];
+  if (area === "AI Analyst") return ["Snowflake", "Databricks"];
+  return [];
+}
+
+function getFilteredData(data) {
+  if (currentArea === "all") return data;
+
+  const companies = getAreaCompanies(currentArea);
+
+  return data.filter(item =>
+    companies.some(c =>
+      item.company &&
+      item.company.toLowerCase().includes(c.toLowerCase())
+    )
+  );
+}
 const SIGNALS=[
   {company:"Atlan",segment:"Data Intelligence",threat:"critical",intensity:"Very High",dominant:"AI/ML + Catalog",ai_roles:12,senior:5,hiring:89,summary:"Accelerating toward AI-native catalog with MCP-based agent integrations. Combined with Activate 2026 (Apr 29), this is a coordinated pre-event GTM push targeting Actian's catalog buyers."},
   {company:"Databricks",segment:"Warehouse/Processing",threat:"critical",intensity:"High",dominant:"AI/ML Platform",ai_roles:11,senior:4,hiring:82,summary:"Massive AI platform hiring signals Unity Catalog expansion and Mosaic AI buildout. Platform consolidation play creates risk for standalone Actian use cases."},
@@ -577,7 +596,7 @@ function setArea(area,el){
 }
 
 function renderInsights(){
-  let sorted = getFilteredVerdicts();
+  let sorted = getFilteredData([...VERDICTS]);
   if(currentTeam !== 'overview'){
     sorted.sort((a,b)=> (b.team_relevance?.[currentTeam]||0) - (a.team_relevance?.[currentTeam]||0));
   } else {
@@ -608,16 +627,13 @@ function setVerdictSeg(seg,el){
 function renderVerdicts(){
   const to = {critical:0, high:1, medium:2, low:3};
 
-  // ✅ ONLY source of filtering
   let data = getFilteredData([...VERDICTS]);
 
-  // ✅ Optional secondary segmentation (NOT product filtering)
   if(currentVerdictSeg !== 'all'){
     const seg = currentVerdictSeg === 'VectorAI' ? 'Vector DB / AI' : currentVerdictSeg;
     data = data.filter(v => v.segment === seg);
   }
 
-  // ✅ Sorting (team lens)
   data.sort((a,b)=>{
     if(currentTeam !== 'overview'){
       const sd = (b.team_relevance?.[currentTeam] || 0) - (a.team_relevance?.[currentTeam] || 0);
@@ -626,14 +642,40 @@ function renderVerdicts(){
     return (to[a.threat] ?? 3) - (to[b.threat] ?? 3);
   });
 
-  // ✅ RENDER (keep your existing UI below this)
-  document.getElementById('verdictGrid').innerHTML = data.map(v => `
-    <div class="verdict-card">
-      <div style="display:flex;justify-content:space-between;">
-        <strong>${v.company}</strong>
-        <span class="badge ${v.threat}">${v.threat}</span>
+  document.getElementById('verdictCards').innerHTML = data.map(v => `
+    <div class="verdict-full-card threat-border-${v.threat}">
+      <div class="verdict-header">
+        <div>
+          <div class="verdict-company-name">${v.company}</div>
+          <div class="verdict-area-tag">${v.segment}</div>
+        </div>
+        <div class="verdict-badges">
+          <span class="badge threat-${v.threat}">${v.threat}</span>
+        </div>
       </div>
-      <div style="margin-top:6px;">${v.headline}</div>
+
+      <div class="verdict-quote">${v.verdict}</div>
+
+      <div class="verdict-3col">
+        <div class="verdict-box">
+          <div class="verdict-box-label">What is happening</div>
+          <div class="verdict-box-value">${v.what}</div>
+        </div>
+        <div class="verdict-box">
+          <div class="verdict-box-label">Why it matters</div>
+          <div class="verdict-box-value">${v.why}</div>
+        </div>
+        <div class="verdict-box">
+          <div class="verdict-box-label">Top Signals</div>
+          <ul class="top-signals-ul">
+            ${v.top_signals.map(s=>`<li>${s}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+
+      <div class="verdict-action-bar">
+        <strong>Actian Action:</strong> ${v.action}
+      </div>
     </div>
   `).join('');
 }
