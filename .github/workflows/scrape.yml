@@ -54,6 +54,14 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python src/enrich.py
 
+      - name: Run competitive signal scraper (launches + events)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python src/signal_scraper.py
+
+      - name: Refresh v2 dataset (keep in sync with latest enriched data)
+        run: python scripts/create_v2_dataset.py
+
       # ── Print summary ────────────────────────────────────────────────
       - name: Pipeline summary
         run: |
@@ -61,12 +69,16 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           RAW_COUNT=$(wc -l < data/jobs_raw.csv)
           ENRICHED_COUNT=$(wc -l < data/jobs_enriched.csv)
+          V2_COUNT=$(wc -l < data/jobs_enriched_v2.csv)
           SIGNAL_COUNT=$(python -c "import json; print(len(json.load(open('data/signals.json'))))" 2>/dev/null || echo "0")
+          COMP_SIGNAL_COUNT=$(python -c "import json; print(len(json.load(open('data/competitive_signals.json'))))" 2>/dev/null || echo "0")
           echo "| Metric | Count |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Raw jobs scraped | $((RAW_COUNT - 1)) |" >> $GITHUB_STEP_SUMMARY
           echo "| Enriched rows | $((ENRICHED_COUNT - 1)) |" >> $GITHUB_STEP_SUMMARY
-          echo "| Company signals | $SIGNAL_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| V2 dataset rows | $((V2_COUNT - 1)) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Hiring signals | $SIGNAL_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| Competitive signals | $COMP_SIGNAL_COUNT |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Run completed at $(date -u '+%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
 
@@ -75,7 +87,7 @@ jobs:
         run: |
           git config user.name "CI Bot"
           git config user.email "ci-bot@actian.com"
-          git add -f data/jobs_enriched.csv data/signals.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html
+          git add -f data/jobs_enriched.csv data/jobs_enriched_v2.csv data/signals.json data/competitive_signals.json data/seen_signals.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html
           git diff --cached --quiet || git commit -m "chore: daily scrape $(date -u '+%Y-%m-%d')"
           git pull --rebase --autostash -X ours origin main
           git push
