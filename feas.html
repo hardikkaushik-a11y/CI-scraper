@@ -1,3 +1,4 @@
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -536,12 +537,12 @@ function getFilteredData(data) {
 
   const companies = getAreaCompanies(currentArea);
 
-  return data.filter(item => {
-    return companies.some(c =>
+  return data.filter(item =>
+    companies.some(c =>
       item.company &&
       item.company.toLowerCase().includes(c.toLowerCase())
-    );
-  });
+    )
+  );
 }
 
 function showPage(id,el){
@@ -576,21 +577,25 @@ function setArea(area,el){
 }
 
 function renderInsights(){
-  const container=document.getElementById('insightCards');
-  let sorted=getFilteredData([...VERDICTS]).sort((a,b)=>{
-    const to={critical:0,high:1,medium:2,low:3};
-    if(currentTeam!=='overview'){
-      const sd=(b.team_relevance[currentTeam]||0)-(a.team_relevance[currentTeam]||0);
-      if(sd!==0)return sd;
-    }
-    return (to[a.threat]??3)-(to[b.threat]??3);
-  });
-  if(currentTeam==='executives')sorted=sorted.filter(v=>v.threat==='critical'||v.threat==='high');
-  sorted=sorted.slice(0,4);
-  container.innerHTML=sorted.map(v=>{
-    const lc=v.threat==='critical'?'':v.threat==='high'?'high':'medium';
-    return '<div class="insight-card '+lc+'"><div class="insight-company">'+v.company+' <span class="badge threat-'+v.threat+'">'+v.threat.toUpperCase()+'</span></div><div style="font-size:10px;color:var(--text-muted);margin-bottom:5px">'+v.segment+'</div><div class="insight-what"><strong>What:</strong> '+v.what.substring(0,110)+(v.what.length>110?'\u2026':'')+'</div><div class="insight-why"><strong>Why it matters:</strong> '+v.why.substring(0,100)+(v.why.length>100?'\u2026':'')+'</div><div class="insight-action">\u26a1 '+v.action.substring(0,85)+(v.action.length>85?'\u2026':'')+'</div></div>';
-  }).join('');
+  let sorted = getFilteredVerdicts();
+  if(currentTeam !== 'overview'){
+    sorted.sort((a,b)=> (b.team_relevance?.[currentTeam]||0) - (a.team_relevance?.[currentTeam]||0));
+  } else {
+    sorted.sort((a,b)=>{
+      const w={critical:4,high:3,medium:2,low:1};
+      return (w[b.threat]||0)-(w[a.threat]||0);
+    });
+  }
+  const top = sorted.slice(0,3);
+  document.getElementById('insightCards').innerHTML = top.map(v=>`
+    <div class="insight-card">
+      <div style="display:flex;justify-content:space-between;">
+        <strong>${v.company}</strong>
+        <span class="badge ${v.threat}">${v.threat}</span>
+      </div>
+      <div style="margin-top:6px;">${v.headline}</div>
+    </div>
+  `).join('');
 }
 
 function setVerdictSeg(seg,el){
@@ -601,19 +606,37 @@ function setVerdictSeg(seg,el){
 }
 
 function renderVerdicts(){
-  const to={critical:0,high:1,medium:2,low:3};
-  let data=getFilteredData([...VERDICTS]).
-    
-  if(currentVerdictSeg==='all'){
-    const seg=currentVerdictSeg==='VectorAI'?'Vector DB / AI':currentVerdictSeg;
-    data = data.filter(v.segment===seg;
-  }.sort((a,b)=>{
-    if(currentTeam!=='overview'){
-      const sd=(b.team_relevance[currentTeam]||0)-(a.team_relevance[currentTeam]||0);
-      if(sd!==0)return sd;
+  const to = {critical:0, high:1, medium:2, low:3};
+
+  // ✅ ONLY source of filtering
+  let data = getFilteredData([...VERDICTS]);
+
+  // ✅ Optional secondary segmentation (NOT product filtering)
+  if(currentVerdictSeg !== 'all'){
+    const seg = currentVerdictSeg === 'VectorAI' ? 'Vector DB / AI' : currentVerdictSeg;
+    data = data.filter(v => v.segment === seg);
+  }
+
+  // ✅ Sorting (team lens)
+  data.sort((a,b)=>{
+    if(currentTeam !== 'overview'){
+      const sd = (b.team_relevance?.[currentTeam] || 0) - (a.team_relevance?.[currentTeam] || 0);
+      if(sd !== 0) return sd;
     }
-    return (to[a.threat]??3)-(to[b.threat]??3);
+    return (to[a.threat] ?? 3) - (to[b.threat] ?? 3);
   });
+
+  // ✅ RENDER (keep your existing UI below this)
+  document.getElementById('verdictGrid').innerHTML = data.map(v => `
+    <div class="verdict-card">
+      <div style="display:flex;justify-content:space-between;">
+        <strong>${v.company}</strong>
+        <span class="badge ${v.threat}">${v.threat}</span>
+      </div>
+      <div style="margin-top:6px;">${v.headline}</div>
+    </div>
+  `).join('');
+}
 
   document.getElementById('verdictCards').innerHTML=data.map(v=>`
     <div class="verdict-full-card threat-border-${v.threat}">
