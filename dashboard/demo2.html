@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitive Intelligence Platform — Actian</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #f5f6f8; --bg-white: #ffffff; --bg-hover: #f0f2f5;
+  --bg-nav: #1B2A4A; --border: #e2e5ea; --border-light: #edf0f3;
+  --text: #1a1f2e; --text-secondary: #4a5568; --text-muted: #8492a6;
+  --accent: #E31937; --accent-light: #fef2f4;
+  --green: #2ECC71; --green-light: #f0fdf4;
+  --amber: #F39C12; --amber-light: #fffbeb;
+  --cyan: #00B4D8; --navy: #1B2A4A; --purple: #8E44AD;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+
+/* NAV */
+.topnav { display:flex; align-items:center; padding:0 28px; height:56px; background:var(--bg-nav); color:#fff; position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.12); gap:0; }
+.topnav-brand { font-size:16px; font-weight:700; margin-right:32px; letter-spacing:-0.3px; flex-shrink:0; }
+.topnav-brand span { color:#94a3b8; font-weight:400; margin-left:6px; }
+.topnav-tabs { display:flex; gap:4px; }
+.topnav-tab { padding:10px 18px; font-size:13px; font-weight:500; color:#94a3b8; cursor:pointer; border-radius:6px; transition:all 0.2s; white-space:nowrap; }
+.topnav-tab:hover { color:#e2e8f0; background:rgba(255,255,255,0.08); }
+.topnav-tab.active { color:#fff; background:var(--accent); }
+.topnav-right { margin-left:auto; display:flex; align-items:center; gap:12px; }
+.topnav-status { font-size:11px; color:#94a3b8; white-space:nowrap; }
+.demo-badge { background:rgba(243,156,18,0.2); border:1px solid rgba(243,156,18,0.4); color:#F39C12; font-size:10px; font-weight:700; padding:3px 10px; border-radius:12px; letter-spacing:0.5px; }
+
+/* TEAM TABS */
+.team-tabs-bar { display:flex; gap:4px; padding:0 28px; background:var(--bg-white); border-bottom:1px solid var(--border); position:sticky; top:56px; z-index:90; overflow-x:auto; }
+.team-tab { padding:12px 18px; font-size:13px; font-weight:500; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.2s; display:flex; align-items:center; gap:6px; }
+.team-tab:hover { color:var(--text); }
+.team-tab.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:600; }
+.team-tab .tab-badge { background:var(--accent); color:#fff; font-size:10px; font-weight:700; padding:1px 6px; border-radius:10px; }
+.team-tab .tab-badge.new { background:var(--green); }
+
+/* PAGES */
+.page { display:none; padding:24px 28px; max-width:1440px; margin:0 auto; }
+.page.active { display:block; }
+
+/* CARDS */
+.card { background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); margin-bottom:16px; }
+.card-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-muted); margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; }
+.card-title-left { display:flex; align-items:center; gap:8px; }
+
+/* KPI */
+.kpi-strip { display:flex; gap:14px; margin-bottom:20px; flex-wrap:wrap; }
+.kpi-box { flex:1; min-width:130px; background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow); }
+.kpi-value { font-size:30px; font-weight:700; line-height:1.1; }
+.kpi-label { font-size:11px; font-weight:500; color:var(--text-muted); margin-top:4px; }
+.kpi-delta { font-size:11px; margin-top:4px; }
+.kpi-delta.up { color:var(--green); }
+.kpi-delta.warn { color:var(--amber); }
+.kpi-value.blue { color:var(--cyan); }
+.kpi-value.amber { color:var(--amber); }
+.kpi-value.green { color:var(--green); }
+.kpi-value.red { color:var(--accent); }
+
+/* GRIDS */
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:16px; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:14px; margin-bottom:16px; }
+@media(max-width:1100px){ .grid-3{grid-template-columns:1fr 1fr;} .grid-4{grid-template-columns:1fr 1fr;} }
+@media(max-width:700px){ .grid-3,.grid-2,.grid-4{grid-template-columns:1fr;} }
+
+/* BADGES */
+.badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; }
+.threat-critical { background:#fef2f2; color:#b91c1c; border:1px solid #fecaca; }
+.threat-high { background:#fffbeb; color:#92400e; border:1px solid #fde68a; }
+.threat-medium { background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; }
+.threat-low { background:#f9fafb; color:#6b7280; border:1px solid #e5e7eb; }
+
+/* SIGNAL CARDS (hiring) */
+.signal-strip { display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:16px; margin-bottom:24px; }
+.signal-card { background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); transition:box-shadow 0.2s; cursor:pointer; }
+.signal-card:hover { box-shadow:var(--shadow-md); }
+.signal-card.threat-border-critical { border-left:4px solid var(--accent); }
+.signal-card.threat-border-high { border-left:4px solid var(--amber); }
+.signal-card.threat-border-medium { border-left:4px solid var(--cyan); }
+.signal-card.threat-border-low { border-left:4px solid #d1d5db; }
+.signal-card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
+.signal-card-company { font-size:16px; font-weight:700; }
+.signal-card-summary { font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:12px; }
+.signal-card-meta { display:flex; gap:6px; flex-wrap:wrap; }
+.meta-tag { padding:3px 9px; border-radius:12px; font-size:11px; font-weight:500; background:var(--bg); border:1px solid var(--border); color:var(--text-muted); }
+
+/* VERDICT CARDS */
+.verdict-strip { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; margin-bottom:24px; }
+.verdict-card { background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); cursor:pointer; transition:box-shadow 0.2s; }
+.verdict-card:hover { box-shadow:var(--shadow-md); }
+.verdict-card.threat-border-critical { border-left:4px solid var(--accent); }
+.verdict-card.threat-border-high { border-left:4px solid var(--amber); }
+.verdict-card.threat-border-medium { border-left:4px solid var(--cyan); }
+.verdict-card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
+.verdict-card-company { font-size:15px; font-weight:700; }
+.verdict-card-verdict { font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:12px; font-style:italic; }
+.verdict-card-action { font-size:12px; font-weight:600; color:var(--accent); background:var(--accent-light); border-radius:6px; padding:8px 12px; margin-bottom:10px; }
+.verdict-signals { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+.verdict-signal-tag { padding:2px 8px; border-radius:10px; font-size:10px; font-weight:500; }
+.vsig-hiring { background:#eff6ff; color:#1d4ed8; }
+.vsig-launch { background:#f0fdf4; color:#15803d; }
+.vsig-event { background:#fef9c3; color:#854d0e; }
+.verdict-routing { display:flex; gap:5px; flex-wrap:wrap; }
+.route-tag { padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; background:#f1f5f9; color:#475569; }
+
+/* LAUNCHES CARDS */
+.launch-list { display:flex; flex-direction:column; gap:10px; }
+.launch-item { background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; display:flex; gap:14px; align-items:flex-start; box-shadow:var(--shadow); }
+.launch-type-pill { padding:3px 10px; border-radius:12px; font-size:10px; font-weight:700; white-space:nowrap; flex-shrink:0; }
+.ltype-launch { background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; }
+.ltype-event { background:#fef9c3; color:#854d0e; border:1px solid #fde68a; }
+.ltype-partnership { background:#f5f3ff; color:#6d28d9; border:1px solid #ddd6fe; }
+.ltype-blog { background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; }
+.ltype-funding { background:#fef2f4; color:#b91c1c; border:1px solid #fecaca; }
+.ltype-oss { background:#ecfeff; color:#0e7490; border:1px solid #a5f3fc; }
+.launch-body { flex:1; min-width:0; }
+.launch-title { font-size:13px; font-weight:600; color:var(--text); margin-bottom:4px; }
+.launch-summary { font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:6px; }
+.launch-meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.launch-company { font-size:11px; font-weight:600; color:var(--accent); }
+.launch-date { font-size:11px; color:var(--text-muted); }
+.relevance-high { color:var(--accent); font-size:11px; font-weight:700; }
+.relevance-medium { color:var(--amber); font-size:11px; font-weight:600; }
+.relevance-low { color:var(--text-muted); font-size:11px; }
+
+/* TABLE */
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+thead th { background:var(--bg); color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; font-size:11px; font-weight:600; padding:10px 12px; text-align:left; border-bottom:2px solid var(--border); white-space:nowrap; }
+tbody tr { border-bottom:1px solid var(--border-light); transition:background 0.1s; }
+tbody tr:hover { background:var(--bg-hover); }
+tbody td { padding:10px 12px; color:var(--text-secondary); max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+tbody td.strong { color:var(--text); font-weight:500; }
+
+/* SLACK PREVIEW */
+.slack-preview { background:#1a1d21; border-radius:var(--radius); padding:20px; font-family:'SF Mono','Consolas',monospace; font-size:12.5px; color:#d1d5db; line-height:1.7; }
+.slack-channel { color:#5b9adb; font-weight:700; margin-bottom:12px; font-size:13px; }
+.slack-msg { margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.slack-msg:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.slack-company { color:#fff; font-weight:700; }
+.slack-label { color:#9ca3af; }
+.slack-action { color:#34d399; font-weight:600; }
+.slack-link { color:#5b9adb; }
+.slack-ts { color:#6b7280; font-size:11px; }
+
+/* SECTION HEADERS */
+.section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.section-title { font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:8px; }
+.section-sub { font-size:12px; color:var(--text-muted); margin-top:2px; }
+.new-dot { width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; }
+
+/* TEAM LENS BANNER */
+.team-lens-banner { background:linear-gradient(135deg,#1B2A4A 0%,#2d3f63 100%); color:#e2e8f0; border-radius:var(--radius); padding:14px 20px; margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.team-lens-icon { font-size:20px; }
+.team-lens-title { font-weight:700; font-size:14px; }
+.team-lens-sub { font-size:12px; color:#94a3b8; margin-top:2px; }
+
+/* VERDICT TABLE */
+.verdict-table { width:100%; border-collapse:collapse; }
+.verdict-table th { background:var(--bg); color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; font-size:10px; font-weight:700; padding:8px 12px; text-align:left; border-bottom:2px solid var(--border); }
+.verdict-table td { padding:10px 12px; border-bottom:1px solid var(--border-light); font-size:12.5px; vertical-align:top; }
+.verdict-table tr:hover td { background:var(--bg-hover); }
+
+/* SEGMENT CHIPS */
+.segment-chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+.segment-chip { padding:6px 14px; border-radius:16px; font-size:12px; font-weight:500; background:var(--bg-white); border:1px solid var(--border); color:var(--text-secondary); cursor:pointer; transition:all 0.2s; }
+.segment-chip:hover { border-color:var(--accent); color:var(--accent); }
+.segment-chip.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+
+/* AI CHAT BUBBLE */
+.ai-bubble { position:fixed; bottom:24px; right:24px; z-index:200; }
+.ai-bubble-btn { width:52px; height:52px; border-radius:50%; background:var(--accent); color:#fff; border:none; cursor:pointer; font-size:22px; box-shadow:0 4px 16px rgba(227,25,55,0.35); display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+.ai-bubble-btn:hover { transform:scale(1.08); }
+.ai-panel { position:fixed; bottom:88px; right:24px; width:340px; background:var(--bg-white); border:1px solid var(--border); border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.12); display:none; flex-direction:column; overflow:hidden; z-index:200; }
+.ai-panel.open { display:flex; }
+.ai-panel-header { background:var(--bg-nav); color:#fff; padding:14px 16px; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:space-between; }
+.ai-panel-close { background:none; border:none; color:#94a3b8; cursor:pointer; font-size:18px; line-height:1; }
+.ai-messages { height:260px; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:8px; }
+.ai-msg-bot { background:var(--bg); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--text-secondary); line-height:1.6; max-width:90%; }
+.ai-msg-user { background:var(--accent); color:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; line-height:1.6; max-width:90%; align-self:flex-end; }
+.ai-input-row { display:flex; gap:8px; padding:12px; border-top:1px solid var(--border); }
+.ai-input { flex:1; border:1px solid var(--border); border-radius:6px; padding:8px 10px; font-size:12.5px; outline:none; }
+.ai-input:focus { border-color:var(--accent); }
+.ai-send { background:var(--accent); color:#fff; border:none; border-radius:6px; padding:8px 14px; font-size:12px; font-weight:600; cursor:pointer; }
+
+/* CHART */
+.chart-container { position:relative; width:100%; }
+
+/* PULSE ROW */
+.pulse-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; margin-bottom:20px; }
+.pulse-card { background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow); }
+.pulse-value { font-size:26px; font-weight:700; line-height:1.2; margin-bottom:4px; }
+.pulse-label { font-size:11px; text-transform:uppercase; letter-spacing:0.7px; font-weight:700; color:var(--text-muted); margin-bottom:6px; }
+.pulse-detail { font-size:12px; color:var(--text-secondary); line-height:1.5; }
+
+/* DIVIDER */
+.section-divider { height:1px; background:var(--border); margin:24px 0; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <div class="topnav-brand">Actian<span>Competitive Intelligence</span></div>
+  <div class="topnav-tabs">
+    <div class="topnav-tab active" onclick="showPage('market')">Market Overview</div>
+    <div class="topnav-tab" onclick="showPage('signals')">Strategic Signals</div>
+    <div class="topnav-tab" onclick="showPage('verdicts')">Intelligence Verdicts</div>
+    <div class="topnav-tab" onclick="showPage('launches')">Launches & Events</div>
+    <div class="topnav-tab" onclick="showPage('slack')">Slack Routing</div>
+  </div>
+  <div class="topnav-right">
+    <span class="demo-badge">DEMO</span>
+    <span class="topnav-status">Updated: Apr 9, 2026 · 06:14 UTC</span>
+  </div>
+</nav>
+
+<!-- TEAM TABS -->
+<div class="team-tabs-bar">
+  <div class="team-tab active" onclick="setTeam('overview',this)">Overview</div>
+  <div class="team-tab" onclick="setTeam('marketing',this)">Marketing <span class="tab-badge new">4</span></div>
+  <div class="team-tab" onclick="setTeam('product',this)">Product <span class="tab-badge">6</span></div>
+  <div class="team-tab" onclick="setTeam('sdrs',this)">SDRs <span class="tab-badge">3</span></div>
+  <div class="team-tab" onclick="setTeam('pmm',this)">PMM <span class="tab-badge">5</span></div>
+  <div class="team-tab" onclick="setTeam('executives',this)">Executives <span class="tab-badge" style="background:#b91c1c">2</span></div>
+</div>
+
+<!-- ═══ PAGE: MARKET OVERVIEW ══════════════════════════════════════════════ -->
+<div id="page-market" class="page active">
+  <div class="kpi-strip">
+    <div class="kpi-box"><div class="kpi-value blue">847</div><div class="kpi-label">Total Roles Tracked</div><div class="kpi-delta up">↑ 63 this week</div></div>
+    <div class="kpi-box"><div class="kpi-value amber">142</div><div class="kpi-label">High Signal (Relevancy 8+)</div><div class="kpi-delta up">↑ 18 vs last week</div></div>
+    <div class="kpi-box"><div class="kpi-value red">31</div><div class="kpi-label">Director+ Roles</div><div class="kpi-delta warn">↑ 7 — leadership surge</div></div>
+    <div class="kpi-box"><div class="kpi-value green">63</div><div class="kpi-label">New This Week</div></div>
+    <div class="kpi-box"><div class="kpi-value">6.4</div><div class="kpi-label">Avg. Relevancy Score</div></div>
+    <div class="kpi-box"><div class="kpi-value" style="color:var(--purple)">11</div><div class="kpi-label">Companies Tracked</div></div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">Open Roles by Company</div>
+      <div class="chart-container" style="height:280px"><canvas id="chartCompanies"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Seniority Distribution</div>
+      <div class="chart-container" style="height:280px"><canvas id="chartSeniority"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Function Breakdown</div>
+      <div class="chart-container" style="height:280px"><canvas id="chartFunction"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Product Focus Areas</div>
+      <div class="chart-container" style="height:240px"><canvas id="chartProduct"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Hiring Velocity — Last 30 Days</div>
+      <div class="chart-container" style="height:240px"><canvas id="chartTrend"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Job Listings <span style="font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0">(847 roles · sorted by relevancy)</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Company</th><th>Job Title</th><th>Seniority</th><th>Function</th>
+          <th>Product Focus</th><th>Location</th><th>Days</th><th>Relevancy</th>
+        </tr></thead>
+        <tbody id="jobTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE: STRATEGIC SIGNALS ═══════════════════════════════════════════ -->
+<div id="page-signals" class="page">
+  <div class="pulse-grid">
+    <div class="pulse-card"><div class="pulse-label">Market Pulse</div><div class="pulse-value" style="color:var(--accent)">Critical</div><div class="pulse-detail">Atlan + Collibra both accelerating AI catalog — direct Actian overlap</div></div>
+    <div class="pulse-card"><div class="pulse-label">Top Threat</div><div class="pulse-value" style="color:#b91c1c">Atlan</div><div class="pulse-detail">MCP agent launch + 12 AI/ML hires + Activate 2026 event April 29</div></div>
+    <div class="pulse-card"><div class="pulse-label">AI/ML Surge</div><div class="pulse-value" style="color:var(--cyan)">+41%</div><div class="pulse-detail">AI/ML hiring up across Data Intelligence segment vs. 30 days ago</div></div>
+    <div class="pulse-card"><div class="pulse-label">Vector DB Watch</div><div class="pulse-value" style="color:var(--purple)">3</div><div class="pulse-detail">Pinecone, Qdrant, Milvus all hiring GTM — market heating up</div></div>
+  </div>
+
+  <div class="section-header">
+    <div><div class="section-title">Top Threat Companies <span class="new-dot"></span></div><div class="section-sub">Ranked by weighted threat score — hiring intensity × product overlap × seniority</div></div>
+    <div class="segment-chips" id="segmentChips">
+      <div class="segment-chip active" onclick="filterSegment('all',this)">All</div>
+      <div class="segment-chip" onclick="filterSegment('Data Intelligence',this)">Data Intelligence</div>
+      <div class="segment-chip" onclick="filterSegment('Data Observability',this)">Data Observability</div>
+      <div class="segment-chip" onclick="filterSegment('Vector DB / AI',this)">Vector DB / AI</div>
+    </div>
+  </div>
+
+  <div class="signal-strip" id="signalCards"></div>
+
+  <div class="section-divider"></div>
+  <div class="section-header"><div class="section-title">Full Signals Table</div></div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Company</th><th>Segment</th><th>Threat</th><th>Intensity</th><th>Dominant Focus</th><th>AI/ML Roles</th><th>Senior Roles</th><th>Signal Summary</th></tr></thead>
+        <tbody id="signalsTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE: INTELLIGENCE VERDICTS ══════════════════════════════════════ -->
+<div id="page-verdicts" class="page">
+  <div style="background:linear-gradient(135deg,#1B2A4A,#2d3f63);color:#e2e8f0;border-radius:var(--radius);padding:16px 22px;margin-bottom:20px;display:flex;align-items:center;gap:14px;">
+    <div style="font-size:24px">⚡</div>
+    <div>
+      <div style="font-weight:700;font-size:14px;">Intelligence Verdict Layer — Phase 2.5</div>
+      <div style="font-size:12px;color:#94a3b8;margin-top:3px;">Synthesizes hiring signals + product launches + events per company via Claude Sonnet. Updated daily at 06:00 UTC.</div>
+    </div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-box"><div class="kpi-value red">2</div><div class="kpi-label">Critical Threats</div></div>
+    <div class="kpi-box"><div class="kpi-value amber">4</div><div class="kpi-label">High Threats</div></div>
+    <div class="kpi-box"><div class="kpi-value blue">3</div><div class="kpi-label">Medium Threats</div></div>
+    <div class="kpi-box"><div class="kpi-value green">2</div><div class="kpi-label">Low / Monitoring</div></div>
+  </div>
+
+  <div class="verdict-strip" id="verdictCards"></div>
+
+  <div class="section-divider"></div>
+  <div class="section-header"><div class="section-title">Full Verdict Summary</div></div>
+  <div class="card">
+    <div class="table-wrap">
+      <table class="verdict-table">
+        <thead><tr><th>Company</th><th>Threat</th><th>Verdict</th><th>Actian Action</th><th>Routing</th><th>Updated</th></tr></thead>
+        <tbody id="verdictTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE: LAUNCHES & EVENTS ════════════════════════════════════════ -->
+<div id="page-launches" class="page">
+  <div style="background:linear-gradient(135deg,#14532d,#166534);color:#d1fae5;border-radius:var(--radius);padding:16px 22px;margin-bottom:20px;display:flex;align-items:center;gap:14px;">
+    <div style="font-size:24px">📡</div>
+    <div>
+      <div style="font-weight:700;font-size:14px;">Competitive Signal Scraper — Phase 2</div>
+      <div style="font-size:12px;color:#86efac;margin-top:3px;">RSS feeds + GitHub releases API across 11 companies · 90-day rolling window · Classified by Claude Sonnet</div>
+    </div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-box"><div class="kpi-value green">24</div><div class="kpi-label">Signals This Week</div></div>
+    <div class="kpi-box"><div class="kpi-value red">7</div><div class="kpi-label">High Actian Relevance</div></div>
+    <div class="kpi-box"><div class="kpi-value amber">5</div><div class="kpi-label">Product Launches</div></div>
+    <div class="kpi-box"><div class="kpi-value blue">4</div><div class="kpi-label">Upcoming Events</div></div>
+    <div class="kpi-box"><div class="kpi-value" style="color:var(--purple)">3</div><div class="kpi-label">Partnerships</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="section-header"><div class="section-title">🔴 High Relevance to Actian</div></div>
+      <div class="launch-list" id="launchesHigh"></div>
+    </div>
+    <div>
+      <div class="section-header"><div class="section-title">All Signals — Last 7 Days</div></div>
+      <div class="launch-list" id="launchesAll"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE: SLACK ROUTING ════════════════════════════════════════════ -->
+<div id="page-slack" class="page">
+  <div style="background:linear-gradient(135deg,#4a154b,#611f69);color:#e8d5e8;border-radius:var(--radius);padding:16px 22px;margin-bottom:20px;display:flex;align-items:center;gap:14px;">
+    <div style="font-size:24px">💬</div>
+    <div>
+      <div style="font-weight:700;font-size:14px;">Slack Routing Preview — Phase 4</div>
+      <div style="font-size:12px;color:#c4a8c4;margin-top:3px;">Verdicts routed to team channels via webhook · Deduplicated via slack_sent.json · Human-style, not raw dumps</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">#competitive-product</div>
+      <div class="slack-preview" id="slackProduct"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">#competitive-gtm</div>
+      <div class="slack-preview" id="slackGtm"></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">#competitive-signals (Critical only)</div>
+      <div class="slack-preview" id="slackSignals"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">#competitive-weekly (Saturday digest preview)</div>
+      <div class="slack-preview" id="slackWeekly"></div>
+    </div>
+  </div>
+</div>
+
+<!-- AI CHAT -->
+<div class="ai-bubble">
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-panel-header">
+      <span>🤖 CI Assistant (Llama 3.3 70B)</span>
+      <button class="ai-panel-close" onclick="toggleAI()">×</button>
+    </div>
+    <div class="ai-messages" id="aiMessages">
+      <div class="ai-msg-bot">Hi! I can answer questions about competitor threats, hiring trends, and strategic signals. Try asking about Atlan or Snowflake.</div>
+    </div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="aiInput" placeholder="Ask about competitors..." onkeydown="if(event.key==='Enter')sendAI()">
+      <button class="ai-send" onclick="sendAI()">→</button>
+    </div>
+  </div>
+  <button class="ai-bubble-btn" onclick="toggleAI()">💬</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// FAKE DATA
+// ═══════════════════════════════════════════════════════════════════
+
+const SIGNALS = [
+  { company:"Atlan", segment:"Data Intelligence", threat:"critical", intensity:"Very High", dominant:"AI/ML + Catalog", ai_roles:12, senior:5, hiring:89, summary:"Accelerating toward AI-native catalog with MCP-based agent integrations. Combined with Activate 2026 (Apr 29), this is a pre-event GTM push targeting Actian's catalog buyers.", implications:["MCP agent integration positions Atlan as the AI-native catalog ahead of Activate 2026","12 AI/ML hires signal product investment in autonomous catalog operations","Enterprise sales hires in DACH suggest EU expansion — Actian's home market","Battlecard must be updated before April 29 event","SE demand for Atlan demos will spike post-event — SDRs should prepare objection responses","Threat to Actian VectorAI positioning as Atlan adds vector retrieval to catalog layer"] },
+  { company:"Collibra", segment:"Data Intelligence", threat:"high", intensity:"High", dominant:"Governance + AI", ai_roles:8, senior:4, hiring:74, summary:"Sustained governance platform hiring with new AI policy enforcement team forming. Competing directly on Actian's compliance and auditability wedge.", implications:["New AI governance product team — likely announces at Data Citizens 2026 (June)","Hiring 4 Director+ roles in North America — indicates leadership restructure or expansion","AI policy enforcement focus overlaps with Actian's compliance differentiator","Partnership hires suggest SI channel push — Actian should protect its SI relationships","Customer Success surge indicates net retention focus after churn signals","Risk: if Collibra lands a major bank with AI governance story, Actian loses reference"] },
+  { company:"Snowflake", segment:"Warehouse/Processing", threat:"high", intensity:"High", dominant:"Data Engineering", ai_roles:6, senior:3, hiring:71, summary:"Heavy data engineering and ML platform hiring signals continuation of Cortex AI buildout. Not direct catalog competition but adjacent threat for data platform consolidation.", implications:["Cortex AI expansion reduces need for separate catalog tools — platform consolidation risk","ML engineers hired in Berlin and Munich signal DACH R&D investment","Partnership team expansion — Snowflake aggressively countering Databricks in EU","6 AI roles focused on LLM fine-tuning suggests future AI catalog capability","Actian should monitor Snowflake Horizon catalog adoption among shared accounts","Potential consolidation risk: joint accounts may reduce Actian seat count"] },
+  { company:"Monte Carlo", segment:"Data Observability", threat:"high", intensity:"High", dominant:"Data Observability", ai_roles:5, senior:3, hiring:68, summary:"Expanding from pure observability toward full data health platform. New roles in AI quality monitoring suggest product overlap with Actian's DQ positioning.", implications:["AI data quality monitoring expansion directly challenges Actian DQ + Observability pitch","5 AI roles in 30 days — fastest velocity in the observability segment","Enterprise sales hires signal move upmarket toward Actian's typical buyer","Pricing team hire suggests packaging restructure — competitive deal risks","SE expansion in EMEA creates direct field competition in Germany and UK","Actian should lead with real-time DQ as differentiator vs. Monte Carlo's batch approach"] },
+  { company:"Pinecone", segment:"Vector DB / AI", threat:"medium", intensity:"Medium", dominant:"Vector + Enterprise", ai_roles:4, senior:2, hiring:42, summary:"GTM and enterprise sales surge after Series B. Positioning vector DB as enterprise-grade — entering Actian VectorAI's target buyer profile.", implications:["Enterprise sales hires signal upmarket move — VectorAI buyers now shared","Serverless vector focus competes with Actian VectorAI's embedded deployment story","Partnership with Salesforce ecosystem creates new distribution channel","Solution Engineering hires in EU — DACH direct competition emerging","Pricing team expansion suggests consumption-based model coming — watch deal structure","Actian should lead with hybrid/edge deployment as VectorAI differentiator"] },
+  { company:"Qdrant", segment:"Vector DB / AI", threat:"medium", intensity:"Medium", dominant:"Open Source + Enterprise", ai_roles:3, senior:1, hiring:31, summary:"Open source community growth converting to enterprise deals. Hybrid cloud offering announced Q1 2026 directly targets Actian VectorAI's deployment flexibility story.", implications:["Hybrid cloud vector deployment announcement directly overlaps VectorAI positioning","Developer relations hires build open-source moat that creates sticky downstream enterprise","GitHub release cadence (weekly) indicates fast feature velocity vs. Actian's roadmap","GTM hires signal move from PLG to enterprise sales — entering Actian's deal cycle","Enterprise SLA offering coming based on CS and Legal hires","Actian VectorAI must emphasize enterprise reliability and support tier as differentiator"] },
+  { company:"Milvus/Zilliz", segment:"Vector DB / AI", threat:"medium", intensity:"Medium", dominant:"Vector Infrastructure", ai_roles:3, senior:2, hiring:28, summary:"Zilliz Cloud expanding aggressively in EU. Milvus 3.0 launch adds enterprise features previously exclusive to proprietary vendors including Actian.", implications:["Milvus 3.0 enterprise features reduce VectorAI's differentiation on capabilities","EU sales team hiring — direct competition in Actian's primary geography","Cloud-native first approach vs. Actian's hybrid/edge — different buyer motion but converging","Open-source Milvus adoption by developers creates shadow competition in enterprise POCs","Partnership with cloud providers deepens — Actian needs SI channel counter-strategy","Monitor: if Milvus adds governance layer, it becomes a full data platform competitor"] },
+  { company:"Acceldata", segment:"Data Observability", threat:"medium", intensity:"Medium", dominant:"Data Reliability", ai_roles:2, senior:1, hiring:24, summary:"Steady hiring with reliability engineering focus. Not an immediate threat but monitoring for pivot toward Actian's governance and DQ positioning.", implications:["Data reliability engineering focus could expand toward governance if funded","Enterprise deals in financial services overlap with Actian's regulated industry buyers","Small team size limits near-term threat — monitor for Series C announcement","AI reliability monitoring is a gap Actian could fill before Acceldata does","APAC expansion signals global ambition beyond current US-focus","Partnership with Databricks could accelerate product development pace"] },
+  { company:"Alation", segment:"Data Intelligence", threat:"medium", intensity:"Low-Medium", dominant:"Catalog + Governance", ai_roles:2, senior:1, hiring:21, summary:"Mature company with slower growth but stable enterprise base. AI catalog additions are incremental rather than disruptive.", implications:["Slower hiring rate signals consolidation phase, not expansion — less competitive risk short term","AI catalog improvements are incremental — Actian can counter with deeper governance story","Customer base is enterprise and regulated — same buyer as Actian, watch churn patterns","Partnership team stable — existing SI relationships not under threat","Monitor for M&A activity — Alation is an acquisition target in current market","Actian should position as more innovative alternative to Alation incumbents in POCs"] },
+  { company:"Bigeye", segment:"Data Observability", threat:"low", intensity:"Low", dominant:"Data Quality Monitoring", ai_roles:1, senior:0, hiring:12, summary:"Reduced hiring pace suggests capital efficiency mode. Monitoring for strategic pivot or acquisition.", implications:["Low hiring rate — company in capital efficiency mode, not expansion","No senior leadership hires — leadership team stable, no strategic shift expected","DQ monitoring focus remains narrow — not expanding toward governance or catalog","Acquisition candidate if market consolidation accelerates","Reduced threat level — SDRs can de-prioritize Bigeye competitive prep","Actian can use Bigeye stagnation as competitive proof point in DQ positioning"] },
+  { company:"Databricks", segment:"Warehouse/Processing", threat:"high", intensity:"High", dominant:"AI/ML Platform", ai_roles:11, senior:4, hiring:82, summary:"Massive AI platform hiring signals Unity Catalog expansion and Mosaic AI buildout. Platform consolidation play creates risk for standalone Actian use cases.", implications:["Unity Catalog AI expansion challenges Actian's catalog + governance pitch at joint accounts","Mosaic AI buildout reduces need for separate ML governance tools","11 AI roles fastest in Warehouse segment — sustained investment, not a spike","DACH region field team expansion — direct competition in Actian's EU base","Deal risk: Databricks reps increasingly offering catalog-as-bundle — watch pricing pressure","Actian should lead with edge/embedded deployment story where Databricks cannot compete"] },
+];
+
+const VERDICTS = [
+  { company:"Atlan", threat:"critical", verdict:"Atlan is executing a pre-event GTM sprint before Activate 2026 (April 29). MCP-native catalog agents + 12 AI/ML hires signal a product release at the event targeting AI-first enterprise catalog buyers — directly overlapping Actian's positioning.", what:"Hiring surge in AI/ML (12 roles) combined with Context Engineering Studio launch and Activate 2026 event in 20 days.", why:"Direct challenge to Actian's data catalog positioning before a major industry event. Enterprise buyers evaluating both.", action:"Arm sales with updated Atlan battlecard before April 29. Brief SDRs on event timing for outreach opportunities.", routing:["Product","PMM","SDRs"], signals:["hiring","launch","event"] },
+  { company:"Databricks", threat:"critical", verdict:"Databricks Unity Catalog AI expansion is the highest long-term platform consolidation risk. Bundling catalog + AI + data engineering into a single platform at existing accounts reduces Actian's land surface.", what:"11 AI hires, 4 Director+ roles, Unity Catalog roadmap expansion, and Mosaic AI buildout confirmed in job descriptions.", why:"Actian accounts using Databricks for data engineering are at risk of catalog consolidation over 12-month horizon.", action:"Develop anti-consolidation battlecard. Brief AEs at joint accounts to defend catalog seats.", routing:["Product","Executives","PMM"], signals:["hiring"] },
+  { company:"Snowflake", threat:"high", verdict:"Cortex AI expansion signals Snowflake building ML platform capabilities that reduce the need for separate governance tools. Not direct catalog competition today, but platform consolidation risk at joint accounts within 6-12 months.", what:"6 AI/ML platform hires, DACH R&D expansion, Horizon catalog enhancements confirmed in postings.", why:"Joint Snowflake-Actian accounts may face consolidation pressure from Snowflake reps.", action:"Identify and protect joint accounts. Lead with edge/embedded deployment as exclusive Actian capability.", routing:["SDRs","PMM","Executives"], signals:["hiring"] },
+  { company:"Monte Carlo", threat:"high", verdict:"Monte Carlo is expanding from observability toward full data health, adding AI quality monitoring that overlaps Actian's DQ positioning. EMEA SE expansion creates direct field competition.", what:"5 AI roles + 3 enterprise sales hires in 30 days. AI quality monitoring job descriptions reference Actian-adjacent use cases.", why:"Shared enterprise buyer segments. Monte Carlo is entering deals where Actian's DQ is the wedge.", action:"Lead with real-time DQ as differentiator. Create 1-pager: Actian DQ vs. Monte Carlo Data Health.", routing:["Product","PMM","SDRs"], signals:["hiring","launch"] },
+  { company:"Collibra", threat:"high", verdict:"Collibra is building an AI governance enforcement layer that directly challenges Actian's compliance differentiation. Data Citizens 2026 announcement expected June — prepare now.", what:"8 AI hires, new policy enforcement team forming, Director-level governance hires in NA.", why:"Collibra's compliance story is maturing — Actian must reinforce its auditability lead before June announcement.", action:"Refresh Collibra battlecard. Pre-brief sales on Actian's auditability advantages before Data Citizens.", routing:["Product","PMM","Executives"], signals:["hiring"] },
+  { company:"Pinecone", threat:"medium", verdict:"Pinecone is moving upmarket post-Series B, hiring enterprise sales and SE in EMEA — entering Actian VectorAI's target buyer profile. Partnership with Salesforce creates new distribution.", what:"4 AI roles + enterprise sales hires in EU. Salesforce partnership confirmed. Serverless vector roadmap.", why:"VectorAI and Pinecone now share an ICP: enterprise ML teams in regulated industries.", action:"Lead VectorAI with hybrid/edge deployment advantage. Update vector DB battlecard with Pinecone pricing comparison.", routing:["Product","SDRs"], signals:["hiring","partnership"] },
+];
+
+const LAUNCHES = [
+  { company:"Atlan", type:"product_launch", title:"Context Engineering Studio — AI-Native Catalog Workflow", summary:"AI-assisted system for building, testing, and deploying context to AI agents via MCP protocol. Nine pre-built AI agents automate catalog metadata and lineage.", relevance:"high", date:"Apr 7, 2026", tags:["MCP","AI agents","catalog","enterprise"] },
+  { company:"Atlan", type:"event", title:"Activate 2026 — Atlan's Annual User Conference", summary:"Annual customer conference in San Francisco, April 29. Expected product announcements including agentic catalog workflows and enterprise AI governance features.", relevance:"high", date:"Apr 29, 2026", tags:["conference","product launch","GTM"] },
+  { company:"Collibra", type:"event", title:"Data Citizens 2026 — June 12-13, Amsterdam", summary:"Collibra's flagship annual event. Expected AI governance product announcements targeting regulated industries — direct overlap with Actian positioning.", relevance:"high", date:"Jun 12, 2026", tags:["conference","governance","EU"] },
+  { company:"Qdrant", type:"product_launch", title:"Qdrant Hybrid Cloud 1.0 — Enterprise Vector Deployment", summary:"GA release of hybrid cloud vector database with on-prem and cloud deployment modes, enterprise SLAs, and RBAC. Directly challenges Actian VectorAI's deployment flexibility story.", relevance:"high", date:"Apr 5, 2026", tags:["vector DB","hybrid cloud","enterprise","GA"] },
+  { company:"Milvus/Zilliz", type:"product_launch", title:"Milvus 3.0 — Enterprise Features Release", summary:"Major release adding governance hooks, audit logging, and enterprise RBAC. First time Milvus adds features previously exclusive to proprietary vendors.", relevance:"high", date:"Apr 3, 2026", tags:["vector DB","open source","enterprise","governance"] },
+  { company:"Monte Carlo", type:"product_launch", title:"Data Health Score — AI-Powered Quality Monitoring", summary:"New AI-generated data health scoring across pipelines. Competes with Actian's data quality positioning by offering predictive quality degradation alerts.", relevance:"high", date:"Apr 6, 2026", tags:["data quality","AI","observability"] },
+  { company:"Databricks", type:"product_launch", title:"Mosaic AI Gateway — LLM Governance for Enterprise", summary:"New LLM governance and routing layer built into Unity Catalog. Enables enterprises to manage AI model access and lineage from within the Databricks platform.", relevance:"medium", date:"Apr 4, 2026", tags:["AI governance","LLM","Unity Catalog"] },
+  { company:"Snowflake", type:"partnership", title:"Snowflake × Anthropic — AI Data Partnership", summary:"Strategic partnership to embed Claude models natively in Snowflake Cortex AI. Reduces need for external AI tooling at joint Snowflake-Anthropic accounts.", relevance:"medium", date:"Apr 2, 2026", tags:["partnership","AI","Cortex"] },
+  { company:"Pinecone", type:"partnership", title:"Pinecone × Salesforce — Einstein Vector Integration", summary:"Pinecone vector search embedded in Salesforce Einstein AI. Opens enterprise CRM distribution channel for vector search — new buyer motion.", relevance:"medium", date:"Apr 1, 2026", tags:["partnership","Salesforce","vector DB","enterprise"] },
+  { company:"Alation", type:"blog_post", title:"The Case for Human-in-the-Loop Data Governance", summary:"Thought leadership piece positioning Alation's catalog as the governance backbone for AI-assisted workflows. Subtle product positioning for upcoming feature release.", relevance:"low", date:"Apr 8, 2026", tags:["catalog","governance","thought leadership"] },
+];
+
+const SLACK_MSGS = {
+  product: [
+    { company:"Atlan", label:"Product Launch", body:"Context Engineering Studio: AI-assisted workflow for building, testing, and deploying context to AI agents via MCP. Nine AI agents that write and maintain the data catalog — timed to Activate 2026 (April 29).\n\nWhy it matters: Direct challenge to Actian's catalog positioning before a major event.\nActian action: Arm sales with battlecard before April 29.\n\n→ View in dashboard", ts:"Today 06:18" },
+    { company:"Qdrant", label:"Product Launch", body:"Hybrid Cloud 1.0 GA: enterprise vector deployment with on-prem/cloud modes, RBAC, and SLAs. First Qdrant release targeting the same buyer profile as Actian VectorAI.\n\nWhy it matters: Deployment flexibility was a VectorAI-exclusive advantage. No longer.\nActian action: Update VectorAI battlecard. Lead with enterprise reliability and support tier.\n\n→ View in dashboard", ts:"Today 06:18" },
+  ],
+  gtm: [
+    { company:"Atlan", label:"Event — 20 days", body:"Activate 2026 (April 29, San Francisco): Atlan's annual user conference. Expected: agentic catalog announcements, enterprise AI governance positioning.\n\nWhy it matters: Buyers will be primed for Atlan messaging. Actian AEs with competing pipeline should reach out before April 29.\nActian action: SDRs — use event as outreach trigger this week.\n\n→ View in dashboard", ts:"Today 06:18" },
+    { company:"Pinecone", label:"Partnership", body:"Pinecone × Salesforce Einstein: vector search embedded in CRM AI layer. Opens enterprise distribution channel Actian VectorAI does not have.\n\nWhy it matters: Salesforce accounts may evaluate Pinecone vector without a separate procurement cycle.\nActian action: Identify joint Salesforce-Actian accounts. Brief AEs on VectorAI differentiation.\n\n→ View in dashboard", ts:"Today 06:18" },
+  ],
+  signals: [
+    { company:"Atlan", label:"CRITICAL THREAT", body:"Verdict: Atlan executing pre-event GTM sprint before Activate 2026. MCP-native catalog agents + 12 AI/ML hires + product launch this week = coordinated market play targeting Actian's catalog buyers.\n\nThreat level: CRITICAL\nActian action: Escalate to PMM + Product. Battlecard must be updated by April 25.\n\n→ View full verdict in dashboard", ts:"Today 06:19" },
+  ],
+  weekly: [
+    { company:"Weekly Digest", label:"Apr 3–9, 2026", body:"TOP THREATS THIS WEEK\n\n1. Atlan [CRITICAL] — Context Engineering Studio + Activate 2026. Update battlecard now.\n2. Databricks [CRITICAL] — Unity Catalog AI expansion at joint accounts. Defend catalog seats.\n3. Monte Carlo [HIGH] — Data Health Score overlaps Actian DQ. Create competitive 1-pager.\n\nNEW LAUNCHES (7 this week)\n• Atlan: Context Engineering Studio (Apr 7)\n• Qdrant: Hybrid Cloud 1.0 GA (Apr 5)\n• Milvus 3.0: Enterprise features (Apr 3)\n• Monte Carlo: AI Data Health Score (Apr 6)\n\nEVENTS ON HORIZON\n• Atlan Activate 2026 — Apr 29 (20 days)\n• Collibra Data Citizens — Jun 12 (64 days)\n\nACTIAN RECOMMENDED ACTIONS\n→ Update Atlan + Qdrant battlecards this week\n→ Brief SDRs on April 29 event outreach opportunity\n→ Identify joint Databricks accounts — catalog defense priority\n\n→ Full dashboard", ts:"Sat Apr 5, 06:00" },
+  ],
+};
+
+const JOBS = [
+  {c:"Atlan",t:"Head of AI Product — Catalog Intelligence",s:"Director",f:"Product",p:"AI/ML",l:"Remote",d:3,r:9.2},
+  {c:"Collibra",t:"Senior ML Engineer — AI Governance",s:"Senior",f:"Engineering",p:"Governance",l:"Brussels",d:5,r:8.8},
+  {c:"Databricks",t:"Director, Unity Catalog Enterprise",s:"Director",f:"Product",p:"Data Engineering",l:"Amsterdam",d:2,r:8.6},
+  {c:"Snowflake",t:"Principal Data Engineer — Cortex AI",s:"Principal",f:"Engineering",p:"AI/ML Platform",l:"Munich",d:7,r:8.4},
+  {c:"Monte Carlo",t:"Senior AE — Enterprise EMEA",s:"Senior",f:"Sales",p:"Data Observability",l:"London",d:4,r:8.2},
+  {c:"Atlan",t:"Engineering Manager — Agent Infrastructure",s:"Manager",f:"Engineering",p:"AI/ML",l:"Remote",d:6,r:8.0},
+  {c:"Pinecone",t:"Enterprise Sales Manager — DACH",s:"Manager",f:"Sales",p:"Vector DB",l:"Berlin",d:8,r:7.9},
+  {c:"Milvus/Zilliz",t:"Senior Solutions Engineer — EU",s:"Senior",f:"Sales Engineering",p:"Vector DB",l:"Berlin",d:10,r:7.7},
+  {c:"Collibra",t:"Director, Data Governance Product",s:"Director",f:"Product",p:"Governance",l:"New York",d:1,r:7.5},
+  {c:"Databricks",t:"Senior ML Platform Engineer",s:"Senior",f:"Engineering",p:"AI/ML Platform",l:"London",d:9,r:7.4},
+  {c:"Snowflake",t:"GTM Manager — Data Engineering EMEA",s:"Manager",f:"Marketing",p:"Data Engineering",l:"Amsterdam",d:12,r:7.1},
+  {c:"Monte Carlo",t:"Principal Engineer — AI Data Quality",s:"Principal",f:"Engineering",p:"Data Observability",l:"San Francisco",d:14,r:6.9},
+  {c:"Qdrant",t:"Developer Relations Engineer",s:"Mid",f:"Engineering",p:"Vector DB",l:"Remote",d:5,r:6.7},
+  {c:"Alation",t:"Senior CSM — Enterprise",s:"Senior",f:"Customer Success",p:"Data Intelligence",l:"London",d:18,r:6.3},
+  {c:"Acceldata",t:"Sales Engineer — EMEA",s:"Mid",f:"Sales Engineering",p:"Data Observability",l:"Remote",d:22,r:5.8},
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.topnav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+let currentTeam = 'overview';
+function setTeam(team, el) {
+  currentTeam = team;
+  document.querySelectorAll('.team-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderTeamLens();
+}
+
+function renderTeamLens() {
+  const banners = document.querySelectorAll('.team-lens-banner');
+  banners.forEach(b => b.remove());
+  if (currentTeam === 'overview') return;
+
+  const configs = {
+    marketing: { icon:'📢', title:'Marketing Lens', sub:'Launches, events, and messaging signals — campaign timing and competitive positioning' },
+    product: { icon:'🛠', title:'Product Lens', sub:'Engineering hiring surges, roadmap signals, and capability gaps relevant to Actian product' },
+    sdrs: { icon:'📞', title:'SDRs Lens', sub:'Events as outreach triggers, expansion signals, GTM hires — competitive deal intelligence' },
+    pmm: { icon:'🎯', title:'PMM Lens', sub:'Launches, positioning changes, and battlecard-worthy intel — keep messaging current' },
+    executives: { icon:'👔', title:'Executive Lens', sub:'Critical and high threat verdicts only — concise, action-oriented' },
+  };
+  const c = configs[currentTeam];
+  if (!c) return;
+  const banner = document.createElement('div');
+  banner.className = 'team-lens-banner';
+  banner.innerHTML = `<div class="team-lens-icon">${c.icon}</div><div><div class="team-lens-title">${c.title}</div><div class="team-lens-sub">${c.sub}</div></div>`;
+  ['page-signals','page-verdicts','page-launches'].forEach(id => {
+    const pg = document.getElementById(id);
+    if (pg && pg.classList.contains('active')) pg.prepend(banner.cloneNode(true));
+  });
+}
+
+// Job table
+function renderJobs() {
+  const tbody = document.getElementById('jobTable');
+  tbody.innerHTML = JOBS.map(j => `
+    <tr>
+      <td class="strong">${j.c}</td>
+      <td class="strong" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${j.t}</td>
+      <td><span class="badge ${j.s==='Director'?'threat-critical':j.s==='Principal'?'threat-high':j.s==='Senior'?'threat-medium':j.s==='Manager'?'threat-medium':'threat-low'}">${j.s}</span></td>
+      <td>${j.f}</td><td>${j.p}</td><td>${j.l}</td><td>${j.d}</td>
+      <td><span style="font-weight:700;color:${j.r>=8.5?'#b91c1c':j.r>=7?'#92400e':'#1d4ed8'}">${j.r}</span></td>
+    </tr>`).join('');
+}
+
+// Signal cards
+function renderSignals() {
+  const container = document.getElementById('signalCards');
+  container.innerHTML = SIGNALS.map(s => `
+    <div class="signal-card threat-border-${s.threat}">
+      <div class="signal-card-header">
+        <div class="signal-card-company">${s.company}</div>
+        <span class="badge threat-${s.threat}">${s.threat.toUpperCase()}</span>
+      </div>
+      <div class="signal-card-summary">${s.summary}</div>
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:6px">Key Implications</div>
+        ${s.implications.slice(0,3).map(i=>`<div style="font-size:12px;color:var(--text-secondary);padding:3px 0;display:flex;gap:6px;align-items:flex-start"><span style="color:var(--accent);flex-shrink:0">›</span>${i}</div>`).join('')}
+      </div>
+      <div class="signal-card-meta">
+        <span class="meta-tag">${s.dominant}</span>
+        <span class="meta-tag">${s.hiring} roles</span>
+        <span class="meta-tag">${s.ai_roles} AI/ML</span>
+        <span class="meta-tag">${s.intensity}</span>
+      </div>
+    </div>`).join('');
+
+  // Signals table
+  const stbody = document.getElementById('signalsTable');
+  stbody.innerHTML = SIGNALS.map(s => `
+    <tr>
+      <td class="strong">${s.company}</td>
+      <td><span style="font-size:11px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:2px 8px;color:var(--text-muted)">${s.segment}</span></td>
+      <td><span class="badge threat-${s.threat}">${s.threat.toUpperCase()}</span></td>
+      <td>${s.intensity}</td><td>${s.dominant}</td>
+      <td style="font-weight:700;color:var(--cyan)">${s.ai_roles}</td>
+      <td style="font-weight:700;color:var(--accent)">${s.senior}</td>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-secondary);font-size:12px">${s.summary.substring(0,90)}…</td>
+    </tr>`).join('');
+}
+
+// Verdict cards
+function renderVerdicts() {
+  const container = document.getElementById('verdictCards');
+  container.innerHTML = VERDICTS.map(v => `
+    <div class="verdict-card threat-border-${v.threat}">
+      <div class="verdict-card-header">
+        <div class="verdict-card-company">${v.company}</div>
+        <span class="badge threat-${v.threat}">${v.threat.toUpperCase()}</span>
+      </div>
+      <div class="verdict-card-verdict">"${v.verdict.substring(0,120)}…"</div>
+      <div style="margin-bottom:10px">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">What is happening</div>
+        <div style="font-size:12px;color:var(--text-secondary)">${v.what}</div>
+      </div>
+      <div class="verdict-card-action">⚡ ${v.action}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="verdict-signals">${v.signals.map(sig=>`<span class="verdict-signal-tag vsig-${sig}">${sig}</span>`).join('')}</div>
+        <div class="verdict-routing">${v.routing.map(r=>`<span class="route-tag">${r}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+
+  // Verdict table
+  const vtbody = document.getElementById('verdictTable');
+  vtbody.innerHTML = VERDICTS.map(v => `
+    <tr>
+      <td class="strong">${v.company}</td>
+      <td><span class="badge threat-${v.threat}">${v.threat.toUpperCase()}</span></td>
+      <td style="max-width:260px;font-size:12px;color:var(--text-secondary);white-space:normal;line-height:1.5">${v.verdict.substring(0,100)}…</td>
+      <td style="max-width:200px;font-size:12px;color:var(--accent);font-weight:500;white-space:normal">${v.action.substring(0,80)}…</td>
+      <td>${v.routing.map(r=>`<span class="route-tag" style="display:inline-block;margin:1px">${r}</span>`).join('')}</td>
+      <td style="color:var(--text-muted);font-size:11px">Apr 9, 2026</td>
+    </tr>`).join('');
+}
+
+// Launches
+function renderLaunches() {
+  const high = LAUNCHES.filter(l=>l.relevance==='high');
+  const all = LAUNCHES;
+  ['launchesHigh','launchesAll'].forEach((id,i) => {
+    const data = i===0?high:all;
+    document.getElementById(id).innerHTML = data.map(l=>`
+      <div class="launch-item">
+        <span class="launch-type-pill ltype-${l.type.replace('_launch','').replace('_release','')}">${l.type.replace('_',' ').replace('_',' ')}</span>
+        <div class="launch-body">
+          <div class="launch-title">${l.title}</div>
+          <div class="launch-summary">${l.summary}</div>
+          <div class="launch-meta">
+            <span class="launch-company">${l.company}</span>
+            <span class="launch-date">${l.date}</span>
+            <span class="${l.relevance==='high'?'relevance-high':l.relevance==='medium'?'relevance-medium':'relevance-low'}">${l.relevance==='high'?'● High relevance':l.relevance==='medium'?'● Medium':'○ Low'}</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${l.tags.map(t=>`<span style="padding:2px 7px;border-radius:8px;font-size:10px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted)">${t}</span>`).join('')}</div>
+        </div>
+      </div>`).join('');
+  });
+}
+
+// Slack
+function renderSlack() {
+  function buildSlack(msgs) {
+    return msgs.map(m=>`
+      <div class="slack-msg">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span class="slack-company">${m.company}</span>
+          <span style="color:#9ca3af;font-size:11px">— ${m.label}</span>
+          <span class="slack-ts" style="margin-left:auto">${m.ts}</span>
+        </div>
+        <div style="white-space:pre-wrap;color:#d1d5db">${m.body.replace(/→/g,'<span class="slack-link">→</span>').replace(/(Actian action:)/g,'<span class="slack-action">$1</span>').replace(/(Why it matters:)/g,'<span style="color:#fbbf24;font-weight:600">$1</span>')}</div>
+      </div>`).join('');
+  }
+  document.getElementById('slackProduct').innerHTML = `<div class="slack-channel">#competitive-product</div>${buildSlack(SLACK_MSGS.product)}`;
+  document.getElementById('slackGtm').innerHTML = `<div class="slack-channel">#competitive-gtm</div>${buildSlack(SLACK_MSGS.gtm)}`;
+  document.getElementById('slackSignals').innerHTML = `<div class="slack-channel">#competitive-signals</div>${buildSlack(SLACK_MSGS.signals)}`;
+  document.getElementById('slackWeekly').innerHTML = `<div class="slack-channel">#competitive-weekly</div>${buildSlack(SLACK_MSGS.weekly)}`;
+}
+
+// Charts
+function renderCharts() {
+  const co = { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} };
+
+  new Chart(document.getElementById('chartCompanies'), { type:'bar',
+    data:{ labels:SIGNALS.map(s=>s.company), datasets:[{data:SIGNALS.map(s=>s.hiring), backgroundColor:'rgba(227,25,55,0.75)', borderRadius:4}] },
+    options:{...co, indexAxis:'y', scales:{x:{grid:{color:'rgba(0,0,0,0.04)'}},y:{grid:{display:false}}}} });
+
+  new Chart(document.getElementById('chartSeniority'), { type:'doughnut',
+    data:{ labels:['Senior','Director','Manager','Principal','Mid','Entry'], datasets:[{data:[312,97,78,61,182,117], backgroundColor:['#3b82f6','#ef4444','#8b5cf6','#f59e0b','#10b981','#06b6d4'], borderWidth:2}] },
+    options:{...co, plugins:{legend:{display:true,position:'bottom',labels:{font:{size:11},padding:8}}}} });
+
+  new Chart(document.getElementById('chartFunction'), { type:'bar',
+    data:{ labels:['Engineering','Sales','Product','AI/ML','CS','Marketing','HR'], datasets:[{data:[287,162,143,118,74,43,20], backgroundColor:'rgba(0,180,216,0.75)', borderRadius:4}] },
+    options:{...co, scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'}}}} });
+
+  new Chart(document.getElementById('chartProduct'), { type:'doughnut',
+    data:{ labels:['Data Intelligence','AI/ML Platform','Data Observability','Vector DB','Data Engineering','Governance'], datasets:[{data:[243,187,142,108,97,70], backgroundColor:['#E31937','#00B4D8','#2ECC71','#8E44AD','#F39C12','#1B2A4A'], borderWidth:2}] },
+    options:{...co, plugins:{legend:{display:true,position:'right',labels:{font:{size:11},padding:10}}}} });
+
+  const days = Array.from({length:30},(_,i)=>{const d=new Date('2026-04-09');d.setDate(d.getDate()-29+i);return d.toLocaleDateString('en',{month:'short',day:'numeric'});});
+  const base = [18,22,19,25,21,28,24,31,27,33,29,35,31,38,34,40,37,44,41,48,44,51,47,54,51,57,53,59,56,63];
+  new Chart(document.getElementById('chartTrend'), { type:'line',
+    data:{ labels:days, datasets:[{label:'New Roles',data:base,borderColor:'#E31937',backgroundColor:'rgba(227,25,55,0.08)',fill:true,tension:0.4,borderWidth:2,pointRadius:2}] },
+    options:{...co,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:45,maxTicksLimit:8},grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},beginAtZero:true}}} });
+}
+
+// Segment filter
+function filterSegment(seg, el) {
+  document.querySelectorAll('.segment-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  const cards = document.querySelectorAll('.signal-card');
+  cards.forEach((card, i) => {
+    if (seg==='all') { card.style.display=''; return; }
+    card.style.display = SIGNALS[i] && SIGNALS[i].segment===seg ? '' : 'none';
+  });
+}
+
+// AI chat
+function toggleAI() {
+  document.getElementById('aiPanel').classList.toggle('open');
+}
+
+const AI_RESPONSES = {
+  atlan: "Atlan is the current highest-priority threat. They launched Context Engineering Studio (April 7) — MCP-native catalog agents — and have 12 AI/ML hires this month. Combined with Activate 2026 on April 29, this is a coordinated pre-event GTM push. Recommended action: update battlecard before April 25 and brief SDRs for event outreach.",
+  snowflake: "Snowflake is a high threat via platform consolidation risk. Cortex AI buildout (6 AI/ML hires) and Horizon catalog expansion threaten joint accounts. Not direct catalog competition today, but 6-12 month horizon risk. Actian should identify joint accounts and lead with edge/embedded deployment.",
+  vector: "Three vector DB competitors are hiring GTM simultaneously: Pinecone (enterprise EMEA expansion), Qdrant (Hybrid Cloud 1.0 GA), and Milvus 3.0 (enterprise features). Actian VectorAI's key differentiator should be enterprise reliability, support tier, and hybrid/edge deployment — areas where none of these competitors match.",
+  default: "I can answer questions about competitor threats, hiring trends, product launches, and strategic signals. Try asking about specific companies like Atlan, Snowflake, Databricks, or topics like 'vector DB' or 'critical threats'.",
+};
+
+function sendAI() {
+  const input = document.getElementById('aiInput');
+  const msg = input.value.trim().toLowerCase();
+  if (!msg) return;
+  const msgs = document.getElementById('aiMessages');
+  const userDiv = document.createElement('div');
+  userDiv.className = 'ai-msg-user';
+  userDiv.textContent = input.value;
+  msgs.appendChild(userDiv);
+  input.value = '';
+  setTimeout(() => {
+    const botDiv = document.createElement('div');
+    botDiv.className = 'ai-msg-bot';
+    const key = msg.includes('atlan')?'atlan':msg.includes('snowflake')?'snowflake':msg.includes('vector')?'vector':'default';
+    botDiv.textContent = AI_RESPONSES[key];
+    msgs.appendChild(botDiv);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 600);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// INIT
+renderJobs();
+renderSignals();
+renderVerdicts();
+renderLaunches();
+renderSlack();
+renderCharts();
+</script>
+</body>
+</html>
