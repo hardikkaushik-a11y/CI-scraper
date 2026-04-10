@@ -87,6 +87,15 @@ tbody td.strong{color:var(--text);font-weight:500;}
 .verdict-full-card.threat-border-critical{border-left:4px solid var(--accent);}
 .verdict-full-card.threat-border-high{border-left:4px solid var(--amber);}
 .verdict-full-card.threat-border-medium{border-left:4px solid var(--cyan);}
+.verdict-card{background:var(--bg-white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:12px;cursor:pointer;transition:all 0.2s;overflow:hidden;}
+.verdict-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md);}
+.verdict-compact{padding:12px 14px;user-select:none;}
+.verdict-compact-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.verdict-company-compact{font-size:13px;font-weight:700;color:var(--text);}
+.verdict-compact-body{font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:8px;}
+.verdict-compact-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.verdict-team-chip{padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600;background:#e8eef5;color:#1e40af;}
+.verdict-expanded{padding:18px 14px 14px;border-top:1px solid var(--border);}
 .verdict-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
 .verdict-company-name{font-size:17px;font-weight:700;}.verdict-area-tag{font-size:11px;color:var(--text-muted);margin-top:2px;}
 .verdict-badges{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;}
@@ -133,19 +142,17 @@ tbody td.strong{color:var(--text);font-weight:500;}
 .relevance-low{color:var(--text-muted);font-size:11px;}
 .launch-routing{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
 .launch-route{padding:2px 7px;border-radius:8px;font-size:10px;font-weight:500;background:var(--bg);border:1px solid var(--border);color:var(--text-muted);}
-.slack-shell{background:#1a1d21;border-radius:10px;padding:18px;font-family:'SF Mono','Consolas',monospace;font-size:12px;color:#d1d5db;line-height:1.7;}
-.slack-channel{color:#5b9adb;font-weight:700;margin-bottom:12px;font-size:12.5px;}
-.slack-msg{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.06);}
-.slack-msg:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.slack-msg-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
-.slack-bot{color:#4CAF50;font-weight:700;font-size:11.5px;}
-.slack-ts{color:#6b7280;font-size:11px;margin-left:auto;}
-.slack-body{color:#d4d4d4;white-space:pre-wrap;font-size:12px;line-height:1.7;}
-.slack-body .sw{color:#fff;font-weight:700;}
-.slack-body .sy{color:#fbbf24;font-weight:600;}
-.slack-body .sa{color:#34d399;font-weight:600;}
-.slack-body .sl{color:#61b0ff;text-decoration:underline;cursor:pointer;}
-.slack-body .sd{color:#6b7280;font-size:10px;font-style:italic;}
+/* SLACK PREVIEW */
+.slack-shell{background:#1a1d21;border-radius:10px;padding:20px;font-family:'Courier New',monospace;}
+.slack-channel{color:#61b0ff;font-size:12px;margin-bottom:12px;font-weight:600;}
+.slack-msg{background:#222529;border-radius:8px;padding:14px 16px;margin-bottom:10px;border-left:3px solid #4CAF50;}
+.slack-msg-hdr{display:flex;gap:10px;align-items:center;margin-bottom:8px;}
+.slack-bot-name{color:#4CAF50;font-weight:700;font-size:12px;}
+.slack-ts{color:#888;font-size:11px;}
+.slack-body{color:#d4d4d4;font-size:12.5px;line-height:1.7;white-space:pre-wrap;}
+.slack-body strong{color:#fff;}
+.slack-body em{color:#61b0ff;font-style:normal;}
+.slack-link{color:#61b0ff;text-decoration:underline;cursor:pointer;font-size:12px;}
 .digest-card{background:var(--bg-white);border:1px solid var(--border);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);}
 .digest-header{font-size:19px;font-weight:700;margin-bottom:3px;}
 .digest-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;}
@@ -181,6 +188,27 @@ tbody td.strong{color:var(--text);font-weight:500;}
 .ai-input:focus{border-color:var(--accent);}
 .ai-send{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;}
 ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.signal-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;margin-bottom:24px;}
+.signal-card{background:var(--bg-white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:box-shadow 0.2s;cursor:pointer;}
+.signal-card:hover{box-shadow:var(--shadow-md);}
+.signal-card.threat-border-critical{border-left:4px solid var(--accent);}
+.signal-card.threat-border-high{border-left:4px solid var(--amber);}
+.signal-card.threat-border-medium{border-left:4px solid var(--cyan);}
+.signal-card.threat-border-low{border-left:4px solid #d1d5db;}
+.signal-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.signal-card-company{font-size:16px;font-weight:700;}
+.signal-card-summary{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px;}
+.signal-card-meta{display:flex;gap:6px;flex-wrap:wrap;}
+.meta-tag{padding:3px 9px;border-radius:12px;font-size:11px;font-weight:500;background:var(--bg);border:1px solid var(--border);color:var(--text-muted);}
+.team-insight-block{background:var(--bg-white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);margin-bottom:14px;border-left:3px solid var(--accent);display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.team-insight-left{min-width:120px;}
+.team-insight-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);margin-bottom:4px;}
+.team-insight-title{font-size:14px;font-weight:700;color:var(--text);}
+.team-insight-badge{margin-top:6px;}
+.team-insight-right{flex:1;min-width:200px;}
+.team-insight-row{font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:4px;}
+.team-insight-row strong{color:var(--text);}
+.team-insight-action{font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-light);border-radius:4px;padding:4px 9px;margin-top:7px;display:inline-block;}
 </style>
 </head>
 <body>
@@ -190,6 +218,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
   <div class="topnav-tabs">
     <button class="topnav-tab active" onclick="showPage('hiring',this)">Hiring Intelligence</button>
     <button class="topnav-tab" onclick="showPage('verdicts',this)">Intelligence Verdicts</button>
+    <button class="topnav-tab" onclick="showPage('signals',this)">Strategic Signals</button>
     <button class="topnav-tab" onclick="showPage('launches',this)">Launches &amp; Events</button>
     <button class="topnav-tab" onclick="showPage('slack',this)">Slack Routing</button>
     <button class="topnav-tab" onclick="showPage('digest',this)">Weekly Digest</button>
@@ -231,8 +260,17 @@ tbody td.strong{color:var(--text);font-weight:500;}
     <div class="kpi-box"><div class="kpi-value">6.4</div><div class="kpi-label">Avg. Relevancy Score</div></div>
     <div class="kpi-box"><div class="kpi-value" style="color:var(--purple)">11</div><div class="kpi-label">Companies Tracked</div></div>
   </div>
-  <div class="section-hdr" style="margin-bottom:8px">
-    <div><div class="section-title">Key Intelligence &mdash; <span id="insightTeamLabel">All Teams</span></div><div class="section-sub">Derived from verdict layer &mdash; not raw hiring counts</div></div>
+  <div id="teamInsightBlock" class="team-insight-block">
+    <div class="team-insight-left">
+      <div class="team-insight-label">Team Insight</div>
+      <div class="team-insight-title" id="insightTeamLabel">All Teams</div>
+      <div class="team-insight-badge" id="insightThreatBadge"></div>
+    </div>
+    <div class="team-insight-right">
+      <div class="team-insight-row" id="insightWhat"></div>
+      <div class="team-insight-row" id="insightWhy"></div>
+      <div id="insightAction"></div>
+    </div>
   </div>
   <div class="insight-strip" id="insightCards"></div>
   <div class="grid-3">
@@ -318,7 +356,37 @@ tbody td.strong{color:var(--text);font-weight:500;}
   </div>
 </div>
 
-<!-- PAGE 3: LAUNCHES & EVENTS -->
+<!-- PAGE 3: STRATEGIC SIGNALS -->
+<div id="page-signals" class="page">
+  <div class="pulse-grid">
+    <div class="pulse-card"><div class="pulse-label">Market Pulse</div><div class="pulse-value" style="color:var(--accent)">Critical</div><div class="pulse-detail">Atlan + Databricks accelerating AI catalog &mdash; direct Actian overlap</div></div>
+    <div class="pulse-card"><div class="pulse-label">Top Threat</div><div class="pulse-value" style="color:#b91c1c">Atlan</div><div class="pulse-detail">MCP agent launch + 12 AI/ML hires + Activate 2026 event April 29</div></div>
+    <div class="pulse-card"><div class="pulse-label">AI/ML Surge</div><div class="pulse-value" style="color:var(--cyan)">+41%</div><div class="pulse-detail">AI/ML hiring up across Data Intelligence segment vs. 30 days ago</div></div>
+    <div class="pulse-card"><div class="pulse-label">Vector DB Watch</div><div class="pulse-value" style="color:var(--purple)">3</div><div class="pulse-detail">Pinecone, Qdrant, Milvus all hiring GTM &mdash; market heating up</div></div>
+  </div>
+  <div class="section-hdr">
+    <div><div class="section-title">Top Threat Companies</div><div class="section-sub">Ranked by weighted threat score &mdash; hiring intensity &times; product overlap &times; seniority</div></div>
+    <div class="segment-chips" id="signalSegChips">
+      <button class="segment-chip active" onclick="filterSignalSeg('all',this)">All</button>
+      <button class="segment-chip" onclick="filterSignalSeg('Data Intelligence',this)">Data Intelligence</button>
+      <button class="segment-chip" onclick="filterSignalSeg('Data Observability',this)">Data Observability</button>
+      <button class="segment-chip" onclick="filterSignalSeg('Vector DB / AI',this)">Vector DB / AI</button>
+    </div>
+  </div>
+  <div class="signal-strip" id="signalCards"></div>
+  <div class="section-divider"></div>
+  <div class="section-hdr"><div class="section-title">Full Signals Table</div></div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Company</th><th>Segment</th><th>Threat</th><th>Intensity</th><th>Dominant Focus</th><th>AI/ML Roles</th><th>Senior Roles</th><th>Signal Summary</th></tr></thead>
+        <tbody id="signalsTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4: LAUNCHES & EVENTS -->
 <div id="page-launches" class="page">
   <div class="info-callout green">
     <span class="ic-icon">&#128225;</span>
@@ -445,17 +513,17 @@ tbody td.strong{color:var(--text);font-weight:500;}
 
 <script>
 const SIGNALS=[
-  {company:"Atlan",segment:"Data Intelligence",threat:"critical",intensity:"Very High",dominant:"AI/ML + Catalog",ai_roles:12,senior:5,hiring:89,summary:"Accelerating toward AI-native catalog with MCP-based agent integrations. Combined with Activate 2026 (Apr 29), this is a coordinated pre-event GTM push targeting Actian's catalog buyers."},
-  {company:"Databricks",segment:"Warehouse/Processing",threat:"critical",intensity:"High",dominant:"AI/ML Platform",ai_roles:11,senior:4,hiring:82,summary:"Massive AI platform hiring signals Unity Catalog expansion and Mosaic AI buildout. Platform consolidation play creates risk for standalone Actian use cases."},
-  {company:"Collibra",segment:"Data Intelligence",threat:"high",intensity:"High",dominant:"Governance + AI",ai_roles:8,senior:4,hiring:74,summary:"Sustained governance platform hiring with new AI policy enforcement team forming. Competing directly on Actian's compliance and auditability wedge."},
-  {company:"Monte Carlo",segment:"Data Observability",threat:"high",intensity:"High",dominant:"Data Observability",ai_roles:5,senior:3,hiring:68,summary:"Expanding from pure observability toward full data health platform. New AI quality monitoring overlaps Actian's DQ positioning."},
-  {company:"Snowflake",segment:"Warehouse/Processing",threat:"high",intensity:"High",dominant:"Data Engineering",ai_roles:6,senior:3,hiring:71,summary:"Heavy data engineering and ML platform hiring signals Cortex AI buildout. Adjacent threat for data platform consolidation."},
-  {company:"Pinecone",segment:"Vector DB / AI",threat:"medium",intensity:"Medium",dominant:"Vector + Enterprise",ai_roles:4,senior:2,hiring:42,summary:"GTM and enterprise sales surge. Positioning vector DB as enterprise-grade — entering Actian VectorAI's target buyer profile."},
-  {company:"Qdrant",segment:"Vector DB / AI",threat:"medium",intensity:"Medium",dominant:"Open Source + Enterprise",ai_roles:3,senior:1,hiring:31,summary:"Open source growth converting to enterprise deals. Hybrid cloud offering targets Actian VectorAI's deployment flexibility story."},
-  {company:"Milvus/Zilliz",segment:"Vector DB / AI",threat:"medium",intensity:"Medium",dominant:"Vector Infrastructure",ai_roles:3,senior:2,hiring:28,summary:"Zilliz Cloud expanding in EU. Milvus 3.0 enterprise features narrow VectorAI's differentiation."},
-  {company:"Acceldata",segment:"Data Observability",threat:"medium",intensity:"Medium",dominant:"Data Reliability",ai_roles:2,senior:1,hiring:24,summary:"Steady hiring with reliability engineering focus. Monitoring for pivot toward Actian's governance and DQ positioning."},
-  {company:"Alation",segment:"Data Intelligence",threat:"medium",intensity:"Low-Medium",dominant:"Catalog + Governance",ai_roles:2,senior:1,hiring:21,summary:"Mature company with slower growth. AI catalog additions are incremental rather than disruptive."},
-  {company:"Bigeye",segment:"Data Observability",threat:"low",intensity:"Low",dominant:"Data Quality Monitoring",ai_roles:1,senior:0,hiring:12,summary:"Reduced hiring pace suggests capital efficiency mode. Monitoring for strategic pivot or acquisition."},
+  {company:"Atlan",segment:"Data Intelligence",threat:"critical",intensity:"Very High",dominant:"AI/ML + Catalog",ai_roles:12,senior:5,hiring:89,summary:"Accelerating toward AI-native catalog with MCP-based agent integrations. Combined with Activate 2026 (Apr 29), this is a coordinated pre-event GTM push targeting Actian's catalog buyers.",implications:["MCP agent integration positions Atlan as AI-native catalog ahead of Activate 2026","12 AI/ML hires signal sustained product investment in autonomous catalog operations","Enterprise DACH AE hired — Actian's home market now under direct pressure"]},
+  {company:"Databricks",segment:"Warehouse/Processing",threat:"critical",intensity:"High",dominant:"AI/ML Platform",ai_roles:11,senior:4,hiring:82,summary:"Massive AI platform hiring signals Unity Catalog expansion and Mosaic AI buildout. Platform consolidation play creates risk for standalone Actian use cases.",implications:["Unity Catalog AI expansion challenges Actian's catalog + governance pitch at joint accounts","11 AI roles — fastest velocity in Warehouse segment, sustained not a spike","Deal risk: Databricks reps offering catalog-as-bundle in competitive deals"]},
+  {company:"Collibra",segment:"Data Intelligence",threat:"high",intensity:"High",dominant:"Governance + AI",ai_roles:8,senior:4,hiring:74,summary:"Sustained governance platform hiring with new AI policy enforcement team forming. Competing directly on Actian's compliance and auditability wedge.",implications:["New AI governance product team — likely announces at Data Citizens 2026 (June)","4 Director+ governance hires in North America — leadership restructure underway","Risk: if Collibra lands a major bank with AI governance story, Actian loses reference"]},
+  {company:"Monte Carlo",segment:"Data Observability",threat:"high",intensity:"High",dominant:"Data Observability",ai_roles:5,senior:3,hiring:68,summary:"Expanding from pure observability toward full data health platform. New AI quality monitoring overlaps Actian's DQ positioning.",implications:["AI data quality monitoring directly challenges Actian DQ positioning","5 AI roles in 30 days — fastest velocity in observability segment","SE expansion in Germany and UK — direct EMEA field competition"]},
+  {company:"Snowflake",segment:"Warehouse/Processing",threat:"high",intensity:"High",dominant:"Data Engineering",ai_roles:6,senior:3,hiring:71,summary:"Heavy data engineering and ML platform hiring signals Cortex AI buildout. Adjacent threat for data platform consolidation.",implications:["Cortex AI expansion reduces need for separate catalog tools at joint accounts","DACH R&D expansion in Munich — direct competition in Actian's EU base","Snowflake x Anthropic partnership signals end-to-end AI play without external vendors"]},
+  {company:"Pinecone",segment:"Vector DB / AI",threat:"medium",intensity:"Medium",dominant:"Vector + Enterprise",ai_roles:4,senior:2,hiring:42,summary:"GTM and enterprise sales surge. Positioning vector DB as enterprise-grade — entering Actian VectorAI's target buyer profile.",implications:["Enterprise AE hires in EU — VectorAI buyers now shared","AWS Marketplace listing removes procurement barrier for Pinecone deals","Salesforce Einstein integration opens CRM distribution channel Actian lacks"]},
+  {company:"Qdrant",segment:"Vector DB / AI",threat:"medium",intensity:"Medium",dominant:"Open Source + Enterprise",ai_roles:3,senior:1,hiring:31,summary:"Open source growth converting to enterprise deals. Hybrid cloud offering targets Actian VectorAI's deployment flexibility story.",implications:["Hybrid Cloud 1.0 GA directly overlaps VectorAI's deployment flexibility positioning","Developer relations hires build open-source moat with sticky downstream enterprise","Enterprise SLA offering coming — entering Actian's deal structure"]},
+  {company:"Milvus/Zilliz",segment:"Vector DB / AI",threat:"medium",intensity:"Medium",dominant:"Vector Infrastructure",ai_roles:3,senior:2,hiring:28,summary:"Zilliz Cloud expanding in EU. Milvus 3.0 enterprise features narrow VectorAI's differentiation.",implications:["Milvus 3.0 enterprise features reduce VectorAI differentiation on governance","EU sales team hiring — direct competition in Actian's primary geography","Open-source adoption creates shadow competition in enterprise POCs"]},
+  {company:"Acceldata",segment:"Data Observability",threat:"medium",intensity:"Medium",dominant:"Data Reliability",ai_roles:2,senior:1,hiring:24,summary:"Steady hiring with reliability engineering focus. Monitoring for pivot toward Actian's governance and DQ positioning.",implications:["Data reliability focus could expand toward governance if funded","Enterprise deals in financial services overlap with Actian's regulated industry buyers","Monitor for Series C announcement — could accelerate competitive threat"]},
+  {company:"Alation",segment:"Data Intelligence",threat:"medium",intensity:"Low-Medium",dominant:"Catalog + Governance",ai_roles:2,senior:1,hiring:21,summary:"Mature company with slower growth. AI catalog additions are incremental rather than disruptive.",implications:["Slower hiring signals consolidation phase — less competitive risk short term","Customer base is enterprise and regulated — same buyer as Actian, watch churn","Monitor for M&A activity — Alation is an acquisition target in current market"]},
+  {company:"Bigeye",segment:"Data Observability",threat:"low",intensity:"Low",dominant:"Data Quality Monitoring",ai_roles:1,senior:0,hiring:12,summary:"Reduced hiring pace suggests capital efficiency mode. Monitoring for strategic pivot or acquisition.",implications:["Low hiring rate — company in capital efficiency mode, not expansion","DQ monitoring focus remains narrow — not expanding toward governance or catalog","Actian can use Bigeye stagnation as competitive proof point in DQ positioning"]},
 ];
 
 const VERDICTS=[
@@ -522,6 +590,25 @@ const TEAM_CONFIG={
   executives:{icon:'&#128084;',title:'Executive Lens',sub:'Critical and high threats only. Strategic moves requiring leadership decisions or cross-functional escalation.'}
 };
 
+// Global filter helper: returns array of companies for the current area
+function getAreaCompanies(){
+  if(currentArea==='all')return SIGNALS.map(s=>s.company);
+  const areaMap={
+    'Data Intelligence':['Atlan','Collibra','Alation'],
+    'Data Observability':['Monte Carlo','Bigeye','Acceldata'],
+    'VectorAI':['Pinecone','Qdrant','Milvus/Zilliz'],
+    'Warehouse/Processing':['Snowflake','Databricks']
+  };
+  return areaMap[currentArea]||[];
+}
+
+// Global filter helper: filters any data array by current area (checks company field)
+function getFilteredData(dataArray,companyField='company'){
+  if(currentArea==='all')return dataArray;
+  const companies=getAreaCompanies();
+  return dataArray.filter(item=>companies.includes(item[companyField]));
+}
+
 function showPage(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.topnav-tab').forEach(t=>t.classList.remove('active'));
@@ -550,42 +637,64 @@ function setArea(area,el){
   currentArea=area;
   document.querySelectorAll('.area-pill').forEach(p=>p.classList.remove('active'));
   if(el)el.classList.add('active');
-  renderInsights();renderVerdicts();applyFilters();
+  renderInsights();renderVerdicts();applyFilters();filterLaunches();renderSlack();
 }
 
 function renderInsights(){
   const container=document.getElementById('insightCards');
-  let sorted=[...VERDICTS].filter(v=>{
-    if(currentArea==='all')return true;
-    const seg=currentArea==='VectorAI'?'Vector DB / AI':currentArea;
-    return v.segment===seg||v.segment.includes(currentArea);
-  }).sort((a,b)=>{
-    const to={critical:0,high:1,medium:2,low:3};
+  const to={critical:0,high:1,medium:2,low:3};
+  let sorted=getFilteredData([...VERDICTS]).sort((a,b)=>{
     if(currentTeam!=='overview'){
       const sd=(b.team_relevance[currentTeam]||0)-(a.team_relevance[currentTeam]||0);
       if(sd!==0)return sd;
     }
     return (to[a.threat]??3)-(to[b.threat]??3);
   });
-  if(currentTeam==='executives')sorted=sorted.filter(v=>v.threat==='critical'||v.threat==='high');
-  sorted=sorted.slice(0,4);
+
+  // Team Insight summary block — top result only, supplementary, full data still shown below
+  const top=sorted[0];
+  if(top){
+    document.getElementById('insightThreatBadge').innerHTML='<span class="badge threat-'+top.threat+'">'+top.threat.toUpperCase()+'</span>';
+    document.getElementById('insightWhat').innerHTML='<strong>What:</strong> '+top.what.substring(0,120)+(top.what.length>120?'\u2026':'');
+    document.getElementById('insightWhy').innerHTML='<strong>Why it matters:</strong> '+top.why.substring(0,110)+(top.why.length>110?'\u2026':'');
+    document.getElementById('insightAction').innerHTML='<span class="team-insight-action">\u26a1 '+top.action.substring(0,90)+(top.action.length>90?'\u2026':'')+'</span>';
+  }
+
+  // Full insight cards — all companies, sorted by team relevance, never filtered
   container.innerHTML=sorted.map(v=>{
     const lc=v.threat==='critical'?'':v.threat==='high'?'high':'medium';
     return '<div class="insight-card '+lc+'"><div class="insight-company">'+v.company+' <span class="badge threat-'+v.threat+'">'+v.threat.toUpperCase()+'</span></div><div style="font-size:10px;color:var(--text-muted);margin-bottom:5px">'+v.segment+'</div><div class="insight-what"><strong>What:</strong> '+v.what.substring(0,110)+(v.what.length>110?'\u2026':'')+'</div><div class="insight-why"><strong>Why it matters:</strong> '+v.why.substring(0,100)+(v.why.length>100?'\u2026':'')+'</div><div class="insight-action">\u26a1 '+v.action.substring(0,85)+(v.action.length>85?'\u2026':'')+'</div></div>';
   }).join('');
 }
 
+let expandedVerdictCard=null;
+
 function setVerdictSeg(seg,el){
   currentVerdictSeg=seg;
   document.querySelectorAll('#verdictSegChips .segment-chip').forEach(c=>c.classList.remove('active'));
   if(el)el.classList.add('active');
+  expandedVerdictCard=null;
+  renderVerdicts();
+}
+
+function toggleVerdictCard(company){
+  if(expandedVerdictCard===company){
+    expandedVerdictCard=null;
+  }else{
+    expandedVerdictCard=company;
+  }
   renderVerdicts();
 }
 
 function renderVerdicts(){
   const to={critical:0,high:1,medium:2,low:3};
   let data=[...VERDICTS].filter(v=>{
-    if(currentVerdictSeg==='all')return true;
+    if(currentVerdictSeg==='all'){
+      if(currentArea==='all')return true;
+      const areaSegs={'Data Intelligence':'Data Intelligence','Data Observability':'Data Observability','VectorAI':'Vector DB / AI','Warehouse/Processing':'Warehouse/Processing'};
+      const targetSeg=areaSegs[currentArea];
+      return v.segment===targetSeg;
+    }
     const seg=currentVerdictSeg==='VectorAI'?'Vector DB / AI':currentVerdictSeg;
     return v.segment===seg;
   }).sort((a,b)=>{
@@ -596,20 +705,36 @@ function renderVerdicts(){
     return (to[a.threat]??3)-(to[b.threat]??3);
   });
 
-  document.getElementById('verdictCards').innerHTML=data.map(v=>`
-    <div class="verdict-full-card threat-border-${v.threat}">
-      <div class="verdict-header">
-        <div><div class="verdict-company-name">${v.company}</div><div class="verdict-area-tag">${v.segment} &middot; Impact scope ${v.impact_scope}/5 &middot; Confidence: ${v.confidence}</div></div>
-        <div class="verdict-badges"><span class="badge threat-${v.threat}">${v.threat.toUpperCase()}</span>${v.routing.map(r=>`<span class="route-chip">${r}</span>`).join('')}</div>
+  document.getElementById('verdictCards').innerHTML=data.map(v=>{
+    const isExpanded=expandedVerdictCard===v.company;
+    return `<div class="verdict-card ${isExpanded?'expanded':''}" onclick="toggleVerdictCard('${v.company.replace(/'/g,"\\'")}')">
+      <div class="verdict-compact">
+        <div class="verdict-compact-head">
+          <div class="verdict-company-compact">${v.company}</div>
+          <span class="badge threat-${v.threat}">${v.threat.toUpperCase()}</span>
+        </div>
+        <div class="verdict-compact-body">${v.verdict.substring(0,100)}...</div>
+        <div class="verdict-compact-tags">
+          ${(v.signals||[]).map(s=>`<span class="vsig vsig-${s}">${s}</span>`).join('')}
+          ${(v.routing||[]).map(r=>`<span class="verdict-team-chip">${r}</span>`).join('')}
+        </div>
       </div>
-      <div class="verdict-quote">${v.verdict}</div>
-      <div class="verdict-3col">
-        <div class="verdict-box"><div class="verdict-box-label">What is happening</div><div class="verdict-box-value">${v.what}</div></div>
-        <div class="verdict-box"><div class="verdict-box-label">Why it matters</div><div class="verdict-box-value">${v.why}</div></div>
-        <div class="verdict-box"><div class="verdict-box-label">Top Signals</div><ul class="top-signals-ul">${(v.top_signals||[]).map(s=>`<li><span>&rsaquo;</span><span>${s}</span></li>`).join('')}</ul><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">${(v.signals||[]).map(s=>`<span class="vsig vsig-${s}">${s}</span>`).join('')}</div></div>
-      </div>
-      <div class="verdict-action-bar"><strong>Actian Action:</strong> ${v.action}</div>
-    </div>`).join('');
+      ${isExpanded?`<div class="verdict-expanded">
+        <div class="verdict-header">
+          <div><div class="verdict-company-name">${v.company}</div><div class="verdict-area-tag">${v.segment} &middot; Impact scope ${v.impact_scope}/5 &middot; Confidence: ${v.confidence}</div></div>
+          <div class="verdict-badges"><span class="badge threat-${v.threat}">${v.threat.toUpperCase()}</span>${v.routing.map(r=>`<span class="route-chip">${r}</span>`).join('')}</div>
+        </div>
+        <div class="verdict-quote">${v.verdict}</div>
+        <div class="verdict-3col">
+          <div class="verdict-box"><div class="verdict-box-label">What is happening</div><div class="verdict-box-value">${v.what}</div></div>
+          <div class="verdict-box"><div class="verdict-box-label">Why it matters</div><div class="verdict-box-value">${v.why}</div></div>
+          <div class="verdict-box"><div class="verdict-box-label">Top Signals</div><ul class="top-signals-ul">${(v.top_signals||[]).map(s=>`<li><span>&rsaquo;</span><span>${s}</span></li>`).join('')}</ul><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">${(v.signals||[]).map(s=>`<span class="vsig vsig-${s}">${s}</span>`).join('')}</div></div>
+        </div>
+        <div class="verdict-action-bar"><strong>Actian Action:</strong> ${v.action}</div>
+        <div style="padding:12px;background:var(--bg);border-top:1px solid var(--border);margin:12px -12px -12px;border-radius:0 0 6px 6px;font-size:12px;color:var(--text-secondary)"><strong>Inferred Product Roadmap:</strong> Next 6-12 months. Based on hiring patterns &amp; recent launches.</div>
+      </div>`:''}
+    </div>`;
+  }).join('');
 
   document.getElementById('verdictTable').innerHTML=data.map(v=>`
     <tr>
@@ -624,11 +749,12 @@ function renderVerdicts(){
 }
 
 function filterLaunches(){
+  if(!document.getElementById('lfCompany'))return;
   const co=document.getElementById('lfCompany').value;
   const ty=document.getElementById('lfType').value;
   const re=document.getElementById('lfRel').value;
   const tm=document.getElementById('lfTeam').value;
-  const filtered=LAUNCHES.filter(l=>(!co||l.company===co)&&(!ty||l.type===ty)&&(!re||l.relevance===re)&&(!tm||(l.routing||[]).includes(tm)));
+  const filtered=getFilteredData(LAUNCHES).filter(l=>(!co||l.company===co)&&(!ty||l.type===ty)&&(!re||l.relevance===re)&&(!tm||(l.routing||[]).includes(tm)));
   renderLaunchList('launchesHigh',filtered.filter(l=>l.relevance==='high'));
   renderLaunchList('launchesAll',filtered);
 }
@@ -650,7 +776,9 @@ function renderLaunchList(id,data){
 }
 
 function renderSlack(){
-  document.getElementById('slackFeed').innerHTML=SLACK_MSGS.map(m=>`
+  const feed=document.getElementById('slackFeed');
+  if(!feed)return;
+  feed.innerHTML=getFilteredData(SLACK_MSGS).map(m=>`
     <div class="slack-channel">${m.channel}</div>
     <div class="slack-msg">
       <div class="slack-msg-hdr"><span class="slack-bot">CI Bot</span><span style="color:#9ca3af;font-size:11px">&mdash; ${m.company} &middot; ${m.label}</span><span class="slack-ts">${m.ts}</span></div>
@@ -773,7 +901,50 @@ function sendAI(){
   msgs.scrollTop=msgs.scrollHeight;
 }
 
-populateFilters();applyFilters();renderInsights();renderVerdicts();filterLaunches();renderSlack();initCharts();
+function renderSignals(){
+  const cards=document.getElementById('signalCards');
+  const stbody=document.getElementById('signalsTable');
+  if(!cards||!stbody)return;
+  cards.innerHTML=SIGNALS.map(s=>`
+    <div class="signal-card threat-border-${s.threat}" data-seg="${s.segment}">
+      <div class="signal-card-header">
+        <div class="signal-card-company">${s.company}</div>
+        <span class="badge threat-${s.threat}">${s.threat.toUpperCase()}</span>
+      </div>
+      <div class="signal-card-summary">${s.summary}</div>
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:6px">Key Implications</div>
+        ${(s.implications||[]).slice(0,3).map(i=>`<div style="font-size:12px;color:var(--text-secondary);padding:3px 0;display:flex;gap:6px;align-items:flex-start"><span style="color:var(--accent);flex-shrink:0">&rsaquo;</span>${i}</div>`).join('')}
+      </div>
+      <div class="signal-card-meta">
+        <span class="meta-tag">${s.dominant}</span>
+        <span class="meta-tag">${s.hiring} roles</span>
+        <span class="meta-tag">${s.ai_roles} AI/ML</span>
+        <span class="meta-tag">${s.intensity}</span>
+      </div>
+    </div>`).join('');
+  stbody.innerHTML=SIGNALS.map(s=>`
+    <tr>
+      <td class="strong">${s.company}</td>
+      <td><span style="font-size:11px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:2px 8px;color:var(--text-muted)">${s.segment}</span></td>
+      <td><span class="badge threat-${s.threat}">${s.threat.toUpperCase()}</span></td>
+      <td>${s.intensity}</td><td>${s.dominant}</td>
+      <td style="font-weight:700;color:var(--cyan)">${s.ai_roles}</td>
+      <td style="font-weight:700;color:var(--accent)">${s.senior}</td>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-secondary);font-size:12px">${s.summary.substring(0,90)}&hellip;</td>
+    </tr>`).join('');
+}
+
+function filterSignalSeg(seg,el){
+  document.querySelectorAll('#signalSegChips .segment-chip').forEach(c=>c.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.querySelectorAll('#signalCards .signal-card').forEach(card=>{
+    if(seg==='all'){card.style.display='';return;}
+    card.style.display=card.dataset.seg===seg?'':'none';
+  });
+}
+
+populateFilters();applyFilters();renderInsights();renderVerdicts();filterLaunches();renderSlack();renderSignals();initCharts();
 </script>
 </body>
 </html>
