@@ -633,23 +633,8 @@ def _sanitize_classification(cls: dict, title: str) -> dict:
 
 
 def classify_batch(titles: list[str]) -> list[dict]:
-    if not ANTHROPIC_API_KEY:
-        print("[WARN] No ANTHROPIC_API_KEY — using fallback classification")
-        return [_fallback_classify(t) for t in titles]
-
-    prompt = "Classify these job titles:\n" + "\n".join(f"{i+1}. {t}" for i, t in enumerate(titles))
-    text = _call_claude(HAIKU_MODEL, CLASSIFY_SYSTEM, prompt, max_tokens=2048)
-
-    if text:
-        try:
-            text = re.sub(r'^```json\s*|\s*```$', '', text, flags=re.MULTILINE).strip()
-            results = json.loads(text)
-            if isinstance(results, list) and len(results) == len(titles):
-                # Sanitize: remap any "Other"/"Unknown" via fallback
-                return [_sanitize_classification(r, t) for r, t in zip(results, titles)]
-        except Exception as e:
-            print(f"  [WARN] Failed to parse classify response: {e}")
-
+    # PHASE 2.5: Anthropic API restricted to verdict_engine only
+    # Always use fallback regex-based classification
     return [_fallback_classify(t) for t in titles]
 
 
@@ -1079,47 +1064,8 @@ Return a JSON object with these fields:
 
 Return ONLY the JSON object, no markdown fences or other text."""
 
-        if ANTHROPIC_API_KEY:
-            text = _call_claude(OPUS_MODEL, SIGNAL_SYSTEM, prompt, max_tokens=3000)
-            if text:
-                try:
-                    text = re.sub(r'^```json\s*|\s*```$', '', text, flags=re.MULTILINE).strip()
-                    signal = json.loads(text)
-                    signal["company"] = company
-                    signal["company_group"] = company_group
-                    signal["posting_count"] = len(rows)
-                    # Add roadmap inference from job data (not dependent on Claude)
-                    all_titles_local = [r.get("Job Title", "").lower() for r in rows]
-                    title_blob_local = " ".join(all_titles_local)
-                    ai_c    = sum(1 for t in all_titles_local if re.search(r'ai|ml|llm|genai|gen ai|machine learn', t))
-                    cloud_c = sum(1 for t in all_titles_local if re.search(r'cloud|aws|gcp|azure|kubernetes', t))
-                    de_c    = sum(1 for t in all_titles_local if re.search(r'data engineer|etl|pipeline|integrat', t))
-                    gtm_c   = sum(1 for t in all_titles_local if re.search(r'sales|market|growth|demand|partner', t))
-                    inf_c   = sum(1 for t in all_titles_local if re.search(r'infra|platform|sre|devops|reliab', t))
-                    sec_c   = sum(1 for t in all_titles_local if re.search(r'security|compliance|privacy', t))
-                    from collections import defaultdict as _dd
-                    seniority_local = _dd(int)
-                    for r in rows:
-                        seniority_local[r.get("Seniority", "Mid")] += 1
-                    n_local = len(rows)
-                    sr_local = (seniority_local["Senior"] + seniority_local["Director+"] + seniority_local["Principal/Staff"]) / max(n_local, 1)
-                    dom_fn_local = signal.get("dominant_function", "Engineering")
-                    dom_pf_local = signal.get("dominant_product_focus", "Platform / Infra")
-                    signal["roadmap"] = _infer_roadmap(
-                        company=company, company_group=company_group, n=n_local,
-                        all_titles=all_titles_local, ai_count=ai_c, cloud_count=cloud_c,
-                        data_eng_count=de_c, go_to_market=gtm_c, infra_count=inf_c,
-                        security_count=sec_c, senior_ratio=sr_local,
-                        dom_pf=dom_pf_local, dom_fn=dom_fn_local,
-                    )
-                    signals.append(signal)
-                    time.sleep(0.5)
-                    continue
-                except Exception as e:
-                    print(f"    [WARN] Failed to parse signal for {company}: {e}")
-            time.sleep(0.3)
-
-        # Fallback: smart local analysis
+        # PHASE 2.5: Anthropic API restricted to verdict_engine only
+        # Always use fallback signal generation
         signals.append(_fallback_signal(company, company_group, rows))
 
     # Include companies with <3 postings using rule-based signal so all tracked

@@ -148,41 +148,89 @@ Generic phrases like "company invests in AI" are not acceptable.\
 
 
 def classify_item(company: str, title: str, description: str) -> dict | None:
-    """Call Claude Sonnet to classify a single signal item. Returns dict or None."""
-    prompt = f"""Company: {company}
-Title: {title}
-Content: {description[:800]}
+    """
+    PHASE 2.5: Anthropic API restricted to verdict_engine only.
+    Replace Claude Sonnet classification with rule-based keyword logic.
+    """
+    combined_text = (title + " " + description).lower()
 
-Classify and return JSON."""
+    # ═══ DETERMINE TYPE ═══
+    if re.search(r'\bevent\b|conference|summit|meetup|webinar|forum|expo|announce.*event', combined_text):
+        signal_type = "event"
+    elif re.search(r'partnership|partner|collaborate|integration with|works with|partner\s+with|teaming', combined_text):
+        signal_type = "partnership"
+    elif re.search(r'\bfunding\b|funding round|series [a-z]|investment|raise\s+\$|announced.*funding', combined_text):
+        signal_type = "funding"
+    elif re.search(r'open.*source|github release|released.*version|version \d+\.\d+', combined_text):
+        signal_type = "open_source_release"
+    elif re.search(r'\blaunch|announce.*new|introduce|release|shipped|beta|ga|available\s+now', combined_text):
+        signal_type = "product_launch"
+    else:
+        signal_type = "blog_post"
 
-    raw = _call_claude(SONNET_MODEL, CLASSIFY_SYSTEM, prompt, max_tokens=512)
-    if not raw:
-        return None
+    # ═══ DETERMINE RELEVANCE TO ACTIAN ═══
+    high_keywords = r'catalog|observability|vector|embedding|metadata|lineage|governance|data quality|monitoring|quality metrics'
+    medium_keywords = r'\bdata\b|analytics|integration|platform|governance|ai\s+|ml\s+|machine learning'
 
-    # Strip accidental markdown code fences
-    raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw.strip())
+    if re.search(high_keywords, combined_text):
+        relevance = "high"
+    elif re.search(medium_keywords, combined_text):
+        relevance = "medium"
+    else:
+        relevance = "low"
 
-    try:
-        result = json.loads(raw)
-    except json.JSONDecodeError:
-        print(f"  [WARN] JSON parse failed for: {title[:60]}")
-        return None
+    # ═══ EXTRACT TAGS ═══
+    tags = []
+    if re.search(r'\benterprise\b|enterprise.grade|enterprise.scale', combined_text):
+        tags.append("enterprise")
+    if re.search(r'\bga\b|general availability|available now', combined_text):
+        tags.append("GA")
+    if re.search(r'beta|preview|early access', combined_text):
+        tags.append("beta")
+    if re.search(r'pricing|price increase|cost', combined_text):
+        tags.append("pricing")
+    if re.search(r'vector|embedding|semantic search', combined_text):
+        tags.append("vector")
+    if re.search(r'\bai\b|artificial intelligence|machine learning|\bml\b', combined_text):
+        tags.append("AI")
+    if re.search(r'api|sdk|library', combined_text):
+        tags.append("API")
 
-    # Validate and sanitize enum fields — never let invalid values through
-    valid_types     = {"product_launch", "event", "partnership", "funding", "open_source_release", "blog_post"}
-    valid_relevance = {"low", "medium", "high"}
-    valid_source    = {"blog", "event_page", "press_release", "github"}
+    # ═══ DETERMINE SOURCE TYPE ═══
+    if re.search(r'github|repo|git', combined_text):
+        source_type = "github"
+    elif re.search(r'press release|press kit', combined_text):
+        source_type = "press_release"
+    elif signal_type == "event":
+        source_type = "event_page"
+    else:
+        source_type = "blog"
 
-    if result.get("type") not in valid_types:
-        result["type"] = "blog_post"
-    if result.get("actian_relevance") not in valid_relevance:
-        result["actian_relevance"] = "low"
-    if result.get("source_type") not in valid_source:
-        result["source_type"] = "blog"
-    if not isinstance(result.get("tags"), list):
-        result["tags"] = []
+    # ═══ BUILD SUMMARY ═══
+    # Use description if available, else title
+    if description and len(description) > 20:
+        summary = description[:200].strip()
+        if len(description) > 200:
+            summary += "..."
+    else:
+        summary = title
 
-    return result
+    # ═══ PARSE EVENT DATE ═══
+    # Look for date patterns in description (simple heuristic)
+    event_date = None
+    date_pattern = r'(\d{4})-(\d{2})-(\d{2})|([A-Z][a-z]+\s+\d{1,2},?\s+\d{4})'
+    date_match = re.search(date_pattern, description)
+    if date_match:
+        event_date = date_match.group(0)
+
+    return {
+        "type": signal_type,
+        "summary": summary,
+        "actian_relevance": relevance,
+        "tags": tags,
+        "source_type": source_type,
+        "event_date": event_date,
+    }
 
 # ══════════════════════════════════════════════════════════════════════════
 # DEDUPLICATION — file-based, same principle as seen_jobs.db
@@ -354,9 +402,8 @@ def within_window(published_date_str: str) -> bool:
 # ══════════════════════════════════════════════════════════════════════════
 
 def main():
-    if not ANTHROPIC_API_KEY:
-        print("[WARN] No ANTHROPIC_API_KEY — signal classification will be skipped")
-
+    # PHASE 2.5: Anthropic API restricted to verdict_engine only
+    # Using rule-based classification (no API key needed)
     seen_urls = load_seen_urls()
 
     # Load existing signals, enforce rolling window
@@ -425,12 +472,8 @@ def main():
                 seen_urls.add(url)
                 continue
 
-            # Classify via Claude Sonnet
+            # Classify via rule-based logic (PHASE 2.5: Anthropic disabled)
             print(f"  → {title[:75]}")
-            if not ANTHROPIC_API_KEY:
-                seen_urls.add(url)
-                continue
-
             classification = classify_item(company, title, item["description"])
 
             if not classification:

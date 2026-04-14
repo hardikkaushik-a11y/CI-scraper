@@ -50,14 +50,15 @@ jobs:
         run: python src/scraper.py
 
       - name: Run enrichment + signal generation
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python src/enrich.py
 
       - name: Run competitive signal scraper (launches + events)
+        run: python src/signal_scraper.py
+
+      - name: Generate intelligence verdicts (Phase 2.5 — verdict layer)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python src/signal_scraper.py
+        run: python src/verdict_engine.py
 
       - name: Refresh v2 dataset (keep in sync with latest enriched data)
         run: python scripts/create_v2_dataset.py
@@ -87,7 +88,7 @@ jobs:
         run: |
           git config user.name "CI Bot"
           git config user.email "ci-bot@actian.com"
-          git add -f data/jobs_enriched.csv data/jobs_enriched_v2.csv data/signals.json data/competitive_signals.json data/seen_signals.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html
+          git add -f data/jobs_enriched.csv data/jobs_enriched_v2.csv data/signals.json data/competitive_signals.json data/intelligence_verdicts.json data/seen_signals.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html
           git diff --cached --quiet || git commit -m "chore: daily scrape $(date -u '+%Y-%m-%d')"
           git pull --rebase --autostash -X ours origin main
           git push
