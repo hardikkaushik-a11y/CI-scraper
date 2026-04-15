@@ -22,6 +22,9 @@ import httpx
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 SONNET_MODEL = "claude-sonnet-4-6"
 
+# Bump this to force all verdicts to regenerate when scoring logic changes
+VERDICT_VERSION = "2"
+
 SIGNALS_PATH = "data/signals.json"
 COMPETITIVE_SIGNALS_PATH = "data/competitive_signals.json"
 VERDICTS_PATH = "data/intelligence_verdicts.json"
@@ -111,10 +114,13 @@ def _call_claude(model: str, system: str, user_msg: str, max_tokens: int = 1500)
 # ══════════════════════════════════════════════════════════════════════════
 
 def _signal_hash(hiring_signal: dict | None, comp_signals: list[dict]) -> str:
-    """Stable hash of input signals — used to skip unchanged companies."""
+    """Stable hash of input signals — used to skip unchanged companies.
+    Include VERDICT_VERSION so logic changes force regeneration.
+    """
     payload = {
         "hiring": hiring_signal or {},
         "competitive": sorted(comp_signals, key=lambda x: x.get("url", "")),
+        "_version": VERDICT_VERSION,
     }
     raw = json.dumps(payload, sort_keys=True, ensure_ascii=False)
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
@@ -182,96 +188,285 @@ def _fallback_verdict(company: str, product_area: str,
                       hiring_signal: dict | None,
                       comp_signals: list[dict]) -> dict:
     """
-    Rule-based verdict generation (fallback when no API key).
-    Synthesizes hiring signals + competitive signals using heuristics.
+    Evidence-based verdict. Threat level requires compound evidence.
+    Blog posts never drive threat level. No generic templates.
     """
-    # Extract hiring threat level (already computed by enrich.py)
-    hiring_threat = hiring_signal.get("threat_level", "medium") if hiring_signal else "low"
-    threat_map = {"low": 1, "medium": 2, "high": 3, "critical": 4}
-    threat_score = threat_map.get(hiring_threat, 2)
+    import re as _re
 
-    # Boost threat if there are recent competitive signals
-    if comp_signals:
-        high_relevance_sigs = [s for s in comp_signals if s.get("actian_relevance") == "high"]
-        threat_score += len(high_relevance_sigs)
+    # ── HIRING EVIDENCE ───────────────────────────────────────────────────────
+    posting_count  = hiring_signal.get("posting_count", 0)  if hiring_signal else 0
+    dominant_fn    = hiring_signal.get("dominant_function", "")  if hiring_signal else ""
+    dominant_pf    = hiring_signal.get("dominant_product_focus", "")  if hiring_signal else ""
+    hiring_intensity = hiring_signal.get("hiring_intensity", "low") if hiring_signal else "low"
 
-    # Determine final threat level
-    if threat_score >= 5:
+    # Volume score 0-3 based on posting count
+    if posting_count >= 40:
+        hiring_volume_score = 3
+    elif posting_count >= 20:
+        hiring_volume_score = 2
+    elif posting_count >= 10:
+        hiring_volume_score = 1
+    else:
+        hiring_volume_score = 0
+
+    gtm_fns = {"Sales", "Marketing", "Go-to-Market", "Customer Success",
+               "Revenue", "Business Development"}
+    has_gtm_hiring = dominant_fn in gtm_fns
+
+    # ── COMPETITIVE SIGNAL EVIDENCE ───────────────────────────────────────────
+    # Weighted scoring — blog_posts contribute 0, product launches are primary
+    SIGNAL_WEIGHTS = {
+        "product_launch":     3,
+        "open_source_release": 2,
+        "partnership":         2,
+        "funding":             2,
+        "event":               1,  # GTM signal, not a product threat on its own
+        "blog_post":           0,  # never drives threat level
+    }
+    RELEVANCE_MULT = {"high": 1.0, "medium": 0.5, "low": 0.0}
+
+    comp_signal_score = 0.0
+    for sig in comp_signals:
+        w = SIGNAL_WEIGHTS.get(sig.get("type", "blog_post"), 0)
+        m = RELEVANCE_MULT.get(sig.get("actian_relevance", "low"), 0.0)
+        comp_signal_score += w * m
+
+    has_product_launch = any(
+        s.get("type") == "product_launch"
+        and s.get("actian_relevance") in ("high", "medium")
+        for s in comp_signals
+    )
+    has_event = any(s.get("type") == "event" for s in comp_signals)
+    has_funding = any(s.get("type") == "funding" for s in comp_signals)
+
+    # ── THREAT CLASSIFICATION — COMPOUND EVIDENCE REQUIRED ───────────────────
+    # critical: large scale + product movement + GTM expansion together
+    # high:     strong hiring + product signal, or strong comp signals alone
+    # medium:   one moderate signal present
+    # low:      insufficient evidence
+    if (
+        hiring_volume_score >= 3
+        and comp_signal_score >= 3
+        and has_product_launch
+    ):
         final_threat = "critical"
-    elif threat_score >= 4:
+    elif (
+        (hiring_volume_score >= 2 and comp_signal_score >= 2)
+        or (hiring_volume_score >= 3 and (has_gtm_hiring or hiring_intensity == "high"))
+        or (comp_signal_score >= 5 and has_product_launch)
+    ):
         final_threat = "high"
-    elif threat_score >= 2:
+    elif hiring_volume_score >= 1 or comp_signal_score >= 1:
         final_threat = "medium"
     else:
         final_threat = "low"
 
-    # Build top signals (combine hiring + competitive)
+    # ── TOP SIGNALS — FILTERED FOR QUALITY ───────────────────────────────────
+    # Prefer launches > partnerships > events; skip blog posts and malformed titles
+    SIGNAL_PRIORITY_ORDER = [
+        "product_launch", "funding", "open_source_release",
+        "partnership", "event", "blog_post",
+    ]
+    sorted_comp = sorted(
+        comp_signals,
+        key=lambda s: (
+            SIGNAL_PRIORITY_ORDER.index(s.get("type", "blog_post"))
+            if s.get("type", "blog_post") in SIGNAL_PRIORITY_ORDER else 99,
+            {"high": 0, "medium": 1, "low": 2}.get(s.get("actian_relevance", "low"), 2),
+        )
+    )
+
     top_signals = []
-    if hiring_signal:
-        implications = hiring_signal.get("implications", [])
-        if implications:
-            top_signals.append(implications[0][:80])
+    for sig in sorted_comp:
+        if len(top_signals) >= 3:
+            break
+        title = (sig.get("title") or "").strip()
+        # Filter malformed or truncated titles
+        if len(title) < 20:
+            continue
+        if title.endswith("…") or title.endswith("..."):
+            continue
+        # Filter "Word Month Day" patterns (e.g. "Product Apr 15")
+        if _re.match(r'^\w+\s+[A-Z][a-z]{2}\s+\d+', title) and len(title) < 35:
+            continue
+        top_signals.append(title[:120])
 
-    for sig in comp_signals[:2]:
-        top_signals.append(sig.get("title", "Unknown signal")[:80])
+    # Fall back to hiring implications if no usable comp signals
+    if not top_signals and hiring_signal:
+        for imp in (hiring_signal.get("implications") or [])[:2]:
+            if imp and len(imp) > 20:
+                # Truncate at word boundary to avoid mid-word cuts
+                if len(imp) > 150:
+                    cut = imp[:150].rsplit(" ", 1)[0]
+                    top_signals.append(cut + "…")
+                else:
+                    top_signals.append(imp)
 
-    # Determine team routing based on threat and signals
-    team_routing = ["product"]
-    if final_threat in ["critical", "high"]:
-        team_routing.extend(["pmm", "sdrs"])
-    if any(s.get("type") == "event" for s in comp_signals):
-        team_routing.append("marketing")
-    if final_threat == "critical":
-        team_routing.append("executives")
+    # ── OUTPUT GATING — downgrade if evidence is thin ────────────────────────
+    if not top_signals:
+        if final_threat == "critical":
+            final_threat = "high"
+        elif final_threat == "high":
+            final_threat = "medium"
 
-    team_routing = list(set(team_routing))  # dedupe
-
-    # Build what_is_happening
-    what_happening = ""
-    if hiring_signal:
-        posting_count = hiring_signal.get("posting_count", 0)
-        dominant_fn = hiring_signal.get("dominant_function", "Unknown")
-        dominant_pf = hiring_signal.get("dominant_product_focus", "Unknown")
-        what_happening = f"{company} has {posting_count} open roles, heavily focused on {dominant_fn} and {dominant_pf}."
+    # ── WHAT IS HAPPENING ────────────────────────────────────────────────────
+    what_parts = []
+    if posting_count > 0:
+        signal_summary = hiring_signal.get("signal_summary", "") if hiring_signal else ""
+        if signal_summary:
+            # Use the pre-computed summary from enrich.py — it's specific
+            what_parts.append(signal_summary)
+        else:
+            fn_pf = f" ({dominant_pf})" if dominant_pf and dominant_pf != dominant_fn else ""
+            what_parts.append(
+                f"{company} has {posting_count} open roles concentrated in {dominant_fn}{fn_pf}."
+            )
 
     if comp_signals:
-        recent_launches = [s for s in comp_signals if s.get("type") in ["product_launch", "event"]]
-        if recent_launches:
-            what_happening += f" Recently announced {len(recent_launches)} product launches/events."
+        launches = [
+            s for s in comp_signals
+            if s.get("type") == "product_launch"
+            and s.get("actian_relevance") != "low"
+        ]
+        events = [s for s in comp_signals if s.get("type") == "event"]
+        partnerships = [s for s in comp_signals if s.get("type") == "partnership"]
 
-    # Build why_it_matters
-    why_matters = f"{company} ({product_area}) is a direct competitor to Actian in this market segment."
-    if final_threat == "critical":
-        why_matters += " Immediate action required."
-    elif final_threat == "high":
-        why_matters += " Significant competitive pressure expected this quarter."
+        if launches:
+            names = "; ".join(
+                s.get("title", "")[:60] for s in launches[:2] if s.get("title")
+            )
+            what_parts.append(f"Recent product moves: {names}.")
+        if events:
+            what_parts.append(f"{len(events)} upcoming event(s) signaling customer-facing GTM activity.")
+        if partnerships:
+            what_parts.append("New partnership announced — potential integration play in this space.")
 
-    # Build actian_action
-    if final_threat == "critical":
-        actian_action = "Immediate: Brief sales team + prepare competitive battlecard. Product: Assess roadmap impact."
-    elif final_threat == "high":
-        actian_action = "This quarter: Add to competitive review. Product: Monitor for feature parity gaps."
-    else:
-        actian_action = "Quarterly review cycle. Monitor for escalation signals."
+    what_happening = " ".join(what_parts)
 
-    # Build verdict
+    # Downgrade if what_is_happening is empty — not enough to produce a real verdict
+    if not what_happening.strip():
+        if final_threat in ("critical", "high"):
+            final_threat = "medium"
+
+    # ── WHY IT MATTERS — PRODUCT-AREA SPECIFIC ───────────────────────────────
+    PA_FRAMING = {
+        "Data Intelligence":  "data catalog and governance — directly overlaps Actian's lineage, metadata, and integration surface",
+        "Data Observability": "pipeline monitoring and data quality — adjacent to Actian's observability layer",
+        "VectorAI":           "vector databases and AI-native retrieval — Actian's Vector capability is in direct competition",
+        "AI Analyst":         "AI-powered analytics and data lakehouse — directly challenges Actian's analytics and integration platform",
+    }
+    framing = PA_FRAMING.get(product_area, f"the {product_area} market")
+    why_parts = [f"{company} competes with Actian in {framing}."]
+    if has_product_launch:
+        why_parts.append("New product capabilities narrow Actian's differentiation window.")
+    elif has_funding:
+        why_parts.append("Fresh capital signals accelerated product investment ahead.")
+    why_matters = " ".join(why_parts)
+
+    # ── ACTIAN ACTION — EVIDENCE-DRIVEN ──────────────────────────────────────
+    action_parts = []
     if final_threat == "critical":
-        verdict = f"{company} is executing a major competitive play in {product_area} — immediate threat to Actian's market position."
+        action_parts.append(f"Executives: trigger immediate {product_area} competitive review.")
+        if has_product_launch:
+            action_parts.append("PMM: update battlecard with new capability gaps within 2 weeks.")
+        action_parts.append(f"SDRs: use {company}'s product moves as displacement trigger in active deals.")
     elif final_threat == "high":
-        verdict = f"{company} is accelerating investment in {product_area} — significant competitive pressure building."
+        if has_product_launch:
+            action_parts.append(f"PMM: refresh {company} battlecard — new product signals identified.")
+        if has_event:
+            action_parts.append(f"SDRs: monitor {company} events for attendee outreach opportunity.")
+        action_parts.append(
+            f"Product: review {dominant_pf or product_area} overlap against Actian roadmap for gaps."
+        )
     elif final_threat == "medium":
-        verdict = f"{company} is actively investing in {product_area} — monitor closely for escalation."
+        action_parts.append(
+            f"Product: include {company}'s {dominant_pf or product_area} trajectory in next quarterly review."
+        )
+        if has_product_launch:
+            action_parts.append("PMM: verify new launch does not affect current deal positioning.")
     else:
-        verdict = f"{company} maintains steady hiring in {product_area} — not an immediate threat."
+        action_parts.append(
+            f"No immediate action needed. Flag if {company} hiring or launch volume increases."
+        )
+    actian_action = " ".join(action_parts)
+
+    # ── VERDICT SENTENCE — SPECIFIC TO ACTUAL DATA ───────────────────────────
+    if final_threat == "critical":
+        if has_product_launch:
+            verdict = (
+                f"{company} is shipping new {product_area} capabilities while scaling to "
+                f"{posting_count} open roles — compounding competitive pressure on Actian."
+            )
+        else:
+            verdict = (
+                f"{company} is aggressively scaling ({posting_count} roles) in {product_area} "
+                f"with GTM expansion — direct threat to Actian's pipeline."
+            )
+    elif final_threat == "high":
+        if has_product_launch:
+            verdict = (
+                f"{company} is pairing {posting_count}-role hiring with new product launches "
+                f"in {product_area} — significant and directional."
+            )
+        else:
+            verdict = (
+                f"{company} is building out {dominant_fn} at scale ({posting_count} roles) "
+                f"in {product_area} — competitive presence is growing."
+            )
+    elif final_threat == "medium":
+        if comp_signal_score > 0 and posting_count > 0:
+            verdict = (
+                f"{company} shows early {product_area} signals ({posting_count} roles + "
+                f"recent activity) — not urgent but worth tracking."
+            )
+        elif posting_count > 0:
+            verdict = (
+                f"{company} has {posting_count} open roles in {product_area}; "
+                f"hiring-only signal — no product movement confirmed yet."
+            )
+        else:
+            verdict = (
+                f"{company} is showing early {product_area} signals — "
+                f"insufficient volume for immediate concern."
+            )
+    else:
+        if posting_count > 0:
+            verdict = (
+                f"{company} has minimal {product_area} activity ({posting_count} roles, "
+                f"low signal) — not a current competitive priority."
+            )
+        else:
+            verdict = (
+                f"{company} shows no significant {product_area} signals in this window."
+            )
+
+    # ── TEAM ROUTING ─────────────────────────────────────────────────────────
+    team_routing = []
+    if final_threat in ("critical", "high", "medium"):
+        team_routing.append("product")
+    if final_threat in ("critical", "high"):
+        if has_product_launch or dominant_pf:
+            team_routing.append("pmm")
+        team_routing.append("sdrs")
+    if has_event:
+        if "marketing" not in team_routing:
+            team_routing.append("marketing")
+        if "sdrs" not in team_routing:
+            team_routing.append("sdrs")
+    if final_threat == "critical":
+        team_routing.append("executives")
+    # dedupe preserving order
+    seen: set[str] = set()
+    team_routing = [x for x in team_routing if not (x in seen or seen.add(x))]
 
     return {
-        "verdict": verdict,
+        "verdict":          verdict,
         "what_is_happening": what_happening,
-        "why_it_matters": why_matters,
-        "actian_action": actian_action,
-        "threat_level": final_threat,
-        "top_signals": top_signals[:3],
-        "team_routing": team_routing,
+        "why_it_matters":   why_matters,
+        "actian_action":    actian_action,
+        "threat_level":     final_threat,
+        "top_signals":      top_signals[:3],
+        "team_routing":     team_routing,
     }
 
 
