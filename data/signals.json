@@ -928,7 +928,7 @@
       "Heavy infrastructure hiring (7 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model"
     ],
     "watch_for": [
-      "Salesforce's AI team growing past 16 roles — crossing 5+ AI hires typically precedes a standalone AI feature launch within 2 quarters",
+      "Salesforce's AI team growing past 6 roles — crossing 5+ AI hires typically precedes a standalone AI feature launch within 2 quarters",
       "Track Salesforce's job posting velocity — sustained increase (>20% quarter-over-quarter) signals strategic investment acceleration, not just backfill",
       "Salesforce hiring product roles focused on data integration or analytics — would signal expansion into Actian's competitive territory"
     ],
@@ -940,7 +940,7 @@
     "hiring_intensity": "high",
     "dominant_function": "Engineering",
     "dominant_product_focus": "Go-to-Market",
-    "threat_level": "critical",
+    "threat_level": "high",
     "roadmap": {
       "direction": "Enterprise Suite Expansion into New Industry Verticals",
       "rationale": "Salesforce is signalling this direction through 16 AI/ML roles (8% of hiring), 7 platform/infrastructure roles, 45 sales and marketing hires pointing to market readiness. This volume of hiring in a focused area typically precedes a product launch or major feature announcement within one to two quarters.",
