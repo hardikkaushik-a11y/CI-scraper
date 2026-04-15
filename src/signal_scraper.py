@@ -163,14 +163,14 @@ def classify_item(company: str, title: str, description: str) -> dict | None:
         signal_type = "funding"
     elif re.search(r'open.*source|github release|released.*version|version \d+\.\d+', combined_text):
         signal_type = "open_source_release"
-    elif re.search(r'\blaunch|announce.*new|introduce|release|shipped|beta|ga|available\s+now', combined_text):
+    elif re.search(r'\blaunch|announce.*new|introduce|release|released|shipped|beta|ga|available\s+now|what\'s new|new feature|now available|rollout', combined_text):
         signal_type = "product_launch"
     else:
         signal_type = "blog_post"
 
     # ═══ DETERMINE RELEVANCE TO ACTIAN ═══
-    high_keywords = r'catalog|observability|vector|embedding|metadata|lineage|governance|data quality|monitoring|quality metrics'
-    medium_keywords = r'\bdata\b|analytics|integration|platform|governance|ai\s+|ml\s+|machine learning'
+    high_keywords = r'catalog|observability|vector|embedding|metadata|lineage|governance|data quality|monitoring|quality metrics|analytics|data engineer|machine learning|agentic'
+    medium_keywords = r'data|analytics|integration|platform|ai|ml|artificial|python|java|sql|database|semantic'
 
     if re.search(high_keywords, combined_text):
         relevance = "high"
@@ -481,11 +481,18 @@ def main():
                 seen_urls.add(url)
                 continue
 
-            # Drop low-relevance blog posts to keep signals meaningful
+            # Drop ONLY blog posts with zero relevant keywords (truly noise)
+            # Keep blog_post + medium/high, and blog_post + low with some keyword match
             if classification["type"] == "blog_post" and classification["actian_relevance"] == "low":
-                seen_urls.add(url)
-                time.sleep(0.3)
-                continue
+                # Check if item has ANY relevant keywords at all
+                has_any_keyword = bool(
+                    re.search(r'data|analytics|integration|ai|ml|vector|platform|catalog|governance|observability',
+                              title.lower() + " " + item["description"][:300].lower())
+                )
+                if not has_any_keyword:
+                    seen_urls.add(url)
+                    time.sleep(0.3)
+                    continue
 
             signal = {
                 "company":          company,
