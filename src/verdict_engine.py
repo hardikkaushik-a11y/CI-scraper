@@ -23,7 +23,7 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 SONNET_MODEL = "claude-sonnet-4-6"
 
 # Bump this to force all verdicts to regenerate when scoring logic changes
-VERDICT_VERSION = "3"
+VERDICT_VERSION = "4"
 
 SIGNALS_PATH = "data/signals.json"
 COMPETITIVE_SIGNALS_PATH = "data/competitive_signals.json"
@@ -94,10 +94,10 @@ Return ONLY valid JSON — no markdown, no commentary:
   "what_is_happening": "<2-3 sentences — specific evidence only>",
   "why_it_matters": "<1-2 sentences — Actian-specific competitive impact>",
   "primary_interpretation": "<1-2 sentences — most probable strategic explanation>",
-  "alternative_interpretation": "<1-2 sentences — plausible alternative reading>",
+  "alternative_interpretation": "<1-2 sentences — only include if genuine ambiguity exists; if evidence is unambiguous, state the residual timing/execution uncertainty instead>",
   "hiring_event_correlation": {
     "strength": "strong | moderate | weak | none",
-    "explanation": "<1 sentence — WHY this strength rating>"
+    "explanation": "<1 sentence — include hiring volume in the reasoning, e.g. '22 engineering roles + GA launch = strong'>"
   },
   "competitive_impact": {
     "overlap_with_actian": "<yes/no + specific area>",
@@ -105,13 +105,16 @@ Return ONLY valid JSON — no markdown, no commentary:
     "type_of_move": "defensive | expansion | platform | GTM"
   },
   "confidence": "high | medium | low",
-  "confidence_reasoning": "<1-2 sentences — signal strength and gaps>"
+  "confidence_reasoning": "<1-2 sentences — signal strength and gaps>",
+  "recommended_action": "<1 sentence — who does what, against which specific threat; cite Actian's differentiator; no generic statements>"
 }
 
 RULES:
 - NO generic phrases like "typically indicates" or "positions them well"
 - ALWAYS reference specific evidence ("9 integration roles", "Cortex GA", "Series C $200M")
+- correlation strength = strong ONLY when hiring volume ≥ 20 roles AND function matches launch type
 - If signals are weak, say so explicitly in confidence_reasoning
+- recommended_action must be specific enough to assign to a team and act on this week
 - Fewer, stronger insights > more coverage"""
 
 
@@ -282,15 +285,23 @@ def _fallback_verdict(company: str, product_area: str,
     has_funding        = bool(funding_signals)
     has_partnership    = bool(partnerships)
 
-    # GA signals are platform-level, not just product-level
+    # GA + high-impact terms → platform. GA alone (e.g. "new dashboard filters GA") → product.
+    _GA_RE = _re.compile(r'\bga\b|general\s+availability', _re.I)
+    _HIGH_IMPACT_RE = _re.compile(
+        r'platform|governance|catalog|lineage|observability|vector|embedding|'
+        r'data\s+quality|lakehouse|warehouse|pipeline|integration\s+layer|'
+        r'unified|enterprise\s+grade|data\s+mesh|semantic\s+layer',
+        _re.I,
+    )
     has_ga_signal = any(
-        _re.search(r'\bga\b|general\s+availability', (s.get("title","") + " " + s.get("summary","")).lower())
+        _GA_RE.search(s.get("title","") + " " + s.get("summary",""))
+        and _HIGH_IMPACT_RE.search(s.get("title","") + " " + s.get("summary",""))
         for s in product_launches
     )
 
     # ── STEP 1: IMPACT LEVEL ─────────────────────────────────────────────────
     # market: funding, acquisition, pricing change, major partnership at scale
-    # platform: GA of a new platform layer, major architectural expansion
+    # platform: GA of a high-impact platform layer, or very strong comp signal
     # product: product launches with real capability expansion
     # feature: minor launches, no strategic shift
     if has_funding or any("pricing" in (s.get("tags") or []) for s in comp_signals):
@@ -305,36 +316,44 @@ def _fallback_verdict(company: str, product_area: str,
         impact_level = "feature"  # default — weak signal bucket
 
     # ── STEP 2: HIRING ↔ EVENT CORRELATION ───────────────────────────────────
-    # strong: function directly supports the launch type
+    # strong requires both: correct function type AND meaningful hiring volume (≥20 roles)
+    # 2 engineers + launch ≠ strong; 20 engineers + launch = strong
     if has_product_launch and has_eng_hiring and hiring_volume_score >= 2:
         corr_strength = "strong"
         corr_explanation = (
-            f"{posting_count} {dominant_fn} roles directly support "
-            f"{len(product_launches)} product launch(es) — engineering scaling for new capability."
+            f"{posting_count} {dominant_fn} roles (volume score {hiring_volume_score}/3) directly support "
+            f"{len(product_launches)} product launch(es) — substantive engineering buildout behind this release."
         )
-    elif has_ga_signal and has_eng_hiring:
+    elif has_ga_signal and has_eng_hiring and hiring_volume_score >= 2:
         corr_strength = "strong"
         corr_explanation = (
-            f"Infrastructure/engineering hiring aligns with GA launch — "
-            f"signals production readiness investment."
+            f"{posting_count} engineering roles align with a GA-level platform launch — "
+            f"signals production-scale infrastructure investment, not just a soft release."
         )
-    elif has_product_launch and has_gtm_hiring:
+    elif has_product_launch and has_gtm_hiring and hiring_volume_score >= 2:
         corr_strength = "strong"
         corr_explanation = (
-            f"GTM hiring ({dominant_fn}) coincides with product launch — "
-            f"market-ready motion, not just an engineering build."
+            f"{posting_count} GTM roles ({dominant_fn}) paired with product launch — "
+            f"coordinated market-entry motion: product ships and sales scales simultaneously."
         )
-    elif (has_product_launch or has_partnership) and posting_count >= 10:
+    elif (has_product_launch or has_ga_signal or has_partnership) and posting_count >= 10:
         corr_strength = "moderate"
         corr_explanation = (
-            f"{posting_count} open roles + product/partnership signal present, but "
-            f"hiring function ({dominant_fn or 'unknown'}) doesn't directly confirm launch scale-up."
+            f"{posting_count} open roles + product/event signal present. "
+            f"Hiring function ({dominant_fn or 'unknown'}) is plausibly related but volume "
+            f"({hiring_volume_score}/3) is insufficient to confirm at-scale deployment."
+        )
+    elif has_product_launch and 0 < posting_count < 10:
+        corr_strength = "weak"
+        corr_explanation = (
+            f"Product launch detected but only {posting_count} open roles — "
+            f"hiring volume too low to confirm this is a scaled strategic investment vs. a small team release."
         )
     elif posting_count > 0 and comp_signal_score > 0:
         corr_strength = "weak"
         corr_explanation = (
-            f"Both hiring ({posting_count} roles) and event signals exist but don't reinforce each other "
-            f"— functions ({dominant_fn or 'mixed'}) are not clearly tied to the event type."
+            f"Both dimensions present ({posting_count} roles + event signals) but don't reinforce each other "
+            f"— {dominant_fn or 'hiring function'} doesn't directly map to the event type detected."
         )
     elif posting_count > 0 or comp_signal_score > 0:
         corr_strength = "none"
@@ -439,32 +458,52 @@ def _fallback_verdict(company: str, product_area: str,
             f"Signals are insufficient to confirm a strategic directional move."
         )
 
-    # ── STEP 3: ALTERNATIVE INTERPRETATION (MANDATORY) ───────────────────────
-    if has_product_launch and hiring_volume_score >= 2:
+    # ── STEP 3: ALTERNATIVE INTERPRETATION ──────────────────────────────────
+    # Only include when genuine ambiguity exists. When evidence is unambiguous
+    # (strong correlation + high hiring volume + confirmed launch), don't force a weak alternative.
+    _evidence_is_unambiguous = (
+        corr_strength == "strong"
+        and hiring_volume_score >= 2
+        and has_product_launch
+        and has_ga_signal
+    )
+
+    if _evidence_is_unambiguous:
+        # Evidence is clear — note the one real residual uncertainty rather than a forced alternative
         alternative = (
-            f"Alternatively, the hiring surge could reflect post-acquisition integration work "
-            f"or platform migration (not new capability) — the absence of explicit GA language "
-            f"in launch titles leaves room for this reading."
+            f"The main uncertainty is timing, not direction: the GA and hiring pattern confirm "
+            f"the strategic intent, but Actian's window to respond depends on how quickly "
+            f"{company} converts this into enterprise deals in shared accounts."
+        )
+    elif has_product_launch and hiring_volume_score >= 2 and not has_ga_signal:
+        alternative = (
+            f"The hiring surge may reflect post-acquisition integration or backfill, not a net-new "
+            f"product investment — without explicit GA or release language, the launch could be "
+            f"a beta or limited-access release not yet at enterprise scale."
         )
     elif has_funding:
         alternative = (
-            f"Funding could be defensive — extending runway rather than accelerating product. "
-            f"Without a hiring surge to match, the capital may not translate to near-term competitive pressure."
+            f"Funding could be runway extension rather than growth acceleration — "
+            f"if {company} is managing burn, capital may not translate to near-term hiring "
+            f"or product velocity. Monitor headcount growth over the next 60 days to confirm."
         )
     elif posting_count >= 20 and not has_product_launch:
         alternative = (
-            f"High hiring without a confirmed product event could indicate backfill after attrition "
-            f"rather than net-new capability investment — context from their public roadmap would clarify."
+            f"{posting_count} roles without a confirmed product event could indicate "
+            f"attrition backfill or a platform migration rather than net-new investment — "
+            f"hiring composition (senior vs. mid-level) would clarify intent."
         )
-    elif has_product_launch:
+    elif has_product_launch and posting_count < 10:
         alternative = (
-            f"The launch may be a minor feature release (not a platform shift) — "
-            f"low hiring volume ({posting_count} roles) does not support large-scale production deployment."
+            f"Low hiring volume ({posting_count} roles) relative to the launch scale suggests "
+            f"this may be a small-team or partner-led release, not a full product investment — "
+            f"watch for follow-on hiring in the next 30 days as a confirmation signal."
         )
     else:
+        # Weak overall signal — the 'alternative' is that there's simply nothing happening
         alternative = (
-            f"The low signal volume may reflect a deliberate stealth mode rather than inactivity — "
-            f"companies sometimes reduce public signals ahead of major launches."
+            f"Sparse signals may reflect deliberate stealth ahead of a major launch, "
+            f"or simply low activity in this window — insufficient data to distinguish between the two."
         )
 
     # ── STEP 4: COMPETITIVE IMPACT ────────────────────────────────────────────
@@ -531,6 +570,49 @@ def _fallback_verdict(company: str, product_area: str,
             f"Directional hypothesis only."
         )
 
+    # ── STEP 6: RECOMMENDED ACTION ───────────────────────────────────────────
+    # One specific line: who does what, against which threat. No generic statements.
+    PA_ACTIAN_STRENGTH = {
+        "Data Intelligence":  "embedded lineage and governance at the data source",
+        "Data Observability": "real-time DQ monitoring with push-based alerting",
+        "VectorAI":           "hybrid vector + relational queries without a separate vector DB",
+        "AI Analyst":         "edge and embedded analytics without cloud lock-in",
+    }
+    actian_differentiator = PA_ACTIAN_STRENGTH.get(product_area, f"Actian's {product_area} differentiation")
+
+    if impact_level == "market" and has_funding:
+        recommended_action = (
+            f"Product: assess roadmap gaps vs. {company}'s funded capabilities within 30 days; "
+            f"reinforce Actian's {actian_differentiator} in any joint accounts before {company} accelerates GTM."
+        )
+    elif impact_level == "platform" and corr_strength == "strong":
+        recommended_action = (
+            f"PMM + SDRs: refresh {company} battlecard within 2 weeks — "
+            f"new platform capability directly challenges Actian's {actian_differentiator}; "
+            f"lead with Actian's deployment flexibility as the counter-position."
+        )
+    elif impact_level == "product" and has_gtm_hiring:
+        recommended_action = (
+            f"SDRs: treat {company}'s GTM expansion as a displacement trigger — "
+            f"prioritize outreach to shared accounts and lead with Actian's {actian_differentiator}."
+        )
+    elif impact_level == "product":
+        recommended_action = (
+            f"PMM: verify {company}'s new capability does not undercut Actian's {actian_differentiator} "
+            f"in active competitive evaluations; update battlecard if feature gap confirmed."
+        )
+    elif corr_strength in ("strong", "moderate") and posting_count >= 20:
+        recommended_action = (
+            f"Product: track {company}'s {dominant_pf or product_area} roadmap over next quarter; "
+            f"flag if hiring accelerates or product launch confirmed — Actian's {actian_differentiator} "
+            f"is the primary differentiator to reinforce."
+        )
+    else:
+        recommended_action = (
+            f"No immediate action required. Monitor {company} for hiring acceleration or "
+            f"product launch signals over the next 60 days before escalating."
+        )
+
     # ── SIGNAL TYPE ───────────────────────────────────────────────────────────
     if posting_count > 0 and comp_signals:
         signal_type_str = "hiring + event"
@@ -558,8 +640,9 @@ def _fallback_verdict(company: str, product_area: str,
             "at_risk_segments":    at_risk,
             "type_of_move":        move_type,
         },
-        "confidence":          confidence,
+        "confidence":           confidence,
         "confidence_reasoning": conf_reasoning,
+        "recommended_action":   recommended_action,
     }
 
 
@@ -664,6 +747,7 @@ def main():
                 }),
                 "confidence":                 verdict_data.get("confidence", "low"),
                 "confidence_reasoning":       verdict_data.get("confidence_reasoning", ""),
+                "recommended_action":         verdict_data.get("recommended_action", ""),
                 "last_updated": today,
                 "_input_hash": new_hash,
             }
