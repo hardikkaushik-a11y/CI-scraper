@@ -1,1 +1,98 @@
-[]
+[
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "type": "product_launch",
+    "title": "\ud83d\ude80 Dedicated Read Nodes are now GA. Fixed hourly pricing and dedicated capacity for production workloads at scale \u2014 up to 97% lower costs. - Learn more",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes-ga/",
+    "published_date": "2026-04-15",
+    "summary": "\ud83d\ude80 Dedicated Read Nodes are now GA. Fixed hourly pricing and dedicated capacity for production workloads at scale \u2014 up to 97% lower costs. - Learn more",
+    "actian_relevance": "low",
+    "tags": [
+      "GA",
+      "pricing"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-15"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "type": "product_launch",
+    "title": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes-ga-features/",
+    "published_date": "2026-04-15",
+    "summary": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson",
+    "actian_relevance": "high",
+    "tags": [
+      "GA"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-15"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "blog_post",
+    "title": "Agentic Reasoning in Practice: Making Sense of Structured and Unstructured Data",
+    "url": "https://www.databricks.com/blog/agentic-reasoning-practice-making-sense-structured-and-unstructured-data",
+    "published_date": "2026-04-14",
+    "summary": "Enterprise data is rarely useful in a silo. Answering questions like, \"Which of our...",
+    "actian_relevance": "high",
+    "tags": [
+      "enterprise"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-15"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "blog_post",
+    "title": "Agent Bricks: The Governed Enterprise Agent Platform",
+    "url": "https://www.databricks.com/blog/agent-bricks-governed-enterprise-agent-platform",
+    "published_date": "2026-04-14",
+    "summary": "The basic agent pattern is familiar by now: a model connected to tools, reasoning,...",
+    "actian_relevance": "medium",
+    "tags": [
+      "enterprise"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-15"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "blog_post",
+    "title": "8 AI and data trends shaping financial services in 2026",
+    "url": "https://www.databricks.com/blog/8-ai-and-data-trends-shaping-financial-services-2026",
+    "published_date": "2026-04-14",
+    "summary": "For most of the past decade, AI has been sold as the next frontier in financial services.That...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "API"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-15"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "blog_post",
+    "title": "Building Real-Time Product Search on Databricks",
+    "url": "https://www.databricks.com/blog/building-real-time-product-search-databricks",
+    "published_date": "2026-04-14",
+    "summary": "Imagine you're designing a search system for an online marketplace selling cars....",
+    "actian_relevance": "medium",
+    "tags": [],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-15"
+  }
+]

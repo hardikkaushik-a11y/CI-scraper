@@ -13,8 +13,8 @@
     "team_routing": [
       "product"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "7d346dc8c6391b64"
+    "last_updated": "2026-04-15",
+    "_input_hash": "491ca508d2c30b72"
   },
   {
     "company": "Collibra",
@@ -29,17 +29,17 @@
     ],
     "team_routing": [
       "sdrs",
-      "pmm",
-      "product"
+      "product",
+      "pmm"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "4f085d6c73da6cf6"
+    "last_updated": "2026-04-15",
+    "_input_hash": "8b8274f47df09e51"
   },
   {
     "company": "Alation",
     "product_area": "Data Intelligence",
     "verdict": "Alation is actively investing in Data Intelligence — monitor closely for escalation.",
-    "what_is_happening": "Alation has 22 open roles, heavily focused on Engineering and Platform / Infra.",
+    "what_is_happening": "Alation has 23 open roles, heavily focused on Engineering and Platform / Infra.",
     "why_it_matters": "Alation (Data Intelligence) is a direct competitor to Actian in this market segment.",
     "actian_action": "Quarterly review cycle. Monitor for escalation signals.",
     "threat_level": "medium",
@@ -49,8 +49,8 @@
     "team_routing": [
       "product"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "f9b1215590626efe"
+    "last_updated": "2026-04-15",
+    "_input_hash": "350fb6e4f411e1f7"
   },
   {
     "company": "Monte Carlo",
@@ -66,8 +66,8 @@
     "team_routing": [
       "product"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "158242ff15a3c6b5"
+    "last_updated": "2026-04-15",
+    "_input_hash": "6505088c667ecf74"
   },
   {
     "company": "Bigeye",
@@ -98,27 +98,30 @@
     "team_routing": [
       "product"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "e0a0a758de35a7e9"
+    "last_updated": "2026-04-15",
+    "_input_hash": "3a06a7243e05f2b5"
   },
   {
     "company": "Pinecone",
     "product_area": "VectorAI",
-    "verdict": "Pinecone is accelerating investment in VectorAI — significant competitive pressure building.",
-    "what_is_happening": "Pinecone has 8 open roles, heavily focused on Engineering and Platform / Infra.",
-    "why_it_matters": "Pinecone (VectorAI) is a direct competitor to Actian in this market segment. Significant competitive pressure expected this quarter.",
-    "actian_action": "This quarter: Add to competitive review. Product: Monitor for feature parity gaps.",
-    "threat_level": "high",
+    "verdict": "Pinecone is executing a major competitive play in VectorAI — immediate threat to Actian's market position.",
+    "what_is_happening": "Pinecone has 8 open roles, heavily focused on Engineering and Platform / Infra. Recently announced 2 product launches/events.",
+    "why_it_matters": "Pinecone (VectorAI) is a direct competitor to Actian in this market segment. Immediate action required.",
+    "actian_action": "Immediate: Brief sales team + prepare competitive battlecard. Product: Assess roadmap impact.",
+    "threat_level": "critical",
     "top_signals": [
-      "High senior-to-total ratio (75%) indicates strategic buildout phase — assembling"
+      "High senior-to-total ratio (75%) indicates strategic buildout phase — assembling",
+      "🚀 Dedicated Read Nodes are now GA. Fixed hourly pricing and dedicated capacity f",
+      "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Tea"
     ],
     "team_routing": [
       "sdrs",
+      "product",
       "pmm",
-      "product"
+      "executives"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "bffaa7622dc2e410"
+    "last_updated": "2026-04-15",
+    "_input_hash": "b07f3189f1fb5fa2"
   },
   {
     "company": "Qdrant",
@@ -133,17 +136,17 @@
     ],
     "team_routing": [
       "sdrs",
-      "pmm",
-      "product"
+      "product",
+      "pmm"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "101d3ea7a83f7c3b"
+    "last_updated": "2026-04-15",
+    "_input_hash": "88c76959f9bfd87b"
   },
   {
     "company": "Milvus",
     "product_area": "VectorAI",
     "verdict": "Milvus maintains steady hiring in VectorAI — not an immediate threat.",
-    "what_is_happening": "Milvus has 4 open roles, heavily focused on Sales and Go-to-Market.",
+    "what_is_happening": "Milvus has 5 open roles, heavily focused on Sales and Go-to-Market.",
     "why_it_matters": "Milvus (VectorAI) is a direct competitor to Actian in this market segment.",
     "actian_action": "Quarterly review cycle. Monitor for escalation signals.",
     "threat_level": "low",
@@ -153,8 +156,8 @@
     "team_routing": [
       "product"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "f13490bd7fa68ac9"
+    "last_updated": "2026-04-15",
+    "_input_hash": "a2b5f84f4e8c9f43"
   },
   {
     "company": "Snowflake",
@@ -165,33 +168,36 @@
     "actian_action": "This quarter: Add to competitive review. Product: Monitor for feature parity gaps.",
     "threat_level": "high",
     "top_signals": [
-      "28 AI/ML roles (14% of postings) — likely building AI-powered features such as i"
+      "27 AI/ML roles (14% of postings) — likely building AI-powered features such as i"
     ],
     "team_routing": [
       "sdrs",
-      "pmm",
-      "product"
+      "product",
+      "pmm"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "2c5fbd6354536bce"
+    "last_updated": "2026-04-15",
+    "_input_hash": "b226051b214798f7"
   },
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
-    "verdict": "Databricks is accelerating investment in AI Analyst — significant competitive pressure building.",
-    "what_is_happening": "Databricks has 194 open roles, heavily focused on Sales and Go-to-Market.",
-    "why_it_matters": "Databricks (AI Analyst) is a direct competitor to Actian in this market segment. Significant competitive pressure expected this quarter.",
-    "actian_action": "This quarter: Add to competitive review. Product: Monitor for feature parity gaps.",
-    "threat_level": "high",
+    "verdict": "Databricks is executing a major competitive play in AI Analyst — immediate threat to Actian's market position.",
+    "what_is_happening": "Databricks has 193 open roles, heavily focused on Sales and Go-to-Market.",
+    "why_it_matters": "Databricks (AI Analyst) is a direct competitor to Actian in this market segment. Immediate action required.",
+    "actian_action": "Immediate: Brief sales team + prepare competitive battlecard. Product: Assess roadmap impact.",
+    "threat_level": "critical",
     "top_signals": [
-      "19 AI/ML roles (10% of postings) — likely building AI-powered features such as i"
+      "19 AI/ML roles (10% of postings) — likely building AI-powered features such as i",
+      "Agentic Reasoning in Practice: Making Sense of Structured and Unstructured Data",
+      "Agent Bricks: The Governed Enterprise Agent Platform"
     ],
     "team_routing": [
       "sdrs",
+      "product",
       "pmm",
-      "product"
+      "executives"
     ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "412cd3cdfa0c0c60"
+    "last_updated": "2026-04-15",
+    "_input_hash": "531d8699682138dc"
   }
 ]
