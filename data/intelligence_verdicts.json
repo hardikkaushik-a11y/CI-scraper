@@ -2,202 +2,198 @@
   {
     "company": "Atlan",
     "product_area": "Data Intelligence",
-    "verdict": "Atlan is actively investing in Data Intelligence — monitor closely for escalation.",
-    "what_is_happening": "Atlan has 13 open roles, heavily focused on Engineering and Platform / Infra.",
-    "why_it_matters": "Atlan (Data Intelligence) is a direct competitor to Actian in this market segment.",
-    "actian_action": "Quarterly review cycle. Monitor for escalation signals.",
+    "verdict": "Atlan has 13 open roles in Data Intelligence; hiring-only signal — no product movement confirmed yet.",
+    "what_is_happening": "Atlan is assembling senior leadership (77% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "why_it_matters": "Atlan competes with Actian in data catalog and governance — directly overlaps Actian's lineage, metadata, and integration surface.",
+    "actian_action": "Product: include Atlan's Platform / Infra trajectory in next quarterly review.",
     "threat_level": "medium",
     "top_signals": [
-      "Security/compliance hiring (2 roles) indicates upcoming enterprise compliance ce"
+      "Security/compliance hiring (2 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
+      "High senior-to-total ratio (77%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite"
     ],
     "team_routing": [
       "product"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "491ca508d2c30b72"
+    "_input_hash": "180bdb18412a6522"
   },
   {
     "company": "Collibra",
     "product_area": "Data Intelligence",
-    "verdict": "Collibra is accelerating investment in Data Intelligence — significant competitive pressure building.",
-    "what_is_happening": "Collibra has 39 open roles, heavily focused on Engineering and Platform / Infra.",
-    "why_it_matters": "Collibra (Data Intelligence) is a direct competitor to Actian in this market segment. Significant competitive pressure expected this quarter.",
-    "actian_action": "This quarter: Add to competitive review. Product: Monitor for feature parity gaps.",
-    "threat_level": "high",
+    "verdict": "Collibra has 39 open roles in Data Intelligence; hiring-only signal — no product movement confirmed yet.",
+    "what_is_happening": "Collibra is assembling senior leadership (72% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "why_it_matters": "Collibra competes with Actian in data catalog and governance — directly overlaps Actian's lineage, metadata, and integration surface.",
+    "actian_action": "Product: include Collibra's Platform / Infra trajectory in next quarterly review.",
+    "threat_level": "medium",
     "top_signals": [
-      "6 AI/ML roles (15% of postings) — likely building AI-powered features such as in"
+      "6 AI/ML roles (15% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query…",
+      "Security/compliance hiring (2 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer"
     ],
     "team_routing": [
-      "sdrs",
-      "product",
-      "pmm"
+      "product"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "8b8274f47df09e51"
+    "_input_hash": "903abdf54a64ec40"
   },
   {
     "company": "Alation",
     "product_area": "Data Intelligence",
-    "verdict": "Alation is actively investing in Data Intelligence — monitor closely for escalation.",
-    "what_is_happening": "Alation has 23 open roles, heavily focused on Engineering and Platform / Infra.",
-    "why_it_matters": "Alation (Data Intelligence) is a direct competitor to Actian in this market segment.",
-    "actian_action": "Quarterly review cycle. Monitor for escalation signals.",
+    "verdict": "Alation has 23 open roles in Data Intelligence; hiring-only signal — no product movement confirmed yet.",
+    "what_is_happening": "Alation is actively hiring 23 roles across Engineering focused on Platform / Infra, with high intensity — steady investment in their Data Intelligence capabilities.",
+    "why_it_matters": "Alation competes with Actian in data catalog and governance — directly overlaps Actian's lineage, metadata, and integration surface.",
+    "actian_action": "Product: include Alation's Platform / Infra trajectory in next quarterly review.",
     "threat_level": "medium",
     "top_signals": [
-      "Alation is a direct competitor in Data Intelligence but current hiring focuses o"
+      "Alation is a direct competitor in Data Intelligence but current hiring focuses on Platform / Infra — monitor for lateral expansion into Actian's core…",
+      "Hiring across 6 product areas (Corporate Functions, Go-to-Market...) suggests portfolio expansion or major platform consolidation"
     ],
     "team_routing": [
       "product"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "350fb6e4f411e1f7"
+    "_input_hash": "ce46fdb7972a2c27"
   },
   {
     "company": "Monte Carlo",
     "product_area": "Data Observability",
-    "verdict": "Monte Carlo is actively investing in Data Observability — monitor closely for escalation.",
-    "what_is_happening": "Monte Carlo has 1 open roles, heavily focused on Marketing and Go-to-Market.",
-    "why_it_matters": "Monte Carlo (Data Observability) is a direct competitor to Actian in this market segment.",
-    "actian_action": "Quarterly review cycle. Monitor for escalation signals.",
-    "threat_level": "medium",
+    "verdict": "Monte Carlo has minimal Data Observability activity (1 roles, low signal) — not a current competitive priority.",
+    "what_is_happening": "Monte Carlo is assembling senior leadership (100% senior+ roles) — signals a strategic pivot or new product line launch in Go-to-Market.",
+    "why_it_matters": "Monte Carlo competes with Actian in pipeline monitoring and data quality — adjacent to Actian's observability layer.",
+    "actian_action": "No immediate action needed. Flag if Monte Carlo hiring or launch volume increases.",
+    "threat_level": "low",
     "top_signals": [
-      "High senior-to-total ratio (100%) indicates strategic buildout phase — assemblin"
+      "High senior-to-total ratio (100%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite",
+      "Monte Carlo is a direct competitor in Data Observability but current hiring focuses on Go-to-Market — monitor for lateral expansion into Actian's…"
     ],
-    "team_routing": [
-      "product"
-    ],
+    "team_routing": [],
     "last_updated": "2026-04-15",
-    "_input_hash": "6505088c667ecf74"
+    "_input_hash": "02361c2a9fa64432"
   },
   {
     "company": "Bigeye",
     "product_area": "Data Observability",
-    "verdict": "Bigeye maintains steady hiring in Data Observability — not an immediate threat.",
+    "verdict": "Bigeye shows no significant Data Observability signals in this window.",
     "what_is_happening": "",
-    "why_it_matters": "Bigeye (Data Observability) is a direct competitor to Actian in this market segment.",
-    "actian_action": "Quarterly review cycle. Monitor for escalation signals.",
+    "why_it_matters": "Bigeye competes with Actian in pipeline monitoring and data quality — adjacent to Actian's observability layer.",
+    "actian_action": "No immediate action needed. Flag if Bigeye hiring or launch volume increases.",
     "threat_level": "low",
     "top_signals": [],
-    "team_routing": [
-      "product"
-    ],
-    "last_updated": "2026-04-14",
-    "_input_hash": "c514c584540c4253"
+    "team_routing": [],
+    "last_updated": "2026-04-15",
+    "_input_hash": "62bdeb4bf017efbf"
   },
   {
     "company": "Acceldata",
     "product_area": "Data Observability",
-    "verdict": "Acceldata is actively investing in Data Observability — monitor closely for escalation.",
-    "what_is_happening": "Acceldata has 18 open roles, heavily focused on Engineering and Platform / Infra.",
-    "why_it_matters": "Acceldata (Data Observability) is a direct competitor to Actian in this market segment.",
-    "actian_action": "Quarterly review cycle. Monitor for escalation signals.",
-    "threat_level": "medium",
+    "verdict": "Acceldata is pairing 18-role hiring with new product launches in Data Observability — significant and directional.",
+    "what_is_happening": "Acceldata is scaling infrastructure with 7 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering. Recent product moves: Rahil Hussain Shaikh Gartner Recognized Data Observability T; Venkatraman Mahalingam Top Agentic MDM Platforms for Enterpr.",
+    "why_it_matters": "Acceldata competes with Actian in pipeline monitoring and data quality — adjacent to Actian's observability layer. New product capabilities narrow Actian's differentiation window.",
+    "actian_action": "PMM: refresh Acceldata battlecard — new product signals identified. Product: review Platform / Infra overlap against Actian roadmap for gaps.",
+    "threat_level": "high",
     "top_signals": [
-      "Cloud infrastructure hiring (3 roles) suggests expanding multi-cloud deployment "
+      "Rahil Hussain Shaikh Gartner Recognized Data Observability Tools with Agentic AI Leaders April 14, 2026 10 Min Read",
+      "Venkatraman Mahalingam Top Agentic MDM Platforms for Enterprise Data Leaders April 14, 2026 10 Min Read",
+      "Lakshmi Narashimman Why AI Agents Will Break Your Data Culture Before They Fix It (Without this missing piece) April 10,"
     ],
     "team_routing": [
-      "product"
+      "product",
+      "pmm",
+      "sdrs"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "3a06a7243e05f2b5"
+    "_input_hash": "6ff474b0c62d7185"
   },
   {
     "company": "Pinecone",
     "product_area": "VectorAI",
-    "verdict": "Pinecone is executing a major competitive play in VectorAI — immediate threat to Actian's market position.",
-    "what_is_happening": "Pinecone has 8 open roles, heavily focused on Engineering and Platform / Infra. Recently announced 2 product launches/events.",
-    "why_it_matters": "Pinecone (VectorAI) is a direct competitor to Actian in this market segment. Immediate action required.",
-    "actian_action": "Immediate: Brief sales team + prepare competitive battlecard. Product: Assess roadmap impact.",
-    "threat_level": "critical",
+    "verdict": "Pinecone shows early VectorAI signals (8 roles + recent activity) — not urgent but worth tracking.",
+    "what_is_happening": "Pinecone is assembling senior leadership (75% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Recent product moves: Product Apr 15, 2026 Four New GA Features for Dedicated Read.",
+    "why_it_matters": "Pinecone competes with Actian in vector databases and AI-native retrieval — Actian's Vector capability is in direct competition. New product capabilities narrow Actian's differentiation window.",
+    "actian_action": "Product: include Pinecone's Platform / Infra trajectory in next quarterly review. PMM: verify new launch does not affect current deal positioning.",
+    "threat_level": "medium",
     "top_signals": [
-      "High senior-to-total ratio (75%) indicates strategic buildout phase — assembling",
-      "🚀 Dedicated Read Nodes are now GA. Fixed hourly pricing and dedicated capacity f",
-      "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Tea"
-    ],
-    "team_routing": [
-      "sdrs",
-      "product",
-      "pmm",
-      "executives"
-    ],
-    "last_updated": "2026-04-15",
-    "_input_hash": "b07f3189f1fb5fa2"
-  },
-  {
-    "company": "Qdrant",
-    "product_area": "VectorAI",
-    "verdict": "Qdrant is accelerating investment in VectorAI — significant competitive pressure building.",
-    "what_is_happening": "Qdrant has 12 open roles, heavily focused on Engineering and Platform / Infra.",
-    "why_it_matters": "Qdrant (VectorAI) is a direct competitor to Actian in this market segment. Significant competitive pressure expected this quarter.",
-    "actian_action": "This quarter: Add to competitive review. Product: Monitor for feature parity gaps.",
-    "threat_level": "high",
-    "top_signals": [
-      "Cloud infrastructure hiring (4 roles) suggests expanding multi-cloud deployment "
-    ],
-    "team_routing": [
-      "sdrs",
-      "product",
-      "pmm"
-    ],
-    "last_updated": "2026-04-15",
-    "_input_hash": "88c76959f9bfd87b"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "verdict": "Milvus maintains steady hiring in VectorAI — not an immediate threat.",
-    "what_is_happening": "Milvus has 5 open roles, heavily focused on Sales and Go-to-Market.",
-    "why_it_matters": "Milvus (VectorAI) is a direct competitor to Actian in this market segment.",
-    "actian_action": "Quarterly review cycle. Monitor for escalation signals.",
-    "threat_level": "low",
-    "top_signals": [
-      "Majority mid/entry-level hiring suggests scaling existing product execution rath"
+      "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin ",
+      "🚀 Dedicated Read Nodes are now GA. Fixed hourly pricing and dedicated capacity for production workloads at scale — up to"
     ],
     "team_routing": [
       "product"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "a2b5f84f4e8c9f43"
+    "_input_hash": "444a588e0edf4e5e"
+  },
+  {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "verdict": "Qdrant has 12 open roles in VectorAI; hiring-only signal — no product movement confirmed yet.",
+    "what_is_happening": "Qdrant is scaling infrastructure with 3 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
+    "why_it_matters": "Qdrant competes with Actian in vector databases and AI-native retrieval — Actian's Vector capability is in direct competition.",
+    "actian_action": "Product: include Qdrant's Platform / Infra trajectory in next quarterly review.",
+    "threat_level": "medium",
+    "top_signals": [
+      "Cloud infrastructure hiring (4 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
+      "Heavy infrastructure hiring (3 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model"
+    ],
+    "team_routing": [
+      "product"
+    ],
+    "last_updated": "2026-04-15",
+    "_input_hash": "e1d13eafd5032dfa"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "verdict": "Milvus has minimal VectorAI activity (5 roles, low signal) — not a current competitive priority.",
+    "what_is_happening": "Milvus is actively hiring 5 roles across Sales focused on Go-to-Market, with low intensity — steady investment in their Other capabilities.",
+    "why_it_matters": "Milvus competes with Actian in vector databases and AI-native retrieval — Actian's Vector capability is in direct competition.",
+    "actian_action": "No immediate action needed. Flag if Milvus hiring or launch volume increases.",
+    "threat_level": "low",
+    "top_signals": [
+      "Majority mid/entry-level hiring suggests scaling existing product execution rather than strategic pivots — focus on feature velocity and customer…",
+      "Milvus operates in Other — indirect competitive pressure but potential partnership opportunity for Actian's integration platform"
+    ],
+    "team_routing": [],
+    "last_updated": "2026-04-15",
+    "_input_hash": "a08400601e171a6f"
   },
   {
     "company": "Snowflake",
     "product_area": "AI Analyst",
-    "verdict": "Snowflake is accelerating investment in AI Analyst — significant competitive pressure building.",
-    "what_is_happening": "Snowflake has 198 open roles, heavily focused on Engineering and Platform / Infra.",
-    "why_it_matters": "Snowflake (AI Analyst) is a direct competitor to Actian in this market segment. Significant competitive pressure expected this quarter.",
-    "actian_action": "This quarter: Add to competitive review. Product: Monitor for feature parity gaps.",
+    "verdict": "Snowflake is building out Engineering at scale (198 roles) in AI Analyst — competitive presence is growing.",
+    "what_is_happening": "Snowflake is doubling down on data engineering with 5 pipeline/integration roles — direct competitive move against Actian in the data integration space.",
+    "why_it_matters": "Snowflake competes with Actian in AI-powered analytics and data lakehouse — directly challenges Actian's analytics and integration platform.",
+    "actian_action": "Product: review Platform / Infra overlap against Actian roadmap for gaps.",
     "threat_level": "high",
     "top_signals": [
-      "27 AI/ML roles (14% of postings) — likely building AI-powered features such as i"
+      "27 AI/ML roles (14% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based…",
+      "Cloud infrastructure hiring (8 roles) suggests expanding AWS deployment options — potential new managed service or marketplace listing"
     ],
     "team_routing": [
-      "sdrs",
       "product",
-      "pmm"
+      "pmm",
+      "sdrs"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "b226051b214798f7"
+    "_input_hash": "9382f9607fedb778"
   },
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
-    "verdict": "Databricks is executing a major competitive play in AI Analyst — immediate threat to Actian's market position.",
-    "what_is_happening": "Databricks has 193 open roles, heavily focused on Sales and Go-to-Market.",
-    "why_it_matters": "Databricks (AI Analyst) is a direct competitor to Actian in this market segment. Immediate action required.",
-    "actian_action": "Immediate: Brief sales team + prepare competitive battlecard. Product: Assess roadmap impact.",
-    "threat_level": "critical",
+    "verdict": "Databricks is building out Sales at scale (193 roles) in AI Analyst — competitive presence is growing.",
+    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 19 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "why_it_matters": "Databricks competes with Actian in AI-powered analytics and data lakehouse — directly challenges Actian's analytics and integration platform.",
+    "actian_action": "Product: review Go-to-Market overlap against Actian roadmap for gaps.",
+    "threat_level": "high",
     "top_signals": [
-      "19 AI/ML roles (10% of postings) — likely building AI-powered features such as i",
       "Agentic Reasoning in Practice: Making Sense of Structured and Unstructured Data",
-      "Agent Bricks: The Governed Enterprise Agent Platform"
+      "Agent Bricks: The Governed Enterprise Agent Platform",
+      "8 AI and data trends shaping financial services in 2026"
     ],
     "team_routing": [
-      "sdrs",
       "product",
       "pmm",
-      "executives"
+      "sdrs"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "531d8699682138dc"
+    "_input_hash": "d735a470b28bf241"
   }
 ]

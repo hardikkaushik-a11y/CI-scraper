@@ -33,6 +33,54 @@
     "scraped_at": "2026-04-15"
   },
   {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "product_launch",
+    "title": "Rahil Hussain Shaikh Gartner Recognized Data Observability Tools with Agentic AI Leaders April 14, 2026 10 Min Read",
+    "url": "https://www.acceldata.io/blog/gartner-recognized-data-observability-tools-with-agentic-ai-leaders",
+    "published_date": "2026-04-15",
+    "summary": "Rahil Hussain Shaikh Gartner Recognized Data Observability Tools with Agentic AI Leaders April 14, 2026 10 Min Read",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-15"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "product_launch",
+    "title": "Venkatraman Mahalingam Top Agentic MDM Platforms for Enterprise Data Leaders April 14, 2026 10 Min Read",
+    "url": "https://www.acceldata.io/blog/top-agentic-mdm-platforms-for-enterprise-data-leaders",
+    "published_date": "2026-04-15",
+    "summary": "Venkatraman Mahalingam Top Agentic MDM Platforms for Enterprise Data Leaders April 14, 2026 10 Min Read",
+    "actian_relevance": "high",
+    "tags": [
+      "enterprise"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-15"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "blog_post",
+    "title": "Lakshmi Narashimman Why AI Agents Will Break Your Data Culture Before They Fix It (Without this missing piece) April 10, 2026 10 Min Read",
+    "url": "https://www.acceldata.io/blog/why-ai-agents-will-break-your-data-culture-before-they-fix-it",
+    "published_date": "2026-04-15",
+    "summary": "Lakshmi Narashimman Why AI Agents Will Break Your Data Culture Before They Fix It (Without this missing piece) April 10, 2026 10 Min Read",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-15"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "type": "blog_post",
