@@ -16,7 +16,14 @@
       "Bash(git commit -m \"Initial commit: Competitive hiring intelligence pipeline:*)",
       "Bash(rm -f /Users/hardikkaushik/Downloads/Scraper/.git/index.lock)",
       "Bash(git push:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(git commit -m 'Phase 2.5: Restrict Anthropic API to verdict_engine only + add fallback logic:*)",
+      "Bash(/opt/homebrew/Cellar/gh/2.89.0/bin/gh workflow:*)",
+      "Bash(git commit -m 'fix: signal_scraper produces meaningful signals — improved classification & filtering:*)",
+      "Bash(~/miniforge3/bin/python3 src/verdict_engine.py)",
+      "Bash('~/miniforge3/bin/python3' -c ':*)",
+      "Bash(git commit -m ':*)",
+      "Bash(rm -f .git/index.lock)"
     ]
   }
 }

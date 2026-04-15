@@ -79,6 +79,72 @@ HTML_SOURCES = {
 }
 
 # ══════════════════════════════════════════════════════════════════════════
+# TEXT CLEANING — strip noise before classification
+# ══════════════════════════════════════════════════════════════════════════
+
+# Prefixes like "Product Apr 15 · " or "News May 2 ," at start of titles
+_DATE_PREFIX_RE = re.compile(
+    r'^(?:Product|News|Blog|Engineering|Company|Updates?|Resources?)\s+'
+    r'[A-Z][a-z]{2,8}\.?\s+\d{1,2}[,·.\s]+',
+    re.I,
+)
+# Inline dates like "Apr 15, 2026" or "April 15 2026"
+_INLINE_DATE_RE = re.compile(
+    r'\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s*\d{4}\b',
+    re.I,
+)
+# "by First Last" author attribution
+_AUTHOR_RE = re.compile(r'\bby\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b')
+
+
+def clean_text(text: str) -> str:
+    """Strip dates, author names, and category prefixes from free text."""
+    if not text:
+        return ""
+    text = _DATE_PREFIX_RE.sub("", text)
+    text = _INLINE_DATE_RE.sub("", text)
+    text = _AUTHOR_RE.sub("", text)
+    return re.sub(r'\s+', ' ', text).strip()
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# EVENT GATING — hard rules for what constitutes a real competitive signal
+# ══════════════════════════════════════════════════════════════════════════
+
+# Signals that indicate a real-world event (product, market movement)
+_EVENT_GATE_RE = re.compile(
+    r'\blaunch(?:ed|ing)?\b'
+    r'|releas(?:ed|ing|e)\b'
+    r'|\bga\b|general\s+availability'
+    r'|announc(?:ed|ing|ement)\b'
+    r'|new\s+feature'
+    r'|now\s+available|available\s+now'
+    r'|\bpricing\b|price\s+change'
+    r'|partner(?:ship|ed|ing)\b'
+    r'|integrat(?:ion|ed|ing)\s+with'
+    r'|acqui(?:red|sition)\b'
+    r'|funding\s+round|raised?\s+\$',
+    re.I,
+)
+
+# Pure noise patterns — hard exclude regardless of type
+_NOISE_RE = re.compile(
+    r'\btop\s+\d+\b'
+    r'|\bhow[\s-]to\b'
+    r'|\btutorial\b'
+    r'|\b(?:complete\s+)?guide\s+to\b'
+    r'|\bbest\s+practices?\b'
+    r'|\bthought\s+leadership\b'
+    r'|\bfuture\s+of\b'
+    r'|\btrends?\s+(?:in|for|20\d\d)\b'
+    r'|\bpredictions?\s+for\b'
+    r'|\bwhy\s+(?:you\s+should|your\s+team|companies|organizations)\b'
+    r'|\bwhat\s+is\s+(?:a\s+)?[a-z]'
+    r'|\bbeginners?\s+guide\b',
+    re.I,
+)
+
+# ══════════════════════════════════════════════════════════════════════════
 # CLAUDE API — copied exactly from enrich.py, do not diverge
 # ══════════════════════════════════════════════════════════════════════════
 
@@ -152,6 +218,10 @@ def classify_item(company: str, title: str, description: str) -> dict | None:
     PHASE 2.5: Anthropic API restricted to verdict_engine only.
     Replace Claude Sonnet classification with rule-based keyword logic.
     """
+    # Clean before classification — removes dates, author names, prefixes
+    title = clean_text(title)
+    description = clean_text(description)
+
     combined_text = (title + " " + description).lower()
 
     # ═══ DETERMINE TYPE ═══
@@ -222,6 +292,14 @@ def classify_item(company: str, title: str, description: str) -> dict | None:
     date_match = re.search(date_pattern, description)
     if date_match:
         event_date = date_match.group(0)
+
+    # ═══ RELEVANCE GUARANTEE ═══
+    # Product launches are never "low" — if we classified it as a launch it has signal
+    if signal_type == "product_launch" and relevance == "low":
+        relevance = "medium"
+    # Explicit GA / general availability → always high
+    if re.search(r'\bga\b|general\s+availability', combined_text) and relevance != "high":
+        relevance = "high"
 
     return {
         "type": signal_type,
@@ -481,27 +559,28 @@ def main():
                 seen_urls.add(url)
                 continue
 
-            # Drop ONLY blog posts with zero relevant keywords (truly noise)
-            # Keep blog_post + medium/high, and blog_post + low with some keyword match
-            if classification["type"] == "blog_post" and classification["actian_relevance"] == "low":
-                # Check if item has ANY relevant keywords at all
-                has_any_keyword = bool(
-                    re.search(r'data|analytics|integration|ai|ml|vector|platform|catalog|governance|observability',
-                              title.lower() + " " + item["description"][:300].lower())
-                )
-                if not has_any_keyword:
+            # Hard exclude: noise content patterns regardless of type
+            gate_text = title + " " + item["description"][:300]
+            if _NOISE_RE.search(gate_text):
+                seen_urls.add(url)
+                continue
+
+            # Event gating: blog posts must contain an explicit event keyword to pass
+            # All other types (product_launch, partnership, etc.) already required
+            # event-like keywords during type classification, so they pass through
+            if classification["type"] == "blog_post":
+                if not _EVENT_GATE_RE.search(gate_text):
                     seen_urls.add(url)
-                    time.sleep(0.3)
                     continue
 
             signal = {
                 "company":          company,
                 "product_area":     product_area,
                 "type":             classification["type"],
-                "title":            title,
+                "title":            clean_text(title),
                 "url":              url,
                 "published_date":   pub,
-                "summary":          classification.get("summary", ""),
+                "summary":          clean_text(classification.get("summary", "")),
                 "actian_relevance": classification["actian_relevance"],
                 "tags":             classification.get("tags", []),
                 "source_type":      classification.get("source_type", "blog"),

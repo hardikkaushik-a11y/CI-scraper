@@ -1,10 +1,30 @@
 {
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./skills/self-improvement/scripts/activator.sh"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write|Bash",
         "command": "code-review-graph update --quiet",
         "timeout": 5000
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./skills/self-improvement/scripts/error-detector.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [
