@@ -2,20 +2,24 @@
   {
     "company": "Atlan",
     "product_area": "Data Intelligence",
-    "verdict": "Atlan has 13 open roles in Data Intelligence; hiring-only signal — no product movement confirmed yet.",
-    "what_is_happening": "Atlan is assembling senior leadership (77% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
-    "why_it_matters": "Atlan competes with Actian in data catalog and governance — directly overlaps Actian's lineage, metadata, and integration surface.",
-    "actian_action": "Product: include Atlan's Platform / Infra trajectory in next quarterly review.",
-    "threat_level": "medium",
+    "verdict": "Atlan is pairing 13-role hiring with new product launches in Data Intelligence — significant and directional.",
+    "what_is_happening": "Atlan is assembling senior leadership (77% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Recent product moves: Atlan Named a Leader in 2026 Gartner® Magic Quadrant™ for Da; Atlan’s Control Plane to Power Data & AI Governance Attracts. 1 upcoming event(s) signaling customer-facing GTM activity. New partnership announced — potential integration play in this space.",
+    "why_it_matters": "Atlan competes with Actian in data catalog and governance — directly overlaps Actian's lineage, metadata, and integration surface. New product capabilities narrow Actian's differentiation window.",
+    "actian_action": "PMM: refresh Atlan battlecard — new product signals identified. SDRs: monitor Atlan events for attendee outreach opportunity. Product: review Platform / Infra overlap against Actian roadmap for gaps.",
+    "threat_level": "high",
     "top_signals": [
-      "Security/compliance hiring (2 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
-      "High senior-to-total ratio (77%) indicates strategic buildout phase — assembling leadership team for a new product line or major platform rewrite"
+      "Atlan Named a Leader in 2026 Gartner® Magic Quadrant™ for Data & Analytics Governance Platforms Press Release 06 Jan 202",
+      "Atlan’s Control Plane to Power Data & AI Governance Attracts $105M, Elevating Valuation to $750M Press Release 08 May 20",
+      "Atlan debuts as a Leader in 3 categories—Data Governance, Machine Learning Data Catalogs, and Data Quality—in the G2 Spr"
     ],
     "team_routing": [
-      "product"
+      "product",
+      "pmm",
+      "sdrs",
+      "marketing"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "180bdb18412a6522"
+    "_input_hash": "d74ab92dcfd1dc8a"
   },
   {
     "company": "Collibra",
@@ -72,15 +76,22 @@
   {
     "company": "Bigeye",
     "product_area": "Data Observability",
-    "verdict": "Bigeye shows no significant Data Observability signals in this window.",
-    "what_is_happening": "",
+    "verdict": "Bigeye is showing early Data Observability signals — insufficient volume for immediate concern.",
+    "what_is_happening": "1 upcoming event(s) signaling customer-facing GTM activity. New partnership announced — potential integration play in this space.",
     "why_it_matters": "Bigeye competes with Actian in pipeline monitoring and data quality — adjacent to Actian's observability layer.",
-    "actian_action": "No immediate action needed. Flag if Bigeye hiring or launch volume increases.",
-    "threat_level": "low",
-    "top_signals": [],
-    "team_routing": [],
+    "actian_action": "Product: include Bigeye's Data Observability trajectory in next quarterly review.",
+    "threat_level": "medium",
+    "top_signals": [
+      "Product How Lineage Works: A Bigeye Product Walkthrough How end-to-end data lineage works within Bigeye. Skailar Hage Th",
+      "Day Three Dispatch: Gartner Data & Analytics Summit 2026 The theme of Day Three? Adaptability. Adrian Vidal This is some"
+    ],
+    "team_routing": [
+      "product",
+      "marketing",
+      "sdrs"
+    ],
     "last_updated": "2026-04-15",
-    "_input_hash": "62bdeb4bf017efbf"
+    "_input_hash": "0db4d431ceec6694"
   },
   {
     "company": "Acceldata",
@@ -93,7 +104,7 @@
     "top_signals": [
       "Rahil Hussain Shaikh Gartner Recognized Data Observability Tools with Agentic AI Leaders April 14, 2026 10 Min Read",
       "Venkatraman Mahalingam Top Agentic MDM Platforms for Enterprise Data Leaders April 14, 2026 10 Min Read",
-      "Lakshmi Narashimman Why AI Agents Will Break Your Data Culture Before They Fix It (Without this missing piece) April 10,"
+      "Venkatraman Mahalingam Why Integrated Data Governance Is Critical for Unified Data Control 10 Min Read"
     ],
     "team_routing": [
       "product",
@@ -101,43 +112,49 @@
       "sdrs"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "6ff474b0c62d7185"
+    "_input_hash": "7b765a69b9859370"
   },
   {
     "company": "Pinecone",
     "product_area": "VectorAI",
-    "verdict": "Pinecone shows early VectorAI signals (8 roles + recent activity) — not urgent but worth tracking.",
-    "what_is_happening": "Pinecone is assembling senior leadership (75% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Recent product moves: Product Apr 15, 2026 Four New GA Features for Dedicated Read.",
+    "verdict": "Pinecone is pairing 8-role hiring with new product launches in VectorAI — significant and directional.",
+    "what_is_happening": "Pinecone is assembling senior leadership (75% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Recent product moves: Product Apr 15, 2026 Four New GA Features for Dedicated Read; Featured Pinecone BYOC: Pinecone in your AWS, GCP, or Azure .",
     "why_it_matters": "Pinecone competes with Actian in vector databases and AI-native retrieval — Actian's Vector capability is in direct competition. New product capabilities narrow Actian's differentiation window.",
-    "actian_action": "Product: include Pinecone's Platform / Infra trajectory in next quarterly review. PMM: verify new launch does not affect current deal positioning.",
-    "threat_level": "medium",
+    "actian_action": "PMM: refresh Pinecone battlecard — new product signals identified. Product: review Platform / Infra overlap against Actian roadmap for gaps.",
+    "threat_level": "high",
     "top_signals": [
       "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin ",
-      "🚀 Dedicated Read Nodes are now GA. Fixed hourly pricing and dedicated capacity for production workloads at scale — up to"
+      "Featured Pinecone BYOC: Pinecone in your AWS, GCP, or Azure account, no vendor access Gavin Johnson",
+      "2026 Garbage Day: How Pinecone Safely Deletes Billions of Objects at Scale Lea , Benny , Hirad"
     ],
     "team_routing": [
-      "product"
+      "product",
+      "pmm",
+      "sdrs"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "444a588e0edf4e5e"
+    "_input_hash": "f14d84a57f7249d9"
   },
   {
     "company": "Qdrant",
     "product_area": "VectorAI",
-    "verdict": "Qdrant has 12 open roles in VectorAI; hiring-only signal — no product movement confirmed yet.",
-    "what_is_happening": "Qdrant is scaling infrastructure with 3 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
-    "why_it_matters": "Qdrant competes with Actian in vector databases and AI-native retrieval — Actian's Vector capability is in direct competition.",
-    "actian_action": "Product: include Qdrant's Platform / Infra trajectory in next quarterly review.",
-    "threat_level": "medium",
+    "verdict": "Qdrant is pairing 12-role hiring with new product launches in VectorAI — significant and directional.",
+    "what_is_happening": "Qdrant is scaling infrastructure with 3 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering. Recent product moves: Qdrant Meets Google Gemini Embedding 2; Convolve 4.0 - IIT Hackathon Winners.",
+    "why_it_matters": "Qdrant competes with Actian in vector databases and AI-native retrieval — Actian's Vector capability is in direct competition. New product capabilities narrow Actian's differentiation window.",
+    "actian_action": "PMM: refresh Qdrant battlecard — new product signals identified. Product: review Platform / Infra overlap against Actian roadmap for gaps.",
+    "threat_level": "high",
     "top_signals": [
-      "Cloud infrastructure hiring (4 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
-      "Heavy infrastructure hiring (3 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model"
+      "Qdrant Meets Google Gemini Embedding 2",
+      "Convolve 4.0 - IIT Hackathon Winners",
+      "We Raised $50M to Build Composable Vector Search as Core Infrastructure"
     ],
     "team_routing": [
-      "product"
+      "product",
+      "pmm",
+      "sdrs"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "e1d13eafd5032dfa"
+    "_input_hash": "090327e3a54156f2"
   },
   {
     "company": "Milvus",
@@ -148,12 +165,11 @@
     "actian_action": "No immediate action needed. Flag if Milvus hiring or launch volume increases.",
     "threat_level": "low",
     "top_signals": [
-      "Majority mid/entry-level hiring suggests scaling existing product execution rather than strategic pivots — focus on feature velocity and customer…",
-      "Milvus operates in Other — indirect competitive pressure but potential partnership opportunity for Actian's integration platform"
+      "We Extracted OpenClaw’s Memory System and Open-Sourced It (memsearch)"
     ],
     "team_routing": [],
     "last_updated": "2026-04-15",
-    "_input_hash": "a08400601e171a6f"
+    "_input_hash": "ff8aa673e9231e75"
   },
   {
     "company": "Snowflake",
@@ -178,15 +194,15 @@
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
-    "verdict": "Databricks is building out Sales at scale (193 roles) in AI Analyst — competitive presence is growing.",
-    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 19 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
-    "why_it_matters": "Databricks competes with Actian in AI-powered analytics and data lakehouse — directly challenges Actian's analytics and integration platform.",
-    "actian_action": "Product: review Go-to-Market overlap against Actian roadmap for gaps.",
+    "verdict": "Databricks is pairing 193-role hiring with new product launches in AI Analyst — significant and directional.",
+    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 19 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Recent product moves: Lovable + Databricks: Build Data-Driven Apps at the Speed of.",
+    "why_it_matters": "Databricks competes with Actian in AI-powered analytics and data lakehouse — directly challenges Actian's analytics and integration platform. New product capabilities narrow Actian's differentiation window.",
+    "actian_action": "PMM: refresh Databricks battlecard — new product signals identified. Product: review Go-to-Market overlap against Actian roadmap for gaps.",
     "threat_level": "high",
     "top_signals": [
+      "Lovable + Databricks: Build Data-Driven Apps at the Speed of Thought",
       "Agentic Reasoning in Practice: Making Sense of Structured and Unstructured Data",
-      "Agent Bricks: The Governed Enterprise Agent Platform",
-      "8 AI and data trends shaping financial services in 2026"
+      "Agent Bricks: The Governed Enterprise Agent Platform"
     ],
     "team_routing": [
       "product",
@@ -194,6 +210,6 @@
       "sdrs"
     ],
     "last_updated": "2026-04-15",
-    "_input_hash": "d735a470b28bf241"
+    "_input_hash": "4d4fd85d7417ca08"
   }
 ]
