@@ -63,6 +63,12 @@ jobs:
       - name: Refresh v2 dataset (keep in sync with latest enriched data)
         run: python scripts/create_v2_dataset.py
 
+      - name: Route verdicts + signals to Slack (Phase 4)
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: python src/slack_notifier.py
+        continue-on-error: true
+
       # ── Print summary ────────────────────────────────────────────────
       - name: Pipeline summary
         run: |
@@ -88,7 +94,7 @@ jobs:
         run: |
           git config user.name "CI Bot"
           git config user.email "ci-bot@actian.com"
-          git add -f data/jobs_enriched.csv data/jobs_enriched_v2.csv data/signals.json data/competitive_signals.json data/intelligence_verdicts.json data/seen_signals.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html
+          git add -f data/jobs_enriched.csv data/jobs_enriched_v2.csv data/signals.json data/competitive_signals.json data/intelligence_verdicts.json data/seen_signals.json data/slack_sent.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html
           git diff --cached --quiet || git commit -m "chore: daily scrape $(date -u '+%Y-%m-%d')"
           git pull --rebase --autostash -X ours origin main
           git push

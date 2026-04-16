@@ -7,3 +7,5 @@ services:
     envVars:
       - key: GROQ_API_KEY
         sync: false
+      - key: SLACK_WEBHOOK_URL
+        sync: false
