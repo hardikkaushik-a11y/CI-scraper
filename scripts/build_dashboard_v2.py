@@ -32,6 +32,26 @@ V2_COMPANIES = {
 
 THREAT_SCOPE = {"critical": 5, "high": 4, "medium": 3, "low": 2}
 
+# ─── Segment mappings (pipeline values → v2 UI bucket names) ─────────────────
+# Maps signals.json company_group → v2 segment string used by demo UI
+SEGMENT_MAP = {
+    "Data Intelligence":    "Data Intelligence",
+    "Data Observability":   "Data Observability",
+    "Vector DB / AI":       "Vector AI",
+    "Warehouse/Processing": "AI Analyst",
+}
+
+# Maps verdicts/launches product_area → v2 segment string used by demo UI
+PRODUCT_AREA_MAP = {
+    "Data Intelligence":  "Data Intelligence",
+    "Data Observability": "Data Observability",
+    "VectorAI":           "Vector AI",
+    "AI Analyst":         "AI Analyst",
+}
+
+# Maps pipeline hiring_intensity → display string (3-level, no "Very High" invented)
+INTENSITY_MAP = {"high": "High", "medium": "Medium", "low": "Low"}
+
 # ─── Loaders ─────────────────────────────────────────────────────────────────
 def load_csv(path):
     if not path.exists():
@@ -141,23 +161,25 @@ def build_signals(raw_signals, jobs):
         if s.get("company") not in V2_COMPANIES:
             continue
         company = s["company"]
+        seg = SEGMENT_MAP.get(s.get("company_group", ""))
+        if not seg:
+            continue  # skip companies not in a v2 bucket
         impl = s.get("implications", [])
         if isinstance(impl, str):
             try: impl = json.loads(impl)
             except Exception: impl = [impl]
         out.append({
-            "company":    company,
-            "segment":    s.get("company_group", ""),
-            "threat":     s.get("threat_level", "low").lower(),
-            "intensity":  s.get("hiring_intensity", "low").capitalize(),
-            "dominant":   s.get("dominant_product_focus", ""),
-            "ai_roles":   ai_count(jobs, company),
-            "senior":     senior_count(jobs, company),
-            "hiring":     int(s.get("posting_count", 0)),
-            "summary":    s.get("signal_summary", ""),
+            "company":      company,
+            "segment":      seg,
+            "threat":       s.get("threat_level", "low").lower(),
+            "intensity":    INTENSITY_MAP.get(s.get("hiring_intensity", "low"), "Low"),
+            "dominant":     s.get("dominant_product_focus", ""),
+            "ai_roles":     ai_count(jobs, company),
+            "senior":       senior_count(jobs, company),
+            "hiring":       int(s.get("posting_count", 0)),
+            "summary":      s.get("signal_summary", ""),
             "implications": impl[:3],
         })
-    # sort by threat severity
     order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
     out.sort(key=lambda x: order.get(x["threat"], 4))
     return out
@@ -171,9 +193,12 @@ def build_verdicts(raw_verdicts, signals_by_company):
         sig     = signals_by_company.get(company, {})
         threat  = sig.get("threat_level", "medium").lower()
         routing = routing_from_verdict(v, threat)
+        # Use PRODUCT_AREA_MAP first; fall back to SEGMENT_MAP via signals company_group
+        seg = (PRODUCT_AREA_MAP.get(v.get("product_area", "")) or
+               SEGMENT_MAP.get(sig.get("company_group", ""), ""))
         out.append({
             "company":      company,
-            "segment":      sig.get("company_group", v.get("product_area", "")),
+            "segment":      seg,
             "threat":       threat,
             "impact_scope": THREAT_SCOPE.get(threat, 2),
             "confidence":   v.get("confidence", "medium"),
@@ -191,6 +216,11 @@ def build_verdicts(raw_verdicts, signals_by_company):
     return out
 
 def build_launches(comp_signals):
+    # Map pipeline type values to demo UI type values
+    TYPE_MAP = {
+        "open_source_release": "oss_release",
+        "funding":             "blog_post",   # no funding render type in demo UI
+    }
     out = []
     for c in comp_signals:
         if c.get("company") not in V2_COMPANIES:
@@ -198,7 +228,7 @@ def build_launches(comp_signals):
         t = c.get("type", "")
         out.append({
             "company":   c["company"],
-            "type":      "oss_release" if t == "open_source_release" else t,
+            "type":      TYPE_MAP.get(t, t),
             "title":     c.get("title", ""),
             "summary":   c.get("summary", ""),
             "impact":    "",
@@ -730,6 +760,53 @@ def main():
 
     # Replace fake chatbot with real Render-connected one
     html = inject_real_chatbot(html)
+
+    # ── Normalize v2 segment strings in generated HTML ────────────────────────
+    # These are label + value changes only. Filter logic structure is unchanged.
+    # Demo HTML is NEVER modified — all normalizations apply to the generated output.
+    print("\nNormalizing v2 segment strings:")
+
+    # 1. Signals filter chip: onclick arg "Vector DB / AI" → "Vector AI" + label
+    html = html.replace(
+        "filterSignalSeg('Vector DB / AI',this)\">Vector DB / AI",
+        "filterSignalSeg('Vector AI',this)\">Vector AI"
+    )
+    # 2. Verdicts segment chip: onclick arg + label
+    html = html.replace(
+        "setVerdictSeg('Vector DB / AI',this)\">VectorAI",
+        "setVerdictSeg('Vector AI',this)\">Vector AI"
+    )
+    # 3. renderVerdicts areaSegs map: 'VectorAI' → 'Vector AI'
+    html = html.replace(
+        "'VectorAI':'Vector DB / AI'",
+        "'VectorAI':'Vector AI'"
+    )
+    # 4. renderVerdicts ternary: translated value update
+    html = html.replace(
+        "currentVerdictSeg==='VectorAI'?'Vector DB / AI'",
+        "currentVerdictSeg==='VectorAI'?'Vector AI'"
+    )
+    # 5. Area pill onclick: 'Warehouse/Processing' → 'AI Analyst'
+    html = html.replace(
+        "setArea('Warehouse/Processing',this)",
+        "setArea('AI Analyst',this)"
+    )
+    # 6. getCompaniesForArea map key
+    html = html.replace(
+        "'Warehouse/Processing':['Snowflake','Databricks']",
+        "'AI Analyst':['Snowflake','Databricks']"
+    )
+    # 7. renderVerdicts areaSegs map: 'Warehouse/Processing' key + value
+    html = html.replace(
+        "'Warehouse/Processing':'Warehouse/Processing'",
+        "'AI Analyst':'AI Analyst'"
+    )
+    # 8. applyFilters job keyword map: key update (keywords unchanged)
+    html = html.replace(
+        "'Warehouse/Processing':['AI/ML Platform','Data Engineering','Warehouse']",
+        "'AI Analyst':['AI/ML Platform','Data Engineering','Warehouse']"
+    )
+    print("  ✓ Segment strings normalized (Vector AI, AI Analyst)")
 
     # Write output
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
