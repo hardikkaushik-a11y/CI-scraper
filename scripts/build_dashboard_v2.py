@@ -18,6 +18,12 @@ DATA_SIGNALS_JSON = Path("data/signals.json")
 DATA_VERDICTS_JSON = Path("data/intelligence_verdicts.json")
 DATA_COMP_SIGNALS_JSON = Path("data/competitive_signals.json")
 
+# V2 allowed companies (match slack_notifier.py)
+V2_COMPANIES = {
+    "Atlan", "Collibra", "Alation", "Monte Carlo", "Bigeye",
+    "Acceldata", "Pinecone", "Qdrant", "Milvus", "Snowflake", "Databricks"
+}
+
 
 def load_csv(path):
     """Load CSV as list of dicts."""
@@ -58,9 +64,16 @@ def build_dashboard():
     comp_signals = load_json(DATA_COMP_SIGNALS_JSON)
 
     print(f"✓ Loaded {len(jobs)} jobs")
-    print(f"✓ Loaded {len(signals)} hiring signals")
-    print(f"✓ Loaded {len(verdicts)} verdicts")
-    print(f"✓ Loaded {len(comp_signals)} competitive signals")
+    print(f"✓ Loaded {len(signals)} hiring signals (before filtering)")
+    print(f"✓ Loaded {len(verdicts)} verdicts (before filtering)")
+    print(f"✓ Loaded {len(comp_signals)} competitive signals (before filtering)")
+
+    # Filter to only V2 companies
+    signals = [s for s in signals if s.get("company") in V2_COMPANIES]
+    verdicts = [v for v in verdicts if v.get("company") in V2_COMPANIES]
+    comp_signals = [s for s in comp_signals if s.get("company") in V2_COMPANIES]
+
+    print(f"✓ After V2 filter: {len(jobs)} jobs, {len(signals)} signals, {len(verdicts)} verdicts, {len(comp_signals)} comp signals")
 
     # Read template
     if not TEMPLATE_PATH.exists():
