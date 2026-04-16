@@ -496,9 +496,27 @@ def inject_real_chatbot(html):
         '', html, flags=re.DOTALL
     )
     # Remove fake JS: toggleAI, AI_RESPONSES, sendAI
-    html = re.sub(r'function toggleAI\(\)\{.*?\}', '', html, flags=re.DOTALL)
+    # Use exact text matches to avoid regex leaving orphaned fragments
+    html = html.replace('function toggleAI(){document.getElementById(\'aiPanel\').classList.toggle(\'open\');}', '')
     html = re.sub(r'const AI_RESPONSES=\{.*?\};', '', html, flags=re.DOTALL)
-    html = re.sub(r'function sendAI\(\)\{.*?\}', '', html, flags=re.DOTALL)
+    # sendAI has nested braces — match exact known text to avoid partial removal
+    SEND_AI_EXACT = (
+        "function sendAI(){\n"
+        "  const input=document.getElementById('aiInput');\n"
+        "  const msg=input.value.trim();if(!msg)return;\n"
+        "  const msgs=document.getElementById('aiMessages');\n"
+        "  const ud=document.createElement('div');ud.className='ai-msg-user';ud.textContent=msg;msgs.appendChild(ud);\n"
+        "  input.value='';\n"
+        "  setTimeout(()=>{\n"
+        "    const bd=document.createElement('div');bd.className='ai-msg-bot';\n"
+        "    const k=msg.toLowerCase();\n"
+        "    bd.textContent=AI_RESPONSES[k.includes('atlan')?'atlan':k.includes('databricks')?'databricks':k.includes('vector')?'vector':k.includes('event')?'events':'default'];\n"
+        "    msgs.appendChild(bd);msgs.scrollTop=msgs.scrollHeight;\n"
+        "  },500);\n"
+        "  msgs.scrollTop=msgs.scrollHeight;\n"
+        "}"
+    )
+    html = html.replace(SEND_AI_EXACT, '')
 
     # Inject real chatbot HTML + JS before </body>
     chatbot_html = f"""
