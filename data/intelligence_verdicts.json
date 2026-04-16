@@ -237,7 +237,7 @@
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Snowflake for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-16",
-    "_input_hash": "55b1f3e3343305f9"
+    "_input_hash": "44306b7371201f88"
   },
   {
     "company": "Databricks",
@@ -246,11 +246,11 @@
     "impact_level": "platform",
     "what_is_happening": "Databricks is in aggressive GTM expansion mode with 21 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Expanding Agent Governance with Unity AI Gateway; Introducing the Databricks Connector for Google Sheets: Real-Time, Gov.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
-    "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 195 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
+    "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 193 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
     "hiring_event_correlation": {
       "strength": "strong",
-      "explanation": "195 GTM roles (Sales) paired with product launch — coordinated market-entry motion: product ships and sales scales simultaneously."
+      "explanation": "193 GTM roles (Sales) paired with product launch — coordinated market-entry motion: product ships and sales scales simultaneously."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — AI-powered analytics and data integration",
@@ -258,9 +258,9 @@
       "type_of_move": "expansion"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 195 open roles + 3 non-blog event signals with strong correlation between hiring and events.",
+    "confidence_reasoning": "Strong compound evidence: 193 open roles + 3 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Databricks battlecard within 2 weeks — new platform capability directly challenges Actian's edge and embedded analytics without cloud lock-in; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-16",
-    "_input_hash": "2efe0a3d3d497da7"
+    "_input_hash": "dcff72665800d465"
   }
 ]
