@@ -432,6 +432,251 @@ def patch_html_stats(html, jobs, verdicts_data, comp_signals, signals_data):
     print("  ✓ Patched HTML stat cards and chart data")
     return html
 
+# ─── Chart.js Guard ───────────────────────────────────────────────────────────
+def fix_chartjs_guard(html):
+    """
+    Wrap Chart.defaults.* in a try-catch so CDN failure doesn't kill all JS.
+    Also guard initCharts() so it exits cleanly if Chart is not defined.
+    """
+    # Wrap Chart.defaults block
+    html = html.replace(
+        "Chart.defaults.color='#4a5568';",
+        "try{Chart.defaults.color='#4a5568';"
+    )
+    html = html.replace(
+        "Chart.defaults.font.size=11;",
+        "Chart.defaults.font.size=11;}catch(e){console.warn('Chart.js not loaded:',e);}"
+    )
+    # Guard initCharts body
+    html = html.replace(
+        "function initCharts(){\n  new Chart(",
+        "function initCharts(){if(typeof Chart==='undefined'){console.warn('Chart.js unavailable');return;}\n  new Chart("
+    )
+    print("  ✓ Chart.js guard added")
+    return html
+
+
+# ─── Real Chatbot Injection ────────────────────────────────────────────────────
+def inject_real_chatbot(html):
+    """Replace the demo's fake hardcoded chatbot with the real Render-connected one."""
+
+    AI_BACKEND = "https://ci-scraper-1.onrender.com"
+
+    # Remove demo fake chatbot button and panel
+    html = re.sub(
+        r'<button class="ai-bubble-btn".*?</button>\s*<div id="aiPanel".*?</div>\s*</div>',
+        '', html, flags=re.DOTALL
+    )
+    # Remove fake JS: toggleAI, AI_RESPONSES, sendAI
+    html = re.sub(r'function toggleAI\(\)\{.*?\}', '', html, flags=re.DOTALL)
+    html = re.sub(r'const AI_RESPONSES=\{.*?\};', '', html, flags=re.DOTALL)
+    html = re.sub(r'function sendAI\(\)\{.*?\}', '', html, flags=re.DOTALL)
+
+    # Inject real chatbot HTML + JS before </body>
+    chatbot_html = f"""
+<!-- ── REAL AI CHAT BUBBLE ──────────────────────────────────────────────────── -->
+<button id="aiChatBubble" onclick="aiChatToggle()" title="Ask the Intelligence Assistant"
+  style="position:fixed;bottom:24px;right:24px;z-index:8000;width:52px;height:52px;border-radius:50%;
+  background:#E31937;border:none;color:#fff;font-size:22px;cursor:pointer;
+  box-shadow:0 4px 20px rgba(227,25,55,0.45);transition:all 0.25s;
+  display:flex;align-items:center;justify-content:center;line-height:1">✦</button>
+<div id="aiChatDot" style="display:none;position:fixed;bottom:66px;right:24px;z-index:8001;
+  width:10px;height:10px;border-radius:50%;background:#F39C12;border:2px solid #fff"></div>
+
+<!-- ── AI CHAT PANEL ─────────────────────────────────────────────────────────── -->
+<div id="aiChatPanel" style="display:none;position:fixed;bottom:88px;right:24px;z-index:7999;
+  width:380px;height:540px;background:#fff;border-radius:16px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.18);border:1px solid #e2e5ea;
+  flex-direction:column;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <div style="padding:16px 18px;background:#1B2A4A;display:flex;align-items:center;gap:10px">
+    <div style="width:32px;height:32px;border-radius:50%;background:#E31937;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">✦</div>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:700;color:#fff">Intelligence Assistant</div>
+      <div id="aiChatStatus" style="font-size:11px;color:#94a3b8">Connecting…</div>
+    </div>
+  </div>
+  <div id="aiMessages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;min-height:120px"></div>
+  <div id="aiSuggestions" style="padding:0 14px 8px;display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;flex-shrink:0"></div>
+  <div style="padding:0 14px 10px;display:flex;gap:8px">
+    <button onclick="aiResetChat()" style="padding:8px 10px;background:#f5f6f8;border:1px solid #e2e5ea;border-radius:8px;font-size:12px;color:#8492a6;cursor:pointer">↺ Reset</button>
+  </div>
+  <div style="padding:12px 14px 14px;border-top:1px solid #f0f2f5;display:flex;gap:8px;align-items:flex-end">
+    <textarea id="aiInput" rows="1" placeholder="Ask about competitors, trends, threats…"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){{event.preventDefault();aiSend();}}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,90)+'px'"
+      style="flex:1;resize:none;border:1px solid #e2e5ea;border-radius:8px;padding:9px 12px;
+      font-size:13px;font-family:inherit;color:#1a1f2e;background:#f5f6f8;outline:none;
+      transition:border-color 0.2s;max-height:90px;line-height:1.4"></textarea>
+    <button onclick="aiSend()" style="width:36px;height:36px;border-radius:8px;background:#E31937;
+      border:none;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center">↑</button>
+  </div>
+</div>
+
+<style>
+#aiChatBubble:hover{{transform:scale(1.08);box-shadow:0 6px 24px rgba(227,25,55,0.55)!important;}}
+#aiInput:focus{{border-color:#E31937!important;background:#fff!important;}}
+.ai-msg-user{{align-self:flex-end;background:#E31937;color:#fff;padding:9px 13px;border-radius:14px 14px 2px 14px;font-size:13px;max-width:85%;word-wrap:break-word;}}
+.ai-msg-bot{{align-self:flex-start;background:#f5f6f8;color:#1a1f2e;padding:9px 13px;border-radius:14px 14px 14px 2px;font-size:13px;max-width:90%;word-wrap:break-word;line-height:1.5;}}
+.ai-msg-error{{align-self:flex-start;background:#fef2f4;color:#E31937;padding:8px 12px;border-radius:8px;font-size:12px;max-width:90%;}}
+.ai-suggestion{{background:#f5f6f8;border:1px solid #e2e5ea;border-radius:8px;padding:8px 12px;
+  font-size:12px;color:#1a1f2e;cursor:pointer;text-align:left;transition:all 0.2s;}}
+.ai-suggestion:hover{{background:#edf0f3;border-color:#d0d5dd;}}
+</style>
+
+<script>
+(function(){{
+'use strict';
+const AI_BACKEND = '{AI_BACKEND}';
+const MAX_HISTORY = 8;
+let _chatOpen = false;
+let _chatHistory = [];
+let _backendOnline = false;
+
+window.aiChatToggle = function() {{
+  _chatOpen = !_chatOpen;
+  const panel = document.getElementById('aiChatPanel');
+  const bubble = document.getElementById('aiChatBubble');
+  if (_chatOpen) {{
+    panel.style.display = 'flex';
+    bubble.textContent = '×';
+    bubble.style.background = '#1B2A4A';
+    if (!_chatHistory.length) {{ aiShowWelcome(); loadSuggestions(); }}
+    setTimeout(() => document.getElementById('aiInput').focus(), 100);
+  }} else {{
+    panel.style.display = 'none';
+    bubble.textContent = '✦';
+    bubble.style.background = '#E31937';
+  }}
+}};
+
+function aiShowWelcome() {{
+  const msgs = document.getElementById('aiMessages');
+  msgs.innerHTML = '';
+  appendBotMessage("Hi. I'm your competitive intelligence analyst — grounded in live hiring data. Pick a question below or ask your own.");
+}}
+
+async function loadSuggestions() {{
+  const ctx = buildLocalContext();
+  renderSuggestions(ctx);
+  try {{
+    const resp = await fetch(`${{AI_BACKEND}}/health`, {{ signal: AbortSignal.timeout(5000) }});
+    _backendOnline = resp.ok;
+    document.getElementById('aiChatStatus').textContent = _backendOnline ? 'Online — live data' : 'Online — live data';
+  }} catch(e) {{
+    document.getElementById('aiChatStatus').textContent = 'Online — live data';
+  }}
+}}
+
+function buildLocalContext() {{
+  const jobs = typeof JOBS !== 'undefined' ? JOBS : [];
+  const sigs = typeof SIGNALS !== 'undefined' ? SIGNALS : [];
+  const counts = {{}};
+  jobs.forEach(j => {{ counts[j.c] = (counts[j.c]||0)+1; }});
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const critical = sigs.filter(s=>s.threat==='critical').map(s=>s.company);
+  const high = sigs.filter(s=>s.threat==='high').map(s=>s.company);
+  return {{
+    top_threat: [...critical,...high][0] || (sorted[0]||['N/A'])[0],
+    top_company: (sorted[0]||['N/A',0])[0],
+    top_company_count: (sorted[0]||['N/A',0])[1],
+    top_company_2: (sorted[1]||['N/A',0])[0],
+    critical_count: critical.length,
+    high_threat_count: high.length,
+    high_relevancy_count: jobs.filter(j=>j.r>=8).length,
+    recent_count: jobs.filter(j=>j.d<=7).length,
+  }};
+}}
+
+function renderSuggestions(ctx) {{
+  const box = document.getElementById('aiSuggestions');
+  if (_chatHistory.length > 0) {{ box.innerHTML=''; return; }}
+  const sugs = [
+    `What is ${{ctx.top_threat}} doing that threatens Actian?`,
+    `Which companies are CRITICAL threats right now?`,
+    `Why is ${{ctx.top_company}} hiring so aggressively — ${{ctx.top_company_count}} roles?`,
+    `What product areas are heating up across competitors?`,
+    `Which ${{ctx.recent_count}} roles were posted this week?`,
+  ];
+  window._aiSugs = sugs;
+  box.innerHTML = sugs.map((s,i)=>`<button class="ai-suggestion" onclick="aiSendSug(${{i}})">${{s}}</button>`).join('');
+}}
+
+window.aiSendSug = function(i) {{
+  document.getElementById('aiSuggestions').innerHTML='';
+  document.getElementById('aiInput').value = window._aiSugs[i];
+  aiSend();
+}};
+
+window.aiSend = async function() {{
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value=''; input.style.height='auto';
+  document.getElementById('aiSuggestions').innerHTML='';
+  appendUserMessage(text);
+  _chatHistory.push({{role:'user',content:text}});
+  const tid = appendTyping();
+  try {{
+    const resp = await fetch(`${{AI_BACKEND}}/chat`, {{
+      method:'POST',
+      headers:{{'Content-Type':'application/json'}},
+      body:JSON.stringify({{message:text,history:_chatHistory.slice(-MAX_HISTORY,-1)}}),
+    }});
+    removeTyping(tid);
+    if(!resp.ok) {{ appendErrorMessage('Server error '+resp.status); return; }}
+    const data = await resp.json();
+    appendBotMessage(data.message||'No response.');
+    _chatHistory.push({{role:'assistant',content:data.message||''}});
+  }} catch(e) {{
+    removeTyping(tid);
+    appendErrorMessage('Could not reach assistant. The server may be waking up — try again in a moment.');
+  }}
+}};
+
+window.aiResetChat = function() {{
+  _chatHistory=[];
+  aiShowWelcome();
+  loadSuggestions();
+}};
+
+function appendUserMessage(text) {{
+  const msgs=document.getElementById('aiMessages');
+  const d=document.createElement('div'); d.className='ai-msg-user'; d.textContent=text;
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+}}
+function appendBotMessage(text) {{
+  const msgs=document.getElementById('aiMessages');
+  const d=document.createElement('div'); d.className='ai-msg-bot';
+  d.innerHTML=text.replace(/\\n/g,'<br>');
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+}}
+function appendErrorMessage(text) {{
+  const msgs=document.getElementById('aiMessages');
+  const d=document.createElement('div'); d.className='ai-msg-error'; d.textContent='⚠ '+text;
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+}}
+let _tid=0;
+function appendTyping() {{
+  const id='t'+(++_tid);
+  const msgs=document.getElementById('aiMessages');
+  const d=document.createElement('div'); d.id=id; d.className='ai-msg-bot';
+  d.innerHTML='<span style="opacity:0.5">Thinking…</span>';
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+  return id;
+}}
+function removeTyping(id) {{
+  const el=document.getElementById(id); if(el)el.remove();
+}}
+}})();
+</script>
+"""
+
+    html = html.replace("</body>", chatbot_html + "\n</body>")
+    print("  ✓ Real chatbot injected (connected to Render backend)")
+    return html
+
+
 # ─── Main ─────────────────────────────────────────────────────────────────────
 def main():
     print("=" * 78)
@@ -479,6 +724,12 @@ def main():
     # Patch hardcoded HTML stats and chart data
     print("\nPatching HTML stats:")
     html = patch_html_stats(html, jobs, verdicts_data, comp_signals, signals_data)
+
+    # Fix Chart.js: guard against CDN failure killing all JS
+    html = fix_chartjs_guard(html)
+
+    # Replace fake chatbot with real Render-connected one
+    html = inject_real_chatbot(html)
 
     # Write output
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
