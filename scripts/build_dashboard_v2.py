@@ -271,13 +271,12 @@ def build_slack_msgs(verdicts_data, comp_signals):
         threat = v["threat"]
         channel = "#competitive-signals" if threat in ("critical","high") else "#competitive-product"
         label = f"{'CRITICAL' if threat == 'critical' else 'HIGH'} THREAT — Intelligence Verdict"
-        body = (
-            f"{v['what']}\n\n"
-            f"<span class='sy'>Why it matters:</span> {v['why']}\n"
-            f"<span class='sa'>Actian action:</span> {v['action']}\n\n"
-            f"<span class='sl'>→ View full verdict in dashboard</span>\n"
-            f"<span class='sd'>Updated {v.get('last_updated', today)}</span>"
-        )
+        # Escape newlines in multi-line text fields
+        what_text = v['what'].replace('\n', ' ').strip() if v['what'] else ""
+        why_text = v['why'].replace('\n', ' ').strip() if v['why'] else ""
+        action_text = v['action'].replace('\n', ' ').strip() if v['action'] else ""
+        # Use \n escape sequences, not literal newlines, for JSON-safe string
+        body = f"{what_text}\\n\\n<span class='sy'>Why it matters:</span> {why_text}\\n<span class='sa'>Actian action:</span> {action_text}\\n\\n<span class='sl'>→ View full verdict in dashboard</span>\\n<span class='sd'>Updated {v.get('last_updated', today)}</span>"
         msgs.append({
             "channel": channel,
             "ts": today,
@@ -287,15 +286,14 @@ def build_slack_msgs(verdicts_data, comp_signals):
         })
     for c in comp_signals:
         if c.get("type") in ("product_launch","open_source_release") and c.get("actian_relevance") == "high":
+            summary_text = c.get('summary','').replace('\n', ' ').strip()
+            body = f"{summary_text}\\n\\n<span class='sl'>→ View in dashboard</span>"
             msgs.append({
                 "channel": "#competitive-product",
                 "ts": fmt_date(c.get("published_date", today)),
                 "company": c["company"],
                 "label": f"Product Launch — {c.get('product_area','')}",
-                "body": (
-                    f"{c.get('summary','')}\n\n"
-                    f"<span class='sl'>→ View in dashboard</span>"
-                ),
+                "body": body,
             })
         if len(msgs) >= 5:
             break
