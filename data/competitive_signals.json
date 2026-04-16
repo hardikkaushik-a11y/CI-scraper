@@ -327,6 +327,20 @@
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
+    "type": "product_launch",
+    "title": "Introducing the Databricks Connector for Google Sheets: Real-Time, Governed Lakehouse Data in the Sheets Users Love",
+    "url": "https://www.databricks.com/blog/introducing-databricks-connector-google-sheets-real-time-governed-lakehouse-data-sheets-users",
+    "published_date": "2026-04-15",
+    "summary": "Organizations run on spreadsheets. Every day, business users plan, analyze, and report...",
+    "actian_relevance": "medium",
+    "tags": [],
+    "source_type": "github",
+    "event_date": null,
+    "scraped_at": "2026-04-16"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
     "type": "blog_post",
     "title": "Agentic Reasoning in Practice: Making Sense of Structured and Unstructured Data",
     "url": "https://www.databricks.com/blog/agentic-reasoning-practice-making-sense-structured-and-unstructured-data",

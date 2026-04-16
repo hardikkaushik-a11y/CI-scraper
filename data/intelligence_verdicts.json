@@ -28,10 +28,10 @@
     "product_area": "Data Intelligence",
     "signal_type": "hiring only",
     "impact_level": "feature",
-    "what_is_happening": "Collibra is assembling senior leadership (71% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "what_is_happening": "Collibra is assembling senior leadership (69% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
     "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface.",
-    "primary_interpretation": "Collibra is growing its Engineering function aggressively (41 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
-    "alternative_interpretation": "41 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
+    "primary_interpretation": "Collibra is growing its Engineering function aggressively (42 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
+    "alternative_interpretation": "42 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
     "hiring_event_correlation": {
       "strength": "none",
       "explanation": "Only one data source present — hiring data only, no confirmed product events."
@@ -45,7 +45,7 @@
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Collibra for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-16",
-    "_input_hash": "15bc155ff2c3a3a6"
+    "_input_hash": "64b257ca2861bf70"
   },
   {
     "company": "Alation",
@@ -126,22 +126,22 @@
     "impact_level": "platform",
     "what_is_happening": "Acceldata is scaling infrastructure with 7 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering. Product launches detected: Rahil Hussain Shaikh Gartner Recognized Data Observability Tools with ; Venkatraman Mahalingam Top Agentic MDM Platforms for Enterprise Data L.",
     "why_it_matters": "Overlaps Actian's pipeline monitoring and data quality layer. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
-    "primary_interpretation": "Acceldata has shipped new Data Observability capability. 18 open roles suggest they are scaling around this launch.",
-    "alternative_interpretation": "Sparse signals may reflect deliberate stealth ahead of a major launch, or simply low activity in this window — insufficient data to distinguish between the two.",
+    "primary_interpretation": "Acceldata is deepening Data Observability product capability: 20 Engineering roles combined with 4 product launch(es) signal sustained R&D investment.",
+    "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
     "hiring_event_correlation": {
-      "strength": "moderate",
-      "explanation": "18 open roles + product/event signal present. Hiring function (Engineering) is plausibly related but volume (1/3) is insufficient to confirm at-scale deployment."
+      "strength": "strong",
+      "explanation": "20 Engineering roles (volume score 2/3) directly support 4 product launch(es) — substantive engineering buildout behind this release."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — data quality and pipeline monitoring",
       "at_risk_segments": "mid-market and enterprise data engineering teams running production pipelines",
       "type_of_move": "platform"
     },
-    "confidence": "medium",
-    "confidence_reasoning": "Moderate evidence: hiring volume supports the signal. Correlation is moderate — one dimension is weaker.",
-    "recommended_action": "No immediate action required. Monitor Acceldata for hiring acceleration or product launch signals over the next 60 days before escalating.",
+    "confidence": "high",
+    "confidence_reasoning": "Strong compound evidence: 20 open roles + 4 non-blog event signals with strong correlation between hiring and events.",
+    "recommended_action": "PMM + SDRs: refresh Acceldata battlecard within 2 weeks — new platform capability directly challenges Actian's real-time DQ monitoring with push-based alerting; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-16",
-    "_input_hash": "3e493a3a00c17dd3"
+    "_input_hash": "ca416d4d10414043"
   },
   {
     "company": "Pinecone",
@@ -243,9 +243,9 @@
     "company": "Databricks",
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
-    "impact_level": "product",
-    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 21 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Expanding Agent Governance with Unity AI Gateway; Lovable + Databricks: Build Data-Driven Apps at the Speed of Thought.",
-    "why_it_matters": "Overlaps Actian's analytics and data integration platform. New capability reduces the gap in feature parity — affects Actian's positioning in competitive evaluations.",
+    "impact_level": "platform",
+    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 21 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Expanding Agent Governance with Unity AI Gateway; Introducing the Databricks Connector for Google Sheets: Real-Time, Gov.",
+    "why_it_matters": "Overlaps Actian's analytics and data integration platform. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
     "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 195 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
     "hiring_event_correlation": {
@@ -258,9 +258,9 @@
       "type_of_move": "expansion"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 195 open roles + 2 non-blog event signals with strong correlation between hiring and events.",
-    "recommended_action": "SDRs: treat Databricks's GTM expansion as a displacement trigger — prioritize outreach to shared accounts and lead with Actian's edge and embedded analytics without cloud lock-in.",
+    "confidence_reasoning": "Strong compound evidence: 195 open roles + 3 non-blog event signals with strong correlation between hiring and events.",
+    "recommended_action": "PMM + SDRs: refresh Databricks battlecard within 2 weeks — new platform capability directly challenges Actian's edge and embedded analytics without cloud lock-in; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-16",
-    "_input_hash": "c6ff6dd7b1caf06e"
+    "_input_hash": "2efe0a3d3d497da7"
   }
 ]
