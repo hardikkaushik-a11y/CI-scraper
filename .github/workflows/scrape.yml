@@ -63,6 +63,9 @@ jobs:
       - name: Refresh v2 dataset (keep in sync with latest enriched data)
         run: python scripts/create_v2_dataset.py
 
+      - name: Regenerate dashboard_v2.html with latest data (Phase 3b)
+        run: python scripts/build_dashboard_v2.py
+
       - name: Route verdicts + signals to Slack (Phase 4)
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
