@@ -311,6 +311,22 @@
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
+    "type": "product_launch",
+    "title": "Expanding Agent Governance with Unity AI Gateway",
+    "url": "https://www.databricks.com/blog/ai-gateway-governance-layer-agentic-ai",
+    "published_date": "2026-04-15",
+    "summary": "Today, we are announcing major enhancements to AI Gateway. As part of this release,...",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-16"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
     "type": "blog_post",
     "title": "Agentic Reasoning in Practice: Making Sense of Structured and Unstructured Data",
     "url": "https://www.databricks.com/blog/agentic-reasoning-practice-making-sense-structured-and-unstructured-data",

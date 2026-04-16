@@ -20,18 +20,18 @@
     "confidence": "high",
     "confidence_reasoning": "Strong compound evidence: 13 open roles + 8 non-blog event signals with moderate correlation between hiring and events.",
     "recommended_action": "No immediate action required. Monitor Atlan for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "06bdaf1f0b98984d"
+    "last_updated": "2026-04-16",
+    "_input_hash": "ae105f48e88c5d52"
   },
   {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "signal_type": "hiring only",
     "impact_level": "feature",
-    "what_is_happening": "Collibra is assembling senior leadership (72% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "what_is_happening": "Collibra is assembling senior leadership (70% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
     "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface.",
-    "primary_interpretation": "Collibra is growing its Engineering function aggressively (39 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
-    "alternative_interpretation": "39 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
+    "primary_interpretation": "Collibra is growing its Engineering function aggressively (40 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
+    "alternative_interpretation": "40 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
     "hiring_event_correlation": {
       "strength": "none",
       "explanation": "Only one data source present — hiring data only, no confirmed product events."
@@ -44,8 +44,8 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Collibra for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "a4a6304c99c57ae5"
+    "last_updated": "2026-04-16",
+    "_input_hash": "c757357633bfc7e7"
   },
   {
     "company": "Alation",
@@ -68,8 +68,8 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Alation for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "4e6f7cb1439dd03e"
+    "last_updated": "2026-04-16",
+    "_input_hash": "633a9d4122770e2f"
   },
   {
     "company": "Monte Carlo",
@@ -92,8 +92,8 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Monte Carlo for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "2148ea336d03bbbe"
+    "last_updated": "2026-04-16",
+    "_input_hash": "cb760146690b8a72"
   },
   {
     "company": "Bigeye",
@@ -140,8 +140,8 @@
     "confidence": "medium",
     "confidence_reasoning": "Moderate evidence: hiring volume supports the signal. Correlation is moderate — one dimension is weaker.",
     "recommended_action": "No immediate action required. Monitor Acceldata for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "39c6dfc18e837f0c"
+    "last_updated": "2026-04-16",
+    "_input_hash": "3e493a3a00c17dd3"
   },
   {
     "company": "Pinecone",
@@ -164,8 +164,8 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Pinecone for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "9a88b71e8710f3d7"
+    "last_updated": "2026-04-16",
+    "_input_hash": "dc7b845e3e5dc9e7"
   },
   {
     "company": "Qdrant",
@@ -188,8 +188,8 @@
     "confidence": "high",
     "confidence_reasoning": "Strong compound evidence: 12 open roles + 3 non-blog event signals with moderate correlation between hiring and events.",
     "recommended_action": "Product: assess roadmap gaps vs. Qdrant's funded capabilities within 30 days; reinforce Actian's hybrid vector + relational queries without a separate vector DB in any joint accounts before Qdrant accelerates GTM.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "88527c1dbf1cfbd6"
+    "last_updated": "2026-04-16",
+    "_input_hash": "0d8ed2796b14edf8"
   },
   {
     "company": "Milvus",
@@ -212,8 +212,8 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Milvus for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "6be029c3fc9a4a97"
+    "last_updated": "2026-04-16",
+    "_input_hash": "681d0cf4b89fdb96"
   },
   {
     "company": "Snowflake",
@@ -236,15 +236,15 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Snowflake for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "8d238d813f8f5a51"
+    "last_updated": "2026-04-16",
+    "_input_hash": "55b1f3e3343305f9"
   },
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
-    "impact_level": "feature",
-    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 19 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Lovable + Databricks: Build Data-Driven Apps at the Speed of Thought.",
+    "impact_level": "product",
+    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 20 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Expanding Agent Governance with Unity AI Gateway; Lovable + Databricks: Build Data-Driven Apps at the Speed of Thought.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform. New capability reduces the gap in feature parity — affects Actian's positioning in competitive evaluations.",
     "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 194 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
@@ -258,9 +258,9 @@
       "type_of_move": "expansion"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 194 open roles + 1 non-blog event signals with strong correlation between hiring and events.",
-    "recommended_action": "Product: track Databricks's Go-to-Market roadmap over next quarter; flag if hiring accelerates or product launch confirmed — Actian's edge and embedded analytics without cloud lock-in is the primary differentiator to reinforce.",
-    "last_updated": "2026-04-15",
-    "_input_hash": "5fedaff11a7f4b47"
+    "confidence_reasoning": "Strong compound evidence: 194 open roles + 2 non-blog event signals with strong correlation between hiring and events.",
+    "recommended_action": "SDRs: treat Databricks's GTM expansion as a displacement trigger — prioritize outreach to shared accounts and lead with Actian's edge and embedded analytics without cloud lock-in.",
+    "last_updated": "2026-04-16",
+    "_input_hash": "4cf0ad996e1b8073"
   }
 ]
