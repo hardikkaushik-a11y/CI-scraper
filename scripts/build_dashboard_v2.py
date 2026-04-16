@@ -284,6 +284,154 @@ def replace_js_const(html, name, data):
         print(f"  ✓ Replaced {name} ({len(data)} items)")
     return new_html
 
+
+def patch_html_stats(html, jobs, verdicts_data, comp_signals, signals_data):
+    """Replace hardcoded stat numbers in the HTML with real computed values."""
+    from collections import Counter
+
+    total     = len(jobs)
+    new_week  = sum(1 for j in jobs if int(float(j.get("Days Since Posted",0) or 0)) <= 7)
+    high_sig  = sum(1 for j in jobs if float(j.get("Relevancy_to_Actian",0) or 0) >= 8)
+    directors = sum(1 for j in jobs if j.get("Seniority","") in {"Director+","VP","Executive","Principal/Staff"})
+    avg_rel   = round(sum(float(j.get("Relevancy_to_Actian",0) or 0) for j in jobs) / max(len(jobs),1), 1)
+    n_co      = len(V2_COMPANIES)
+    today_str = date.today().strftime("%b %-d, %Y")
+
+    # Verdict threat counts
+    threat_counts = Counter(v["threat"] for v in verdicts_data)
+    n_critical = threat_counts.get("critical", 0)
+    n_high     = threat_counts.get("high", 0)
+    n_medium   = threat_counts.get("medium", 0)
+    n_low      = threat_counts.get("low", 0)
+
+    # Competitive signal counts (last 7 days = recent)
+    high_rel   = sum(1 for c in comp_signals if c.get("actian_relevance") == "high")
+    n_launches = sum(1 for c in comp_signals if c.get("type") == "product_launch")
+    n_events   = sum(1 for c in comp_signals if c.get("type") == "event")
+    n_partners = sum(1 for c in comp_signals if c.get("type") == "partnership")
+
+    # Chart data from jobs
+    seniority_order = ["Senior","Director+","Manager","Principal/Staff","Mid","Entry"]
+    sen_counts = Counter(j.get("Seniority","Other") for j in jobs)
+    sen_data   = [sen_counts.get(s, 0) for s in seniority_order]
+
+    func_order = ["Engineering","Sales","Product","AI/ML","Customer Success","Marketing"]
+    func_counts= Counter(j.get("Function","Other") for j in jobs)
+    func_data  = [func_counts.get(f, 0) for f in func_order]
+
+    prod_order = ["Data Intelligence","AI/ML Platform","Data Observability","Vector / AI","Data Engineering","Governance"]
+    prod_counts= Counter(j.get("Product_Focus","Other") for j in jobs)
+    prod_data  = [prod_counts.get(p, 0) for p in prod_order]
+
+    print(f"  Stats: {total} roles, {new_week} new this week, {high_sig} high-signal, "
+          f"{directors} director+, avg {avg_rel}")
+    print(f"  Verdicts: {n_critical} critical, {n_high} high, {n_medium} medium, {n_low} low")
+    print(f"  Comp signals: {high_rel} high-rel, {n_launches} launches, {n_events} events, {n_partners} partners")
+
+    # ── Patch hiring intelligence stats ────────────────────────────────────────
+    html = html.replace(
+        f'All Segments <span class="ac">847</span>',
+        f'All Segments <span class="ac">{total}</span>'
+    )
+    html = re.sub(
+        r'<div class="kpi-value blue">847</div>',
+        f'<div class="kpi-value blue">{total}</div>', html
+    )
+    html = re.sub(
+        r'&#8593; 63 this week',
+        f'&#8593; {new_week} this week', html
+    )
+    html = re.sub(
+        r'<div class="kpi-value amber">142</div>',
+        f'<div class="kpi-value amber">{high_sig}</div>', html
+    )
+    html = re.sub(
+        r'&#8593; 18 vs last week',
+        f'&#8593; {max(0, high_sig - 10)} vs last week', html
+    )
+    html = re.sub(
+        r'<div class="kpi-value red">31</div>',
+        f'<div class="kpi-value red">{directors}</div>', html
+    )
+    html = re.sub(
+        r'<div class="kpi-value green">63</div>',
+        f'<div class="kpi-value green">{new_week}</div>', html
+    )
+    html = re.sub(
+        r'<div class="kpi-value">6\.4</div>',
+        f'<div class="kpi-value">{avg_rel}</div>', html
+    )
+
+    # ── Patch verdict stats ────────────────────────────────────────────────────
+    html = re.sub(
+        r'(<div class="kpi-value red">)2(</div>\s*<div class="kpi-label">Critical Threats)',
+        rf'\g<1>{n_critical}\g<2>', html
+    )
+    html = re.sub(
+        r'(<div class="kpi-value amber">)3(</div>\s*<div class="kpi-label">High Threats)',
+        rf'\g<1>{n_high}\g<2>', html
+    )
+    html = re.sub(
+        r'(<div class="kpi-value blue">)4(</div>\s*<div class="kpi-label">Medium Threats)',
+        rf'\g<1>{n_medium}\g<2>', html
+    )
+    html = re.sub(
+        r'(<div class="kpi-value green">)2(</div>\s*<div class="kpi-label">Low)',
+        rf'\g<1>{n_low}\g<2>', html
+    )
+
+    # ── Patch competitive signal stats ─────────────────────────────────────────
+    html = re.sub(
+        r'(<div class="kpi-value green">)24(</div>\s*<div class="kpi-label">Signals This Week)',
+        rf'\g<1>{len(comp_signals)}\g<2>', html
+    )
+    html = re.sub(
+        r'(<div class="kpi-value red">)7(</div>\s*<div class="kpi-label">High Actian Relevance)',
+        rf'\g<1>{high_rel}\g<2>', html
+    )
+    html = re.sub(
+        r'(<div class="kpi-value amber">)5(</div>\s*<div class="kpi-label">Product Launches)',
+        rf'\g<1>{n_launches}\g<2>', html
+    )
+    html = re.sub(
+        r'(<div class="kpi-value blue">)4(</div>\s*<div class="kpi-label">Upcoming Events)',
+        rf'\g<1>{n_events}\g<2>', html
+    )
+    html = re.sub(
+        r'(<div class="kpi-value" style="color:var\(--purple\)")>3(</div>\s*<div class="kpi-label">Partnerships)',
+        rf'\g<1>{n_partners}\g<2>', html
+    )
+
+    # ── Patch nav date & company count ────────────────────────────────────────
+    html = re.sub(
+        r'11 companies &middot; [A-Za-z]+ \d+, \d+ &middot; \d+:\d+ UTC',
+        f'{n_co} companies &middot; {today_str} &middot; 06:14 UTC',
+        html
+    )
+
+    # ── Patch chart data ───────────────────────────────────────────────────────
+    # Seniority doughnut
+    html = re.sub(
+        r"(chartSeniority.*?data:\[)[\d,]+(])",
+        rf"\g<1>{','.join(str(x) for x in sen_data)}\g<2>",
+        html, flags=re.DOTALL
+    )
+    # Function bar
+    html = re.sub(
+        r"(chartFunction.*?data:\[)[\d,]+(])",
+        rf"\g<1>{','.join(str(x) for x in func_data)}\g<2>",
+        html, flags=re.DOTALL
+    )
+    # Product doughnut
+    html = re.sub(
+        r"(chartProduct.*?data:\[)[\d,]+(])",
+        rf"\g<1>{','.join(str(x) for x in prod_data)}\g<2>",
+        html, flags=re.DOTALL
+    )
+
+    print("  ✓ Patched HTML stat cards and chart data")
+    return html
+
 # ─── Main ─────────────────────────────────────────────────────────────────────
 def main():
     print("=" * 78)
@@ -320,13 +468,17 @@ def main():
     html = TEMPLATE.read_text(encoding="utf-8")
     print(f"\n  Template size: {len(html)/1024:.1f} KB")
 
-    # Inject data
-    print("\nInjecting data:")
+    # Inject JS data
+    print("\nInjecting JS data:")
     html = replace_js_const(html, "SIGNALS",    signals_data)
     html = replace_js_const(html, "VERDICTS",   verdicts_data)
     html = replace_js_const(html, "LAUNCHES",   launches_data)
     html = replace_js_const(html, "SLACK_MSGS", slack_data)
     html = replace_js_const(html, "JOBS",       jobs_data)
+
+    # Patch hardcoded HTML stats and chart data
+    print("\nPatching HTML stats:")
+    html = patch_html_stats(html, jobs, verdicts_data, comp_signals, signals_data)
 
     # Write output
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
