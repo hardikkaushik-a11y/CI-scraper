@@ -505,6 +505,20 @@ def health():
         return jsonify({"status": "error", "error": str(e)}), 500
 
 
+@app.route("/dashboard/v2/", methods=["GET"])
+def serve_dashboard_v2():
+    """Serve the regenerated dashboard_v2.html with embedded data."""
+    dashboard_path = Path(__file__).parent.parent / "dashboard" / "v2" / "dashboard_v2.html"
+    try:
+        if not dashboard_path.exists():
+            return jsonify({"error": "Dashboard not found"}), 404
+        with open(dashboard_path, "r") as f:
+            html = f.read()
+        return html, 200, {"Content-Type": "text/html; charset=utf-8"}
+    except Exception as e:
+        return jsonify({"error": f"Failed to load dashboard: {str(e)}"}), 500
+
+
 @app.route("/context", methods=["GET"])
 def get_context_summary():
     """Returns live data summary for dynamic suggested prompts."""
