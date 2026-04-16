@@ -28,10 +28,10 @@
     "product_area": "Data Intelligence",
     "signal_type": "hiring only",
     "impact_level": "feature",
-    "what_is_happening": "Collibra is assembling senior leadership (70% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
+    "what_is_happening": "Collibra is assembling senior leadership (71% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra.",
     "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface.",
-    "primary_interpretation": "Collibra is growing its Engineering function aggressively (40 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
-    "alternative_interpretation": "40 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
+    "primary_interpretation": "Collibra is growing its Engineering function aggressively (41 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
+    "alternative_interpretation": "41 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
     "hiring_event_correlation": {
       "strength": "none",
       "explanation": "Only one data source present — hiring data only, no confirmed product events."
@@ -45,7 +45,7 @@
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Collibra for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-16",
-    "_input_hash": "c757357633bfc7e7"
+    "_input_hash": "15bc155ff2c3a3a6"
   },
   {
     "company": "Alation",
@@ -244,13 +244,13 @@
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
     "impact_level": "product",
-    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 20 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Expanding Agent Governance with Unity AI Gateway; Lovable + Databricks: Build Data-Driven Apps at the Speed of Thought.",
+    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 21 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Expanding Agent Governance with Unity AI Gateway; Lovable + Databricks: Build Data-Driven Apps at the Speed of Thought.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform. New capability reduces the gap in feature parity — affects Actian's positioning in competitive evaluations.",
-    "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 194 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
+    "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 195 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
     "hiring_event_correlation": {
       "strength": "strong",
-      "explanation": "194 GTM roles (Sales) paired with product launch — coordinated market-entry motion: product ships and sales scales simultaneously."
+      "explanation": "195 GTM roles (Sales) paired with product launch — coordinated market-entry motion: product ships and sales scales simultaneously."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — AI-powered analytics and data integration",
@@ -258,9 +258,9 @@
       "type_of_move": "expansion"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 194 open roles + 2 non-blog event signals with strong correlation between hiring and events.",
+    "confidence_reasoning": "Strong compound evidence: 195 open roles + 2 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "SDRs: treat Databricks's GTM expansion as a displacement trigger — prioritize outreach to shared accounts and lead with Actian's edge and embedded analytics without cloud lock-in.",
     "last_updated": "2026-04-16",
-    "_input_hash": "4cf0ad996e1b8073"
+    "_input_hash": "c6ff6dd7b1caf06e"
   }
 ]
