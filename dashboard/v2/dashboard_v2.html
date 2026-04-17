@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Actian Competitive Intelligence Platform</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 :root{--bg:#f5f6f8;--bg-white:#ffffff;--bg-hover:#f0f2f5;--bg-nav:#1B2A4A;--border:#e2e5ea;--border-light:#edf0f3;--text:#1a1f2e;--text-secondary:#4a5568;--text-muted:#8492a6;--accent:#E31937;--accent-light:#fef2f4;--green:#2ECC71;--amber:#F39C12;--cyan:#00B4D8;--navy:#1B2A4A;--purple:#8E44AD;--radius:8px;--shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);--shadow-md:0 4px 6px rgba(0,0,0,0.05),0 2px 4px rgba(0,0,0,0.03);}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
@@ -254,7 +256,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
   </div>
   <div class="topnav-right">
     <button class="info-btn" onclick="openInfoModal()" title="Dashboard guide">i</button>
-    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 05:13 UTC</span>
+    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 05:48 UTC</span>
   </div>
 </nav>
 
@@ -289,19 +291,10 @@ tbody td.strong{color:var(--text);font-weight:500;}
     <div class="kpi-box"><div class="kpi-value">3.7</div><div class="kpi-label">Avg. Relevancy Score</div></div>
     <div class="kpi-box"><div class="kpi-value" style="color:var(--purple)">11</div><div class="kpi-label">Companies Tracked</div></div>
   </div>
-  <div id="teamInsightBlock" class="team-insight-block">
-    <div class="team-insight-left">
-      <div class="team-insight-label">Team Insight</div>
-      <div class="team-insight-title" id="insightTeamLabel">All Teams</div>
-      <div class="team-insight-badge" id="insightThreatBadge"></div>
-    </div>
-    <div class="team-insight-right">
-      <div class="team-insight-row" id="insightWhat"></div>
-      <div class="team-insight-row" id="insightWhy"></div>
-      <div id="insightAction"></div>
-    </div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-title">Hiring Locations — Global Distribution</div>
+    <div id="mapContainer" style="height:300px;border-radius:4px;overflow:hidden;background:#f5f5f5"></div>
   </div>
-  <div class="insight-strip" id="insightCards"></div>
   <div class="grid-3">
     <div class="card"><div class="card-title">Open Roles by Company</div><div class="chart-container" style="height:250px"><canvas id="chartCompanies"></canvas></div></div>
     <div class="card"><div class="card-title">Seniority Distribution</div><div class="chart-container" style="height:250px"><canvas id="chartSeniority"></canvas></div></div>
@@ -754,7 +747,7 @@ function applyFilters(){
     if(currentArea!=='all'&&j.a!==currentArea)return false;
     return true;
   });
-  currentPage=0;renderJobTable();renderActivePills();updateCharts(filteredJobs);
+  currentPage=0;renderJobTable();renderActivePills();updateCharts(filteredJobs);updateMap(filteredJobs);
 }
 
 function renderJobTable(){
@@ -836,13 +829,46 @@ function updateCharts(jobs){
   if(chartTrendInst){chartTrendInst.data.datasets[0].data=d.day;chartTrendInst.update();}
 }
 
+function updateMap(jobs){
+  const container=document.getElementById('mapContainer');
+  if(!container||!window.L)return;
+
+  if(!window.mapInst){
+    window.mapInst=L.map(container).setView([20,0],2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(window.mapInst);
+  }
+
+  if(window.mapMarkers){
+    window.mapMarkers.forEach(m=>window.mapInst.removeLayer(m));
+  }
+  window.mapMarkers=[];
+
+  const locCounts={};
+  const locCoords={'AE-Dubai':[25.276,55.296],'AU-Melbourne':[37.814,144.963],'AU-Sydney':[33.87,151.209],'Americas':[20.0,0.0],'Amsterdam, Netherlands':[52.37,4.895],'Arizona; Los Angeles, California; San Diego, California; United States':[33.729,-111.431],'Arizona; Utah':[39.32,-111.094],'Austin':[30.267,-97.743],'Australia':[-25.287,133.775],'Australian Capital Territory, Australia':[-25.287,133.775],'Belgium':[50.503,4.77],'Bellevue, Washington':[47.61,-122.201],'Bellevue, Washington; Boston, Massachusetts; Seattle, Washington; Washington, D.C.':[42.358,-71.063],'Bellevue, Washington; Denver, Colorado; Mountain View, California; San Francisco, California; Seattle, Washington':[39.739,-104.99],'Bellevue, Washington; Mountain View, California; San Francisco, California; Seattle, Washington':[47.606,-122.333],'Bengaluru':[12.972,77.595],'Bengaluru, India':[12.972,77.595],'Bengaluru, India; Mumbai, India':[19.076,72.877],'Berlin':[52.52,13.405],'Berlin, Germany; Munich, Germany':[51.165,10.451],'Boston, Massachusetts; Connecticut; New Jersey; New York City, New York':[42.358,-71.063],'Boston, Massachusetts; New Jersey; New York City, New York':[42.358,-71.063],'Brisbane, Australia; Melbourne, Australia':[27.47,153.025],'Brussels, Belgium':[50.503,4.77],'CA-Alberta':[53.933,-116.577],'CA-Ontario-Toronto':[43.653,-79.383],'CHL-CHILE':[-35.676,-71.543],'CN-Beijing-MSO':[39.904,116.408],'CR-San Jose':[37.338,-121.886],'California':[36.116,-120.681],'California; Remote - Colorado; Remote - Oregon; Remote - Washington':[39.015,-105.271],'Canada':[56.13,-106.346],'Central - United States; Northeast - United States':[39.739,-104.99],'Central - United States; Northeast - United States; Southeast - United States':[37.8,-95.583],'Central - United States; West Coast - United States':[37.8,-95.583],'Chicago, Illinois':[41.878,-87.63],'Chicago, Illinois; Denver, Colorado; Los Angeles, California; San Francisco, California; Seattle, Washington':[39.739,-104.99],'Chicago, Illinois; New York City, New York':[41.878,-87.63],'Chicago, Illinois; Wisconsin':[41.878,-87.63],'China':[35.861,104.195],'China; Singapore':[1.352,103.82],'Colorado':[39.015,-105.271],'Costa Rica':[9.749,-83.753],'DE-Berlin-Trion Building':[52.52,13.405],'DE-Germany':[51.165,10.451],'Delhi, India':[28.704,77.102],'Denmark':[56.263,9.502],'FR-Paris':[48.857,2.295],'FutureSite-DE-Berlin':[52.52,13.405],'GB-London':[51.507,-0.128],'GBR-LONDON':[51.507,-0.128],'Georgia':[32.806,-83.643],'Georgia; Illinois; Massachusetts; New York; North Carolina; Washington, D.C.':[37.8,-95.583],'Greater London, UK':[51.507,-0.128],'Hamburg, Germany':[53.551,10.0],'Herzliya, Israel':[32.168,34.758],'Hesse, Germany':[50.0,9.0],'Hong Kong':[22.396,114.109],'Hyderabad, Remote, India':[17.369,78.474],'ID-Jakarta-MSO':[6.165,106.827],'IL-Israel':[31.047,34.852],'IL-Tel Aviv-MSO':[32.086,34.768],'IN-Bangalore-MSO':[12.972,77.595],'IN-Pune':[18.516,73.856],'IND-CHENNAI':[13.067,80.237],'India':[20.593,78.962],'Italy':[41.871,12.567],'JP-Japan':[36.204,138.252],'JP-Tokyo':[35.677,139.654],'Japan':[36.204,138.252],'Kitchener':[43.442,-80.492],'London':[51.507,-0.128],'London, United Kingdom':[51.507,-0.128],'MX-Mexico':[23.634,-102.552],'Maryland; Virginia; Washington, D.C.':[38.812,-77.412],'Melbourne, Australia':[37.814,144.963],'Mexico':[23.634,-102.552],'Milan, Italy':[45.462,9.19],'Montréal, Canada':[45.501,-73.567],'Mountain View, California':[37.386,-122.084],'Mountain View, California; San Francisco, California':[37.575,-122.251],'Mountain View, California; San Francisco, California; Seattle, Washington':[39.739,-104.99],'Mumbai, India':[19.076,72.877],'Munich, Germany':[48.135,11.582],'NL-Amsterdam':[52.37,4.895],'NL-Netherlands':[52.13,5.291],'NO-Norway':[60.472,8.469],'NO-Oslo-MSO':[59.913,10.752],'New York':[40.713,-74.006],'New York City':[40.713,-74.006],'New York City, New York':[40.713,-74.006],'New York City, New York; Remote - Washington D.C.':[40.713,-74.006],'New York, New York, USA':[40.713,-74.006],'New York; San Francisco, California':[37.775,-122.419],'North Rhine-Westphalia, Germany':[51.5,8.0],'Northeast - United States':[39.8,-75.0],'Ottawa, Canada':[45.421,-75.697],'PH-Philippines':[12.879,121.774],'PL-Warsaw':[52.23,21.012],'Paris, France':[48.857,2.295],'Poland':[51.917,19.145],'Prague, Czech Republic':[50.075,14.438],'Raleigh, North Carolina, USA':[35.771,-78.638],'SA-Riyadh-MSO':[24.713,46.675],'SE-Stockholm-MSO':[59.329,18.069],'SE-Sweden':[60.129,18.643],'SG-Singapore':[1.352,103.82],'San Francisco':[37.775,-122.419],'San Francisco, California':[37.775,-122.419],'San Francisco, California; United States':[37.775,-122.419],'Sao Paulo, Brazil':[-23.55,-46.634],'Seattle, Washington':[47.606,-122.333],'Seoul':[37.567,126.978],'Seoul, South Korea':[37.567,126.978],'Singapore':[1.352,103.82],'Stockholm, Sweden':[59.329,18.069],'Sydney, Australia':[33.87,151.209],'TR-Istanbul-MSO':[41.016,28.979],'Texas':[31.968,-99.901],'Tokyo':[35.677,139.654],'Tokyo, Japan':[35.677,139.654],'Toronto, Canada':[43.653,-79.383],'US':[37.8,-95.583],'US Remote':[37.8,-95.583],'US-CA':[36.116,-120.681],'US-CA-Dublin':[37.701,-122.128],'US-CA-Menlo Park':[37.483,-122.17],'US-CO-Denver':[39.739,-104.99],'US-GA-Atlanta':[33.749,-84.388],'US-MA-Boston':[42.358,-71.063],'US-MN':[46.09,-93.21],'US-NY':[43.299,-74.217],'US-NY-New York':[40.713,-74.006],'US-NY-New York City':[40.713,-74.006],'US-USA':[37.8,-95.583],'US-WA-Bellevue':[47.61,-122.201],'US-WA-Seattle':[47.606,-122.333],'USA':[37.8,-95.583],'USA-CA-REDWOOD CITY':[37.485,-122.237],'USCA':[36.116,-120.681],'United Kingdom':[55.378,-3.436],'United States':[37.8,-95.583],'Vancouver, Canada':[49.283,-123.121],'Washington, D.C.':[38.897,-77.036],'West Coast - United States':[39.739,-104.99],'West Coast USA':[39.739,-104.99],'Western Australia, Australia':[-25.287,133.775],'Zürich, Switzerland':[47.368,8.545]};
+
+  jobs.forEach(j=>{
+    const loc=j.l;
+    if(loc){locCounts[loc]=(locCounts[loc]||0)+1;}
+  });
+
+  Object.entries(locCounts).forEach(([loc,count])=>{
+    const coords=locCoords[loc];
+    if(coords){
+      const size=Math.max(15,Math.min(40,count/2));
+      const color=count>20?'#b91c1c':count>10?'#f59e0b':'#3b82f6';
+      const m=L.circleMarker(coords,{radius:size,fillColor:color,color:'#fff',weight:2,opacity:0.8,fillOpacity:0.7}).bindPopup(`<strong>${loc}</strong><br>${count} roles`).addTo(window.mapInst);
+      window.mapMarkers.push(m);
+    }
+  });
+}
+
 function initCharts(){
   const d=computeChartData(JOBS);
   const days=Array.from({length:30},(_,i)=>{const dt=new Date();dt.setDate(dt.getDate()-29+i);return dt.toLocaleDateString('en',{month:'short',day:'numeric'});});
-  chartCoInst=new Chart(document.getElementById('chartCompanies'),{type:'bar',data:{labels:d.coLabels,datasets:[{data:d.coData,backgroundColor:'rgba(227,25,55,0.75)',borderRadius:4}]},options:{...CO,indexAxis:'y',scales:{x:{grid:{color:'rgba(0,0,0,0.04)'}},y:{grid:{display:false}}}}});
-  chartSenInst=new Chart(document.getElementById('chartSeniority'),{type:'doughnut',data:{labels:['Senior','Director+','Manager','Principal/Staff','Mid','Entry'],datasets:[{data:d.sen,backgroundColor:['#3b82f6','#ef4444','#8b5cf6','#f59e0b','#10b981','#06b6d4'],borderWidth:2}]},options:{...CO,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:7}}}}});
-  chartFuncInst=new Chart(document.getElementById('chartFunction'),{type:'bar',data:{labels:['Engineering','Sales','Product','AI/ML','CS','Marketing'],datasets:[{data:d.func,backgroundColor:'rgba(0,180,216,0.75)',borderRadius:4}]},options:{...CO,scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'}}}}});
-  chartProdInst=new Chart(document.getElementById('chartProduct'),{type:'doughnut',data:{labels:['Data Intelligence','Data Observability','VectorAI','AI Analyst'],datasets:[{data:d.seg,backgroundColor:['#E31937','#2ECC71','#8E44AD','#00B4D8'],borderWidth:2}]},options:{...CO,plugins:{legend:{display:true,position:'right',labels:{font:{size:10},padding:8}}}}});
+  chartCoInst=new Chart(document.getElementById('chartCompanies'),{type:'bar',data:{labels:d.coLabels,datasets:[{data:d.coData,backgroundColor:'rgba(227,25,55,0.75)',borderRadius:4}]},options:{...CO,indexAxis:'y',onClick:function(evt){const pts=this.getElementsAtEventForMode(evt,'nearest',{intersect:true},true);if(pts.length){const co=this.data.labels[pts[0].index];const sel=document.getElementById('fCompany');if(sel.value===co){sel.value='';}else{sel.value=co;}applyFilters();}},scales:{x:{grid:{color:'rgba(0,0,0,0.04)'}},y:{grid:{display:false}}}}});
+  chartSenInst=new Chart(document.getElementById('chartSeniority'),{type:'doughnut',data:{labels:['Senior','Director+','Manager','Principal/Staff','Mid','Entry'],datasets:[{data:d.sen,backgroundColor:['#3b82f6','#ef4444','#8b5cf6','#f59e0b','#10b981','#06b6d4'],borderWidth:2}]},options:{...CO,onClick:function(evt){const pts=this.getElementsAtEventForMode(evt,'nearest',{intersect:true},true);if(pts.length){const s=this.data.labels[pts[0].index];const sel=document.getElementById('fSeniority');if(sel.value===s){sel.value='';}else{sel.value=s;}applyFilters();}},plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:7}}}}});
+  chartFuncInst=new Chart(document.getElementById('chartFunction'),{type:'bar',data:{labels:['Engineering','Sales','Product','AI/ML','CS','Marketing'],datasets:[{data:d.func,backgroundColor:'rgba(0,180,216,0.75)',borderRadius:4}]},options:{...CO,onClick:function(evt){const pts=this.getElementsAtEventForMode(evt,'nearest',{intersect:true},true);if(pts.length){const funcLabels=['Engineering','Sales','Product','AI/ML','Customer Success','Marketing'];const f=funcLabels[pts[0].index];const sel=document.getElementById('fFunction');if(sel.value===f){sel.value='';}else{sel.value=f;}applyFilters();}},scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'}}}}});
+  chartProdInst=new Chart(document.getElementById('chartProduct'),{type:'doughnut',data:{labels:['Data Intelligence','Data Observability','VectorAI','AI Analyst'],datasets:[{data:d.seg,backgroundColor:['#E31937','#2ECC71','#8E44AD','#00B4D8'],borderWidth:2}]},options:{...CO,onClick:function(evt){const pts=this.getElementsAtEventForMode(evt,'nearest',{intersect:true},true);if(pts.length){const seg=this.data.labels[pts[0].index];if(currentArea===seg){setArea('all');}else{setArea(seg);}}},plugins:{legend:{display:true,position:'right',labels:{font:{size:10},padding:8}}}}});
   chartTrendInst=new Chart(document.getElementById('chartTrend'),{type:'line',data:{labels:days,datasets:[{label:'Roles by Post Date',data:d.day,borderColor:'#E31937',backgroundColor:'rgba(227,25,55,0.08)',fill:true,tension:0.4,borderWidth:2,pointRadius:2}]},options:{...CO,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:45,maxTicksLimit:8},grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},beginAtZero:true}}}});
   new Chart(document.getElementById('chartSlack'),{type:'bar',data:{labels:['Apr 10','Apr 11','Apr 12','Apr 13','Apr 14','Apr 15','Apr 16'],datasets:[{label:'#actian-ci',data:[3,2,4,3,2,3,2],backgroundColor:'rgba(227,25,55,0.75)',borderRadius:3},{label:'@marketing',data:[1,0,2,1,1,1,1],backgroundColor:'rgba(243,156,18,0.75)',borderRadius:3}]},options:{...CO,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:6}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'rgba(0,0,0,0.04)'},beginAtZero:true}}}});
 }
@@ -892,7 +918,7 @@ function filterSignalSeg(seg,el){
   });
 }
 
-populateFilters();applyFilters();renderInsights();renderVerdicts();filterLaunches();renderSlack();renderSignals();initCharts();
+populateFilters();applyFilters();renderVerdicts();filterLaunches();renderSlack();renderSignals();initCharts();updateMap(JOBS);
 
 // ── Job Drawer ────────────────────────────────────────────────────────────────
 function openJobDrawer(idx){
