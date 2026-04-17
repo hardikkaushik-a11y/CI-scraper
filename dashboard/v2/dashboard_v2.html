@@ -256,7 +256,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
   </div>
   <div class="topnav-right">
     <button class="info-btn" onclick="openInfoModal()" title="Dashboard guide">i</button>
-    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 12:29 UTC</span>
+    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 13:07 UTC</span>
   </div>
 </nav>
 
@@ -312,7 +312,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
     <div class="pulse-card"><div class="pulse-label">AI/ML Roles</div><div class="pulse-value" style="color:var(--cyan)">33</div><div class="pulse-detail">AI/ML-specific roles across 4 companies</div></div>
     <div class="pulse-card"><div class="pulse-label">VectorAI Watch</div><div class="pulse-value" style="color:var(--purple)">2</div><div class="pulse-detail">Pinecone, Qdrant &mdash; all actively hiring</div></div>
     <div class="pulse-card"><div class="pulse-label">GTM Expansion</div><div class="pulse-value" style="color:var(--green)">7</div><div class="pulse-detail">Companies with active sales &amp; marketing hiring</div></div>
-    <div class="pulse-card"><div class="pulse-label">Director+ Surge</div><div class="pulse-value" style="color:var(--amber)">5</div><div class="pulse-detail">Leadership roles: Databricks, Snowflake, Collibra, Qdrant, Alation</div></div>
+    <div class="pulse-card"><div class="pulse-label">Director+ Surge</div><div class="pulse-value" style="color:var(--amber)">5</div><div class="pulse-detail">Leadership roles: Databricks, Snowflake, Collibra, Alation, Qdrant</div></div>
   </div>
   <div class="filter-bar">
     <div class="filter-group"><label>Company</label><select id="fCompany" onchange="applyFilters()"><option value="">All</option></select></div>
@@ -351,9 +351,9 @@ tbody td.strong{color:var(--text);font-weight:500;}
     <div><div class="ic-title">Intelligence Verdict Layer &mdash; Phase 2.5</div><div class="ic-sub">Synthesizes hiring signals + product launches + events per company via Claude Sonnet. Single source of truth. Updated daily 06:00 UTC.</div></div>
   </div>
   <div class="kpi-strip">
-    <div class="kpi-box"><div class="kpi-value red">0</div><div class="kpi-label">Critical Threats</div></div>
-    <div class="kpi-box"><div class="kpi-value amber">0</div><div class="kpi-label">High Threats</div></div>
-    <div class="kpi-box"><div class="kpi-value blue">11</div><div class="kpi-label">Medium Threats</div></div>
+    <div class="kpi-box"><div class="kpi-value red">5</div><div class="kpi-label">Critical Threats</div></div>
+    <div class="kpi-box"><div class="kpi-value amber">2</div><div class="kpi-label">High Threats</div></div>
+    <div class="kpi-box"><div class="kpi-value blue">3</div><div class="kpi-label">Medium Threats</div></div>
     <div class="kpi-box"><div class="kpi-value green">2</div><div class="kpi-label">Low / Monitoring</div></div>
     <div class="kpi-box"><div class="kpi-value" style="color:var(--purple)">11</div><div class="kpi-label">Companies Covered</div></div>
   </div>
@@ -560,14 +560,14 @@ function setTeam(team,el){
   }else{banner.style.display='none';}
   const _itl=document.getElementById('insightTeamLabel');if(_itl)_itl.textContent=cfg.title;
   const _vtl=document.getElementById('verdictTeamLabel');if(_vtl)_vtl.textContent=cfg.title;
-  renderInsights();renderVerdicts();applyFilters();
+  renderInsights();renderVerdicts();updateVerdictKPIs();applyFilters();
 }
 
 function setArea(area,el){
   currentArea=area;
   document.querySelectorAll('.area-pill').forEach(p=>p.classList.remove('active'));
   if(el)el.classList.add('active');
-  renderInsights();renderVerdicts();applyFilters();filterLaunches();renderSlack();
+  renderInsights();renderVerdicts();updateVerdictKPIs();applyFilters();filterLaunches();renderSlack();
 }
 
 function renderInsights(){
@@ -600,12 +600,35 @@ function renderInsights(){
 
 let expandedVerdictCard=null;
 
+function updateVerdictKPIs(){
+  // Get filtered verdicts based on current area + segment chip
+  let data=[...VERDICTS].filter(v=>{
+    if(currentVerdictSeg!=='all'){
+      const seg=currentVerdictSeg==='VectorAI'?'Vector AI':currentVerdictSeg;
+      if(v.segment!==seg)return false;
+    } else if(currentArea!=='all'){
+      const areaSegs={'Data Intelligence':'Data Intelligence','Data Observability':'Data Observability','VectorAI':'Vector AI','AI Analyst':'AI Analyst'};
+      const targetSeg=areaSegs[currentArea];
+      if(targetSeg&&v.segment!==targetSeg)return false;
+    }
+    return true;
+  });
+  const counts={critical:0,high:0,medium:0,low:0};
+  data.forEach(v=>{const t=(v.threat||'medium').toLowerCase();if(counts[t]!==undefined)counts[t]++;});
+  const kpis=document.querySelectorAll('#page-verdicts .kpi-box .kpi-value');
+  if(kpis[0])kpis[0].textContent=counts.critical;
+  if(kpis[1])kpis[1].textContent=counts.high;
+  if(kpis[2])kpis[2].textContent=counts.medium;
+  if(kpis[3])kpis[3].textContent=counts.low;
+  if(kpis[4])kpis[4].textContent=data.length;
+}
+
 function setVerdictSeg(seg,el){
   currentVerdictSeg=seg;
   document.querySelectorAll('#verdictSegChips .segment-chip').forEach(c=>c.classList.remove('active'));
   if(el)el.classList.add('active');
   expandedVerdictCard=null;
-  renderVerdicts();
+  updateVerdictKPIs();renderVerdicts();
 }
 
 function toggleVerdictCard(company){
@@ -675,7 +698,7 @@ function renderVerdicts(){
       <td style="max-width:200px;font-size:12px;color:var(--text-secondary);white-space:normal;line-height:1.4">${v.verdict.substring(0,85)}&hellip;</td>
       <td style="max-width:160px;font-size:12px;color:#92400e;white-space:normal;line-height:1.4">${v.action.substring(0,65)}&hellip;</td>
       <td>${v.routing.map(r=>`<span class="route-chip">${r}</span>`).join('')}</td>
-      <td style="font-size:11px;color:var(--text-muted);white-space:nowrap">Apr 9, 2026</td>
+      <td style="font-size:11px;color:var(--text-muted);white-space:nowrap">${v.last_updated||'—'}</td>
     </tr>`).join('');
 }
 
@@ -812,7 +835,7 @@ function hardReset(){
   // Reset map/trend filters
   currentLocation='';currentDay=-1;
   // Re-render everything
-  renderInsights();renderVerdicts();filterLaunches();renderSlack();applyFilters();
+  renderInsights();renderVerdicts();updateVerdictKPIs();filterLaunches();renderSlack();applyFilters();
 }
 
 function renderActivePills(){
@@ -968,7 +991,7 @@ function filterSignalSeg(seg,el){
   });
 }
 
-populateFilters();applyFilters();renderVerdicts();filterLaunches();renderSlack();renderSignals();initCharts();updateMap(JOBS);
+populateFilters();applyFilters();renderVerdicts();updateVerdictKPIs();filterLaunches();renderSlack();renderSignals();initCharts();updateMap(JOBS);
 
 // ── Job Drawer ────────────────────────────────────────────────────────────────
 function openJobDrawer(idx){

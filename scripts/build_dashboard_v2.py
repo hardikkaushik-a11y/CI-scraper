@@ -121,40 +121,129 @@ def build_signals(raw_signals, jobs):
 
 def build_verdicts(raw_verdicts, signals_by_company):
     """Build VERDICTS array for the Intelligence Verdicts page."""
-    out = []
-    for v in raw_verdicts:
-        company = v.get("company","")
-        if company not in V2_COMPANIES:
-            continue
-        seg_raw = v.get("product_area", v.get("segment",""))
-        segment = SEGMENT_MAP.get(seg_raw, seg_raw)
 
-        routing_raw = v.get("team_routing", v.get("routing", []))
-        routing = [r for r in routing_raw if r in {"Product","PMM","SDRs","Marketing","Executives","Sales Engineering"}]
+    IMPACT_SCOPE = {"platform": 5, "market": 5, "product": 4, "feature": 3, "none": 1}
+    THREAT_SCORE = {"critical": 5, "high": 4, "medium": 3, "low": 2}
 
-        team_rel_raw = v.get("team_relevance", {})
-        team_rel = {
-            "product":    team_rel_raw.get("product", 3),
-            "marketing":  team_rel_raw.get("marketing", 2),
-            "sdrs":       team_rel_raw.get("sdrs", 2),
-            "pmm":        team_rel_raw.get("pmm", 3),
-            "executives": team_rel_raw.get("executives", 2),
+    def infer_routing(threat, signal_type, impact_level):
+        r = []
+        if threat in ("critical", "high"):
+            r = ["Executives", "PMM", "Product"]
+        elif threat == "medium":
+            r = ["Product", "PMM"]
+        else:
+            r = ["Product"]
+        if "event" in (signal_type or ""):
+            if "SDRs" not in r: r.append("SDRs")
+        if impact_level == "platform" and "Executives" not in r:
+            r.append("Executives")
+        return r
+
+    def infer_team_relevance(threat, impact_level):
+        base = THREAT_SCORE.get(threat, 3)
+        exec_bump = 1 if impact_level in ("platform","market") else 0
+        return {
+            "product":    min(5, base),
+            "marketing":  min(5, base - 1),
+            "sdrs":       min(5, base - 1),
+            "pmm":        min(5, base),
+            "executives": min(5, base - 1 + exec_bump),
         }
 
+    def build_top_signals(v):
+        pts = []
+        corr = v.get("hiring_event_correlation", {})
+        if corr.get("explanation"):
+            pts.append(corr["explanation"])
+        ci = v.get("competitive_impact", {})
+        if ci.get("overlap_with_actian"):
+            pts.append(f"Actian overlap: {ci['overlap_with_actian']}")
+        if ci.get("at_risk_segments"):
+            pts.append(f"At-risk segments: {ci['at_risk_segments']}")
+        if ci.get("type_of_move"):
+            pts.append(f"Move type: {ci['type_of_move']}")
+        if v.get("confidence_reasoning"):
+            pts.append(v["confidence_reasoning"])
+        return pts[:5]
+
+    def build_verdict_text(v):
+        """Synthesise verdict from primary + alternative interpretation."""
+        primary = v.get("primary_interpretation", "").strip()
+        alt     = v.get("alternative_interpretation", "").strip()
+        if primary and alt:
+            return f"{primary} Alternative read: {alt}"
+        return primary or v.get("what_is_happening", "").strip()
+
+    def parse_signal_types(v):
+        raw = v.get("signal_type", "hiring")
+        if "+" in raw:
+            return [s.strip() for s in raw.split("+")]
+        return [raw] if raw and raw != "none" else ["hiring"]
+
+    def fmt_last_updated(v):
+        lu = v.get("last_updated", "")
+        if not lu:
+            return date.today().strftime("%b %-d, %Y")
+        try:
+            return datetime.strptime(lu, "%Y-%m-%d").strftime("%b %-d, %Y")
+        except Exception:
+            return lu
+
+    out = []
+    for v in raw_verdicts:
+        company = v.get("company", "")
+        if company not in V2_COMPANIES:
+            continue
+
+        seg_raw    = v.get("product_area", v.get("segment", ""))
+        segment    = SEGMENT_MAP.get(seg_raw, seg_raw)
+        signal_type  = v.get("signal_type", "hiring")
+        impact_level = v.get("impact_level", "feature")
+
+        # Threat: verdicts JSON has no threat_level — pull from signals_by_company
+        sig = signals_by_company.get(company, {})
+        threat = v.get("threat_level", v.get("threat",
+                    sig.get("threat_level", "medium"))).lower()
+
+        # Routing: infer if not in source
+        routing_raw = v.get("team_routing", v.get("routing", []))
+        routing = [r for r in routing_raw if r in {"Product","PMM","SDRs","Marketing","Executives","Sales Engineering"}]
+        if not routing:
+            routing = infer_routing(threat, signal_type, impact_level)
+
+        # Team relevance: infer if not in source
+        team_rel_raw = v.get("team_relevance", {})
+        if team_rel_raw:
+            team_rel = {
+                "product":    team_rel_raw.get("product", 3),
+                "marketing":  team_rel_raw.get("marketing", 2),
+                "sdrs":       team_rel_raw.get("sdrs", 2),
+                "pmm":        team_rel_raw.get("pmm", 3),
+                "executives": team_rel_raw.get("executives", 2),
+            }
+        else:
+            team_rel = infer_team_relevance(threat, impact_level)
+
+        # Top signals: build from structured fields if not present
+        top_signals = v.get("top_signals", [])
+        if not top_signals:
+            top_signals = build_top_signals(v)
+
         out.append({
-            "company":       company,
-            "segment":       segment,
-            "threat":        v.get("threat_level", v.get("threat","medium")).lower(),
-            "impact_scope":  v.get("impact_scope", 3),
-            "confidence":    v.get("confidence","low"),
-            "verdict":       v.get("verdict",""),
-            "what":          v.get("what_is_happening", v.get("what","")),
-            "why":           v.get("why_it_matters", v.get("why","")),
-            "action":        v.get("recommended_action", v.get("actian_action", v.get("action",""))),
-            "routing":       routing,
-            "signals":       v.get("signal_types", v.get("signals",["hiring"])),
-            "top_signals":   v.get("top_signals", [])[:5],
+            "company":        company,
+            "segment":        segment,
+            "threat":         threat,
+            "impact_scope":   v.get("impact_scope", IMPACT_SCOPE.get(impact_level, 3)),
+            "confidence":     v.get("confidence", "low"),
+            "verdict":        build_verdict_text(v),
+            "what":           v.get("what_is_happening", v.get("what", "")),
+            "why":            v.get("why_it_matters",    v.get("why", "")),
+            "action":         v.get("recommended_action", v.get("actian_action", v.get("action", ""))),
+            "routing":        routing,
+            "signals":        parse_signal_types(v),
+            "top_signals":    top_signals[:5],
             "team_relevance": team_rel,
+            "last_updated":   fmt_last_updated(v),
         })
     return out
 

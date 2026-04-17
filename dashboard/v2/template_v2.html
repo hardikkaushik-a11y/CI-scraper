@@ -615,14 +615,14 @@ function setTeam(team,el){
   }else{banner.style.display='none';}
   const _itl=document.getElementById('insightTeamLabel');if(_itl)_itl.textContent=cfg.title;
   const _vtl=document.getElementById('verdictTeamLabel');if(_vtl)_vtl.textContent=cfg.title;
-  renderInsights();renderVerdicts();applyFilters();
+  renderInsights();renderVerdicts();updateVerdictKPIs();applyFilters();
 }
 
 function setArea(area,el){
   currentArea=area;
   document.querySelectorAll('.area-pill').forEach(p=>p.classList.remove('active'));
   if(el)el.classList.add('active');
-  renderInsights();renderVerdicts();applyFilters();filterLaunches();renderSlack();
+  renderInsights();renderVerdicts();updateVerdictKPIs();applyFilters();filterLaunches();renderSlack();
 }
 
 function renderInsights(){
@@ -655,12 +655,35 @@ function renderInsights(){
 
 let expandedVerdictCard=null;
 
+function updateVerdictKPIs(){
+  // Get filtered verdicts based on current area + segment chip
+  let data=[...VERDICTS].filter(v=>{
+    if(currentVerdictSeg!=='all'){
+      const seg=currentVerdictSeg==='VectorAI'?'Vector AI':currentVerdictSeg;
+      if(v.segment!==seg)return false;
+    } else if(currentArea!=='all'){
+      const areaSegs={'Data Intelligence':'Data Intelligence','Data Observability':'Data Observability','VectorAI':'Vector AI','AI Analyst':'AI Analyst'};
+      const targetSeg=areaSegs[currentArea];
+      if(targetSeg&&v.segment!==targetSeg)return false;
+    }
+    return true;
+  });
+  const counts={critical:0,high:0,medium:0,low:0};
+  data.forEach(v=>{const t=(v.threat||'medium').toLowerCase();if(counts[t]!==undefined)counts[t]++;});
+  const kpis=document.querySelectorAll('#page-verdicts .kpi-box .kpi-value');
+  if(kpis[0])kpis[0].textContent=counts.critical;
+  if(kpis[1])kpis[1].textContent=counts.high;
+  if(kpis[2])kpis[2].textContent=counts.medium;
+  if(kpis[3])kpis[3].textContent=counts.low;
+  if(kpis[4])kpis[4].textContent=data.length;
+}
+
 function setVerdictSeg(seg,el){
   currentVerdictSeg=seg;
   document.querySelectorAll('#verdictSegChips .segment-chip').forEach(c=>c.classList.remove('active'));
   if(el)el.classList.add('active');
   expandedVerdictCard=null;
-  renderVerdicts();
+  updateVerdictKPIs();renderVerdicts();
 }
 
 function toggleVerdictCard(company){
@@ -730,7 +753,7 @@ function renderVerdicts(){
       <td style="max-width:200px;font-size:12px;color:var(--text-secondary);white-space:normal;line-height:1.4">${v.verdict.substring(0,85)}&hellip;</td>
       <td style="max-width:160px;font-size:12px;color:#92400e;white-space:normal;line-height:1.4">${v.action.substring(0,65)}&hellip;</td>
       <td>${v.routing.map(r=>`<span class="route-chip">${r}</span>`).join('')}</td>
-      <td style="font-size:11px;color:var(--text-muted);white-space:nowrap">Apr 9, 2026</td>
+      <td style="font-size:11px;color:var(--text-muted);white-space:nowrap">${v.last_updated||'—'}</td>
     </tr>`).join('');
 }
 
@@ -867,7 +890,7 @@ function hardReset(){
   // Reset map/trend filters
   currentLocation='';currentDay=-1;
   // Re-render everything
-  renderInsights();renderVerdicts();filterLaunches();renderSlack();applyFilters();
+  renderInsights();renderVerdicts();updateVerdictKPIs();filterLaunches();renderSlack();applyFilters();
 }
 
 function renderActivePills(){
@@ -1023,7 +1046,7 @@ function filterSignalSeg(seg,el){
   });
 }
 
-populateFilters();applyFilters();renderVerdicts();filterLaunches();renderSlack();renderSignals();initCharts();updateMap(JOBS);
+populateFilters();applyFilters();renderVerdicts();updateVerdictKPIs();filterLaunches();renderSlack();renderSignals();initCharts();updateMap(JOBS);
 
 // ── Job Drawer ────────────────────────────────────────────────────────────────
 function openJobDrawer(idx){
