@@ -256,7 +256,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
   </div>
   <div class="topnav-right">
     <button class="info-btn" onclick="openInfoModal()" title="Dashboard guide">i</button>
-    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 13:16 UTC</span>
+    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 13:21 UTC</span>
   </div>
 </nav>
 
@@ -785,12 +785,30 @@ function updateKPIs(){
   const newWeek=filteredJobs.filter(j=>j.d<7).length;
   const avgRel=total>0?Math.round((filteredJobs.reduce((s,j)=>s+j.r,0)/total)*10)/10:0;
   const companies=new Set(filteredJobs.map(j=>j.c)).size;
+  // AI/ML + VectorAI/GTM/Director+ metrics for pulse cards
+  const aiml=filteredJobs.filter(j=>j.f==='AI/ML'||(j.f&&j.f.includes('ML'))||(j.p&&j.p.includes('AI'))).length;
+  const aimlCos=new Set(filteredJobs.filter(j=>j.f==='AI/ML'||(j.f&&j.f.includes('ML'))||(j.p&&j.p.includes('AI'))).map(j=>j.c)).size;
+  const vector=['Pinecone','Qdrant','Milvus'].filter(c=>filteredJobs.some(j=>j.c===c)).length;
+  const gtm=new Set(filteredJobs.filter(j=>j.f==='Sales'||j.f==='Marketing').map(j=>j.c)).size;
+  const dirCos=new Set(directors>0?filteredJobs.filter(j=>['Director+','VP','Executive'].includes(j.s)).map(j=>j.c):[]).size;
+
+  // Update main KPI boxes
   document.querySelectorAll('.kpi-box .kpi-value')[0].textContent=total;
   document.querySelectorAll('.kpi-box .kpi-value')[1].textContent=highSignal;
   document.querySelectorAll('.kpi-box .kpi-value')[2].textContent=directors;
   document.querySelectorAll('.kpi-box .kpi-value')[3].textContent=newWeek;
   document.querySelectorAll('.kpi-box .kpi-value')[4].textContent=avgRel;
   document.querySelectorAll('.kpi-box .kpi-value')[5].textContent=companies;
+
+  // Update pulse cards on page-hiring
+  const pulseCards=document.querySelectorAll('#page-hiring .pulse-grid .pulse-card .pulse-value');
+  if(pulseCards[2])pulseCards[2].textContent=aiml;  // AI/ML Roles card (3rd pulse card, index 2)
+  if(pulseCards[2]&&pulseCards[2].parentElement.parentElement.querySelector('.pulse-detail')){
+    pulseCards[2].parentElement.parentElement.querySelector('.pulse-detail').textContent=aimlCos>0?`AI/ML-specific roles across ${aimlCos} companies`:'No AI/ML roles in current filter';
+  }
+  if(pulseCards[3])pulseCards[3].textContent=vector;  // VectorAI Watch (4th, index 3)
+  if(pulseCards[4])pulseCards[4].textContent=gtm;     // GTM Expansion (5th, index 4)
+  if(pulseCards[5])pulseCards[5].textContent=dirCos;  // Director+ Surge (6th, index 5)
 }
 
 function renderJobTable(){
