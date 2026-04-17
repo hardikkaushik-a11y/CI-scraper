@@ -256,7 +256,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
   </div>
   <div class="topnav-right">
     <button class="info-btn" onclick="openInfoModal()" title="Dashboard guide">i</button>
-    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 12:19 UTC</span>
+    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 12:29 UTC</span>
   </div>
 </nav>
 
@@ -269,12 +269,13 @@ tbody td.strong{color:var(--text);font-weight:500;}
   <button class="team-tab" onclick="setTeam('executives',this)">Executives <span class="tab-badge crit">2</span></button>
 </div>
 
-<div class="area-pills-bar">
+<div class="area-pills-bar" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
   <button class="area-pill active" onclick="setArea('all',this)">All Segments <span class="ac">515</span></button>
   <button class="area-pill" onclick="setArea('Data Intelligence',this)">Data Intelligence <span class="ac">79</span></button>
   <button class="area-pill" onclick="setArea('Data Observability',this)">Data Observability <span class="ac">20</span></button>
   <button class="area-pill" onclick="setArea('VectorAI',this)">VectorAI <span class="ac">25</span></button>
   <button class="area-pill" onclick="setArea('AI Analyst',this)">AI Analyst <span class="ac">391</span></button>
+  <button onclick="hardReset()" style="margin-left:auto;padding:5px 14px;border-radius:20px;border:1px solid #e31937;background:transparent;color:#e31937;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:0.3px" title="Clear all filters">&#8635; Reset All</button>
 </div>
 
 <!-- PAGE 1: HIRING INTELLIGENCE -->
@@ -557,8 +558,8 @@ function setTeam(team,el){
     document.getElementById('lensTitle').textContent=cfg.title.replace(' \u2014 All Teams','');
     document.getElementById('lensSub').textContent=cfg.sub;
   }else{banner.style.display='none';}
-  document.getElementById('insightTeamLabel').textContent=cfg.title;
-  document.getElementById('verdictTeamLabel').textContent=cfg.title;
+  const _itl=document.getElementById('insightTeamLabel');if(_itl)_itl.textContent=cfg.title;
+  const _vtl=document.getElementById('verdictTeamLabel');if(_vtl)_vtl.textContent=cfg.title;
   renderInsights();renderVerdicts();applyFilters();
 }
 
@@ -571,6 +572,7 @@ function setArea(area,el){
 
 function renderInsights(){
   const container=document.getElementById('insightCards');
+  if(!container)return;
   const to={critical:0,high:1,medium:2,low:3};
   let sorted=getFilteredData([...VERDICTS]).sort((a,b)=>{
     if(currentTeam!=='overview'){
@@ -790,6 +792,27 @@ function resetFilters(){
   document.getElementById('relVal').textContent='0';
   currentLocation='';currentDay=-1;
   applyFilters();
+}
+
+function hardReset(){
+  // Reset all dropdowns and inputs
+  ['fCompany','fFunction','fSeniority','fProduct'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fSearch').value='';
+  document.getElementById('fRelevancy').value=0;
+  document.getElementById('fDays').value='';
+  document.getElementById('relVal').textContent='0';
+  // Reset area pills
+  currentArea='all';
+  document.querySelectorAll('.area-pill').forEach((p,i)=>{p.classList.toggle('active',i===0);});
+  // Reset team tabs
+  currentTeam='overview';
+  document.querySelectorAll('.team-tab').forEach((t,i)=>{t.classList.toggle('active',i===0);});
+  const banner=document.getElementById('teamLensBanner');
+  if(banner)banner.style.display='none';
+  // Reset map/trend filters
+  currentLocation='';currentDay=-1;
+  // Re-render everything
+  renderInsights();renderVerdicts();filterLaunches();renderSlack();applyFilters();
 }
 
 function renderActivePills(){
