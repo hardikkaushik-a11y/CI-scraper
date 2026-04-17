@@ -225,9 +225,10 @@ def build_jobs(jobs):
             "r": rel,
             "u": j.get("Job Link",""),
             "sk": j.get("Primary_Skill",""),
+            "a": j.get("product_area", ""),
         })
     out.sort(key=lambda x: -x["r"])
-    return out[:60]
+    return out
 
 def build_slack_msgs(verdicts_data, comp_signals):
     """Build SLACK_MSGS with simplified routing.
@@ -375,53 +376,6 @@ def patch_stats(html, jobs, signals_data, verdicts_data, comp_signals):
             html = html.replace(old, new, 1)
             replaced += 1
     print(f"  {replaced}/{len(replacements)} stat replacements applied")
-
-    # Chart data for seniority
-    from collections import Counter
-    sen_labels = ["Senior","Director+","Manager","Principal/Staff","Mid","Entry"]
-    sen_map = {"Senior":0,"Director+":1,"VP":1,"Executive":1,"Manager":2,"Principal/Staff":3,"Mid":4,"Entry":5}
-    sen_counts = [0]*6
-    for j in jobs:
-        if j.get("Company","") in V2_COMPANIES:
-            idx = sen_map.get(j.get("Seniority","Mid"), 4)
-            sen_counts[idx] += 1
-
-    func_labels = ["Engineering","Sales","Product","AI/ML","Customer Success","Marketing"]
-    func_map = {"Engineering":0,"Sales":1,"Product":2,"AI/ML":3,"Customer Success":4,"Marketing":5}
-    func_counts = [0]*6
-    for j in jobs:
-        if j.get("Company","") in V2_COMPANIES:
-            f = j.get("Function","")
-            idx = func_map.get(f)
-            if idx is not None:
-                func_counts[idx] += 1
-
-    prod_labels = ["Data Intelligence","AI/ML Platform","Data Observability","Vector DB","Data Engineering","Governance"]
-    prod_map = {"Data Intelligence":0,"AI/ML Platform":1,"Data Observability":2,"Vector DB":3,"Data Engineering":4,"Governance":5}
-    prod_counts = [0]*6
-    for j in jobs:
-        if j.get("Company","") in V2_COMPANIES:
-            p = j.get("Product_Focus","")
-            idx = prod_map.get(p)
-            if idx is not None:
-                prod_counts[idx] += 1
-
-    # Replace chart data arrays
-    html = re.sub(
-        r"(chartSeniority.*?data:\{labels:\[.*?\],datasets:\[\{data:)\[.*?\]",
-        lambda m: m.group(1) + json.dumps(sen_counts),
-        html
-    )
-    html = re.sub(
-        r"(chartFunction.*?data:\{labels:\[.*?\],datasets:\[\{data:)\[.*?\]",
-        lambda m: m.group(1) + json.dumps(func_counts),
-        html
-    )
-    html = re.sub(
-        r"(chartProduct.*?data:\{labels:\[.*?\],datasets:\[\{data:)\[.*?\]",
-        lambda m: m.group(1) + json.dumps(prod_counts),
-        html
-    )
 
     print(f"  Stats: {total} roles, {new_week} new, {high_sig} high-signal, {directors} director+, avg {avg_rel:.1f}")
     return html

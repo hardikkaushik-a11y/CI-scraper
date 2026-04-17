@@ -19,6 +19,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .topnav-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
 .topnav-status{font-size:11px;color:#94a3b8;white-space:nowrap;}
 .demo-badge{background:rgba(243,156,18,0.2);border:1px solid rgba(243,156,18,0.4);color:#F39C12;font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;letter-spacing:0.5px;}
+.info-btn{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.4);background:none;color:rgba(255,255,255,0.7);font-size:10px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;line-height:1;padding:0;}
+.info-btn:hover{background:rgba(255,255,255,0.15);color:#fff;}
+.info-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;}
+.info-modal{background:#fff;border-radius:12px;padding:32px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 16px 64px rgba(0,0,0,0.2);}
+.info-modal-title{font-size:18px;font-weight:700;margin-bottom:4px;color:var(--navy);}
+.info-modal-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px;}
+.info-section{margin-bottom:20px;}
+.info-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.info-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border-light);font-size:13px;line-height:1.5;}
+.info-row:last-child{border-bottom:none;}
+.info-row-label{font-weight:600;color:var(--text);min-width:130px;flex-shrink:0;}
+.info-close{float:right;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:20px;line-height:1;padding:0;}
 .team-tabs-bar{display:flex;gap:0;padding:0 28px;background:var(--bg-white);border-bottom:1px solid var(--border);position:sticky;top:56px;z-index:90;overflow-x:auto;}
 .team-tab{padding:11px 16px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.2s;display:flex;align-items:center;gap:6px;background:none;border-top:none;border-left:none;border-right:none;}
 .team-tab:hover{color:var(--text);}
@@ -241,7 +253,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
     <button class="topnav-tab" onclick="showPage('digest',this)">Weekly Digest</button>
   </div>
   <div class="topnav-right">
-    <span class="demo-badge">DEMO</span>
+    <button class="info-btn" onclick="openInfoModal()" title="Dashboard guide">i</button>
     <span class="topnav-status">11 companies &middot; Apr 9, 2026 &middot; 06:14 UTC</span>
   </div>
 </nav>
@@ -296,7 +308,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
     <div class="card"><div class="card-title">Function Breakdown</div><div class="chart-container" style="height:250px"><canvas id="chartFunction"></canvas></div></div>
   </div>
   <div class="grid-2">
-    <div class="card"><div class="card-title">Product Focus Areas</div><div class="chart-container" style="height:200px"><canvas id="chartProduct"></canvas></div></div>
+    <div class="card"><div class="card-title">Segment Distribution</div><div class="chart-container" style="height:200px"><canvas id="chartProduct"></canvas></div></div>
     <div class="card"><div class="card-title">Hiring Velocity &mdash; Last 30 Days</div><div class="chart-container" style="height:200px"><canvas id="chartTrend"></canvas></div></div>
   </div>
   <div class="section-hdr"><div class="section-title">Market Pulse</div><div class="section-sub">Cross-company hiring intelligence</div></div>
@@ -794,14 +806,10 @@ function applyFilters(){
     if(fQ&&!j.t.toLowerCase().includes(fQ)&&!j.c.toLowerCase().includes(fQ)&&!j.l.toLowerCase().includes(fQ))return false;
     if(j.r<fR)return false;
     if(fD&&j.d>fD)return false;
-    if(currentArea!=='all'){
-      const m={'Data Intelligence':['Data Intelligence','Governance','catalog','Data Intell'],'Data Observability':['Data Observability','observability','Observability'],'VectorAI':['Vector DB','VectorAI','vector'],'AI Analyst':['AI/ML Platform','Data Engineering','Warehouse']};
-      const kws=m[currentArea]||[];
-      if(!kws.some(kw=>j.p.includes(kw)||j.f.includes(kw)))return false;
-    }
+    if(currentArea!=='all'&&j.a!==currentArea)return false;
     return true;
   });
-  currentPage=0;renderJobTable();renderActivePills();
+  currentPage=0;renderJobTable();renderActivePills();updateCharts(filteredJobs);
 }
 
 function renderJobTable(){
@@ -856,13 +864,41 @@ Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-ser
 Chart.defaults.font.size=11;
 const CO={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
 
+let chartCoInst,chartSenInst,chartFuncInst,chartProdInst,chartTrendInst;
+
+function computeChartData(jobs){
+  const senMap={'Senior':0,'Director+':1,'VP':1,'Executive':1,'Manager':2,'Principal/Staff':3,'Mid':4,'Entry':5};
+  const funcMap={'Engineering':0,'Sales':1,'Product':2,'AI/ML':3,'Customer Success':4,'Marketing':5};
+  const segMap={'Data Intelligence':0,'Data Observability':1,'VectorAI':2,'AI Analyst':3};
+  const sen=[0,0,0,0,0,0],func=[0,0,0,0,0,0],seg=[0,0,0,0],co={},day=new Array(30).fill(0);
+  jobs.forEach(j=>{
+    const si=senMap[j.s];if(si!==undefined)sen[si]++;
+    const fi=funcMap[j.f];if(fi!==undefined)func[fi]++;
+    const pi=segMap[j.a];if(pi!==undefined)seg[pi]++;
+    co[j.c]=(co[j.c]||0)+1;
+    if(j.d>=0&&j.d<30)day[j.d]++;
+  });
+  const coLabels=Object.keys(co).sort((a,b)=>co[b]-co[a]);
+  return{sen,func,seg,coLabels,coData:coLabels.map(c=>co[c]),day};
+}
+
+function updateCharts(jobs){
+  const d=computeChartData(jobs);
+  if(chartCoInst){chartCoInst.data.labels=d.coLabels;chartCoInst.data.datasets[0].data=d.coData;chartCoInst.update();}
+  if(chartSenInst){chartSenInst.data.datasets[0].data=d.sen;chartSenInst.update();}
+  if(chartFuncInst){chartFuncInst.data.datasets[0].data=d.func;chartFuncInst.update();}
+  if(chartProdInst){chartProdInst.data.datasets[0].data=d.seg;chartProdInst.update();}
+  if(chartTrendInst){chartTrendInst.data.datasets[0].data=d.day;chartTrendInst.update();}
+}
+
 function initCharts(){
-  new Chart(document.getElementById('chartCompanies'),{type:'bar',data:{labels:SIGNALS.map(s=>s.company),datasets:[{data:SIGNALS.map(s=>s.hiring),backgroundColor:'rgba(227,25,55,0.75)',borderRadius:4}]},options:{...CO,indexAxis:'y',scales:{x:{grid:{color:'rgba(0,0,0,0.04)'}},y:{grid:{display:false}}}}});
-  new Chart(document.getElementById('chartSeniority'),{type:'doughnut',data:{labels:['Senior','Director','Manager','Principal','Mid','Entry'],datasets:[{data:[312,97,78,61,182,117],backgroundColor:['#3b82f6','#ef4444','#8b5cf6','#f59e0b','#10b981','#06b6d4'],borderWidth:2}]},options:{...CO,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:7}}}}});
-  new Chart(document.getElementById('chartFunction'),{type:'bar',data:{labels:['Engineering','Sales','Product','AI/ML','CS','Marketing'],datasets:[{data:[287,162,143,118,74,43],backgroundColor:'rgba(0,180,216,0.75)',borderRadius:4}]},options:{...CO,scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'}}}}});
-  new Chart(document.getElementById('chartProduct'),{type:'doughnut',data:{labels:['Data Intelligence','AI/ML Platform','Data Observability','Vector DB','Data Engineering','Governance'],datasets:[{data:[243,187,142,108,97,70],backgroundColor:['#E31937','#00B4D8','#2ECC71','#8E44AD','#F39C12','#1B2A4A'],borderWidth:2}]},options:{...CO,plugins:{legend:{display:true,position:'right',labels:{font:{size:10},padding:8}}}}});
-  const days=Array.from({length:30},(_,i)=>{const d=new Date('2026-04-09');d.setDate(d.getDate()-29+i);return d.toLocaleDateString('en',{month:'short',day:'numeric'});});
-  new Chart(document.getElementById('chartTrend'),{type:'line',data:{labels:days,datasets:[{label:'New Roles',data:[18,22,19,25,21,28,24,31,27,33,29,35,31,38,34,40,37,44,41,48,44,51,47,54,51,57,53,59,56,63],borderColor:'#E31937',backgroundColor:'rgba(227,25,55,0.08)',fill:true,tension:0.4,borderWidth:2,pointRadius:2}]},options:{...CO,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:45,maxTicksLimit:8},grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},beginAtZero:true}}}});
+  const d=computeChartData(JOBS);
+  const days=Array.from({length:30},(_,i)=>{const dt=new Date();dt.setDate(dt.getDate()-29+i);return dt.toLocaleDateString('en',{month:'short',day:'numeric'});});
+  chartCoInst=new Chart(document.getElementById('chartCompanies'),{type:'bar',data:{labels:d.coLabels,datasets:[{data:d.coData,backgroundColor:'rgba(227,25,55,0.75)',borderRadius:4}]},options:{...CO,indexAxis:'y',scales:{x:{grid:{color:'rgba(0,0,0,0.04)'}},y:{grid:{display:false}}}}});
+  chartSenInst=new Chart(document.getElementById('chartSeniority'),{type:'doughnut',data:{labels:['Senior','Director+','Manager','Principal/Staff','Mid','Entry'],datasets:[{data:d.sen,backgroundColor:['#3b82f6','#ef4444','#8b5cf6','#f59e0b','#10b981','#06b6d4'],borderWidth:2}]},options:{...CO,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:7}}}}});
+  chartFuncInst=new Chart(document.getElementById('chartFunction'),{type:'bar',data:{labels:['Engineering','Sales','Product','AI/ML','CS','Marketing'],datasets:[{data:d.func,backgroundColor:'rgba(0,180,216,0.75)',borderRadius:4}]},options:{...CO,scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'}}}}});
+  chartProdInst=new Chart(document.getElementById('chartProduct'),{type:'doughnut',data:{labels:['Data Intelligence','Data Observability','VectorAI','AI Analyst'],datasets:[{data:d.seg,backgroundColor:['#E31937','#2ECC71','#8E44AD','#00B4D8'],borderWidth:2}]},options:{...CO,plugins:{legend:{display:true,position:'right',labels:{font:{size:10},padding:8}}}}});
+  chartTrendInst=new Chart(document.getElementById('chartTrend'),{type:'line',data:{labels:days,datasets:[{label:'Roles by Post Date',data:d.day,borderColor:'#E31937',backgroundColor:'rgba(227,25,55,0.08)',fill:true,tension:0.4,borderWidth:2,pointRadius:2}]},options:{...CO,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:45,maxTicksLimit:8},grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},beginAtZero:true}}}});
   new Chart(document.getElementById('chartSlack'),{type:'bar',data:{labels:['Apr 10','Apr 11','Apr 12','Apr 13','Apr 14','Apr 15','Apr 16'],datasets:[{label:'#actian-ci',data:[3,2,4,3,2,3,2],backgroundColor:'rgba(227,25,55,0.75)',borderRadius:3},{label:'@marketing',data:[1,0,2,1,1,1,1],backgroundColor:'rgba(243,156,18,0.75)',borderRadius:3}]},options:{...CO,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:6}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'rgba(0,0,0,0.04)'},beginAtZero:true}}}});
 }
 
@@ -940,7 +976,51 @@ function closeJobDrawer(){
   document.getElementById('drawerOverlay').classList.remove('open');
 }
 document.getElementById('drawerOverlay').addEventListener('click',closeJobDrawer);
+
+function openInfoModal(){document.getElementById('infoModalOverlay').style.display='flex';}
+function closeInfoModal(){document.getElementById('infoModalOverlay').style.display='none';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeInfoModal();closeJobDrawer();}});
 </script>
+
+<!-- Info modal -->
+<div class="info-modal-overlay" id="infoModalOverlay" onclick="if(event.target===this)closeInfoModal()">
+  <div class="info-modal">
+    <button class="info-close" onclick="closeInfoModal()">&#10005;</button>
+    <div class="info-modal-title">Dashboard Guide</div>
+    <div class="info-modal-sub">Actian Competitive Intelligence Platform &middot; 11 companies &middot; Updated daily 06:00 UTC</div>
+    <div class="info-section">
+      <div class="info-section-title">Pages</div>
+      <div class="info-row"><span class="info-row-label">Hiring Intelligence</span><span>515 enriched job roles from 11 competitors. Filter by segment, company, function, seniority, location, and relevancy. Click any row to view details. Charts update live as you filter.</span></div>
+      <div class="info-row"><span class="info-row-label">Strategic Signals</span><span>Hiring-derived intelligence per company, generated by Claude. Threat verdicts, dominant function, AI/ML investment signals, and recommended Actian actions.</span></div>
+      <div class="info-row"><span class="info-row-label">Launches &amp; Events</span><span>Product launches, events, partnerships, and open-source releases scraped from competitor blogs and newsrooms. Classified by Claude Sonnet for Actian relevance.</span></div>
+      <div class="info-row"><span class="info-row-label">Slack Routing</span><span>Preview of competitive signals routed to Slack. All signals go to <strong>#actian-competitive-intel</strong>. Marketing-relevant signals (launches, events, partnerships) also go to <strong>@marketing</strong>.</span></div>
+      <div class="info-row"><span class="info-row-label">Weekly Digest</span><span>Phase 5 — auto-generated every Saturday 06:00 UTC by Claude Opus. Synthesizes hiring + launches + events into a leadership briefing delivered to #competitive-weekly.</span></div>
+    </div>
+    <div class="info-section">
+      <div class="info-section-title">Segments</div>
+      <div class="info-row"><span class="info-row-label">Data Intelligence</span><span>Atlan, Collibra, Alation — catalog, governance, lineage, metadata management</span></div>
+      <div class="info-row"><span class="info-row-label">Data Observability</span><span>Monte Carlo, Bigeye, Acceldata — pipeline health, data quality monitoring</span></div>
+      <div class="info-row"><span class="info-row-label">VectorAI</span><span>Pinecone, Qdrant, Milvus — vector database, semantic search, AI infrastructure</span></div>
+      <div class="info-row"><span class="info-row-label">AI Analyst</span><span>Snowflake Cortex, Databricks Genie — natural language analytics, AI-native data platforms</span></div>
+    </div>
+    <div class="info-section">
+      <div class="info-section-title">Team Tabs (Strategic Signals &amp; Verdicts)</div>
+      <div class="info-row"><span class="info-row-label">Overview</span><span>All companies ranked by threat level</span></div>
+      <div class="info-row"><span class="info-row-label">Marketing</span><span>Companies with recent launches, events, and messaging shifts relevant to campaign timing</span></div>
+      <div class="info-row"><span class="info-row-label">Product</span><span>Companies with engineering hiring surges and product launch signals — roadmap direction intel</span></div>
+      <div class="info-row"><span class="info-row-label">SDRs</span><span>Events (outreach opportunities), expansion hiring, and GTM signals by company</span></div>
+      <div class="info-row"><span class="info-row-label">PMM</span><span>Launches, positioning changes, and battlecard-worthy competitive intel</span></div>
+      <div class="info-row"><span class="info-row-label">Executives</span><span>Critical and high-threat companies only — concise, action-oriented verdicts</span></div>
+    </div>
+    <div class="info-section">
+      <div class="info-section-title">Data Pipeline</div>
+      <div class="info-row"><span class="info-row-label">Hiring data</span><span>Scraped daily from Lever, Greenhouse, Ashby, and Playwright-rendered ATS systems</span></div>
+      <div class="info-row"><span class="info-row-label">Signals</span><span>Generated by Claude Haiku (role classification) + Claude Sonnet (per-company strategic analysis)</span></div>
+      <div class="info-row"><span class="info-row-label">Launches &amp; Events</span><span>RSS feeds + blog scraping classified by Claude Sonnet. Rolling 90-day window.</span></div>
+      <div class="info-row"><span class="info-row-label">Relevancy Score</span><span>0–10 score indicating how relevant each role is to Actian's competitive surface area. 8+ = high signal.</span></div>
+    </div>
+  </div>
+</div>
 
 <!-- Job detail drawer -->
 <div id="drawerOverlay"></div>
