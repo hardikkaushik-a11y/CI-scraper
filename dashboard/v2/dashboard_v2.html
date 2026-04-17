@@ -256,7 +256,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
   </div>
   <div class="topnav-right">
     <button class="info-btn" onclick="openInfoModal()" title="Dashboard guide">i</button>
-    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 13:10 UTC</span>
+    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 13:16 UTC</span>
   </div>
 </nav>
 
@@ -982,12 +982,27 @@ function renderSignals(){
     </tr>`).join('');
 }
 
+let currentSignalSeg='all';
+function segMatchSignal(cardSeg,filterSeg){
+  if(filterSeg==='all')return true;
+  // Normalize "Vector AI" chip to match "Vector DB / AI" data
+  if(filterSeg==='Vector AI')return cardSeg==='Vector DB / AI'||cardSeg==='Vector AI'||cardSeg==='VectorAI';
+  return cardSeg===filterSeg;
+}
 function filterSignalSeg(seg,el){
+  currentSignalSeg=seg;
   document.querySelectorAll('#signalSegChips .segment-chip').forEach(c=>c.classList.remove('active'));
   if(el)el.classList.add('active');
+  // Filter cards
   document.querySelectorAll('#signalCards .signal-card').forEach(card=>{
-    if(seg==='all'){card.style.display='';return;}
-    card.style.display=card.dataset.seg===seg?'':'none';
+    card.style.display=segMatchSignal(card.dataset.seg,seg)?'':'none';
+  });
+  // Filter table rows
+  const rows=document.querySelectorAll('#signalsTable tr');
+  rows.forEach((row,i)=>{
+    const s=SIGNALS[i];
+    if(!s)return;
+    row.style.display=segMatchSignal(s.segment,seg)?'':'none';
   });
 }
 
