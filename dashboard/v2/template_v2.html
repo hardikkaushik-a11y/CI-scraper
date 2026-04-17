@@ -562,6 +562,7 @@ const JOBS=[
 
 let currentTeam='overview',currentArea='all',currentVerdictSeg='all';
 let filteredJobs=[...JOBS],currentPage=0;
+let currentLocation='',currentDay=-1;
 const PAGE_SIZE=10;
 
 const TEAM_CONFIG={
@@ -637,10 +638,10 @@ function renderInsights(){
   // Team Insight summary block — top result only, supplementary, full data still shown below
   const top=sorted[0];
   if(top){
-    document.getElementById('insightThreatBadge').innerHTML='<span class="badge threat-'+top.threat+'">'+top.threat.toUpperCase()+'</span>';
-    document.getElementById('insightWhat').innerHTML='<strong>What:</strong> '+top.what.substring(0,120)+(top.what.length>120?'\u2026':'');
-    document.getElementById('insightWhy').innerHTML='<strong>Why it matters:</strong> '+top.why.substring(0,110)+(top.why.length>110?'\u2026':'');
-    document.getElementById('insightAction').innerHTML='<span class="team-insight-action">\u26a1 '+top.action.substring(0,90)+(top.action.length>90?'\u2026':'')+'</span>';
+    const _tb=document.getElementById('insightThreatBadge');if(_tb)_tb.innerHTML='<span class="badge threat-'+top.threat+'">'+top.threat.toUpperCase()+'</span>';
+    const _iw=document.getElementById('insightWhat');if(_iw)_iw.innerHTML='<strong>What:</strong> '+top.what.substring(0,120)+(top.what.length>120?'\u2026':'');
+    const _iy=document.getElementById('insightWhy');if(_iy)_iy.innerHTML='<strong>Why it matters:</strong> '+top.why.substring(0,110)+(top.why.length>110?'\u2026':'');
+    const _ia=document.getElementById('insightAction');if(_ia)_ia.innerHTML='<span class="team-insight-action">\u26a1 '+top.action.substring(0,90)+(top.action.length>90?'\u2026':'')+'</span>';
   }
 
   // Full insight cards — all companies, sorted by team relevance, never filtered
@@ -800,6 +801,8 @@ function applyFilters(){
     if(j.r<fR)return false;
     if(fD&&j.d>fD)return false;
     if(currentArea!=='all'&&j.a!==currentArea)return false;
+    if(currentLocation&&j.l!==currentLocation)return false;
+    if(currentDay>=0&&j.d!==(29-currentDay))return false;
     return true;
   });
   currentPage=0;updateKPIs();renderJobTable();renderActivePills();updateCharts(filteredJobs);updateMap(filteredJobs);
@@ -840,6 +843,7 @@ function resetFilters(){
   document.getElementById('fRelevancy').value=0;
   document.getElementById('fDays').value='';
   document.getElementById('relVal').textContent='0';
+  currentLocation='';currentDay=-1;
   applyFilters();
 }
 
@@ -850,10 +854,14 @@ function renderActivePills(){
   const q=document.getElementById('fSearch').value;if(q)pills.push({id:'fSearch',label:'Search',value:q});
   const r=parseInt(document.getElementById('fRelevancy').value)||0;if(r>0)pills.push({id:'fRelevancy',label:'Min Rel',value:r});
   const d=document.getElementById('fDays').value;if(d)pills.push({id:'fDays',label:'Within',value:d+'d'});
+  if(currentLocation)pills.push({id:'_loc',label:'Location',value:currentLocation});
+  if(currentDay>=0){const dAgo=29-currentDay;pills.push({id:'_day',label:'Posted',value:dAgo===0?'today':dAgo+'d ago'});}
   document.getElementById('activeFilters').innerHTML=pills.map(p=>`<span class="filter-pill" onclick="clearFilterPill('${p.id}')">${p.label}: ${p.value} <span style="font-weight:700;margin-left:2px">&times;</span></span>`).join('');
 }
 
 function clearFilterPill(id){
+  if(id==='_loc'){currentLocation='';applyFilters();return;}
+  if(id==='_day'){currentDay=-1;applyFilters();return;}
   const el=document.getElementById(id);
   if(id==='fRelevancy')el.value=0;else el.value='';
   applyFilters();
@@ -884,7 +892,7 @@ function computeChartData(jobs){
     const fi=funcMap[j.f];if(fi!==undefined)func[fi]++;
     const pi=segMap[j.a];if(pi!==undefined)seg[pi]++;
     co[j.c]=(co[j.c]||0)+1;
-    if(j.d>=0&&j.d<30)day[j.d]++;
+    if(j.d>=0&&j.d<30)day[29-j.d]++;
   });
   const coLabels=Object.keys(co).sort((a,b)=>co[b]-co[a]);
   return{sen,func,seg,coLabels,coData:coLabels.map(c=>co[c]),day};
@@ -926,7 +934,11 @@ function updateMap(jobs){
     if(coords){
       const size=Math.max(15,Math.min(40,count/2));
       const color=count>20?'#b91c1c':count>10?'#f59e0b':'#3b82f6';
-      const m=L.circleMarker(coords,{radius:size,fillColor:color,color:'#fff',weight:2,opacity:0.8,fillOpacity:0.7}).bindPopup(`<strong>${loc}</strong><br>${count} roles`).addTo(window.mapInst);
+      const m=L.circleMarker(coords,{radius:size,fillColor:color,color:'#fff',weight:2,opacity:0.8,fillOpacity:0.7}).bindPopup(`<strong>${loc}</strong><br>${count} roles<br><small style="color:#888">Click marker to filter</small>`).addTo(window.mapInst);
+      m.on('click',function(){
+        if(currentLocation===loc){currentLocation='';}else{currentLocation=loc;}
+        applyFilters();
+      });
       window.mapMarkers.push(m);
     }
   });
@@ -939,7 +951,7 @@ function initCharts(){
   chartSenInst=new Chart(document.getElementById('chartSeniority'),{type:'doughnut',data:{labels:['Senior','Director+','Manager','Principal/Staff','Mid','Entry'],datasets:[{data:d.sen,backgroundColor:['#3b82f6','#ef4444','#8b5cf6','#f59e0b','#10b981','#06b6d4'],borderWidth:2}]},options:{...CO,onClick:function(evt){const pts=this.getElementsAtEventForMode(evt,'nearest',{intersect:true},true);if(pts.length){const s=this.data.labels[pts[0].index];const sel=document.getElementById('fSeniority');if(sel.value===s){sel.value='';}else{sel.value=s;}applyFilters();}},plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:7}}}}});
   chartFuncInst=new Chart(document.getElementById('chartFunction'),{type:'bar',data:{labels:['Engineering','Sales','Product','AI/ML','CS','Marketing'],datasets:[{data:d.func,backgroundColor:'rgba(0,180,216,0.75)',borderRadius:4}]},options:{...CO,onClick:function(evt){const pts=this.getElementsAtEventForMode(evt,'nearest',{intersect:true},true);if(pts.length){const funcLabels=['Engineering','Sales','Product','AI/ML','Customer Success','Marketing'];const f=funcLabels[pts[0].index];const sel=document.getElementById('fFunction');if(sel.value===f){sel.value='';}else{sel.value=f;}applyFilters();}},scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'}}}}});
   chartProdInst=new Chart(document.getElementById('chartProduct'),{type:'doughnut',data:{labels:['Data Intelligence','Data Observability','VectorAI','AI Analyst'],datasets:[{data:d.seg,backgroundColor:['#E31937','#2ECC71','#8E44AD','#00B4D8'],borderWidth:2}]},options:{...CO,onClick:function(evt){const pts=this.getElementsAtEventForMode(evt,'nearest',{intersect:true},true);if(pts.length){const seg=this.data.labels[pts[0].index];if(currentArea===seg){setArea('all');}else{setArea(seg);}}},plugins:{legend:{display:true,position:'right',labels:{font:{size:10},padding:8}}}}});
-  chartTrendInst=new Chart(document.getElementById('chartTrend'),{type:'line',data:{labels:days,datasets:[{label:'Roles by Post Date',data:d.day,borderColor:'#E31937',backgroundColor:'rgba(227,25,55,0.08)',fill:true,tension:0.4,borderWidth:2,pointRadius:2}]},options:{...CO,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:45,maxTicksLimit:8},grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},beginAtZero:true}}}});
+  chartTrendInst=new Chart(document.getElementById('chartTrend'),{type:'line',data:{labels:days,datasets:[{label:'Roles by Post Date',data:d.day,borderColor:'#E31937',backgroundColor:'rgba(227,25,55,0.08)',fill:true,tension:0.4,borderWidth:2,pointRadius:3,pointHoverRadius:6}]},options:{...CO,plugins:{legend:{display:false},tooltip:{callbacks:{title:function(items){return items[0].label;},label:function(item){return item.raw+' roles posted'+(currentDay===item.dataIndex?' (filtered)':'');} }}},onClick:function(evt){const pts=this.getElementsAtEventForMode(evt,'nearest',{intersect:false},true);if(pts.length){const idx=pts[0].index;if(currentDay===idx){currentDay=-1;}else{currentDay=idx;}applyFilters();}},scales:{x:{ticks:{font:{size:10},maxRotation:45,maxTicksLimit:8},grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},beginAtZero:true}}}});
   new Chart(document.getElementById('chartSlack'),{type:'bar',data:{labels:['Apr 10','Apr 11','Apr 12','Apr 13','Apr 14','Apr 15','Apr 16'],datasets:[{label:'#actian-ci',data:[3,2,4,3,2,3,2],backgroundColor:'rgba(227,25,55,0.75)',borderRadius:3},{label:'@marketing',data:[1,0,2,1,1,1,1],backgroundColor:'rgba(243,156,18,0.75)',borderRadius:3}]},options:{...CO,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},padding:6}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'rgba(0,0,0,0.04)'},beginAtZero:true}}}});
 }
 
