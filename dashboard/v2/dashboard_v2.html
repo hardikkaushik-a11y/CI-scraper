@@ -256,7 +256,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
   </div>
   <div class="topnav-right">
     <button class="info-btn" onclick="openInfoModal()" title="Dashboard guide">i</button>
-    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 13:21 UTC</span>
+    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 13:30 UTC</span>
   </div>
 </nav>
 
@@ -312,7 +312,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
     <div class="pulse-card"><div class="pulse-label">AI/ML Roles</div><div class="pulse-value" style="color:var(--cyan)">33</div><div class="pulse-detail">AI/ML-specific roles across 4 companies</div></div>
     <div class="pulse-card"><div class="pulse-label">VectorAI Watch</div><div class="pulse-value" style="color:var(--purple)">2</div><div class="pulse-detail">Pinecone, Qdrant &mdash; all actively hiring</div></div>
     <div class="pulse-card"><div class="pulse-label">GTM Expansion</div><div class="pulse-value" style="color:var(--green)">7</div><div class="pulse-detail">Companies with active sales &amp; marketing hiring</div></div>
-    <div class="pulse-card"><div class="pulse-label">Director+ Surge</div><div class="pulse-value" style="color:var(--amber)">5</div><div class="pulse-detail">Leadership roles: Databricks, Snowflake, Collibra, Qdrant, Alation</div></div>
+    <div class="pulse-card"><div class="pulse-label">Director+ Surge</div><div class="pulse-value" style="color:var(--amber)">5</div><div class="pulse-detail">Leadership roles: Databricks, Snowflake, Collibra, Alation, Qdrant</div></div>
   </div>
   <div class="filter-bar">
     <div class="filter-group"><label>Company</label><select id="fCompany" onchange="applyFilters()"><option value="">All</option></select></div>
@@ -893,7 +893,7 @@ let chartCoInst,chartSenInst,chartFuncInst,chartProdInst,chartTrendInst;
 
 function computeChartData(jobs){
   const senMap={'Senior':0,'Director+':1,'VP':1,'Executive':1,'Manager':2,'Principal/Staff':3,'Mid':4,'Entry':5};
-  const funcMap={'Engineering':0,'Sales':1,'Product':2,'AI/ML':3,'Customer Success':4,'Marketing':5};
+  const funcMap={'Engineering':0,'Sales':1,'Product':2,'AI/ML':3,'AI/ML & Vector':3,'Customer Success':4,'Marketing':5,'Operations':0,'Finance':0,'Security':0,'Design':0,'Data/Analytics':0};
   const segMap={'Data Intelligence':0,'Data Observability':1,'VectorAI':2,'AI Analyst':3};
   const sen=[0,0,0,0,0,0],func=[0,0,0,0,0,0],seg=[0,0,0,0],co={},day=new Array(30).fill(0);
   jobs.forEach(j=>{

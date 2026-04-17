@@ -948,7 +948,7 @@ let chartCoInst,chartSenInst,chartFuncInst,chartProdInst,chartTrendInst;
 
 function computeChartData(jobs){
   const senMap={'Senior':0,'Director+':1,'VP':1,'Executive':1,'Manager':2,'Principal/Staff':3,'Mid':4,'Entry':5};
-  const funcMap={'Engineering':0,'Sales':1,'Product':2,'AI/ML':3,'Customer Success':4,'Marketing':5};
+  const funcMap={'Engineering':0,'Sales':1,'Product':2,'AI/ML':3,'AI/ML & Vector':3,'Customer Success':4,'Marketing':5,'Operations':0,'Finance':0,'Security':0,'Design':0,'Data/Analytics':0};
   const segMap={'Data Intelligence':0,'Data Observability':1,'VectorAI':2,'AI Analyst':3};
   const sen=[0,0,0,0,0,0],func=[0,0,0,0,0,0],seg=[0,0,0,0],co={},day=new Array(30).fill(0);
   jobs.forEach(j=>{
