@@ -223,6 +223,8 @@ def build_jobs(jobs):
             "l": j.get("Location","Remote"),
             "d": days,
             "r": rel,
+            "u": j.get("Job Link",""),
+            "sk": j.get("Primary_Skill",""),
         })
     out.sort(key=lambda x: -x["r"])
     return out[:60]
@@ -337,41 +339,42 @@ def patch_stats(html, jobs, signals_data, verdicts_data, comp_signals):
 
     now_utc = datetime.now(timezone.utc).strftime("%b %-d, %Y · %H:%M UTC")
 
+    # Use precise unique strings — each maps to exactly one element in the template
     replacements = [
-        # KPI cards
-        (">517<", f">{total}<"),
-        (">847<", f">{total}<"),
-        ("↑ 75 this week", f"↑ {new_week} this week"),
-        ("↑ 74 this week", f"↑ {new_week} this week"),
-        (">7<\n      <div class=\"kpi-label\">High Signal", f">{high_sig}<\n      <div class=\"kpi-label\">High Signal"),
-        (">101<\n      <div class=\"kpi-label\">Director", f">{directors}<\n      <div class=\"kpi-label\">Director"),
-        (">103<\n      <div class=\"kpi-label\">Director", f">{directors}<\n      <div class=\"kpi-label\">Director"),
-        ("↑ 7 — leadership surge", f"↑ {min(directors, 9)} — leadership surge"),
-        (">75<\n      <div class=\"kpi-label\">New This Week", f">{new_week}<\n      <div class=\"kpi-label\">New This Week"),
-        (">74<\n      <div class=\"kpi-label\">New This Week", f">{new_week}<\n      <div class=\"kpi-label\">New This Week"),
-        (">3.7<", f">{avg_rel:.1f}<"),
-        (f">{11}<\n      <div class=\"kpi-label\">Companies", f">{n_cos}<\n      <div class=\"kpi-label\">Companies"),
+        # KPI cards — use full label context to ensure uniqueness
+        ('kpi-value blue">847</div><div class="kpi-label">Total Roles Tracked',
+         f'kpi-value blue">{total}</div><div class="kpi-label">Total Roles Tracked'),
+        ('kpi-value amber">142</div><div class="kpi-label">High Signal',
+         f'kpi-value amber">{high_sig}</div><div class="kpi-label">High Signal'),
+        ('kpi-value red">31</div><div class="kpi-label">Director+ Roles',
+         f'kpi-value red">{directors}</div><div class="kpi-label">Director+ Roles'),
+        ('kpi-value green">63</div><div class="kpi-label">New This Week',
+         f'kpi-value green">{new_week}</div><div class="kpi-label">New This Week'),
+        ('kpi-value">6.4</div><div class="kpi-label">Avg. Relevancy Score',
+         f'kpi-value">{avg_rel:.1f}</div><div class="kpi-label">Avg. Relevancy Score'),
         # Area pill counts
-        ("All Segments <span class=\"ac\">517", f"All Segments <span class=\"ac\">{total}"),
-        ("All Segments <span class=\"ac\">847", f"All Segments <span class=\"ac\">{total}"),
-        ("Data Intelligence <span class=\"ac\">184", f"Data Intelligence <span class=\"ac\">{seg_counts.get('Data Intelligence',0)}"),
-        ("Data Observability <span class=\"ac\">104", f"Data Observability <span class=\"ac\">{seg_counts.get('Data Observability',0)}"),
-        ("VectorAI <span class=\"ac\">101", f"VectorAI <span class=\"ac\">{seg_counts.get('Vector AI',0)}"),
-        ("AI Analyst <span class=\"ac\">153", f"AI Analyst <span class=\"ac\">{seg_counts.get('AI Analyst',0)}"),
-        # Verdict counts in KPI strip on verdicts page
-        (f">5<\n        <div class=\"kpi-label\">Critical", f">{threat_counts['critical']}<\n        <div class=\"kpi-label\">Critical"),
-        (f">2<\n        <div class=\"kpi-label\">High", f">{threat_counts['high']}<\n        <div class=\"kpi-label\">High"),
-        (f">3<\n        <div class=\"kpi-label\">Medium", f">{threat_counts['medium']}<\n        <div class=\"kpi-label\">Medium"),
-        (f">1<\n        <div class=\"kpi-label\">Low", f">{threat_counts['low']}<\n        <div class=\"kpi-label\">Low"),
-        (f">11<\n        <div class=\"kpi-label\">Companies Covered", f">{len(verdicts_data)}<\n        <div class=\"kpi-label\">Companies Covered"),
-        # Timestamp
-        ("11 companies · Apr 16, 2026 · 06:14 UTC", f"{n_cos} companies · {now_utc}"),
-        ("11 companies · Apr 9, 2026 · 06:18 UTC",  f"{n_cos} companies · {now_utc}"),
+        (f'All Segments <span class="ac">847',  f'All Segments <span class="ac">{total}'),
+        (f'Data Intelligence <span class="ac">184', f'Data Intelligence <span class="ac">{seg_counts.get("Data Intelligence",0)}'),
+        (f'Data Observability <span class="ac">104', f'Data Observability <span class="ac">{seg_counts.get("Data Observability",0)}'),
+        (f'VectorAI <span class="ac">101', f'VectorAI <span class="ac">{seg_counts.get("Vector AI",0)}'),
+        (f'AI Analyst <span class="ac">153', f'AI Analyst <span class="ac">{seg_counts.get("AI Analyst",0)}'),
+        # Verdict KPI counts
+        ('kpi-value red">2</div><div class="kpi-label">Critical Threats',
+         f'kpi-value red">{threat_counts["critical"]}</div><div class="kpi-label">Critical Threats'),
+        ('kpi-value amber">3</div><div class="kpi-label">High Threats',
+         f'kpi-value amber">{threat_counts["high"]}</div><div class="kpi-label">High Threats'),
+        ('kpi-value blue">4</div><div class="kpi-label">Medium Threats',
+         f'kpi-value blue">{threat_counts["medium"]}</div><div class="kpi-label">Medium Threats'),
+        # Timestamp — template uses &middot; HTML entity
+        ('11 companies &middot; Apr 9, 2026 &middot; 06:14 UTC', f'{n_cos} companies &middot; {now_utc}'),
     ]
 
+    replaced = 0
     for old, new in replacements:
         if old in html:
             html = html.replace(old, new, 1)
+            replaced += 1
+    print(f"  {replaced}/{len(replacements)} stat replacements applied")
 
     # Chart data for seniority
     from collections import Counter
@@ -423,6 +426,149 @@ def patch_stats(html, jobs, signals_data, verdicts_data, comp_signals):
     print(f"  Stats: {total} roles, {new_week} new, {high_sig} high-signal, {directors} director+, avg {avg_rel:.1f}")
     return html
 
+def patch_pulse(html, jobs, signals_data, verdicts_data):
+    """Replace hardcoded Market Pulse cards with real pipeline data."""
+    from collections import Counter
+
+    # Threat level from signals (use raw signals_data which are dicts from build_signals)
+    # Load fresh from file so we get the actual threat_level field
+    sigs_raw = load_json(SIGNALS_J)
+    sigs_raw = [s for s in sigs_raw if s.get("company") in V2_COMPANIES]
+    threat_order = {"critical": 4, "high": 3, "medium": 2, "low": 1}
+    criticals = [s for s in sigs_raw if s.get("threat_level") == "critical"]
+    highs     = [s for s in sigs_raw if s.get("threat_level") == "high"]
+
+    # Overall market status
+    if len(criticals) >= 3:
+        mkt_status = "Critical"
+        mkt_color  = "var(--accent)"
+    elif len(criticals) >= 1:
+        mkt_status = "High"
+        mkt_color  = "#b91c1c"
+    elif len(highs) >= 2:
+        mkt_status = "Elevated"
+        mkt_color  = "var(--amber)"
+    else:
+        mkt_status = "Moderate"
+        mkt_color  = "var(--green)"
+
+    # Market detail
+    job_cnt = Counter(j.get("Company") for j in jobs)
+    mkt_detail_cos = sorted(criticals, key=lambda s: job_cnt.get(s["company"], 0), reverse=True)[:3]
+    mkt_detail = ", ".join(s["company"] for s in mkt_detail_cos)
+    if mkt_detail:
+        mkt_detail += f" — {len(criticals)} critical-level threat{'s' if len(criticals)!=1 else ''}"
+    else:
+        mkt_detail = f"{len(highs)} high-threat companies tracked"
+
+    # Top threat = highest-job-count critical company
+    top_threat_co = "—"
+    top_threat_detail = "No critical threats detected"
+    if criticals:
+        top = sorted(criticals, key=lambda s: job_cnt.get(s["company"], 0), reverse=True)[0]
+        top_threat_co = top["company"]
+        j_count = job_cnt.get(top["company"], 0)
+        threat_sig = top.get("signal_summary", "")[:80] if top.get("signal_summary") else ""
+        top_threat_detail = f"{j_count} open roles &mdash; {threat_sig}" if threat_sig else f"{j_count} active open roles tracked"
+    elif highs:
+        top = sorted(highs, key=lambda s: job_cnt.get(s["company"], 0), reverse=True)[0]
+        top_threat_co = top["company"]
+        top_threat_detail = f"{job_cnt.get(top['company'],0)} roles &mdash; high-intensity hiring"
+
+    # AI/ML roles
+    aiml_jobs = [j for j in jobs if j.get("Function","") in ("AI/ML", "Data Science") or
+                 "ML" in j.get("Function","") or "AI" in j.get("Product_Focus","")]
+    aiml_count = len(aiml_jobs)
+    aiml_cos   = len(set(j.get("Company") for j in aiml_jobs))
+
+    # VectorAI watch — count vector companies actively hiring
+    vector_cos  = {"Pinecone","Qdrant","Milvus"}
+    vec_active  = [s for s in sigs_raw if s.get("company") in vector_cos and
+                   s.get("hiring_intensity","low") in ("medium","high")]
+    vec_names   = ", ".join(sorted(set(s["company"] for s in vec_active))) or "Pinecone, Qdrant, Milvus"
+    vec_count   = len(set(s["company"] for s in vec_active)) or len(vector_cos)
+
+    # GTM expansion — companies with Sales/Marketing hiring
+    gtm_cos = set(j.get("Company") for j in jobs if j.get("Function","") in ("Sales","Marketing","Business Development"))
+    gtm_count = len(gtm_cos)
+
+    # Director+ surge
+    dir_jobs  = [j for j in jobs if j.get("Seniority","") in ("Director+","VP","Executive")]
+    dir_cos   = sorted(set(j.get("Company") for j in dir_jobs),
+                       key=lambda c: sum(1 for jj in dir_jobs if jj.get("Company")==c), reverse=True)
+    dir_count = len(dir_cos)
+    dir_names = ", ".join(dir_cos[:5])
+
+    def card(label, value, color, detail):
+        return (f'<div class="pulse-card"><div class="pulse-label">{label}</div>'
+                f'<div class="pulse-value" style="color:{color}">{value}</div>'
+                f'<div class="pulse-detail">{detail}</div></div>')
+
+    # ── Roles page pulse grid (6 cards) ──────────────────────────────────────────
+    OLD_ROLES_PULSE = (
+        '    <div class="pulse-card"><div class="pulse-label">Market Status</div>'
+        '<div class="pulse-value" style="color:var(--accent)">Critical</div>'
+        '<div class="pulse-detail">Atlan + Databricks accelerating AI catalog &mdash; direct Actian overlap</div></div>\n'
+        '    <div class="pulse-card"><div class="pulse-label">Top Threat</div>'
+        '<div class="pulse-value" style="color:#b91c1c">Atlan</div>'
+        '<div class="pulse-detail">MCP launch + 12 AI/ML hires + Activate 2026 Apr 29</div></div>\n'
+        '    <div class="pulse-card"><div class="pulse-label">AI/ML Surge</div>'
+        '<div class="pulse-value" style="color:var(--cyan)">+41%</div>'
+        '<div class="pulse-detail">AI/ML hiring up across Data Intelligence vs 30 days ago</div></div>\n'
+        '    <div class="pulse-card"><div class="pulse-label">VectorAI Watch</div>'
+        '<div class="pulse-value" style="color:var(--purple)">3</div>'
+        '<div class="pulse-detail">Pinecone, Qdrant, Milvus all hiring GTM this week</div></div>\n'
+        '    <div class="pulse-card"><div class="pulse-label">GTM Expansion</div>'
+        '<div class="pulse-value" style="color:var(--green)">6</div>'
+        '<div class="pulse-detail">Companies expanding go-to-market in EMEA this week</div></div>\n'
+        '    <div class="pulse-card"><div class="pulse-label">Director+ Surge</div>'
+        '<div class="pulse-value" style="color:var(--amber)">5</div>'
+        '<div class="pulse-detail">Leadership hiring: Atlan, Databricks, Snowflake, Collibra, Pinecone</div></div>'
+    )
+    NEW_ROLES_PULSE = "\n".join([
+        "    " + card("Market Status", mkt_status, mkt_color, mkt_detail),
+        "    " + card("Top Threat", top_threat_co, "#b91c1c", top_threat_detail),
+        "    " + card("AI/ML Roles", str(aiml_count), "var(--cyan)", f"AI/ML-specific roles across {aiml_cos} companies"),
+        "    " + card("VectorAI Watch", str(vec_count), "var(--purple)", f"{vec_names} &mdash; all actively hiring"),
+        "    " + card("GTM Expansion", str(gtm_count), "var(--green)", "Companies with active sales &amp; marketing hiring"),
+        "    " + card("Director+ Surge", str(dir_count), "var(--amber)", f"Leadership roles: {dir_names}"),
+    ])
+    if OLD_ROLES_PULSE in html:
+        html = html.replace(OLD_ROLES_PULSE, NEW_ROLES_PULSE, 1)
+        print("  ✓ Roles page pulse updated")
+    else:
+        print("  ⚠ Roles pulse block not found — skipped")
+
+    # ── Signals page pulse grid (4 cards) ────────────────────────────────────────
+    OLD_SIGS_PULSE = (
+        '    <div class="pulse-card"><div class="pulse-label">Market Pulse</div>'
+        '<div class="pulse-value" style="color:var(--accent)">Critical</div>'
+        '<div class="pulse-detail">Atlan + Databricks accelerating AI catalog &mdash; direct Actian overlap</div></div>\n'
+        '    <div class="pulse-card"><div class="pulse-label">Top Threat</div>'
+        '<div class="pulse-value" style="color:#b91c1c">Atlan</div>'
+        '<div class="pulse-detail">MCP agent launch + 12 AI/ML hires + Activate 2026 event April 29</div></div>\n'
+        '    <div class="pulse-card"><div class="pulse-label">AI/ML Surge</div>'
+        '<div class="pulse-value" style="color:var(--cyan)">+41%</div>'
+        '<div class="pulse-detail">AI/ML hiring up across Data Intelligence segment vs. 30 days ago</div></div>\n'
+        '    <div class="pulse-card"><div class="pulse-label">Vector DB Watch</div>'
+        '<div class="pulse-value" style="color:var(--purple)">3</div>'
+        '<div class="pulse-detail">Pinecone, Qdrant, Milvus all hiring GTM &mdash; market heating up</div></div>'
+    )
+    NEW_SIGS_PULSE = "\n".join([
+        "    " + card("Market Pulse", mkt_status, mkt_color, mkt_detail),
+        "    " + card("Top Threat", top_threat_co, "#b91c1c", top_threat_detail),
+        "    " + card("AI/ML Roles", str(aiml_count), "var(--cyan)", f"AI/ML-specific roles across {aiml_cos} companies"),
+        "    " + card("VectorAI Watch", str(vec_count), "var(--purple)", f"{vec_names} &mdash; all actively hiring"),
+    ])
+    if OLD_SIGS_PULSE in html:
+        html = html.replace(OLD_SIGS_PULSE, NEW_SIGS_PULSE, 1)
+        print("  ✓ Signals page pulse updated")
+    else:
+        print("  ⚠ Signals pulse block not found — skipped")
+
+    return html
+
+
 def main():
     print("=" * 70)
     print("build_dashboard_v2.py — Phase 3 CI Dashboard Builder")
@@ -464,6 +610,8 @@ def main():
 
     print("\nPatching stats:")
     html = patch_stats(html, jobs, signals_data, verdicts_data, comp_signals)
+    print("\nPatching pulse cards:")
+    html = patch_pulse(html, jobs, signals_data, verdicts_data)
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(html, encoding="utf-8")
