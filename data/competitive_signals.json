@@ -1,5 +1,35 @@
 [
   {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "open_source_release",
+    "title": "Shubham Gupta Open source vs commercial data catalogs: What scales in practice 10 Min Read",
+    "url": "https://www.acceldata.io/blog/open-source-vs-commercial-data-catalogs-what-scales-in-practice",
+    "published_date": "2026-04-17",
+    "summary": "Shubham Gupta Open source vs commercial data catalogs: What scales in practice 10 Min Read",
+    "actian_relevance": "high",
+    "tags": [],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-17"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "product_launch",
+    "title": "Shivaram P R AI Governance Frameworks: How Organizations Scale AI Without Losing Control 10 Min Read",
+    "url": "https://www.acceldata.io/blog/ai-governance-frameworks-how-organizations-scale-ai-without-losing-control",
+    "published_date": "2026-04-17",
+    "summary": "Shivaram P R AI Governance Frameworks: How Organizations Scale AI Without Losing Control 10 Min Read",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-17"
+  },
+  {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "type": "product_launch",
