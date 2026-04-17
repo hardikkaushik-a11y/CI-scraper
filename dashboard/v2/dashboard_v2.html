@@ -256,7 +256,7 @@ tbody td.strong{color:var(--text);font-weight:500;}
   </div>
   <div class="topnav-right">
     <button class="info-btn" onclick="openInfoModal()" title="Dashboard guide">i</button>
-    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 08:02 UTC</span>
+    <span class="topnav-status">11 companies &middot; Apr 17, 2026 · 11:42 UTC</span>
   </div>
 </nav>
 
@@ -747,7 +747,22 @@ function applyFilters(){
     if(currentArea!=='all'&&j.a!==currentArea)return false;
     return true;
   });
-  currentPage=0;renderJobTable();renderActivePills();updateCharts(filteredJobs);updateMap(filteredJobs);
+  currentPage=0;updateKPIs();renderJobTable();renderActivePills();updateCharts(filteredJobs);updateMap(filteredJobs);
+}
+
+function updateKPIs(){
+  const total=filteredJobs.length;
+  const highSignal=filteredJobs.filter(j=>j.r>=8).length;
+  const directors=filteredJobs.filter(j=>['Director+','VP','Executive'].includes(j.s)).length;
+  const newWeek=filteredJobs.filter(j=>j.d<7).length;
+  const avgRel=total>0?Math.round((filteredJobs.reduce((s,j)=>s+j.r,0)/total)*10)/10:0;
+  const companies=new Set(filteredJobs.map(j=>j.c)).size;
+  document.querySelectorAll('.kpi-box .kpi-value')[0].textContent=total;
+  document.querySelectorAll('.kpi-box .kpi-value')[1].textContent=highSignal;
+  document.querySelectorAll('.kpi-box .kpi-value')[2].textContent=directors;
+  document.querySelectorAll('.kpi-box .kpi-value')[3].textContent=newWeek;
+  document.querySelectorAll('.kpi-box .kpi-value')[4].textContent=avgRel;
+  document.querySelectorAll('.kpi-box .kpi-value')[5].textContent=companies;
 }
 
 function renderJobTable(){
