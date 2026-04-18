@@ -1,0 +1,2858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Actian CI Platform — v3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+/* Actian CI Dashboard — editorial blue, Linear-style spacing */
+
+/* ---------- Tokens ---------- */
+:root {
+  /* Warm-cool neutrals (low chroma) */
+  --bg:        oklch(0.985 0.004 255);
+  --bg-sunk:   oklch(0.965 0.005 255);
+  --surface:   #ffffff;
+  --border:    oklch(0.91 0.008 255);
+  --border-strong: oklch(0.85 0.012 255);
+  --ink:       oklch(0.22 0.02 255);
+  --ink-soft:  oklch(0.42 0.02 255);
+  --ink-mute:  oklch(0.58 0.015 255);
+
+  /* Navy sidebar */
+  --navy-900:  oklch(0.18 0.035 255);
+  --navy-800:  oklch(0.22 0.04 255);
+  --navy-700:  oklch(0.28 0.045 255);
+  --navy-ink:  oklch(0.93 0.01 255);
+  --navy-ink-soft: oklch(0.72 0.025 255);
+  --navy-ink-mute: oklch(0.55 0.02 255);
+
+  /* Blue accents */
+  --blue-600:  oklch(0.52 0.17 248);
+  --blue-500:  oklch(0.60 0.18 248);
+  --blue-050:  oklch(0.97 0.03 248);
+  --blue-100:  oklch(0.93 0.05 248);
+
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+
+  --shadow-card: 0 1px 2px oklch(0.22 0.02 255 / 0.04), 0 8px 24px oklch(0.22 0.02 255 / 0.04);
+  --shadow-pop:  0 1px 2px oklch(0.22 0.02 255 / 0.06), 0 24px 56px oklch(0.22 0.02 255 / 0.18);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--bg);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv11";
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+input { font: inherit; color: inherit; }
+a { color: inherit; cursor: pointer; }
+
+/* ---------- App shell ---------- */
+.app {
+  display: grid;
+  grid-template-columns: 264px 1fr;
+  min-height: 100vh;
+}
+.app:has(.sb-collapsed) { grid-template-columns: 72px 1fr; }
+.main {
+  min-width: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Sidebar ---------- */
+.sb {
+  background: var(--navy-900);
+  color: var(--navy-ink);
+  padding: 20px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid oklch(0.24 0.035 255);
+  display: flex;
+  flex-direction: column;
+}
+.sb-collapsed { padding: 20px 12px; align-items: center; }
+
+.sb-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 6px 18px;
+  border-bottom: 1px solid oklch(0.24 0.035 255);
+  margin-bottom: 16px;
+}
+.sb-logo {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--blue-500), oklch(0.48 0.18 268));
+  color: #fff;
+  display: grid; place-items: center;
+  flex: 0 0 32px;
+}
+.sb-brand-text { flex: 1; min-width: 0; }
+.sb-brand-name { font-weight: 600; font-size: 14px; letter-spacing: -0.01em; color: #fff; }
+.sb-brand-sub { font-size: 11px; color: var(--navy-ink-mute); letter-spacing: 0.02em; text-transform: uppercase; }
+.sb-toggle {
+  color: var(--navy-ink-mute);
+  padding: 4px; border-radius: 6px;
+}
+.sb-toggle:hover { color: var(--navy-ink); background: oklch(1 0 0 / 0.06); }
+
+.sb-sec-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--navy-ink-mute);
+  padding: 14px 8px 8px;
+}
+
+.sb-nav { display: flex; flex-direction: column; gap: 2px; }
+.sb-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px;
+  border-radius: 8px;
+  color: var(--navy-ink-soft);
+  text-align: left;
+  transition: background .15s, color .15s;
+}
+.sb-tab:hover { background: oklch(1 0 0 / 0.04); color: var(--navy-ink); }
+.sb-tab-on {
+  background: oklch(1 0 0 / 0.08);
+  color: #fff;
+}
+.sb-tab-on .sb-tab-icon { color: var(--blue-500); }
+.sb-tab-icon {
+  width: 24px; height: 24px;
+  display: grid; place-items: center;
+  font-size: 14px;
+  color: var(--navy-ink-mute);
+  flex: 0 0 24px;
+}
+.sb-tab-text { display: flex; flex-direction: column; min-width: 0; }
+.sb-tab-name { font-size: 13px; font-weight: 500; }
+.sb-tab-desc { font-size: 11px; color: var(--navy-ink-mute); }
+.sb-tab-on .sb-tab-desc { color: var(--navy-ink-soft); }
+.sb-tab-rail {
+  position: absolute; left: -16px; top: 10px; bottom: 10px;
+  width: 2px; background: var(--blue-500); border-radius: 0 2px 2px 0;
+}
+
+.sb-watch {
+  display: flex; flex-direction: column;
+  padding: 0 4px;
+}
+.sb-watch-item {
+  display: grid;
+  grid-template-columns: 8px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 4px;
+  font-size: 13px;
+  color: var(--navy-ink-soft);
+  border-bottom: 1px solid oklch(0.22 0.035 255);
+}
+.sb-watch-item:last-child { border-bottom: 0; }
+.sb-watch-dot { width: 8px; height: 8px; border-radius: 50%; }
+.sb-watch-dot.t-critical { background: oklch(0.62 0.2 25); }
+.sb-watch-dot.t-high     { background: oklch(0.7 0.15 65); }
+.sb-watch-dot.t-medium   { background: oklch(0.62 0.15 245); }
+.sb-watch-dot.t-low      { background: oklch(0.7 0.01 250); }
+.sb-watch-name { color: var(--navy-ink); }
+.sb-watch-score { font-family: var(--font-mono); font-size: 11px; color: var(--navy-ink-mute); }
+
+.sb-foot {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid oklch(0.24 0.035 255);
+}
+.sb-foot-user { display: flex; align-items: center; gap: 10px; padding: 4px; }
+.sb-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: oklch(0.55 0.12 255);
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 600; color: #fff;
+  letter-spacing: 0.03em;
+}
+.sb-foot-name { font-size: 13px; color: #fff; }
+.sb-foot-role { font-size: 11px; color: var(--navy-ink-mute); }
+
+/* ---------- Top bar ---------- */
+.tb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 32px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--bg), transparent 30%);
+  backdrop-filter: blur(8px);
+  position: sticky; top: 0; z-index: 10;
+}
+.tb-crumbs { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-mute); }
+.tb-crumb-sep { color: var(--border-strong); }
+.tb-crumb-on { color: var(--ink); font-weight: 500; }
+.tb-crumb-lens {
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--blue-050);
+  color: var(--blue-600);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+.tb-tools { display: flex; align-items: center; gap: 8px; }
+.tb-search {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  min-width: 340px;
+  color: var(--ink-mute);
+  transition: border-color .15s, box-shadow .15s;
+}
+.tb-search:focus-within {
+  border-color: var(--blue-500);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--blue-500), transparent 85%);
+}
+.tb-search input { flex: 1; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 13px; }
+.tb-search-kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 1px 5px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--ink-mute);
+}
+
+.tb-btn {
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 500;
+  transition: background .15s, border-color .15s;
+  position: relative;
+}
+.tb-btn:hover { background: var(--bg-sunk); }
+.tb-btn-ghost { padding: 7px; }
+.tb-btn-primary {
+  background: var(--navy-900); color: #fff; border-color: var(--navy-900);
+}
+.tb-btn-primary:hover { background: var(--navy-800); }
+.tb-btn-dot {
+  position: absolute; top: 5px; right: 5px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: oklch(0.62 0.2 25);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+/* ---------- Hero + KPIs ---------- */
+.hero { padding: 32px 32px 8px; }
+.hero-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.hero-title {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.hero-sub { margin: 0; color: var(--ink-soft); font-size: 14px; max-width: 640px; }
+
+.hero-legend {
+  display: flex; gap: 16px;
+  padding: 10px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.03em; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+.legend-label { font-weight: 500; }
+.legend-count { font-family: var(--font-mono); color: var(--ink-mute); }
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: var(--kpi-accent, var(--border));
+}
+.kpi-red   { --kpi-accent: oklch(0.62 0.2 25); }
+.kpi-amber { --kpi-accent: oklch(0.72 0.15 65); }
+.kpi-blue  { --kpi-accent: oklch(0.6 0.17 248); }
+.kpi-slate { --kpi-accent: oklch(0.7 0.02 250); }
+
+.kpi-k {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+.kpi-row { display: flex; align-items: baseline; gap: 10px; margin-top: 10px; }
+.kpi-v { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+.kpi-delta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--bg-sunk);
+  color: var(--ink-soft);
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.kpi-delta.d-up { background: color-mix(in oklab, var(--kpi-accent), white 80%); color: var(--kpi-accent); }
+.kpi-delta-arrow { font-size: 9px; }
+.kpi-sub { margin-top: 6px; font-size: 12px; color: var(--ink-mute); }
+
+/* ---------- List header ---------- */
+.list-head {
+  padding: 32px 32px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px;
+}
+.list-head-l { display: flex; align-items: baseline; gap: 10px; }
+.list-h { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.list-count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+  padding: 2px 8px;
+  background: var(--bg-sunk);
+  border-radius: 999px;
+}
+.list-head-r { display: flex; gap: 8px; align-items: center; }
+.seg {
+  display: inline-flex;
+  background: var(--bg-sunk);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.seg button {
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--ink-mute);
+  border-radius: 6px;
+  font-weight: 500;
+}
+.seg .seg-on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgb(0 0 0 / .04); }
+
+.list-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.list-btn:hover { background: var(--bg-sunk); }
+
+/* ---------- Grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 0 32px 32px;
+}
+@media (max-width: 1240px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Verdict Card ---------- */
+.vcard {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, opacity .2s;
+  overflow: hidden;
+}
+.vcard:hover { box-shadow: var(--shadow-card); border-color: var(--border-strong); transform: translateY(-1px); }
+.vcard-rail {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--rail);
+}
+.vcard.dim { opacity: 0.45; filter: saturate(0.7); }
+.vcard.dim:hover { opacity: 0.85; }
+.vcard.focus { box-shadow: 0 0 0 1px var(--rail), var(--shadow-card); }
+
+.vcard-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.vcard-head-l { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.vcard-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.area-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  background: #fff;
+  white-space: nowrap;
+}
+.area-dot {
+  width: 6px; height: 6px; border-radius: 999px;
+  display: inline-block;
+}
+
+.threat-badge {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  padding: 4px 9px 4px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+.threat-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.vcard-meta {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+.vcard-meta-item { display: inline-flex; align-items: baseline; gap: 6px; }
+.vcard-meta-k { text-transform: uppercase; letter-spacing: 0.06em; font-size: 10px; }
+.vcard-meta-v { color: var(--ink); font-family: var(--font-mono); font-size: 12px; }
+.vcard-meta-sep { color: var(--border-strong); }
+.spark { color: currentColor; flex: 0 0 auto; }
+
+.vcard-verdict {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.vcard-action {
+  background: color-mix(in oklab, var(--rail), white 90%);
+  border: 1px solid color-mix(in oklab, var(--rail), white 75%);
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.vcard-action-label {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: color-mix(in oklab, var(--rail), black 15%);
+  font-weight: 600;
+}
+.vcard-action-body {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+}
+
+.vcard-signals {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.signal-chip {
+  font-size: 11.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--bg-sunk);
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  display: inline-flex; align-items: center; gap: 5px;
+  font-feature-settings: "tnum";
+}
+.signal-chip.hot {
+  background: var(--blue-050);
+  color: var(--blue-600);
+  border-color: color-mix(in oklab, var(--blue-500), white 75%);
+  font-weight: 500;
+}
+.signal-chip-bolt { font-size: 6px; line-height: 1; }
+
+.vcard-foot {
+  margin-top: 2px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+  display: flex; justify-content: space-between; gap: 16px; align-items: center;
+}
+.vcard-routes { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.vcard-routes-k {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--ink-mute); margin-right: 2px;
+}
+.route-tag {
+  font-size: 10.5px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: var(--ink-mute);
+  background: transparent;
+  border: 1px solid var(--border);
+  letter-spacing: 0.02em;
+}
+.route-tag.active {
+  color: var(--navy-900);
+  background: oklch(0.95 0.012 255);
+  border-color: var(--border-strong);
+  font-weight: 500;
+}
+.vcard-foot-r { display: flex; align-items: center; gap: 16px; font-size: 12px; }
+.vcard-updated { color: var(--ink-mute); font-family: var(--font-mono); font-size: 11px; }
+.vcard-brief { color: var(--blue-600); font-weight: 500; font-size: 12.5px; }
+.vcard-brief:hover { text-decoration: underline; }
+
+/* ---------- App footer ---------- */
+.app-foot {
+  padding: 24px 32px 32px;
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--ink-mute);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Drawer (brief) ---------- */
+.drw-wrap {
+  position: fixed; inset: 0;
+  background: oklch(0.2 0.02 255 / 0.35);
+  backdrop-filter: blur(2px);
+  z-index: 100;
+  display: flex;
+  animation: fadeIn .18s ease;
+}
+.drw-wrap-right { justify-content: flex-end; }
+.drw-wrap:not(.drw-wrap-right) { justify-content: flex-end; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideR { from { transform: translateX(30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+.drw, .chat {
+  width: min(540px, 92vw);
+  height: 100vh;
+  background: var(--surface);
+  box-shadow: var(--shadow-pop);
+  display: flex; flex-direction: column;
+  animation: slideR .22s cubic-bezier(.2,.7,.2,1);
+  position: relative;
+  overflow: visible;
+}
+.drw-rail {
+  position: absolute;
+  top: 0; left: 0; bottom: 0; width: 3px;
+  background: var(--rail);
+}
+
+.drw-head, .chat-head {
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px;
+}
+.drw-eyebrow, .chat-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.drw-title, .chat-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.drw-sub { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.drw-updated { font-size: 11px; font-family: var(--font-mono); color: var(--ink-mute); }
+.drw-close {
+  padding: 6px;
+  border-radius: 6px;
+  color: var(--ink-mute);
+}
+.drw-close:hover { background: var(--bg-sunk); color: var(--ink); }
+
+.drw {
+  overflow-y: auto;
+  overflow-x: visible;
+}
+.drw-sec { padding: 20px 28px; border-bottom: 1px solid var(--border); overflow: visible; }
+.drw-h {
+  margin: 0 0 10px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 600;
+}
+.drw-p { margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--ink); text-wrap: pretty; }
+.drw-action-sec { background: color-mix(in oklab, var(--rail), white 94%); border-bottom-color: color-mix(in oklab, var(--rail), white 80%); }
+.drw-p-action { font-weight: 600; font-size: 15px; }
+
+.drw-sig { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.drw-sig-li {
+  display: grid; grid-template-columns: 8px 1fr auto;
+  gap: 12px; align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.drw-sig-li:last-child { border-bottom: 0; }
+.drw-sig-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
+.drw-sig-hot .drw-sig-dot { background: var(--blue-500); }
+.drw-sig-hot .drw-sig-label { font-weight: 500; }
+.drw-sig-weight { font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); }
+.drw-sig-hot .drw-sig-weight { color: var(--blue-600); }
+
+.drw-routes { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.drw-tl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.drw-tl li { display: grid; grid-template-columns: 60px 1fr; gap: 12px; font-size: 13px; }
+.drw-tl-dt { font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); padding-top: 1px; }
+.drw-tl-t { color: var(--ink-soft); }
+
+/* ---------- Chat drawer ---------- */
+.chat { }
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 28px;
+  display: flex; flex-direction: column; gap: 16px;
+  background: var(--bg-sunk);
+}
+.chat-msg { display: flex; gap: 10px; align-items: flex-end; max-width: 86%; }
+.chat-user { margin-left: auto; flex-direction: row-reverse; }
+.chat-avatar {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: var(--navy-900); color: #fff;
+  display: grid; place-items: center;
+  font-size: 10px; font-weight: 600;
+  flex: 0 0 24px;
+}
+.chat-bubble {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.chat-user .chat-bubble { background: var(--navy-900); color: #fff; border-color: var(--navy-900); }
+.chat-typing { display: flex; gap: 4px; }
+.chat-typing span {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--ink-mute);
+  animation: bouncy 1s infinite ease-in-out;
+}
+.chat-typing span:nth-child(2) { animation-delay: .15s; }
+.chat-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes bouncy { 0%, 80%, 100% { transform: translateY(0); opacity: 0.4; } 40% { transform: translateY(-4px); opacity: 1; } }
+
+.chat-sugs { display: flex; gap: 6px; padding: 10px 20px; border-top: 1px solid var(--border); overflow-x: auto; }
+.chat-sug {
+  flex: 0 0 auto;
+  font-size: 11.5px;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  background: var(--surface);
+}
+.chat-sug:hover { background: var(--bg-sunk); }
+
+.chat-form {
+  display: flex; gap: 8px;
+  padding: 12px 20px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.chat-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  outline: 0;
+  transition: border-color .15s, box-shadow .15s;
+}
+.chat-input:focus {
+  border-color: var(--blue-500);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--blue-500), transparent 85%);
+}
+.chat-send {
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--navy-900);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+}
+.chat-send:disabled { background: var(--ink-mute); cursor: not-allowed; }
+
+/* ---------- Lens-active subtle treatment ---------- */
+.grid.lens-active .vcard:not(.dim)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--rail), transparent 70%);
+}
+
+/* ---------- Scrollbar tidy-up ---------- */
+.sb::-webkit-scrollbar, .drw::-webkit-scrollbar, .chat-body::-webkit-scrollbar { width: 8px; }
+.sb::-webkit-scrollbar-thumb { background: oklch(0.3 0.03 255); border-radius: 4px; }
+.drw::-webkit-scrollbar-thumb, .chat-body::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+/* ---------- Multi-page sidebar nav ---------- */
+.sb-nav-pages { margin-bottom: 14px; }
+.sb-nav-pages + .sb-sec-label { margin-top: 4px; }
+
+/* ---------- Toolbar (pages) ---------- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.toolbar-count {
+  margin-left: auto;
+  color: var(--ink-mute);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Launches & Events — timeline ---------- */
+.tl {
+  padding: 0 40px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.tl-group {}
+.tl-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 0 12px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+  position: sticky;
+  top: 56px;
+  background: var(--bg);
+  z-index: 1;
+}
+.tl-group-h {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+.tl-group-count {
+  font-size: 11px;
+  color: var(--ink-mute);
+  background: var(--bg-sunk);
+  border: 1px solid var(--border);
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-variant-numeric: tabular-nums;
+}
+.tl-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tl-card {
+  display: grid;
+  grid-template-columns: 130px 1fr auto;
+  gap: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+.tl-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+.tl-event { border-left: 3px solid var(--blue-500); padding-left: 15px; }
+.tl-launch {}
+
+.tl-card-l {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 2px;
+}
+.tl-date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+  letter-spacing: -0.01em;
+}
+.tl-card-body {
+  min-width: 0;
+}
+.tl-card-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.tl-title {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.tl-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tl-company {
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--ink);
+}
+.type-tag {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: var(--bg-sunk);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.tl-type-event {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--blue-600);
+  background: var(--blue-050);
+  border: 1px solid var(--blue-100);
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.tl-summary {
+  margin: 0 0 8px 0;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  line-height: 1.55;
+  max-width: 680px;
+}
+.tl-action {
+  background: var(--blue-050);
+  border: 1px solid var(--blue-100);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  margin: 8px 0;
+  font-size: 13px;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.tl-action-k {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--blue-600);
+  flex-shrink: 0;
+}
+.tl-action-v {
+  color: var(--ink);
+}
+.tl-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.tl-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--bg-sunk);
+}
+.tl-card-r {
+  align-self: center;
+  color: var(--ink-mute);
+  font-size: 12px;
+}
+.tl-card:hover .tl-brief { color: var(--blue-600); }
+.tl-brief { white-space: nowrap; }
+
+/* ---------- Companies table ---------- */
+.ctable {
+  margin: 0 40px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.ctable-head {
+  display: grid;
+  grid-template-columns: 1.3fr 1.3fr 1fr 1fr 0.7fr 1.4fr 2fr 0.3fr;
+  gap: 16px;
+  padding: 12px 20px;
+  background: var(--bg-sunk);
+  border-bottom: 1px solid var(--border);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+}
+.ctable-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1.3fr 1fr 1fr 0.7fr 1.4fr 2fr 0.3fr;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  cursor: pointer;
+  transition: background .12s;
+  font-size: 13px;
+}
+.ctable-row:last-child { border-bottom: 0; }
+.ctable-row:hover { background: var(--bg-sunk); }
+.ctable-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.ctable-dot {
+  width: 7px; height: 7px; border-radius: 999px;
+}
+.ctable-dot.t-critical { background: oklch(0.58 0.20 25); }
+.ctable-dot.t-high     { background: oklch(0.66 0.15 65); }
+.ctable-dot.t-medium   { background: oklch(0.58 0.15 245); }
+.ctable-dot.t-low      { background: oklch(0.68 0.01 250); }
+.ctable-score {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ctable-score-v {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--ink);
+}
+.ctable-num {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+.ctable-focus {
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+.ctable-dir {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+.ctable-arrow {
+  color: var(--ink-mute);
+  text-align: right;
+}
+.ctable-row:hover .ctable-arrow { color: var(--blue-600); }
+.ctable-foot {
+  margin: 16px 40px 40px;
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-mute);
+  align-items: center;
+}
+.ctable-foot-k {
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10.5px;
+}
+
+/* ---------- Drawer roadmap + stats ---------- */
+.drw-roadmap {}
+.drw-roadmap-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.drw-roadmap-meta {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 10px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+.drw-roadmap-k {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  margin-right: 6px;
+}
+.drw-roadmap-watch {
+  margin: 0;
+}
+.drw-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.drw-stat {
+  background: var(--surface);
+  padding: 12px 14px;
+}
+.drw-stat-k {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  margin-bottom: 4px;
+}
+.drw-stat-v {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ---------- Hiring page specific styles ---------- */
+.hiring-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 0 32px 32px;
+}
+@media (max-width: 1240px) {
+  .hiring-grid { grid-template-columns: 1fr; }
+}
+
+.hcard {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  overflow: hidden;
+}
+.hcard:hover { box-shadow: var(--shadow-card); border-color: var(--border-strong); transform: translateY(-1px); }
+.hcard-rail {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--rail, var(--border));
+}
+
+.hcard-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.hcard-head-l { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.hcard-name { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -0.02em; }
+.hcard-badges { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+.intensity-badge {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  padding: 3px 8px 3px 7px;
+  border-radius: 4px;
+  border: 1px solid;
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+.intensity-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+.hcard-count {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.hcard-count-label {
+  font-size: 12px;
+  color: var(--ink-mute);
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hcard-meta {
+  display: flex; gap: 20px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.hcard-meta-item { display: flex; flex-direction: column; gap: 2px; }
+.hcard-meta-k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-mute); font-weight: 500; }
+.hcard-meta-v { font-weight: 600; color: var(--ink); font-size: 13px; }
+
+.hcard-summary {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.hcard-direction {
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-mute);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.hcard-foot {
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  display: flex; justify-content: flex-end;
+}
+.hcard-brief { color: var(--blue-600); font-weight: 500; font-size: 12px; }
+.hcard-brief:hover { text-decoration: underline; }
+
+/* ---------- Hiring Page ---------- */
+.hi-page {
+  padding: 32px 40px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+[data-screen-label="00 Hiring intelligence"] .hi-section {
+  padding: 0 40px;
+}
+[data-screen-label="00 Hiring intelligence"] .hi-section + .hi-section {
+  padding-bottom: 40px;
+}
+
+.hi-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.hi-kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow-card);
+}
+.hi-kpi-val {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+.hi-kpi-lbl {
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hi-area-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.hi-pill {
+  padding: 5px 14px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.hi-pill:hover { border-color: var(--blue-500); color: var(--blue-600); }
+.hi-pill.active {
+  background: var(--blue-600);
+  color: #fff;
+  border-color: var(--blue-600);
+}
+
+.hi-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.hi-sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.hi-sec-head-l {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.hi-sec-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+}
+.hi-sec-count {
+  font-size: 12px;
+  color: var(--ink-mute);
+}
+
+/* Velocity bars */
+.hi-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hi-bar-row {
+  display: grid;
+  grid-template-columns: 150px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background 0.12s, border-color 0.12s;
+}
+.hi-bar-row:hover {
+  background: var(--blue-050);
+  border-color: var(--blue-100);
+}
+.hi-bar-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hi-bar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.hi-bar-co {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.hi-bar-area {
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+.hi-bar-track {
+  height: 8px;
+  background: var(--bg-sunk);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.hi-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.hi-bar-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.hi-bar-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  min-width: 28px;
+  text-align: right;
+}
+.hi-bar-fn {
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hi-bar-num {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Implications feed */
+.hi-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.hi-feed-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.12s, box-shadow 0.12s;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hi-feed-item:hover {
+  border-color: var(--blue-500);
+  box-shadow: 0 2px 8px oklch(0.52 0.17 248 / 0.08);
+}
+.hi-feed-co {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hi-feed-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.hi-feed-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.hi-feed-text {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+/* ---------- Notif Drawer ---------- */
+.drw-wrap-right {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: oklch(0.22 0.02 255 / 0.4);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: flex-end;
+}
+.notif-drw {
+  width: 400px;
+  max-width: 92vw;
+  background: var(--surface);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-pop);
+  animation: slideInRight 0.22s ease;
+}
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.notif-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.notif-item {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.12s;
+}
+.notif-item:hover { border-color: var(--blue-500); }
+.notif-item-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.notif-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.notif-company {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.notif-rel {
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.notif-co {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.notif-kind {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--blue-100);
+  color: var(--blue-600);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.notif-rel-high { color: oklch(0.55 0.2 25); background: oklch(0.96 0.04 25); }
+.notif-rel-medium { color: oklch(0.52 0.14 80); background: oklch(0.97 0.04 80); }
+.notif-rel-low { color: var(--ink-mute); background: var(--bg-sunk); }
+.notif-date {
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.notif-title {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.notif-summary {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin: 0;
+}
+.notif-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ink-mute);
+  font-size: 14px;
+}
+.notif-foot {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--ink-mute);
+  flex-shrink: 0;
+}
+/* Dashboard filter bar */
+.dash-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0 40px 16px;
+}
+.list-btn-active {
+  background: var(--blue-100);
+  color: var(--blue-600);
+  border-color: var(--blue-500);
+}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React + ReactDOM + Babel from CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Injected data -->
+  <script id="ci-data">
+// Injected by build_dashboard_v3.py
+%%DATA_JSON%%
+  </script>
+
+  <!-- Components (atoms + VerdictCard) -->
+  <script type="text/babel">
+// Verdict Card + small UI atoms
+const { useState, useMemo, useEffect, useRef } = React;
+const THREAT = window.THREAT;
+
+function ThreatBadge({ level }) {
+  const t = THREAT[level];
+  return (
+    <span className="threat-badge" style={{ color: t.fg, background: t.bg, borderColor: t.bd }}>
+      <span className="threat-dot" style={{ background: t.dot }} />
+      {t.label}
+    </span>
+  );
+}
+
+function AreaBadge({ children }) {
+  const a = window.AREA[children];
+  const style = a ? { color: a.fg, background: a.bg, borderColor: a.bd } : undefined;
+  return (
+    <span className="area-badge" style={style}>
+      {a && <span className="area-dot" style={{ background: a.dot }} />}
+      {children}
+    </span>
+  );
+}
+
+function SignalChip({ label, hot }) {
+  return (
+    <span className={"signal-chip" + (hot ? " hot" : "")}>
+      {hot && <span className="signal-chip-bolt" aria-hidden>●</span>}
+      {label}
+    </span>
+  );
+}
+
+function RouteTag({ label, active }) {
+  return <span className={"route-tag" + (active ? " active" : "")}>{label}</span>;
+}
+
+// Small sparkline showing threat score trend (fake deterministic series)
+function Spark({ seed = 1, color = "currentColor" }) {
+  const pts = useMemo(() => {
+    const out = [];
+    let v = 40 + (seed % 20);
+    for (let i = 0; i < 14; i++) {
+      v += ((Math.sin(i * (1 + (seed % 5) * 0.1)) + Math.cos(seed + i)) * 6);
+      v = Math.max(8, Math.min(92, v));
+      out.push(v);
+    }
+    return out;
+  }, [seed]);
+  const w = 72, h = 22;
+  const d = pts.map((p, i) => {
+    const x = (i / (pts.length - 1)) * w;
+    const y = h - (p / 100) * h;
+    return (i === 0 ? "M" : "L") + x.toFixed(1) + "," + y.toFixed(1);
+  }).join(" ");
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="spark">
+      <path d={d} fill="none" stroke={color} strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// Intensity badge (HIGH/MEDIUM/LOW)
+function IntensityBadge({ level }) {
+  const colors = {
+    HIGH:   { fg:"oklch(0.48 0.18 25)",  bg:"oklch(0.96 0.04 25)",  bd:"oklch(0.88 0.10 25)",  dot:"oklch(0.58 0.20 25)" },
+    MEDIUM: { fg:"oklch(0.44 0.13 245)", bg:"oklch(0.97 0.03 245)", bd:"oklch(0.88 0.06 245)", dot:"oklch(0.58 0.15 245)" },
+    LOW:    { fg:"oklch(0.48 0.01 250)", bg:"oklch(0.97 0.005 250)",bd:"oklch(0.90 0.01 250)", dot:"oklch(0.68 0.01 250)" },
+  };
+  const c = colors[level] || colors.LOW;
+  return (
+    <span className="intensity-badge" style={{ color: c.fg, background: c.bg, borderColor: c.bd }}>
+      <span className="intensity-dot" style={{ background: c.dot }} />
+      {level}
+    </span>
+  );
+}
+
+// --- Verdict Card --------------------------------------------------------
+function VerdictCard({ c, lens, onOpen }) {
+  const t = THREAT[c.threat];
+  const verdict = c.verdict[lens] || c.verdict.All;
+  const action = c.action[lens] || c.action.All;
+
+  // Sort signals by weight for current lens — top 4 stay visible
+  const signals = useMemo(() => {
+    return [...c.signals]
+      .map(s => ({ ...s, w: (s.weight[lens] ?? s.weight.All ?? 0) }))
+      .sort((a, b) => b.w - a.w);
+  }, [c, lens]);
+
+  const lensIsTeam = lens !== "All";
+  const lensTouches = c.routes.includes(lens);
+
+  // Dim state when a team lens is active and this card doesn't route there
+  const dim = lensIsTeam && !lensTouches;
+
+  return (
+    <article
+      className={"vcard" + (dim ? " dim" : "") + (lensIsTeam && lensTouches ? " focus" : "")}
+      style={{ "--rail": t.rail }}
+      onClick={() => onOpen(c.id)}
+    >
+      <span className="vcard-rail" aria-hidden />
+
+      <header className="vcard-head">
+        <div className="vcard-head-l">
+          <h3 className="vcard-name">{c.name}</h3>
+          <AreaBadge>{c.area}</AreaBadge>
+        </div>
+        <div className="vcard-head-r">
+          <ThreatBadge level={c.threat} />
+        </div>
+      </header>
+
+      <div className="vcard-meta">
+        <span className="vcard-meta-item">
+          <span className="vcard-meta-k">Threat score</span>
+          <span className="vcard-meta-v">{c.score}</span>
+        </span>
+        <Spark seed={c.score} color={t.rail} />
+        <span className="vcard-meta-sep" aria-hidden>·</span>
+        <span className="vcard-meta-item">
+          <span className="vcard-meta-k">Lens</span>
+          <span className="vcard-meta-v">{lens}</span>
+        </span>
+      </div>
+
+      <p className="vcard-verdict">{verdict}</p>
+
+      <div className="vcard-action">
+        <span className="vcard-action-label">Actian action</span>
+        <span className="vcard-action-body">{action}</span>
+      </div>
+
+      <div className="vcard-signals">
+        {signals.map((s, i) => (
+          <SignalChip key={s.label} label={s.label} hot={s.w >= 2} />
+        ))}
+      </div>
+
+      <footer className="vcard-foot">
+        <div className="vcard-routes">
+          <span className="vcard-routes-k">Routes to</span>
+          {window.TEAMS.filter(x => x !== "All").map(team => (
+            <RouteTag key={team} label={team} active={c.routes.includes(team)} />
+          ))}
+        </div>
+        <div className="vcard-foot-r">
+          <span className="vcard-updated">Updated {c.updated}</span>
+          <a className="vcard-brief" onClick={(e) => { e.stopPropagation(); onOpen(c.id); }}>
+            View full brief <span aria-hidden>↗</span>
+          </a>
+        </div>
+      </footer>
+    </article>
+  );
+}
+
+Object.assign(window, { VerdictCard, ThreatBadge, AreaBadge, SignalChip, RouteTag, THREAT, Spark, IntensityBadge });
+  </script>
+
+  <!-- Shell (Sidebar, TopBar, KpiRow, BriefDrawer, ChatDrawer) -->
+  <script type="text/babel">
+// Sidebar, top bar, KPI tiles, chat drawer, brief drawer
+
+const TEAM_META = {
+  All:        { icon: "◎", desc: "Unified view" },
+  Product:    { icon: "◳", desc: "Roadmap & features" },
+  PMM:        { icon: "◈", desc: "Positioning & messaging" },
+  Marketing:  { icon: "◆", desc: "Campaigns & air cover" },
+  SDRs:       { icon: "◁", desc: "Pipeline & compete" },
+  Executives: { icon: "◉", desc: "Strategy & narrative" },
+};
+
+function Sidebar({ lens, onLens, collapsed, onToggle, page, onPage }) {
+  return (
+    <aside className={"sb" + (collapsed ? " sb-collapsed" : "")}>
+      <div className="sb-brand">
+        <div className="sb-logo" aria-hidden>
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <path d="M4 18 L12 4 L20 18 M7 13 H17" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+        {!collapsed && (
+          <div className="sb-brand-text">
+            <div className="sb-brand-name">Actian CI</div>
+            <div className="sb-brand-sub">Competitive Intelligence</div>
+          </div>
+        )}
+        <button className="sb-toggle" onClick={onToggle} aria-label="Toggle sidebar">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d={collapsed ? "M5 3 L9 7 L5 11" : "M9 3 L5 7 L9 11"} stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </button>
+      </div>
+
+      {!collapsed && <div className="sb-sec-label">Workspace</div>}
+      <nav className="sb-nav sb-nav-pages">
+        {[
+          { id:"hiring",    label:"Hiring",             desc:"Roles & intensity",  icon:"◧" },
+          { id:"dashboard", label:"Verdicts",            desc:"Company dashboard",  icon:"◧" },
+          { id:"launches",  label:"Launches & events",   desc:"Signal timeline",    icon:"◇" },
+          { id:"companies", label:"Companies",           desc:"Roster of 11",       icon:"◫" },
+        ].map(p => (
+          <button
+            key={p.id}
+            className={"sb-tab" + (page === p.id ? " sb-tab-on" : "")}
+            onClick={() => onPage(p.id)}
+            title={p.label}
+          >
+            <span className="sb-tab-icon" aria-hidden>{p.icon}</span>
+            {!collapsed && (
+              <span className="sb-tab-text">
+                <span className="sb-tab-name">{p.label}</span>
+                <span className="sb-tab-desc">{p.desc}</span>
+              </span>
+            )}
+            {page === p.id && <span className="sb-tab-rail" aria-hidden />}
+          </button>
+        ))}
+      </nav>
+
+      {!collapsed && <div className="sb-sec-label">Team lens</div>}
+      <nav className="sb-nav">
+        {window.TEAMS.map(t => (
+          <button
+            key={t}
+            className={"sb-tab" + (lens === t ? " sb-tab-on" : "")}
+            onClick={() => onLens(t)}
+            title={t}
+          >
+            <span className="sb-tab-icon" aria-hidden>{TEAM_META[t].icon}</span>
+            {!collapsed && (
+              <span className="sb-tab-text">
+                <span className="sb-tab-name">{t}</span>
+                <span className="sb-tab-desc">{TEAM_META[t].desc}</span>
+              </span>
+            )}
+            {lens === t && <span className="sb-tab-rail" aria-hidden />}
+          </button>
+        ))}
+      </nav>
+
+      {!collapsed && (
+        <>
+          <div className="sb-sec-label">Watchlist</div>
+          <div className="sb-watch">
+            {window.COMPETITORS.slice(0, 6).map(c => (
+              <div key={c.id} className="sb-watch-item">
+                <span className={"sb-watch-dot t-" + c.threat.toLowerCase()} />
+                <span className="sb-watch-name">{c.name}</span>
+                <span className="sb-watch-score">{c.score}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="sb-foot">
+            <div className="sb-foot-user">
+              <div className="sb-avatar">MR</div>
+              <div className="sb-foot-text">
+                <div className="sb-foot-name">Morgan Reyes</div>
+                <div className="sb-foot-role">Head of CI · Actian</div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </aside>
+  );
+}
+
+function KpiTile({ k, v, delta, deltaDir, sub, tone }) {
+  return (
+    <div className={"kpi kpi-" + tone}>
+      <div className="kpi-k">{k}</div>
+      <div className="kpi-row">
+        <div className="kpi-v">{v}</div>
+        <div className={"kpi-delta d-" + deltaDir}>
+          <span className="kpi-delta-arrow" aria-hidden>
+            {deltaDir === "up" ? "▲" : deltaDir === "down" ? "▼" : "–"}
+          </span>
+          {delta}
+        </div>
+      </div>
+      <div className="kpi-sub">{sub}</div>
+    </div>
+  );
+}
+
+function TopBar({ onSearch, q, onChat, onNotif, lens, page, onPage }) {
+  const pageLabels = {
+    launches: "Launches & events",
+    companies: "Companies",
+    hiring: "Hiring intelligence",
+    dashboard: "Verdict view",
+  };
+  const pageLabel = pageLabels[page] || "Verdict view";
+  return (
+    <header className="tb">
+      <div className="tb-crumbs">
+        <span className="tb-crumb" onClick={() => onPage && onPage("dashboard")} style={{cursor: onPage ? "pointer" : "default"}}>Dashboard</span>
+        <span className="tb-crumb-sep" aria-hidden>/</span>
+        <span className="tb-crumb tb-crumb-on">{pageLabel}</span>
+        <span className="tb-crumb-sep" aria-hidden>·</span>
+        <span className="tb-crumb-lens">{lens} lens</span>
+      </div>
+
+      <div className="tb-tools">
+        <div className="tb-search">
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
+            <circle cx="6" cy="6" r="4" fill="none" stroke="currentColor" strokeWidth="1.4"/>
+            <path d="M9 9 L12 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+          <input
+            value={q}
+            onChange={e => onSearch(e.target.value)}
+            placeholder="Search competitors, signals, briefs…"
+          />
+          <span className="tb-search-kbd">⌘K</span>
+        </div>
+        <button className="tb-btn tb-btn-ghost" title="Notifications" onClick={onNotif}>
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden><path d="M3 10 V6 a4 4 0 0 1 8 0 V10 L12 11 H2 Z M5.5 12 a1.5 1 0 0 0 3 0" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/></svg>
+          <span className="tb-btn-dot" />
+        </button>
+        <button className="tb-btn tb-btn-primary" onClick={onChat}>
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
+            <path d="M2 3 h10 v7 h-5 l-3 2 v-2 h-2 z" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+            <circle cx="5" cy="6.5" r=".6" fill="currentColor"/>
+            <circle cx="7" cy="6.5" r=".6" fill="currentColor"/>
+            <circle cx="9" cy="6.5" r=".6" fill="currentColor"/>
+          </svg>
+          Ask CI
+        </button>
+      </div>
+    </header>
+  );
+}
+
+function KpiRow({ data }) {
+  return (
+    <div className="kpis">
+      <KpiTile
+        tone="red"
+        k="Critical threats"
+        v={data.critical}
+        delta="+1 this week"
+        deltaDir="up"
+        sub="Atlan · Snowflake"
+      />
+      <KpiTile
+        tone="amber"
+        k="New launches"
+        v={data.launches}
+        delta="+3 vs last 30d"
+        deltaDir="up"
+        sub="6 product · 1 pricing"
+      />
+      <KpiTile
+        tone="blue"
+        k="Upcoming events"
+        v={data.events}
+        delta="next 14 days"
+        deltaDir="flat"
+        sub="Activate · Summit · ALLIE day"
+      />
+      <KpiTile
+        tone="slate"
+        k="Actions due"
+        v={data.actions}
+        delta="5 this week"
+        deltaDir="up"
+        sub="Assigned to 4 teams"
+      />
+    </div>
+  );
+}
+
+// --- Brief drawer (opens from a card click) -----------------------------
+function BriefDrawer({ comp, lens, onClose }) {
+  useEffect(() => {
+    function onKey(e){ if (e.key === "Escape") onClose(); }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  if (!comp) return null;
+  const t = window.THREAT[comp.threat];
+
+  return (
+    <div className="drw-wrap" onClick={onClose}>
+      <aside className="drw" onClick={e => e.stopPropagation()} style={{ "--rail": t.rail }}>
+        <div className="drw-rail" aria-hidden />
+        <header className="drw-head">
+          <div>
+            <div className="drw-eyebrow">Full brief · {lens} lens</div>
+            <h2 className="drw-title">{comp.name}</h2>
+            <div className="drw-sub">
+              <window.AreaBadge>{comp.area}</window.AreaBadge>
+              <window.ThreatBadge level={comp.threat} />
+              <span className="drw-updated">Updated {comp.updated}</span>
+            </div>
+          </div>
+          <button className="drw-close" onClick={onClose} aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 3 L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+          </button>
+        </header>
+
+        <section className="drw-sec">
+          <h4 className="drw-h">Verdict</h4>
+          <p className="drw-p">{comp.verdict[lens] || comp.verdict.All}</p>
+        </section>
+
+        <section className="drw-sec drw-action-sec">
+          <h4 className="drw-h">Actian action</h4>
+          <p className="drw-p drw-p-action">{comp.action[lens] || comp.action.All}</p>
+        </section>
+
+        {comp.roadmap && (
+          <section className="drw-sec drw-roadmap">
+            <h4 className="drw-h">Strategic direction</h4>
+            <div className="drw-roadmap-title">{comp.roadmap.direction}</div>
+            <div className="drw-roadmap-meta">
+              <span><span className="drw-roadmap-k">Confidence</span> {comp.roadmap.confidence}</span>
+              <span><span className="drw-roadmap-k">Timeline</span> {comp.roadmap.timeline}</span>
+            </div>
+            <p className="drw-p drw-roadmap-watch"><span className="drw-roadmap-k">Watch for</span> {comp.roadmap.watchFor}</p>
+          </section>
+        )}
+
+        <section className="drw-sec drw-stats">
+          <div className="drw-stat">
+            <div className="drw-stat-k">Hiring postings (30d)</div>
+            <div className="drw-stat-v">{comp.postingCount ?? "—"}</div>
+          </div>
+          <div className="drw-stat">
+            <div className="drw-stat-k">Dominant function</div>
+            <div className="drw-stat-v">{comp.dominantFunction ?? "—"}</div>
+          </div>
+          <div className="drw-stat">
+            <div className="drw-stat-k">Dominant focus</div>
+            <div className="drw-stat-v">{comp.dominantFocus ?? "—"}</div>
+          </div>
+          <div className="drw-stat">
+            <div className="drw-stat-k">Intensity</div>
+            <div className="drw-stat-v">{comp.intensity ?? "—"}</div>
+          </div>
+        </section>
+
+        <section className="drw-sec">
+          <h4 className="drw-h">All signals</h4>
+          <ul className="drw-sig">
+            {comp.signals.map(s => {
+              const w = s.weight[lens] ?? s.weight.All ?? 0;
+              return (
+                <li key={s.label} className={"drw-sig-li" + (w >= 2 ? " drw-sig-hot" : "")}>
+                  <span className="drw-sig-dot" />
+                  <span className="drw-sig-label">{s.label}</span>
+                  <span className="drw-sig-weight">{w >= 2 ? "High" : w === 1 ? "Med" : "Low"}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
+        <section className="drw-sec">
+          <h4 className="drw-h">Routes to</h4>
+          <div className="drw-routes">
+            {window.TEAMS.filter(x => x !== "All").map(team => (
+              <window.RouteTag key={team} label={team} active={comp.routes.includes(team)} />
+            ))}
+          </div>
+        </section>
+
+        <section className="drw-sec drw-timeline">
+          <h4 className="drw-h">Recent activity</h4>
+          <ol className="drw-tl">
+            <li><span className="drw-tl-dt">Apr 16</span><span className="drw-tl-t">New signal captured from analyst note</span></li>
+            <li><span className="drw-tl-dt">Apr 14</span><span className="drw-tl-t">Battlecard refreshed by PMM</span></li>
+            <li><span className="drw-tl-dt">Apr 11</span><span className="drw-tl-t">Threat score re-rated · {comp.score - 4} → {comp.score}</span></li>
+            <li><span className="drw-tl-dt">Apr 08</span><span className="drw-tl-t">Brief reviewed at CI staff</span></li>
+          </ol>
+        </section>
+      </aside>
+    </div>
+  );
+}
+
+// --- Chat drawer --------------------------------------------------------
+function ChatDrawer({ open, onClose, lens }) {
+  const [messages, setMessages] = useState([
+    { role: "ai", text: `Hi Morgan — I've got the full ${lens} lens loaded. Ask me about any competitor, signal, or action.` },
+  ]);
+  const [input, setInput] = useState("");
+  const [busy, setBusy] = useState(false);
+  const bodyRef = useRef(null);
+
+  useEffect(() => {
+    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+  }, [messages, busy]);
+
+  async function send(q) {
+    const text = (q ?? input).trim();
+    if (!text) return;
+    setInput("");
+    const next = [...messages, { role: "user", text }];
+    setMessages(next);
+    setBusy(true);
+    try {
+      const ctx = window.COMPETITORS.map(c => `- ${c.name} (${c.area}, ${c.threat}): ${c.verdict.All}`).join("\n");
+      const sys = `You are Actian's internal CI analyst. Current lens: ${lens}. Be concise, direct, and use only the competitor data below. Keep answers under 90 words.\n\nCOMPETITORS:\n${ctx}`;
+      const reply = await window.claude.complete({
+        messages: [
+          { role: "user", content: sys + "\n\nQuestion: " + text }
+        ]
+      });
+      setMessages(m => [...m, { role: "ai", text: reply }]);
+    } catch (e) {
+      setMessages(m => [...m, { role: "ai", text: "Couldn't reach the model just now — try again in a moment." }]);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (!open) return null;
+
+  const suggestions = [
+    "Which competitor is most urgent this week?",
+    "Summarize Atlan's threat in one line",
+    "What actions are due before May 1?",
+  ];
+
+  return (
+    <div className="drw-wrap drw-wrap-right" onClick={onClose}>
+      <aside className="chat" onClick={e => e.stopPropagation()}>
+        <header className="chat-head">
+          <div>
+            <div className="chat-eyebrow">Ask CI · {lens} lens</div>
+            <h2 className="chat-title">Intelligence assistant</h2>
+          </div>
+          <button className="drw-close" onClick={onClose} aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 3 L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+          </button>
+        </header>
+
+        <div className="chat-body" ref={bodyRef}>
+          {messages.map((m, i) => (
+            <div key={i} className={"chat-msg chat-" + m.role}>
+              {m.role === "ai" && <div className="chat-avatar">CI</div>}
+              <div className="chat-bubble">{m.text}</div>
+            </div>
+          ))}
+          {busy && (
+            <div className="chat-msg chat-ai">
+              <div className="chat-avatar">CI</div>
+              <div className="chat-bubble chat-typing"><span/><span/><span/></div>
+            </div>
+          )}
+        </div>
+
+        <div className="chat-sugs">
+          {suggestions.map(s => (
+            <button key={s} className="chat-sug" onClick={() => send(s)}>{s}</button>
+          ))}
+        </div>
+
+        <form className="chat-form" onSubmit={e => { e.preventDefault(); send(); }}>
+          <input
+            className="chat-input"
+            placeholder="Ask about any competitor, signal, or action…"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+          />
+          <button className="chat-send" type="submit" disabled={busy || !input.trim()}>Send</button>
+        </form>
+      </aside>
+    </div>
+  );
+}
+
+Object.assign(window, { Sidebar, TopBar, KpiRow, BriefDrawer, ChatDrawer, TEAM_META, KpiTile });
+  </script>
+
+  <!-- Pages (LaunchesPage, CompaniesPage, HiringPage) -->
+  <script type="text/babel">
+// Launches & Events page + Companies (roster) page + Hiring page
+const { useMemo: useMemoP, useState: useStateP, useEffect, useMemo } = React;
+
+const REL = {
+  HIGH:   { fg:"oklch(0.48 0.18 25)",  bg:"oklch(0.96 0.04 25)",  bd:"oklch(0.88 0.10 25)",  dot:"oklch(0.58 0.20 25)"  },
+  MEDIUM: { fg:"oklch(0.50 0.13 65)",  bg:"oklch(0.97 0.035 70)", bd:"oklch(0.88 0.08 70)",  dot:"oklch(0.66 0.15 65)"  },
+  LOW:    { fg:"oklch(0.48 0.01 250)", bg:"oklch(0.97 0.005 250)",bd:"oklch(0.90 0.01 250)", dot:"oklch(0.68 0.01 250)" },
+};
+
+function RelevanceBadge({ level }) {
+  const t = REL[level];
+  return (
+    <span className="threat-badge" style={{ color: t.fg, background: t.bg, borderColor: t.bd }}>
+      <span className="threat-dot" style={{ background: t.dot }} />
+      {level}
+    </span>
+  );
+}
+
+function TypeTag({ type }) {
+  const label = {
+    product_launch: "Product launch",
+    partnership: "Partnership",
+    open_source_release: "OSS release",
+    blog_post: "Engineering note",
+    acquisition: "Acquisition",
+    pricing_change: "Pricing",
+  }[type] || type;
+  return <span className="type-tag">{label}</span>;
+}
+
+// --- Launches & Events page --------------------------------------------
+function LaunchesPage({ lens, onOpenCompany }) {
+  const [filter, setFilter] = useStateP("all"); // all | launches | events
+  const [rel, setRel] = useStateP("all");
+
+  const merged = useMemoP(() => {
+    const items = [];
+    for (const l of window.LAUNCHES) items.push({ kind:"launch", ...l });
+    for (const e of window.EVENTS)   items.push({ kind:"event",  ...e, title:e.name, summary:e.why });
+    // sort by date descending (real string parse)
+    return items
+      .filter(it => filter === "all" || (filter === "launches" && it.kind === "launch") || (filter === "events" && it.kind === "event"))
+      .filter(it => rel === "all" || it.relevance === rel)
+      .sort((a,b) => new Date(b.date) - new Date(a.date));
+  }, [filter, rel]);
+
+  // Group by ISO week-ish bucket
+  const groups = useMemoP(() => {
+    const g = [];
+    let curKey = null;
+    for (const it of merged) {
+      const d = new Date(it.date);
+      const key = d.getFullYear() + "-W" + Math.ceil(((d - new Date(d.getFullYear(),0,1)) / 86400000 + new Date(d.getFullYear(),0,1).getDay()+1)/7);
+      if (key !== curKey) { g.push({ key, label: weekLabel(d), items: [] }); curKey = key; }
+      g[g.length-1].items.push(it);
+    }
+    return g;
+  }, [merged]);
+
+  return (
+    <div data-screen-label="02 Launches & events">
+      <div className="hero">
+        <div className="hero-title-row">
+          <div>
+            <div className="hero-eyebrow">Signal timeline · last 45 days + next 60</div>
+            <h1 className="hero-title">Launches & events</h1>
+            <p className="hero-sub">
+              {window.LAUNCHES.length} launches tracked · {window.EVENTS.length} events on the radar. Filter by type or relevance; click a company to jump to its brief.
+            </p>
+          </div>
+          <div className="hero-legend">
+            {["HIGH","MEDIUM","LOW"].map(l => (
+              <span key={l} className="legend-item">
+                <span className="legend-dot" style={{ background: REL[l].dot }} />
+                <span className="legend-label">{l}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="toolbar">
+          <div className="seg">
+            <button className={filter === "all" ? "seg-on" : ""} onClick={() => setFilter("all")}>All</button>
+            <button className={filter === "launches" ? "seg-on" : ""} onClick={() => setFilter("launches")}>Launches</button>
+            <button className={filter === "events" ? "seg-on" : ""} onClick={() => setFilter("events")}>Events</button>
+          </div>
+          <div className="seg">
+            <button className={rel === "all" ? "seg-on" : ""} onClick={() => setRel("all")}>Any relevance</button>
+            <button className={rel === "HIGH" ? "seg-on" : ""} onClick={() => setRel("HIGH")}>High</button>
+            <button className={rel === "MEDIUM" ? "seg-on" : ""} onClick={() => setRel("MEDIUM")}>Medium</button>
+            <button className={rel === "LOW" ? "seg-on" : ""} onClick={() => setRel("LOW")}>Low</button>
+          </div>
+          <span className="toolbar-count">{merged.length} items</span>
+        </div>
+      </div>
+
+      <div className="tl">
+        {groups.map(g => (
+          <section key={g.key} className="tl-group">
+            <header className="tl-group-head">
+              <h3 className="tl-group-h">{g.label}</h3>
+              <span className="tl-group-count">{g.items.length}</span>
+            </header>
+            <div className="tl-items">
+              {g.items.map(it => (
+                <article key={it.id} className={"tl-card" + (it.kind === "event" ? " tl-event" : " tl-launch")}
+                         onClick={() => onOpenCompany(companyIdByName(it.company))}>
+                  <div className="tl-card-l">
+                    <div className="tl-date">{it.date}</div>
+                    <div className="tl-rel"><RelevanceBadge level={it.relevance} /></div>
+                  </div>
+                  <div className="tl-card-body">
+                    <div className="tl-card-head">
+                      <h4 className="tl-title">{it.title}</h4>
+                      <div className="tl-card-meta">
+                        <span className="tl-company">{it.company}</span>
+                        <window.AreaBadge>{it.area}</window.AreaBadge>
+                        {it.kind === "event"
+                          ? <span className="tl-type-event">Event</span>
+                          : <TypeTag type={it.type} />}
+                      </div>
+                    </div>
+                    <p className="tl-summary">{it.summary}</p>
+                    {it.kind === "event" && it.action && (
+                      <div className="tl-action">
+                        <span className="tl-action-k">Actian action</span>
+                        <span className="tl-action-v">{it.action}</span>
+                      </div>
+                    )}
+                    {it.tags && (
+                      <div className="tl-tags">
+                        {it.tags.map(t => <span key={t} className="tl-tag">#{t}</span>)}
+                      </div>
+                    )}
+                    {it.teams && (
+                      <div className="tl-tags">
+                        {it.teams.map(t => <span key={t} className="route-tag active">{t}</span>)}
+                      </div>
+                    )}
+                  </div>
+                  <div className="tl-card-r">
+                    <span className="tl-brief">Open brief <span aria-hidden>↗</span></span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function weekLabel(d) {
+  const now = new Date();
+  const diffDays = Math.round((d - now) / 86400000);
+  const abs = Math.abs(diffDays);
+  const wk = Math.floor(abs / 7);
+  const weekStart = new Date(d);
+  weekStart.setDate(d.getDate() - d.getDay());
+  const monthLbl = weekStart.toLocaleDateString("en-US",{ month:"long", day:"numeric", year:"numeric" });
+  if (diffDays > 7)  return `Upcoming · week of ${monthLbl}`;
+  if (diffDays > 0)  return `This week · ${monthLbl}`;
+  if (diffDays === 0) return `Today · ${monthLbl}`;
+  if (abs < 7)       return `Last week · ${monthLbl}`;
+  return `${wk} weeks ago · ${monthLbl}`;
+}
+
+function companyIdByName(name) {
+  const c = window.COMPETITORS.find(x => x.name.toLowerCase() === name.toLowerCase());
+  return c ? c.id : null;
+}
+
+// --- Companies roster page ---------------------------------------------
+function CompaniesPage({ lens, onOpenCompany }) {
+  const [areaF, setAreaF] = useStateP("all");
+  const areas = ["all", ...Object.keys(window.AREA)];
+
+  const rows = useMemoP(() => {
+    return window.COMPETITORS
+      .filter(c => areaF === "all" || c.area === areaF)
+      .sort((a,b) => b.score - a.score);
+  }, [areaF]);
+
+  return (
+    <div data-screen-label="03 Companies">
+      <div className="hero">
+        <div className="hero-title-row">
+          <div>
+            <div className="hero-eyebrow">V2 tracked roster · 11 companies</div>
+            <h1 className="hero-title">Companies</h1>
+            <p className="hero-sub">
+              Every tracked competitor with hiring signal, dominant focus, and strategic direction. Click any row to open its brief.
+            </p>
+          </div>
+        </div>
+
+        <div className="toolbar">
+          <div className="seg">
+            {areas.map(a => (
+              <button key={a} className={areaF === a ? "seg-on" : ""} onClick={() => setAreaF(a)}>
+                {a === "all" ? "All areas" : a}
+              </button>
+            ))}
+          </div>
+          <span className="toolbar-count">{rows.length} companies</span>
+        </div>
+      </div>
+
+      <div className="ctable">
+        <div className="ctable-head">
+          <div>Company</div>
+          <div>Area</div>
+          <div>Threat</div>
+          <div>Score</div>
+          <div>Postings</div>
+          <div>Dominant focus</div>
+          <div>Strategic direction</div>
+          <div></div>
+        </div>
+        {rows.map(c => (
+          <div key={c.id} className="ctable-row" onClick={() => onOpenCompany(c.id)}>
+            <div className="ctable-name">
+              <span className={"ctable-dot t-" + c.threat.toLowerCase()} />
+              <span className="ctable-name-text">{c.name}</span>
+            </div>
+            <div><window.AreaBadge>{c.area}</window.AreaBadge></div>
+            <div><window.ThreatBadge level={c.threat} /></div>
+            <div className="ctable-score">
+              <span className="ctable-score-v">{c.score}</span>
+              <window.Spark seed={c.score} color={window.THREAT[c.threat].rail} />
+            </div>
+            <div className="ctable-num">{c.postingCount}</div>
+            <div className="ctable-focus">{c.dominantFocus}</div>
+            <div className="ctable-dir">{c.roadmap.direction}</div>
+            <div className="ctable-arrow" aria-hidden>↗</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="ctable-foot">
+        <span className="ctable-foot-k">Data source</span>
+        <span>Postings from competitive signals · hiring + product + press · updated continuously</span>
+      </div>
+    </div>
+  );
+}
+
+// --- Hiring page -------------------------------------------------------
+function HiringPage({ onOpen, lens }) {
+  lens = lens || "All";
+  const [areaFilter, setAreaFilter] = useStateP("all");
+  const areas = ["all", ...Object.keys(window.AREA)];
+
+  const sorted = useMemoP(() =>
+    [...window.COMPETITORS].sort((a, b) => b.postingCount - a.postingCount),
+  []);
+
+  const filtered = useMemoP(() => {
+    let list = sorted.filter(c => areaFilter === "all" || c.area === areaFilter);
+    // Apply lens filter
+    if (lens === "Executives") list = list.filter(c => c.threat === "CRITICAL" || c.threat === "HIGH");
+    if (lens === "SDRs") list = list.filter(c => ["CRITICAL","HIGH","MEDIUM"].includes(c.threat));
+    return list;
+  }, [sorted, areaFilter, lens]);
+
+  const maxCount = useMemoP(() => Math.max(...sorted.map(c => c.postingCount)), [sorted]);
+
+  const totalRoles = useMemoP(() => sorted.reduce((s, c) => s + c.postingCount, 0), [sorted]);
+  const highIntensity = useMemoP(() => sorted.filter(c => c.intensity === "HIGH").length, [sorted]);
+  const critHighCount = useMemoP(() => sorted.filter(c => c.threat === "CRITICAL" || c.threat === "HIGH").length, [sorted]);
+  const topFocus = useMemoP(() => {
+    const freq = {};
+    for (const c of sorted) { const f = c.dominantFocus || "—"; freq[f] = (freq[f]||0) + c.postingCount; }
+    return Object.entries(freq).sort((a,b) => b[1]-a[1])[0]?.[0] || "—";
+  }, [sorted]);
+
+  // Flatten implications into a feed — "what they're building"
+  const implFeed = useMemoP(() => {
+    const feed = [];
+    const perComp = lens === "Executives" ? 1 : 2;
+    for (const c of filtered) {
+      const impls = c.implications || [];
+      for (const text of impls.slice(0, perComp)) {
+        feed.push({ id: c.id, company: c.name, area: c.area, threat: c.threat, text });
+      }
+    }
+    return feed;
+  }, [filtered, lens]);
+
+  return (
+    <div data-screen-label="00 Hiring intelligence">
+      <div className="hero">
+        <div className="hero-title-row">
+          <div>
+            <div className="hero-eyebrow">V2 roster · {lens} lens · real-time job data</div>
+            <h1 className="hero-title">Hiring intelligence</h1>
+            <p className="hero-sub">What competitors are building — decoded from who they're hiring. Click any row or signal to open the full brief.</p>
+          </div>
+        </div>
+        <div className="kpis">
+          <window.KpiTile tone="blue" k="Total active roles" v={totalRoles} delta="across 11 companies" deltaDir="flat" sub="30-day rolling window" />
+          <window.KpiTile tone="red" k="Hiring surges" v={highIntensity} delta="HIGH intensity" deltaDir="up" sub="Active acceleration detected" />
+          <window.KpiTile tone="amber" k="Top focus area" v={topFocus} delta="by volume" deltaDir="flat" sub="Most-hired product area" />
+          <window.KpiTile tone="slate" k="Critical + High" v={critHighCount} delta="threat companies" deltaDir="up" sub="Requiring immediate attention" />
+        </div>
+      </div>
+
+      {/* Section 1 — Hiring velocity bars */}
+      <div className="hi-section">
+        <div className="hi-sec-head">
+          <div className="hi-sec-head-l">
+            <h2 className="list-h">Hiring velocity</h2>
+            <span className="list-count">{filtered.length}</span>
+          </div>
+          <div className="seg">
+            {areas.map(a => (
+              <button key={a} className={areaFilter === a ? "seg-on" : ""} onClick={() => setAreaFilter(a)}>
+                {a === "all" ? "All areas" : a}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="hi-bars">
+          {filtered.map(c => {
+            const t = window.THREAT[c.threat];
+            const pct = maxCount > 0 ? (c.postingCount / maxCount) * 100 : 0;
+            return (
+              <div key={c.id} className="hi-bar-row" onClick={() => onOpen(c.id)}>
+                <div className="hi-bar-name">
+                  <span className="hi-bar-dot" style={{ background: t.dot }} />
+                  {c.name}
+                </div>
+                <div className="hi-bar-track">
+                  <div className="hi-bar-fill" style={{ width: pct + "%", background: t.rail }} />
+                </div>
+                <div className="hi-bar-meta">
+                  <span className="hi-bar-val">{c.postingCount}</span>
+                  <span className="hi-bar-fn">{c.dominantFunction}</span>
+                  <window.ThreatBadge level={c.threat} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Section 2 — What they're building (implications feed) */}
+      <div className="hi-section">
+        <div className="hi-sec-head">
+          <div className="hi-sec-head-l">
+            <h2 className="list-h">What they're building</h2>
+            <span className="list-count">{implFeed.length} signals</span>
+          </div>
+          <span style={{ fontSize:"12px", color:"var(--ink-mute)" }}>
+            {lens === "Product" ? "Engineering & product signals · click to open brief" :
+             lens === "SDRs" ? "Account intel from hiring patterns · click for full brief" :
+             lens === "Executives" ? "Critical threats only · click for full brief" :
+             lens === "PMM" ? "Positioning signals decoded from hiring · click for full brief" :
+             "Decoded from hiring patterns · click to open brief"}
+          </span>
+        </div>
+        <div className="hi-feed">
+          {implFeed.map((item, i) => {
+            const t = window.THREAT[item.threat];
+            return (
+              <div key={i} className="hi-feed-item" onClick={() => onOpen(item.id)}>
+                <div className="hi-feed-co">
+                  <span className="hi-feed-dot" style={{ background: t.dot }} />
+                  <span className="hi-feed-name">{item.company}</span>
+                  <window.AreaBadge>{item.area}</window.AreaBadge>
+                </div>
+                <p className="hi-feed-text">{item.text}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Section 3 — Function trends */}
+      {window.FUNCTION_TRENDS && (
+        <div className="hi-section">
+          <div className="hi-sec-head">
+            <div className="hi-sec-head-l">
+              <h2 className="list-h">Hiring by function</h2>
+              <span className="list-count">across {filtered.length} companies</span>
+            </div>
+            <span style={{ fontSize:"12px", color:"var(--ink-mute)" }}>5 key functions · 30-day window</span>
+          </div>
+          <div className="hi-bars">
+            {Object.entries(window.FUNCTION_TRENDS).map(([func, data]) => {
+              const maxTotal = Math.max(...Object.values(window.FUNCTION_TRENDS).map(d => d.total), 1);
+              const pct = (data.total / maxTotal) * 100;
+              const topCo = data.companies[0]?.name || "\u2014";
+              return (
+                <div key={func} className="hi-bar-row" style={{ cursor: "default" }}>
+                  <div className="hi-bar-name" style={{ minWidth: 180 }}>
+                    <span className="hi-bar-co">{func}</span>
+                  </div>
+                  <div className="hi-bar-track">
+                    <div className="hi-bar-fill" style={{ width: pct + "%", background: "var(--blue-500)" }} />
+                  </div>
+                  <div className="hi-bar-meta">
+                    <span className="hi-bar-val">{data.total}</span>
+                    <span className="hi-bar-fn">led by {topCo}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// --- Notifications drawer -----------------------------------------------
+function NotifDrawer({ open, onClose }) {
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e) { if (e.key === "Escape") onClose(); }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  // Computed inline — LAUNCHES/EVENTS are global constants, no memoization needed
+  const items = [
+    ...(window.LAUNCHES || []).map(l => ({ ...l, kind: "launch" })),
+    ...(window.EVENTS || []).map(e => ({ ...e, kind: "event", title: e.name })),
+  ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 12);
+
+  const kindLabel = { launch: "Launch", event: "Event" };
+
+  return (
+    <div className="drw-wrap drw-wrap-right" onClick={onClose}>
+      <aside className="notif-drw" onClick={e => e.stopPropagation()}>
+        <header className="drw-head">
+          <div>
+            <div className="drw-eyebrow">Signal feed · latest activity</div>
+            <h2 className="drw-title">Notifications</h2>
+          </div>
+          <button className="drw-close" onClick={onClose} aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 3 L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+          </button>
+        </header>
+        <div className="notif-body">
+          {items.length === 0 && (
+            <div className="notif-empty">No recent signals.</div>
+          )}
+          {items.map((item, i) => {
+            const rel = item.relevance || "MEDIUM";
+            const relColors = window.THREAT;
+            const dot = rel === "HIGH" ? relColors.CRITICAL.dot : rel === "MEDIUM" ? relColors.MEDIUM.dot : relColors.LOW.dot;
+            return (
+              <div key={i} className="notif-item">
+                <div className="notif-item-head">
+                  <span className="notif-dot" style={{ background: dot }} />
+                  <span className="notif-company">{item.company}</span>
+                  <span className="notif-kind">{kindLabel[item.kind] || item.kind}</span>
+                  <span className="notif-rel" style={{ color: dot }}>{rel}</span>
+                </div>
+                <div className="notif-title">{item.title}</div>
+                <div className="notif-date">{item.date}</div>
+                {item.summary && <p className="notif-summary">{item.summary}</p>}
+              </div>
+            );
+          })}
+        </div>
+        <footer className="notif-foot">
+          <span>{items.length} signals · updated continuously</span>
+        </footer>
+      </aside>
+    </div>
+  );
+}
+
+Object.assign(window, { LaunchesPage, CompaniesPage, HiringPage, NotifDrawer, RelevanceBadge });
+  </script>
+
+  <!-- App (routes + DashboardPage) -->
+  <script type="text/babel">
+// Main app — routes between Hiring / Dashboard / Launches / Companies pages
+const { useState: useStateApp, useMemo: useMemoApp, useEffect: useEffectApp } = React;
+
+function App() {
+  const [lens, setLens] = useStateApp(() => localStorage.getItem("ci-lens") || "All");
+  const [page, setPage] = useStateApp(() => localStorage.getItem("ci-page") || "hiring");
+  const [q, setQ] = useStateApp("");
+  const [openId, setOpenId] = useStateApp(null);
+  const [chatOpen, setChatOpen] = useStateApp(false);
+  const [notifOpen, setNotifOpen] = useStateApp(false);
+  const [collapsed, setCollapsed] = useStateApp(false);
+
+  useEffectApp(() => { localStorage.setItem("ci-lens", lens); }, [lens]);
+  useEffectApp(() => { localStorage.setItem("ci-page", page); }, [page]);
+
+  const kpi = useMemoApp(() => ({
+    critical: window.COMPETITORS.filter(c => c.threat === "CRITICAL").length,
+    launches: window.LAUNCHES.length,
+    events: window.EVENTS.length,
+    actions: 12,
+  }), []);
+
+  const ordered = useMemoApp(() => {
+    const order = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
+    const hit = (c) => {
+      if (!q.trim()) return true;
+      const needle = q.toLowerCase();
+      return (
+        c.name.toLowerCase().includes(needle) ||
+        c.area.toLowerCase().includes(needle) ||
+        c.signals.some(s => s.label.toLowerCase().includes(needle)) ||
+        (c.verdict.All || "").toLowerCase().includes(needle)
+      );
+    };
+    return [...window.COMPETITORS]
+      .filter(hit)
+      .sort((a, b) => order[a.threat] - order[b.threat] || b.score - a.score);
+  }, [q]);
+
+  const openComp = openId ? window.COMPETITORS.find(c => c.id === openId) : null;
+
+  return (
+    <div className="app">
+      <window.Sidebar
+        lens={lens} onLens={setLens}
+        collapsed={collapsed} onToggle={() => setCollapsed(v => !v)}
+        page={page} onPage={setPage}
+      />
+
+      <main className="main">
+        <window.TopBar q={q} onSearch={setQ} onChat={() => setChatOpen(true)} onNotif={() => setNotifOpen(true)} lens={lens} page={page} onPage={setPage} />
+
+        {page === "hiring" && (
+          <window.HiringPage onOpen={setOpenId} lens={lens} />
+        )}
+        {page === "dashboard" && (
+          <DashboardPage lens={lens} ordered={ordered} kpi={kpi} onOpen={setOpenId} />
+        )}
+        {page === "launches" && (
+          <window.LaunchesPage lens={lens} onOpenCompany={setOpenId} />
+        )}
+        {page === "companies" && (
+          <window.CompaniesPage lens={lens} onOpenCompany={setOpenId} />
+        )}
+
+        <footer className="app-foot">
+          <span>Actian CI · internal · data updated continuously</span>
+          <span>v3.0.0 · 11 competitors · {window.LAUNCHES.length} launches · {window.EVENTS.length} events</span>
+        </footer>
+      </main>
+
+      {openComp && <window.BriefDrawer comp={openComp} lens={lens} onClose={() => setOpenId(null)} />}
+      <window.ChatDrawer open={chatOpen} onClose={() => setChatOpen(false)} lens={lens} />
+      <window.NotifDrawer open={notifOpen} onClose={() => setNotifOpen(false)} />
+    </div>
+  );
+}
+
+function DashboardPage({ lens, ordered, kpi, onOpen }) {
+  const { useState: useStateDash, useMemo: useMemoDash } = React;
+  const [view, setView] = useStateDash("grid");
+  const [sortBy, setSortBy] = useStateDash("threat");
+  const [areaFilter, setAreaFilter] = useStateDash("all");
+  const [filterOpen, setFilterOpen] = useStateDash(false);
+
+  const SORT_OPTS = ["threat", "score", "name", "postings"];
+  const SORT_LABELS = { threat: "Threat", score: "Score", name: "A\u2013Z", postings: "Postings" };
+
+  const areas = useMemoDash(() => ["all", ...Object.keys(window.AREA)], []);
+
+  const sorted = useMemoDash(() => {
+    let list = areaFilter === "all" ? [...ordered] : ordered.filter(c => c.area === areaFilter);
+    const THREAT_ORDER = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
+    if (sortBy === "threat") list.sort((a, b) => THREAT_ORDER[a.threat] - THREAT_ORDER[b.threat] || b.score - a.score);
+    else if (sortBy === "score") list.sort((a, b) => b.score - a.score);
+    else if (sortBy === "name") list.sort((a, b) => a.name.localeCompare(b.name));
+    else if (sortBy === "postings") list.sort((a, b) => b.postingCount - a.postingCount);
+    return list;
+  }, [ordered, sortBy, areaFilter]);
+
+  return (
+    <div data-screen-label="01 Verdict dashboard">
+      <div className="hero">
+        <div className="hero-title-row">
+          <div>
+            <div className="hero-eyebrow">{todayString()} · Week 16</div>
+            <h1 className="hero-title">Competitive verdicts</h1>
+            <p className="hero-sub">
+              {sorted.length} companies · sorted by {SORT_LABELS[sortBy].toLowerCase()}. Team lens reweights signals and Actian action per card.
+            </p>
+          </div>
+          <div className="hero-legend">
+            {["CRITICAL","HIGH","MEDIUM","LOW"].map(l => (
+              <span key={l} className="legend-item">
+                <span className="legend-dot" style={{ background: window.THREAT[l].dot }} />
+                <span className="legend-label">{l}</span>
+                <span className="legend-count">{window.COMPETITORS.filter(c => c.threat === l).length}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <window.KpiRow data={kpi} />
+      </div>
+
+      <div className="list-head">
+        <div className="list-head-l">
+          <h2 className="list-h">Verdict cards</h2>
+          <span className="list-count">{sorted.length}</span>
+        </div>
+        <div className="list-head-r">
+          <div className="seg">
+            <button className={view === "grid" ? "seg-on" : ""} onClick={() => setView("grid")}>Grid</button>
+            <button className={view === "table" ? "seg-on" : ""} onClick={() => setView("table")}>Table</button>
+          </div>
+          <button className="list-btn" onClick={() => setSortBy(s => { const i = SORT_OPTS.indexOf(s); return SORT_OPTS[(i+1) % SORT_OPTS.length]; })}>
+            <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 3 H10 M3 6 H9 M4 9 H8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
+            Sort: {SORT_LABELS[sortBy]}
+          </button>
+          <button className={"list-btn" + (filterOpen ? " list-btn-active" : "")} onClick={() => setFilterOpen(v => !v)}>
+            <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 3 H10 M2 6 H10 M2 9 H6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
+            Filter{areaFilter !== "all" ? ` \u00b7 ${areaFilter}` : ""}
+          </button>
+        </div>
+      </div>
+
+      {filterOpen && (
+        <div className="dash-filter-bar">
+          {areas.map(a => (
+            <button key={a} className={"hi-pill" + (areaFilter === a ? " active" : "")} onClick={() => setAreaFilter(a)}>
+              {a === "all" ? "All areas" : a}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {view === "grid" && (
+        <section className={"grid" + (lens !== "All" ? " lens-active" : "")}>
+          {sorted.map(c => (
+            <window.VerdictCard key={c.id} c={c} lens={lens} onOpen={onOpen} />
+          ))}
+        </section>
+      )}
+
+      {view === "table" && (
+        <div className="ctable">
+          <div className="ctable-head">
+            <div>Company</div>
+            <div>Area</div>
+            <div>Threat</div>
+            <div>Score</div>
+            <div>Postings</div>
+            <div>{lens === "All" ? "Verdict" : lens + " action"}</div>
+            <div></div>
+          </div>
+          {sorted.map(c => (
+            <div key={c.id} className="ctable-row" onClick={() => onOpen(c.id)}>
+              <div className="ctable-name">
+                <span className={"ctable-dot t-" + c.threat.toLowerCase()} />
+                <span className="ctable-name-text">{c.name}</span>
+              </div>
+              <div><window.AreaBadge>{c.area}</window.AreaBadge></div>
+              <div><window.ThreatBadge level={c.threat} /></div>
+              <div className="ctable-score">
+                <span className="ctable-score-v">{c.score}</span>
+              </div>
+              <div className="ctable-num">{c.postingCount}</div>
+              <div className="ctable-dir">{(c.verdict[lens] || c.verdict.All || "").slice(0, 80)}{(c.verdict[lens] || c.verdict.All || "").length > 80 ? "\u2026" : ""}</div>
+              <div className="ctable-arrow" aria-hidden>&#x2197;</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function todayString() {
+  const d = new Date();
+  return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
