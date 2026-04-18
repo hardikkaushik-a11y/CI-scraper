@@ -1073,10 +1073,24 @@ a { color: inherit; cursor: pointer; }
 }
 .drw-roadmap-meta {
   display: flex;
-  gap: 18px;
+  gap: 24px;
   margin-bottom: 10px;
-  font-size: 12.5px;
-  color: var(--ink-soft);
+  flex-wrap: wrap;
+}
+.drw-roadmap-meta > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 80px;
+}
+.drw-roadmap-meta .drw-roadmap-k {
+  display: block;
+  margin-right: 0;
+}
+.drw-roadmap-meta .drw-roadmap-val {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
 }
 .drw-roadmap-k {
   font-size: 10.5px;
@@ -3349,29 +3363,31 @@ function BriefDrawer({ comp, lens, onClose }) {
             <h4 className="drw-h">Strategic direction</h4>
             <div className="drw-roadmap-title">{comp.roadmap.direction}</div>
             <div className="drw-roadmap-meta">
-              <span><span className="drw-roadmap-k">Confidence</span> {comp.roadmap.confidence}</span>
-              <span><span className="drw-roadmap-k">Timeline</span> {comp.roadmap.timeline}</span>
+              <span><span className="drw-roadmap-k">Confidence</span><span className="drw-roadmap-val">{comp.roadmap.confidence}</span></span>
+              <span><span className="drw-roadmap-k">Timeline</span><span className="drw-roadmap-val">{comp.roadmap.timeline}</span></span>
             </div>
             <p className="drw-p drw-roadmap-watch"><span className="drw-roadmap-k">Watch for</span> {comp.roadmap.watchFor}</p>
           </section>
         )}
 
-        <section className="drw-sec drw-stats">
-          <div className="drw-stat">
-            <div className="drw-stat-k">Hiring postings (30d)</div>
-            <div className="drw-stat-v">{comp.postingCount ?? "—"}</div>
-          </div>
-          <div className="drw-stat">
-            <div className="drw-stat-k">Dominant function</div>
-            <div className="drw-stat-v">{comp.dominantFunction ?? "—"}</div>
-          </div>
-          <div className="drw-stat">
-            <div className="drw-stat-k">Dominant focus</div>
-            <div className="drw-stat-v">{comp.dominantFocus ?? "—"}</div>
-          </div>
-          <div className="drw-stat">
-            <div className="drw-stat-k">Intensity</div>
-            <div className="drw-stat-v">{comp.intensity ?? "—"}</div>
+        <section className="drw-sec">
+          <div className="drw-stats">
+            <div className="drw-stat">
+              <div className="drw-stat-k">Hiring postings (30d)</div>
+              <div className="drw-stat-v">{comp.postingCount ?? "—"}</div>
+            </div>
+            <div className="drw-stat">
+              <div className="drw-stat-k">Dominant function</div>
+              <div className="drw-stat-v">{comp.dominantFunction ?? "—"}</div>
+            </div>
+            <div className="drw-stat">
+              <div className="drw-stat-k">Dominant focus</div>
+              <div className="drw-stat-v">{comp.dominantFocus ?? "—"}</div>
+            </div>
+            <div className="drw-stat">
+              <div className="drw-stat-k">Intensity</div>
+              <div className="drw-stat-v">{comp.intensity ?? "—"}</div>
+            </div>
           </div>
         </section>
 
