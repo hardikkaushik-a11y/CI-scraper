@@ -859,6 +859,51 @@ a { color: inherit; cursor: pointer; }
 .tl-event { border-left: 3px solid var(--blue-500); padding-left: 15px; }
 .tl-launch {}
 
+/* Show full year / past divider */
+.tl-expand-row {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+.tl-expand-btn {
+  background: var(--bg-sunk);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 22px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.tl-expand-btn:hover {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--ink);
+}
+.tl-past-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0 4px;
+}
+.tl-past-divider::before,
+.tl-past-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.tl-past-divider-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+
 .tl-card-l {
   display: flex;
   flex-direction: column;
@@ -2736,34 +2781,764 @@ window.LAUNCHES = [
     summary: "Snowflake Partner Network Programs with product, solutions and cloud partners Partner Finder Partners, apps and solutions for enhanced deployment Event Partnership Opportunities Live and virtual event...",
     relevance: "LOW",
     tags: []
+  },
+  {
+    id: "l13",
+    company: "Snowflake",
+    area: "AI Analyst",
+    type: "event",
+    title: "Event Partnership Opportunities Live and virtual events",
+    date: "Apr 18, 2026",
+    summary: "Snowflake Partner Network Programs with product, solutions and cloud partners Partner Finder Partners, apps and solutions for enhanced deployment Event Partnership Opportunities Live and virtual event...",
+    relevance: "LOW",
+    tags: []
+  },
+  {
+    id: "l14",
+    company: "Snowflake",
+    area: "AI Analyst",
+    type: "event",
+    title: "Resource Library Ebooks, videos, white papers and more",
+    date: "Apr 18, 2026",
+    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
+    relevance: "MEDIUM",
+    tags: [
+      "API"
+    ]
+  },
+  {
+    id: "l15",
+    company: "Snowflake",
+    area: "AI Analyst",
+    type: "event",
+    title: "Training Overview of Snowflake's educational offerings",
+    date: "Apr 18, 2026",
+    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
+    relevance: "MEDIUM",
+    tags: [
+      "API"
+    ]
+  },
+  {
+    id: "l16",
+    company: "Snowflake",
+    area: "AI Analyst",
+    type: "event",
+    title: "Webinars Expert-led discussions and demos across industries and use cases",
+    date: "Apr 18, 2026",
+    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
+    relevance: "MEDIUM",
+    tags: [
+      "API"
+    ]
+  },
+  {
+    id: "l17",
+    company: "Snowflake",
+    area: "AI Analyst",
+    type: "event",
+    title: "Certifications Snowflake's technical industry professional certifications",
+    date: "Apr 18, 2026",
+    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
+    relevance: "MEDIUM",
+    tags: [
+      "API"
+    ]
+  },
+  {
+    id: "l18",
+    company: "Snowflake",
+    area: "AI Analyst",
+    type: "event",
+    title: "Live Demos Weekly product demos showcasing key features and live Q&A",
+    date: "Apr 18, 2026",
+    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
+    relevance: "MEDIUM",
+    tags: [
+      "API"
+    ]
+  },
+  {
+    id: "l19",
+    company: "Snowflake",
+    area: "AI Analyst",
+    type: "event",
+    title: "Hands-On Labs Instructor-led virtual workshops for exploring key Snowflake features",
+    date: "Apr 18, 2026",
+    summary: "Hands-On Labs Instructor-led virtual workshops for exploring key Snowflake features",
+    relevance: "LOW",
+    tags: []
+  },
+  {
+    id: "l20",
+    company: "Snowflake",
+    area: "AI Analyst",
+    type: "event",
+    title: "Snowflake Research Publications Academic papers written by Snowflake researchers",
+    date: "Apr 18, 2026",
+    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
+    relevance: "MEDIUM",
+    tags: [
+      "API"
+    ]
+  },
+  {
+    id: "l21",
+    company: "Snowflake",
+    area: "AI Analyst",
+    type: "event",
+    title: "Fundamentals Informative articles about AI and data topics",
+    date: "Apr 18, 2026",
+    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI",
+      "API"
+    ]
+  },
+  {
+    id: "l22",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "event",
+    title: "Data + AI Summit",
+    date: "Apr 18, 2026",
+    summary: "Events Data + AI Summit Data + AI World Tour AI Days Event Calendar",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l23",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "event",
+    title: "Data + AI World Tour",
+    date: "Apr 18, 2026",
+    summary: "Events Data + AI Summit Data + AI World Tour AI Days Event Calendar",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l24",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "event",
+    title: "Event Calendar",
+    date: "Apr 18, 2026",
+    summary: "Events Data + AI Summit Data + AI World Tour AI Days Event Calendar",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l25",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "event",
+    title: "JUNE 15–18 | SAN FRANCISCO Last chance to save 50% — ends April 30. Register",
+    date: "Apr 18, 2026",
+    summary: "DATA + AI SUMMIT JUNE 15–18 | SAN FRANCISCO Last chance to save 50% — ends April 30. Register",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l26",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "event",
+    title: "Documentation",
+    date: "Apr 18, 2026",
+    summary: "Resources Documentation Customer Support Community Learning Training Certification Free Edition University Alliance Databricks Academy Login Events Data + AI Summit Data + AI World Tour AI Days Event...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l27",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "event",
+    title: "Customer Support",
+    date: "Apr 18, 2026",
+    summary: "Resources Documentation Customer Support Community Learning Training Certification Free Edition University Alliance Databricks Academy Login Events Data + AI Summit Data + AI World Tour AI Days Event...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l28",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Analyst Reports",
+    date: "Apr 18, 2026",
+    summary: "Blog Guides Research Analyst Reports Webinars Trainings Podcasts Events Trust Center Startup Program Definitive Guide to Choosing a Vector Database",
+    relevance: "HIGH",
+    tags: [
+      "vector"
+    ]
+  },
+  {
+    id: "l29",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Trust Center",
+    date: "Apr 18, 2026",
+    summary: "Blog Guides Research Analyst Reports Webinars Trainings Podcasts Events Trust Center Startup Program Definitive Guide to Choosing a Vector Database",
+    relevance: "HIGH",
+    tags: [
+      "vector"
+    ]
+  },
+  {
+    id: "l30",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Startup Program",
+    date: "Apr 18, 2026",
+    summary: "Blog Guides Research Analyst Reports Webinars Trainings Podcasts Events Trust Center Startup Program Definitive Guide to Choosing a Vector Database",
+    relevance: "HIGH",
+    tags: [
+      "vector"
+    ]
+  },
+  {
+    id: "l31",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Definitive Guide to Choosing a Vector Database",
+    date: "Apr 18, 2026",
+    summary: "Blog Guides Research Analyst Reports Webinars Trainings Podcasts Events Trust Center Startup Program Definitive Guide to Choosing a Vector Database",
+    relevance: "HIGH",
+    tags: [
+      "vector"
+    ]
+  },
+  {
+    id: "l32",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Virtual Event",
+    date: "Apr 18, 2026",
+    summary: "Join the Milvus Discord Community Find help, discover solutions, share ideas, and follow discussions. Get notified of upcoming Zilliz events! Join the Milvus Discord Server! Past Events All Meet Up Li...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l33",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "In-Person Event",
+    date: "Apr 18, 2026",
+    summary: "Join the Milvus Discord Community Find help, discover solutions, share ideas, and follow discussions. Get notified of upcoming Zilliz events! Join the Milvus Discord Server! Past Events All Meet Up Li...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l34",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Hybrid Event",
+    date: "Apr 18, 2026",
+    summary: "Join the Milvus Discord Community Find help, discover solutions, share ideas, and follow discussions. Get notified of upcoming Zilliz events! Join the Milvus Discord Server! Past Events All Meet Up Li...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l35",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay",
+    date: "Apr 18, 2026",
+    summary: "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l36",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting",
+    date: "Apr 18, 2026",
+    summary: "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l37",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "In-Person Event NVIDIA GTC 2026 Request Meeting",
+    date: "Apr 18, 2026",
+    summary: "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l38",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Meet Up Scoop AI Hackathon: Tokyo Bowl Request Meeting",
+    date: "Apr 18, 2026",
+    summary: "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l39",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Meet Up December Unstructured Data Meetup Tokyo Save Your Spot",
+    date: "Apr 18, 2026",
+    summary: "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l40",
+    company: "Collibra",
+    area: "Data Intelligence",
+    type: "event",
+    title: "On-demand webinar Ask Me Anything | Why SAP and Collibra are Better Together",
+    date: "Apr 18, 2026",
+    summary: "On-demand webinar Ask Me Anything | Why SAP and Collibra are Better Together On-demand webinar Watch on demand: Data Citizens ® on the Road '25 On-demand webinar Demystifying BCBS 239: Real-world insi...",
+    relevance: "MEDIUM",
+    tags: []
+  },
+  {
+    id: "l41",
+    company: "Collibra",
+    area: "Data Intelligence",
+    type: "event",
+    title: "On-demand webinar Watch on demand: Data Citizens ® on the Road '25",
+    date: "Apr 18, 2026",
+    summary: "On-demand webinar Ask Me Anything | Why SAP and Collibra are Better Together On-demand webinar Watch on demand: Data Citizens ® on the Road '25 On-demand webinar Demystifying BCBS 239: Real-world insi...",
+    relevance: "MEDIUM",
+    tags: []
+  },
+  {
+    id: "l42",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "Webinar Milvus 2.6 Deep Dive: Faster Search, Lower Cost, Smarter Scaling Watch Replay",
+    date: "Apr 18, 2026",
+    summary: "Webinar Milvus 2.6 Deep Dive: Faster Search, Lower Cost, Smarter Scaling Watch Replay",
+    relevance: "LOW",
+    tags: [
+      "pricing"
+    ]
+  },
+  {
+    id: "l43",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "In-Person Event QCon NY 2025 Request Meeting",
+    date: "Apr 18, 2026",
+    summary: "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l44",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "event",
+    title: "In-Person Event QCon SF 2025 Request Meeting",
+    date: "Apr 18, 2026",
+    summary: "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l45",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "event",
+    title: "AI Guardians: What the Data Reveals About Enterprise AI in 2026",
+    date: "Apr 18, 2026",
+    summary: "Webinar - AI Guardians: What the Data Reveals About Enterprise AI in 2026 Learn more",
+    relevance: "MEDIUM",
+    tags: [
+      "enterprise",
+      "AI"
+    ]
+  },
+  {
+    id: "l46",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "event",
+    title: "Data + AI Leaders Dinner in London",
+    date: "Apr 18, 2026",
+    summary: "Event - Data + AI Leaders Dinner in London Join Bigeye and Atlan for a private evening of roundtable discussion and exceptional dining in London. Learn more",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l47",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "event",
+    title: "AI Readiness Audit: Is Your Enterprise Data Helping or Hurting Your AI? | Webinar | With Apptad",
+    date: "Apr 18, 2026",
+    summary: "Webinar - AI Readiness Audit: Is Your Enterprise Data Helping or Hurting Your AI? | Webinar | With Apptad Is your data setting you up to scale... or stumble? Learn more",
+    relevance: "MEDIUM",
+    tags: [
+      "enterprise",
+      "AI"
+    ]
+  },
+  {
+    id: "l48",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "event",
+    title: "Data & AI Leaders Dinner",
+    date: "Apr 18, 2026",
+    summary: "Event - Data & AI Leaders Dinner Join us for an exclusive evening of networking, roundtable discussion and fine dining at The Fly Trap. Learn more",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l49",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "event",
+    title: "Data & AI Executive Dinner",
+    date: "Apr 18, 2026",
+    summary: "Event - Data & AI Executive Dinner Join us for an exclusive evening of modern dining, hand-crafted drinks, and even better connections at Zero Sette. Learn more",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l50",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "event",
+    title: "The AI Data Readiness Tour",
+    date: "Apr 18, 2026",
+    summary: "Event - The AI Data Readiness Tour Join us in NYC for the kick-off to our data and AI readiness roadshow. Hear from industry leaders at the forefront of AI-ready data. Learn more",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l51",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "event",
+    title: "Data Governance & Information Quality Conference (DGIQ)",
+    date: "Apr 18, 2026",
+    summary: "Event - Data Governance & Information Quality Conference (DGIQ) Stop by booth #18 to see how Bigeye empowers data teams to quickly monitor, identify and resolve incidents across the entire enterprise...",
+    relevance: "HIGH",
+    tags: [
+      "enterprise"
+    ]
+  },
+  {
+    id: "l52",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "event",
+    title: "Snowflake & Databricks: Conference Recap and What We Learned",
+    date: "Apr 18, 2026",
+    summary: "Webinar - Snowflake & Databricks: Conference Recap and What We Learned Watch the webinar replay where we recap the latest insights and trends from the Snowflake & Databricks conference. Learn more",
+    relevance: "MEDIUM",
+    tags: []
+  },
+  {
+    id: "l53",
+    company: "Atlan",
+    area: "Data Intelligence",
+    type: "event",
+    title: "Atlan + GCP : The AI Context Layer for Your GCP Stack",
+    date: "Apr 18, 2026",
+    summary: "Atlan in Action Virtual Atlan + GCP : The AI Context Layer for Your GCP Stack Concluded Dataplex gives you strong native governance across your GCP estate. Atlan adds the context layer that makes it A...",
+    relevance: "HIGH",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l54",
+    company: "Atlan",
+    area: "Data Intelligence",
+    type: "event",
+    title: "Building Production-Ready AI Analyst",
+    date: "Apr 18, 2026",
+    summary: "Product Demo Virtual Building Production-Ready AI Analyst Concluded In this live session, Atlan and Snowflake show you how to bootstrap enterprise context from your existing data estate, standardize i...",
+    relevance: "MEDIUM",
+    tags: [
+      "enterprise",
+      "AI"
+    ]
+  },
+  {
+    id: "l55",
+    company: "Atlan",
+    area: "Data Intelligence",
+    type: "event",
+    title: "Atlan in Action: Automated Lineage for Trust & Visibility",
+    date: "Apr 18, 2026",
+    summary: "Product Demo Virtual Atlan in Action: Automated Lineage for Trust & Visibility Concluded This session shows how Atlan’s automated, column-level lineage stitches your data, pipelines, BI, and AI togeth...",
+    relevance: "HIGH",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l56",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "product_launch",
+    title: "Introducing Genie Agent Mode",
+    date: "Apr 17, 2026",
+    summary: "We are excited to introduce Agent mode in Genie spaces. Our team has developed a...",
+    relevance: "MEDIUM",
+    tags: []
+  },
+  {
+    id: "l57",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "product_launch",
+    title: "Governing Coding Agent Sprawl with Unity AI Gateway",
+    date: "Apr 17, 2026",
+    summary: "Software development has entered a new era. The best engineering teams are now shifting...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l58",
+    company: "Pinecone",
+    area: "VectorAI",
+    type: "product_launch",
+    title: "🚀 Dedicated Read Nodes are now GA. Fixed hourly pricing and dedicated capacity for production workloads at scale — up to 97% lower costs. - Learn more",
+    date: "Apr 15, 2026",
+    summary: "🚀 Dedicated Read Nodes are now GA. Fixed hourly pricing and dedicated capacity for production workloads at scale — up to 97% lower costs. - Learn more",
+    relevance: "LOW",
+    tags: [
+      "GA",
+      "pricing"
+    ]
+  },
+  {
+    id: "l59",
+    company: "Pinecone",
+    area: "VectorAI",
+    type: "product_launch",
+    title: "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson",
+    date: "Apr 15, 2026",
+    summary: "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson",
+    relevance: "HIGH",
+    tags: [
+      "GA"
+    ]
+  },
+  {
+    id: "l60",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "event",
+    title: "Day Three Dispatch: Gartner Data & Analytics Summit 2026 The theme of Day Three? Adaptability. Adrian Vidal This is some text inside of a div block.",
+    date: "Apr 15, 2026",
+    summary: "Day Three Dispatch: Gartner Data & Analytics Summit 2026 The theme of Day Three? Adaptability. Adrian Vidal This is some text inside of a div block.",
+    relevance: "HIGH",
+    tags: []
+  },
+  {
+    id: "l61",
+    company: "Pinecone",
+    area: "VectorAI",
+    type: "product_launch",
+    title: "Featured Pinecone BYOC: Pinecone in your AWS, GCP, or Azure account, no vendor access Gavin Johnson",
+    date: "Apr 15, 2026",
+    summary: "Featured Pinecone BYOC: Pinecone in your AWS, GCP, or Azure account, no vendor access Gavin Johnson",
+    relevance: "MEDIUM",
+    tags: []
+  },
+  {
+    id: "l62",
+    company: "Pinecone",
+    area: "VectorAI",
+    type: "product_launch",
+    title: "2026 Garbage Day: How Pinecone Safely Deletes Billions of Objects at Scale Lea , Benny , Hirad",
+    date: "Apr 15, 2026",
+    summary: "2026 Garbage Day: How Pinecone Safely Deletes Billions of Objects at Scale Lea , Benny , Hirad",
+    relevance: "MEDIUM",
+    tags: []
+  },
+  {
+    id: "l63",
+    company: "Pinecone",
+    area: "VectorAI",
+    type: "product_launch",
+    title: "Customers Millions at Stake: How Melange's High-Recall Retrieval Prevents Litigation Collapse Mike Sefanov",
+    date: "Apr 15, 2026",
+    summary: "Customers Millions at Stake: How Melange's High-Recall Retrieval Prevents Litigation Collapse Mike Sefanov",
+    relevance: "MEDIUM",
+    tags: []
+  },
+  {
+    id: "l64",
+    company: "Milvus",
+    area: "VectorAI",
+    type: "open_source_release",
+    title: "We Extracted OpenClaw’s Memory System and Open-Sourced It (memsearch)",
+    date: "Apr 15, 2026",
+    summary: "We Extracted OpenClaw’s Memory System and Open-Sourced It (memsearch)",
+    relevance: "LOW",
+    tags: []
+  },
+  {
+    id: "l65",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "product_launch",
+    title: "Expanding Agent Governance with Unity AI Gateway",
+    date: "Apr 15, 2026",
+    summary: "Today, we are announcing major enhancements to AI Gateway. As part of this release,...",
+    relevance: "HIGH",
+    tags: [
+      "AI"
+    ]
+  },
+  {
+    id: "l66",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "product_launch",
+    title: "Introducing the Databricks Connector for Google Sheets: Real-Time, Governed Lakehouse Data in the Sheets Users Love",
+    date: "Apr 15, 2026",
+    summary: "Organizations run on spreadsheets. Every day, business users plan, analyze, and report...",
+    relevance: "MEDIUM",
+    tags: []
+  },
+  {
+    id: "l67",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "blog_post",
+    title: "Agentic Reasoning in Practice: Making Sense of Structured and Unstructured Data",
+    date: "Apr 14, 2026",
+    summary: "Enterprise data is rarely useful in a silo. Answering questions like, \"Which of our...",
+    relevance: "HIGH",
+    tags: [
+      "enterprise"
+    ]
+  },
+  {
+    id: "l68",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "blog_post",
+    title: "Agent Bricks: The Governed Enterprise Agent Platform",
+    date: "Apr 14, 2026",
+    summary: "The basic agent pattern is familiar by now: a model connected to tools, reasoning,...",
+    relevance: "MEDIUM",
+    tags: [
+      "enterprise"
+    ]
+  },
+  {
+    id: "l69",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "blog_post",
+    title: "8 AI and data trends shaping financial services in 2026",
+    date: "Apr 14, 2026",
+    summary: "For most of the past decade, AI has been sold as the next frontier in financial services.That...",
+    relevance: "MEDIUM",
+    tags: [
+      "AI",
+      "API"
+    ]
+  },
+  {
+    id: "l70",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "blog_post",
+    title: "Building Real-Time Product Search on Databricks",
+    date: "Apr 14, 2026",
+    summary: "Imagine you're designing a search system for an online marketplace selling cars....",
+    relevance: "MEDIUM",
+    tags: []
+  },
+  {
+    id: "l71",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "product_launch",
+    title: "Lovable + Databricks: Build Data-Driven Apps at the Speed of Thought",
+    date: "Apr 13, 2026",
+    summary: "Bridging the gap between Databricks and your business teamsDatabricks gives your organization a powerful...",
+    relevance: "MEDIUM",
+    tags: []
   }
 ];
 
 window.EVENTS = [
   {
-    id: "e33",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Big Data London 2026",
-    date: "Sep 23, 2026",
-    relevance: "MEDIUM",
-    why: "London, UK Big Data London 2026 September 23-24, 2026 Learn More Learn More",
-    url: "https://www.acceldata.io/events/big-data-london-2026",
-    teams: [
-      "PMM",
-      "Marketing"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e32",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Gartner Data and Analytics | Mumbai",
-    date: "Sep 21, 2026",
+    id: "e9",
+    company: "Alation",
+    area: "Data Intelligence",
+    name: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT",
+    date: "Apr 21, 2026",
     relevance: "HIGH",
-    why: "Mumbai, India Gartner Data and Analytics | Mumbai September 21-22, 2026 Learn More Learn More",
-    url: "https://www.acceldata.io/events/gartner-data-and-analytics-mumbai",
+    why: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
+    url: "https://www.alation.com/resource-center/webinars/Why-Governance-Programs-Stall-What-AI-Agents-Change/",
     teams: [
       "PMM",
       "Marketing",
@@ -2772,14 +3547,549 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e36",
+    id: "e10",
+    company: "Alation",
+    area: "Data Intelligence",
+    name: "EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM CT",
+    date: "Apr 22, 2026",
+    relevance: "HIGH",
+    why: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
+    url: "https://lp.cdomagazine.tech/2026-apr-rt-chi",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e16",
+    company: "Bigeye",
+    area: "Data Observability",
+    name: "Data & AI Leaders Dinner at Data Decoded",
+    date: "Apr 22, 2026",
+    relevance: "MEDIUM",
+    why: "Event - Data & AI Leaders Dinner at Data Decoded Join Bigeye for a private evening of exceptional dining and roundtable discussion, hosted at Faber. Learn more",
+    url: "https://www.bigeye.com/events/data-ai-leaders-dinner-data-decoded",
+    teams: [
+      "PMM",
+      "Marketing"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e38",
+    company: "Atlan",
+    area: "Data Intelligence",
+    name: "Meet Atlan at Google Cloud Next 2026",
+    date: "Apr 22, 2026",
+    relevance: "MEDIUM",
+    why: "INDUSTRY EVENT Las Vegas, Nevada Meet Atlan at Google Cloud Next 2026 22 APR Join us in Las Vegas to see how Atlan integrates with Google Cloud to help you build a context layer for your AI initiative...",
+    url: "https://atlan.com/event/google-cloud-next/",
+    teams: [
+      "PMM",
+      "Marketing"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e40",
+    company: "Atlan",
+    area: "Data Intelligence",
+    name: "How Atlan Fixes the Three Context Blockers Slowing Your AI",
+    date: "Apr 22, 2026",
+    relevance: "MEDIUM",
+    why: "Atlan in Action Virtual How Atlan Fixes the Three Context Blockers Slowing Your AI Apr 22 11 AM ET Your data isn't ready, your evals never end, and every runtime gives a different answer. Three proble...",
+    url: "https://atlan.com/live-demo-series-fixing-context-blockers-demo/",
+    teams: [
+      "PMM",
+      "Marketing"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e1",
+    company: "Pinecone",
+    area: "VectorAI",
+    name: "Vector Search for Agentic AI: A Hands on Introduction to Pinecone",
+    date: "Apr 23, 2026",
+    relevance: "HIGH",
+    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
+    url: "https://luma.com/jr9awx0g",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e41",
+    company: "Atlan",
+    area: "Data Intelligence",
+    name: "Atlan Activate: Atlan's latest product launches",
+    date: "Apr 29, 2026",
+    relevance: "HIGH",
+    why: "PRODUCT LAUNCH Virtual Atlan Activate: Atlan's latest product launches 29 APRIL 11 AM ET Uncover Atlan's latest product launches—conversational search, data quality, agentic stewards and more. View De...",
+    url: "https://atlan.com/activate/",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e11",
+    company: "Alation",
+    area: "Data Intelligence",
+    name: "WEBINAR REGISTRATION Alation Decision Lab | HEDIS Data Curation at Scale: From 6 Months to 10 Minutes APR 30 8:30 AM PT",
+    date: "Apr 30, 2026",
+    relevance: "HIGH",
+    why: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
+    url: "https://www.alation.com/resource-center/webinars/decision-lab-cuaration-automation-healthcare/",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e25",
     company: "Acceldata",
     area: "Data Observability",
-    name: "Evanta CDAO - Chicago",
-    date: "Oct 21, 2026",
+    name: "Snowflake Summit 2026",
+    date: "Jun 1, 2026",
     relevance: "LOW",
-    why: "Chicago, USA Evanta CDAO - Chicago Learn More Learn More",
-    url: "https://www.acceldata.io/events/evanta-cdao---chicago",
+    why: "San Francisco, USA Snowflake Summit 2026 June 1-4, 2026 Learn More Learn More",
+    url: "https://www.acceldata.io/events/snowflake-summit-2026",
+    teams: [
+      "Product"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e28",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Databricks Data + AI Summit 2026",
+    date: "Jun 15, 2026",
+    relevance: "MEDIUM",
+    why: "San Francisco, USA Databricks Data + AI Summit 2026 June 15-18, 2026 Learn More Learn More",
+    url: "https://www.acceldata.io/events/databricks-data-ai-summit-2026",
+    teams: [
+      "PMM",
+      "Marketing"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e15",
+    company: "Alation",
+    area: "Data Intelligence",
+    name: "CONFERENCE Gartner Data & Analytics Summit JUN 16 - 17",
+    date: "Jun 16, 2026",
+    relevance: "HIGH",
+    why: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
+    url: "https://www.gartner.com/en/conferences/apac/data-analytics-australia",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e26",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Gartner Data and Analytics | Australia",
+    date: "Jun 16, 2026",
+    relevance: "HIGH",
+    why: "Sydney, Australia Gartner Data and Analytics | Australia June 16-17, 2026 Learn More Learn More",
+    url: "https://www.acceldata.io/events/gartner-data-and-analytics-australia",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e27",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Evanta CDAO - Dallas",
+    date: "Jun 17, 2026",
+    relevance: "LOW",
+    why: "Dallas, USA Evanta CDAO - Dallas Learn More Learn More",
+    url: "https://www.acceldata.io/events/evanta-cdao---dallas",
+    teams: [
+      "Product"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e7",
+    company: "Pinecone",
+    area: "VectorAI",
+    name: "Vector Search for Agentic AI: A Hands on Introduction to Pinecone",
+    date: "Jun 18, 2026",
+    relevance: "HIGH",
+    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
+    url: "https://luma.com/lun9t42w",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e29",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Evanta CIO - New York",
+    date: "Jun 23, 2026",
+    relevance: "LOW",
+    why: "New York, USA Evanta CIO - New York Learn More Learn More",
+    url: "https://www.acceldata.io/events/evanta-cio---new-york",
+    teams: [
+      "Product"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e8",
+    company: "Pinecone",
+    area: "VectorAI",
+    name: "From Missed Matches to Higher Relevance: Full Text Search for Production AI with Pinecone",
+    date: "Jun 24, 2026",
+    relevance: "HIGH",
+    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
+    url: "https://luma.com/mjec40ea",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e30",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Evanta CDAO - South California",
+    date: "Jun 25, 2026",
+    relevance: "LOW",
+    why: "South California, USA Evanta CDAO - South California Learn More Learn More",
+    url: "https://www.acceldata.io/events/evanta-cdao---south-california",
+    teams: [
+      "Product"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e31",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Evanta CIO - Toronto",
+    date: "Jun 25, 2026",
+    relevance: "LOW",
+    why: "Toronto, USA Evanta CIO - Toronto Learn More Learn More",
+    url: "https://www.acceldata.io/events/evanta-cio---toronto",
+    teams: [
+      "Product"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e6",
+    company: "Pinecone",
+    area: "VectorAI",
+    name: "CLI Hacks: build the interface for agents - #NYTechWeek",
+    date: "Jun 6, 2026",
+    relevance: "HIGH",
+    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
+    url: "https://partiful.com/e/Z2SAKZpOG6VHZvi1iTTl",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e13",
+    company: "Alation",
+    area: "Data Intelligence",
+    name: "CONFERENCE Gartner Data & Analytics Summit MAY 11 - 13",
+    date: "May 11, 2026",
+    relevance: "HIGH",
+    why: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
+    url: "https://www.alation.com/events/gartner-london-2026/",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e18",
+    company: "Atlan",
+    area: "Data Intelligence",
+    name: "Meet Atlan at Gartner EMEA Data & Analytics Summit 2026",
+    date: "May 11, 2026",
+    relevance: "HIGH",
+    why: "INDUSTRY EVENT London, England Meet Atlan at Gartner EMEA Data & Analytics Summit 2026 11 MAY Join us in London for a demo at the booth, customer sessions or an ice cream. View Details →",
+    url: "https://atlan.com/event/gartner-emea-2026/",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e24",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Gartner Data and Analytics | London",
+    date: "May 11, 2026",
+    relevance: "HIGH",
+    why: "London, UK Gartner Data and Analytics | London May 11-13, 2026 Learn More Learn More",
+    url: "https://www.acceldata.io/events/gartner-data-and-analytics-london",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e22",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Evanta CIO - Chicago",
+    date: "May 12, 2026",
+    relevance: "LOW",
+    why: "Chicago, USA Evanta CIO - Chicago Learn More Learn More",
+    url: "https://www.acceldata.io/events/evanta-cio---chicago",
+    teams: [
+      "Product"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e23",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Evanta CDAO - Boston",
+    date: "May 12, 2026",
+    relevance: "LOW",
+    why: "Boston, USA Evanta CDAO - Boston Learn More Learn More",
+    url: "https://www.acceldata.io/events/evanta-cdao---boston",
+    teams: [
+      "Product"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e19",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Acceldata Autonomous 26",
+    date: "May 19, 2026",
+    relevance: "MEDIUM",
+    why: "San Francisco Acceldata Autonomous 26 Learn More Learn More",
+    url: "https://www.acceldata.io/events/acceldata-autonomous-26",
+    teams: [
+      "PMM",
+      "Marketing"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e39",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Evanta CDAO - Atlanta",
+    date: "May 19, 2026",
+    relevance: "HIGH",
+    why: "San Francisco Acceldata Autonomous 26 Learn More Learn More New York, USA Evanta CDAO - New York Learn More Learn More Stockholm Data Innovation Summit 2026 May 6–8, 2026 Learn More Learn More Chicago...",
+    url: "https://www.evanta.com/cdao/atlanta/atlanta-cdao-executive-summit-9251",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e4",
+    company: "Pinecone",
+    area: "VectorAI",
+    name: "Managed Vector Search Inside Your Own Cloud: How Pinecone BYOC Works for Regulated Teams",
+    date: "May 20, 2026",
+    relevance: "HIGH",
+    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
+    url: "https://luma.com/j61zhbux",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e14",
+    company: "Alation",
+    area: "Data Intelligence",
+    name: "CONFERENCE Gartner Minneapolis CDAO Community Executive Summit MAY 20",
+    date: "May 20, 2026",
+    relevance: "HIGH",
+    why: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
+    url: "https://www.evanta.com/cdao/minneapolis/minneapolis-cdao-executive-summit-9309",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e5",
+    company: "Pinecone",
+    area: "VectorAI",
+    name: "Vector Search for Agentic AI: A Hands on Introduction to Pinecone",
+    date: "May 21, 2026",
+    relevance: "HIGH",
+    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
+    url: "https://luma.com/fpg6imla",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e2",
+    company: "Pinecone",
+    area: "VectorAI",
+    name: "AI Meetup, SF Bay Area",
+    date: "May 5, 2026",
+    relevance: "HIGH",
+    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
+    url: "https://luma.com/5lms9659",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e12",
+    company: "Alation",
+    area: "Data Intelligence",
+    name: "CONFERENCE Gartner New York CDAO Community Executive Summit MAY 6",
+    date: "May 6, 2026",
+    relevance: "HIGH",
+    why: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
+    url: "https://www.evanta.com/cdao/new-york/new-york-cdao-executive-summit-9320#location",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e17",
+    company: "Atlan",
+    area: "Data Intelligence",
+    name: "Meet Atlan at Data Innovation Summit 2026",
+    date: "May 6, 2026",
+    relevance: "MEDIUM",
+    why: "INDUSTRY EVENT Stockholm, Sweden Meet Atlan at Data Innovation Summit 2026 06 MAY Join us in Stockholm at the forefront of AI innovation. View Details →",
+    url: "https://atlan.com/event/data-innovation-summit/",
+    teams: [
+      "PMM",
+      "Marketing"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e20",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Evanta CDAO - New York",
+    date: "May 6, 2026",
+    relevance: "LOW",
+    why: "New York, USA Evanta CDAO - New York Learn More Learn More",
+    url: "https://www.acceldata.io/events/evanta-cdao---new-york",
+    teams: [
+      "Product"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e21",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Data Innovation Summit 2026",
+    date: "May 6, 2026",
+    relevance: "MEDIUM",
+    why: "Stockholm Data Innovation Summit 2026 May 6–8, 2026 Learn More Learn More",
+    url: "https://www.acceldata.io/events/data-innovation-summit-2026",
+    teams: [
+      "PMM",
+      "Marketing"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e3",
+    company: "Pinecone",
+    area: "VectorAI",
+    name: "AI Meetup, New York",
+    date: "May 9, 2026",
+    relevance: "HIGH",
+    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
+    url: "https://luma.com/tm4v84ij",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e34",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "UK and Ireland CIO Executive Summit",
+    date: "Oct 14, 2026",
+    relevance: "LOW",
+    why: "EMEA UK and Ireland CIO Executive Summit Learn More Learn More",
+    url: "https://www.acceldata.io/events/uk-and-ireland-cio-executive-summit",
+    teams: [
+      "Product"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e35",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Evanta CDAO - UK and Ireland",
+    date: "Oct 15, 2026",
+    relevance: "LOW",
+    why: "London, UK Evanta CDAO - UK and Ireland Learn More Learn More",
+    url: "https://www.acceldata.io/events/evanta-cdao---uk-and-ireland",
     teams: [
       "Product"
     ],
@@ -2801,42 +4111,28 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e35",
+    id: "e36",
     company: "Acceldata",
     area: "Data Observability",
-    name: "Evanta CDAO - UK and Ireland",
-    date: "Oct 15, 2026",
+    name: "Evanta CDAO - Chicago",
+    date: "Oct 21, 2026",
     relevance: "LOW",
-    why: "London, UK Evanta CDAO - UK and Ireland Learn More Learn More",
-    url: "https://www.acceldata.io/events/evanta-cdao---uk-and-ireland",
+    why: "Chicago, USA Evanta CDAO - Chicago Learn More Learn More",
+    url: "https://www.acceldata.io/events/evanta-cdao---chicago",
     teams: [
       "Product"
     ],
     action: "Check dashboard for details."
   },
   {
-    id: "e34",
+    id: "e32",
     company: "Acceldata",
     area: "Data Observability",
-    name: "UK and Ireland CIO Executive Summit",
-    date: "Oct 14, 2026",
-    relevance: "LOW",
-    why: "EMEA UK and Ireland CIO Executive Summit Learn More Learn More",
-    url: "https://www.acceldata.io/events/uk-and-ireland-cio-executive-summit",
-    teams: [
-      "Product"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e3",
-    company: "Pinecone",
-    area: "VectorAI",
-    name: "AI Meetup, New York",
-    date: "May 9, 2026",
+    name: "Gartner Data and Analytics | Mumbai",
+    date: "Sep 21, 2026",
     relevance: "HIGH",
-    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
-    url: "https://luma.com/tm4v84ij",
+    why: "Mumbai, India Gartner Data and Analytics | Mumbai September 21-22, 2026 Learn More Learn More",
+    url: "https://www.acceldata.io/events/gartner-data-and-analytics-mumbai",
     teams: [
       "PMM",
       "Marketing",
@@ -2845,18 +4141,17 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e12",
-    company: "Alation",
-    area: "Data Intelligence",
-    name: "CONFERENCE Gartner New York CDAO Community Executive Summit MAY 6",
-    date: "May 6, 2026",
-    relevance: "HIGH",
-    why: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
-    url: "https://www.evanta.com/cdao/new-york/new-york-cdao-executive-summit-9320#location",
+    id: "e33",
+    company: "Acceldata",
+    area: "Data Observability",
+    name: "Big Data London 2026",
+    date: "Sep 23, 2026",
+    relevance: "MEDIUM",
+    why: "London, UK Big Data London 2026 September 23-24, 2026 Learn More Learn More",
+    url: "https://www.acceldata.io/events/big-data-london-2026",
     teams: [
       "PMM",
-      "Marketing",
-      "SDRs"
+      "Marketing"
     ],
     action: "Check dashboard for details."
   }
@@ -3552,40 +4847,130 @@ function TypeTag({ type }) {
 }
 
 // --- Launches & Events page --------------------------------------------
+function TlCard({ it, onOpenCompany }) {
+  return (
+    <article className={"tl-card" + (it.kind === "event" ? " tl-event" : " tl-launch")}
+             onClick={() => onOpenCompany(companyIdByName(it.company))}>
+      <div className="tl-card-l">
+        <div className="tl-date">{it.date}</div>
+        <div className="tl-rel"><RelevanceBadge level={it.relevance} /></div>
+      </div>
+      <div className="tl-card-body">
+        <div className="tl-card-head">
+          <h4 className="tl-title">{it.title}</h4>
+          <div className="tl-card-meta">
+            <span className="tl-company">{it.company}</span>
+            <window.AreaBadge>{it.area}</window.AreaBadge>
+            {it.kind === "event"
+              ? <span className="tl-type-event">Event</span>
+              : <TypeTag type={it.type} />}
+          </div>
+        </div>
+        <p className="tl-summary">{it.summary}</p>
+        {it.kind === "event" && it.action && (
+          <div className="tl-action">
+            <span className="tl-action-k">Actian action</span>
+            <span className="tl-action-v">{it.action}</span>
+          </div>
+        )}
+        {it.tags && it.tags.length > 0 && (
+          <div className="tl-tags">
+            {it.tags.map(t => <span key={t} className="tl-tag">#{t}</span>)}
+          </div>
+        )}
+        {it.teams && it.teams.length > 0 && (
+          <div className="tl-tags">
+            {it.teams.map(t => <span key={t} className="route-tag active">{t}</span>)}
+          </div>
+        )}
+      </div>
+      <div className="tl-card-r" style={{ display:"flex", flexDirection:"column", gap:6, alignItems:"flex-end" }}>
+        {it.kind === "event" && it.url && (
+          <a className="tl-brief" href={it.url} target="_blank" rel="noopener noreferrer"
+             onClick={e => e.stopPropagation()}
+             style={{ color:"var(--blue-600)", fontWeight:600 }}>
+            Register ↗
+          </a>
+        )}
+        <span className="tl-brief">Brief ↗</span>
+      </div>
+    </article>
+  );
+}
+
+function TlGroup({ g, onOpenCompany }) {
+  return (
+    <section className="tl-group">
+      <header className="tl-group-head">
+        <h3 className="tl-group-h">{g.label}</h3>
+        <span className="tl-group-count">{g.items.length}</span>
+      </header>
+      <div className="tl-items">
+        {g.items.map(it => <TlCard key={it.id} it={it} onOpenCompany={onOpenCompany} />)}
+      </div>
+    </section>
+  );
+}
+
+function groupByWeek(items) {
+  const g = [];
+  let curKey = null;
+  for (const it of items) {
+    const d = new Date(it.date);
+    const key = d.getFullYear() + "-W" + Math.ceil(((d - new Date(d.getFullYear(),0,1)) / 86400000 + new Date(d.getFullYear(),0,1).getDay()+1)/7);
+    if (key !== curKey) { g.push({ key, label: weekLabel(d), items: [] }); curKey = key; }
+    g[g.length-1].items.push(it);
+  }
+  return g;
+}
+
 function LaunchesPage({ lens, onOpenCompany }) {
   const [filter, setFilter] = useStateP("all"); // all | launches | events
   const [rel, setRel] = useStateP("all");
+  const [showFullYear, setShowFullYear] = useStateP(false);
 
-  const merged = useMemoP(() => {
+  const now = new Date();
+  const cutoff90 = new Date(now); cutoff90.setDate(now.getDate() + 90);
+  const cutoffPast30 = new Date(now); cutoffPast30.setDate(now.getDate() - 30);
+
+  const allItems = useMemoP(() => {
     const items = [];
     for (const l of window.LAUNCHES) items.push({ kind:"launch", ...l });
     for (const e of window.EVENTS)   items.push({ kind:"event",  ...e, title:e.name, summary:e.why });
-    // sort by date descending (real string parse)
     return items
       .filter(it => filter === "all" || (filter === "launches" && it.kind === "launch") || (filter === "events" && it.kind === "event"))
-      .filter(it => rel === "all" || it.relevance === rel)
-      .sort((a,b) => new Date(b.date) - new Date(a.date));
+      .filter(it => rel === "all" || it.relevance === rel);
   }, [filter, rel]);
 
-  // Group by ISO week-ish bucket
-  const groups = useMemoP(() => {
-    const g = [];
-    let curKey = null;
-    for (const it of merged) {
-      const d = new Date(it.date);
-      const key = d.getFullYear() + "-W" + Math.ceil(((d - new Date(d.getFullYear(),0,1)) / 86400000 + new Date(d.getFullYear(),0,1).getDay()+1)/7);
-      if (key !== curKey) { g.push({ key, label: weekLabel(d), items: [] }); curKey = key; }
-      g[g.length-1].items.push(it);
-    }
-    return g;
-  }, [merged]);
+  // Upcoming: >= today, sorted ascending (nearest first)
+  const upcomingAll = useMemoP(() =>
+    allItems.filter(it => new Date(it.date) >= now).sort((a,b) => new Date(a.date) - new Date(b.date)),
+    [allItems]
+  );
+  // Within 90-day window
+  const upcoming90 = useMemoP(() => upcomingAll.filter(it => new Date(it.date) <= cutoff90), [upcomingAll]);
+  // Beyond 90 days
+  const upcomingBeyond = useMemoP(() => upcomingAll.filter(it => new Date(it.date) > cutoff90), [upcomingAll]);
+
+  // Past 30 days: < today and >= 30 days ago, sorted descending (most recent first)
+  const past30 = useMemoP(() =>
+    allItems.filter(it => new Date(it.date) < now && new Date(it.date) >= cutoffPast30)
+            .sort((a,b) => new Date(b.date) - new Date(a.date)),
+    [allItems]
+  );
+
+  const upcoming90Groups  = useMemoP(() => groupByWeek(upcoming90),    [upcoming90]);
+  const beyondGroups      = useMemoP(() => groupByWeek(upcomingBeyond), [upcomingBeyond]);
+  const past30Groups      = useMemoP(() => groupByWeek(past30),         [past30]);
+
+  const visibleCount = upcoming90.length + (showFullYear ? upcomingBeyond.length : 0) + past30.length;
 
   return (
     <div data-screen-label="02 Launches & events">
       <div className="hero">
         <div className="hero-title-row">
           <div>
-            <div className="hero-eyebrow">Signal timeline · last 45 days + next 60</div>
+            <div className="hero-eyebrow">Signal timeline · next 90 days + full year view</div>
             <h1 className="hero-title">Launches & events</h1>
             <p className="hero-sub">
               {window.LAUNCHES.length} launches tracked · {window.EVENTS.length} events on the radar. Filter by type or relevance; click a company to jump to its brief.
@@ -3613,69 +4998,35 @@ function LaunchesPage({ lens, onOpenCompany }) {
             <button className={rel === "MEDIUM" ? "seg-on" : ""} onClick={() => setRel("MEDIUM")}>Medium</button>
             <button className={rel === "LOW" ? "seg-on" : ""} onClick={() => setRel("LOW")}>Low</button>
           </div>
-          <span className="toolbar-count">{merged.length} items</span>
+          <span className="toolbar-count">{visibleCount} items</span>
         </div>
       </div>
 
       <div className="tl">
-        {groups.map(g => (
-          <section key={g.key} className="tl-group">
-            <header className="tl-group-head">
-              <h3 className="tl-group-h">{g.label}</h3>
-              <span className="tl-group-count">{g.items.length}</span>
-            </header>
-            <div className="tl-items">
-              {g.items.map(it => (
-                <article key={it.id} className={"tl-card" + (it.kind === "event" ? " tl-event" : " tl-launch")}
-                         onClick={() => onOpenCompany(companyIdByName(it.company))}>
-                  <div className="tl-card-l">
-                    <div className="tl-date">{it.date}</div>
-                    <div className="tl-rel"><RelevanceBadge level={it.relevance} /></div>
-                  </div>
-                  <div className="tl-card-body">
-                    <div className="tl-card-head">
-                      <h4 className="tl-title">{it.title}</h4>
-                      <div className="tl-card-meta">
-                        <span className="tl-company">{it.company}</span>
-                        <window.AreaBadge>{it.area}</window.AreaBadge>
-                        {it.kind === "event"
-                          ? <span className="tl-type-event">Event</span>
-                          : <TypeTag type={it.type} />}
-                      </div>
-                    </div>
-                    <p className="tl-summary">{it.summary}</p>
-                    {it.kind === "event" && it.action && (
-                      <div className="tl-action">
-                        <span className="tl-action-k">Actian action</span>
-                        <span className="tl-action-v">{it.action}</span>
-                      </div>
-                    )}
-                    {it.tags && (
-                      <div className="tl-tags">
-                        {it.tags.map(t => <span key={t} className="tl-tag">#{t}</span>)}
-                      </div>
-                    )}
-                    {it.teams && (
-                      <div className="tl-tags">
-                        {it.teams.map(t => <span key={t} className="route-tag active">{t}</span>)}
-                      </div>
-                    )}
-                  </div>
-                  <div className="tl-card-r" style={{ display:"flex", flexDirection:"column", gap:6, alignItems:"flex-end" }}>
-                    {it.kind === "event" && it.url && (
-                      <a className="tl-brief" href={it.url} target="_blank" rel="noopener noreferrer"
-                         onClick={e => e.stopPropagation()}
-                         style={{ color:"var(--blue-600)", fontWeight:600 }}>
-                        Register ↗
-                      </a>
-                    )}
-                    <span className="tl-brief">Brief ↗</span>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        ))}
+        {/* ── Upcoming: next 90 days ── */}
+        {upcoming90Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+
+        {/* ── Show Full Year toggle ── */}
+        {upcomingBeyond.length > 0 && (
+          <div className="tl-expand-row">
+            <button className="tl-expand-btn" onClick={() => setShowFullYear(!showFullYear)}>
+              {showFullYear
+                ? "Show less ▲"
+                : `Show full year ▼  (+${upcomingBeyond.length} more event${upcomingBeyond.length !== 1 ? "s" : ""})`}
+            </button>
+          </div>
+        )}
+
+        {/* ── Full year: beyond 90 days ── */}
+        {showFullYear && beyondGroups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+
+        {/* ── Past 30 days divider + items ── */}
+        {past30.length > 0 && (
+          <div className="tl-past-divider">
+            <span className="tl-past-divider-label">Past 30 days</span>
+          </div>
+        )}
+        {past30Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
       </div>
     </div>
   );

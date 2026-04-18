@@ -412,19 +412,18 @@ def build_launches_events(comp_signals):
             })
             launch_id += 1
 
-    # Sort launches by published_date descending, limit to 15
+    # Sort launches by published_date descending — no limit, show all
     launches_sorted = sorted(
         launches,
         key=lambda x: x.get("date", "") or "",
         reverse=True
-    )[:15]
+    )
 
-    # Sort events by date descending, limit to 8
+    # Sort events by date ascending (upcoming first) — no limit, show all
     events_sorted = sorted(
         events,
         key=lambda x: x.get("date", "") or "",
-        reverse=True
-    )[:8]
+    )
 
     return launches_sorted, events_sorted
 

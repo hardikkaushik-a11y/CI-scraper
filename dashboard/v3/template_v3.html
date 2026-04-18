@@ -859,6 +859,51 @@ a { color: inherit; cursor: pointer; }
 .tl-event { border-left: 3px solid var(--blue-500); padding-left: 15px; }
 .tl-launch {}
 
+/* Show full year / past divider */
+.tl-expand-row {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+.tl-expand-btn {
+  background: var(--bg-sunk);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 22px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.tl-expand-btn:hover {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--ink);
+}
+.tl-past-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0 4px;
+}
+.tl-past-divider::before,
+.tl-past-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.tl-past-divider-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+
 .tl-card-l {
   display: flex;
   flex-direction: column;
@@ -2219,40 +2264,130 @@ function TypeTag({ type }) {
 }
 
 // --- Launches & Events page --------------------------------------------
+function TlCard({ it, onOpenCompany }) {
+  return (
+    <article className={"tl-card" + (it.kind === "event" ? " tl-event" : " tl-launch")}
+             onClick={() => onOpenCompany(companyIdByName(it.company))}>
+      <div className="tl-card-l">
+        <div className="tl-date">{it.date}</div>
+        <div className="tl-rel"><RelevanceBadge level={it.relevance} /></div>
+      </div>
+      <div className="tl-card-body">
+        <div className="tl-card-head">
+          <h4 className="tl-title">{it.title}</h4>
+          <div className="tl-card-meta">
+            <span className="tl-company">{it.company}</span>
+            <window.AreaBadge>{it.area}</window.AreaBadge>
+            {it.kind === "event"
+              ? <span className="tl-type-event">Event</span>
+              : <TypeTag type={it.type} />}
+          </div>
+        </div>
+        <p className="tl-summary">{it.summary}</p>
+        {it.kind === "event" && it.action && (
+          <div className="tl-action">
+            <span className="tl-action-k">Actian action</span>
+            <span className="tl-action-v">{it.action}</span>
+          </div>
+        )}
+        {it.tags && it.tags.length > 0 && (
+          <div className="tl-tags">
+            {it.tags.map(t => <span key={t} className="tl-tag">#{t}</span>)}
+          </div>
+        )}
+        {it.teams && it.teams.length > 0 && (
+          <div className="tl-tags">
+            {it.teams.map(t => <span key={t} className="route-tag active">{t}</span>)}
+          </div>
+        )}
+      </div>
+      <div className="tl-card-r" style={{ display:"flex", flexDirection:"column", gap:6, alignItems:"flex-end" }}>
+        {it.kind === "event" && it.url && (
+          <a className="tl-brief" href={it.url} target="_blank" rel="noopener noreferrer"
+             onClick={e => e.stopPropagation()}
+             style={{ color:"var(--blue-600)", fontWeight:600 }}>
+            Register ↗
+          </a>
+        )}
+        <span className="tl-brief">Brief ↗</span>
+      </div>
+    </article>
+  );
+}
+
+function TlGroup({ g, onOpenCompany }) {
+  return (
+    <section className="tl-group">
+      <header className="tl-group-head">
+        <h3 className="tl-group-h">{g.label}</h3>
+        <span className="tl-group-count">{g.items.length}</span>
+      </header>
+      <div className="tl-items">
+        {g.items.map(it => <TlCard key={it.id} it={it} onOpenCompany={onOpenCompany} />)}
+      </div>
+    </section>
+  );
+}
+
+function groupByWeek(items) {
+  const g = [];
+  let curKey = null;
+  for (const it of items) {
+    const d = new Date(it.date);
+    const key = d.getFullYear() + "-W" + Math.ceil(((d - new Date(d.getFullYear(),0,1)) / 86400000 + new Date(d.getFullYear(),0,1).getDay()+1)/7);
+    if (key !== curKey) { g.push({ key, label: weekLabel(d), items: [] }); curKey = key; }
+    g[g.length-1].items.push(it);
+  }
+  return g;
+}
+
 function LaunchesPage({ lens, onOpenCompany }) {
   const [filter, setFilter] = useStateP("all"); // all | launches | events
   const [rel, setRel] = useStateP("all");
+  const [showFullYear, setShowFullYear] = useStateP(false);
 
-  const merged = useMemoP(() => {
+  const now = new Date();
+  const cutoff90 = new Date(now); cutoff90.setDate(now.getDate() + 90);
+  const cutoffPast30 = new Date(now); cutoffPast30.setDate(now.getDate() - 30);
+
+  const allItems = useMemoP(() => {
     const items = [];
     for (const l of window.LAUNCHES) items.push({ kind:"launch", ...l });
     for (const e of window.EVENTS)   items.push({ kind:"event",  ...e, title:e.name, summary:e.why });
-    // sort by date descending (real string parse)
     return items
       .filter(it => filter === "all" || (filter === "launches" && it.kind === "launch") || (filter === "events" && it.kind === "event"))
-      .filter(it => rel === "all" || it.relevance === rel)
-      .sort((a,b) => new Date(b.date) - new Date(a.date));
+      .filter(it => rel === "all" || it.relevance === rel);
   }, [filter, rel]);
 
-  // Group by ISO week-ish bucket
-  const groups = useMemoP(() => {
-    const g = [];
-    let curKey = null;
-    for (const it of merged) {
-      const d = new Date(it.date);
-      const key = d.getFullYear() + "-W" + Math.ceil(((d - new Date(d.getFullYear(),0,1)) / 86400000 + new Date(d.getFullYear(),0,1).getDay()+1)/7);
-      if (key !== curKey) { g.push({ key, label: weekLabel(d), items: [] }); curKey = key; }
-      g[g.length-1].items.push(it);
-    }
-    return g;
-  }, [merged]);
+  // Upcoming: >= today, sorted ascending (nearest first)
+  const upcomingAll = useMemoP(() =>
+    allItems.filter(it => new Date(it.date) >= now).sort((a,b) => new Date(a.date) - new Date(b.date)),
+    [allItems]
+  );
+  // Within 90-day window
+  const upcoming90 = useMemoP(() => upcomingAll.filter(it => new Date(it.date) <= cutoff90), [upcomingAll]);
+  // Beyond 90 days
+  const upcomingBeyond = useMemoP(() => upcomingAll.filter(it => new Date(it.date) > cutoff90), [upcomingAll]);
+
+  // Past 30 days: < today and >= 30 days ago, sorted descending (most recent first)
+  const past30 = useMemoP(() =>
+    allItems.filter(it => new Date(it.date) < now && new Date(it.date) >= cutoffPast30)
+            .sort((a,b) => new Date(b.date) - new Date(a.date)),
+    [allItems]
+  );
+
+  const upcoming90Groups  = useMemoP(() => groupByWeek(upcoming90),    [upcoming90]);
+  const beyondGroups      = useMemoP(() => groupByWeek(upcomingBeyond), [upcomingBeyond]);
+  const past30Groups      = useMemoP(() => groupByWeek(past30),         [past30]);
+
+  const visibleCount = upcoming90.length + (showFullYear ? upcomingBeyond.length : 0) + past30.length;
 
   return (
     <div data-screen-label="02 Launches & events">
       <div className="hero">
         <div className="hero-title-row">
           <div>
-            <div className="hero-eyebrow">Signal timeline · last 45 days + next 60</div>
+            <div className="hero-eyebrow">Signal timeline · next 90 days + full year view</div>
             <h1 className="hero-title">Launches & events</h1>
             <p className="hero-sub">
               {window.LAUNCHES.length} launches tracked · {window.EVENTS.length} events on the radar. Filter by type or relevance; click a company to jump to its brief.
@@ -2280,69 +2415,35 @@ function LaunchesPage({ lens, onOpenCompany }) {
             <button className={rel === "MEDIUM" ? "seg-on" : ""} onClick={() => setRel("MEDIUM")}>Medium</button>
             <button className={rel === "LOW" ? "seg-on" : ""} onClick={() => setRel("LOW")}>Low</button>
           </div>
-          <span className="toolbar-count">{merged.length} items</span>
+          <span className="toolbar-count">{visibleCount} items</span>
         </div>
       </div>
 
       <div className="tl">
-        {groups.map(g => (
-          <section key={g.key} className="tl-group">
-            <header className="tl-group-head">
-              <h3 className="tl-group-h">{g.label}</h3>
-              <span className="tl-group-count">{g.items.length}</span>
-            </header>
-            <div className="tl-items">
-              {g.items.map(it => (
-                <article key={it.id} className={"tl-card" + (it.kind === "event" ? " tl-event" : " tl-launch")}
-                         onClick={() => onOpenCompany(companyIdByName(it.company))}>
-                  <div className="tl-card-l">
-                    <div className="tl-date">{it.date}</div>
-                    <div className="tl-rel"><RelevanceBadge level={it.relevance} /></div>
-                  </div>
-                  <div className="tl-card-body">
-                    <div className="tl-card-head">
-                      <h4 className="tl-title">{it.title}</h4>
-                      <div className="tl-card-meta">
-                        <span className="tl-company">{it.company}</span>
-                        <window.AreaBadge>{it.area}</window.AreaBadge>
-                        {it.kind === "event"
-                          ? <span className="tl-type-event">Event</span>
-                          : <TypeTag type={it.type} />}
-                      </div>
-                    </div>
-                    <p className="tl-summary">{it.summary}</p>
-                    {it.kind === "event" && it.action && (
-                      <div className="tl-action">
-                        <span className="tl-action-k">Actian action</span>
-                        <span className="tl-action-v">{it.action}</span>
-                      </div>
-                    )}
-                    {it.tags && (
-                      <div className="tl-tags">
-                        {it.tags.map(t => <span key={t} className="tl-tag">#{t}</span>)}
-                      </div>
-                    )}
-                    {it.teams && (
-                      <div className="tl-tags">
-                        {it.teams.map(t => <span key={t} className="route-tag active">{t}</span>)}
-                      </div>
-                    )}
-                  </div>
-                  <div className="tl-card-r" style={{ display:"flex", flexDirection:"column", gap:6, alignItems:"flex-end" }}>
-                    {it.kind === "event" && it.url && (
-                      <a className="tl-brief" href={it.url} target="_blank" rel="noopener noreferrer"
-                         onClick={e => e.stopPropagation()}
-                         style={{ color:"var(--blue-600)", fontWeight:600 }}>
-                        Register ↗
-                      </a>
-                    )}
-                    <span className="tl-brief">Brief ↗</span>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        ))}
+        {/* ── Upcoming: next 90 days ── */}
+        {upcoming90Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+
+        {/* ── Show Full Year toggle ── */}
+        {upcomingBeyond.length > 0 && (
+          <div className="tl-expand-row">
+            <button className="tl-expand-btn" onClick={() => setShowFullYear(!showFullYear)}>
+              {showFullYear
+                ? "Show less ▲"
+                : `Show full year ▼  (+${upcomingBeyond.length} more event${upcomingBeyond.length !== 1 ? "s" : ""})`}
+            </button>
+          </div>
+        )}
+
+        {/* ── Full year: beyond 90 days ── */}
+        {showFullYear && beyondGroups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+
+        {/* ── Past 30 days divider + items ── */}
+        {past30.length > 0 && (
+          <div className="tl-past-divider">
+            <span className="tl-past-divider-label">Past 30 days</span>
+          </div>
+        )}
+        {past30Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
       </div>
     </div>
   );
