@@ -2308,8 +2308,15 @@ function LaunchesPage({ lens, onOpenCompany }) {
                       </div>
                     )}
                   </div>
-                  <div className="tl-card-r">
-                    <span className="tl-brief">Open brief <span aria-hidden>↗</span></span>
+                  <div className="tl-card-r" style={{ display:"flex", flexDirection:"column", gap:6, alignItems:"flex-end" }}>
+                    {it.kind === "event" && it.url && (
+                      <a className="tl-brief" href={it.url} target="_blank" rel="noopener noreferrer"
+                         onClick={e => e.stopPropagation()}
+                         style={{ color:"var(--blue-600)", fontWeight:600 }}>
+                        Register ↗
+                      </a>
+                    )}
+                    <span className="tl-brief">Brief ↗</span>
                   </div>
                 </article>
               ))}

@@ -79,6 +79,24 @@ HTML_SOURCES = {
 }
 
 # ══════════════════════════════════════════════════════════════════════════
+# EVENT URLS — direct event listing pages per company
+# Qdrant excluded — events page non-functional per user note
+# Milvus uses Zilliz (parent company) events page
+# ══════════════════════════════════════════════════════════════════════════
+
+EVENT_URLS = {
+    "Collibra":   "https://www.collibra.com/events",
+    "Snowflake":  "https://www.snowflake.com/en/events/",
+    "Databricks": "https://www.databricks.com/events",
+    "Bigeye":     "https://www.bigeye.com/events",
+    "Pinecone":   "https://www.pinecone.io/community/",
+    "Atlan":      "https://atlan.com/events/",
+    "Alation":    "https://www.alation.com/events/",
+    "Milvus":     "https://zilliz.com/event",
+    "Acceldata":  "https://www.acceldata.io/events",
+}
+
+# ══════════════════════════════════════════════════════════════════════════
 # TEXT CLEANING — strip noise before classification
 # ══════════════════════════════════════════════════════════════════════════
 
@@ -476,6 +494,155 @@ def within_window(published_date_str: str) -> bool:
         return True  # Keep items with unparseable dates (assume recent)
 
 # ══════════════════════════════════════════════════════════════════════════
+# EVENT PAGE SCRAPER
+# ══════════════════════════════════════════════════════════════════════════
+
+_MONTH_MAP = {
+    "jan":"01","feb":"02","mar":"03","apr":"04","may":"05","jun":"06",
+    "jul":"07","aug":"08","sep":"09","oct":"10","nov":"11","dec":"12",
+}
+
+_DATE_PATTERNS = [
+    re.compile(r'\b(202\d)[-/](\d{1,2})[-/](\d{1,2})\b'),
+    re.compile(r'\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s+(202\d)\b', re.I),
+    re.compile(r'\b(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?,?\s+(202\d)\b', re.I),
+]
+
+_EVENT_KW = re.compile(
+    r'webinar|summit|conference|workshop|demo\s+day|session|meetup|virtual\s+event|'
+    r'live\s+event|user\s+conference|world\s+tour|data\s+summit|community\s+event|'
+    r'office\s+hours|register\s+now|join\s+us|save\s+the\s+date|upcoming\s+event',
+    re.I,
+)
+
+
+def _parse_event_date(text: str) -> str | None:
+    """Extract and normalize the first future-ish date from text."""
+    today = date.today()
+    for pat in _DATE_PATTERNS:
+        for m in pat.finditer(text):
+            raw = m.group(0)
+            try:
+                # ISO
+                mi = re.match(r'(\d{4})[-/](\d{1,2})[-/](\d{1,2})', raw)
+                if mi:
+                    d = date(int(mi.group(1)), int(mi.group(2)), int(mi.group(3)))
+                else:
+                    # Month-name formats
+                    ma = re.match(r'(\w{3})[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})', raw, re.I)
+                    mb = re.match(r'(\d{1,2})\s+(\w{3})[a-z]*\.?,?\s+(\d{4})', raw, re.I)
+                    if ma:
+                        mo = _MONTH_MAP.get(ma.group(1).lower()[:3])
+                        d = date(int(ma.group(3)), int(mo), int(ma.group(2)))
+                    elif mb:
+                        mo = _MONTH_MAP.get(mb.group(2).lower()[:3])
+                        d = date(int(mb.group(3)), int(mo), int(mb.group(1)))
+                    else:
+                        continue
+                # Accept events up to 30 days in the past and any future date
+                if (d - today).days >= -30:
+                    return d.isoformat()
+            except Exception:
+                continue
+    return None
+
+
+def fetch_event_page(company: str, url: str) -> list[dict]:
+    """
+    Scrape a company event listing page.
+    Strategy A: find <a> tags with event keywords + nearby dates.
+    Strategy B: text-block scan for event names near dates (JS-rendered fallback).
+    """
+    from urllib.parse import urlparse
+    from bs4 import BeautifulSoup
+
+    try:
+        r = httpx.get(
+            url,
+            headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"},
+            follow_redirects=True,
+            timeout=30,
+        )
+        r.raise_for_status()
+    except Exception as e:
+        print(f"  [WARN] {company}: event page fetch failed — {e}")
+        return []
+
+    soup = BeautifulSoup(r.text, "html.parser")
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
+
+    base = urlparse(url)
+    items: list[dict] = []
+    seen: set[str] = set()
+
+    # ── Strategy A: link-based extraction ────────────────────────────────
+    for a in soup.find_all("a", href=True):
+        href = a["href"].strip()
+        title = a.get_text(separator=" ", strip=True)
+
+        # Normalize URL
+        if href.startswith("/"):
+            href = f"{base.scheme}://{base.netloc}{href}"
+        elif not href.startswith("http"):
+            continue
+
+        if not (12 <= len(title) <= 160) or _NAV_RE.match(title) or title in seen:
+            continue
+
+        # Gather context (walk up 4 parent levels)
+        ctx = ""
+        node = a.parent
+        for _ in range(4):
+            if node:
+                ctx = node.get_text(separator=" ", strip=True)[:600]
+                node = node.parent
+            if len(ctx) > 80:
+                break
+
+        if not _EVENT_KW.search(title + " " + ctx[:300]):
+            continue
+
+        # Check title first — it has the most specific date (e.g. "May 5, 2026")
+        event_date = _parse_event_date(title) or _parse_event_date(ctx)
+        seen.add(title)
+        items.append({
+            "title": title[:150],
+            "url": href,
+            "published_date": date.today().isoformat(),
+            "description": ctx[:400].strip(),
+            "event_date": event_date,
+        })
+        if len(items) >= 12:
+            break
+
+    # ── Strategy B: text scan (catches JS-rendered pages with SSR text) ──
+    if not items:
+        lines = [l.strip() for l in soup.get_text(separator="\n").split("\n") if l.strip()]
+        for i, line in enumerate(lines):
+            if not (15 <= len(line) <= 150) or line in seen:
+                continue
+            ctx = " ".join(lines[max(0, i-3):i+4])
+            if not _EVENT_KW.search(ctx):
+                continue
+            event_date = _parse_event_date(ctx)
+            if not event_date:
+                continue
+            seen.add(line)
+            items.append({
+                "title": line[:150],
+                "url": url,   # Falls back to listing page URL
+                "published_date": date.today().isoformat(),
+                "description": ctx[:400],
+                "event_date": event_date,
+            })
+            if len(items) >= 8:
+                break
+
+    return items
+
+
+# ══════════════════════════════════════════════════════════════════════════
 # MAIN
 # ══════════════════════════════════════════════════════════════════════════
 
@@ -594,6 +761,62 @@ def main():
             time.sleep(0.5)  # Rate limit between Sonnet calls
 
         print(f"  ✓ {processed} new signal(s) added")
+
+    # ── Event page scraping ──────────────────────────────────────────────
+    print("\n── Event page scraping ─────────────────────────────────────────")
+    for company, event_url in EVENT_URLS.items():
+        product_area = V2_PRODUCT_AREA_MAP.get(company)
+        if not product_area:
+            continue
+
+        print(f"\n[{company}] {event_url}")
+        event_items = fetch_event_page(company, event_url)
+
+        if not event_items:
+            print(f"  No events found")
+            continue
+
+        print(f"  {len(event_items)} events found on page")
+        added = 0
+
+        for item in event_items:
+            item_url = item["url"]
+            title = item["title"]
+
+            if item_url in seen_urls:
+                continue
+            if not title:
+                continue
+
+            # Rule-based classify but force type=event
+            classification = classify_item(company, title, item["description"])
+            classification["type"] = "event"
+            classification["source_type"] = "event_page"
+            if item.get("event_date"):
+                classification["event_date"] = item["event_date"]
+
+            signal = {
+                "company":          company,
+                "product_area":     product_area,
+                "type":             "event",
+                "title":            clean_text(title),
+                "url":              item_url,
+                "published_date":   item["published_date"],
+                "summary":          clean_text(classification.get("summary", title)),
+                "actian_relevance": classification.get("actian_relevance", "medium"),
+                "tags":             classification.get("tags", []),
+                "source_type":      "event_page",
+                "event_date":       item.get("event_date"),
+                "scraped_at":       today_str,
+            }
+
+            new_signals.append(signal)
+            seen_urls.add(item_url)
+            added += 1
+            print(f"  ✓ {title[:60]} | {item.get('event_date', 'no date')}")
+
+        if added == 0:
+            print(f"  (all already seen)")
 
     # Merge new with existing, re-enforce rolling window, sort newest first
     all_signals = existing + new_signals

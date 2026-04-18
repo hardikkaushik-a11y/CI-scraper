@@ -350,15 +350,23 @@ def build_launches_events(comp_signals):
         published_date = item.get("published_date", "")
 
         if event_date:
+            # Clean event title — strip trailing " at HH:MM ...", URLs, "Learn More"
+            raw_title = item.get("title", "")
+            clean_title = re.sub(r'\s+at\s+\d{1,2}:\d{2}\s*(AM|PM).*$', '', raw_title, flags=re.IGNORECASE)
+            clean_title = re.sub(r'\s+https?://\S+', '', clean_title).strip()
+            clean_title = re.sub(r'\s+Learn\s+More\s*$', '', clean_title, flags=re.IGNORECASE).strip()
+            # Strip type prefixes like "Virtual ", "In-Person ", "Webinar ", "Hackathon "
+            clean_title = re.sub(r'^(Virtual|In-Person|Webinar|Hackathon)\s+', '', clean_title).strip()
             # It's an event
             events.append({
                 "id": f"e{event_id}",
                 "company": company,
                 "area": area,
-                "name": item.get("title", ""),
+                "name": clean_title or raw_title,
                 "date": fmt_date(event_date),
                 "relevance": relevance,
                 "why": item.get("summary", ""),
+                "url": item.get("url", ""),
                 "teams": derive_event_teams(relevance),
                 "action": "Check dashboard for details.",
             })
