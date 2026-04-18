@@ -421,198 +421,6 @@
     "scraped_at": "2026-04-18"
   },
   {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Analyst Reports",
-    "url": "https://zilliz.com/resources?tag=4",
-    "published_date": "2026-04-18",
-    "summary": "Blog Guides Research Analyst Reports Webinars Trainings Podcasts Events Trust Center Startup Program Definitive Guide to Choosing a Vector Database",
-    "actian_relevance": "high",
-    "tags": [
-      "vector"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Trust Center",
-    "url": "https://zilliz.com/trust-center",
-    "published_date": "2026-04-18",
-    "summary": "Blog Guides Research Analyst Reports Webinars Trainings Podcasts Events Trust Center Startup Program Definitive Guide to Choosing a Vector Database",
-    "actian_relevance": "high",
-    "tags": [
-      "vector"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Startup Program",
-    "url": "https://zilliz.com/zilliz-for-startups",
-    "published_date": "2026-04-18",
-    "summary": "Blog Guides Research Analyst Reports Webinars Trainings Podcasts Events Trust Center Startup Program Definitive Guide to Choosing a Vector Database",
-    "actian_relevance": "high",
-    "tags": [
-      "vector"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Definitive Guide to Choosing a Vector Database",
-    "url": "https://zilliz.com/resources/guide/definitive-guide-choosing-vector-database",
-    "published_date": "2026-04-18",
-    "summary": "Blog Guides Research Analyst Reports Webinars Trainings Podcasts Events Trust Center Startup Program Definitive Guide to Choosing a Vector Database",
-    "actian_relevance": "high",
-    "tags": [
-      "vector"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Virtual Event",
-    "url": "https://zilliz.com/event?tag=4",
-    "published_date": "2026-04-18",
-    "summary": "Join the Milvus Discord Community Find help, discover solutions, share ideas, and follow discussions. Get notified of upcoming Zilliz events! Join the Milvus Discord Server! Past Events All Meet Up Li...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "In-Person Event",
-    "url": "https://zilliz.com/event?tag=5",
-    "published_date": "2026-04-18",
-    "summary": "Join the Milvus Discord Community Find help, discover solutions, share ideas, and follow discussions. Get notified of upcoming Zilliz events! Join the Milvus Discord Server! Past Events All Meet Up Li...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Hybrid Event",
-    "url": "https://zilliz.com/event?tag=6",
-    "published_date": "2026-04-18",
-    "summary": "Join the Milvus Discord Community Find help, discover solutions, share ideas, and follow discussions. Get notified of upcoming Zilliz events! Join the Milvus Discord Server! Past Events All Meet Up Li...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay",
-    "url": "https://youtu.be/9n1I-Varui8",
-    "published_date": "2026-04-18",
-    "summary": "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting",
-    "url": "https://live.lotushack.org/",
-    "published_date": "2026-04-18",
-    "summary": "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "In-Person Event NVIDIA GTC 2026 Request Meeting",
-    "url": "https://www.nvidia.com/gtc/",
-    "published_date": "2026-04-18",
-    "summary": "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Meet Up Scoop AI Hackathon: Tokyo Bowl Request Meeting",
-    "url": "https://neonewstoday.com/ai/neo-and-spoonos-announce-winners-of-scoop-ai-tokyo-bowl-hackathon/",
-    "published_date": "2026-04-18",
-    "summary": "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Meet Up December Unstructured Data Meetup Tokyo Save Your Spot",
-    "url": "https://milvus.connpass.com/event/375852/",
-    "published_date": "2026-04-18",
-    "summary": "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "type": "event",
@@ -886,54 +694,6 @@
     ],
     "source_type": "event_page",
     "event_date": "2026-06-16",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Webinar Milvus 2.6 Deep Dive: Faster Search, Lower Cost, Smarter Scaling Watch Replay",
-    "url": "https://zilliz.com/event/milvus-2-6-deep-dive-faster-search-lower-cost-smarter-scaling",
-    "published_date": "2026-04-18",
-    "summary": "Webinar Milvus 2.6 Deep Dive: Faster Search, Lower Cost, Smarter Scaling Watch Replay",
-    "actian_relevance": "low",
-    "tags": [
-      "pricing"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "In-Person Event QCon NY 2025 Request Meeting",
-    "url": "https://ai.qconferences.com/",
-    "published_date": "2026-04-18",
-    "summary": "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "In-Person Event QCon SF 2025 Request Meeting",
-    "url": "https://qconsf.com/",
-    "published_date": "2026-04-18",
-    "summary": "Webinar Make Your AI Search Always-On with Zilliz Global Cluster Watch Replay Meet Up LotusHacks x HackHarvard x GenAI Fund Vietnam Hackathon Request Meeting In-Person Event NVIDIA GTC 2026 Request Me...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
     "scraped_at": "2026-04-18"
   },
   {
@@ -1488,6 +1248,115 @@
     "scraped_at": "2026-04-18"
   },
   {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "open_source_release",
+    "title": "We Extracted OpenClaw\u2019s Memory System and Open-Sourced It (memsearch)",
+    "url": "https://milvus.io/blog/we-extracted-openclaws-memory-system-and-opensourced-it-memsearch.md",
+    "published_date": "2026-04-18",
+    "summary": "We Extracted OpenClaw\u2019s Memory System and Open-Sourced It (memsearch)",
+    "actian_relevance": "low",
+    "tags": [],
+    "source_type": "blog",
+    "event_date": null,
+    "scraped_at": "2026-04-18"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "Agents at Scale \u2014 AWS London Summit Welcome Party",
+    "url": "https://luma.com/c8oz8hhm",
+    "published_date": "2026-04-18",
+    "summary": "In-Person Event Agents at Scale \u2014 AWS London Summit Welcome Party Join us the evening before AWS Summit London for exclusive talks on scaling AI agents with TiDB, Dify, and Zilliz. Request a private m...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-21",
+    "scraped_at": "2026-04-18"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "AWS Summit London 2026",
+    "url": "https://aws.amazon.com/cn/events/summits/london/",
+    "published_date": "2026-04-18",
+    "summary": "In-Person Event AWS Summit London 2026 Zilliz is a Sponsor at AWS Summit London 2026! Visit us at Booth B1 to explore how Zilliz and Milvus power AI workloads on AWS. Request a private meeting with Zi...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-22",
+    "scraped_at": "2026-04-18"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "Google Cloud Next\u2018 26",
+    "url": "https://www.googlecloudevents.com/next-vegas",
+    "published_date": "2026-04-18",
+    "summary": "In-Person Event Google Cloud Next\u2018 26 Zilliz is an Explorer Sponsor at Google Cloud Next '26 in Las Vegas! Visit us at Booth #3820 to explore how Zilliz and Milvus power production-grade AI and RAG ap...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-22",
+    "scraped_at": "2026-04-18"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "London Unstructured Data Meetup",
+    "url": "https://luma.com/mmom5c17",
+    "published_date": "2026-04-18",
+    "summary": "Meet Up London Unstructured Data Meetup Join developers and technical decision-makers for deep technical talks on AI agents, unstructured data, and LLMs. Request a private meeting with Zilliz experts....",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-23",
+    "scraped_at": "2026-04-18"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "AWS Summit Singapore",
+    "url": "https://aws.amazon.com/cn/events/summits/singapore/",
+    "published_date": "2026-04-18",
+    "summary": "In-Person Event AWS Summit Singapore Zilliz is a sponsor at this year's AWS Summit Singapore! Request a private meeting with Zilliz experts. 17:00 Pacific Sands Expo and Convention Centre Register Now",
+    "actian_relevance": "low",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-05-05",
+    "scraped_at": "2026-04-18"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "AWS Summit Japan 2026",
+    "url": "https://aws.amazon.com/jp/summits/japan/en/",
+    "published_date": "2026-04-18",
+    "summary": "In-Person Event AWS Summit Japan 2026 Zilliz is a Bronze Sponsor at AWS Summit Japan 2026 in Chiba! Visit us at Booth #131 to explore how Zilliz and Milvus power AI and vector search on AWS. Request a...",
+    "actian_relevance": "high",
+    "tags": [
+      "vector",
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-24",
+    "scraped_at": "2026-04-18"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "type": "product_launch",
@@ -1601,20 +1470,6 @@
     "published_date": "2026-04-15",
     "summary": "Customers Millions at Stake: How Melange's High-Recall Retrieval Prevents Litigation Collapse Mike Sefanov",
     "actian_relevance": "medium",
-    "tags": [],
-    "source_type": "blog",
-    "event_date": null,
-    "scraped_at": "2026-04-15"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "open_source_release",
-    "title": "We Extracted OpenClaw\u2019s Memory System and Open-Sourced It (memsearch)",
-    "url": "https://milvus.io/blog/we-extracted-openclaws-memory-system-and-opensourced-it-memsearch.md",
-    "published_date": "2026-04-15",
-    "summary": "We Extracted OpenClaw\u2019s Memory System and Open-Sourced It (memsearch)",
-    "actian_relevance": "low",
     "tags": [],
     "source_type": "blog",
     "event_date": null,

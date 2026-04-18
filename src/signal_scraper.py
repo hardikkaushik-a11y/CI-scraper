@@ -96,7 +96,7 @@ EVENT_URLS = {
 
 # Companies whose event pages require JavaScript execution (React/Next.js)
 # These will use Playwright instead of httpx for event page scraping.
-PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye"}
+PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus"}
 
 # ══════════════════════════════════════════════════════════════════════════
 # TEXT CLEANING — strip noise before classification
@@ -802,6 +802,64 @@ def fetch_event_page_playwright(company: str, url: str) -> list[dict]:
     items: list[dict] = []
     seen_titles: set[str] = set()
     seen_hrefs: set[str] = set()
+
+    # ── Strategy Zilliz: structured upcoming-event card extraction ───────
+    # zilliz.com/event renders a clean "Upcoming Events" section where each
+    # card is a <li><a href="external"> containing two headings:
+    #   heading[0] = event type ("In-Person Event", "Meet Up", "Webinar")
+    #   heading[1] = actual event name
+    # plus a text node "MMM DD, YYYY HH:MM Pacific" for the date.
+    # We target only the Upcoming Events section — ignore Past Events.
+    if company == "Milvus":
+        upcoming_heading = None
+        for h in soup.find_all(["h2", "h3", "h4"]):
+            if re.search(r'upcoming\s+events?', h.get_text(), re.I):
+                upcoming_heading = h
+                break
+
+        if upcoming_heading:
+            ul = upcoming_heading.find_next("ul")
+            if ul:
+                for li in ul.find_all("li", recursive=False):
+                    a = li.find("a", href=True)
+                    if not a:
+                        continue
+                    href = a["href"].strip()
+                    if not href.startswith("http"):
+                        continue
+                    if href in seen_hrefs:
+                        continue
+
+                    # First heading = type ("In-Person Event"), second = event name
+                    headings = a.find_all(["h1","h2","h3","h4","h5"])
+                    if len(headings) >= 2:
+                        event_name = headings[1].get_text(strip=True)
+                    elif headings:
+                        event_name = headings[0].get_text(strip=True)
+                    else:
+                        continue
+
+                    if not event_name or len(event_name) < 5 or event_name in seen_titles:
+                        continue
+                    # Skip generic type-only names
+                    if re.match(r'^(in-person event|virtual event|webinar|meet up|hybrid event|training)$', event_name, re.I):
+                        continue
+
+                    ctx = li.get_text(separator=" ", strip=True)[:500]
+                    event_date = _parse_event_date(ctx)
+
+                    seen_titles.add(event_name)
+                    seen_hrefs.add(href)
+                    items.append({
+                        "title":          event_name[:150],
+                        "url":            href,
+                        "published_date": date.today().isoformat(),
+                        "description":    ctx[:400].strip(),
+                        "event_date":     event_date,
+                    })
+
+        print(f"  [Milvus/Zilliz] Strategy Zilliz: {len(items)} upcoming events found")
+        return items  # Skip generic A+/A/B for Milvus
 
     # ── Strategy A+: event-slug link scan ───────────────────────────────
     # For Atlan (/event/slug) and Acceldata (/events/slug) — the event cards
