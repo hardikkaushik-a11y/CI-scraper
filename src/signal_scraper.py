@@ -69,11 +69,9 @@ RSS_FEEDS = {
 
 # Companies without RSS — use HTML blog/newsroom scraping as fallback
 # Each entry: (page_url, url_must_contain_pattern)
+# NOTE: Atlan, Alation, Bigeye, Acceldata removed — their blog pages only produce
+# nav-link noise or old press releases. Real-time events come from EVENT_URLS only.
 HTML_SOURCES = {
-    "Atlan":       ("https://atlan.com/newsroom/", "atlan.com"),
-    "Alation":     ("https://www.alation.com/blog/", "alation.com/blog/"),
-    "Bigeye":      ("https://www.bigeye.com/blog/", "bigeye.com/blog/"),
-    "Acceldata":   ("https://www.acceldata.io/blog/", "acceldata.io/blog/"),
     "Pinecone":    ("https://www.pinecone.io/blog/", "/blog/"),
     "Milvus":      ("https://milvus.io/blog/", "/blog/"),
 }
@@ -95,6 +93,10 @@ EVENT_URLS = {
     "Milvus":     "https://zilliz.com/event",
     "Acceldata":  "https://www.acceldata.io/events",
 }
+
+# Companies whose event pages require JavaScript execution (React/Next.js)
+# These will use Playwright instead of httpx for event page scraping.
+PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye"}
 
 # ══════════════════════════════════════════════════════════════════════════
 # TEXT CLEANING — strip noise before classification
@@ -411,11 +413,26 @@ def fetch_rss(company: str, url: str) -> list[dict]:
 # HTML FALLBACK — for companies without RSS feeds
 # ══════════════════════════════════════════════════════════════════════════
 
-# Patterns that indicate a nav/footer link, not a real blog post
+# Patterns that indicate a nav/footer link, not a real blog post or event
 _NAV_RE = re.compile(
     r"^(home|blog|resources|about|pricing|contact|careers|login|sign\s+in|"
     r"get\s+started|read\s+more|learn\s+more|view\s+all|see\s+all|"
-    r"subscribe|newsletter|all\s+posts|back\s+to)$",
+    r"subscribe|newsletter|all\s+posts|back\s+to|"
+    r"explore\s+\w+.*now|request\s+a?\s+demo|watch\s+(?:a\s+)?demo|"
+    r"try\s+free|start\s+free|book\s+a?\s+demo|get\s+a?\s+demo|"
+    r"documentation|support|community|partner\s+finder|resource\s+library|"
+    r"training\s+overview|certifications?|live\s+demos?|hands.on\s+labs?"
+    r"|fundamentals|analyst\s+reports?|trust\s+center|startup\s+program"
+    r"|customer\s+stories|events?\s+&\s+webinars|the\s+observatory"
+    r"|data\s+radicals\s+podcast|data\s+culture\s+maturity|"
+    r"alation\s+help\s+center|alation\s+community|alation\s+pricing)$",
+    re.I,
+)
+
+# Bigeye-specific noise: generic recurring product demo webinars have no intelligence value
+_BIGEYE_NOISE_RE = re.compile(
+    r"live\s+monthly\s+product\s+demo|product\s+demo\s+webinar|"
+    r"register\s+for\s+our\s+live",
     re.I,
 )
 
@@ -507,6 +524,12 @@ _DATE_PATTERNS = [
     re.compile(r'\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s+(202\d)\b', re.I),
     re.compile(r'\b(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?,?\s+(202\d)\b', re.I),
 ]
+# Year-less date patterns — e.g. "22 APR", "29 APRIL", "Apr 22"
+# Year is inferred as current year, or next year if date is already past
+_DATE_PATTERNS_NO_YEAR = [
+    re.compile(r'\b(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b', re.I),
+    re.compile(r'\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2})(?!\s*,?\s*\d{4})\b', re.I),
+]
 
 _EVENT_KW = re.compile(
     r'webinar|summit|conference|workshop|demo\s+day|session|meetup|virtual\s+event|'
@@ -517,18 +540,23 @@ _EVENT_KW = re.compile(
 
 
 def _parse_event_date(text: str) -> str | None:
-    """Extract and normalize the first future-ish date from text."""
+    """Extract and normalize the first future-ish date from text.
+
+    Handles both year-explicit formats ("Apr 22, 2026") and year-less formats
+    like "22 APR" or "29 APRIL" used by Atlan and other event pages.
+    Year is inferred as current year; rolls to next year if date is already past.
+    """
     today = date.today()
+
+    # ── Try patterns WITH explicit year first ──────────────────────────────
     for pat in _DATE_PATTERNS:
         for m in pat.finditer(text):
             raw = m.group(0)
             try:
-                # ISO
                 mi = re.match(r'(\d{4})[-/](\d{1,2})[-/](\d{1,2})', raw)
                 if mi:
                     d = date(int(mi.group(1)), int(mi.group(2)), int(mi.group(3)))
                 else:
-                    # Month-name formats
                     ma = re.match(r'(\w{3})[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})', raw, re.I)
                     mb = re.match(r'(\d{1,2})\s+(\w{3})[a-z]*\.?,?\s+(\d{4})', raw, re.I)
                     if ma:
@@ -539,11 +567,39 @@ def _parse_event_date(text: str) -> str | None:
                         d = date(int(mb.group(3)), int(mo), int(mb.group(1)))
                     else:
                         continue
-                # Accept events up to 30 days in the past and any future date
                 if (d - today).days >= -30:
                     return d.isoformat()
             except Exception:
                 continue
+
+    # ── Fallback: year-less patterns (e.g. "22 APR", "Apr 22") ────────────
+    for pat in _DATE_PATTERNS_NO_YEAR:
+        for m in pat.finditer(text):
+            raw = m.group(0)
+            try:
+                ma = re.match(r'(\d{1,2})\s+(\w{3})', raw, re.I)
+                mb = re.match(r'(\w{3})[a-z]*\.?\s+(\d{1,2})', raw, re.I)
+                if ma:
+                    day, mo_str = int(ma.group(1)), ma.group(2).lower()[:3]
+                elif mb:
+                    day, mo_str = int(mb.group(2)), mb.group(1).lower()[:3]
+                else:
+                    continue
+                mo = _MONTH_MAP.get(mo_str)
+                if not mo or not (1 <= day <= 31):
+                    continue
+                # Try current year first; roll to next year if the date is past
+                for yr in [today.year, today.year + 1]:
+                    try:
+                        d = date(yr, int(mo), day)
+                        if (d - today).days >= -30:
+                            return d.isoformat()
+                        break  # Date exists but is too far in the past — don't try next year
+                    except ValueError:
+                        continue
+            except Exception:
+                continue
+
     return None
 
 
@@ -637,6 +693,258 @@ def fetch_event_page(company: str, url: str) -> list[dict]:
                 "event_date": event_date,
             })
             if len(items) >= 8:
+                break
+
+    return items
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# PLAYWRIGHT EVENT PAGE SCRAPER — for JS-rendered event pages
+# Used for: Atlan, Acceldata, Alation, Bigeye (React/Next.js pages)
+# Falls back to httpx-based fetch_event_page() on Playwright failure.
+# ══════════════════════════════════════════════════════════════════════════
+
+def _slug_to_title(slug: str) -> str:
+    """Convert a URL slug to a readable title.
+
+    '/event/google-cloud-next/' → 'Google Cloud Next'
+    '/events/evanta-cdao---new-york' → 'Evanta CDAO - New York'
+    """
+    # Strip path prefix and trailing slash
+    slug = re.sub(r'^/events?/', '', slug.strip('/'))
+    # Replace triple dash (separator) with ` - `
+    slug = re.sub(r'-{2,}', ' - ', slug)
+    # Replace remaining dashes with spaces
+    slug = slug.replace('-', ' ')
+    # Title-case, preserve known acronyms
+    words = []
+    for w in slug.split():
+        words.append(w.upper() if w.lower() in ('cdao', 'cio', 'ai', 'emea', 'apac') else w.capitalize())
+    return ' '.join(words)
+
+
+def _heading_from_parents(a_tag) -> str | None:
+    """Walk up parent DOM tree to find the nearest heading that looks like an event title."""
+    node = a_tag.parent
+    for _ in range(6):
+        if node is None:
+            break
+        for heading_tag in node.find_all(['h1', 'h2', 'h3', 'h4'], limit=5):
+            text = heading_tag.get_text(separator=' ', strip=True)
+            if 20 <= len(text) <= 160 and not _NAV_RE.match(text):
+                return text
+        node = node.parent
+    return None
+
+
+# Generic CTA link texts — when a link has this text, use the parent heading instead
+_CTA_LINK_RE = re.compile(
+    r'^(view\s+details?|details?\s*[→»]?|book\s+a?\s+demo|see\s+product\s+tour|'
+    r'register\s+now|learn\s+more|save\s+your\s+spot|join\s+now|rsvp|'
+    r'sign\s+up|get\s+tickets?|watch\s+replay|watch\s+on\s+demand)\s*[→»]?$',
+    re.I,
+)
+
+# Bigeye product-page nav items that bleed onto events page sidebar
+_BIGEYE_SIDEBAR_RE = re.compile(
+    r'^(anomaly\s+detection|monitoring\s+as\s+code|integrations?|'
+    r'data\s+engineer|data\s+governance|data\s+architect|data\s+analyst|'
+    r'data\s+executive|developer\s+tools?|all\s+systems\s+operational|'
+    r'terms\s+of\s+use|privacy\s+policy|status\s+page)$',
+    re.I,
+)
+
+
+def fetch_event_page_playwright(company: str, url: str) -> list[dict]:
+    """Playwright-based event page scraper for JS-rendered sites.
+
+    Strategy A+: For event-URL links (Atlan /event/slug, Acceldata /events/slug),
+                 extract real title from parent heading or slug, date from context.
+    Strategy A:  Standard link scan — skip CTA text, use parent heading instead.
+    Strategy B:  Text-block scan fallback for pages without clean link structure.
+
+    Falls back to httpx-based fetch_event_page() on Playwright failure.
+    """
+    from bs4 import BeautifulSoup
+    from urllib.parse import urlparse
+
+    html = ""
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            ctx = browser.new_context(
+                user_agent=(
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                )
+            )
+            page = ctx.new_page()
+            # Use load (not networkidle) — Atlan's page never reaches networkidle
+            page.goto(url, wait_until="load", timeout=45000)
+            page.wait_for_timeout(4000)  # Extra settle time for React hydration
+            html = page.content()
+            browser.close()
+    except Exception as e:
+        print(f"  [WARN] {company}: Playwright failed ({e}) — falling back to httpx")
+        return fetch_event_page(company, url)
+
+    if not html:
+        return fetch_event_page(company, url)
+
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
+
+    base = urlparse(url)
+    listing_path = base.path.rstrip("/")
+    items: list[dict] = []
+    seen_titles: set[str] = set()
+    seen_hrefs: set[str] = set()
+
+    # ── Strategy A+: event-slug link scan ───────────────────────────────
+    # For Atlan (/event/slug) and Acceldata (/events/slug) — the event cards
+    # link to individual event pages but the link TEXT is a generic CTA.
+    # We extract the real title from the parent heading or derive from the slug.
+    event_slug_re = re.compile(r'^/events?/[^/]+/?$', re.I)
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"].strip()
+        if not href.startswith("/"):
+            continue
+        if not event_slug_re.match(href):
+            continue
+        if href.rstrip("/") == listing_path:
+            continue
+        full_href = f"{base.scheme}://{base.netloc}{href}"
+        if full_href in seen_hrefs:
+            continue
+
+        # Walk up parents for context (date, description)
+        ctx = ""
+        node = a.parent
+        for _ in range(6):
+            if node:
+                ctx = node.get_text(separator=" ", strip=True)[:800]
+                node = node.parent
+            if len(ctx) > 60:
+                break
+
+        event_date = _parse_event_date(ctx)
+
+        # Title: prefer parent heading over slug
+        title = _heading_from_parents(a) or _slug_to_title(href)
+        if not title or len(title) < 8 or title in seen_titles:
+            continue
+        if company == "Bigeye" and (_BIGEYE_NOISE_RE.search(title) or _BIGEYE_SIDEBAR_RE.match(title)):
+            continue
+
+        # Skip events marked "Concluded" — these are past events on Atlan's page
+        if re.search(r'\bConcluded\b', ctx, re.I):
+            continue
+
+        seen_titles.add(title)
+        seen_hrefs.add(full_href)
+        items.append({
+            "title":          title[:150],
+            "url":            full_href,
+            "published_date": date.today().isoformat(),
+            "description":    ctx[:400].strip(),
+            "event_date":     event_date,
+        })
+        if len(items) >= 20:
+            break
+
+    # ── Strategy A: standard link-based extraction ───────────────────────
+    # Always runs after A+ (not guarded by `not items`) so that events at
+    # non-slug URLs (e.g. Atlan /activate/, /live-demo-series-*) are also
+    # captured. seen_hrefs prevents duplicates with A+.
+    if True:  # always run — Strategy A complements A+, not replaces it
+        for a in soup.find_all("a", href=True):
+            href = a["href"].strip()
+            link_text = a.get_text(separator=" ", strip=True)
+
+            if href.startswith("/"):
+                href = f"{base.scheme}://{base.netloc}{href}"
+            elif not href.startswith("http"):
+                continue
+            if href in seen_hrefs:
+                continue
+
+            # If link text is a generic CTA, extract real title from parent heading.
+            # CTA-linked cards are trusted events on an events page — skip _EVENT_KW.
+            is_cta_link = bool(_CTA_LINK_RE.match(link_text))
+            if is_cta_link:
+                title = _heading_from_parents(a)
+                if not title:
+                    continue
+            else:
+                title = link_text
+                if not (15 <= len(title) <= 200):
+                    continue
+                if _NAV_RE.match(title):
+                    continue
+
+            if title in seen_titles:
+                continue
+            if company == "Bigeye" and (_BIGEYE_NOISE_RE.search(title) or _BIGEYE_SIDEBAR_RE.match(title)):
+                continue
+
+            # Walk up parents for context
+            ctx = ""
+            node = a.parent
+            for _ in range(5):
+                if node:
+                    ctx = node.get_text(separator=" ", strip=True)[:800]
+                    node = node.parent
+                if len(ctx) > 100:
+                    break
+
+            combined = title + " " + ctx[:400]
+            # CTA-linked cards are on the events page by definition — trust them.
+            # For descriptive-text links, require an event keyword in context.
+            if not is_cta_link and not _EVENT_KW.search(combined):
+                continue
+
+            # Skip concluded/past events
+            if re.search(r'\bConcluded\b', ctx, re.I):
+                continue
+
+            event_date = _parse_event_date(title) or _parse_event_date(ctx)
+            seen_titles.add(title)
+            seen_hrefs.add(href)
+            items.append({
+                "title":          title[:150],
+                "url":            href,
+                "published_date": date.today().isoformat(),
+                "description":    ctx[:400].strip(),
+                "event_date":     event_date,
+            })
+            if len(items) >= 15:
+                break
+
+    # ── Strategy B: text-block scan fallback ────────────────────────────
+    if not items:
+        lines = [l.strip() for l in soup.get_text(separator="\n").split("\n") if l.strip()]
+        for i, line in enumerate(lines):
+            if not (15 <= len(line) <= 200) or line in seen_titles:
+                continue
+            if company == "Bigeye" and (_BIGEYE_NOISE_RE.search(line) or _BIGEYE_SIDEBAR_RE.match(line)):
+                continue
+            ctx = " ".join(lines[max(0, i - 3):i + 4])
+            if not _EVENT_KW.search(ctx):
+                continue
+            event_date = _parse_event_date(ctx)
+            seen_titles.add(line)
+            items.append({
+                "title":          line[:150],
+                "url":            url,
+                "published_date": date.today().isoformat(),
+                "description":    ctx[:400],
+                "event_date":     event_date,
+            })
+            if len(items) >= 12:
                 break
 
     return items
@@ -769,8 +1077,11 @@ def main():
         if not product_area:
             continue
 
-        print(f"\n[{company}] {event_url}")
-        event_items = fetch_event_page(company, event_url)
+        print(f"\n[{company}] {'[Playwright]' if company in PLAYWRIGHT_EVENT_PAGES else '[httpx]'} {event_url}")
+        if company in PLAYWRIGHT_EVENT_PAGES:
+            event_items = fetch_event_page_playwright(company, event_url)
+        else:
+            event_items = fetch_event_page(company, event_url)
 
         if not event_items:
             print(f"  No events found")
