@@ -120,7 +120,7 @@ def derive_routes(signal, verdict):
     routes = ["Product"]
     if threat in ("CRITICAL", "HIGH"):
         routes += ["PMM", "Executives"]
-    if threat in ("HIGH", "MEDIUM") and posting_count > 20:
+    if threat == "CRITICAL" or (threat in ("HIGH", "MEDIUM") and posting_count > 20):
         routes.append("Marketing")
     if threat in ("CRITICAL", "HIGH"):
         routes.append("SDRs")
@@ -293,6 +293,31 @@ def build_competitors(signals, verdicts, per_company=None):
         recommended_actions = signal.get("recommended_actions", [])
         verdict_action = verdict.get("recommended_action", "Review competitive positioning.")
 
+        # Per-team verdict text — each team sees distinct framing
+        ci = verdict.get("competitive_impact", {}) if isinstance(verdict.get("competitive_impact"), dict) else {}
+        overlap = ci.get("overlap_with_actian", "")
+        at_risk = ci.get("at_risk_segments", "")
+        what = verdict.get("what_is_happening", signal.get("signal_summary", ""))
+        why = verdict.get("why_it_matters", what)
+        primary = verdict.get("primary_interpretation", "")
+        confidence = verdict.get("confidence", "")
+
+        def _pmm_verdict():
+            if overlap:
+                return f"Competitive overlap: {overlap}. {why}".strip()
+            return why or what
+
+        def _sdrs_verdict():
+            if at_risk:
+                return f"At-risk segments: {at_risk}. {what}".strip()
+            return what
+
+        def _exec_verdict():
+            base = why or what
+            if confidence:
+                return f"{base} (Confidence: {confidence.title()})"
+            return base
+
         comp = {
             "id": re.sub(r"[^a-z0-9]", "", company.lower()),
             "name": company,
@@ -310,12 +335,12 @@ def build_competitors(signals, verdicts, per_company=None):
                 "watchFor": signal.get("roadmap", {}).get("watch_for", ""),
             },
             "verdict": {
-                "All": verdict.get("what_is_happening", signal.get("signal_summary", "")),
-                "Product": verdict.get("what_is_happening", signal.get("signal_summary", "")),
-                "PMM": verdict.get("why_it_matters", verdict.get("what_is_happening", "")),
-                "Marketing": verdict.get("why_it_matters", verdict.get("what_is_happening", "")),
-                "SDRs": verdict.get("what_is_happening", signal.get("signal_summary", "")),
-                "Executives": verdict.get("why_it_matters", verdict.get("what_is_happening", "")),
+                "All":        what,
+                "Product":    primary or what,
+                "PMM":        _pmm_verdict(),
+                "Marketing":  why or what,
+                "SDRs":       _sdrs_verdict(),
+                "Executives": _exec_verdict(),
             },
             "action": derive_team_actions(company, threat, verdict, recommended_actions, verdict_action),
             "signals": sig_chips,

@@ -2435,9 +2435,12 @@ function HiringPage({ onOpen, lens }) {
 
   const filtered = useMemoP(() => {
     let list = sorted.filter(c => areaFilter === "all" || c.area === areaFilter);
-    // Apply lens filter
+    // Apply lens filter — each team sees relevant subset
     if (lens === "Executives") list = list.filter(c => c.threat === "CRITICAL" || c.threat === "HIGH");
-    if (lens === "SDRs") list = list.filter(c => ["CRITICAL","HIGH","MEDIUM"].includes(c.threat));
+    else if (lens === "SDRs")  list = list.filter(c => ["CRITICAL","HIGH","MEDIUM"].includes(c.threat));
+    else if (lens === "PMM")   list = list.filter(c => c.routes && c.routes.includes("PMM"));
+    else if (lens === "Marketing") list = list.filter(c => c.routes && c.routes.includes("Marketing"));
+    // Product / All: full roster
     return list;
   }, [sorted, areaFilter, lens]);
 
