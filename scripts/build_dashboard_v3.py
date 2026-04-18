@@ -413,17 +413,20 @@ def build_launches_events(comp_signals):
             launch_id += 1
 
     # Sort launches by published_date descending, limit to 15
-    # (already in source order from scraper; we'll just slice)
     launches_sorted = sorted(
         launches,
         key=lambda x: x.get("date", "") or "",
         reverse=True
     )[:15]
 
-    # Limit events to 8
-    events = events[:8]
+    # Sort events by date descending, limit to 8
+    events_sorted = sorted(
+        events,
+        key=lambda x: x.get("date", "") or "",
+        reverse=True
+    )[:8]
 
-    return launches_sorted, events
+    return launches_sorted, events_sorted
 
 
 # ── JS generation ────────────────────────────────────────────────────────────
