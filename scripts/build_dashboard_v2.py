@@ -74,8 +74,8 @@ def fmt_date(d_str):
 
 # ── Data builders ──────────────────────────────────────────────────────────────
 
-def build_signals(raw_signals, jobs):
-    """Build SIGNALS array for the Strategic Signals page."""
+def build_signals(raw_signals, jobs, verdicts):
+    """Build SIGNALS array for the Strategic Signals page. Include all V2_COMPANIES with synthesis if needed."""
     out = []
     company_jobs = {}
     for j in jobs:
@@ -84,6 +84,9 @@ def build_signals(raw_signals, jobs):
             company_jobs[c] = []
         company_jobs[c].append(j)
 
+    built_companies = set()
+
+    # First pass: build from signals
     for s in raw_signals:
         company = s.get("company","")
         if company not in V2_COMPANIES:
@@ -117,6 +120,31 @@ def build_signals(raw_signals, jobs):
             "summary": s.get("signal_summary", s.get("summary","")),
             "implications": implications[:3] if implications else [],
         })
+        built_companies.add(company)
+
+    # Second pass: synthesize missing companies from verdicts
+    for company in V2_COMPANIES:
+        if company in built_companies:
+            continue
+        v = verdicts.get(company, {})
+        if v:
+            seg_raw = v.get("product_area", "Data Intelligence")
+            segment = SEGMENT_MAP.get(seg_raw, "Data Intelligence")
+            threat_map = {"critical": "critical", "high": "high", "medium": "medium", "low": "low"}
+            impact = (v.get("threat_level") or "medium").lower()
+            out.append({
+                "company": company,
+                "segment": segment,
+                "threat": threat_map.get(impact, "medium"),
+                "intensity": INTENSITY_MAP.get(impact.capitalize(), "Medium"),
+                "dominant": "Engineering",
+                "ai_roles": 0,
+                "senior": 0,
+                "hiring": 0,
+                "summary": v.get("what_is_happening", ""),
+                "implications": [],
+            })
+
     return out
 
 def build_verdicts(raw_verdicts, signals_by_company):
@@ -634,8 +662,9 @@ def main():
     print(f"\n  Jobs: {len(jobs)} | Signals: {len(raw_signals)} | Verdicts: {len(raw_verdicts)} | Comp signals: {len(comp_signals)}")
 
     signals_by_company = {s["company"]: s for s in raw_signals}
+    verdicts_by_company = {v["company"]: v for v in raw_verdicts}
 
-    signals_data  = build_signals(raw_signals, jobs)
+    signals_data  = build_signals(raw_signals, jobs, verdicts_by_company)
     verdicts_data = build_verdicts(raw_verdicts, signals_by_company)
     launches_data = build_launches(comp_signals)
     jobs_data     = build_jobs(jobs)
