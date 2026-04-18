@@ -131,6 +131,40 @@ def clean_text(text: str) -> str:
 # EVENT GATING — hard rules for what constitutes a real competitive signal
 # ══════════════════════════════════════════════════════════════════════════
 
+# Strong product launch signals — explicit language that overrides event classification.
+# These phrases mean the content IS about a product launch, not just a company event.
+# Used in classify_item() and the event page loop to catch launches on event pages too.
+_PRODUCT_LAUNCH_STRONG_RE = re.compile(
+    r'\bproduct\s+launch\b'                           # "product launch" exact phrase
+    r"|we'?re\s+launching"                             # "we're launching"
+    r'|officially\s+(?:launch|releas)'                 # "officially launching/releasing"
+    # verb + product noun (direct): "launches platform", "releases feature", "ships update"
+    # Covers: launches/launched/launching, releases/released, introduces/introduced,
+    #         ships/shipped/shipping, unveils/unveiled
+    r'|(?:launch(?:es|ed|ing)|releas(?:es|ed|ing)|introduc(?:es|ed|ing)'
+      r'|unveil(?:s|ed|ing)|ship(?:s|ped|ping))\s+'
+      r'(?:new\s+)?(?:a\s+|our\s+|its\s+)?'
+      r'(?:product|feature|platform|tool|integration|capability|solution|version|update'
+      r'|catalog|database|db|service|model|agent|agents|workflow|engine|hub|studio|suite|connector|pipeline|assistant|copilot)\b'
+    # verb + "new [multi-word]... noun": "introduces new data catalog platform"
+    r'|(?:launch(?:es|ed|ing)|releas(?:es|ed|ing)|introduc(?:es|ed|ing)'
+      r'|unveil(?:s|ed|ing)|ship(?:s|ped|ping))\s+(?:new\s+|a\s+|our\s+|its\s+).{2,60}'
+      r'(?:product|feature|platform|tool|integration|capability|solution|version|update'
+      r'|catalog|database|db|service|model|agent|agents|workflow|engine|hub|studio|suite|connector|pipeline|assistant|copilot)\b'
+    # bare "launches/introduces" as verb in headline — not followed by event/conference nouns
+    # "Atlan launches Context Engineering Studio" / "Acceldata introduces DataOps Hub"
+    r'|\b(?:launches|introduces)\s+'
+      r'(?!(?:at|in|with|from|to|on|for|its|the)\s+(?:\w+\s+){0,3}(?:conference|summit|meetup|webinar|event|tour)\b)'
+    r'|(?:new\s+)?(?:product|feature|platform|capability)\s+(?:launch|releas|announc)\b'
+    r'|\bnow\s+generally\s+available\b'
+    r'|\bgeneral\s+availability\b'
+    r'|\bga\s+(?:release|launch|today|announcement)\b'
+    r"|what'?s\s+new\s+in\b"
+    r"|today\s+we'?re\s+(?:launch|announc|introduc|releas)"
+    r'|\bannouncing\s+(?:the\s+launch\s+of|general\s+availability|our\s+new)\b',
+    re.I,
+)
+
 # Signals that indicate a real-world event (product, market movement)
 _EVENT_GATE_RE = re.compile(
     r'\blaunch(?:ed|ing)?\b'
@@ -245,15 +279,22 @@ def classify_item(company: str, title: str, description: str) -> dict | None:
     combined_text = (title + " " + description).lower()
 
     # ═══ DETERMINE TYPE ═══
-    if re.search(r'\bevent\b|conference|summit|meetup|webinar|forum|expo|announce.*event', combined_text):
-        signal_type = "event"
-    elif re.search(r'partnership|partner|collaborate|integration with|works with|partner\s+with|teaming', combined_text):
-        signal_type = "partnership"
-    elif re.search(r'\bfunding\b|funding round|series [a-z]|investment|raise\s+\$|announced.*funding', combined_text):
-        signal_type = "funding"
+    # IMPORTANT: Check strong product launch signals FIRST.
+    # An event page can also announce a product launch — explicit launch language
+    # must override generic "event" keywords (e.g. "Atlan Activate: GA of Context Studio").
+    if _PRODUCT_LAUNCH_STRONG_RE.search(combined_text):
+        signal_type = "product_launch"
     elif re.search(r'open.*source|github release|released.*version|version \d+\.\d+', combined_text):
         signal_type = "open_source_release"
-    elif re.search(r'\blaunch|announce.*new|introduce|release|released|shipped|beta|ga|available\s+now|what\'s new|new feature|now available|rollout', combined_text):
+    elif re.search(r'\bfunding\b|funding round|series [a-z]|investment|raise\s+\$|announced.*funding', combined_text):
+        signal_type = "funding"
+    elif re.search(r'partnership|partner|collaborate|integration with|works with|partner\s+with|teaming', combined_text):
+        signal_type = "partnership"
+    elif re.search(r'\bevent\b|conference|summit|meetup|webinar|forum|expo|announce.*event', combined_text):
+        signal_type = "event"
+    elif re.search(r'\blaunch\b|announce.*new|introduce|release|released|shipped|beta|available\s+now|what\'s new|new feature|now available|rollout', combined_text):
+        # Weaker launch signals (no explicit "product launch" phrase) — still classify
+        # as product_launch if not caught by any above bucket
         signal_type = "product_launch"
     else:
         signal_type = "blog_post"
@@ -1157,9 +1198,16 @@ def main():
             if not title:
                 continue
 
-            # Rule-based classify but force type=event
+            # Classify — but check for explicit product launch language first.
+            # An event page item can be type=product_launch if the title/description
+            # explicitly says "product launch", "GA", "generally available", etc.
+            # Otherwise default to type=event (it came from an event listing page).
             classification = classify_item(company, title, item["description"])
-            classification["type"] = "event"
+            combined_check = (title + " " + item.get("description", "")).lower()
+            if _PRODUCT_LAUNCH_STRONG_RE.search(combined_check):
+                classification["type"] = "product_launch"
+            else:
+                classification["type"] = "event"
             classification["source_type"] = "event_page"
             if item.get("event_date"):
                 classification["event_date"] = item["event_date"]
@@ -1167,7 +1215,7 @@ def main():
             signal = {
                 "company":          company,
                 "product_area":     product_area,
-                "type":             "event",
+                "type":             classification["type"],
                 "title":            clean_text(title),
                 "url":              item_url,
                 "published_date":   item["published_date"],
@@ -1182,7 +1230,8 @@ def main():
             new_signals.append(signal)
             seen_urls.add(item_url)
             added += 1
-            print(f"  ✓ {title[:60]} | {item.get('event_date', 'no date')}")
+            type_label = "🚀 LAUNCH" if classification["type"] == "product_launch" else "📅 event"
+            print(f"  ✓ [{type_label}] {title[:55]} | {item.get('event_date', 'no date')}")
 
         if added == 0:
             print(f"  (all already seen)")
