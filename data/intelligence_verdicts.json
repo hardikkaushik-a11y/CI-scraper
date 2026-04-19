@@ -3,107 +3,83 @@
     "company": "Atlan",
     "product_area": "Data Intelligence",
     "signal_type": "hiring + event",
-    "impact_level": "feature",
-    "what_is_happening": "Atlan is assembling senior leadership (77% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. 8 upcoming event(s) confirmed — active GTM motion.",
-    "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface.",
-    "primary_interpretation": "Atlan shows limited Data Intelligence activity in this window. Signals are insufficient to confirm a strategic directional move.",
+    "impact_level": "product",
+    "what_is_happening": "Atlan is assembling senior leadership (77% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: The Context Layer, Live — Atlan Activate 2026. 4 upcoming event(s) confirmed — active GTM motion.",
+    "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface. New capability reduces the gap in feature parity — affects Actian's positioning in competitive evaluations.",
+    "primary_interpretation": "Atlan has shipped new Data Intelligence capability. 13 open roles suggest they are scaling around this launch.",
     "alternative_interpretation": "Sparse signals may reflect deliberate stealth ahead of a major launch, or simply low activity in this window — insufficient data to distinguish between the two.",
     "hiring_event_correlation": {
-      "strength": "weak",
-      "explanation": "Both dimensions present (13 roles + event signals) but don't reinforce each other — Engineering doesn't directly map to the event type detected."
+      "strength": "moderate",
+      "explanation": "13 open roles + product/event signal present. Hiring function (Engineering) is plausibly related but volume (1/3) is insufficient to confirm at-scale deployment."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — data catalog and governance",
       "at_risk_segments": "enterprise data governance teams, regulated industries (finance, healthcare)",
-      "type_of_move": "expansion"
+      "type_of_move": "defensive"
     },
-    "confidence": "low",
-    "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
-    "recommended_action": "No immediate action required. Monitor Atlan for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "88b0308f282ff02b"
+    "confidence": "medium",
+    "confidence_reasoning": "Moderate evidence: hiring volume supports the signal. Correlation is moderate — one dimension is weaker.",
+    "recommended_action": "PMM: verify Atlan's new capability does not undercut Actian's embedded lineage and governance at the data source in active competitive evaluations; update battlecard if feature gap confirmed.",
+    "last_updated": "2026-04-19",
+    "_input_hash": "122bf6c02c51705b"
   },
   {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "signal_type": "hiring + event",
-    "impact_level": "feature",
-    "what_is_happening": "Collibra is assembling senior leadership (70% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. 12 upcoming event(s) confirmed — active GTM motion.",
-    "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface.",
-    "primary_interpretation": "Collibra is growing its Engineering function aggressively (43 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
-    "alternative_interpretation": "43 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
+    "impact_level": "platform",
+    "what_is_happening": "Collibra is assembling senior leadership (70% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Introducing the Collibra AI Command Center; Collibra Activate AI — Govern any Data. 7 upcoming event(s) confirmed — active GTM motion.",
+    "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
+    "primary_interpretation": "Collibra is deepening Data Intelligence product capability: 43 Engineering roles combined with 2 product launch(es) signal sustained R&D investment.",
+    "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
     "hiring_event_correlation": {
-      "strength": "weak",
-      "explanation": "Both dimensions present (43 roles + event signals) but don't reinforce each other — Engineering doesn't directly map to the event type detected."
+      "strength": "strong",
+      "explanation": "43 Engineering roles (volume score 3/3) directly support 2 product launch(es) — substantive engineering buildout behind this release."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — data catalog and governance",
       "at_risk_segments": "enterprise data governance teams, regulated industries (finance, healthcare)",
-      "type_of_move": "expansion"
+      "type_of_move": "platform"
     },
-    "confidence": "low",
-    "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
-    "recommended_action": "No immediate action required. Monitor Collibra for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "ff2dddd86b2a55a2"
+    "confidence": "high",
+    "confidence_reasoning": "Strong compound evidence: 43 open roles + 9 non-blog event signals with strong correlation between hiring and events.",
+    "recommended_action": "PMM + SDRs: refresh Collibra battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
+    "last_updated": "2026-04-19",
+    "_input_hash": "0c95f2b7ed6f3c48"
   },
   {
     "company": "Alation",
     "product_area": "Data Intelligence",
     "signal_type": "hiring + event",
-    "impact_level": "feature",
-    "what_is_happening": "Alation is actively hiring 23 roles across Engineering focused on Platform / Infra, with high intensity — steady investment in their Data Intelligence capabilities. 7 upcoming event(s) confirmed — active GTM motion.",
-    "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface.",
-    "primary_interpretation": "Alation is growing its Engineering function aggressively (23 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
-    "alternative_interpretation": "23 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
+    "impact_level": "platform",
+    "what_is_happening": "Alation is actively hiring 23 roles across Engineering focused on Platform / Infra, with high intensity — steady investment in their Data Intelligence capabilities. Product launches detected: Alation AI Catalog — Self-Healing Data Intelligence. 6 upcoming event(s) confirmed — active GTM motion.",
+    "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
+    "primary_interpretation": "Alation is deepening Data Intelligence product capability: 23 Engineering roles combined with 1 product launch(es) signal sustained R&D investment.",
+    "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
     "hiring_event_correlation": {
-      "strength": "weak",
-      "explanation": "Both dimensions present (23 roles + event signals) but don't reinforce each other — Engineering doesn't directly map to the event type detected."
+      "strength": "strong",
+      "explanation": "23 Engineering roles (volume score 2/3) directly support 1 product launch(es) — substantive engineering buildout behind this release."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — data catalog and governance",
       "at_risk_segments": "enterprise data governance teams, regulated industries (finance, healthcare)",
-      "type_of_move": "expansion"
+      "type_of_move": "platform"
     },
-    "confidence": "low",
-    "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
-    "recommended_action": "No immediate action required. Monitor Alation for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "f12a142027ed76c2"
+    "confidence": "high",
+    "confidence_reasoning": "Strong compound evidence: 23 open roles + 7 non-blog event signals with strong correlation between hiring and events.",
+    "recommended_action": "PMM + SDRs: refresh Alation battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
+    "last_updated": "2026-04-19",
+    "_input_hash": "62de8cc2bdf6c8d3"
   },
   {
     "company": "Monte Carlo",
     "product_area": "Data Observability",
-    "signal_type": "none",
-    "impact_level": "feature",
-    "what_is_happening": "",
-    "why_it_matters": "Overlaps Actian's pipeline monitoring and data quality layer.",
-    "primary_interpretation": "Monte Carlo shows limited Data Observability activity in this window. Signals are insufficient to confirm a strategic directional move.",
-    "alternative_interpretation": "Sparse signals may reflect deliberate stealth ahead of a major launch, or simply low activity in this window — insufficient data to distinguish between the two.",
-    "hiring_event_correlation": {
-      "strength": "none",
-      "explanation": "Insufficient signals in both dimensions to establish correlation."
-    },
-    "competitive_impact": {
-      "overlap_with_actian": "yes — data quality and pipeline monitoring",
-      "at_risk_segments": "mid-market and enterprise data engineering teams running production pipelines",
-      "type_of_move": "expansion"
-    },
-    "confidence": "low",
-    "confidence_reasoning": "Sparse signals: insufficient data in both dimensions. Directional hypothesis only.",
-    "recommended_action": "No immediate action required. Monitor Monte Carlo for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-17",
-    "_input_hash": "47de503cf14a3d3c"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
     "signal_type": "event only",
     "impact_level": "feature",
-    "what_is_happening": "10 upcoming event(s) confirmed — active GTM motion.",
-    "why_it_matters": "Overlaps Actian's pipeline monitoring and data quality layer.",
-    "primary_interpretation": "Bigeye shows limited Data Observability activity in this window. Signals are insufficient to confirm a strategic directional move.",
-    "alternative_interpretation": "Sparse signals may reflect deliberate stealth ahead of a major launch, or simply low activity in this window — insufficient data to distinguish between the two.",
+    "what_is_happening": "Product launches detected: Monte Carlo Impact Engine — ROI Metrics.",
+    "why_it_matters": "Overlaps Actian's pipeline monitoring and data quality layer. New capability reduces the gap in feature parity — affects Actian's positioning in competitive evaluations.",
+    "primary_interpretation": "Monte Carlo has shipped new Data Observability capability. Hiring lags behind the launch — may be pre-revenue or early-access stage.",
+    "alternative_interpretation": "Low hiring volume (0 roles) relative to the launch scale suggests this may be a small-team or partner-led release, not a full product investment — watch for follow-on hiring in the next 30 days as a confirmation signal.",
     "hiring_event_correlation": {
       "strength": "none",
       "explanation": "Only one data source present — event signals only, no supporting hiring pattern."
@@ -111,44 +87,68 @@
     "competitive_impact": {
       "overlap_with_actian": "yes — data quality and pipeline monitoring",
       "at_risk_segments": "mid-market and enterprise data engineering teams running production pipelines",
-      "type_of_move": "expansion"
+      "type_of_move": "defensive"
     },
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
-    "recommended_action": "No immediate action required. Monitor Bigeye for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "43aacef5a614cbec"
+    "recommended_action": "No immediate action required. Monitor Monte Carlo for hiring acceleration or product launch signals over the next 60 days before escalating.",
+    "last_updated": "2026-04-19",
+    "_input_hash": "c2cbe78f7db22d57"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "signal_type": "event only",
+    "impact_level": "product",
+    "what_is_happening": "Product launches detected: Bigeye Analytics — Unified Observability. 1 upcoming event(s) confirmed — active GTM motion.",
+    "why_it_matters": "Overlaps Actian's pipeline monitoring and data quality layer. New capability reduces the gap in feature parity — affects Actian's positioning in competitive evaluations.",
+    "primary_interpretation": "Bigeye has shipped new Data Observability capability. Hiring lags behind the launch — may be pre-revenue or early-access stage.",
+    "alternative_interpretation": "Low hiring volume (0 roles) relative to the launch scale suggests this may be a small-team or partner-led release, not a full product investment — watch for follow-on hiring in the next 30 days as a confirmation signal.",
+    "hiring_event_correlation": {
+      "strength": "none",
+      "explanation": "Only one data source present — event signals only, no supporting hiring pattern."
+    },
+    "competitive_impact": {
+      "overlap_with_actian": "yes — data quality and pipeline monitoring",
+      "at_risk_segments": "mid-market and enterprise data engineering teams running production pipelines",
+      "type_of_move": "defensive"
+    },
+    "confidence": "low",
+    "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
+    "recommended_action": "PMM: verify Bigeye's new capability does not undercut Actian's real-time DQ monitoring with push-based alerting in active competitive evaluations; update battlecard if feature gap confirmed.",
+    "last_updated": "2026-04-19",
+    "_input_hash": "2b1c3acf43918739"
   },
   {
     "company": "Acceldata",
     "product_area": "Data Observability",
     "signal_type": "hiring + event",
-    "impact_level": "feature",
-    "what_is_happening": "Acceldata is scaling infrastructure with 7 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering. 20 upcoming event(s) confirmed — active GTM motion.",
-    "why_it_matters": "Overlaps Actian's pipeline monitoring and data quality layer.",
-    "primary_interpretation": "Acceldata is growing its Engineering function aggressively (21 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
-    "alternative_interpretation": "21 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
+    "impact_level": "product",
+    "what_is_happening": "Acceldata is scaling infrastructure with 7 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering. Product launches detected: DataOps AI Assistant — Auto-Remediation. 7 upcoming event(s) confirmed — active GTM motion.",
+    "why_it_matters": "Overlaps Actian's pipeline monitoring and data quality layer. New capability reduces the gap in feature parity — affects Actian's positioning in competitive evaluations.",
+    "primary_interpretation": "Acceldata is deepening Data Observability product capability: 21 Engineering roles combined with 1 product launch(es) signal sustained R&D investment.",
+    "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
     "hiring_event_correlation": {
-      "strength": "weak",
-      "explanation": "Both dimensions present (21 roles + event signals) but don't reinforce each other — Engineering doesn't directly map to the event type detected."
+      "strength": "strong",
+      "explanation": "21 Engineering roles (volume score 2/3) directly support 1 product launch(es) — substantive engineering buildout behind this release."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — data quality and pipeline monitoring",
       "at_risk_segments": "mid-market and enterprise data engineering teams running production pipelines",
-      "type_of_move": "expansion"
+      "type_of_move": "defensive"
     },
-    "confidence": "low",
-    "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
-    "recommended_action": "No immediate action required. Monitor Acceldata for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "1aa04492ff477bb3"
+    "confidence": "high",
+    "confidence_reasoning": "Strong compound evidence: 21 open roles + 8 non-blog event signals with strong correlation between hiring and events.",
+    "recommended_action": "PMM: verify Acceldata's new capability does not undercut Actian's real-time DQ monitoring with push-based alerting in active competitive evaluations; update battlecard if feature gap confirmed.",
+    "last_updated": "2026-04-19",
+    "_input_hash": "65ca08b6dd368fa4"
   },
   {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "signal_type": "hiring + event",
-    "impact_level": "market",
-    "what_is_happening": "Pinecone is assembling senior leadership (75% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes Tha; Featured Pinecone BYOC: Pinecone in your AWS, GCP, or Azure account, n. 8 upcoming event(s) confirmed — active GTM motion.",
+    "impact_level": "platform",
+    "what_is_happening": "Pinecone is assembling senior leadership (75% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Pinecone Inference API — Real-time Embeddings. 5 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian Vector — direct competition in enterprise vector retrieval. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
     "primary_interpretation": "Pinecone has shipped new VectorAI capability. Hiring lags behind the launch — may be pre-revenue or early-access stage.",
     "alternative_interpretation": "Low hiring volume (8 roles) relative to the launch scale suggests this may be a small-team or partner-led release, not a full product investment — watch for follow-on hiring in the next 30 days as a confirmation signal.",
@@ -159,44 +159,44 @@
     "competitive_impact": {
       "overlap_with_actian": "yes — vector database and AI retrieval",
       "at_risk_segments": "enterprise ML/AI teams evaluating vector DB for production RAG workflows",
-      "type_of_move": "defensive"
+      "type_of_move": "platform"
     },
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Pinecone for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "5edc263f8f67ce71"
+    "last_updated": "2026-04-19",
+    "_input_hash": "01b687f483f4fd39"
   },
   {
     "company": "Qdrant",
     "product_area": "VectorAI",
-    "signal_type": "hiring + event",
-    "impact_level": "market",
-    "what_is_happening": "Qdrant is scaling infrastructure with 3 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering. Product launches detected: Qdrant Meets Google Gemini Embedding 2; Convolve 4.0 - IIT Hackathon Winners. Funding event: We Raised $50M to Build Composable Vector Search as Core Infrastructure.",
-    "why_it_matters": "Overlaps Actian Vector — direct competition in enterprise vector retrieval. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
-    "primary_interpretation": "Qdrant received new capital, which typically accelerates both product velocity and GTM expansion. With 13 open roles, headcount growth is likely imminent.",
-    "alternative_interpretation": "Funding could be runway extension rather than growth acceleration — if Qdrant is managing burn, capital may not translate to near-term hiring or product velocity. Monitor headcount growth over the next 60 days to confirm.",
+    "signal_type": "hiring only",
+    "impact_level": "feature",
+    "what_is_happening": "Qdrant is scaling infrastructure with 3 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
+    "why_it_matters": "Overlaps Actian Vector — direct competition in enterprise vector retrieval.",
+    "primary_interpretation": "Qdrant shows limited VectorAI activity in this window. Signals are insufficient to confirm a strategic directional move.",
+    "alternative_interpretation": "Sparse signals may reflect deliberate stealth ahead of a major launch, or simply low activity in this window — insufficient data to distinguish between the two.",
     "hiring_event_correlation": {
-      "strength": "moderate",
-      "explanation": "13 open roles + product/event signal present. Hiring function (Engineering) is plausibly related but volume (1/3) is insufficient to confirm at-scale deployment."
+      "strength": "none",
+      "explanation": "Only one data source present — hiring data only, no confirmed product events."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — vector database and AI retrieval",
       "at_risk_segments": "enterprise ML/AI teams evaluating vector DB for production RAG workflows",
       "type_of_move": "expansion"
     },
-    "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 13 open roles + 3 non-blog event signals with moderate correlation between hiring and events.",
-    "recommended_action": "Product: assess roadmap gaps vs. Qdrant's funded capabilities within 30 days; reinforce Actian's hybrid vector + relational queries without a separate vector DB in any joint accounts before Qdrant accelerates GTM.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "89d949b5e25f95ef"
+    "confidence": "low",
+    "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
+    "recommended_action": "No immediate action required. Monitor Qdrant for hiring acceleration or product launch signals over the next 60 days before escalating.",
+    "last_updated": "2026-04-19",
+    "_input_hash": "1278b9e033520e4c"
   },
   {
     "company": "Milvus",
     "product_area": "VectorAI",
     "signal_type": "hiring + event",
     "impact_level": "feature",
-    "what_is_happening": "Milvus is actively hiring 8 roles across Sales focused on Go-to-Market, with medium intensity — steady investment in their Other capabilities. 6 upcoming event(s) confirmed — active GTM motion. 1 open source release(s) — community/developer expansion signal.",
+    "what_is_happening": "Milvus is actively hiring 8 roles across Sales focused on Go-to-Market, with medium intensity — steady investment in their Other capabilities. 5 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian Vector — direct competition in enterprise vector retrieval.",
     "primary_interpretation": "Milvus shows limited VectorAI activity in this window. Signals are insufficient to confirm a strategic directional move.",
     "alternative_interpretation": "Sparse signals may reflect deliberate stealth ahead of a major launch, or simply low activity in this window — insufficient data to distinguish between the two.",
@@ -212,15 +212,15 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Milvus for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "7525e363e98e50a8"
+    "last_updated": "2026-04-19",
+    "_input_hash": "36a4f16e01433c3d"
   },
   {
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
     "impact_level": "feature",
-    "what_is_happening": "Snowflake is doubling down on data engineering with 4 pipeline/integration roles — direct competitive move against Actian in the data integration space. 11 upcoming event(s) confirmed — active GTM motion.",
+    "what_is_happening": "Snowflake is doubling down on data engineering with 4 pipeline/integration roles — direct competitive move against Actian in the data integration space. 10 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform.",
     "primary_interpretation": "Snowflake is growing its Engineering function aggressively (198 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
     "alternative_interpretation": "198 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
@@ -236,15 +236,15 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Snowflake for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "c5017a01aab0229d"
+    "last_updated": "2026-04-19",
+    "_input_hash": "31a7b9ca3823e50d"
   },
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 21 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing Genie Agent Mode; Governing Coding Agent Sprawl with Unity AI Gateway. 6 upcoming event(s) confirmed — active GTM motion.",
+    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 21 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing Genie Agent Mode; Governing Coding Agent Sprawl with Unity AI Gateway. 14 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
     "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 193 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
@@ -258,9 +258,9 @@
       "type_of_move": "expansion"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 193 open roles + 11 non-blog event signals with strong correlation between hiring and events.",
+    "confidence_reasoning": "Strong compound evidence: 193 open roles + 20 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Databricks battlecard within 2 weeks — new platform capability directly challenges Actian's edge and embedded analytics without cloud lock-in; lead with Actian's deployment flexibility as the counter-position.",
-    "last_updated": "2026-04-18",
-    "_input_hash": "2d428752998cd26f"
+    "last_updated": "2026-04-19",
+    "_input_hash": "4daa2eac74fb251d"
   }
 ]
