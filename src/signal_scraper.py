@@ -1323,6 +1323,11 @@ def main():
             if not title:
                 continue
 
+            # Skip Bigeye product pages that bleed onto events page sidebar
+            if company == "Bigeye" and "/product/" in item_url:
+                seen_urls.add(item_url)
+                continue
+
             # Classify — but check for explicit product launch language first.
             # An event page item can be type=product_launch if the title/description
             # explicitly says "product launch", "GA", "generally available", etc.
