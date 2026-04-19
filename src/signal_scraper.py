@@ -84,7 +84,7 @@ HTML_SOURCES = {
 
 EVENT_URLS = {
     "Collibra":   "https://www.collibra.com/events",
-    "Snowflake":  "https://www.snowflake.com/en/events/",
+    "Snowflake":  "https://www.snowflake.com/en/events/all-events/",
     "Databricks": "https://www.databricks.com/events",
     "Bigeye":     "https://www.bigeye.com/events",
     "Pinecone":   "https://www.pinecone.io/community/",
@@ -96,7 +96,7 @@ EVENT_URLS = {
 
 # Companies whose event pages require JavaScript execution (React/Next.js)
 # These will use Playwright instead of httpx for event page scraping.
-PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus", "Databricks"}
+PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus", "Databricks", "Snowflake"}
 
 # ══════════════════════════════════════════════════════════════════════════
 # TEXT CLEANING — strip noise before classification
