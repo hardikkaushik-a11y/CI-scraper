@@ -522,6 +522,52 @@
     "scraped_at": "2026-04-19"
   },
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Snowflake Connect: Analytics",
+    "url": "https://www.snowflake.com/events/snowflake-connect-analytics/",
+    "published_date": "2026-04-19",
+    "summary": "16 Apr Snowflake Connect: Analytics 10:00 AM PT Register Now",
+    "actian_relevance": "high",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-04-16",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "AI Hackathon",
+    "url": "https://www.snowflake.com/event/ai-hackathon/",
+    "published_date": "2026-04-19",
+    "summary": "16 Apr AI Hackathon 08:30 CEST Sveav\u00e4gen 15, H\u00f6torgsskrapa 2 Stockholm Register now",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-16",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "DATA, WHO? Demystifying Data Secrets Through AI Data Cloud",
+    "url": "https://www.snowflake.com/events/data-who-demystifying-data-secrets-through-ai-data-cloud-2026-04-18/",
+    "published_date": "2026-04-19",
+    "summary": "18 Apr DATA, WHO? Demystifying Data Secrets Through AI Data Cloud 08:30 IST The Westin Pune Koregaon Park, Pune Register Now",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-18",
+    "scraped_at": "2026-04-19"
+  },
+  {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "type": "event",

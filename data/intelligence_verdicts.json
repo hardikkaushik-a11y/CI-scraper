@@ -220,7 +220,7 @@
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
     "impact_level": "feature",
-    "what_is_happening": "Snowflake is doubling down on data engineering with 4 pipeline/integration roles — direct competitive move against Actian in the data integration space. 10 upcoming event(s) confirmed — active GTM motion.",
+    "what_is_happening": "Snowflake is doubling down on data engineering with 4 pipeline/integration roles — direct competitive move against Actian in the data integration space. 13 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform.",
     "primary_interpretation": "Snowflake is growing its Engineering function aggressively (198 roles) without confirmed product launches — suggests internal platform buildout or upcoming launch not yet public.",
     "alternative_interpretation": "198 roles without a confirmed product event could indicate attrition backfill or a platform migration rather than net-new investment — hiring composition (senior vs. mid-level) would clarify intent.",
@@ -237,14 +237,14 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Snowflake for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-19",
-    "_input_hash": "31a7b9ca3823e50d"
+    "_input_hash": "a3c7dce0565faa24"
   },
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 21 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing Genie Agent Mode; Governing Coding Agent Sprawl with Unity AI Gateway. 14 upcoming event(s) confirmed — active GTM motion.",
+    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 21 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing Genie Agent Mode; Governing Coding Agent Sprawl with Unity AI Gateway. 12 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
     "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 193 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
@@ -258,9 +258,9 @@
       "type_of_move": "expansion"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 193 open roles + 20 non-blog event signals with strong correlation between hiring and events.",
+    "confidence_reasoning": "Strong compound evidence: 193 open roles + 18 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Databricks battlecard within 2 weeks — new platform capability directly challenges Actian's edge and embedded analytics without cloud lock-in; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-19",
-    "_input_hash": "4daa2eac74fb251d"
+    "_input_hash": "b9d007bf1b2d532f"
   }
 ]
