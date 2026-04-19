@@ -198,21 +198,56 @@ _NOISE_RE = re.compile(
     re.I,
 )
 
-# Workshop & low-value webinar filter — hard exclude unless it's a product launch
-# Removes training sessions, how-to webinars, and one-off technical deep-dives
+# ── Tier 1: Named educational series — ALWAYS skip, no judgment needed ────────
+# These are recurring training/education programs, never competitive intel.
+_SERIES_BLACKLIST_RE = re.compile(
+    r'\bnorthstar\b'                        # Snowflake's Northstar education series
+    r'|learn[-\s]code[-\s]connect'          # Snowflake's coding training series
+    r'|\bbuilders?\s+series\b'              # Developer training (Snowflake, Databricks, etc.)
+    r'|\bdata\s+for\s+breakfast\b'          # Snowflake's recurring breakfast event series
+    r'|\bdata\s+radicals?\s+podcast\b'      # Alation's podcast
+    r'|\bthe\s+observatory\b'               # Monte Carlo's newsletter/series
+    r'|\boffice\s+hours\b'                  # "Office hours" recurring
+    r'|\bq\s*&\s*a\s+(?:session|webinar)\b' # "Q&A session/webinar"
+    r'|\bcertification(?:\s+exam)?\b'       # Certification exams
+    r'|\bfundamentals\b'                    # "Snowflake Fundamentals" training
+    r'|\bonboarding\b',                     # Customer onboarding events
+    re.I,
+)
+
+# ── Tier 2: City-stop training — skip when city name is in a how-to/training title ─
+# e.g. "Northstar London: Get Started with Snowflake" or "Learn-Code-Connect Nagpur"
+# Cities appear in training roadshows but NOT in strategic/product announcements.
+_CITY_RE = re.compile(
+    r'\b(?:london|paris|tokyo|sydney|singapore|dubai|mumbai|bangalore|bengaluru|'
+    r'nagpur|delhi|hyderabad|pune|chennai|amsterdam|berlin|munich|zurich|'
+    r'toronto|chicago|austin|seattle|boston|denver|atlanta|dallas|miami)\b',
+    re.I,
+)
+
+# ── Tier 3: Hard-exclude noise patterns regardless of type ─────────────────────
 _WORKSHOP_RE = re.compile(r'\bworkshop\b', re.I)
 _LOW_VALUE_WEBINAR_RE = re.compile(
-    r'\b(?:webinar|training|guide|tutorial|learning|course|certification)\b'
-    r'|building\s+(?:a\s+)?[a-z]+\s+(?:for|with|using|in)'  # "Building X for/with Y"
-    r'|(?:getting|getting\s+started|intro|introduction|learn)\s+(?:to|with)'  # "Getting started with X"
-    r'|how\s+to\s+(?:use|build|create|implement|deploy)'  # "How to use/build X"
-    r'|dive\s+(?:deep|into)|deep\s+dive'  # "Deep dive into"
-    r'|best\s+practices?|lessons?\s+learned'  # "Best practices in"
-    r'|getting\s+the\s+most|maximize|optimize\s+(?:your|your\s+[a-z]+)'  # "Maximize X"
-    r'|hands?[-\s]?on|interactive\s+session'  # "Hands-on lab"
-    r'|roundtable|office\s+hours|q&a\s+session'  # "Roundtable", "Office hours"
-    r'|customer\s+stories?|case\s+studies?|use\s+cases?'  # "Customer stories", "Use cases"
-    r'|technical\s+(?:training|session|deep.?dive)',  # "Technical training", "Technical session"
+    r'\b(?:training|tutorial|course)\b'
+    r'|building\s+(?:a\s+)?(?:[\w-]+\s+){1,5}(?:for|with|using|in)\b'  # "Building X pipelines for Y" (multi-word)
+    r'|getting\s+started\s+with'                                          # "Getting started with X"
+    r'|how\s+to\s+(?:use|build|create|implement|deploy)'                  # "How to use/build X"
+    r'|deep\s+dive\s+into'                                                # "Deep dive into X"
+    r'|hands?[-\s]on\s+(?:lab|session)'                                   # "Hands-on lab/session"
+    r'|customer\s+stories?|case\s+stud',                                  # "Customer stories/case study"
+    re.I,
+)
+
+# ── Tier 4: Strategic value override — these always PASS even if other patterns match ─
+# Roundtables/meetups with high-level strategic/market topics are competitive intel.
+_STRATEGIC_OVERRIDE_RE = re.compile(
+    r'\bai\s+(?:operating\s+system|strategy|roadmap|platform|governance|future)\b'
+    r'|\benterprise\s+(?:ai|strategy|data\s+strategy|transformation|architecture)\b'
+    r'|\bgo[-\s]to[-\s]market\b|\bgtm\b'
+    r'|\bproduct\s+(?:roadmap|vision|direction|strategy)\b'
+    r'|\bcompetitive\b|\bmarket\s+(?:shift|trend|direction)\b'
+    r'|\bdigital\s+transformation\b'
+    r'|\bplatform\s+(?:launch|announcement|strategy)\b',
     re.I,
 )
 
@@ -1208,16 +1243,26 @@ def main():
                 continue
 
             # Hard exclude: noise content patterns regardless of type
-            gate_text = title + " " + item["description"][:300]
+            gate_text = title + " " + item["description"][:300] + " " + url  # URL slug carries patterns like "northstar", "nagpur"
             if _NOISE_RE.search(gate_text):
                 seen_urls.add(url)
                 continue
 
-            # Hard exclude: workshops & low-value webinars UNLESS explicitly a product launch
+            # ── Event quality gate — 4-tier filter ─────────────────────────────
             if classification["type"] != "product_launch":
-                if _WORKSHOP_RE.search(gate_text) or _LOW_VALUE_WEBINAR_RE.search(gate_text):
+                # Tier 1: Named educational series — always skip
+                if _SERIES_BLACKLIST_RE.search(gate_text):
                     seen_urls.add(url)
                     continue
+                # Tier 2: City-stop training — skip if city + training keywords present
+                if _CITY_RE.search(gate_text) and _LOW_VALUE_WEBINAR_RE.search(gate_text):
+                    seen_urls.add(url)
+                    continue
+                # Tier 3: Generic noise — skip workshops/training UNLESS strategic override
+                if (_WORKSHOP_RE.search(gate_text) or _LOW_VALUE_WEBINAR_RE.search(gate_text)):
+                    if not _STRATEGIC_OVERRIDE_RE.search(gate_text):
+                        seen_urls.add(url)
+                        continue
 
             # Event gating: blog posts must contain an explicit event keyword to pass
             # All other types (product_launch, partnership, etc.) already required
@@ -1292,12 +1337,22 @@ def main():
             if item.get("event_date"):
                 classification["event_date"] = item["event_date"]
 
-            # Hard exclude: workshops & low-value webinars UNLESS explicitly a product launch
+            # ── Event quality gate — 4-tier filter (event page items) ────────────
             if classification["type"] != "product_launch":
-                combined = (title + " " + item.get("description", "")).lower()
-                if _WORKSHOP_RE.search(combined) or _LOW_VALUE_WEBINAR_RE.search(combined):
+                combined = title + " " + item.get("description", "") + " " + item_url
+                # Tier 1: Named educational series — always skip
+                if _SERIES_BLACKLIST_RE.search(combined):
                     seen_urls.add(item_url)
                     continue
+                # Tier 2: City-stop training — skip if city + training keywords
+                if _CITY_RE.search(combined) and _LOW_VALUE_WEBINAR_RE.search(combined):
+                    seen_urls.add(item_url)
+                    continue
+                # Tier 3: Generic noise — skip UNLESS strategic override passes
+                if _WORKSHOP_RE.search(combined) or _LOW_VALUE_WEBINAR_RE.search(combined):
+                    if not _STRATEGIC_OVERRIDE_RE.search(combined):
+                        seen_urls.add(item_url)
+                        continue
 
             signal = {
                 "company":          company,
