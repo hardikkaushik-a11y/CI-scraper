@@ -2665,12 +2665,11 @@ function LaunchesPage({ lens, onOpenCompany }) {
   const [filter, setFilter]           = useStateP("all");       // all | launches | events
   const [rel, setRel]                 = useStateP("all");       // all | HIGH | MEDIUM | LOW
   const [viewMode, setViewMode]       = useStateP("card");      // card | compact | grouped
-  const [showFullYear, setShowFullYear] = useStateP(false);
   const [selectedCo, setSelectedCo]   = useStateP(null);        // company name for modal
 
   const now = new Date();
-  const cutoff90    = new Date(now); cutoff90.setDate(now.getDate() + 90);
-  const cutoffPast30 = new Date(now); cutoffPast30.setDate(now.getDate() - 30);
+  const cutoff365   = new Date(now); cutoff365.setDate(now.getDate() + 365);  // Full year ahead
+  const cutoffPast45 = new Date(now); cutoffPast45.setDate(now.getDate() - 45); // Last 45 days
 
   const allItems = useMemoP(() => {
     const items = [];
@@ -2686,21 +2685,19 @@ function LaunchesPage({ lens, onOpenCompany }) {
     allItems.filter(it => new Date(it.date) >= now).sort((a,b) => new Date(a.date) - new Date(b.date)),
     [allItems]
   );
-  const upcoming90     = useMemoP(() => upcomingAll.filter(it => new Date(it.date) <= cutoff90), [upcomingAll]);
-  const upcomingBeyond = useMemoP(() => upcomingAll.filter(it => new Date(it.date) > cutoff90),  [upcomingAll]);
-  const past30         = useMemoP(() =>
-    allItems.filter(it => new Date(it.date) < now && new Date(it.date) >= cutoffPast30)
+  const upcoming365    = useMemoP(() => upcomingAll.filter(it => new Date(it.date) <= cutoff365), [upcomingAll]);
+  const past45         = useMemoP(() =>
+    allItems.filter(it => new Date(it.date) < now && new Date(it.date) >= cutoffPast45)
             .sort((a,b) => new Date(b.date) - new Date(a.date)), [allItems]);
 
-  const upcoming90Groups = useMemoP(() => groupByWeek(upcoming90),    [upcoming90]);
-  const beyondGroups     = useMemoP(() => groupByWeek(upcomingBeyond), [upcomingBeyond]);
-  const past30Groups     = useMemoP(() => groupByWeek(past30),         [past30]);
+  const upcoming365Groups = useMemoP(() => groupByWeek(upcoming365), [upcoming365]);
+  const past45Groups      = useMemoP(() => groupByWeek(past45),       [past45]);
 
-  // ── Compact list data — upcoming asc, then past30 desc ──
+  // ── Compact list data — upcoming asc, then past45 desc ──
   const compactItems = useMemoP(() => {
     const upcoming = allItems.filter(it => new Date(it.date) >= now)
                              .sort((a,b) => new Date(a.date) - new Date(b.date));
-    const pastItems = allItems.filter(it => new Date(it.date) < now && new Date(it.date) >= cutoffPast30)
+    const pastItems = allItems.filter(it => new Date(it.date) < now && new Date(it.date) >= cutoffPast45)
                               .sort((a,b) => new Date(b.date) - new Date(a.date));
     return { upcoming, pastItems };
   }, [allItems]);
@@ -2727,7 +2724,7 @@ function LaunchesPage({ lens, onOpenCompany }) {
     return g ? g.items : [];
   }, [selectedCo, groupedByCompany]);
 
-  const visibleCount = upcoming90.length + (showFullYear ? upcomingBeyond.length : 0) + past30.length;
+  const visibleCount = upcoming365.length + past45.length;
   const totalCount   = allItems.length;
 
   return (
@@ -2735,7 +2732,7 @@ function LaunchesPage({ lens, onOpenCompany }) {
       <div className="hero">
         <div className="hero-title-row">
           <div>
-            <div className="hero-eyebrow">Signal timeline · next 90 days + full year view</div>
+            <div className="hero-eyebrow">Signal timeline · next 365 days + past 45 days</div>
             <h1 className="hero-title">Launches & events</h1>
             <p className="hero-sub">
               {window.LAUNCHES.length} launches tracked · {window.EVENTS.length} events on the radar. Filter by type or relevance; click a company to jump to its brief.
@@ -2780,26 +2777,14 @@ function LaunchesPage({ lens, onOpenCompany }) {
       {/* ══ CARD VIEW (default) ══ */}
       {viewMode === "card" && (
         <div className="tl">
-          {upcoming90Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+          {upcoming365Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
 
-          {upcomingBeyond.length > 0 && (
-            <div className="tl-expand-row">
-              <button className="tl-expand-btn" onClick={() => setShowFullYear(!showFullYear)}>
-                {showFullYear
-                  ? "Show less ▲"
-                  : `Show full year ▼  (+${upcomingBeyond.length} more event${upcomingBeyond.length !== 1 ? "s" : ""})`}
-              </button>
-            </div>
-          )}
-
-          {showFullYear && beyondGroups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
-
-          {past30.length > 0 && (
+          {past45.length > 0 && (
             <div className="tl-past-divider">
-              <span className="tl-past-divider-label">Past 30 days</span>
+              <span className="tl-past-divider-label">Past 45 days</span>
             </div>
           )}
-          {past30Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+          {past45Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
         </div>
       )}
 

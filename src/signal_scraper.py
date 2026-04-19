@@ -4,7 +4,7 @@ signal_scraper.py — Competitive Signal Scraper for Direct Intelligence
 • Scrapes RSS feeds from 11 allowed v2 companies (launches, events, blog posts)
 • Classifies each item using Claude Sonnet (not Haiku — quality matters here)
 • Deduplicates by URL across runs (file-based: data/seen_signals.json)
-• Rolling 365-day window — captures full year of historical events
+• Rolling 90-day window — drops stale items automatically
 • Filters low-quality Collibra RSS event pages (individual /events/ links)
 • Skips low-relevance blog posts to reduce noise
 • Outputs: data/competitive_signals.json
@@ -27,8 +27,8 @@ import httpx
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 SONNET_MODEL = "claude-sonnet-4-6"
 
-MAX_SIGNAL_AGE_DAYS = 365  # Full year window — enables historical event tracking
-MAX_ITEMS_PER_FEED = 20    # Cap per company per run — avoid flooding
+MAX_SIGNAL_AGE_DAYS = 90
+MAX_ITEMS_PER_FEED = 20   # Cap per company per run — avoid flooding
 
 REPO_ROOT = Path(__file__).parent.parent
 DATA_DIR = REPO_ROOT / "data"
@@ -1117,7 +1117,7 @@ def main():
             existing = [s for s in existing if within_window(s.get("published_date", ""))]
             dropped = before - len(existing)
             if dropped:
-                print(f"[INFO] Dropped {dropped} signals outside {MAX_SIGNAL_AGE_DAYS}-day window")
+                print(f"[INFO] Dropped {dropped} signals outside 90-day window")
         except Exception:
             existing = []
 
