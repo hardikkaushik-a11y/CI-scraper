@@ -2074,6 +2074,7 @@ function Sidebar({ lens, onLens, collapsed, onToggle, page, onPage }) {
           { id:"hiring",    label:"Hiring",             desc:"Roles & intensity",  icon:"◧" },
           { id:"dashboard", label:"Verdicts",            desc:"Company dashboard",  icon:"◧" },
           { id:"launches",  label:"Launches & events",   desc:"Signal timeline",    icon:"◇" },
+          { id:"news",      label:"News",                desc:"Press releases",     icon:"📰" },
           { id:"companies", label:"Companies",           desc:"Roster of 11",       icon:"◫" },
         ].map(p => (
           <button
@@ -2167,6 +2168,7 @@ function TopBar({ onSearch, q, onChat, onNotif, lens, page, onPage }) {
     companies: "Companies",
     hiring: "Hiring intelligence",
     dashboard: "Verdict view",
+    news: "News & press releases",
   };
   const pageLabel = pageLabels[page] || "Verdict view";
   return (
@@ -2839,6 +2841,192 @@ function companyIdByName(name) {
   return c ? c.id : null;
 }
 
+// --- News & press releases page -------------------------------------------
+function NewsPage({ lens, onOpenCompany }) {
+  const [relFilter, setRelFilter] = useStateP("all");  // all | HIGH | MEDIUM | LOW
+  const [typeFilter, setTypeFilter] = useStateP("all"); // all | funding | leadership | product | pricing | expansion | award | partnership
+  const [sortBy, setSortBy] = useStateP("date-desc"); // date-desc | date-asc | company
+
+  const TYPE_LABELS = {
+    funding: "🎯 Funding",
+    leadership: "👤 Leadership",
+    product: "🚀 Product",
+    pricing: "💲 Pricing",
+    expansion: "🌍 Expansion",
+    award: "🏆 Award",
+    partnership: "🤝 Partnership",
+  };
+
+  const TYPE_COLORS = {
+    funding: "oklch(0.62 0.20 25)",
+    leadership: "oklch(0.50 0.13 65)",
+    product: "oklch(0.60 0.17 248)",
+    pricing: "oklch(0.72 0.15 65)",
+    expansion: "oklch(0.55 0.16 310)",
+    award: "oklch(0.62 0.15 245)",
+    partnership: "oklch(0.56 0.14 270)",
+  };
+
+  // Filter and sort news
+  const filtered = useMemoP(() => {
+    let items = (window.NEWS || []);
+
+    // Filter by relevance
+    if (relFilter !== "all") {
+      items = items.filter(n => (n.actian_relevance || "medium").toUpperCase() === relFilter);
+    }
+
+    // Filter by type
+    if (typeFilter !== "all") {
+      items = items.filter(n => n.news_type === typeFilter);
+    }
+
+    // Team routing filter (via lens)
+    if (lens !== "All") {
+      items = items.filter(n => {
+        const routes = n.team_routing || [];
+        return routes.includes(lens);
+      });
+    }
+
+    // Sort
+    if (sortBy === "date-desc") {
+      items.sort((a, b) => new Date(b.published_date || 0) - new Date(a.published_date || 0));
+    } else if (sortBy === "date-asc") {
+      items.sort((a, b) => new Date(a.published_date || 0) - new Date(b.published_date || 0));
+    } else if (sortBy === "company") {
+      items.sort((a, b) => a.company.localeCompare(b.company));
+    }
+
+    return items;
+  }, [relFilter, typeFilter, sortBy, lens]);
+
+  const newsTypes = ["funding", "leadership", "product", "pricing", "expansion", "award", "partnership"];
+
+  return (
+    <div data-screen-label="04 News">
+      <div className="hero">
+        <div className="hero-title-row">
+          <div>
+            <div className="hero-eyebrow">Press releases · news & announcements · 60-day rolling window</div>
+            <h1 className="hero-title">News & press releases</h1>
+            <p className="hero-sub">
+              Important company announcements from {window.NEWS.length} news items. Filter by type or relevance; click a company to jump to its brief.
+            </p>
+          </div>
+          <div className="hero-legend">
+            {["HIGH", "MEDIUM", "LOW"].map(l => {
+              const t = REL[l];
+              return (
+                <span key={l} className="legend-item">
+                  <span className="legend-dot" style={{ background: t.dot }} />
+                  <span className="legend-label">{l}</span>
+                </span>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="toolbar">
+          {/* News type filter */}
+          <div className="seg">
+            <button className={typeFilter === "all" ? "seg-on" : ""} onClick={() => setTypeFilter("all")}>All types</button>
+            {newsTypes.map(type => (
+              <button
+                key={type}
+                className={typeFilter === type ? "seg-on" : ""}
+                onClick={() => setTypeFilter(type)}
+              >
+                {TYPE_LABELS[type]}
+              </button>
+            ))}
+          </div>
+          {/* Relevance filter */}
+          <div className="seg">
+            <button className={relFilter === "all" ? "seg-on" : ""} onClick={() => setRelFilter("all")}>Any relevance</button>
+            <button className={relFilter === "HIGH" ? "seg-on" : ""} onClick={() => setRelFilter("HIGH")}>High</button>
+            <button className={relFilter === "MEDIUM" ? "seg-on" : ""} onClick={() => setRelFilter("MEDIUM")}>Medium</button>
+            <button className={relFilter === "LOW" ? "seg-on" : ""} onClick={() => setRelFilter("LOW")}>Low</button>
+          </div>
+          {/* Sort */}
+          <div className="seg">
+            <button className={sortBy === "date-desc" ? "seg-on" : ""} onClick={() => setSortBy("date-desc")}>Newest</button>
+            <button className={sortBy === "date-asc" ? "seg-on" : ""} onClick={() => setSortBy("date-asc")}>Oldest</button>
+            <button className={sortBy === "company" ? "seg-on" : ""} onClick={() => setSortBy("company")}>Company</button>
+          </div>
+          <span className="toolbar-count">{filtered.length} items</span>
+        </div>
+      </div>
+
+      {/* News grid */}
+      <div className="grid">
+        {filtered.map(news => (
+          <div key={news.url} className="vcard" style={{ "--rail": TYPE_COLORS[news.news_type] || "oklch(0.60 0.17 248)" }}>
+            <div className="vcard-rail" />
+            <div className="vcard-head">
+              <div className="vcard-head-l">
+                <h3 className="vcard-name">{news.company}</h3>
+                <span className="area-badge">
+                  <span className="area-dot" style={{ background: window.AREA[news.product_area]?.dot || "#ccc" }} />
+                  {news.product_area}
+                </span>
+              </div>
+              <RelevanceBadge level={(news.actian_relevance || "medium").toUpperCase()} />
+            </div>
+
+            <div className="vcard-meta">
+              <div className="vcard-meta-item">
+                <span className="vcard-meta-k">Type</span>
+                <span className="vcard-meta-v">{TYPE_LABELS[news.news_type] || news.news_type}</span>
+              </div>
+              <span className="vcard-meta-sep">·</span>
+              <div className="vcard-meta-item">
+                <span className="vcard-meta-k">Date</span>
+                <span className="vcard-meta-v">{news.published_date}</span>
+              </div>
+            </div>
+
+            <p className="vcard-verdict">{news.title}</p>
+
+            {news.summary && <p style={{ margin: "8px 0", fontSize: "13px", color: "var(--ink-soft)", lineHeight: 1.5 }}>{news.summary}</p>}
+
+            {news.tags && news.tags.length > 0 && (
+              <div className="vcard-signals">
+                {news.tags.slice(0, 4).map((tag, i) => (
+                  <span key={i} className="signal-chip">{tag}</span>
+                ))}
+              </div>
+            )}
+
+            <div className="vcard-foot">
+              <div className="vcard-routes">
+                <span className="vcard-routes-k">Teams:</span>
+                {(news.team_routing || []).map(team => (
+                  <span
+                    key={team}
+                    className={"route-tag" + (lens === team ? " active" : "")}
+                  >
+                    {team}
+                  </span>
+                ))}
+              </div>
+              <a href={news.url} target="_blank" rel="noopener noreferrer" className="vcard-brief">
+                Read →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {filtered.length === 0 && (
+        <div style={{ padding: "60px 32px", textAlign: "center", color: "var(--ink-mute)" }}>
+          <p>No news items match your filters. Try adjusting your selection.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // --- Companies roster page ---------------------------------------------
 function CompaniesPage({ lens, onOpenCompany }) {
   const [areaF, setAreaF] = useStateP("all");
@@ -3213,6 +3401,9 @@ function App() {
         {page === "launches" && (
           <window.LaunchesPage lens={lens} onOpenCompany={setOpenId} />
         )}
+        {page === "news" && (
+          <window.NewsPage lens={lens} onOpenCompany={setOpenId} />
+        )}
         {page === "companies" && (
           <window.CompaniesPage lens={lens} onOpenCompany={setOpenId} />
         )}
@@ -3352,6 +3543,12 @@ function todayString() {
   const d = new Date();
   return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
 }
+
+// Assign components to window for React JSX
+window.HiringPage = HiringPage;
+window.LaunchesPage = LaunchesPage;
+window.NewsPage = NewsPage;
+window.CompaniesPage = CompaniesPage;
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>

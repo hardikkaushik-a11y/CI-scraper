@@ -6,6 +6,7 @@ Reads:
   data/signals.json
   data/intelligence_verdicts.json
   data/competitive_signals.json
+  data/news.json
 
 Writes:
   dashboard/v3/dashboard_v3.html
@@ -461,7 +462,7 @@ def to_js_value(val, indent=0):
     return f'"{val}"'
 
 
-def generate_data_js(competitors, launches, events, function_trends=None):
+def generate_data_js(competitors, launches, events, function_trends=None, news=None):
     lines = []
 
     # claude fallback
@@ -495,6 +496,10 @@ def generate_data_js(competitors, launches, events, function_trends=None):
     # EVENTS
     lines.append("window.EVENTS = " + to_js_value(events) + ";")
 
+    # NEWS
+    lines.append("")
+    lines.append("window.NEWS = " + to_js_value(news or []) + ";")
+
     # FUNCTION_TRENDS
     lines.append("")
     lines.append("window.FUNCTION_TRENDS = " + to_js_value(function_trends or {}) + ";")
@@ -520,6 +525,10 @@ def main():
     comp_signals = load_json(DATA_DIR / "competitive_signals.json")
     print(f"    {len(comp_signals)} competitive signals loaded")
 
+    print("  Loading data/news.json...")
+    news = load_json(DATA_DIR / "news.json")
+    print(f"    {len(news)} news items loaded")
+
     print("  Loading jobs_enriched_v2.csv for function breakdown...")
     allowed = list(V2_PRODUCT_AREA_MAP.keys())
     per_company = load_function_breakdown(DATA_DIR / "jobs_enriched_v2.csv", allowed)
@@ -539,7 +548,7 @@ def main():
 
     # Generate data JS
     print("  Generating JS data block...")
-    data_js = generate_data_js(competitors, launches, events, function_trends)
+    data_js = generate_data_js(competitors, launches, events, function_trends, news)
 
     # Load template
     print(f"  Loading template: {TEMPLATE}")
