@@ -371,6 +371,157 @@
     "scraped_at": "2026-04-19"
   },
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Data for Breakfast",
+    "url": "https://www.snowflake.com/en/data-for-breakfast/",
+    "published_date": "2026-04-19",
+    "summary": "March - April, 2026 Data for Breakfast Join us for breakfast to gain actionable AI insights and strategies. Leave ready to lead your team in this new era of data and agentic intelligence. Register now",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "BUILDThe Conference for AI & Apps",
+    "url": "https://www.snowflake.com/en/build/",
+    "published_date": "2026-04-19",
+    "summary": "On-demand BUILD The Conference for AI & Apps Join developers, data scientists, engineers, and all data professionals for three days of exclusive product announcements, \u201chow to\u201d technical sessions, and...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Snowflake AI Pulse: The Coolest AI Features, Hot Off the Press",
+    "url": "https://www.snowflake.com/en/ai-pulse/april-2026/",
+    "published_date": "2026-04-19",
+    "summary": "21 Apr Snowflake AI Pulse: The Coolest AI Features, Hot Off the Press 1:00 PM PT Register Now",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-21",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Accelerate 2026 | Virtual Event Series",
+    "url": "https://www.snowflake.com/accelerate",
+    "published_date": "2026-04-19",
+    "summary": "21 Apr Accelerate 2026 | Virtual Event Series Virtual Register now",
+    "actian_relevance": "low",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-04-21",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Financial Services Builders Workshop",
+    "url": "https://www.snowflake.com/event/financial-services-builders-workshop-20260422/",
+    "published_date": "2026-04-19",
+    "summary": "22 Apr Financial Services Builders Workshop 02:00 PM BST 5-21 Grosvenor Street Edinburgh Register now",
+    "actian_relevance": "low",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-04-22",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Snowflake Connect: Building Transformation Pipelines for AI-ready data",
+    "url": "https://www.snowflake.com/events/snowflake-connect-building-transformation-pipelines-for-ai-ready-data/",
+    "published_date": "2026-04-19",
+    "summary": "22 Apr Snowflake Connect: Building Transformation Pipelines for AI-ready data 10:00 AM PT Virtual Register now",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-22",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Snowflake Roundtable: The AI Operating System for the Enterprise",
+    "url": "https://www.snowflake.com/event/snowflake-roundtable-the-ai-operating-system-for-the-enterprise-20260423/",
+    "published_date": "2026-04-19",
+    "summary": "23 Apr Snowflake Roundtable: The AI Operating System for the Enterprise 13:00 CEST Snowflake Office Amsterdam, Amsterdam Register Now",
+    "actian_relevance": "medium",
+    "tags": [
+      "enterprise",
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-23",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Get Started with Snowflake Intelligence",
+    "url": "https://www.snowflake.com/event/northstar-london-snowflake-intelligence/",
+    "published_date": "2026-04-19",
+    "summary": "23 Apr Get Started with Snowflake Intelligence 14:30 BST London Customer Experience Center One Crown Place, London EC2A 4EF, United Kingdom London Register now",
+    "actian_relevance": "low",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-04-23",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Northstar: Get Started with Data Engineering on Snowflake - Nagpur",
+    "url": "https://www.snowflake.com/events/northstar-get-started-with-data-engineering-on-snowflake-learn-code-connect-nagpur/",
+    "published_date": "2026-04-19",
+    "summary": "25 Apr Northstar: Get Started with Data Engineering on Snowflake - Nagpur 09:00 AM IST Orangebits Digital Solutions Private Limited, Nagpur, Nagpur Register Now",
+    "actian_relevance": "high",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-04-25",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "EMEA Northstar Builder Education Program Dynamic Tables",
+    "url": "https://www.snowflake.com/event/northstar-ai-builder-series-dynamic-tables/",
+    "published_date": "2026-04-19",
+    "summary": "29 Apr EMEA Northstar Builder Education Program Dynamic Tables 10:30 AM BST Virtual Register now",
+    "actian_relevance": "low",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "scraped_at": "2026-04-19"
+  },
+  {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "type": "event",
