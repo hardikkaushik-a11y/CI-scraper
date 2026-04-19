@@ -392,7 +392,7 @@ def main():
                 "url": url,
                 "published_date": article["published_date"],
                 "source": "company_newsroom",
-                "summary": clean_text(title),  # Phase 2: Haiku will improve this
+                "summary": clean_text(desc) if desc else clean_text(title),  # Use description context; fallback to title
                 "actian_relevance": classification["actian_relevance"],
                 "tags": classification["tags"],
                 "team_routing": classification["team_routing"],

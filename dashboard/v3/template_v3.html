@@ -2988,7 +2988,7 @@ function NewsPage({ lens, onOpenCompany }) {
 
             <p className="vcard-verdict">{news.title}</p>
 
-            {news.summary && <p style={{ margin: "8px 0", fontSize: "13px", color: "var(--ink-soft)", lineHeight: 1.5 }}>{news.summary}</p>}
+            {news.summary && news.summary !== news.title && <p style={{ margin: "8px 0", fontSize: "13px", color: "var(--ink-soft)", lineHeight: 1.5 }}>{news.summary}</p>}
 
             {news.tags && news.tags.length > 0 && (
               <div className="vcard-signals">
