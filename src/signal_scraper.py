@@ -62,7 +62,6 @@ V2_PRODUCT_AREA_MAP = {
 RSS_FEEDS = {
     "Collibra":    "https://www.collibra.com/feed/",
     "Monte Carlo": "https://www.montecarlodata.com/blog/feed/",
-    "Qdrant":      "https://qdrant.tech/blog/index.xml",
     "Snowflake":   "https://feeds.feedburner.com/SnowflakeBlog",
     "Databricks":  "https://www.databricks.com/feed/",
 }
