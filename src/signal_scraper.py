@@ -90,11 +90,12 @@ EVENT_URLS = {
     "Alation":    "https://www.alation.com/events/",
     "Milvus":     "https://zilliz.com/event",
     "Acceldata":  "https://www.acceldata.io/events",
+    "Snowflake":  "https://www.snowflake.com/en/events/all-events/",
 }
 
 # Companies whose event pages require JavaScript execution (React/Next.js)
 # These will use Playwright instead of httpx for event page scraping.
-PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus", "Databricks"}
+PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus", "Databricks", "Snowflake"}
 
 # ══════════════════════════════════════════════════════════════════════════
 # TEXT CLEANING — strip noise before classification
@@ -899,6 +900,56 @@ def fetch_event_page_playwright(company: str, url: str) -> list[dict]:
 
         print(f"  [Milvus/Zilliz] Strategy Zilliz: {len(items)} upcoming events found")
         return items  # Skip generic A+/A/B for Milvus
+
+    # ── Strategy Snowflake: article card extraction ──────────────────────
+    # snowflake.com/en/events/all-events renders a clean grid of article cards.
+    # Each card is: <link><article>...<heading>Title</heading>...<generic>Month</generic>...</article></link>
+    # The parent <link> (actually <a>) has the href to the event page.
+    # We extract title from the <heading> and date from context text.
+    if company == "Snowflake":
+        # Snowflake uses article tags inside a links — find all articles on the page
+        for article in soup.find_all("article"):
+            # The parent link gives us the URL
+            parent_link = article.find_parent("a", href=True)
+            if not parent_link:
+                continue
+            href = parent_link.get("href", "").strip()
+            if not href:
+                continue
+            # Convert relative URLs to absolute
+            if not href.startswith("http"):
+                if href.startswith("/"):
+                    href = f"{base.scheme}://{base.netloc}{href}"
+                else:
+                    continue
+            if href in seen_hrefs:
+                continue
+
+            # Extract title from the first heading in the article
+            heading = article.find(["h2", "h3", "h4", "h5", "h6"])
+            if not heading:
+                continue
+            title = heading.get_text(strip=True)
+            if not title or len(title) < 8 or title in seen_titles:
+                continue
+
+            # Extract date from the article context (month abbreviation + day)
+            ctx = article.get_text(separator=" ", strip=True)[:600]
+            event_date = _parse_event_date(ctx)
+
+            seen_titles.add(title)
+            seen_hrefs.add(href)
+            items.append({
+                "title":          title[:150],
+                "url":            href,
+                "published_date": date.today().isoformat(),
+                "description":    ctx[:400].strip(),
+                "event_date":     event_date,
+            })
+
+        print(f"  [Snowflake] Strategy Snowflake: {len(items)} events found")
+        if items:
+            return items  # Skip generic A+/A/B for Snowflake if we found events
 
     # ── Strategy A+: event-slug link scan ───────────────────────────────
     # For Atlan (/event/slug) and Acceldata (/events/slug) — the event cards
