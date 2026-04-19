@@ -920,7 +920,7 @@
     "posting_count": 196,
     "signal_summary": "Salesforce is in aggressive GTM expansion mode with 40 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
-      "7 AI/ML roles (4% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "6 AI/ML roles (3% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
       "Cloud infrastructure hiring (9 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
       "Security/compliance hiring (3 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
       "Data engineering focus (2 roles) — likely expanding connector ecosystem, improving data pipeline performance, or building new integration capabilities — direct competitive overlap with Actian's data integration offering",
@@ -928,7 +928,7 @@
       "Salesforce operates in Enterprise — indirect competitive pressure but potential partnership opportunity for Actian's integration platform"
     ],
     "watch_for": [
-      "Salesforce's AI team growing past 7 roles — crossing 5+ AI hires typically precedes a standalone AI feature launch within 2 quarters",
+      "Salesforce's AI team growing past 6 roles — crossing 5+ AI hires typically precedes a standalone AI feature launch within 2 quarters",
       "Track Salesforce's job posting velocity — sustained increase (>20% quarter-over-quarter) signals strategic investment acceleration, not just backfill",
       "Salesforce hiring product roles focused on data integration or analytics — would signal expansion into Actian's competitive territory"
     ],
