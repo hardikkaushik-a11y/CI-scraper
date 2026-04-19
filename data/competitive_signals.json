@@ -371,6 +371,64 @@
     "scraped_at": "2026-04-19"
   },
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Snowflake University Training courses for all levels, on-demand or instructor-led",
+    "url": "https://learn.snowflake.com/en/",
+    "published_date": "2026-04-19",
+    "summary": "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
+    "actian_relevance": "medium",
+    "tags": [
+      "API"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Documentation Reference docs, guides, tutorials and announcements",
+    "url": "https://docs.snowflake.com/",
+    "published_date": "2026-04-19",
+    "summary": "Documentation Reference docs, guides, tutorials and announcements Open Source Key projects Snowflake engineers maintain and support Builder Education Online and in-person classes and workshops to upsk...",
+    "actian_relevance": "medium",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": null,
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Open Source Key projects Snowflake engineers maintain and support",
+    "url": "https://www.snowflake.com/en/developers/open-source/",
+    "published_date": "2026-04-19",
+    "summary": "Documentation Reference docs, guides, tutorials and announcements Open Source Key projects Snowflake engineers maintain and support Builder Education Online and in-person classes and workshops to upsk...",
+    "actian_relevance": "medium",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": null,
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Builder Education Online and in-person classes and workshops to upskill on Snowflake",
+    "url": "https://www.snowflake.com/en/developers/northstar/",
+    "published_date": "2026-04-19",
+    "summary": "Documentation Reference docs, guides, tutorials and announcements Open Source Key projects Snowflake engineers maintain and support Builder Education Online and in-person classes and workshops to upsk...",
+    "actian_relevance": "medium",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": null,
+    "scraped_at": "2026-04-19"
+  },
+  {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "type": "event",
