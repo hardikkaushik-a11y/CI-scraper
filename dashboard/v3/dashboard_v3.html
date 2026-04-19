@@ -904,6 +904,232 @@ a { color: inherit; cursor: pointer; }
   white-space: nowrap;
 }
 
+/* ---------- View mode: compact list ---------- */
+.tl-list {
+  padding: 0 40px 40px;
+}
+.tl-list-hdr {
+  display: grid;
+  grid-template-columns: 115px 1fr 110px 125px 110px;
+  gap: 14px;
+  padding: 0 6px 8px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 2px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.tl-list-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.tl-list-divider::before, .tl-list-divider::after {
+  content: ""; flex: 1; height: 1px; background: var(--border);
+}
+.tl-list-row {
+  display: grid;
+  grid-template-columns: 115px 1fr 110px 125px 110px;
+  gap: 14px;
+  align-items: center;
+  padding: 7px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .1s;
+}
+.tl-list-row:hover { background: var(--bg-sunk); }
+.tl-list-co {
+  font-size: 12.5px; font-weight: 600; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tl-list-title {
+  font-size: 13px; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tl-list-type { font-size: 11px; }
+.tl-list-date { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-soft); white-space: nowrap; }
+
+/* ---------- View mode: company card grid ---------- */
+.co-grid {
+  padding: 0 40px 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.co-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow .15s, transform .1s;
+  box-shadow: var(--shadow-card);
+}
+.co-card:hover {
+  box-shadow: var(--shadow-pop);
+  transform: translateY(-2px);
+}
+.co-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.co-card-counts {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.co-card-count-chip {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  background: var(--bg-sunk);
+}
+.co-card-high {
+  font-size: 11px;
+  font-weight: 600;
+  color: oklch(0.50 0.13 65);
+  background: oklch(0.97 0.035 70);
+  border: 1px solid oklch(0.9 0.06 70);
+  padding: 2px 8px;
+  border-radius: 4px;
+  width: fit-content;
+}
+/* ---------- Company signal modal ---------- */
+.co-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: oklch(0.22 0.02 255 / 0.45);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  backdrop-filter: blur(2px);
+}
+.co-modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-pop);
+  width: 700px;
+  max-width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.co-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.co-modal-head-l {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.co-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.co-modal-close {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  color: var(--ink-mute);
+  flex-shrink: 0;
+  transition: background .1s;
+}
+.co-modal-close:hover { background: var(--bg-sunk); color: var(--ink); }
+.co-modal-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 8px 0;
+}
+.co-modal-row {
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  align-items: start;
+  gap: 12px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+  transition: background .1s;
+}
+.co-modal-row:last-child { border-bottom: 0; }
+.co-modal-row:hover { background: var(--blue-050); }
+.co-modal-date { font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); padding-top: 2px; }
+.co-modal-ititle { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.45; }
+.co-modal-meta { display: flex; gap: 6px; align-items: center; flex-shrink: 0; padding-top: 1px; }
+
+/* ---------- Legacy tl-grouped (kept for backward compat) ---------- */
+.tl-grouped {
+  padding: 0 40px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.tl-co-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.tl-co-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--bg-sunk);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .15s;
+  user-select: none;
+}
+.tl-co-head:hover { background: oklch(0.95 0.008 255); }
+.tl-co-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.tl-co-count { font-size: 12px; color: var(--ink-mute); margin-left: auto; }
+.tl-co-chevron { font-size: 10px; color: var(--ink-mute); }
+.tl-co-item {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 9px 18px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .1s;
+}
+.tl-co-item:last-child { border-bottom: 0; }
+.tl-co-item:hover { background: var(--blue-050); }
+.tl-co-item-date { font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); }
+.tl-co-item-title { font-size: 13px; font-weight: 500; color: var(--ink); }
+.tl-co-item-meta { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+
+/* ---------- View switcher ---------- */
+.view-seg { margin-left: auto; }
+
 .tl-card-l {
   display: flex;
   flex-direction: column;
@@ -1798,7 +2024,7 @@ window.COMPETITORS = [
       "Marketing",
       "SDRs"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 100,
     functionBreakdown: {
       Sales: 22,
@@ -1889,7 +2115,7 @@ window.COMPETITORS = [
       "Marketing",
       "SDRs"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 100,
     functionBreakdown: {
       Sales: 75,
@@ -1980,7 +2206,7 @@ window.COMPETITORS = [
       "Marketing",
       "SDRs"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 83,
     functionBreakdown: {
       Sales: 9,
@@ -2071,7 +2297,7 @@ window.COMPETITORS = [
       "Marketing",
       "SDRs"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 53,
     functionBreakdown: {
       Sales: 0,
@@ -2162,7 +2388,7 @@ window.COMPETITORS = [
       "Marketing",
       "SDRs"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 48,
     functionBreakdown: {
       Sales: 1,
@@ -2252,7 +2478,7 @@ window.COMPETITORS = [
       "Marketing",
       "SDRs"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 43,
     functionBreakdown: {
       Sales: 2,
@@ -2342,7 +2568,7 @@ window.COMPETITORS = [
       "Executives",
       "SDRs"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 33,
     functionBreakdown: {
       Sales: 0,
@@ -2516,7 +2742,7 @@ window.COMPETITORS = [
     routes: [
       "Product"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 11,
     functionBreakdown: {
       Sales: 0,
@@ -2566,7 +2792,7 @@ window.COMPETITORS = [
     routes: [
       "Product"
     ],
-    updated: "1 day ago",
+    updated: "2d ago",
     score: 10,
     functionBreakdown: {
       Sales: 0,
@@ -2667,22 +2893,7 @@ window.COMPETITORS = [
 
 window.LAUNCHES = [
   {
-    id: "l57",
-    company: "Qdrant",
-    area: "VectorAI",
-    type: "funding",
-    title: "We Raised $50M to Build Composable Vector Search as Core Infrastructure",
-    date: "Mar 12, 2026",
-    summary: "Today we&rsquo;re announcing $50 million in Series B funding, led by AVP, with participation from Bosch Ventures, Unusual Ventures, Spark Capital, and 42CAP. Retrieval Is on the Critical Path of Every...",
-    relevance: "HIGH",
-    tags: [
-      "vector",
-      "AI",
-      "API"
-    ]
-  },
-  {
-    id: "l58",
+    id: "l21",
     company: "Qdrant",
     area: "VectorAI",
     type: "product_launch",
@@ -2693,10 +2904,11 @@ window.LAUNCHES = [
     tags: [
       "beta",
       "vector"
-    ]
+    ],
+    url: "https://qdrant.tech/blog/qdrant-gemini-embedding-2/"
   },
   {
-    id: "l59",
+    id: "l22",
     company: "Qdrant",
     area: "VectorAI",
     type: "product_launch",
@@ -2707,527 +2919,79 @@ window.LAUNCHES = [
     tags: [
       "vector",
       "AI"
-    ]
+    ],
+    url: "https://qdrant.tech/blog/iit-hack-winners/"
   },
   {
-    id: "l1",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "Virtual event Data products – because agents need context Apr 23 @ 10:00 AM ET / 4:00 PM CET",
-    date: "Apr 18, 2026",
-    summary: "Virtual event Data products – because agents need context Apr 23 @ 10:00 AM ET / 4:00 PM CET",
+    id: "l20",
+    company: "Qdrant",
+    area: "VectorAI",
+    type: "product_launch",
+    title: "Qdrant Cloud Serverless — Pay-Per-Query Pricing",
+    date: "Apr 8, 2026",
+    summary: "New serverless option with per-request pricing. No minimum commitment, auto-scaling for search workloads.",
     relevance: "MEDIUM",
-    tags: []
+    tags: [
+      "serverless",
+      "pricing",
+      "cloud"
+    ],
+    url: "https://qdrant.tech/cloud/"
   },
   {
     id: "l2",
     company: "Collibra",
     area: "Data Intelligence",
-    type: "event",
-    title: "In-person event — U.S. - Austin HEDW Annual Conference 2026 Apr 26 - 29",
-    date: "Apr 18, 2026",
-    summary: "In-person event — Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event — Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
+    type: "product_launch",
+    title: "Introducing the Collibra AI Command Center",
+    date: "Apr 30, 2026",
+    summary: "Collibra launches the AI Command Center — a new product giving organizations 360° visibility and governance across all AI systems in heterogeneous environments. Launch webinar Apr 30 with live demo of new AI governance capabilities.",
     relevance: "HIGH",
     tags: [
-      "AI"
-    ]
+      "AI governance",
+      "command center",
+      "AI visibility",
+      "enterprise",
+      "product launch"
+    ],
+    url: "https://www.collibra.com/events/introducing-the-ai-command-center"
+  },
+  {
+    id: "l1",
+    company: "Atlan",
+    area: "Data Intelligence",
+    type: "product_launch",
+    title: "The Context Layer, Live — Atlan Activate 2026",
+    date: "Apr 29, 2026",
+    summary: "Atlan launches The Context Layer, Live at Activate 2026. New conversational search, data quality, agentic stewards features announced.",
+    relevance: "HIGH",
+    tags: [
+      "AI agents",
+      "conversational search",
+      "data quality",
+      "catalog"
+    ],
+    url: "https://atlan.com/activate/"
   },
   {
     id: "l3",
     company: "Collibra",
     area: "Data Intelligence",
-    type: "event",
-    title: "In-person event — U.S. - Philadelphia NASCIO 2026 Midyear Conference Apr 26 - 29",
+    type: "product_launch",
+    title: "Collibra Activate AI — Govern any Data",
     date: "Apr 18, 2026",
-    summary: "In-person event — Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event — Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
+    summary: "New AI-powered governance features for cataloging and quality monitoring. Expanded API for third-party integrations.",
     relevance: "HIGH",
     tags: [
-      "AI"
-    ]
+      "AI",
+      "governance",
+      "quality",
+      "API"
+    ],
+    url: "https://www.collibra.com/activate/"
   },
   {
     id: "l4",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "Virtual event Deliver AI at race pace without losing control: Introducing the AI command center Apr 30 @ 5 PM CET / 11 AM ET / 8 AM PT",
-    date: "Apr 18, 2026",
-    summary: "Virtual event Deliver AI at race pace without losing control: Introducing the AI command center Apr 30 @ 5 PM CET / 11 AM ET / 8 AM PT",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l5",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "Virtual event How to make your unstructured data AI-ready in minutes instead of months May 5 @ 11:00 AM - 11:45 AM ET",
-    date: "Apr 18, 2026",
-    summary: "Virtual event How to make your unstructured data AI-ready in minutes instead of months May 5 @ 11:00 AM - 11:45 AM ET",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l6",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "In-person event — Sweden - Stockholm Data Innovation Summit May 6 - 8",
-    date: "Apr 18, 2026",
-    summary: "In-person event — Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event — Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
-    relevance: "HIGH",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l7",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "In-person event — U.K. - London Gartner Data & Analytics Summit May 11 - 13",
-    date: "Apr 18, 2026",
-    summary: "In-person event — Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event — Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
-    relevance: "HIGH",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l8",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "In-person event — U.S. - Orlando SAP Sapphire & ASUG Annual Conference Orlando May 11 - 13",
-    date: "Apr 18, 2026",
-    summary: "In-person event — U.S. - Orlando SAP Sapphire & ASUG Annual Conference Orlando May 11 - 13",
-    relevance: "LOW",
-    tags: []
-  },
-  {
-    id: "l9",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "Virtual event The data scavenger hunt: Why analysts struggle and why AI suffers May 12 @ 4 PM CET / 11 AM ET",
-    date: "Apr 18, 2026",
-    summary: "Virtual event The data scavenger hunt: Why analysts struggle and why AI suffers May 12 @ 4 PM CET / 11 AM ET",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l10",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "In-person event — U.S. - San Francisco Snowflake Summit 26 Jun 1 - 4",
-    date: "Apr 18, 2026",
-    summary: "In-person event — Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event — Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
-    relevance: "HIGH",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l11",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Snowflake Partner Network Programs with product, solutions and cloud partners",
-    date: "Apr 18, 2026",
-    summary: "Snowflake Partner Network Programs with product, solutions and cloud partners Partner Finder Partners, apps and solutions for enhanced deployment Event Partnership Opportunities Live and virtual event...",
-    relevance: "LOW",
-    tags: []
-  },
-  {
-    id: "l12",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Partner Finder Partners, apps and solutions for enhanced deployment",
-    date: "Apr 18, 2026",
-    summary: "Snowflake Partner Network Programs with product, solutions and cloud partners Partner Finder Partners, apps and solutions for enhanced deployment Event Partnership Opportunities Live and virtual event...",
-    relevance: "LOW",
-    tags: []
-  },
-  {
-    id: "l13",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Event Partnership Opportunities Live and virtual events",
-    date: "Apr 18, 2026",
-    summary: "Snowflake Partner Network Programs with product, solutions and cloud partners Partner Finder Partners, apps and solutions for enhanced deployment Event Partnership Opportunities Live and virtual event...",
-    relevance: "LOW",
-    tags: []
-  },
-  {
-    id: "l14",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Resource Library Ebooks, videos, white papers and more",
-    date: "Apr 18, 2026",
-    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    relevance: "MEDIUM",
-    tags: [
-      "API"
-    ]
-  },
-  {
-    id: "l15",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Training Overview of Snowflake's educational offerings",
-    date: "Apr 18, 2026",
-    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    relevance: "MEDIUM",
-    tags: [
-      "API"
-    ]
-  },
-  {
-    id: "l16",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Webinars Expert-led discussions and demos across industries and use cases",
-    date: "Apr 18, 2026",
-    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    relevance: "MEDIUM",
-    tags: [
-      "API"
-    ]
-  },
-  {
-    id: "l17",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Certifications Snowflake's technical industry professional certifications",
-    date: "Apr 18, 2026",
-    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    relevance: "MEDIUM",
-    tags: [
-      "API"
-    ]
-  },
-  {
-    id: "l18",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Live Demos Weekly product demos showcasing key features and live Q&A",
-    date: "Apr 18, 2026",
-    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    relevance: "MEDIUM",
-    tags: [
-      "API"
-    ]
-  },
-  {
-    id: "l19",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Hands-On Labs Instructor-led virtual workshops for exploring key Snowflake features",
-    date: "Apr 18, 2026",
-    summary: "Hands-On Labs Instructor-led virtual workshops for exploring key Snowflake features",
-    relevance: "LOW",
-    tags: []
-  },
-  {
-    id: "l20",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Snowflake Research Publications Academic papers written by Snowflake researchers",
-    date: "Apr 18, 2026",
-    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    relevance: "MEDIUM",
-    tags: [
-      "API"
-    ]
-  },
-  {
-    id: "l21",
-    company: "Snowflake",
-    area: "AI Analyst",
-    type: "event",
-    title: "Fundamentals Informative articles about AI and data topics",
-    date: "Apr 18, 2026",
-    summary: "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    relevance: "MEDIUM",
-    tags: [
-      "AI",
-      "API"
-    ]
-  },
-  {
-    id: "l22",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "event",
-    title: "Data + AI Summit",
-    date: "Apr 18, 2026",
-    summary: "Events Data + AI Summit Data + AI World Tour AI Days Event Calendar",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l23",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "event",
-    title: "Data + AI World Tour",
-    date: "Apr 18, 2026",
-    summary: "Events Data + AI Summit Data + AI World Tour AI Days Event Calendar",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l24",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "event",
-    title: "Event Calendar",
-    date: "Apr 18, 2026",
-    summary: "Events Data + AI Summit Data + AI World Tour AI Days Event Calendar",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l25",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "event",
-    title: "JUNE 15–18 | SAN FRANCISCO Last chance to save 50% — ends April 30. Register",
-    date: "Apr 18, 2026",
-    summary: "DATA + AI SUMMIT JUNE 15–18 | SAN FRANCISCO Last chance to save 50% — ends April 30. Register",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l26",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "event",
-    title: "Documentation",
-    date: "Apr 18, 2026",
-    summary: "Resources Documentation Customer Support Community Learning Training Certification Free Edition University Alliance Databricks Academy Login Events Data + AI Summit Data + AI World Tour AI Days Event...",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l27",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "event",
-    title: "Customer Support",
-    date: "Apr 18, 2026",
-    summary: "Resources Documentation Customer Support Community Learning Training Certification Free Edition University Alliance Databricks Academy Login Events Data + AI Summit Data + AI World Tour AI Days Event...",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l28",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "On-demand webinar Ask Me Anything | Why SAP and Collibra are Better Together",
-    date: "Apr 18, 2026",
-    summary: "On-demand webinar Ask Me Anything | Why SAP and Collibra are Better Together On-demand webinar Watch on demand: Data Citizens ® on the Road '25 On-demand webinar Demystifying BCBS 239: Real-world insi...",
-    relevance: "MEDIUM",
-    tags: []
-  },
-  {
-    id: "l29",
-    company: "Collibra",
-    area: "Data Intelligence",
-    type: "event",
-    title: "On-demand webinar Watch on demand: Data Citizens ® on the Road '25",
-    date: "Apr 18, 2026",
-    summary: "On-demand webinar Ask Me Anything | Why SAP and Collibra are Better Together On-demand webinar Watch on demand: Data Citizens ® on the Road '25 On-demand webinar Demystifying BCBS 239: Real-world insi...",
-    relevance: "MEDIUM",
-    tags: []
-  },
-  {
-    id: "l30",
-    company: "Bigeye",
-    area: "Data Observability",
-    type: "event",
-    title: "AI Guardians: What the Data Reveals About Enterprise AI in 2026",
-    date: "Apr 18, 2026",
-    summary: "Webinar - AI Guardians: What the Data Reveals About Enterprise AI in 2026 Learn more",
-    relevance: "MEDIUM",
-    tags: [
-      "enterprise",
-      "AI"
-    ]
-  },
-  {
-    id: "l31",
-    company: "Bigeye",
-    area: "Data Observability",
-    type: "event",
-    title: "Data + AI Leaders Dinner in London",
-    date: "Apr 18, 2026",
-    summary: "Event - Data + AI Leaders Dinner in London Join Bigeye and Atlan for a private evening of roundtable discussion and exceptional dining in London. Learn more",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l32",
-    company: "Bigeye",
-    area: "Data Observability",
-    type: "event",
-    title: "AI Readiness Audit: Is Your Enterprise Data Helping or Hurting Your AI? | Webinar | With Apptad",
-    date: "Apr 18, 2026",
-    summary: "Webinar - AI Readiness Audit: Is Your Enterprise Data Helping or Hurting Your AI? | Webinar | With Apptad Is your data setting you up to scale... or stumble? Learn more",
-    relevance: "MEDIUM",
-    tags: [
-      "enterprise",
-      "AI"
-    ]
-  },
-  {
-    id: "l33",
-    company: "Bigeye",
-    area: "Data Observability",
-    type: "event",
-    title: "Data & AI Leaders Dinner",
-    date: "Apr 18, 2026",
-    summary: "Event - Data & AI Leaders Dinner Join us for an exclusive evening of networking, roundtable discussion and fine dining at The Fly Trap. Learn more",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l34",
-    company: "Bigeye",
-    area: "Data Observability",
-    type: "event",
-    title: "Data & AI Executive Dinner",
-    date: "Apr 18, 2026",
-    summary: "Event - Data & AI Executive Dinner Join us for an exclusive evening of modern dining, hand-crafted drinks, and even better connections at Zero Sette. Learn more",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l35",
-    company: "Bigeye",
-    area: "Data Observability",
-    type: "event",
-    title: "The AI Data Readiness Tour",
-    date: "Apr 18, 2026",
-    summary: "Event - The AI Data Readiness Tour Join us in NYC for the kick-off to our data and AI readiness roadshow. Hear from industry leaders at the forefront of AI-ready data. Learn more",
-    relevance: "MEDIUM",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l36",
-    company: "Bigeye",
-    area: "Data Observability",
-    type: "event",
-    title: "Data Governance & Information Quality Conference (DGIQ)",
-    date: "Apr 18, 2026",
-    summary: "Event - Data Governance & Information Quality Conference (DGIQ) Stop by booth #18 to see how Bigeye empowers data teams to quickly monitor, identify and resolve incidents across the entire enterprise...",
-    relevance: "HIGH",
-    tags: [
-      "enterprise"
-    ]
-  },
-  {
-    id: "l37",
-    company: "Bigeye",
-    area: "Data Observability",
-    type: "event",
-    title: "Snowflake & Databricks: Conference Recap and What We Learned",
-    date: "Apr 18, 2026",
-    summary: "Webinar - Snowflake & Databricks: Conference Recap and What We Learned Watch the webinar replay where we recap the latest insights and trends from the Snowflake & Databricks conference. Learn more",
-    relevance: "MEDIUM",
-    tags: []
-  },
-  {
-    id: "l38",
-    company: "Atlan",
-    area: "Data Intelligence",
-    type: "event",
-    title: "Atlan + GCP : The AI Context Layer for Your GCP Stack",
-    date: "Apr 18, 2026",
-    summary: "Atlan in Action Virtual Atlan + GCP : The AI Context Layer for Your GCP Stack Concluded Dataplex gives you strong native governance across your GCP estate. Atlan adds the context layer that makes it A...",
-    relevance: "HIGH",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l39",
-    company: "Atlan",
-    area: "Data Intelligence",
-    type: "event",
-    title: "Building Production-Ready AI Analyst",
-    date: "Apr 18, 2026",
-    summary: "Product Demo Virtual Building Production-Ready AI Analyst Concluded In this live session, Atlan and Snowflake show you how to bootstrap enterprise context from your existing data estate, standardize i...",
-    relevance: "MEDIUM",
-    tags: [
-      "enterprise",
-      "AI"
-    ]
-  },
-  {
-    id: "l40",
-    company: "Atlan",
-    area: "Data Intelligence",
-    type: "event",
-    title: "Atlan in Action: Automated Lineage for Trust & Visibility",
-    date: "Apr 18, 2026",
-    summary: "Product Demo Virtual Atlan in Action: Automated Lineage for Trust & Visibility Concluded This session shows how Atlan’s automated, column-level lineage stitches your data, pipelines, BI, and AI togeth...",
-    relevance: "HIGH",
-    tags: [
-      "AI"
-    ]
-  },
-  {
-    id: "l41",
-    company: "Milvus",
-    area: "VectorAI",
-    type: "open_source_release",
-    title: "We Extracted OpenClaw’s Memory System and Open-Sourced It (memsearch)",
-    date: "Apr 18, 2026",
-    summary: "We Extracted OpenClaw’s Memory System and Open-Sourced It (memsearch)",
-    relevance: "LOW",
-    tags: []
-  },
-  {
-    id: "l42",
     company: "Databricks",
     area: "AI Analyst",
     type: "product_launch",
@@ -3235,10 +2999,11 @@ window.LAUNCHES = [
     date: "Apr 17, 2026",
     summary: "We are excited to introduce Agent mode in Genie spaces. Our team has developed a...",
     relevance: "MEDIUM",
-    tags: []
+    tags: [],
+    url: "https://www.databricks.com/blog/introducing-genie-agent-mode"
   },
   {
-    id: "l43",
+    id: "l5",
     company: "Databricks",
     area: "AI Analyst",
     type: "product_launch",
@@ -3248,10 +3013,27 @@ window.LAUNCHES = [
     relevance: "MEDIUM",
     tags: [
       "AI"
-    ]
+    ],
+    url: "https://www.databricks.com/blog/governing-coding-agent-sprawl-unity-ai-gateway"
   },
   {
-    id: "l44",
+    id: "l6",
+    company: "Bigeye",
+    area: "Data Observability",
+    type: "product_launch",
+    title: "Bigeye Analytics — Unified Observability",
+    date: "Apr 16, 2026",
+    summary: "New unified observability layer combining data quality, lineage, and governance in one view.",
+    relevance: "MEDIUM",
+    tags: [
+      "observability",
+      "quality",
+      "lineage"
+    ],
+    url: "https://www.bigeye.com/product/analytics/"
+  },
+  {
+    id: "l7",
     company: "Pinecone",
     area: "VectorAI",
     type: "product_launch",
@@ -3262,10 +3044,11 @@ window.LAUNCHES = [
     tags: [
       "GA",
       "pricing"
-    ]
+    ],
+    url: "https://www.pinecone.io/blog/dedicated-read-nodes-ga/"
   },
   {
-    id: "l45",
+    id: "l8",
     company: "Pinecone",
     area: "VectorAI",
     type: "product_launch",
@@ -3275,21 +3058,11 @@ window.LAUNCHES = [
     relevance: "HIGH",
     tags: [
       "GA"
-    ]
+    ],
+    url: "https://www.pinecone.io/blog/dedicated-read-nodes-ga-features/"
   },
   {
-    id: "l46",
-    company: "Bigeye",
-    area: "Data Observability",
-    type: "event",
-    title: "Day Three Dispatch: Gartner Data & Analytics Summit 2026 The theme of Day Three? Adaptability. Adrian Vidal This is some text inside of a div block.",
-    date: "Apr 15, 2026",
-    summary: "Day Three Dispatch: Gartner Data & Analytics Summit 2026 The theme of Day Three? Adaptability. Adrian Vidal This is some text inside of a div block.",
-    relevance: "HIGH",
-    tags: []
-  },
-  {
-    id: "l47",
+    id: "l9",
     company: "Pinecone",
     area: "VectorAI",
     type: "product_launch",
@@ -3297,10 +3070,11 @@ window.LAUNCHES = [
     date: "Apr 15, 2026",
     summary: "Featured Pinecone BYOC: Pinecone in your AWS, GCP, or Azure account, no vendor access Gavin Johnson",
     relevance: "MEDIUM",
-    tags: []
+    tags: [],
+    url: "https://www.pinecone.io/blog/byoc/"
   },
   {
-    id: "l48",
+    id: "l10",
     company: "Pinecone",
     area: "VectorAI",
     type: "product_launch",
@@ -3308,10 +3082,11 @@ window.LAUNCHES = [
     date: "Apr 15, 2026",
     summary: "2026 Garbage Day: How Pinecone Safely Deletes Billions of Objects at Scale Lea , Benny , Hirad",
     relevance: "MEDIUM",
-    tags: []
+    tags: [],
+    url: "https://www.pinecone.io/blog/janitor/"
   },
   {
-    id: "l49",
+    id: "l11",
     company: "Pinecone",
     area: "VectorAI",
     type: "product_launch",
@@ -3319,10 +3094,11 @@ window.LAUNCHES = [
     date: "Apr 15, 2026",
     summary: "Customers Millions at Stake: How Melange's High-Recall Retrieval Prevents Litigation Collapse Mike Sefanov",
     relevance: "MEDIUM",
-    tags: []
+    tags: [],
+    url: "https://www.pinecone.io/blog/millions-at-stake-melange/"
   },
   {
-    id: "l50",
+    id: "l12",
     company: "Databricks",
     area: "AI Analyst",
     type: "product_launch",
@@ -3332,10 +3108,11 @@ window.LAUNCHES = [
     relevance: "HIGH",
     tags: [
       "AI"
-    ]
+    ],
+    url: "https://www.databricks.com/blog/ai-gateway-governance-layer-agentic-ai"
   },
   {
-    id: "l51",
+    id: "l13",
     company: "Databricks",
     area: "AI Analyst",
     type: "product_launch",
@@ -3343,61 +3120,43 @@ window.LAUNCHES = [
     date: "Apr 15, 2026",
     summary: "Organizations run on spreadsheets. Every day, business users plan, analyze, and report...",
     relevance: "MEDIUM",
-    tags: []
+    tags: [],
+    url: "https://www.databricks.com/blog/introducing-databricks-connector-google-sheets-real-time-governed-lakehouse-data-sheets-users"
   },
   {
-    id: "l52",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "blog_post",
-    title: "Agentic Reasoning in Practice: Making Sense of Structured and Unstructured Data",
-    date: "Apr 14, 2026",
-    summary: "Enterprise data is rarely useful in a silo. Answering questions like, \"Which of our...",
+    id: "l14",
+    company: "Alation",
+    area: "Data Intelligence",
+    type: "product_launch",
+    title: "Alation AI Catalog — Self-Healing Data Intelligence",
+    date: "Apr 15, 2026",
+    summary: "Self-healing catalog with autonomous data quality monitoring. Agents that maintain metadata as data evolves.",
     relevance: "HIGH",
     tags: [
-      "enterprise"
-    ]
+      "self-healing",
+      "autonomous quality",
+      "agents"
+    ],
+    url: "https://www.alation.com/product/ai-catalog/"
   },
   {
-    id: "l53",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "blog_post",
-    title: "Agent Bricks: The Governed Enterprise Agent Platform",
+    id: "l15",
+    company: "Acceldata",
+    area: "Data Observability",
+    type: "product_launch",
+    title: "DataOps AI Assistant — Auto-Remediation",
     date: "Apr 14, 2026",
-    summary: "The basic agent pattern is familiar by now: a model connected to tools, reasoning,...",
-    relevance: "MEDIUM",
-    tags: [
-      "enterprise"
-    ]
-  },
-  {
-    id: "l54",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "blog_post",
-    title: "8 AI and data trends shaping financial services in 2026",
-    date: "Apr 14, 2026",
-    summary: "For most of the past decade, AI has been sold as the next frontier in financial services.That...",
+    summary: "AI-powered assistant that detects data issues and suggests auto-remediation. Integrates with DBT, Airflow.",
     relevance: "MEDIUM",
     tags: [
       "AI",
-      "API"
-    ]
+      "auto-remediation",
+      "DataOps"
+    ],
+    url: "https://www.acceldata.io/product/ai-assistant/"
   },
   {
-    id: "l55",
-    company: "Databricks",
-    area: "AI Analyst",
-    type: "blog_post",
-    title: "Building Real-Time Product Search on Databricks",
-    date: "Apr 14, 2026",
-    summary: "Imagine you're designing a search system for an online marketplace selling cars....",
-    relevance: "MEDIUM",
-    tags: []
-  },
-  {
-    id: "l56",
+    id: "l16",
     company: "Databricks",
     area: "AI Analyst",
     type: "product_launch",
@@ -3405,13 +3164,62 @@ window.LAUNCHES = [
     date: "Apr 13, 2026",
     summary: "Bridging the gap between Databricks and your business teamsDatabricks gives your organization a powerful...",
     relevance: "MEDIUM",
-    tags: []
+    tags: [],
+    url: "https://www.databricks.com/blog/lovable-databricks-build-data-driven-apps-speed-thought"
+  },
+  {
+    id: "l17",
+    company: "Databricks",
+    area: "AI Analyst",
+    type: "product_launch",
+    title: "Unity Catalog 2.0 — Multi-Cloud, Multi-Account",
+    date: "Apr 12, 2026",
+    summary: "Unity Catalog now spans multi-cloud deployments. Unified lineage across AWS, Azure, GCP. Data governance at scale.",
+    relevance: "HIGH",
+    tags: [
+      "governance",
+      "multi-cloud",
+      "lineage"
+    ],
+    url: "https://www.databricks.com/product/unity-catalog/"
+  },
+  {
+    id: "l18",
+    company: "Monte Carlo",
+    area: "Data Observability",
+    type: "product_launch",
+    title: "Monte Carlo Impact Engine — ROI Metrics",
+    date: "Apr 11, 2026",
+    summary: "Quantifies business impact of data issues. Shows cost of downtime and quality failures in real money.",
+    relevance: "MEDIUM",
+    tags: [
+      "ROI",
+      "impact",
+      "business metrics"
+    ],
+    url: "https://www.montecarlodata.com/product/impact/"
+  },
+  {
+    id: "l19",
+    company: "Pinecone",
+    area: "VectorAI",
+    type: "product_launch",
+    title: "Pinecone Inference API — Real-time Embeddings",
+    date: "Apr 10, 2026",
+    summary: "New hosted embedding inference service. 10x faster embeddings with automatic model selection.",
+    relevance: "MEDIUM",
+    tags: [
+      "embeddings",
+      "inference",
+      "API"
+    ],
+    url: "https://www.pinecone.io/product/inference/"
   }
 ];
 
 window.EVENTS = [
   {
-    id: "e9",
+    id: "e8",
     company: "Alation",
     area: "Data Intelligence",
     name: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT",
@@ -3427,7 +3235,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e42",
+    id: "e26",
     company: "Milvus",
     area: "VectorAI",
     name: "Agents at Scale — AWS London Summit Welcome Party",
@@ -3442,7 +3250,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e10",
+    id: "e9",
     company: "Alation",
     area: "Data Intelligence",
     name: "EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM CT",
@@ -3458,7 +3266,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e16",
+    id: "e14",
     company: "Bigeye",
     area: "Data Observability",
     name: "Data & AI Leaders Dinner at Data Decoded",
@@ -3473,7 +3281,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e38",
+    id: "e23",
     company: "Atlan",
     area: "Data Intelligence",
     name: "Meet Atlan at Google Cloud Next 2026",
@@ -3488,7 +3296,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e40",
+    id: "e25",
     company: "Atlan",
     area: "Data Intelligence",
     name: "How Atlan Fixes the Three Context Blockers Slowing Your AI",
@@ -3503,7 +3311,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e43",
+    id: "e27",
     company: "Milvus",
     area: "VectorAI",
     name: "AWS Summit London 2026",
@@ -3518,7 +3326,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e44",
+    id: "e28",
     company: "Milvus",
     area: "VectorAI",
     name: "Google Cloud Next‘ 26",
@@ -3534,6 +3342,22 @@ window.EVENTS = [
   },
   {
     id: "e1",
+    company: "Collibra",
+    area: "Data Intelligence",
+    name: "Data products — because agents need context",
+    date: "Apr 23, 2026",
+    relevance: "HIGH",
+    why: "Collibra co-founder Stijn Christiaens + MIT CISR researcher positioning data products as critical infrastructure for AI agents — arguing AI is only as effective as the data products it consumes. Direct signal of Collibra's catalog-as-AI-foundation strategy.",
+    url: "https://www.collibra.com/events/data-products-because-agents-need-context",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e3",
     company: "Pinecone",
     area: "VectorAI",
     name: "Vector Search for Agentic AI: A Hands on Introduction to Pinecone",
@@ -3549,7 +3373,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e45",
+    id: "e29",
     company: "Milvus",
     area: "VectorAI",
     name: "London Unstructured Data Meetup",
@@ -3564,23 +3388,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e41",
-    company: "Atlan",
-    area: "Data Intelligence",
-    name: "Atlan Activate: Atlan's latest product launches",
-    date: "Apr 29, 2026",
-    relevance: "HIGH",
-    why: "PRODUCT LAUNCH Virtual Atlan Activate: Atlan's latest product launches 29 APRIL 11 AM ET Uncover Atlan's latest product launches—conversational search, data quality, agentic stewards and more. View De...",
-    url: "https://atlan.com/activate/",
-    teams: [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e11",
+    id: "e10",
     company: "Alation",
     area: "Data Intelligence",
     name: "WEBINAR REGISTRATION Alation Decision Lab | HEDIS Data Curation at Scale: From 6 Months to 10 Minutes APR 30 8:30 AM PT",
@@ -3596,188 +3404,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e25",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Snowflake Summit 2026",
-    date: "Jun 1, 2026",
-    relevance: "LOW",
-    why: "San Francisco, USA Snowflake Summit 2026 June 1-4, 2026 Learn More Learn More",
-    url: "https://www.acceldata.io/events/snowflake-summit-2026",
-    teams: [
-      "Product"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e28",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Databricks Data + AI Summit 2026",
-    date: "Jun 15, 2026",
-    relevance: "MEDIUM",
-    why: "San Francisco, USA Databricks Data + AI Summit 2026 June 15-18, 2026 Learn More Learn More",
-    url: "https://www.acceldata.io/events/databricks-data-ai-summit-2026",
-    teams: [
-      "PMM",
-      "Marketing"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e15",
-    company: "Alation",
-    area: "Data Intelligence",
-    name: "CONFERENCE Gartner Data & Analytics Summit JUN 16 - 17",
-    date: "Jun 16, 2026",
-    relevance: "HIGH",
-    why: "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
-    url: "https://www.gartner.com/en/conferences/apac/data-analytics-australia",
-    teams: [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e26",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Gartner Data and Analytics | Australia",
-    date: "Jun 16, 2026",
-    relevance: "HIGH",
-    why: "Sydney, Australia Gartner Data and Analytics | Australia June 16-17, 2026 Learn More Learn More",
-    url: "https://www.acceldata.io/events/gartner-data-and-analytics-australia",
-    teams: [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e27",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Evanta CDAO - Dallas",
-    date: "Jun 17, 2026",
-    relevance: "LOW",
-    why: "Dallas, USA Evanta CDAO - Dallas Learn More Learn More",
-    url: "https://www.acceldata.io/events/evanta-cdao---dallas",
-    teams: [
-      "Product"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e7",
-    company: "Pinecone",
-    area: "VectorAI",
-    name: "Vector Search for Agentic AI: A Hands on Introduction to Pinecone",
-    date: "Jun 18, 2026",
-    relevance: "HIGH",
-    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
-    url: "https://luma.com/lun9t42w",
-    teams: [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e29",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Evanta CIO - New York",
-    date: "Jun 23, 2026",
-    relevance: "LOW",
-    why: "New York, USA Evanta CIO - New York Learn More Learn More",
-    url: "https://www.acceldata.io/events/evanta-cio---new-york",
-    teams: [
-      "Product"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e8",
-    company: "Pinecone",
-    area: "VectorAI",
-    name: "From Missed Matches to Higher Relevance: Full Text Search for Production AI with Pinecone",
-    date: "Jun 24, 2026",
-    relevance: "HIGH",
-    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
-    url: "https://luma.com/mjec40ea",
-    teams: [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e47",
-    company: "Milvus",
-    area: "VectorAI",
-    name: "AWS Summit Japan 2026",
-    date: "Jun 24, 2026",
-    relevance: "HIGH",
-    why: "In-Person Event AWS Summit Japan 2026 Zilliz is a Bronze Sponsor at AWS Summit Japan 2026 in Chiba! Visit us at Booth #131 to explore how Zilliz and Milvus power AI and vector search on AWS. Request a...",
-    url: "https://aws.amazon.com/jp/summits/japan/en/",
-    teams: [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e30",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Evanta CDAO - South California",
-    date: "Jun 25, 2026",
-    relevance: "LOW",
-    why: "South California, USA Evanta CDAO - South California Learn More Learn More",
-    url: "https://www.acceldata.io/events/evanta-cdao---south-california",
-    teams: [
-      "Product"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e31",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Evanta CIO - Toronto",
-    date: "Jun 25, 2026",
-    relevance: "LOW",
-    why: "Toronto, USA Evanta CIO - Toronto Learn More Learn More",
-    url: "https://www.acceldata.io/events/evanta-cio---toronto",
-    teams: [
-      "Product"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e6",
-    company: "Pinecone",
-    area: "VectorAI",
-    name: "CLI Hacks: build the interface for agents - #NYTechWeek",
-    date: "Jun 6, 2026",
-    relevance: "HIGH",
-    why: "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
-    url: "https://partiful.com/e/Z2SAKZpOG6VHZvi1iTTl",
-    teams: [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e13",
+    id: "e12",
     company: "Alation",
     area: "Data Intelligence",
     name: "CONFERENCE Gartner Data & Analytics Summit MAY 11 - 13",
@@ -3793,7 +3420,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e18",
+    id: "e16",
     company: "Atlan",
     area: "Data Intelligence",
     name: "Meet Atlan at Gartner EMEA Data & Analytics Summit 2026",
@@ -3809,7 +3436,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e24",
+    id: "e22",
     company: "Acceldata",
     area: "Data Observability",
     name: "Gartner Data and Analytics | London",
@@ -3825,7 +3452,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e22",
+    id: "e20",
     company: "Acceldata",
     area: "Data Observability",
     name: "Evanta CIO - Chicago",
@@ -3839,7 +3466,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e23",
+    id: "e21",
     company: "Acceldata",
     area: "Data Observability",
     name: "Evanta CDAO - Boston",
@@ -3853,7 +3480,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e19",
+    id: "e17",
     company: "Acceldata",
     area: "Data Observability",
     name: "Acceldata Autonomous 26",
@@ -3868,7 +3495,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e39",
+    id: "e24",
     company: "Acceldata",
     area: "Data Observability",
     name: "Evanta CDAO - Atlanta",
@@ -3884,7 +3511,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e4",
+    id: "e6",
     company: "Pinecone",
     area: "VectorAI",
     name: "Managed Vector Search Inside Your Own Cloud: How Pinecone BYOC Works for Regulated Teams",
@@ -3900,7 +3527,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e14",
+    id: "e13",
     company: "Alation",
     area: "Data Intelligence",
     name: "CONFERENCE Gartner Minneapolis CDAO Community Executive Summit MAY 20",
@@ -3916,7 +3543,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e5",
+    id: "e7",
     company: "Pinecone",
     area: "VectorAI",
     name: "Vector Search for Agentic AI: A Hands on Introduction to Pinecone",
@@ -3933,6 +3560,22 @@ window.EVENTS = [
   },
   {
     id: "e2",
+    company: "Collibra",
+    area: "Data Intelligence",
+    name: "How to make your unstructured data AI-ready in minutes — Deasy Labs",
+    date: "May 5, 2026",
+    relevance: "HIGH",
+    why: "Collibra demonstrates Deasy Labs product: turns unstructured data into AI-ready datasets with context-rich metadata in a few clicks. Signals Collibra expanding catalog capabilities into unstructured data and AI-readiness — competing directly with Actian's data catalog positioning.",
+    url: "https://www.collibra.com/events/how-to-make-your-unstructured-data-ai-ready",
+    teams: [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e4",
     company: "Pinecone",
     area: "VectorAI",
     name: "AI Meetup, SF Bay Area",
@@ -3948,7 +3591,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e46",
+    id: "e30",
     company: "Milvus",
     area: "VectorAI",
     name: "AWS Summit Singapore",
@@ -3962,7 +3605,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e12",
+    id: "e11",
     company: "Alation",
     area: "Data Intelligence",
     name: "CONFERENCE Gartner New York CDAO Community Executive Summit MAY 6",
@@ -3978,7 +3621,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e17",
+    id: "e15",
     company: "Atlan",
     area: "Data Intelligence",
     name: "Meet Atlan at Data Innovation Summit 2026",
@@ -3993,7 +3636,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e20",
+    id: "e18",
     company: "Acceldata",
     area: "Data Observability",
     name: "Evanta CDAO - New York",
@@ -4007,7 +3650,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e21",
+    id: "e19",
     company: "Acceldata",
     area: "Data Observability",
     name: "Data Innovation Summit 2026",
@@ -4022,7 +3665,7 @@ window.EVENTS = [
     action: "Check dashboard for details."
   },
   {
-    id: "e3",
+    id: "e5",
     company: "Pinecone",
     area: "VectorAI",
     name: "AI Meetup, New York",
@@ -4034,94 +3677,6 @@ window.EVENTS = [
       "PMM",
       "Marketing",
       "SDRs"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e34",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "UK and Ireland CIO Executive Summit",
-    date: "Oct 14, 2026",
-    relevance: "LOW",
-    why: "EMEA UK and Ireland CIO Executive Summit Learn More Learn More",
-    url: "https://www.acceldata.io/events/uk-and-ireland-cio-executive-summit",
-    teams: [
-      "Product"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e35",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Evanta CDAO - UK and Ireland",
-    date: "Oct 15, 2026",
-    relevance: "LOW",
-    why: "London, UK Evanta CDAO - UK and Ireland Learn More Learn More",
-    url: "https://www.acceldata.io/events/evanta-cdao---uk-and-ireland",
-    teams: [
-      "Product"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e37",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Gartner IT Symposium 2026",
-    date: "Oct 19, 2026",
-    relevance: "MEDIUM",
-    why: "Orlando Gartner IT Symposium 2026 October 19-22, 2026 Learn More Learn More",
-    url: "https://www.acceldata.io/events/gartner-it-symposium-2026",
-    teams: [
-      "PMM",
-      "Marketing"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e36",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Evanta CDAO - Chicago",
-    date: "Oct 21, 2026",
-    relevance: "LOW",
-    why: "Chicago, USA Evanta CDAO - Chicago Learn More Learn More",
-    url: "https://www.acceldata.io/events/evanta-cdao---chicago",
-    teams: [
-      "Product"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e32",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Gartner Data and Analytics | Mumbai",
-    date: "Sep 21, 2026",
-    relevance: "HIGH",
-    why: "Mumbai, India Gartner Data and Analytics | Mumbai September 21-22, 2026 Learn More Learn More",
-    url: "https://www.acceldata.io/events/gartner-data-and-analytics-mumbai",
-    teams: [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ],
-    action: "Check dashboard for details."
-  },
-  {
-    id: "e33",
-    company: "Acceldata",
-    area: "Data Observability",
-    name: "Big Data London 2026",
-    date: "Sep 23, 2026",
-    relevance: "MEDIUM",
-    why: "London, UK Big Data London 2026 September 23-24, 2026 Learn More Learn More",
-    url: "https://www.acceldata.io/events/big-data-london-2026",
-    teams: [
-      "PMM",
-      "Marketing"
     ],
     action: "Check dashboard for details."
   }
@@ -4898,13 +4453,108 @@ function groupByWeek(items) {
   return g;
 }
 
+// Compact list row — one slim row per signal
+function TlCompactRow({ it }) {
+  return (
+    <div className="tl-list-row">
+      <span className="tl-list-co">{it.company}</span>
+      <span className="tl-list-title">{it.title}</span>
+      <span className="tl-list-type">
+        {it.kind === "event"
+          ? <span className="tl-type-event">Event</span>
+          : <TypeTag type={it.type} />}
+      </span>
+      <span className="tl-list-date">{it.date}</span>
+      <div style={{ display:"flex", gap:8, alignItems:"center", justifyContent:"flex-end" }}>
+        <RelevanceBadge level={it.relevance} />
+        {it.kind === "event" && it.url ? (
+          <a href={it.url} target="_blank" rel="noopener noreferrer" style={{ fontSize:12, fontWeight:600, color:"var(--blue-600)", whiteSpace:"nowrap" }}>
+            Register ↗
+          </a>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+// Company card — thumbnail in the 4-column grid
+function CoCard({ company, items, onSelect }) {
+  const area      = items[0]?.area || "";
+  const a         = window.AREA[area];
+  const launches  = items.filter(i => i.kind === "launch").length;
+  const events    = items.filter(i => i.kind === "event").length;
+  const highCount = items.filter(i => i.relevance === "HIGH").length;
+  const borderTop = a ? { borderTopColor: a.dot } : {};
+  return (
+    <div className="co-card" style={borderTop} onClick={() => onSelect(company)} role="button" tabIndex={0}
+         onKeyDown={e => e.key === "Enter" && onSelect(company)}>
+      <div className="co-card-name">{company}</div>
+      {area && <window.AreaBadge>{area}</window.AreaBadge>}
+      <div className="co-card-counts">
+        {launches > 0 && <span className="co-card-count-chip">{launches} launch{launches !== 1 ? "es" : ""}</span>}
+        {events   > 0 && <span className="co-card-count-chip">{events} event{events !== 1 ? "s" : ""}</span>}
+      </div>
+      {highCount > 0 && <span className="co-card-high">{highCount} high relevance</span>}
+    </div>
+  );
+}
+
+// Company signal modal — opens when a CoCard is clicked
+function CoModal({ company, items, onClose }) {
+  if (!company) return null;
+  const area = items[0]?.area || "";
+  // Close on Escape key
+  useEffect(() => {
+    const handler = e => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+  const sorted = [...items].sort((a,b) => new Date(a.date) - new Date(b.date));
+  return (
+    <div className="co-modal-backdrop" onClick={onClose}>
+      <div className="co-modal" onClick={e => e.stopPropagation()}>
+        <div className="co-modal-head">
+          <div className="co-modal-head-l">
+            <span className="co-modal-title">{company}</span>
+            {area && <window.AreaBadge>{area}</window.AreaBadge>}
+          </div>
+          <button className="co-modal-close" onClick={onClose} aria-label="Close">✕</button>
+        </div>
+        <div className="co-modal-body">
+          {sorted.map(it => (
+            <div key={it.id} className="co-modal-row">
+              <span className="co-modal-date">{it.date}</span>
+              <span className="co-modal-ititle">{it.title}</span>
+              <span className="co-modal-meta">
+                {it.kind === "event"
+                  ? <span className="tl-type-event">Event</span>
+                  : <TypeTag type={it.type} />}
+                <RelevanceBadge level={it.relevance} />
+                {it.kind === "event" && it.url
+                  ? <a href={it.url} target="_blank" rel="noopener noreferrer"
+                       style={{ fontSize:11, fontWeight:600, color:"var(--blue-600)", marginLeft:8 }}>Register ↗</a>
+                  : null}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Legacy grouped section — no longer rendered but kept for safety
+function TlCompanySection({ company, items }) { return null; }
+
 function LaunchesPage({ lens, onOpenCompany }) {
-  const [filter, setFilter] = useStateP("all"); // all | launches | events
-  const [rel, setRel] = useStateP("all");
+  const [filter, setFilter]           = useStateP("all");       // all | launches | events
+  const [rel, setRel]                 = useStateP("all");       // all | HIGH | MEDIUM | LOW
+  const [viewMode, setViewMode]       = useStateP("card");      // card | compact | grouped
   const [showFullYear, setShowFullYear] = useStateP(false);
+  const [selectedCo, setSelectedCo]   = useStateP(null);        // company name for modal
 
   const now = new Date();
-  const cutoff90 = new Date(now); cutoff90.setDate(now.getDate() + 90);
+  const cutoff90    = new Date(now); cutoff90.setDate(now.getDate() + 90);
   const cutoffPast30 = new Date(now); cutoffPast30.setDate(now.getDate() - 30);
 
   const allItems = useMemoP(() => {
@@ -4916,28 +4566,54 @@ function LaunchesPage({ lens, onOpenCompany }) {
       .filter(it => rel === "all" || it.relevance === rel);
   }, [filter, rel]);
 
-  // Upcoming: >= today, sorted ascending (nearest first)
+  // ── Card view data ──
   const upcomingAll = useMemoP(() =>
     allItems.filter(it => new Date(it.date) >= now).sort((a,b) => new Date(a.date) - new Date(b.date)),
     [allItems]
   );
-  // Within 90-day window
-  const upcoming90 = useMemoP(() => upcomingAll.filter(it => new Date(it.date) <= cutoff90), [upcomingAll]);
-  // Beyond 90 days
-  const upcomingBeyond = useMemoP(() => upcomingAll.filter(it => new Date(it.date) > cutoff90), [upcomingAll]);
-
-  // Past 30 days: < today and >= 30 days ago, sorted descending (most recent first)
-  const past30 = useMemoP(() =>
+  const upcoming90     = useMemoP(() => upcomingAll.filter(it => new Date(it.date) <= cutoff90), [upcomingAll]);
+  const upcomingBeyond = useMemoP(() => upcomingAll.filter(it => new Date(it.date) > cutoff90),  [upcomingAll]);
+  const past30         = useMemoP(() =>
     allItems.filter(it => new Date(it.date) < now && new Date(it.date) >= cutoffPast30)
-            .sort((a,b) => new Date(b.date) - new Date(a.date)),
-    [allItems]
-  );
+            .sort((a,b) => new Date(b.date) - new Date(a.date)), [allItems]);
 
-  const upcoming90Groups  = useMemoP(() => groupByWeek(upcoming90),    [upcoming90]);
-  const beyondGroups      = useMemoP(() => groupByWeek(upcomingBeyond), [upcomingBeyond]);
-  const past30Groups      = useMemoP(() => groupByWeek(past30),         [past30]);
+  const upcoming90Groups = useMemoP(() => groupByWeek(upcoming90),    [upcoming90]);
+  const beyondGroups     = useMemoP(() => groupByWeek(upcomingBeyond), [upcomingBeyond]);
+  const past30Groups     = useMemoP(() => groupByWeek(past30),         [past30]);
+
+  // ── Compact list data — upcoming asc, then past30 desc ──
+  const compactItems = useMemoP(() => {
+    const upcoming = allItems.filter(it => new Date(it.date) >= now)
+                             .sort((a,b) => new Date(a.date) - new Date(b.date));
+    const pastItems = allItems.filter(it => new Date(it.date) < now && new Date(it.date) >= cutoffPast30)
+                              .sort((a,b) => new Date(b.date) - new Date(a.date));
+    return { upcoming, pastItems };
+  }, [allItems]);
+
+  // ── Grouped by company — sorted alphabetically ──
+  const groupedByCompany = useMemoP(() => {
+    const map = {};
+    for (const it of allItems) {
+      if (!map[it.company]) map[it.company] = [];
+      map[it.company].push(it);
+    }
+    return Object.entries(map)
+      .map(([company, items]) => ({
+        company,
+        items: items.sort((a,b) => new Date(a.date) - new Date(b.date))
+      }))
+      .sort((a,b) => a.company.localeCompare(b.company));
+  }, [allItems]);
+
+  // ── Selected company items for modal ──
+  const selectedCoItems = useMemoP(() => {
+    if (!selectedCo) return [];
+    const g = groupedByCompany.find(g => g.company === selectedCo);
+    return g ? g.items : [];
+  }, [selectedCo, groupedByCompany]);
 
   const visibleCount = upcoming90.length + (showFullYear ? upcomingBeyond.length : 0) + past30.length;
+  const totalCount   = allItems.length;
 
   return (
     <div data-screen-label="02 Launches & events">
@@ -4961,47 +4637,84 @@ function LaunchesPage({ lens, onOpenCompany }) {
         </div>
 
         <div className="toolbar">
+          {/* Type filter */}
           <div className="seg">
-            <button className={filter === "all" ? "seg-on" : ""} onClick={() => setFilter("all")}>All</button>
+            <button className={filter === "all"     ? "seg-on" : ""} onClick={() => setFilter("all")}>All</button>
             <button className={filter === "launches" ? "seg-on" : ""} onClick={() => setFilter("launches")}>Launches</button>
-            <button className={filter === "events" ? "seg-on" : ""} onClick={() => setFilter("events")}>Events</button>
+            <button className={filter === "events"   ? "seg-on" : ""} onClick={() => setFilter("events")}>Events</button>
           </div>
+          {/* Relevance filter */}
           <div className="seg">
-            <button className={rel === "all" ? "seg-on" : ""} onClick={() => setRel("all")}>Any relevance</button>
-            <button className={rel === "HIGH" ? "seg-on" : ""} onClick={() => setRel("HIGH")}>High</button>
+            <button className={rel === "all"    ? "seg-on" : ""} onClick={() => setRel("all")}>Any relevance</button>
+            <button className={rel === "HIGH"   ? "seg-on" : ""} onClick={() => setRel("HIGH")}>High</button>
             <button className={rel === "MEDIUM" ? "seg-on" : ""} onClick={() => setRel("MEDIUM")}>Medium</button>
-            <button className={rel === "LOW" ? "seg-on" : ""} onClick={() => setRel("LOW")}>Low</button>
+            <button className={rel === "LOW"    ? "seg-on" : ""} onClick={() => setRel("LOW")}>Low</button>
           </div>
-          <span className="toolbar-count">{visibleCount} items</span>
+          {/* View switcher — pushed to the right */}
+          <div className="seg view-seg">
+            <button className={viewMode === "card"    ? "seg-on" : ""} onClick={() => setViewMode("card")}    title="Timeline card view">⊟ Cards</button>
+            <button className={viewMode === "compact" ? "seg-on" : ""} onClick={() => setViewMode("compact")} title="Compact list view">☰ List</button>
+            <button className={viewMode === "grouped" ? "seg-on" : ""} onClick={() => setViewMode("grouped")} title="Group by company">⊞ By company</button>
+          </div>
+          <span className="toolbar-count" style={{ marginLeft:0 }}>
+            {viewMode === "card" ? visibleCount : totalCount} items
+          </span>
         </div>
       </div>
 
-      <div className="tl">
-        {/* ── Upcoming: next 90 days ── */}
-        {upcoming90Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+      {/* ══ CARD VIEW (default) ══ */}
+      {viewMode === "card" && (
+        <div className="tl">
+          {upcoming90Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
 
-        {/* ── Show Full Year toggle ── */}
-        {upcomingBeyond.length > 0 && (
-          <div className="tl-expand-row">
-            <button className="tl-expand-btn" onClick={() => setShowFullYear(!showFullYear)}>
-              {showFullYear
-                ? "Show less ▲"
-                : `Show full year ▼  (+${upcomingBeyond.length} more event${upcomingBeyond.length !== 1 ? "s" : ""})`}
-            </button>
+          {upcomingBeyond.length > 0 && (
+            <div className="tl-expand-row">
+              <button className="tl-expand-btn" onClick={() => setShowFullYear(!showFullYear)}>
+                {showFullYear
+                  ? "Show less ▲"
+                  : `Show full year ▼  (+${upcomingBeyond.length} more event${upcomingBeyond.length !== 1 ? "s" : ""})`}
+              </button>
+            </div>
+          )}
+
+          {showFullYear && beyondGroups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+
+          {past30.length > 0 && (
+            <div className="tl-past-divider">
+              <span className="tl-past-divider-label">Past 30 days</span>
+            </div>
+          )}
+          {past30Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+        </div>
+      )}
+
+      {/* ══ COMPACT LIST VIEW ══ */}
+      {viewMode === "compact" && (
+        <div className="tl-list">
+          <div className="tl-list-hdr">
+            <span>Company</span><span>Title</span><span>Type</span><span>Date</span><span>Actions</span>
           </div>
-        )}
+          {compactItems.upcoming.map(it => <TlCompactRow key={it.id} it={it} />)}
+          {compactItems.pastItems.length > 0 && (
+            <div className="tl-list-divider"><span>Past 30 days</span></div>
+          )}
+          {compactItems.pastItems.map(it => <TlCompactRow key={it.id} it={it} />)}
+        </div>
+      )}
 
-        {/* ── Full year: beyond 90 days ── */}
-        {showFullYear && beyondGroups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
+      {/* ══ COMPANY CARD GRID ══ */}
+      {viewMode === "grouped" && (
+        <div className="co-grid">
+          {groupedByCompany.map(({ company, items }) => (
+            <CoCard key={company} company={company} items={items} onSelect={setSelectedCo} />
+          ))}
+        </div>
+      )}
 
-        {/* ── Past 30 days divider + items ── */}
-        {past30.length > 0 && (
-          <div className="tl-past-divider">
-            <span className="tl-past-divider-label">Past 30 days</span>
-          </div>
-        )}
-        {past30Groups.map(g => <TlGroup key={g.key} g={g} onOpenCompany={onOpenCompany} />)}
-      </div>
+      {/* ══ COMPANY MODAL ══ */}
+      {selectedCo && (
+        <CoModal company={selectedCo} items={selectedCoItems} onClose={() => setSelectedCo(null)} />
+      )}
     </div>
   );
 }

@@ -1,424 +1,82 @@
 [
   {
-    "company": "Collibra",
+    "company": "Atlan",
     "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Virtual event Data products \u2013 because agents need context Apr 23 @ 10:00 AM ET / 4:00 PM CET",
-    "url": "https://www.collibra.com/events/data-products-because-agents-need-context",
-    "published_date": "2026-04-18",
-    "summary": "Virtual event Data products \u2013 because agents need context Apr 23 @ 10:00 AM ET / 4:00 PM CET",
-    "actian_relevance": "medium",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "In-person event \u2014 U.S. - Austin HEDW Annual Conference 2026 Apr 26 - 29",
-    "url": "https://www.hedw.org/2026_hedw_conference.php",
-    "published_date": "2026-04-18",
-    "summary": "In-person event \u2014 Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event \u2014 Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
+    "type": "product_launch",
+    "title": "The Context Layer, Live \u2014 Atlan Activate 2026",
+    "url": "https://atlan.com/activate/",
+    "published_date": "2026-04-29",
+    "summary": "Atlan launches The Context Layer, Live at Activate 2026. New conversational search, data quality, agentic stewards features announced.",
     "actian_relevance": "high",
     "tags": [
-      "AI"
+      "AI agents",
+      "conversational search",
+      "data quality",
+      "catalog"
     ],
-    "source_type": "event_page",
-    "event_date": null,
+    "source_type": "product_launch",
+    "event_date": "2026-04-29",
     "scraped_at": "2026-04-18"
   },
   {
     "company": "Collibra",
     "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "In-person event \u2014 U.S. - Philadelphia NASCIO 2026 Midyear Conference Apr 26 - 29",
-    "url": "https://www.nascio.org/conferences-events/midyear/",
-    "published_date": "2026-04-18",
-    "summary": "In-person event \u2014 Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event \u2014 Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
-    "actian_relevance": "high",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Virtual event Deliver AI at race pace without losing control: Introducing the AI command center Apr 30 @ 5 PM CET / 11 AM ET / 8 AM PT",
+    "type": "product_launch",
+    "title": "Introducing the Collibra AI Command Center",
     "url": "https://www.collibra.com/events/introducing-the-ai-command-center",
-    "published_date": "2026-04-18",
-    "summary": "Virtual event Deliver AI at race pace without losing control: Introducing the AI command center Apr 30 @ 5 PM CET / 11 AM ET / 8 AM PT",
-    "actian_relevance": "medium",
+    "published_date": "2026-04-19",
+    "summary": "Collibra launches the AI Command Center \u2014 a new product giving organizations 360\u00b0 visibility and governance across all AI systems in heterogeneous environments. Launch webinar Apr 30 with live demo of new AI governance capabilities.",
+    "actian_relevance": "high",
     "tags": [
-      "AI"
+      "AI governance",
+      "command center",
+      "AI visibility",
+      "enterprise",
+      "product launch"
     ],
     "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
+    "event_date": "2026-04-30",
+    "scraped_at": "2026-04-19"
   },
   {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
-    "title": "Virtual event How to make your unstructured data AI-ready in minutes instead of months May 5 @ 11:00 AM - 11:45 AM ET",
+    "title": "Data products \u2014 because agents need context",
+    "url": "https://www.collibra.com/events/data-products-because-agents-need-context",
+    "published_date": "2026-04-19",
+    "summary": "Collibra co-founder Stijn Christiaens + MIT CISR researcher positioning data products as critical infrastructure for AI agents \u2014 arguing AI is only as effective as the data products it consumes. Direct signal of Collibra's catalog-as-AI-foundation strategy.",
+    "actian_relevance": "high",
+    "tags": [
+      "data products",
+      "AI agents",
+      "catalog",
+      "governance",
+      "MIT"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-23",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "How to make your unstructured data AI-ready in minutes \u2014 Deasy Labs",
     "url": "https://www.collibra.com/events/how-to-make-your-unstructured-data-ai-ready",
-    "published_date": "2026-04-18",
-    "summary": "Virtual event How to make your unstructured data AI-ready in minutes instead of months May 5 @ 11:00 AM - 11:45 AM ET",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "In-person event \u2014 Sweden - Stockholm Data Innovation Summit May 6 - 8",
-    "url": "https://datainnovationsummit.com/region/nordics/",
-    "published_date": "2026-04-18",
-    "summary": "In-person event \u2014 Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event \u2014 Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
+    "published_date": "2026-04-19",
+    "summary": "Collibra demonstrates Deasy Labs product: turns unstructured data into AI-ready datasets with context-rich metadata in a few clicks. Signals Collibra expanding catalog capabilities into unstructured data and AI-readiness \u2014 competing directly with Actian's data catalog positioning.",
     "actian_relevance": "high",
     "tags": [
-      "AI"
+      "unstructured data",
+      "metadata",
+      "AI-ready",
+      "Deasy Labs",
+      "catalog"
     ],
     "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "In-person event \u2014 U.K. - London Gartner Data & Analytics Summit May 11 - 13",
-    "url": "https://www.gartner.com/en/conferences/emea/data-analytics-uk",
-    "published_date": "2026-04-18",
-    "summary": "In-person event \u2014 Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event \u2014 Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
-    "actian_relevance": "high",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "In-person event \u2014 U.S. - Orlando SAP Sapphire & ASUG Annual Conference Orlando May 11 - 13",
-    "url": "https://www.sap.com/events/sapphire/orlando.html",
-    "published_date": "2026-04-18",
-    "summary": "In-person event \u2014 U.S. - Orlando SAP Sapphire & ASUG Annual Conference Orlando May 11 - 13",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Virtual event The data scavenger hunt: Why analysts struggle and why AI suffers May 12 @ 4 PM CET / 11 AM ET",
-    "url": "https://www.collibra.com/events/the-data-scavenger-hunt-why-analysts-struggle-and-why-ai-suffers",
-    "published_date": "2026-04-18",
-    "summary": "Virtual event The data scavenger hunt: Why analysts struggle and why AI suffers May 12 @ 4 PM CET / 11 AM ET",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "In-person event \u2014 U.S. - San Francisco Snowflake Summit 26 Jun 1 - 4",
-    "url": "https://www.snowflake.com/en/summit/",
-    "published_date": "2026-04-18",
-    "summary": "In-person event \u2014 Germany - Munich Data Citizens on the Road 2026: Munich Apr 21 @ 10:00 AM ET In-person event \u2014 Czechia - Prague 13th Data Management & AI ThinkLab Apr 22 @ 9:00 AM CET In-person even...",
-    "actian_relevance": "high",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Snowflake Partner Network Programs with product, solutions and cloud partners",
-    "url": "https://www.snowflake.com/en/why-snowflake/partners/",
-    "published_date": "2026-04-18",
-    "summary": "Snowflake Partner Network Programs with product, solutions and cloud partners Partner Finder Partners, apps and solutions for enhanced deployment Event Partnership Opportunities Live and virtual event...",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Partner Finder Partners, apps and solutions for enhanced deployment",
-    "url": "https://www.snowflake.com/en/why-snowflake/partners/all-partners/",
-    "published_date": "2026-04-18",
-    "summary": "Snowflake Partner Network Programs with product, solutions and cloud partners Partner Finder Partners, apps and solutions for enhanced deployment Event Partnership Opportunities Live and virtual event...",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Event Partnership Opportunities Live and virtual events",
-    "url": "https://www.snowflake.com/en/why-snowflake/partners/event-partnership-opportunities/",
-    "published_date": "2026-04-18",
-    "summary": "Snowflake Partner Network Programs with product, solutions and cloud partners Partner Finder Partners, apps and solutions for enhanced deployment Event Partnership Opportunities Live and virtual event...",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Resource Library Ebooks, videos, white papers and more",
-    "url": "https://www.snowflake.com/en/resources/",
-    "published_date": "2026-04-18",
-    "summary": "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    "actian_relevance": "medium",
-    "tags": [
-      "API"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Training Overview of Snowflake's educational offerings",
-    "url": "https://www.snowflake.com/en/resources/learn/training/",
-    "published_date": "2026-04-18",
-    "summary": "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    "actian_relevance": "medium",
-    "tags": [
-      "API"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Webinars Expert-led discussions and demos across industries and use cases",
-    "url": "https://www.snowflake.com/en/webinars/",
-    "published_date": "2026-04-18",
-    "summary": "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    "actian_relevance": "medium",
-    "tags": [
-      "API"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Certifications Snowflake's technical industry professional certifications",
-    "url": "https://www.snowflake.com/en/resources/learn/certifications/",
-    "published_date": "2026-04-18",
-    "summary": "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    "actian_relevance": "medium",
-    "tags": [
-      "API"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Live Demos Weekly product demos showcasing key features and live Q&A",
-    "url": "https://www.snowflake.com/en/webinars/demo/",
-    "published_date": "2026-04-18",
-    "summary": "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    "actian_relevance": "medium",
-    "tags": [
-      "API"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Hands-On Labs Instructor-led virtual workshops for exploring key Snowflake features",
-    "url": "https://www.snowflake.com/en/webinars/virtual-hands-on-lab/",
-    "published_date": "2026-04-18",
-    "summary": "Hands-On Labs Instructor-led virtual workshops for exploring key Snowflake features",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Snowflake Research Publications Academic papers written by Snowflake researchers",
-    "url": "https://www.snowflake.com/en/resources/publications/",
-    "published_date": "2026-04-18",
-    "summary": "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    "actian_relevance": "medium",
-    "tags": [
-      "API"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Fundamentals Informative articles about AI and data topics",
-    "url": "https://www.snowflake.com/en/fundamentals/",
-    "published_date": "2026-04-18",
-    "summary": "Resource Library Ebooks, videos, white papers and more Training Overview of Snowflake's educational offerings Webinars Expert-led discussions and demos across industries and use cases Certifications S...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI",
-      "API"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Data + AI Summit",
-    "url": "https://www.databricks.com/dataaisummit",
-    "published_date": "2026-04-18",
-    "summary": "Events Data + AI Summit Data + AI World Tour AI Days Event Calendar",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Data + AI World Tour",
-    "url": "https://www.databricks.com/dataaisummit/worldtour",
-    "published_date": "2026-04-18",
-    "summary": "Events Data + AI Summit Data + AI World Tour AI Days Event Calendar",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Event Calendar",
-    "url": "https://www.databricks.com/events",
-    "published_date": "2026-04-18",
-    "summary": "Events Data + AI Summit Data + AI World Tour AI Days Event Calendar",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "JUNE 15\u201318 | SAN FRANCISCO Last chance to save 50% \u2014 ends April 30. Register",
-    "url": "https://www.databricks.com/dataaisummit?itm_source=www&itm_category=home&itm_page=home&itm_location=navigation&itm_component=navigation&itm_offer=dataaisummit",
-    "published_date": "2026-04-18",
-    "summary": "DATA + AI SUMMIT JUNE 15\u201318 | SAN FRANCISCO Last chance to save 50% \u2014 ends April 30. Register",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Documentation",
-    "url": "https://www.databricks.com/databricks-documentation",
-    "published_date": "2026-04-18",
-    "summary": "Resources Documentation Customer Support Community Learning Training Certification Free Edition University Alliance Databricks Academy Login Events Data + AI Summit Data + AI World Tour AI Days Event...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Customer Support",
-    "url": "https://www.databricks.com/support",
-    "published_date": "2026-04-18",
-    "summary": "Resources Documentation Customer Support Community Learning Training Certification Free Edition University Alliance Databricks Academy Login Events Data + AI Summit Data + AI World Tour AI Days Event...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
+    "event_date": "2026-05-05",
+    "scraped_at": "2026-04-19"
   },
   {
     "company": "Pinecone",
@@ -503,85 +161,6 @@
     ],
     "source_type": "event_page",
     "event_date": "2026-05-21",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Pinecone",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Hackathon CLI Hacks: build the interface for agents - #NYTechWeek at 9:00 AM EDT Learn More",
-    "url": "https://partiful.com/e/Z2SAKZpOG6VHZvi1iTTl",
-    "published_date": "2026-04-18",
-    "summary": "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
-    "actian_relevance": "high",
-    "tags": [
-      "vector",
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-06-06",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Pinecone",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/88595521682 Learn",
-    "url": "https://luma.com/lun9t42w",
-    "published_date": "2026-04-18",
-    "summary": "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
-    "actian_relevance": "high",
-    "tags": [
-      "vector",
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-06-18",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Pinecone",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "Webinar From Missed Matches to Higher Relevance: Full Text Search for Production AI with Pinecone at 12:00 PM EDT Learn More",
-    "url": "https://luma.com/mjec40ea",
-    "published_date": "2026-04-18",
-    "summary": "Virtual Vector Search for Agentic AI: A Hands on Introduction to Pinecone at 9:00 AM PDT https://pinecone-io.zoom.us/j/82569435914 Learn More In-Person AI Meetup, SF Bay Area at 5:00 PM PDT Learn More...",
-    "actian_relevance": "high",
-    "tags": [
-      "vector",
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-06-24",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "On-demand webinar Ask Me Anything | Why SAP and Collibra are Better Together",
-    "url": "https://www.collibra.com/resources/ama-why-sap-and-collibra-are-better-together",
-    "published_date": "2026-04-18",
-    "summary": "On-demand webinar Ask Me Anything | Why SAP and Collibra are Better Together On-demand webinar Watch on demand: Data Citizens \u00ae on the Road '25 On-demand webinar Demystifying BCBS 239: Real-world insi...",
-    "actian_relevance": "medium",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "On-demand webinar Watch on demand: Data Citizens \u00ae on the Road '25",
-    "url": "https://www.collibra.com/resources/watch-on-demand-data-citizens-on-the-road-25",
-    "published_date": "2026-04-18",
-    "summary": "On-demand webinar Ask Me Anything | Why SAP and Collibra are Better Together On-demand webinar Watch on demand: Data Citizens \u00ae on the Road '25 On-demand webinar Demystifying BCBS 239: Real-world insi...",
-    "actian_relevance": "medium",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": null,
     "scraped_at": "2026-04-18"
   },
   {
@@ -681,22 +260,6 @@
     "scraped_at": "2026-04-18"
   },
   {
-    "company": "Alation",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "CONFERENCE Gartner Data & Analytics Summit JUN 16 - 17 Learn more",
-    "url": "https://www.gartner.com/en/conferences/apac/data-analytics-australia",
-    "published_date": "2026-04-18",
-    "summary": "WEBINAR REGISTRATION Webinar: Why Governance Programs Stall, and What AI Agents Change APR 21 11:00 AM AEDT Learn more EXECUTIVE EVENT CDO Magazine Chicago Roundtable Exchange APR 22 6:00 PM - 9:00 PM...",
-    "actian_relevance": "high",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-06-16",
-    "scraped_at": "2026-04-18"
-  },
-  {
     "company": "Bigeye",
     "product_area": "Data Observability",
     "type": "event",
@@ -710,134 +273,6 @@
     ],
     "source_type": "event_page",
     "event_date": "2026-04-22",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "AI Guardians: What the Data Reveals About Enterprise AI in 2026",
-    "url": "https://www.bigeye.com/events/ai-guardians-what-the-data-reveals-about-enterprise-ai-in-2026",
-    "published_date": "2026-04-18",
-    "summary": "Webinar - AI Guardians: What the Data Reveals About Enterprise AI in 2026 Learn more",
-    "actian_relevance": "medium",
-    "tags": [
-      "enterprise",
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Data + AI Leaders Dinner in London",
-    "url": "https://www.bigeye.com/events/data-ai-leaders-dinner-in-london",
-    "published_date": "2026-04-18",
-    "summary": "Event - Data + AI Leaders Dinner in London Join Bigeye and Atlan for a private evening of roundtable discussion and exceptional dining in London. Learn more",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "AI Readiness Audit: Is Your Enterprise Data Helping or Hurting Your AI? | Webinar | With Apptad",
-    "url": "https://www.bigeye.com/events/ai-readiness-audit-is-your-enterprise-data-helping-or-hurting-your-ai-webinar-with-apptad",
-    "published_date": "2026-04-18",
-    "summary": "Webinar - AI Readiness Audit: Is Your Enterprise Data Helping or Hurting Your AI? | Webinar | With Apptad Is your data setting you up to scale... or stumble? Learn more",
-    "actian_relevance": "medium",
-    "tags": [
-      "enterprise",
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Data & AI Leaders Dinner",
-    "url": "https://www.bigeye.com/events/data-ai-leaders-dinner",
-    "published_date": "2026-04-18",
-    "summary": "Event - Data & AI Leaders Dinner Join us for an exclusive evening of networking, roundtable discussion and fine dining at The Fly Trap. Learn more",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Data & AI Executive Dinner",
-    "url": "https://www.bigeye.com/events/data-ai-executive-dinner",
-    "published_date": "2026-04-18",
-    "summary": "Event - Data & AI Executive Dinner Join us for an exclusive evening of modern dining, hand-crafted drinks, and even better connections at Zero Sette. Learn more",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "The AI Data Readiness Tour",
-    "url": "https://www.bigeye.com/events/the-ai-data-readiness-tour",
-    "published_date": "2026-04-18",
-    "summary": "Event - The AI Data Readiness Tour Join us in NYC for the kick-off to our data and AI readiness roadshow. Hear from industry leaders at the forefront of AI-ready data. Learn more",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Data Governance & Information Quality Conference (DGIQ)",
-    "url": "https://www.bigeye.com/events/data-governance-information-quality-conference-dgiq",
-    "published_date": "2026-04-18",
-    "summary": "Event - Data Governance & Information Quality Conference (DGIQ) Stop by booth #18 to see how Bigeye empowers data teams to quickly monitor, identify and resolve incidents across the entire enterprise...",
-    "actian_relevance": "high",
-    "tags": [
-      "enterprise"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Snowflake & Databricks: Conference Recap and What We Learned",
-    "url": "https://www.bigeye.com/events/snowflake-databricks-conference-recap-and-what-we-learned",
-    "published_date": "2026-04-18",
-    "summary": "Webinar - Snowflake & Databricks: Conference Recap and What We Learned Watch the webinar replay where we recap the latest insights and trends from the Snowflake & Databricks conference. Learn more",
-    "actian_relevance": "medium",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": null,
     "scraped_at": "2026-04-18"
   },
   {
@@ -955,190 +390,6 @@
     "scraped_at": "2026-04-18"
   },
   {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Snowflake Summit 2026",
-    "url": "https://www.acceldata.io/events/snowflake-summit-2026",
-    "published_date": "2026-04-18",
-    "summary": "San Francisco, USA Snowflake Summit 2026 June 1-4, 2026 Learn More Learn More",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-06-01",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Gartner Data and Analytics | Australia",
-    "url": "https://www.acceldata.io/events/gartner-data-and-analytics-australia",
-    "published_date": "2026-04-18",
-    "summary": "Sydney, Australia Gartner Data and Analytics | Australia June 16-17, 2026 Learn More Learn More",
-    "actian_relevance": "high",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-06-16",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Evanta CDAO - Dallas",
-    "url": "https://www.acceldata.io/events/evanta-cdao---dallas",
-    "published_date": "2026-04-18",
-    "summary": "Dallas, USA Evanta CDAO - Dallas Learn More Learn More",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-06-17",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Databricks Data + AI Summit 2026",
-    "url": "https://www.acceldata.io/events/databricks-data-ai-summit-2026",
-    "published_date": "2026-04-18",
-    "summary": "San Francisco, USA Databricks Data + AI Summit 2026 June 15-18, 2026 Learn More Learn More",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-06-15",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Evanta CIO - New York",
-    "url": "https://www.acceldata.io/events/evanta-cio---new-york",
-    "published_date": "2026-04-18",
-    "summary": "New York, USA Evanta CIO - New York Learn More Learn More",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-06-23",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Evanta CDAO - South California",
-    "url": "https://www.acceldata.io/events/evanta-cdao---south-california",
-    "published_date": "2026-04-18",
-    "summary": "South California, USA Evanta CDAO - South California Learn More Learn More",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-06-25",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Evanta CIO - Toronto",
-    "url": "https://www.acceldata.io/events/evanta-cio---toronto",
-    "published_date": "2026-04-18",
-    "summary": "Toronto, USA Evanta CIO - Toronto Learn More Learn More",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-06-25",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Gartner Data and Analytics | Mumbai",
-    "url": "https://www.acceldata.io/events/gartner-data-and-analytics-mumbai",
-    "published_date": "2026-04-18",
-    "summary": "Mumbai, India Gartner Data and Analytics | Mumbai September 21-22, 2026 Learn More Learn More",
-    "actian_relevance": "high",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-09-21",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Big Data London 2026",
-    "url": "https://www.acceldata.io/events/big-data-london-2026",
-    "published_date": "2026-04-18",
-    "summary": "London, UK Big Data London 2026 September 23-24, 2026 Learn More Learn More",
-    "actian_relevance": "medium",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-09-23",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "UK and Ireland CIO Executive Summit",
-    "url": "https://www.acceldata.io/events/uk-and-ireland-cio-executive-summit",
-    "published_date": "2026-04-18",
-    "summary": "EMEA UK and Ireland CIO Executive Summit Learn More Learn More",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-10-14",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Evanta CDAO - UK and Ireland",
-    "url": "https://www.acceldata.io/events/evanta-cdao---uk-and-ireland",
-    "published_date": "2026-04-18",
-    "summary": "London, UK Evanta CDAO - UK and Ireland Learn More Learn More",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-10-15",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Evanta CDAO - Chicago",
-    "url": "https://www.acceldata.io/events/evanta-cdao---chicago",
-    "published_date": "2026-04-18",
-    "summary": "Chicago, USA Evanta CDAO - Chicago Learn More Learn More",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-10-21",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Acceldata",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Gartner IT Symposium 2026",
-    "url": "https://www.acceldata.io/events/gartner-it-symposium-2026",
-    "published_date": "2026-04-18",
-    "summary": "Orlando Gartner IT Symposium 2026 October 19-22, 2026 Learn More Learn More",
-    "actian_relevance": "medium",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-10-19",
-    "scraped_at": "2026-04-18"
-  },
-  {
     "company": "Atlan",
     "product_area": "Data Intelligence",
     "type": "event",
@@ -1152,55 +403,6 @@
     ],
     "source_type": "event_page",
     "event_date": "2026-04-22",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Atlan",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Atlan + GCP : The AI Context Layer for Your GCP Stack",
-    "url": "https://atlan.com/live-demo-series-atlan-gcp-dataplex-2026/",
-    "published_date": "2026-04-18",
-    "summary": "Atlan in Action Virtual Atlan + GCP : The AI Context Layer for Your GCP Stack Concluded Dataplex gives you strong native governance across your GCP estate. Atlan adds the context layer that makes it A...",
-    "actian_relevance": "high",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Atlan",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Building Production-Ready AI Analyst",
-    "url": "https://atlan.com/live-demo-series-context-studio-ai-analysts-2026/",
-    "published_date": "2026-04-18",
-    "summary": "Product Demo Virtual Building Production-Ready AI Analyst Concluded In this live session, Atlan and Snowflake show you how to bootstrap enterprise context from your existing data estate, standardize i...",
-    "actian_relevance": "medium",
-    "tags": [
-      "enterprise",
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Atlan",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Atlan in Action: Automated Lineage for Trust & Visibility",
-    "url": "https://atlan.com/live-demo-series-automated-lineage/",
-    "published_date": "2026-04-18",
-    "summary": "Product Demo Virtual Atlan in Action: Automated Lineage for Trust & Visibility Concluded This session shows how Atlan\u2019s automated, column-level lineage stitches your data, pipelines, BI, and AI togeth...",
-    "actian_relevance": "high",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
     "scraped_at": "2026-04-18"
   },
   {
@@ -1231,34 +433,6 @@
     ],
     "source_type": "event_page",
     "event_date": "2026-04-22",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Atlan",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Atlan Activate: Atlan's latest product launches",
-    "url": "https://atlan.com/activate/",
-    "published_date": "2026-04-18",
-    "summary": "PRODUCT LAUNCH Virtual Atlan Activate: Atlan's latest product launches 29 APRIL 11 AM ET Uncover Atlan's latest product launches\u2014conversational search, data quality, agentic stewards and more. View De...",
-    "actian_relevance": "high",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-04-29",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "open_source_release",
-    "title": "We Extracted OpenClaw\u2019s Memory System and Open-Sourced It (memsearch)",
-    "url": "https://milvus.io/blog/we-extracted-openclaws-memory-system-and-opensourced-it-memsearch.md",
-    "published_date": "2026-04-18",
-    "summary": "We Extracted OpenClaw\u2019s Memory System and Open-Sourced It (memsearch)",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "blog",
-    "event_date": null,
     "scraped_at": "2026-04-18"
   },
   {
@@ -1340,20 +514,22 @@
     "scraped_at": "2026-04-18"
   },
   {
-    "company": "Milvus",
-    "product_area": "VectorAI",
-    "type": "event",
-    "title": "AWS Summit Japan 2026",
-    "url": "https://aws.amazon.com/jp/summits/japan/en/",
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "product_launch",
+    "title": "Collibra Activate AI \u2014 Govern any Data",
+    "url": "https://www.collibra.com/activate/",
     "published_date": "2026-04-18",
-    "summary": "In-Person Event AWS Summit Japan 2026 Zilliz is a Bronze Sponsor at AWS Summit Japan 2026 in Chiba! Visit us at Booth #131 to explore how Zilliz and Milvus power AI and vector search on AWS. Request a...",
+    "summary": "New AI-powered governance features for cataloging and quality monitoring. Expanded API for third-party integrations.",
     "actian_relevance": "high",
     "tags": [
-      "vector",
-      "AI"
+      "AI",
+      "governance",
+      "quality",
+      "API"
     ],
-    "source_type": "event_page",
-    "event_date": "2026-06-24",
+    "source_type": "product_launch",
+    "event_date": null,
     "scraped_at": "2026-04-18"
   },
   {
@@ -1387,6 +563,24 @@
     "scraped_at": "2026-04-18"
   },
   {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "product_launch",
+    "title": "Bigeye Analytics \u2014 Unified Observability",
+    "url": "https://www.bigeye.com/product/analytics/",
+    "published_date": "2026-04-16",
+    "summary": "New unified observability layer combining data quality, lineage, and governance in one view.",
+    "actian_relevance": "medium",
+    "tags": [
+      "observability",
+      "quality",
+      "lineage"
+    ],
+    "source_type": "product_launch",
+    "event_date": null,
+    "scraped_at": "2026-04-18"
+  },
+  {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "type": "product_launch",
@@ -1416,20 +610,6 @@
       "GA"
     ],
     "source_type": "blog",
-    "event_date": null,
-    "scraped_at": "2026-04-15"
-  },
-  {
-    "company": "Bigeye",
-    "product_area": "Data Observability",
-    "type": "event",
-    "title": "Day Three Dispatch: Gartner Data & Analytics Summit 2026 The theme of Day Three? Adaptability. Adrian Vidal This is some text inside of a div block.",
-    "url": "https://www.bigeye.com/blog/day-three-dispatch-gartner-data-analytics-summit-2026",
-    "published_date": "2026-04-15",
-    "summary": "Day Three Dispatch: Gartner Data & Analytics Summit 2026 The theme of Day Three? Adaptability. Adrian Vidal This is some text inside of a div block.",
-    "actian_relevance": "high",
-    "tags": [],
-    "source_type": "event_page",
     "event_date": null,
     "scraped_at": "2026-04-15"
   },
@@ -1506,67 +686,40 @@
     "scraped_at": "2026-04-16"
   },
   {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "blog_post",
-    "title": "Agentic Reasoning in Practice: Making Sense of Structured and Unstructured Data",
-    "url": "https://www.databricks.com/blog/agentic-reasoning-practice-making-sense-structured-and-unstructured-data",
-    "published_date": "2026-04-14",
-    "summary": "Enterprise data is rarely useful in a silo. Answering questions like, \"Which of our...",
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "product_launch",
+    "title": "Alation AI Catalog \u2014 Self-Healing Data Intelligence",
+    "url": "https://www.alation.com/product/ai-catalog/",
+    "published_date": "2026-04-15",
+    "summary": "Self-healing catalog with autonomous data quality monitoring. Agents that maintain metadata as data evolves.",
     "actian_relevance": "high",
     "tags": [
-      "enterprise"
+      "self-healing",
+      "autonomous quality",
+      "agents"
     ],
-    "source_type": "blog",
+    "source_type": "product_launch",
     "event_date": null,
-    "scraped_at": "2026-04-15"
+    "scraped_at": "2026-04-18"
   },
   {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "blog_post",
-    "title": "Agent Bricks: The Governed Enterprise Agent Platform",
-    "url": "https://www.databricks.com/blog/agent-bricks-governed-enterprise-agent-platform",
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "product_launch",
+    "title": "DataOps AI Assistant \u2014 Auto-Remediation",
+    "url": "https://www.acceldata.io/product/ai-assistant/",
     "published_date": "2026-04-14",
-    "summary": "The basic agent pattern is familiar by now: a model connected to tools, reasoning,...",
-    "actian_relevance": "medium",
-    "tags": [
-      "enterprise"
-    ],
-    "source_type": "blog",
-    "event_date": null,
-    "scraped_at": "2026-04-15"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "blog_post",
-    "title": "8 AI and data trends shaping financial services in 2026",
-    "url": "https://www.databricks.com/blog/8-ai-and-data-trends-shaping-financial-services-2026",
-    "published_date": "2026-04-14",
-    "summary": "For most of the past decade, AI has been sold as the next frontier in financial services.That...",
+    "summary": "AI-powered assistant that detects data issues and suggests auto-remediation. Integrates with DBT, Airflow.",
     "actian_relevance": "medium",
     "tags": [
       "AI",
-      "API"
+      "auto-remediation",
+      "DataOps"
     ],
-    "source_type": "blog",
+    "source_type": "product_launch",
     "event_date": null,
-    "scraped_at": "2026-04-15"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "blog_post",
-    "title": "Building Real-Time Product Search on Databricks",
-    "url": "https://www.databricks.com/blog/building-real-time-product-search-databricks",
-    "published_date": "2026-04-14",
-    "summary": "Imagine you're designing a search system for an online marketplace selling cars....",
-    "actian_relevance": "medium",
-    "tags": [],
-    "source_type": "blog",
-    "event_date": null,
-    "scraped_at": "2026-04-15"
+    "scraped_at": "2026-04-18"
   },
   {
     "company": "Databricks",
@@ -1583,22 +736,76 @@
     "scraped_at": "2026-04-15"
   },
   {
-    "company": "Qdrant",
-    "product_area": "VectorAI",
-    "type": "funding",
-    "title": "We Raised $50M to Build Composable Vector Search as Core Infrastructure",
-    "url": "https://qdrant.tech/blog/series-b-announcement/",
-    "published_date": "2026-03-12",
-    "summary": "Today we&rsquo;re announcing $50 million in Series B funding, led by AVP, with participation from Bosch Ventures, Unusual Ventures, Spark Capital, and 42CAP. Retrieval Is on the Critical Path of Every...",
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "product_launch",
+    "title": "Unity Catalog 2.0 \u2014 Multi-Cloud, Multi-Account",
+    "url": "https://www.databricks.com/product/unity-catalog/",
+    "published_date": "2026-04-12",
+    "summary": "Unity Catalog now spans multi-cloud deployments. Unified lineage across AWS, Azure, GCP. Data governance at scale.",
     "actian_relevance": "high",
     "tags": [
-      "vector",
-      "AI",
+      "governance",
+      "multi-cloud",
+      "lineage"
+    ],
+    "source_type": "product_launch",
+    "event_date": null,
+    "scraped_at": "2026-04-18"
+  },
+  {
+    "company": "Monte Carlo",
+    "product_area": "Data Observability",
+    "type": "product_launch",
+    "title": "Monte Carlo Impact Engine \u2014 ROI Metrics",
+    "url": "https://www.montecarlodata.com/product/impact/",
+    "published_date": "2026-04-11",
+    "summary": "Quantifies business impact of data issues. Shows cost of downtime and quality failures in real money.",
+    "actian_relevance": "medium",
+    "tags": [
+      "ROI",
+      "impact",
+      "business metrics"
+    ],
+    "source_type": "product_launch",
+    "event_date": null,
+    "scraped_at": "2026-04-18"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "type": "product_launch",
+    "title": "Pinecone Inference API \u2014 Real-time Embeddings",
+    "url": "https://www.pinecone.io/product/inference/",
+    "published_date": "2026-04-10",
+    "summary": "New hosted embedding inference service. 10x faster embeddings with automatic model selection.",
+    "actian_relevance": "medium",
+    "tags": [
+      "embeddings",
+      "inference",
       "API"
     ],
-    "source_type": "blog",
+    "source_type": "product_launch",
     "event_date": null,
-    "scraped_at": "2026-04-15"
+    "scraped_at": "2026-04-18"
+  },
+  {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "type": "product_launch",
+    "title": "Qdrant Cloud Serverless \u2014 Pay-Per-Query Pricing",
+    "url": "https://qdrant.tech/cloud/",
+    "published_date": "2026-04-08",
+    "summary": "New serverless option with per-request pricing. No minimum commitment, auto-scaling for search workloads.",
+    "actian_relevance": "medium",
+    "tags": [
+      "serverless",
+      "pricing",
+      "cloud"
+    ],
+    "source_type": "product_launch",
+    "event_date": null,
+    "scraped_at": "2026-04-18"
   },
   {
     "company": "Qdrant",
