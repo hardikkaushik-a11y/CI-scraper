@@ -2,7 +2,8 @@ name: CI Job Scraper — Daily Pipeline
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 06:00 UTC
+    - cron: '0 6 * * *'  # Daily at 06:00 UTC (all weekdays)
+    - cron: '0 6 * * 6'  # Saturday 06:00 UTC (weekly digest)
   workflow_dispatch:      # Manual trigger
 
 permissions:
@@ -55,6 +56,9 @@ jobs:
       - name: Run competitive signal scraper (launches + events)
         run: python src/signal_scraper.py
 
+      - name: Scrape company newsrooms (press releases)
+        run: python src/news_scraper.py
+
       - name: Generate intelligence verdicts (Phase 2.5 — verdict layer)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -75,6 +79,14 @@ jobs:
         run: python src/slack_notifier.py
         continue-on-error: true
 
+      - name: Generate weekly digest (Phase 5 — Saturdays only)
+        if: github.event.schedule == '0 6 * * 6'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: python src/weekly_digest.py
+        continue-on-error: true
+
       # ── Print summary ────────────────────────────────────────────────
       - name: Pipeline summary
         run: |
@@ -85,6 +97,7 @@ jobs:
           V2_COUNT=$(wc -l < data/jobs_enriched_v2.csv)
           SIGNAL_COUNT=$(python -c "import json; print(len(json.load(open('data/signals.json'))))" 2>/dev/null || echo "0")
           COMP_SIGNAL_COUNT=$(python -c "import json; print(len(json.load(open('data/competitive_signals.json'))))" 2>/dev/null || echo "0")
+          NEWS_COUNT=$(python -c "import json; print(len(json.load(open('data/news.json'))))" 2>/dev/null || echo "0")
           echo "| Metric | Count |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Raw jobs scraped | $((RAW_COUNT - 1)) |" >> $GITHUB_STEP_SUMMARY
@@ -92,6 +105,7 @@ jobs:
           echo "| V2 dataset rows | $((V2_COUNT - 1)) |" >> $GITHUB_STEP_SUMMARY
           echo "| Hiring signals | $SIGNAL_COUNT |" >> $GITHUB_STEP_SUMMARY
           echo "| Competitive signals | $COMP_SIGNAL_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| News items | $NEWS_COUNT |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Run completed at $(date -u '+%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
 
@@ -100,7 +114,7 @@ jobs:
         run: |
           git config user.name "CI Bot"
           git config user.email "ci-bot@actian.com"
-          git add -f data/jobs_enriched.csv data/jobs_enriched_v2.csv data/signals.json data/competitive_signals.json data/intelligence_verdicts.json data/seen_signals.json data/slack_sent.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html dashboard/v3/dashboard_v3.html
+          git add -f data/jobs_enriched.csv data/jobs_enriched_v2.csv data/signals.json data/competitive_signals.json data/intelligence_verdicts.json data/news.json data/seen_signals.json data/seen_news.json data/slack_sent.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html dashboard/v3/dashboard_v3.html
           git diff --cached --quiet || git commit -m "chore: daily scrape $(date -u '+%Y-%m-%d')"
           git pull --rebase --autostash -X ours origin main
           git push
