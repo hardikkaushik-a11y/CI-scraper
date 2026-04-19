@@ -96,7 +96,7 @@ EVENT_URLS = {
 
 # Companies whose event pages require JavaScript execution (React/Next.js)
 # These will use Playwright instead of httpx for event page scraping.
-PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus"}
+PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus", "Databricks"}
 
 # ══════════════════════════════════════════════════════════════════════════
 # TEXT CLEANING — strip noise before classification
