@@ -21,7 +21,7 @@
     "confidence_reasoning": "Moderate evidence: hiring volume supports the signal. Correlation is moderate — one dimension is weaker.",
     "recommended_action": "PMM: verify Atlan's new capability does not undercut Actian's embedded lineage and governance at the data source in active competitive evaluations; update battlecard if feature gap confirmed.",
     "last_updated": "2026-04-19",
-    "_input_hash": "122bf6c02c51705b"
+    "_input_hash": "7c7362f8e85bde7a"
   },
   {
     "company": "Collibra",
@@ -45,7 +45,7 @@
     "confidence_reasoning": "Strong compound evidence: 43 open roles + 9 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Collibra battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-19",
-    "_input_hash": "0c95f2b7ed6f3c48"
+    "_input_hash": "01d69ef04bfd7255"
   },
   {
     "company": "Alation",
@@ -69,7 +69,7 @@
     "confidence_reasoning": "Strong compound evidence: 23 open roles + 7 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Alation battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-19",
-    "_input_hash": "62de8cc2bdf6c8d3"
+    "_input_hash": "a229389a0474a3da"
   },
   {
     "company": "Monte Carlo",
@@ -93,7 +93,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Monte Carlo for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-19",
-    "_input_hash": "c2cbe78f7db22d57"
+    "_input_hash": "2bddb5d38701fb1d"
   },
   {
     "company": "Bigeye",
@@ -117,7 +117,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "PMM: verify Bigeye's new capability does not undercut Actian's real-time DQ monitoring with push-based alerting in active competitive evaluations; update battlecard if feature gap confirmed.",
     "last_updated": "2026-04-19",
-    "_input_hash": "2b1c3acf43918739"
+    "_input_hash": "87965720b72e854b"
   },
   {
     "company": "Acceldata",
@@ -165,7 +165,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Pinecone for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-19",
-    "_input_hash": "01b687f483f4fd39"
+    "_input_hash": "249bb2e454bbb994"
   },
   {
     "company": "Qdrant",
@@ -189,7 +189,7 @@
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Qdrant for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-19",
-    "_input_hash": "1278b9e033520e4c"
+    "_input_hash": "453e7236eaacfcbd"
   },
   {
     "company": "Milvus",
@@ -213,7 +213,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Milvus for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-19",
-    "_input_hash": "36a4f16e01433c3d"
+    "_input_hash": "541cdf285285ec32"
   },
   {
     "company": "Snowflake",

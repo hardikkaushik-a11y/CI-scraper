@@ -27,6 +27,7 @@ VERDICT_VERSION = "4"
 
 SIGNALS_PATH = "data/signals.json"
 COMPETITIVE_SIGNALS_PATH = "data/competitive_signals.json"
+NEWS_PATH = "data/news.json"
 VERDICTS_PATH = "data/intelligence_verdicts.json"
 
 # V2 allowed companies — exactly matches dashboard_v2 allowlist
@@ -44,18 +45,20 @@ V2_PRODUCT_AREA_MAP = {
     "Databricks":  "AI Analyst",
 }
 
-VERDICT_SYSTEM = """You are Actian's competitive intelligence analyst. Synthesize hiring and product
-signals into a structured, evidence-based competitive verdict. Write for VP / CPO / CMO level.
+VERDICT_SYSTEM = """You are Actian's competitive intelligence analyst. Synthesize hiring, newsroom,
+and product signals into a structured, evidence-based competitive verdict. Write for VP / CPO / CMO level.
 Be specific. Reference actual data (role counts, launch names, dates). No generic phrases.
 
 You will receive:
 1. Hiring signals (job postings — what they are building and staffing)
-2. Product/event signals (launches, announcements, partnerships — what they shipped)
+2. Newsroom intelligence (press releases, blogs — official company messaging and announcements)
+3. Product/event signals (launches, announcements, partnerships — what they shipped)
 
 ## STEP 1: SIGNAL VALIDATION
 Only use signals that represent real strategic triggers: product launches, GA, pricing changes,
-partnerships, acquisitions, funding. Blog posts only count if they explicitly announce one of those.
-Ignore: tutorials, trend pieces, thought leadership, minor UI updates.
+partnerships, acquisitions, funding, leadership changes. Newsroom items include official press
+releases and announcements (not blog posts). Blog posts only count if they explicitly announce
+a strategic trigger. Ignore: tutorials, trend pieces, thought leadership, minor UI updates.
 
 Classify impact:
 - feature: minor capability addition, low strategic value
@@ -152,13 +155,14 @@ def _call_claude(model: str, system: str, user_msg: str, max_tokens: int = 1500)
 # FRESHNESS — hash input signals to detect changes
 # ══════════════════════════════════════════════════════════════════════════
 
-def _signal_hash(hiring_signal: dict | None, comp_signals: list[dict]) -> str:
+def _signal_hash(hiring_signal: dict | None, comp_signals: list[dict], news_items: list[dict]) -> str:
     """Stable hash of input signals — used to skip unchanged companies.
     Include VERDICT_VERSION so logic changes force regeneration.
     """
     payload = {
         "hiring": hiring_signal or {},
         "competitive": sorted(comp_signals, key=lambda x: x.get("url", "")),
+        "news": sorted(news_items, key=lambda x: x.get("url", "")),
         "_version": VERDICT_VERSION,
     }
     raw = json.dumps(payload, sort_keys=True, ensure_ascii=False)
@@ -171,7 +175,8 @@ def _signal_hash(hiring_signal: dict | None, comp_signals: list[dict]) -> str:
 
 def _build_user_prompt(company: str, product_area: str,
                        hiring_signal: dict | None,
-                       comp_signals: list[dict]) -> str:
+                       comp_signals: list[dict],
+                       news_items: list[dict]) -> str:
     lines = [f"Company: {company}", f"Product Area: {product_area}", ""]
 
     if hiring_signal:
@@ -204,6 +209,21 @@ def _build_user_prompt(company: str, product_area: str,
         lines.append("No hiring signal data available for this company.")
 
     lines.append("")
+    lines.append("=== NEWSROOM INTELLIGENCE (press releases, official announcements) ===")
+
+    if news_items:
+        for news in news_items:
+            lines.append(f"[{news.get('news_type', 'unknown').upper()}] {news.get('title', 'N/A')}")
+            lines.append(f"  Date: {news.get('published_date', 'N/A')}")
+            lines.append(f"  Relevance: {news.get('actian_relevance', 'N/A')}")
+            lines.append(f"  Tags: {', '.join(news.get('tags', []))}")
+            if news.get('summary'):
+                lines.append(f"  Summary: {news.get('summary', 'N/A')}")
+            lines.append("")
+    else:
+        lines.append("No recent newsroom intelligence found.")
+
+    lines.append("")
     lines.append("=== COMPETITIVE SIGNALS (launches, events, announcements) ===")
 
     if comp_signals:
@@ -225,7 +245,8 @@ def _build_user_prompt(company: str, product_area: str,
 
 def _fallback_verdict(company: str, product_area: str,
                       hiring_signal: dict | None,
-                      comp_signals: list[dict]) -> dict:
+                      comp_signals: list[dict],
+                      news_items: list[dict]) -> dict:
     """
     Rule-based verdict using 6-step competitive intelligence framework.
     Produces the same schema as the Claude prompt. No templates, evidence-driven.
@@ -648,17 +669,18 @@ def _fallback_verdict(company: str, product_area: str,
 
 def generate_verdict(company: str, product_area: str,
                      hiring_signal: dict | None,
-                     comp_signals: list[dict]) -> dict | None:
+                     comp_signals: list[dict],
+                     news_items: list[dict]) -> dict | None:
     """Generate verdict via Claude if API key available, else use fallback."""
     if not ANTHROPIC_API_KEY:
         print(f"  [FALLBACK] {company} — using rule-based verdict logic")
-        return _fallback_verdict(company, product_area, hiring_signal, comp_signals)
+        return _fallback_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
-    prompt = _build_user_prompt(company, product_area, hiring_signal, comp_signals)
+    prompt = _build_user_prompt(company, product_area, hiring_signal, comp_signals, news_items)
     raw = _call_claude(SONNET_MODEL, VERDICT_SYSTEM, prompt)
     if not raw:
         print(f"  [FALLBACK] {company} — Claude call failed, using rule-based logic")
-        return _fallback_verdict(company, product_area, hiring_signal, comp_signals)
+        return _fallback_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
     # Strip markdown fences if Claude wrapped it
     text = raw.strip()
@@ -698,6 +720,14 @@ def main():
     total_comp = sum(len(v) for v in comp_signals_by_company.values())
     print(f"[verdict_engine] Loaded {total_comp} competitive signals across {len(comp_signals_by_company)} companies")
 
+    news_by_company: dict[str, list[dict]] = {}
+    if os.path.exists(NEWS_PATH):
+        with open(NEWS_PATH) as f:
+            for news in json.load(f):
+                news_by_company.setdefault(news["company"], []).append(news)
+    total_news = sum(len(v) for v in news_by_company.values())
+    print(f"[verdict_engine] Loaded {total_news} newsroom items across {len(news_by_company)} companies")
+
     # Load existing verdicts (for freshness check)
     existing_verdicts: dict[str, dict] = {}
     if os.path.exists(VERDICTS_PATH):
@@ -715,7 +745,8 @@ def main():
     for company, product_area in V2_PRODUCT_AREA_MAP.items():
         hiring_signal = signals_by_company.get(company)
         comp_signals = comp_signals_by_company.get(company, [])
-        new_hash = _signal_hash(hiring_signal, comp_signals)
+        news_items = news_by_company.get(company, [])
+        new_hash = _signal_hash(hiring_signal, comp_signals, news_items)
 
         existing = existing_verdicts.get(company, {})
         stored_hash = existing.get("_input_hash", "")
@@ -726,8 +757,8 @@ def main():
             skipped += 1
             continue
 
-        print(f"  [GEN]  {company} ({product_area}) — {len(comp_signals)} competitive signals")
-        verdict_data = generate_verdict(company, product_area, hiring_signal, comp_signals)
+        print(f"  [GEN]  {company} ({product_area}) — {len(comp_signals)} competitive signals, {len(news_items)} news items")
+        verdict_data = generate_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
         if verdict_data:
             verdict = {
