@@ -79,6 +79,106 @@
     "scraped_at": "2026-04-19"
   },
   {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Collibra at Google Cloud Next '26",
+    "url": "https://www.collibra.com/events/google-cloud-next-26",
+    "published_date": "2026-04-19",
+    "summary": "Collibra exhibiting at Google Cloud Next '26 (Las Vegas, Apr 22\u201324). High foot traffic from data/AI buyers \u2014 SDR outreach opportunity before and after the event.",
+    "actian_relevance": "medium",
+    "tags": [
+      "conference",
+      "Google Cloud",
+      "SDR opportunity",
+      "Las Vegas"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-22",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Collibra at Gartner Data & Analytics Summit 2026",
+    "url": "https://www.collibra.com/events/gartner-data-analytics-summit-2026",
+    "published_date": "2026-04-19",
+    "summary": "Collibra present at Gartner Data & Analytics Summit (London, May 11\u201313). Key analyst and enterprise buyer audience \u2014 strong SDR and marketing targeting opportunity around the event.",
+    "actian_relevance": "medium",
+    "tags": [
+      "conference",
+      "Gartner",
+      "SDR opportunity",
+      "London",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-11",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Collibra at SAP Sapphire 2026 (Orlando + Madrid)",
+    "url": "https://www.collibra.com/events/sap-sapphire-orlando-2026",
+    "published_date": "2026-04-19",
+    "summary": "Collibra exhibiting at SAP Sapphire in both Orlando (May 11\u201313) and Madrid (May 19\u201321) \u2014 double presence signals deep SAP partnership investment. SAP+Collibra joint messaging is an active GTM motion to watch.",
+    "actian_relevance": "medium",
+    "tags": [
+      "conference",
+      "SAP",
+      "partnership",
+      "SDR opportunity",
+      "Orlando",
+      "Madrid"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-11",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Collibra at Snowflake Summit 2026",
+    "url": "https://www.collibra.com/events/snowflake-summit-2026",
+    "published_date": "2026-04-19",
+    "summary": "Collibra at Snowflake Summit (San Francisco, Jun 1\u20134). Collibra+Snowflake joint presence at a high-intent data buyer event \u2014 likely joint announcement or demo. Monitor for co-marketing signals.",
+    "actian_relevance": "medium",
+    "tags": [
+      "conference",
+      "Snowflake",
+      "SDR opportunity",
+      "San Francisco",
+      "partnership"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-01",
+    "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Data Citizens on the Road 2026 \u2014 World Tour (Munich, SF, Paris)",
+    "url": "https://www.collibra.com/events/data-citizens-on-the-road-2026-san-francisco",
+    "published_date": "2026-04-19",
+    "summary": "Collibra's global community roadshow hits Munich (Apr 21), San Francisco (May 28), and Paris (Jun 4). Their own-brand event series for data professionals \u2014 used to build pipeline and announce product updates to existing customers.",
+    "actian_relevance": "medium",
+    "tags": [
+      "community",
+      "roadshow",
+      "world tour",
+      "pipeline event",
+      "SDR opportunity"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-21",
+    "scraped_at": "2026-04-19"
+  },
+  {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "type": "event",
