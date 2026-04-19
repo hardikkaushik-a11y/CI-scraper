@@ -198,8 +198,23 @@ _NOISE_RE = re.compile(
     re.I,
 )
 
-# Workshop filter — hard exclude unless it's a product launch announcement
+# Workshop & low-value webinar filter — hard exclude unless it's a product launch
+# Removes training sessions, how-to webinars, and one-off technical deep-dives
 _WORKSHOP_RE = re.compile(r'\bworkshop\b', re.I)
+_LOW_VALUE_WEBINAR_RE = re.compile(
+    r'\b(?:webinar|training|guide|tutorial|learning|course|certification)\b'
+    r'|building\s+(?:a\s+)?[a-z]+\s+(?:for|with|using|in)'  # "Building X for/with Y"
+    r'|(?:getting|getting\s+started|intro|introduction|learn)\s+(?:to|with)'  # "Getting started with X"
+    r'|how\s+to\s+(?:use|build|create|implement|deploy)'  # "How to use/build X"
+    r'|dive\s+(?:deep|into)|deep\s+dive'  # "Deep dive into"
+    r'|best\s+practices?|lessons?\s+learned'  # "Best practices in"
+    r'|getting\s+the\s+most|maximize|optimize\s+(?:your|your\s+[a-z]+)'  # "Maximize X"
+    r'|hands?[-\s]?on|interactive\s+session'  # "Hands-on lab"
+    r'|roundtable|office\s+hours|q&a\s+session'  # "Roundtable", "Office hours"
+    r'|customer\s+stories?|case\s+studies?|use\s+cases?'  # "Customer stories", "Use cases"
+    r'|technical\s+(?:training|session|deep.?dive)',  # "Technical training", "Technical session"
+    re.I,
+)
 
 # ══════════════════════════════════════════════════════════════════════════
 # CLAUDE API — copied exactly from enrich.py, do not diverge
@@ -1198,10 +1213,11 @@ def main():
                 seen_urls.add(url)
                 continue
 
-            # Hard exclude: workshops UNLESS explicitly a product launch announcement
-            if _WORKSHOP_RE.search(gate_text) and classification["type"] != "product_launch":
-                seen_urls.add(url)
-                continue
+            # Hard exclude: workshops & low-value webinars UNLESS explicitly a product launch
+            if classification["type"] != "product_launch":
+                if _WORKSHOP_RE.search(gate_text) or _LOW_VALUE_WEBINAR_RE.search(gate_text):
+                    seen_urls.add(url)
+                    continue
 
             # Event gating: blog posts must contain an explicit event keyword to pass
             # All other types (product_launch, partnership, etc.) already required
@@ -1276,10 +1292,12 @@ def main():
             if item.get("event_date"):
                 classification["event_date"] = item["event_date"]
 
-            # Hard exclude: workshops UNLESS explicitly a product launch
-            if _WORKSHOP_RE.search((title + " " + item.get("description", "")).lower()) and classification["type"] != "product_launch":
-                seen_urls.add(item_url)
-                continue
+            # Hard exclude: workshops & low-value webinars UNLESS explicitly a product launch
+            if classification["type"] != "product_launch":
+                combined = (title + " " + item.get("description", "")).lower()
+                if _WORKSHOP_RE.search(combined) or _LOW_VALUE_WEBINAR_RE.search(combined):
+                    seen_urls.add(item_url)
+                    continue
 
             signal = {
                 "company":          company,
