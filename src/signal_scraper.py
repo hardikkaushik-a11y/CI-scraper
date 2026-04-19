@@ -198,6 +198,9 @@ _NOISE_RE = re.compile(
     re.I,
 )
 
+# Workshop filter — hard exclude unless it's a product launch announcement
+_WORKSHOP_RE = re.compile(r'\bworkshop\b', re.I)
+
 # ══════════════════════════════════════════════════════════════════════════
 # CLAUDE API — copied exactly from enrich.py, do not diverge
 # ══════════════════════════════════════════════════════════════════════════
@@ -1195,6 +1198,11 @@ def main():
                 seen_urls.add(url)
                 continue
 
+            # Hard exclude: workshops UNLESS explicitly a product launch announcement
+            if _WORKSHOP_RE.search(gate_text) and classification["type"] != "product_launch":
+                seen_urls.add(url)
+                continue
+
             # Event gating: blog posts must contain an explicit event keyword to pass
             # All other types (product_launch, partnership, etc.) already required
             # event-like keywords during type classification, so they pass through
@@ -1267,6 +1275,11 @@ def main():
             classification["source_type"] = "event_page"
             if item.get("event_date"):
                 classification["event_date"] = item["event_date"]
+
+            # Hard exclude: workshops UNLESS explicitly a product launch
+            if _WORKSHOP_RE.search((title + " " + item.get("description", "")).lower()) and classification["type"] != "product_launch":
+                seen_urls.add(item_url)
+                continue
 
             signal = {
                 "company":          company,
