@@ -774,6 +774,40 @@
     "last_updated": "2026-04-19"
   },
   {
+    "company": "Orion Governance",
+    "company_group": "Other",
+    "posting_count": 38,
+    "signal_summary": "Orion Governance is actively hiring 38 roles across Engineering focused on Platform / Infra, with high intensity — steady investment in their Other capabilities.",
+    "implications": [
+      "Orion Governance operates in Other — indirect competitive pressure but potential partnership opportunity for Actian's integration platform",
+      "Hiring across 6 product areas (Go-to-Market, Platform / Infra...) suggests portfolio expansion or major platform consolidation",
+      "Aggressive 38-role hiring surge indicates rapid product iteration or preparation for a major launch window — expect feature announcements within 3-6 months",
+      "Monitor Orion Governance's quarterly earnings calls and product roadmaps for announcements aligned with their engineering hiring surge"
+    ],
+    "watch_for": [
+      "Track Orion Governance's job posting velocity — sustained increase (>20% quarter-over-quarter) signals strategic investment acceleration, not just backfill",
+      "Orion Governance hiring product roles focused on data integration or analytics — would signal expansion into Actian's competitive territory",
+      "Orion Governance executive hires from data infrastructure companies — leadership moves telegraph strategic direction 6-12 months before product announcements"
+    ],
+    "recommended_actions": [
+      "[Next Quarter / Product] Evaluate Orion Governance's Platform / Infra trajectory against Actian's roadmap — determine if Actian needs to build competitive parity or can differentiate by doubling down on integration depth",
+      "[Next Quarter / Product] Map Orion Governance's Platform / Infra capability evolution against Actian's integration platform — identify where Orion Governance's feature expansion could make them a viable substitute for Actian in mid-market deals",
+      "[Immediate / GTM] Add Orion Governance to Actian's top-5 competitive watchlist — their 38-role hiring velocity combined with Engineering concentration indicates a product launch cycle. Prepare competitive battle cards by end of quarter"
+    ],
+    "hiring_intensity": "high",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Platform / Infra",
+    "threat_level": "low",
+    "roadmap": {
+      "direction": "Enterprise Data Platform Modernization Initiative",
+      "rationale": "With 38 active roles concentrated in Platform / Infra, Orion Governance appears to be in steady execution mode — iterating on its existing other platform without a sharp strategic pivot visible from hiring alone.",
+      "confidence": "Low",
+      "timeline": "Next 6–12 months",
+      "watch_for": "Orion Governance posting industry-specific sales roles (healthcare, finance, government) — signals vertical expansion strategy"
+    },
+    "last_updated": "2026-04-19"
+  },
+  {
     "company": "Pinecone",
     "company_group": "Vector DB / AI",
     "posting_count": 8,
