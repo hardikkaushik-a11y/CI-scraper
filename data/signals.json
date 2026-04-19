@@ -1,41 +1,5 @@
 [
   {
-    "company": "Acceldata",
-    "company_group": "Other",
-    "posting_count": 21,
-    "signal_summary": "Acceldata is scaling infrastructure with 7 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering.",
-    "implications": [
-      "Cloud infrastructure hiring (3 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
-      "Heavy infrastructure hiring (7 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
-      "Acceldata operates in Other — indirect competitive pressure but potential partnership opportunity for Actian's integration platform",
-      "Distributed hiring across 6 locations (Bengaluru, California, Kitchener+) indicates global expansion or multi-hub strategy — suggests new regional offices or remote-first shift",
-      "Hiring across 7 product areas (Platform / Infra, Go-to-Market...) suggests portfolio expansion or major platform consolidation",
-      "Aggressive 21-role hiring surge indicates rapid product iteration or preparation for a major launch window — expect feature announcements within 3-6 months"
-    ],
-    "watch_for": [
-      "Track Acceldata's job posting velocity — sustained increase (>20% quarter-over-quarter) signals strategic investment acceleration, not just backfill",
-      "Acceldata hiring product roles focused on data integration or analytics — would signal expansion into Actian's competitive territory",
-      "Acceldata executive hires from data infrastructure companies — leadership moves telegraph strategic direction 6-12 months before product announcements"
-    ],
-    "recommended_actions": [
-      "[Next Quarter / Product] Evaluate Acceldata's Platform / Infra trajectory against Actian's roadmap — determine if Actian needs to build competitive parity or can differentiate by doubling down on integration depth",
-      "[Next Quarter / Product] Map Acceldata's Platform / Infra capability evolution against Actian's integration platform — identify where Acceldata's feature expansion could make them a viable substitute for Actian in mid-market deals",
-      "[Immediate / GTM] Add Acceldata to Actian's top-5 competitive watchlist — their 21-role hiring velocity combined with Engineering concentration indicates a product launch cycle. Prepare competitive battle cards by end of quarter"
-    ],
-    "hiring_intensity": "high",
-    "dominant_function": "Engineering",
-    "dominant_product_focus": "Platform / Infra",
-    "threat_level": "medium",
-    "roadmap": {
-      "direction": "Enterprise Infrastructure Modernization at Scale",
-      "rationale": "Acceldata is signalling this direction through 7 platform/infrastructure roles, 3 cloud-specialist roles. This volume of hiring in a focused area typically precedes a product launch or major feature announcement within one to two quarters.",
-      "confidence": "Medium",
-      "timeline": "Next 6–12 months",
-      "watch_for": "Acceldata hiring database internals or systems engineers with distributed systems expertise — suggests core engine rewrite or performance overhaul"
-    },
-    "last_updated": "2026-04-19"
-  },
-  {
     "company": "Airtable",
     "company_group": "Data Intelligence",
     "posting_count": 56,
