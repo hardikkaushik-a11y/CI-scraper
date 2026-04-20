@@ -19,6 +19,22 @@
     "scraped_at": "2026-04-18"
   },
   {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Build the Context Layer That Makes AI Trustworthy",
+    "url": "https://atlan.com/live-demo-series-context-layer-trustworthy-ai/",
+    "published_date": "2026-04-20",
+    "summary": "Atlan in Action Virtual Build the Context Layer That Makes AI Trustworthy May 6 11 AM ET Watch Atlan enrich data assets, build a semantic model, run evals, and answer business questions correctly \u2014 li...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-06",
+    "scraped_at": "2026-04-20"
+  },
+  {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "product_launch",
