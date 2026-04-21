@@ -1,47 +1,5 @@
 [
   {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "news_type": "product_launch",
-    "title": "Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every",
-    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-launches-project-snowwork-bringing-outcome-driven-ai-to-every-business-user/",
-    "published_date": "2026-04-21",
-    "source": "company_newsroom",
-    "summary": "",
-    "actian_relevance": "high",
-    "tags": [
-      "AI"
-    ],
-    "team_routing": [
-      "Product",
-      "PMM",
-      "Marketing"
-    ],
-    "event_date": null,
-    "scraped_at": "2026-04-21"
-  },
-  {
-    "company": "Snowflake",
-    "product_area": "AI Analyst",
-    "news_type": "product_launch",
-    "title": "Snowflake Unveils Cortex Code, An AI Coding Agent That Drastically Increases Productivity by",
-    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-unveils-cortex-code-an-ai-coding-agent-that-drastically-increases-productivity-by-understanding-your-enterprise-data-context/",
-    "published_date": "2026-04-21",
-    "source": "company_newsroom",
-    "summary": "",
-    "actian_relevance": "high",
-    "tags": [
-      "AI"
-    ],
-    "team_routing": [
-      "Product",
-      "PMM",
-      "Marketing"
-    ],
-    "event_date": null,
-    "scraped_at": "2026-04-21"
-  },
-  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
@@ -218,6 +176,27 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-launches-project-snowwork-bringing-outcome-driven-ai-to-every-business-user/",
+    "published_date": "2026-03-18",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
     "company": "Qdrant",
     "product_area": "VectorAI",
     "news_type": "funding",
@@ -314,6 +293,27 @@
       "SDRs",
       "Marketing",
       "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Unveils Cortex Code, An AI Coding Agent That Drastically Increases Productivity by",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-unveils-cortex-code-an-ai-coding-agent-that-drastically-increases-productivity-by-understanding-your-enterprise-data-context/",
+    "published_date": "2026-02-03",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
     ],
     "event_date": null,
     "scraped_at": "2026-04-21"

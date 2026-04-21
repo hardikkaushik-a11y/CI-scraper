@@ -879,6 +879,17 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
                     or extract_date(date_html)
                     or extract_date(ctx))
 
+        # TODAY-GUARD on listing-page dates:
+        # CMS listing pages sometimes inject today's date into the surrounding
+        # HTML (e.g. Snowflake shows the most-recent article's date in a shared
+        # parent element, which bleeds onto adjacent articles). If we got today's
+        # date from the listing page, clear it — the article-page fetcher in main()
+        # will fetch the real publish date. Genuinely-today articles will re-confirm
+        # via Tier 1 structured metadata (JSON-LD / article:published_time) on their
+        # own article page, which is always trusted.
+        if pub_date == today_str:
+            pub_date = ""
+
         seen_urls_local.add(href)
         seen_titles_local.add(title)
         articles.append({
