@@ -1,12 +1,12 @@
 """
 news_scraper.py — Press Release & Newsroom Intelligence Scraper
 ────────────────────────────────────────────────────────────────
-• Scrapes company newsroom/press release pages (6 companies, Phase 1)
-• Classifies items using rule-based patterns (funding, leadership, product, pricing, expansion, award, partnership)
-• Deduplicates by URL (file-based: data/seen_news.json)
-• Rolling 60-day window — drops stale news automatically
-• Hard filters noise: customer stories, tutorials, blog posts, thought leadership
-• Phase 2 (later): Add Haiku summaries if needed; Phase 3: integrate with verdicts
+• Scrapes company newsroom/press release pages (11 companies)
+• Strict classification: funding, leadership (exec appt/departure only),
+  product_launch, feature, partnership, acquisition, pricing, layoff
+• Classifies on TITLE ONLY — description is untrusted (may contain neighbor text)
+• Deduplicates by URL at write time (news.json) AND via seen_news.json
+• Rolling 90-day window — empty dates pass through (assume recent)
 • Outputs: data/news.json
 """
 
@@ -24,15 +24,14 @@ from bs4 import BeautifulSoup
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════
 
-MAX_NEWS_AGE_DAYS = 90  # Rolling 90-day window
-MAX_ITEMS_PER_COMPANY = 30  # Cap per company to avoid flooding
+MAX_NEWS_AGE_DAYS = 90
+MAX_ITEMS_PER_COMPANY = 15
 
 REPO_ROOT = Path(__file__).parent.parent
 DATA_DIR = REPO_ROOT / "data"
 OUTPUT_FILE = DATA_DIR / "news.json"
 SEEN_FILE = DATA_DIR / "seen_news.json"
 
-# 6 companies Phase 1
 V2_PRODUCT_AREA_MAP = {
     "Bigeye": "Data Observability",
     "Atlan": "Data Intelligence",
@@ -40,7 +39,6 @@ V2_PRODUCT_AREA_MAP = {
     "Collibra": "Data Intelligence",
     "Alation": "Data Intelligence",
     "Pinecone": "VectorAI",
-    # Phase 2 additions
     "Monte Carlo": "Data Observability",
     "Acceldata": "Data Observability",
     "Milvus": "VectorAI",
@@ -48,8 +46,6 @@ V2_PRODUCT_AREA_MAP = {
     "Databricks": "AI Analyst",
 }
 
-# Newsroom URLs — user-provided, verified
-# Values can be a single URL string or a list of URLs for companies with multiple sections
 NEWSROOM_URLS = {
     "Bigeye": "https://www.bigeye.com/newsroom",
     "Atlan": "https://atlan.com/newsroom/",
@@ -57,7 +53,6 @@ NEWSROOM_URLS = {
     "Collibra": "https://www.collibra.com/company/newsroom/press-releases",
     "Alation": "https://www.alation.com/news-and-press/",
     "Pinecone": "https://www.pinecone.io/newsroom/",
-    # Phase 2 additions
     "Monte Carlo": "https://www.montecarlodata.com/category/announcements/",
     "Acceldata": "https://www.acceldata.io/newsroom",
     "Milvus": "https://zilliz.com/news",
@@ -74,16 +69,15 @@ NEWSROOM_URLS = {
 today_str = date.today().isoformat()
 
 # ══════════════════════════════════════════════════════════════════════════
-# STRICT CLASSIFICATION — only 6 signal categories kept
+# CLASSIFICATION — title-only, strict categories
 # ══════════════════════════════════════════════════════════════════════════
-# KEEP ONLY: product_launch, feature, funding, leadership, partnership, acquisition
-# (layoff category defined too but rarely appears in company newsrooms)
-#
-# DROP EVERYTHING ELSE: awards/Gartner/Forrester, surveys, generic expansion,
-# pricing tweaks, thought-leadership, "AI will transform X", opinion pieces,
-# webinars, tutorials, customer stories, interviews, podcasts.
+# FIX #13: classify on TITLE ONLY. Description text is untrusted — it often
+# contains neighboring article text from the parent node, which causes
+# cascading misclassification (e.g. a product article gets typed as
+# "leadership" because a neighboring leadership article's text bled in).
 
-# --- KEEP patterns --------------------------------------------------------
+# --- KEEP patterns (applied to title only) --------------------------------
+
 _FUNDING_RE = re.compile(
     r'\bSeries\s+[A-Z]\b'
     r'|\braised?\s+\$\d'
@@ -96,16 +90,23 @@ _FUNDING_RE = re.compile(
     r'|\bgoes?\s+public\b',
     re.I,
 )
+
+# FIX #6 + #11: Leadership = exec APPOINTMENT or DEPARTURE only.
+# Must have an explicit appointment/departure verb AND an exec title.
+# Never fires on "leaders", "leading", "elevates", "expands", "reports" etc.
 _LEADERSHIP_RE = re.compile(
-    r'\bappoints?\b'
-    r'|\bnames?\s+(?:new\s+)?(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief|President|SVP|VP)'
-    r'|\bjoins?\s+as\s+(?:new\s+)?(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief|President|SVP|VP)'
-    r'|\bhires?\s+(?:new\s+)?(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief|President|SVP|VP)'
-    r'|\bnew\s+(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief)\b'
-    r'|\bsteps?\s+down\s+as\b'
-    r'|\bdeparts?\s+as\b',
+    # Appointment verbs + exec title
+    r'\b(?:appoints?|names?|hires?|promotes?)\b.{0,60}\b(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|'
+    r'Chief\s+\w+\s+Officer|Chief\s+\w+|President|EVP|SVP|VP\s+of)\b'
+    # "joins as CEO/CTO/..."
+    r'|\bjoins?\s+as\s+(?:new\s+)?(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief|President|SVP|VP\b)'
+    # Departure verbs + exec title
+    r'|\b(?:steps?\s+down|departs?|resigns?)\s+as\s+(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief|President)\b'
+    # Bare "new CEO/CTO" as subject
+    r'|\bnew\s+(?:CEO|CTO|CFO|CRO|CPO|COO|CMO)\b',
     re.I,
 )
+
 _ACQUISITION_RE = re.compile(
     r'\bacquires?\b'
     r'|\bacquired?\s+by\b'
@@ -115,6 +116,7 @@ _ACQUISITION_RE = re.compile(
     r'|\bto\s+acquire\b',
     re.I,
 )
+
 _PARTNERSHIP_RE = re.compile(
     r'\bpartnership\s+with\b'
     r'|\bpartners?\s+with\b'
@@ -124,10 +126,7 @@ _PARTNERSHIP_RE = re.compile(
     r'|\bOEM\s+(?:deal|agreement)\b',
     re.I,
 )
-# Product launches = an actual shipped product/platform. GA. Public preview.
-# Intentionally broad on "launches/announces/introduces/unveils" — the _DROP_RE
-# handles generic content before we get here, so anything reaching this point
-# that says "launches X" is likely a real product announcement.
+
 _PRODUCT_LAUNCH_RE = re.compile(
     r'\blaunch(?:es|ed|ing)\b'
     r'|\bintroduc(?:es|ed|ing)\b'
@@ -137,10 +136,11 @@ _PRODUCT_LAUNCH_RE = re.compile(
     r'|\bpublic\s+preview\b|\bopen\s+preview\b'
     r'|\bnow\s+available\b'
     r'|\bdebuts?\b'
-    r'|\bannounces?\s+(?:new\s+)?(?:product|platform|solution|service|SDK|API|engine|framework|tool|model|update|release|version)\b',
+    r'|\bannounces?\s+(?:new\s+)?(?:product|platform|solution|service|SDK|API|engine|'
+    r'framework|tool|model|update|release|version)\b',
     re.I,
 )
-# Groundbreaking features — major new capability announcements
+
 _FEATURE_RE = re.compile(
     r'\bannounces?\s+(?:new\s+)?(?:capability|capabilities|feature|features|support\s+for|integration)\b'
     r'|\badds?\s+support\s+for\b'
@@ -148,25 +148,29 @@ _FEATURE_RE = re.compile(
     r'|\bnew\s+(?:capability|capabilities|feature|features|integration)\b',
     re.I,
 )
+
 _LAYOFF_RE = re.compile(
-    r'\blay\s*offs?\b|\blaid\s+off\b|\bjob\s+cuts?\b|\bworkforce\s+reduction\b|\brestructur(?:es|ed|ing)\b',
+    r'\blay\s*offs?\b|\blaid\s+off\b|\bjob\s+cuts?\b|\bworkforce\s+reduction\b'
+    r'|\brestructur(?:es|ed|ing)\b',
     re.I,
 )
-# Pricing changes — new tiers, price cuts, free plans, enterprise pricing
+
 _PRICING_RE = re.compile(
     r'\bpricing\b'
     r'|\bprice\s+(?:change|cut|increase|reduction|update)\b'
     r'|\bnew\s+(?:pricing|price|tier|plan)\b'
     r'|\bfree\s+(?:tier|plan|version)\b'
-    r'|\bopen[- ]source(?:s|d|ing)?\b'    # OSS releases = pricing signal
+    r'|\bopen[- ]source(?:s|d|ing)\b'
     r'|\bfreemium\b'
     r'|\benterprise\s+pricing\b',
     re.I,
 )
 
-# --- HARD DROP — always skip, even if a KEEP pattern matches -------------
+# --- HARD DROP (applied to title only) ------------------------------------
+# FIX #7 + #8 + #9: Add earnings/financial results, research reports,
+# customer stories using their product.
 _DROP_RE = re.compile(
-    # Thought leadership / opinion / generic AI trend pieces
+    # Thought leadership / opinion / trend pieces
     r'\bAI\s+will\s+(?:change|transform|disrupt|revolutionize|reshape)\b'
     r'|\bfuture\s+of\s+\w+\b'
     r'|\bwhy\s+\w+\s+matters?\b'
@@ -176,72 +180,90 @@ _DROP_RE = re.compile(
     r'|\bopinion\b'
     r'|\bperspective\b'
     r'|\bdeep\s+dive\b'
-    # Awards / analyst recognition (not what user wants)
-    r'|\bnamed\s+a\s+leader\b'
+    # Awards / analyst recognition
+    r'|\bnamed\s+a\s+(?:leader|visionary|challenger|niche\s+player)\b'
     r'|\bmagic\s+quadrant\b'
-    r'|\bgartner\s+(?:names|recognizes)\b'
+    r'|\bgartner\b'
     r'|\bforrester\s+wave\b'
     r'|\bIDC\s+marketscape\b'
     r'|\brecogni[sz]ed\s+(?:as|by|in)\b'
     r'|\bwins?\s+(?:award|recognition)\b'
     r'|\baward(?:-winning|s)\b'
-    # Customer stories / case studies / testimonials
+    r'|\bnamed\s+(?:leader|best|top)\b'
+    # FIX #8: Earnings / financial results / growth metrics
+    r'|\breports?\s+(?:financial|quarterly|annual|fiscal|q[1-4])\b'
+    r'|\bearnings\b'
+    r'|\bfiscal\s+(?:year|quarter|q[1-4])\b'
+    r'|\brevenue\s+(?:results?|report|growth|run.rate)\b'
+    r'|\brun.rate\b'
+    r'|\bfull.year\s+(?:results?|revenue)\b'
+    r'|\bfinancial\s+results?\b'
+    r'|\bYoY\b|\byear.over.year\b'
+    r'|\bsurpasses?\s+\$\d'       # "Surpasses $4.8B" — financial milestone
+    r'|\bgrows?\s+>\d+%\b'        # "Grows >55% YoY"
+    r'|\bcorporate\s+momentum\b'
+    # FIX #7: Research / survey reports
+    r'|\bsurvey\s+(?:finds|reveals|shows|by|of)\b'
+    r'|\bnew\s+survey\b'
+    r'|\bresearch\s+(?:finds|reveals|shows|report|reveals)\b'
+    r'|\bbenchmark\s+report\b'
+    r'|\bindustry\s+report\b'
+    r'|\b\d+%\s+of\s+(?:\w+\s+){1,4}(?:say|report|find|believe|agree)\b'
+    r'|\breveals\s+(?:that\s+)?\d+%\b'
+    # FIX #9: Customer stories — third party "uses/with" pattern
     r'|\bcustomer\s+stor(?:y|ies)\b'
     r'|\bcase\s+stud(?:y|ies)\b'
     r'|\bsuccess\s+stor(?:y|ies)\b'
-    r'|\bhow\s+\w+\s+(?:uses|used|leverages|leveraged|adopted)\b'
+    r'|\b(?:elevates?|transforms?|empowers?|modernizes?|accelerates?)\s+.{5,60}\s+with\s+[A-Z]\w+\b'
+    r'|\bhow\s+\w[\w\s]{2,30}\s+(?:uses?|leverages?|adopted?)\b'
     # Educational / marketing content
     r'|\bhow\s+to\b|\btutorial\b|\bguide\s+to\b|\bbeginners?\s+guide\b'
+    r'|\bwhat\s+(?:they|it|is|are)\b'
+    r'|\bhow\s+(?:they|it)\s+work\b'
     r'|\btips?\s+(?:and|&)\s+tricks\b|\bbest\s+practices?\b'
     r'|\bwebinar\b|\bpodcast\b|\binterview\s+with\b'
     r'|\bep(?:isode)?\s+\d+\b'
-    # Surveys / reports / generic research
-    r'|\bsurvey\s+(?:finds|reveals|shows|by|of)\b|\bnew\s+survey\b'
-    r'|\bresearch\s+(?:finds|reveals|shows|report)\b'
-    r'|\bbenchmark\s+report\b|\bindustry\s+report\b'
-    # Event recaps (already covered by events page)
-    r'|\brecap\b|\bhighlights?\s+from\b|\bat\s+\w+\s+\d{4}\b',
+    # Event recaps
+    r'|\brecap\b|\bhighlights?\s+from\b',
     re.I,
 )
 
 
 def classify_item(company: str, title: str, description: str, url: str) -> dict | None:
     """
-    Strict classification. Returns dict or None (drop).
-
-    KEEP categories: product_launch, feature, funding, leadership,
-    partnership, acquisition, layoff.
+    Strict classification based on TITLE ONLY.
+    Description is ignored for type detection (untrusted neighbor text).
+    Returns dict or None (drop).
     """
-    combined = f"{title} {description}"
+    # FIX #13: use title only for all matching — never description
+    t = title  # title-only for classification
 
-    # Hard drop first — overrides everything
-    if _DROP_RE.search(combined):
+    # Hard drop on title
+    if _DROP_RE.search(t):
         return None
 
     news_type = None
-    if _FUNDING_RE.search(combined):
+    if _FUNDING_RE.search(t):
         news_type = "funding"
-    elif _ACQUISITION_RE.search(combined):
+    elif _ACQUISITION_RE.search(t):
         news_type = "acquisition"
-    elif _LEADERSHIP_RE.search(combined):
+    elif _LEADERSHIP_RE.search(t):
         news_type = "leadership"
-    elif _PARTNERSHIP_RE.search(combined):
+    elif _PARTNERSHIP_RE.search(t):
         news_type = "partnership"
-    elif _PRICING_RE.search(combined):
+    elif _PRICING_RE.search(t):
         news_type = "pricing"
-    elif _PRODUCT_LAUNCH_RE.search(combined):
+    elif _PRODUCT_LAUNCH_RE.search(t):
         news_type = "product_launch"
-    elif _FEATURE_RE.search(combined):
+    elif _FEATURE_RE.search(t):
         news_type = "feature"
-    elif _LAYOFF_RE.search(combined):
+    elif _LAYOFF_RE.search(t):
         news_type = "layoff"
     else:
-        return None  # Not a signal we care about
+        return None
 
-    # All kept categories are high-relevance by construction
     relevance = "high"
 
-    # Tags
     tags = []
     m = re.search(r'\$\s*(\d+(?:\.\d+)?)\s*([MB])', title)
     if m:
@@ -279,20 +301,34 @@ def _route_by_type(news_type: str) -> list[str]:
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# DATE EXTRACTION (reference: scraper.py extract_date)
+# DATE EXTRACTION
 # ══════════════════════════════════════════════════════════════════════════
+
+def extract_date_from_url(url: str) -> str:
+    """Extract publication date embedded in URL paths (TechCrunch, BusinessWire, etc.)"""
+    if not url:
+        return ""
+    # TechCrunch / Bloomberg style: /2021/04/15/
+    m = re.search(r'/(20\d{2})/(\d{2})/(\d{2})/', url)
+    if m:
+        try:
+            return date.fromisoformat(f"{m.group(1)}-{m.group(2)}-{m.group(3)}").isoformat()
+        except Exception:
+            pass
+    # BusinessWire / PRNewswire style: /home/20220922005362/
+    m = re.search(r'/(20\d{2})(\d{2})(\d{2})\d{1,6}/', url)
+    if m:
+        try:
+            return date.fromisoformat(f"{m.group(1)}-{m.group(2)}-{m.group(3)}").isoformat()
+        except Exception:
+            pass
+    return ""
 
 
 def extract_date(html: str) -> str:
-    """
-    Extract publication date from HTML using multiple strategies.
-    Returns ISO date string (YYYY-MM-DD) or empty string if not found.
-    Optimized for newsroom pages with unstructured dates.
-    """
     if not html:
         return ""
 
-    # Pattern 1: JSON-LD "datePosted" field (most reliable)
     m = re.search(r'"datePosted"\s*:\s*"([^"]+)"', html)
     if m:
         try:
@@ -300,7 +336,6 @@ def extract_date(html: str) -> str:
         except Exception:
             pass
 
-    # Pattern 2: HTML5 <time datetime="..."> tag
     m = re.search(r'<time[^>]+datetime=["\']([^"\']+)["\']', html, re.I)
     if m:
         try:
@@ -308,13 +343,10 @@ def extract_date(html: str) -> str:
         except Exception:
             pass
 
-    # Pattern 3: ISO date format (YYYY-MM-DD) — Pinecone format
     m = re.search(r'(\d{4}-\d{2}-\d{2})', html)
     if m:
         return m.group(1)
 
-    # Pattern 4a: Month DD, YYYY format — Alation, Qdrant, Collibra
-    # Examples: "April 21, 2026", "December 10, 2025", "June 4, 2025"
     months_long = r'(?:January|February|March|April|May|June|July|August|September|October|November|December)'
     m = re.search(rf'({months_long})\s+(\d{{1,2}}),\s+(\d{{4}})', html, re.I)
     if m:
@@ -325,8 +357,6 @@ def extract_date(html: str) -> str:
         except Exception:
             pass
 
-    # Pattern 4b: DD Mon YYYY format — Atlan
-    # Examples: "06 Jan 2026", "09 Jan 2025", "15 Mar 2025"
     months_short = r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)'
     m = re.search(rf'(\d{{1,2}})\s+({months_short})\s+(\d{{4}})', html, re.I)
     if m:
@@ -337,8 +367,6 @@ def extract_date(html: str) -> str:
         except Exception:
             pass
 
-    # Pattern 4c: Mon DD, YYYY format — Collibra
-    # Examples: "Mar 30, 2026", "Jan 28, 2026", "Dec 9, 2025"
     m = re.search(rf'({months_short})\s+(\d{{1,2}}),?\s+(\d{{4}})', html, re.I)
     if m:
         try:
@@ -348,19 +376,13 @@ def extract_date(html: str) -> str:
         except Exception:
             pass
 
-    # Pattern 5: M/D/YYYY format — Bigeye format
-    # Examples: "4/7/2026", "12/10/2025", "3/23/2022"
     m = re.search(r'(\d{1,2})/(\d{1,2})/(\d{4})', html)
     if m:
         try:
-            month = m.group(1).zfill(2)
-            day = m.group(2).zfill(2)
-            year = m.group(3)
-            return f"{year}-{month}-{day}"
+            return f"{m.group(3)}-{m.group(1).zfill(2)}-{m.group(2).zfill(2)}"
         except Exception:
             pass
 
-    # Pattern 6: Relative dates ("posted 5 days ago")
     m = re.search(r'posted\s+(\d+)\s+days?\s+ago', html, re.I)
     if m:
         try:
@@ -372,26 +394,15 @@ def extract_date(html: str) -> str:
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# PLAYWRIGHT SUPPORT — JS-rendered newsroom pages
+# PLAYWRIGHT SUPPORT
 # ══════════════════════════════════════════════════════════════════════════
 
-# Newsrooms that require Playwright (JS-rendered dates)
 PLAYWRIGHT_NEWSROOMS = {
-    "Bigeye",      # React-rendered, dates in JS data
-    "Atlan",       # JS-rendered content
-    "Pinecone",    # Dynamic content
-    "Collibra",    # Dynamic content
-    "Databricks",  # JS-rendered newsroom
-    "Snowflake",   # JS-rendered press releases
+    "Bigeye", "Atlan", "Pinecone", "Collibra", "Databricks", "Snowflake",
 }
 
 
 def fetch_newsroom_playwright(url: str) -> str:
-    """Fetch newsroom page using Playwright for JS rendering.
-    Tries domcontentloaded first (fast), falls back to load, then commit.
-    Handles cookie consent banners automatically.
-    Never lets timeouts be a roadblock.
-    """
     from playwright.sync_api import sync_playwright
 
     for wait_event in ("domcontentloaded", "load", "commit"):
@@ -404,14 +415,13 @@ def fetch_newsroom_playwright(url: str) -> str:
                 page.goto(url, timeout=45000, wait_until=wait_event)
                 page.wait_for_timeout(2000)
 
-                # Dismiss cookie consent banners (OneTrust, Osano, etc.)
                 consent_selectors = [
-                    "button#onetrust-accept-btn-handler",   # OneTrust Accept All
+                    "button#onetrust-accept-btn-handler",
                     "button.onetrust-accept-btn-handler",
                     "button[id*='accept'][id*='cookie']",
                     "button[class*='accept-all']",
                     "button[aria-label*='Accept']",
-                    "#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",  # Cookiebot
+                    "#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",
                     "button.js-cookie-accept",
                 ]
                 for sel in consent_selectors:
@@ -429,31 +439,128 @@ def fetch_newsroom_playwright(url: str) -> str:
                 if len(html) > 5000:
                     return html
         except Exception:
-            pass  # Try next wait_event
+            pass
     return ""
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# TITLE CLEANING
+# ══════════════════════════════════════════════════════════════════════════
+
+# FIX #4 + #5: Nav/CTA links — short generic titles from page navigation
+_NAV_TITLE_RE = re.compile(
+    r'^(?:get\s+started|sign\s+up|log\s+in|learn\s+more|read\s+more|view\s+all|'
+    r'see\s+all|explore|download|contact\s+us|free\s+trial|request\s+demo|'
+    r'book\s+a\s+demo|try\s+for\s+free|start\s+free|watch\s+now|'
+    r'business\s+critical\s+plan|enterprise\s+plan|'
+    # 1-2 word product/nav names that bleed through (Pinecone "Vector Database", "Dedicated Read Nodes")
+    r'vector\s+database|dedicated\s+read\s+nodes?|sparse\s+dense|'
+    r'(?:resource|architecture|learning|help|partner|knowledge|solution|'
+    r'community|developer|support|documentation|training|certification)\s+'
+    r'(?:center|hub|portal|base|zone|library|page))$',
+    re.I,
+)
+
+_MONTHS = (
+    r'(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|'
+    r'Jul(?:y)?|Aug(?:ust)?|Sep(?:t(?:ember)?)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)'
+)
+
+# FIX #12: Strip "Press Release", "News", "Article", "Featured" prefixes
+_TITLE_PREFIX_RE = re.compile(
+    r'^(?:Press\s+Release|News|Article|Featured|Blog|Announcement|Update)\s*[:\-–]?\s+',
+    re.I,
+)
+
+# FIX #2: Strip trailing " Source Date" suffixes like " Apr 8, 2026 TechTarget"
+# and author names like " Andre Zayarni March 12, 2026"
+# Date/source-based suffix strip — always safe to apply
+_TITLE_DATE_SUFFIX_RE = re.compile(
+    # " Apr 8, 2026 TechTarget" / " March 12, 2026 Source"
+    rf'\s+{_MONTHS}\s+\d{{1,2}},?\s+\d{{4}}(?:\s+\w[\w\s]{{0,30}})?$'
+    # " 2026-03-12 Source"
+    r'|\s+\d{4}-\d{2}-\d{2}(?:\s+\w[\w\s]{0,30})?$'
+    # Day-Month-Year trailing: "22 Sept 2022" or "22 September 2022"
+    rf'|\s+\d{{1,2}}\s+{_MONTHS}\s+\d{{4}}(?:\s+\w[\w\s]{{0,30}})?$'
+    # "Press Release 22 Sept 2022" / "Press Release April 2023" / bare "Press Release"
+    rf'|\s+Press\s+Release(?:\s+\d{{1,2}}\s+{_MONTHS}\s+\d{{4}}|\s+{_MONTHS}\s+\d{{1,2}},?\s+\d{{4}})?$'
+    # " by Firstname Lastname" — exactly 2 title-case words after "by"
+    r'|\s+by\s+[A-Z][a-z]{2,}\s+[A-Z][a-z]{2,}$'
+    # "Name , Name , Name" comma-separated authors — e.g. "Gavin , Jeff , Brad"
+    r'|\s+[A-Z][a-z]{2,}(?:\s*,\s*[A-Z][a-z]{2,})+\s*$'
+    # Single initial at end " , J"
+    r'|\s*,\s*[A-Z](?:\s*,\s*[A-Z])*\s*$'
+    # "- Learn more" / "— Learn more"
+    r'|\s*[-–—]\s*(?:Learn\s+more|Read\s+more|View\s+more|See\s+more|Find\s+out\s+more)\s*$',
+    re.I,
+)
+
+# Bare author name — ONLY applied after a date has already been stripped
+# (prevents stripping "Revenue Officer", "Generally Available", "Business User" etc.)
+_TITLE_NAME_SUFFIX_RE = re.compile(
+    r'\s+[A-Z][a-z]{2,}\s+[A-Z][a-z]{2,}$',
+    re.I,
+)
+
+# Keep _TITLE_SUFFIX_RE as alias for backward compat (not used directly anymore)
+_TITLE_SUFFIX_RE = _TITLE_DATE_SUFFIX_RE
+
+
+def clean_title(raw: str) -> str:
+    """Strip leading prefixes and trailing date/author/source from titles."""
+    t = raw.strip()
+    # Strip leading emoji / symbol characters
+    t = re.sub(r'^[\U0001F000-\U0001FFFF\U00002600-\U000027FF\U0000FE00-\U0000FEFF\s]+', '', t).strip()
+    # Leading prefixes: "Press Release ...", "News ..."
+    t = _TITLE_PREFIX_RE.sub('', t).strip()
+    # Leading date patterns
+    t = re.sub(r'^\d{1,2}/\d{1,2}/\d{4}\s*', '', t).strip()
+    t = re.sub(rf'^[A-Za-z ,]+\s*[-–]\s*{_MONTHS}\s+\d{{1,2}},?\s+\d{{4}}\s*', '', t).strip()
+    t = re.sub(rf'^\w+\s+{_MONTHS}\s+\d{{1,2}},?\s+\d{{4}}\s*', '', t).strip()
+    t = re.sub(rf'^{_MONTHS}\s+\d{{1,2}},?\s+\d{{4}}\s*', '', t).strip()
+    t = re.sub(rf'^\d{{1,2}}\s+{_MONTHS}\s+\d{{4}}\s*', '', t).strip()
+    # Trailing date/author/source — apply date-based strip first
+    date_stripped = False
+    for _ in range(3):
+        cleaned = _TITLE_DATE_SUFFIX_RE.sub('', t).strip()
+        if cleaned == t:
+            break
+        date_stripped = True
+        t = cleaned
+    # Bare author name strip — ONLY when we already stripped a date suffix
+    # (prevents "Revenue Officer", "Generally Available", "Business User" from being removed)
+    if date_stripped:
+        cleaned = _TITLE_NAME_SUFFIX_RE.sub('', t).strip()
+        if len(cleaned) >= 40:  # guard against over-stripping
+            t = cleaned
+    # Truncate blurb-heavy titles — signals that tagline/body text was captured
+    if len(t) > 100:
+        # Split at ". " or "\n"
+        first_sent = re.split(r'\.\s+|\n', t, maxsplit=1)
+        if first_sent and 30 <= len(first_sent[0].strip()) < len(t):
+            t = first_sent[0].strip().rstrip('.')
+        # Split at closing paren + space + Capital word (tagline after abbreviation)
+        # e.g. "...Data Management (ADM) Reimagining..." → cut at "(ADM)"
+        if len(t) > 80:
+            m = re.search(r'(\))\s+[A-Z][a-z]', t)
+            if m and m.start(1) >= 30:
+                t = t[:m.start(1) + 1].strip()
+        # Hard truncate at word boundary
+        if len(t) > 100:
+            t = t[:100].rsplit(' ', 1)[0].rstrip(',:;–-')
+    return t if len(t) >= 15 else raw.strip()
 
 
 # ══════════════════════════════════════════════════════════════════════════
 # NEWSROOM SCRAPER
 # ══════════════════════════════════════════════════════════════════════════
 
-
 def fetch_newsroom(company: str, url: str) -> list[dict]:
-    """
-    Scrape newsroom/press release page.
-
-    Returns list of articles: {title, url, published_date, description}
-    Published dates extracted from page HTML (JSON-LD, time tags, relative dates).
-    Falls back to empty string if not found (will be filtered by within_window).
-    Uses Playwright for JS-rendered sites (Bigeye, Atlan, Pinecone, Collibra).
-    """
     html = ""
 
-    # Use Playwright for JS-rendered newsrooms
     if company in PLAYWRIGHT_NEWSROOMS:
         html = fetch_newsroom_playwright(url)
     else:
-        # Use httpx for static HTML sites (Qdrant, Alation)
         try:
             r = httpx.get(
                 url,
@@ -472,90 +579,88 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
 
     soup = BeautifulSoup(html, "html.parser")
     articles = []
-    seen_titles = set()
+    seen_urls_local: set[str] = set()   # FIX #1/#14: dedup within fetch by URL
+    seen_titles_local: set[str] = set() # also dedup by cleaned title
 
-    # Strategy A: Look for article links (most newsrooms have <a> tags with titles)
     for a in soup.find_all("a", href=True):
         href = a.get("href", "").strip()
-        title = a.get_text(separator=" ", strip=True)
+        raw_title = a.get_text(separator=" ", strip=True)
 
-        # Normalize relative URLs
         if href.startswith("/"):
             from urllib.parse import urljoin
-
             href = urljoin(url, href)
         elif not href.startswith("http"):
             continue
 
-        # Skip obvious nav links (allow up to 600 chars for sites like Collibra
-        # that embed date + body into the link text)
-        if len(title) < 15:
-            continue
-        # Truncate over-long titles to the first meaningful sentence
-        if len(title) > 200:
-            # Collibra pattern: "Location - Mon DD, YYYY Title body..." — strip location/date prefix
-            clean = re.sub(r'^[A-Za-z ,]+\s*[-–]\s*\w+ \d+, \d{4}\s*', '', title).strip()
-            title = clean[:200] if len(clean) >= 15 else title[:200]
-
-        if title in seen_titles:
+        # Skip very short nav links
+        if len(raw_title) < 15:
             continue
 
-        # Filter: Only keep links that are external press releases or blog posts
-        # (Skip internal nav/feature/product links)
-        news_domains = ("einpresswire", "prnewswire", "datanami", "techcrunch", "venturebeat", "crn", "forbes", "medium")
-        blog_patterns = ("blog", "press", "newsroom", "news", "release")
+        # Truncate + clean Collibra-style "Location - Date Title body..."
+        if len(raw_title) > 200:
+            clean = re.sub(r'^[A-Za-z ,]+\s*[-–]\s*\w+ \d+, \d{4}\s*', '', raw_title).strip()
+            raw_title = clean[:200] if len(clean) >= 15 else raw_title[:200]
+
+        # FIX #12 + #2: clean title before using it anywhere
+        title = clean_title(raw_title)
+
+        # FIX #4: drop nav link titles
+        if _NAV_TITLE_RE.match(title):
+            continue
+
+        # Dedup by URL and by cleaned title within this fetch
+        if href in seen_urls_local:
+            continue
+        if title in seen_titles_local:
+            continue
+
+        # Only keep links that look like press releases or news articles
+        news_domains = (
+            "einpresswire", "prnewswire", "datanami", "techcrunch",
+            "venturebeat", "crn", "forbes", "medium", "businesswire",
+            "globenewswire", "prnews", "techradar", "zdnet", "infoq",
+            "theregister", "wired", "bloomberg", "wsj", "reuters",
+        )
+        blog_patterns = ("blog", "press", "newsroom", "news", "release", "announcement")
         is_external_news = any(domain in href.lower() for domain in news_domains)
         is_blog_post = any(pattern in href.lower() for pattern in blog_patterns)
 
         if not (is_external_news or is_blog_post):
             continue
 
-        # Extract description from the IMMEDIATE parent only (one hop), and only
-        # if it contains additional text beyond the link title itself.
-        # Previously we walked up 4 levels which pulled in ALL neighboring
-        # articles' text as the "description". That bug is fixed here.
+        # FIX #3: extract description from IMMEDIATE parent only.
+        # Subtract the link's own text. Require >= 40 meaningful chars.
+        # Never walk up the tree — that's what caused summaries to contain
+        # neighboring articles' full text.
         ctx = ""
         date_html = str(a)
         immediate = a.parent
         if immediate is not None:
             date_html = immediate.decode_contents()
             full = immediate.get_text(separator=" ", strip=True)
-            # Remove the link's own text so we keep only surrounding sibling text
             link_text = a.get_text(separator=" ", strip=True)
             remainder = full.replace(link_text, "", 1).strip()
-            # Only use it if it looks like a real teaser (>= 40 chars, not just a date/category)
-            if len(remainder) >= 40 and not re.fullmatch(r'[\d/\-,.\s\w]{1,30}', remainder):
-                ctx = remainder[:400]
+            # Must be substantive text, not just a date or category label
+            if (len(remainder) >= 40
+                    and not re.fullmatch(r'[\d/\-,.\s\w]{1,30}', remainder)
+                    # FIX #3: reject if remainder looks like a list of other headlines
+                    # (contains multiple dates inline = neighbor bleed-through)
+                    and len(re.findall(rf'{_MONTHS}\s+\d{{1,2}},?\s+\d{{4}}', remainder)) < 2):
+                ctx = remainder[:300]
 
-        # Extract date — try title first (Pinecone, Collibra embed dates in title text),
-        # then fall back to parent HTML (Alation, Qdrant use separate date elements)
-        pub_date = extract_date(title) or extract_date(date_html) or extract_date(ctx)
+        pub_date = (extract_date(title)
+                    or extract_date_from_url(href)
+                    or extract_date(date_html)
+                    or extract_date(ctx))
 
-        # Strip leading date/location/type noise from titles
-        months = r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December)'
-        clean_title = title
-        # "4/7/2026 Title..."
-        clean_title = re.sub(r'^\d{1,2}/\d{1,2}/\d{4}\s*', '', clean_title).strip()
-        # "New York - Mar 30, 2026 Title..." (Collibra)
-        clean_title = re.sub(rf'^[A-Za-z ,]+\s*[-–]\s*{months}\s+\d{{1,2}},?\s+\d{{4}}\s*', '', clean_title).strip()
-        # "Product Apr 15, 2026 Title..." / "Featured Jan 28, 2026 Title..." (Pinecone)
-        clean_title = re.sub(rf'^\w+\s+{months}\s+\d{{1,2}},?\s+\d{{4}}\s*', '', clean_title).strip()
-        # "Apr 15, 2026 Title..." (bare month-day-year prefix)
-        clean_title = re.sub(rf'^{months}\s+\d{{1,2}},?\s+\d{{4}}\s*', '', clean_title).strip()
-        # "06 Jan 2026 Title..." (Atlan DD Mon YYYY)
-        clean_title = re.sub(rf'^\d{{1,2}}\s+{months}\s+\d{{4}}\s*', '', clean_title).strip()
-        if len(clean_title) >= 15:
-            title = clean_title
-
-        seen_titles.add(title)
-        articles.append(
-            {
-                "title": title,
-                "url": href,
-                "published_date": pub_date,  # Real extracted date or empty string
-                "description": ctx,
-            }
-        )
+        seen_urls_local.add(href)
+        seen_titles_local.add(title)
+        articles.append({
+            "title": title,
+            "url": href,
+            "published_date": pub_date,
+            "description": ctx,
+        })
 
         if len(articles) >= MAX_ITEMS_PER_COMPANY:
             break
@@ -564,52 +669,29 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
 
 
 def within_window(published_date_str: str) -> bool:
-    """Check if date is within rolling window.
-    Empty date = extraction failed — assume recent and let it through.
-    Better to show an undated item than silently drop it.
-    """
+    """Empty date = unknown → assume recent, pass through."""
     if not published_date_str:
-        return True  # Unknown date → assume recent
-
+        return True
     try:
         pub_date = date.fromisoformat(published_date_str)
         return (date.today() - pub_date).days <= MAX_NEWS_AGE_DAYS
     except Exception:
-        return True  # Malformed date → assume recent
-
-
-# Nav/CTA link titles that bleed through from page navigation (Milvus, Zilliz, etc.)
-_NAV_TITLE_RE = re.compile(
-    r'^(?:get\s+started|sign\s+up|log\s+in|learn\s+more|read\s+more|view\s+all|'
-    r'see\s+all|explore|download|contact\s+us|free\s+trial|request\s+demo|'
-    r'book\s+a\s+demo|try\s+for\s+free|start\s+free|watch\s+now|'
-    r'business\s+critical\s+plan|enterprise\s+plan|'
-    r'(?:resource|architecture|learning|help|partner|knowledge|solution|'
-    r'community|developer|support|documentation|training|certification)\s+'
-    r'(?:center|hub|portal|base|zone|library|page))$',
-    re.I,
-)
+        return True
 
 
 def clean_text(text: str) -> str:
-    """Strip extra whitespace."""
     return re.sub(r'\s+', ' ', text).strip() if text else ""
 
 
 def _clean_summary(desc: str, title: str) -> str:
-    """Return a teaser only if it adds info beyond the title.
-    Returns empty string if the description is just the title or a substring of it,
-    or too short to be meaningful.
-    """
+    """Return teaser only if it adds real info beyond the title."""
     d = clean_text(desc)
     t = clean_text(title)
     if not d or len(d) < 40:
         return ""
-    # If description begins with the title or is nearly equal, drop it
     dl, tl = d.lower(), t.lower()
     if dl.startswith(tl) or tl.startswith(dl):
         return ""
-    # If 80%+ of description characters also appear in title → it's a duplicate
     if tl and len(tl) > 15 and tl in dl and len(dl) < len(tl) * 1.4:
         return ""
     return d
@@ -619,45 +701,42 @@ def _clean_summary(desc: str, title: str) -> str:
 # MAIN
 # ══════════════════════════════════════════════════════════════════════════
 
-
 def main():
     print("\n" + "=" * 70)
-    print("NEWS SCRAPER — Phase 1 (Rule-based, zero API cost)")
+    print("NEWS SCRAPER — strict classification, title-only")
     print("=" * 70)
 
-    # Load seen URLs
-    seen_urls = set()
+    seen_urls: set[str] = set()
     if SEEN_FILE.exists():
         try:
-            with open(SEEN_FILE) as f:
-                seen_urls = set(json.load(f))
+            seen_urls = set(json.loads(SEEN_FILE.read_text()))
         except Exception:
             pass
 
-    # Load existing news
-    existing_news = []
+    existing_news: list[dict] = []
     if OUTPUT_FILE.exists():
         try:
-            with open(OUTPUT_FILE) as f:
-                existing_news = json.load(f)
+            existing_news = json.loads(OUTPUT_FILE.read_text())
         except Exception:
             pass
 
-    new_news = []
+    # FIX #1/#14: build existing URL index for global dedup
+    existing_by_url: dict[str, dict] = {n["url"]: n for n in existing_news}
 
-    # Scrape each company's newsroom (supports single URL or list of URLs)
+    new_news: list[dict] = []
+
     for company, url_entry in NEWSROOM_URLS.items():
         product_area = V2_PRODUCT_AREA_MAP.get(company)
         if not product_area:
             continue
 
         urls_to_scrape = url_entry if isinstance(url_entry, list) else [url_entry]
-        articles = []
+        articles: list[dict] = []
         for newsroom_url in urls_to_scrape:
             print(f"\n[{company}] {newsroom_url}")
             articles.extend(fetch_newsroom(company, newsroom_url))
 
-        # Deduplicate across multiple URLs by URL
+        # Dedup across multiple URLs by URL
         seen_in_batch: set[str] = set()
         deduped = []
         for a in articles:
@@ -678,10 +757,11 @@ def main():
             title = article["title"]
             desc = article["description"]
 
-            if url in seen_urls:
+            # FIX #1/#14: skip if already in seen set OR already in news.json
+            if url in seen_urls or url in existing_by_url:
                 continue
 
-            # Drop nav/CTA links (Milvus, Zilliz sidebar bleed)
+            # Nav title check (redundant safety net)
             if _NAV_TITLE_RE.match(title.strip()):
                 seen_urls.add(url)
                 continue
@@ -690,13 +770,11 @@ def main():
                 seen_urls.add(url)
                 continue
 
-            # Classify
             classification = classify_item(company, title, desc, url)
             if not classification:
                 seen_urls.add(url)
                 continue
 
-            # Create news item
             news_item = {
                 "company": company,
                 "product_area": product_area,
@@ -705,7 +783,7 @@ def main():
                 "url": url,
                 "published_date": article["published_date"],
                 "source": "company_newsroom",
-                "summary": _clean_summary(desc, title),  # Blank if summary just echoes title
+                "summary": _clean_summary(desc, title),
                 "actian_relevance": classification["actian_relevance"],
                 "tags": classification["tags"],
                 "team_routing": classification["team_routing"],
@@ -714,40 +792,40 @@ def main():
             }
 
             new_news.append(news_item)
+            existing_by_url[url] = news_item  # prevent double-add in same run
             seen_urls.add(url)
             added += 1
 
             type_icon = {
-                "funding": "💰",
-                "leadership": "👤",
-                "product_launch": "🚀",
-                "feature": "✨",
-                "partnership": "🤝",
-                "acquisition": "🔀",
-                "layoff": "📉",
+                "funding": "💰", "leadership": "👤", "product_launch": "🚀",
+                "feature": "✨", "partnership": "🤝", "acquisition": "🔀",
+                "layoff": "📉", "pricing": "💲",
             }.get(classification["news_type"], "📰")
-
-            print(f"  → {type_icon} {title[:60]}")
+            print(f"  → {type_icon} {title[:65]}")
 
         print(f"  ✓ {added} new item(s) added")
 
-    # Merge with existing, drop old
-    all_news = existing_news + new_news
+    # FIX #1/#14: merge and hard-dedup by URL before writing
+    all_news = list(existing_by_url.values())
+    # Add new items not already in existing_by_url
+    for n in new_news:
+        if n["url"] not in {x["url"] for x in all_news}:
+            all_news.append(n)
+
+    # Drop items outside rolling window (only where date is known)
     cutoff = (date.today() - timedelta(days=MAX_NEWS_AGE_DAYS)).isoformat()
-    all_news = [n for n in all_news if n["published_date"] >= cutoff]
+    all_news = [
+        n for n in all_news
+        if not n.get("published_date") or n["published_date"] >= cutoff
+    ]
 
-    # Sort by date (newest first)
-    all_news.sort(key=lambda x: x["published_date"], reverse=True)
+    # Sort newest first
+    all_news.sort(key=lambda x: x.get("published_date") or "0000", reverse=True)
 
-    # Save
-    with open(OUTPUT_FILE, "w") as f:
-        json.dump(all_news, f, indent=2)
-    print(f"\n✓ Saved {len(all_news)} news items to {OUTPUT_FILE}")
+    OUTPUT_FILE.write_text(json.dumps(all_news, indent=2))
+    print(f"\n✓ Saved {len(all_news)} news items (URL-deduped) to {OUTPUT_FILE}")
 
-    # Save seen URLs
-    with open(SEEN_FILE, "w") as f:
-        json.dump(list(seen_urls), f)
-
+    SEEN_FILE.write_text(json.dumps(sorted(seen_urls), indent=2))
     print(f"✓ Tracked {len(seen_urls)} seen URLs")
     print("\n" + "=" * 70)
 
