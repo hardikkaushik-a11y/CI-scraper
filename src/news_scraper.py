@@ -47,22 +47,57 @@ V2_PRODUCT_AREA_MAP = {
 }
 
 NEWSROOM_URLS = {
-    "Bigeye": "https://www.bigeye.com/newsroom",
-    "Atlan": "https://atlan.com/newsroom/",
+    # Bigeye: newsroom for press releases + blog for product/integration posts
+    "Bigeye": [
+        "https://www.bigeye.com/newsroom",
+        "https://www.bigeye.com/blog",
+    ],
+    # Atlan: newsroom + blog — blog is where MCP/integration/AI agent posts land
+    "Atlan": [
+        "https://atlan.com/newsroom/",
+        "https://atlan.com/blog/",
+    ],
+    # Qdrant: blog is primary source (no separate newsroom)
     "Qdrant": "https://qdrant.tech/blog/",
-    "Collibra": "https://www.collibra.com/company/newsroom/press-releases",
-    "Alation": "https://www.alation.com/news-and-press/",
-    "Pinecone": "https://www.pinecone.io/newsroom/",
-    "Monte Carlo": "https://www.montecarlodata.com/category/announcements/",
+    # Collibra: press releases + product blog for feature/integration announcements
+    "Collibra": [
+        "https://www.collibra.com/company/newsroom/press-releases",
+        "https://www.collibra.com/blog/",
+    ],
+    # Alation: news/press + blog for product announcements and integrations
+    "Alation": [
+        "https://www.alation.com/news-and-press/",
+        "https://www.alation.com/blog/",
+    ],
+    # Pinecone: newsroom + blog — blog has plugin/integration/SDK releases
+    "Pinecone": [
+        "https://www.pinecone.io/newsroom/",
+        "https://www.pinecone.io/blog/",
+    ],
+    # Monte Carlo: announcements category + general blog for product posts
+    "Monte Carlo": [
+        "https://www.montecarlodata.com/category/announcements/",
+        "https://www.montecarlodata.com/blog/",
+    ],
+    # Acceldata: newsroom only — their blog has persistent CMS date injection
+    # (always returns today's date; items would fail within_window check)
     "Acceldata": "https://www.acceldata.io/newsroom",
-    "Milvus": "https://zilliz.com/news",
+    # Milvus/Zilliz: Zilliz news + Milvus blog for vector DB integration releases
+    "Milvus": [
+        "https://zilliz.com/news",
+        "https://milvus.io/blog/",
+    ],
+    # Snowflake: press releases + coverage + blog for AI/agent integration posts
     "Snowflake": [
         "https://www.snowflake.com/en/news/press-releases/",
         "https://www.snowflake.com/en/news/news-coverage/",
+        "https://www.snowflake.com/blog/",
     ],
+    # Databricks: press releases + coverage + blog for open-source/agent releases
     "Databricks": [
         "https://www.databricks.com/company/newsroom/press-releases",
         "https://www.databricks.com/company/newsroom/media-coverage",
+        "https://www.databricks.com/blog/",
     ],
 }
 
@@ -137,7 +172,13 @@ _PRODUCT_LAUNCH_RE = re.compile(
     r'|\bnow\s+available\b'
     r'|\bdebuts?\b'
     r'|\bannounces?\s+(?:new\s+)?(?:product|platform|solution|service|SDK|API|engine|'
-    r'framework|tool|model|update|release|version)\b',
+    r'framework|tool|model|update|release|version)\b'
+    # Plugin / integration / connector releases with AI platforms
+    r'|\bplugin\s+for\s+(?:Claude|GPT|ChatGPT|OpenAI|Anthropic|Cursor|Copilot)\b'
+    r'|\b(?:node|connector|integration)\s+(?:in|for|with)\s+(?:n8n|Zapier|Make|LangChain|'
+    r'LlamaIndex|Vertex|Bedrock|Claude|GPT|OpenAI)\b'
+    r'|\bMCP\s+(?:server|connector|plugin|tool|integration)\b'
+    r'|\bnative\s+integration\s+with\s+(?:Claude|GPT|OpenAI|Anthropic|n8n|Zapier)\b',
     re.I,
 )
 
@@ -402,8 +443,10 @@ def extract_date(html: str) -> str:
 
 # Companies whose article pages are JS-rendered and need Playwright
 PLAYWRIGHT_ARTICLE_DOMAINS = {
+    # JS-heavy article pages where httpx alone won't expose publish dates
     "databricks.com", "snowflake.com", "collibra.com",
     "pinecone.io", "atlan.com", "bigeye.com",
+    "milvus.io", "zilliz.com", "alation.com",
 }
 
 
@@ -568,7 +611,10 @@ def fetch_article_date(url: str) -> str:
 # ══════════════════════════════════════════════════════════════════════════
 
 PLAYWRIGHT_NEWSROOMS = {
+    # These companies' newsroom/blog pages are JS-rendered and need Playwright.
+    # Adding Milvus (zilliz.com/news is React) and Alation (Next.js blog).
     "Bigeye", "Atlan", "Pinecone", "Collibra", "Databricks", "Snowflake",
+    "Milvus", "Alation",
 }
 
 
@@ -676,8 +722,13 @@ _TITLE_NAME_SUFFIX_RE = re.compile(
 _TITLE_SUFFIX_RE = _TITLE_DATE_SUFFIX_RE
 
 
-def clean_title(raw: str) -> str:
-    """Strip leading prefixes and trailing date/author/source from titles."""
+def clean_title(raw: str, source_url: str = "") -> str:
+    """Strip leading prefixes and trailing date/author/source from titles.
+
+    source_url: the page URL this title was scraped from. When it contains
+    '/blog/', blog listings often embed author names without a date, so we
+    apply the bare-name strip unconditionally (still guarded by length).
+    """
     t = raw.strip()
     # Strip leading emoji / symbol characters
     t = re.sub(r'^[\U0001F000-\U0001FFFF\U00002600-\U000027FF\U0000FE00-\U0000FEFF\s]+', '', t).strip()
@@ -697,11 +748,15 @@ def clean_title(raw: str) -> str:
             break
         date_stripped = True
         t = cleaned
-    # Bare author name strip — ONLY when we already stripped a date suffix
-    # (prevents "Revenue Officer", "Generally Available", "Business User" from being removed)
-    if date_stripped:
+    # Bare author name strip:
+    # • Always on blog listing pages (source URL contains "/blog/") — blog
+    #   listings commonly append "Firstname Lastname" without a preceding date.
+    # • Also fires after a date suffix was already stripped (existing behaviour).
+    # Guard: resulting title must still be >= 40 chars to avoid over-stripping.
+    is_blog_source = "/blog/" in source_url.lower() or source_url.lower().endswith("/blog")
+    if date_stripped or is_blog_source:
         cleaned = _TITLE_NAME_SUFFIX_RE.sub('', t).strip()
-        if len(cleaned) >= 40:  # guard against over-stripping
+        if len(cleaned) >= 40:
             t = cleaned
     # Truncate blurb-heavy titles — signals that tagline/body text was captured
     if len(t) > 100:
@@ -771,8 +826,9 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
             clean = re.sub(r'^[A-Za-z ,]+\s*[-–]\s*\w+ \d+, \d{4}\s*', '', raw_title).strip()
             raw_title = clean[:200] if len(clean) >= 15 else raw_title[:200]
 
-        # FIX #12 + #2: clean title before using it anywhere
-        title = clean_title(raw_title)
+        # FIX #12 + #2: clean title before using it anywhere.
+        # Pass source URL so blog listing author names can be stripped.
+        title = clean_title(raw_title, source_url=url)
 
         # FIX #4: drop nav link titles
         if _NAV_TITLE_RE.match(title):
