@@ -125,27 +125,42 @@ _PARTNERSHIP_RE = re.compile(
     re.I,
 )
 # Product launches = an actual shipped product/platform. GA. Public preview.
+# Intentionally broad on "launches/announces/introduces/unveils" — the _DROP_RE
+# handles generic content before we get here, so anything reaching this point
+# that says "launches X" is likely a real product announcement.
 _PRODUCT_LAUNCH_RE = re.compile(
-    r'\blaunch(?:es|ed|ing)\s+(?:new\s+)?(?:product|platform|solution|service|SDK|API|engine|framework)\b'
-    r'|\bintroduc(?:es|ed|ing)\s+(?:new\s+)?(?:product|platform|solution|service|SDK|API|engine|framework)\b'
-    r'|\bunveils?\s+(?:new\s+)?(?:product|platform|solution|service)\b'
+    r'\blaunch(?:es|ed|ing)\b'
+    r'|\bintroduc(?:es|ed|ing)\b'
+    r'|\bunveils?\b'
     r'|\bgeneral(?:ly)?\s+available\b|\bgeneral\s+availability\b|\bnow\s+GA\b|\breaches?\s+GA\b'
     r'|\bpublic(?:ly)?\s+available\b'
-    r'|\bpublic\s+preview\b'
-    r'|\bnow\s+available\s+(?:for|on|in)\b'
-    r'|\bdebuts?\b',
+    r'|\bpublic\s+preview\b|\bopen\s+preview\b'
+    r'|\bnow\s+available\b'
+    r'|\bdebuts?\b'
+    r'|\bannounces?\s+(?:new\s+)?(?:product|platform|solution|service|SDK|API|engine|framework|tool|model|update|release|version)\b',
     re.I,
 )
 # Groundbreaking features — major new capability announcements
 _FEATURE_RE = re.compile(
-    r'\bannounces?\s+(?:new\s+)?(?:capability|capabilities|feature|support\s+for|integration)\b'
+    r'\bannounces?\s+(?:new\s+)?(?:capability|capabilities|feature|features|support\s+for|integration)\b'
     r'|\badds?\s+support\s+for\b'
-    r'|\brolls?\s+out\s+(?:new\s+)?(?:feature|capability)\b'
-    r'|\blaunch(?:es|ed)\s+(?:new\s+)?(?:feature|capability)\b',
+    r'|\brolls?\s+out\b'
+    r'|\bnew\s+(?:capability|capabilities|feature|features|integration)\b',
     re.I,
 )
 _LAYOFF_RE = re.compile(
     r'\blay\s*offs?\b|\blaid\s+off\b|\bjob\s+cuts?\b|\bworkforce\s+reduction\b|\brestructur(?:es|ed|ing)\b',
+    re.I,
+)
+# Pricing changes — new tiers, price cuts, free plans, enterprise pricing
+_PRICING_RE = re.compile(
+    r'\bpricing\b'
+    r'|\bprice\s+(?:change|cut|increase|reduction|update)\b'
+    r'|\bnew\s+(?:pricing|price|tier|plan)\b'
+    r'|\bfree\s+(?:tier|plan|version)\b'
+    r'|\bopen[- ]source(?:s|d|ing)?\b'    # OSS releases = pricing signal
+    r'|\bfreemium\b'
+    r'|\benterprise\s+pricing\b',
     re.I,
 )
 
@@ -212,6 +227,8 @@ def classify_item(company: str, title: str, description: str, url: str) -> dict 
         news_type = "leadership"
     elif _PARTNERSHIP_RE.search(combined):
         news_type = "partnership"
+    elif _PRICING_RE.search(combined):
+        news_type = "pricing"
     elif _PRODUCT_LAUNCH_RE.search(combined):
         news_type = "product_launch"
     elif _FEATURE_RE.search(combined):
@@ -253,6 +270,7 @@ def _route_by_type(news_type: str) -> list[str]:
         "acquisition": ["Executives", "PMM", "Product"],
         "leadership": ["Executives", "PMM"],
         "partnership": ["PMM", "SDRs", "Marketing"],
+        "pricing": ["SDRs", "Marketing", "PMM"],
         "product_launch": ["Product", "PMM", "Marketing"],
         "feature": ["Product", "PMM"],
         "layoff": ["Executives", "SDRs"],

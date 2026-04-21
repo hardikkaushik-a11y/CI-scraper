@@ -5802,7 +5802,10 @@ function NewsPage({ lens, onOpenCompany }) {
     leadership:     "👤 Leadership",
     partnership:    "🤝 Partnership",
     acquisition:    "🔀 M&A",
+    pricing:        "💲 Pricing",
     layoff:         "📉 Layoff",
+    // backward-compat aliases for items scraped with old classifier
+    product:        "🚀 Product launch",
   };
   const TYPE_COLORS = {
     product_launch: "oklch(0.60 0.17 248)",
@@ -5811,14 +5814,20 @@ function NewsPage({ lens, onOpenCompany }) {
     leadership:     "oklch(0.50 0.13 65)",
     partnership:    "oklch(0.56 0.14 270)",
     acquisition:    "oklch(0.55 0.18 340)",
+    pricing:        "oklch(0.72 0.15 65)",
     layoff:         "oklch(0.55 0.14 30)",
+    product:        "oklch(0.60 0.17 248)",
   };
 
-  // Strict filter: kept news is only the 7 signal types
+  // Strict filter: kept news is only the signal types (includes legacy "product" alias)
   const KEEP = new Set(Object.keys(TYPE_LABELS));
   let filtered = (window.NEWS || []).filter(n => KEEP.has(n.news_type));
   if (typeFilter !== "all") {
-    filtered = filtered.filter(n => n.news_type === typeFilter);
+    // "product_launch" filter also matches legacy "product" items
+    filtered = filtered.filter(n =>
+      n.news_type === typeFilter ||
+      (typeFilter === "product_launch" && n.news_type === "product")
+    );
   }
   if (companyFilter !== "all") {
     filtered = filtered.filter(n => n.company === companyFilter);
@@ -5841,11 +5850,12 @@ function NewsPage({ lens, onOpenCompany }) {
     byCompany[c].sort((a, b) => new Date(b.published_date || 0) - new Date(a.published_date || 0));
   }
 
-  // Type counts for the filter bar
+  // Type counts for the filter bar — normalise old "product" alias into "product_launch"
   const typeCounts = {};
   for (const n of (window.NEWS || [])) {
     if (!KEEP.has(n.news_type)) continue;
-    typeCounts[n.news_type] = (typeCounts[n.news_type] || 0) + 1;
+    const key = n.news_type === "product" ? "product_launch" : n.news_type;
+    typeCounts[key] = (typeCounts[key] || 0) + 1;
   }
   // All companies that have any kept news (for company filter dropdown)
   const allCompaniesWithNews = Array.from(new Set(
@@ -5875,7 +5885,7 @@ function NewsPage({ lens, onOpenCompany }) {
             <button className={typeFilter === "all" ? "seg-on" : ""} onClick={() => setTypeFilter("all")}>
               All signals
             </button>
-            {Object.keys(TYPE_LABELS).map(type => (
+            {["product_launch","feature","funding","leadership","partnership","acquisition","pricing","layoff"].map(type => (
               typeCounts[type] ? (
                 <button
                   key={type}
