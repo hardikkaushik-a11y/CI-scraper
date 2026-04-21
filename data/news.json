@@ -1268,5 +1268,82 @@
     ],
     "event_date": null,
     "scraped_at": "2026-04-19"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026",
+    "url": "https://www.alation.com/news-and-press/alation-appoints-rick-baker-as-chief-operating-officer/",
+    "published_date": "2026-04-07",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026 News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget Press Release Alation Ends the Era of Manual Data Governance March 9, 2026 News 4 trends that will shape data management and AI",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "expansion",
+    "title": "New Collibra Survey by The Harris Poll Finds 84% of Decision Makers Say Organizations Must Increase AI Spending in 2026 to Remain Competitive with Big Tech, with Almost Half Saying AI is Falling Short",
+    "url": "https://www.collibra.com/company/newsroom/press-releases/new-collibra-survey-by-harris-poll",
+    "published_date": "2026-03-30",
+    "source": "company_newsroom",
+    "summary": "New York - Mar 30, 2026 New Collibra Survey by The Harris Poll Finds 84% of Decision Makers Say Organizations Must Increase AI Spending in 2026 to Remain Competitive with Big Tech, with Almost Half Saying AI is Falling Short More Than 90% Agree that Companies Should be Required to Disclose Use of AI Agents 64% Cite \u201cRed Flags\u201d When Prospective Employees Can\u2019t Demonstrate Familiarity with AI\u2026",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Sales",
+      "SDRs",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366639805/Alation-automates-governance-with-latest-AI-powered-suite",
+    "published_date": "2026-03-09",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026 News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget Press Release Alation Ends the Era of Manual Data Governance March 9, 2026 News 4 trends that will shape data management and AI",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "Press Release Alation Ends the Era of Manual Data Governance March 9, 2026",
+    "url": "https://www.alation.com/news-and-press/alation-ends-the-era-of-manual-data-governance/",
+    "published_date": "2026-03-09",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026 News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget Press Release Alation Ends the Era of Manual Data Governance March 9, 2026 News 4 trends that will shape data management and AI",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
   }
 ]
