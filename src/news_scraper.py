@@ -394,6 +394,151 @@ def extract_date(html: str) -> str:
 
 
 # ══════════════════════════════════════════════════════════════════════════
+# ARTICLE-PAGE DATE FETCHER
+# Fetches individual article pages to extract publication dates.
+# Called when the listing page didn't expose a date for an article.
+# Tries httpx first (fast); falls back to Playwright for JS-heavy pages.
+# ══════════════════════════════════════════════════════════════════════════
+
+# Companies whose article pages are JS-rendered and need Playwright
+PLAYWRIGHT_ARTICLE_DOMAINS = {
+    "databricks.com", "snowflake.com", "collibra.com",
+    "pinecone.io", "atlan.com", "bigeye.com",
+}
+
+
+def _html_to_date(html: str, url: str = "") -> str:
+    """Try every date pattern on arbitrary HTML. Returns ISO date or ''."""
+    if not html:
+        return ""
+    # JSON-LD datePublished / dateCreated / date
+    for pat in (
+        r'"datePublished"\s*:\s*"([^"]+)"',
+        r'"dateCreated"\s*:\s*"([^"]+)"',
+        r'"date"\s*:\s*"(20\d{2}-\d{2}-\d{2}[^"]*)"',
+    ):
+        m = re.search(pat, html)
+        if m:
+            try:
+                return date.fromisoformat(m.group(1).split("T")[0]).isoformat()
+            except Exception:
+                pass
+    # <meta property="article:published_time" content="...">
+    m = re.search(
+        r'(?:article:published_time|og:published_time|datePublished)'
+        r'["\s]+content=["\']([^"\']+)["\']',
+        html, re.I,
+    )
+    if not m:
+        m = re.search(
+            r'content=["\']([^"\']+)["\'][^>]+'
+            r'(?:article:published_time|og:published_time)',
+            html, re.I,
+        )
+    if m:
+        try:
+            return date.fromisoformat(m.group(1).split("T")[0]).isoformat()
+        except Exception:
+            pass
+    # Drupal / CMS: "Tue, 03/10/2026 - 23:18"
+    m = re.search(r'\b(\d{2})/(\d{2})/(20\d{2})\b', html[:5000])
+    if m:
+        try:
+            return date.fromisoformat(f"{m.group(3)}-{m.group(1)}-{m.group(2)}").isoformat()
+        except Exception:
+            pass
+    # <time datetime="...">
+    m = re.search(r'<time[^>]+datetime=["\']([^"\']+)["\']', html, re.I)
+    if m:
+        try:
+            return date.fromisoformat(m.group(1).split("T")[0]).isoformat()
+        except Exception:
+            pass
+    # Text: "Month DD, YYYY" in first 6 KB
+    m = re.search(
+        rf'({_MONTHS})\s+(\d{{1,2}}),?\s+(20\d{{2}})',
+        html[:6000], re.I,
+    )
+    if m:
+        try:
+            from datetime import datetime
+            return datetime.strptime(
+                f"{m.group(1)[:3].title()} {m.group(2).zfill(2)} {m.group(3)}",
+                "%b %d %Y",
+            ).date().isoformat()
+        except Exception:
+            pass
+    # Text: "DD Month YYYY"
+    m = re.search(
+        rf'(\d{{1,2}})\s+({_MONTHS})\s+(20\d{{2}})',
+        html[:6000], re.I,
+    )
+    if m:
+        try:
+            from datetime import datetime
+            return datetime.strptime(
+                f"{m.group(1)} {m.group(2)[:3].title()} {m.group(3)}",
+                "%d %b %Y",
+            ).date().isoformat()
+        except Exception:
+            pass
+    # URL-embedded date as fallback
+    if url:
+        d = extract_date_from_url(url)
+        if d:
+            return d
+    return ""
+
+
+def fetch_article_date(url: str) -> str:
+    """
+    Fetch the article page and return its publication date.
+    Tries httpx first; falls back to Playwright for JS-heavy domains.
+    Returns ISO date string or '' if not found.
+    """
+    domain = urlparse(url).netloc.lstrip("www.")
+
+    # --- httpx attempt (fast, works for most sites) ---
+    html = ""
+    try:
+        r = httpx.get(
+            url,
+            headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"},
+            follow_redirects=True,
+            timeout=15,
+        )
+        if r.status_code == 200:
+            html = r.text
+    except Exception:
+        pass
+
+    d = _html_to_date(html, url)
+    if d:
+        return d
+
+    # --- Playwright fallback for JS-rendered article pages ---
+    if any(domain.endswith(pw) for pw in PLAYWRIGHT_ARTICLE_DOMAINS):
+        try:
+            from playwright.sync_api import sync_playwright
+            with sync_playwright() as p:
+                browser = p.chromium.launch()
+                page = browser.new_page(
+                    user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+                )
+                page.goto(url, timeout=30000, wait_until="domcontentloaded")
+                page.wait_for_timeout(1500)
+                html = page.content()
+                browser.close()
+            d = _html_to_date(html, url)
+            if d:
+                return d
+        except Exception:
+            pass
+
+    return ""
+
+
+# ══════════════════════════════════════════════════════════════════════════
 # PLAYWRIGHT SUPPORT
 # ══════════════════════════════════════════════════════════════════════════
 
@@ -765,6 +910,14 @@ def main():
             if _NAV_TITLE_RE.match(title.strip()):
                 seen_urls.add(url)
                 continue
+
+            # If the listing page didn't give us a date, fetch the article page.
+            # Do this BEFORE the window check so we can drop genuinely old content.
+            if not article["published_date"]:
+                fetched = fetch_article_date(url)
+                if fetched:
+                    article["published_date"] = fetched
+                    print(f"    ↳ date fetched: {fetched}")
 
             if not within_window(article["published_date"]):
                 seen_urls.add(url)
