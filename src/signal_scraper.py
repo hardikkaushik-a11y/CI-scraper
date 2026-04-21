@@ -59,22 +59,11 @@ V2_PRODUCT_AREA_MAP = {
 # Tested 2026-04-09. Update when feeds change.
 # ══════════════════════════════════════════════════════════════════════════
 
-# Companies with working RSS feeds
-RSS_FEEDS = {
-    "Collibra":    "https://www.collibra.com/feed/",
-    "Monte Carlo": "https://www.montecarlodata.com/blog/feed/",
-    "Snowflake":   "https://feeds.feedburner.com/SnowflakeBlog",
-    "Databricks":  "https://www.databricks.com/feed/",
-}
-
-# Companies without RSS — use HTML blog/newsroom scraping as fallback
-# Each entry: (page_url, url_must_contain_pattern)
-# NOTE: Atlan, Alation, Bigeye, Acceldata removed — their blog pages only produce
-# nav-link noise or old press releases. Real-time events come from EVENT_URLS only.
-HTML_SOURCES = {
-    "Pinecone":    ("https://www.pinecone.io/blog/", "/blog/"),
-    "Milvus":      ("https://milvus.io/blog/", "/blog/"),
-}
+# RSS and HTML blog sources deliberately removed.
+# Blogs pull resources/tutorials/guides/thought-leadership — not competitive intel.
+# ONLY event pages are scraped for launches + events. That is the sole truth.
+RSS_FEEDS: dict = {}
+HTML_SOURCES: dict = {}
 
 # ══════════════════════════════════════════════════════════════════════════
 # EVENT URLS — direct event listing pages per company
@@ -97,6 +86,41 @@ EVENT_URLS = {
 # Companies whose event pages require JavaScript execution (React/Next.js)
 # These will use Playwright instead of httpx for event page scraping.
 PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus", "Databricks", "Snowflake"}
+
+# ══════════════════════════════════════════════════════════════════════════
+# HARD URL BLOCKLIST — drop any URL matching these path segments, regardless
+# of how the scraper found it. Product pages, resource pages, docs, etc.
+# are never competitive intelligence.
+# ══════════════════════════════════════════════════════════════════════════
+
+_BLOCKED_URL_PATHS_RE = re.compile(
+    r'/product(?:s)?/'           # /product/ or /products/
+    r'|/solution(?:s)?/'         # /solution/ or /solutions/
+    r'|/platform(?:s)?/'         # /platform/
+    r'|/resource(?:s)?/'         # /resources/
+    r'|/documentation'           # /documentation
+    r'|/docs/'                   # /docs/
+    r'|/learn/'                  # /learn/
+    r'|/guide(?:s)?/'            # /guide/ or /guides/
+    r'|/tutorial(?:s)?/'         # /tutorial/
+    r'|/training/'               # /training/
+    r'|/certification/'          # /certification/
+    r'|/glossary/'               # /glossary/
+    r'|/case-stud'               # /case-study, /case-studies
+    r'|/customer(?:s)?/'         # /customer/ or /customers/
+    r'|/use-case(?:s)?/'         # /use-case/
+    r'|/partner(?:s)?/'          # /partners/ (partner listing, not event)
+    r'|/about(?:/company)?/?$'   # /about, /about/company (bare pages)
+    r'|/careers?/'               # /career/ or /careers/
+    r'|/job(?:s)?/',             # /jobs/
+    re.I,
+)
+
+
+def is_blocked_url(url: str) -> bool:
+    """Return True if this URL should never be scraped (product page, docs, etc.)."""
+    return bool(_BLOCKED_URL_PATHS_RE.search(url))
+
 
 # ══════════════════════════════════════════════════════════════════════════
 # TEXT CLEANING — strip noise before classification
@@ -225,16 +249,24 @@ _CITY_RE = re.compile(
     re.I,
 )
 
-# ── Tier 3: Hard-exclude noise patterns regardless of type ─────────────────────
+# ── Tier 3: Webinar / workshop hard-exclude ────────────────────────────────────
+# A webinar is kept ONLY if _PRODUCT_LAUNCH_STRONG_RE also matches (it's a launch webinar).
+# All purely informational webinars are dropped.
+_WEBINAR_RE = re.compile(r'\bwebinar\b', re.I)
+
 _WORKSHOP_RE = re.compile(r'\bworkshop\b', re.I)
 _LOW_VALUE_WEBINAR_RE = re.compile(
     r'\b(?:training|tutorial|course)\b'
-    r'|building\s+(?:a\s+)?(?:[\w-]+\s+){1,5}(?:for|with|using|in)\b'  # "Building X pipelines for Y" (multi-word)
-    r'|getting\s+started\s+with'                                          # "Getting started with X"
-    r'|how\s+to\s+(?:use|build|create|implement|deploy)'                  # "How to use/build X"
-    r'|deep\s+dive\s+into'                                                # "Deep dive into X"
-    r'|hands?[-\s]on\s+(?:lab|session)'                                   # "Hands-on lab/session"
-    r'|customer\s+stories?|case\s+stud',                                  # "Customer stories/case study"
+    r'|building\s+(?:a\s+)?(?:[\w-]+\s+){1,5}(?:for|with|using|in)\b'
+    r'|getting\s+started\s+with'
+    r'|how\s+to\s+(?:use|build|create|implement|deploy)'
+    r'|deep\s+dive\s+into'
+    r'|hands?[-\s]on\s+(?:lab|session)'
+    r'|customer\s+stories?|case\s+stud'
+    r'|best\s+practices?\s+(?:for|to|in)\b'
+    r'|introduction\s+to\b'
+    r'|101\b'                         # "Data Quality 101"
+    r'|demo\s+(?:session|day|series)', # generic demo series (not a launch)
     re.I,
 )
 
@@ -1217,9 +1249,8 @@ def main():
             if url in seen_urls:
                 continue
 
-            # Skip Collibra individual event pages from RSS — let EVENT_URLS handle them
-            # These are low-quality (no metadata) — just links to /events/slug pages
-            if company == "Collibra" and "/events/" in url:
+            # Hard URL block — product pages, docs, resources, careers, etc.
+            if is_blocked_url(url):
                 seen_urls.add(url)
                 continue
 
@@ -1243,7 +1274,7 @@ def main():
                 continue
 
             # Hard exclude: noise content patterns regardless of type
-            gate_text = title + " " + item["description"][:300] + " " + url  # URL slug carries patterns like "northstar", "nagpur"
+            gate_text = title + " " + item["description"][:300] + " " + url
             if _NOISE_RE.search(gate_text):
                 seen_urls.add(url)
                 continue
@@ -1261,6 +1292,12 @@ def main():
                 # Tier 3: Generic noise — skip workshops/training UNLESS strategic override
                 if (_WORKSHOP_RE.search(gate_text) or _LOW_VALUE_WEBINAR_RE.search(gate_text)):
                     if not _STRATEGIC_OVERRIDE_RE.search(gate_text):
+                        seen_urls.add(url)
+                        continue
+                # Tier 4: Webinar hard gate — drop ALL webinars unless they are
+                # explicitly a product launch (launch webinar is fine, info webinar is not)
+                if _WEBINAR_RE.search(gate_text):
+                    if not _PRODUCT_LAUNCH_STRONG_RE.search(gate_text):
                         seen_urls.add(url)
                         continue
 
@@ -1323,8 +1360,8 @@ def main():
             if not title:
                 continue
 
-            # Skip Bigeye product pages that bleed onto events page sidebar
-            if company == "Bigeye" and "/product/" in item_url:
+            # Hard URL block — product pages, docs, resources, etc. (all companies)
+            if is_blocked_url(item_url):
                 seen_urls.add(item_url)
                 continue
 
@@ -1356,6 +1393,11 @@ def main():
                 # Tier 3: Generic noise — skip UNLESS strategic override passes
                 if _WORKSHOP_RE.search(combined) or _LOW_VALUE_WEBINAR_RE.search(combined):
                     if not _STRATEGIC_OVERRIDE_RE.search(combined):
+                        seen_urls.add(item_url)
+                        continue
+                # Tier 4: Webinars — drop unless explicitly a product launch webinar
+                if _WEBINAR_RE.search(combined):
+                    if not _PRODUCT_LAUNCH_STRONG_RE.search(combined):
                         seen_urls.add(item_url)
                         continue
 
