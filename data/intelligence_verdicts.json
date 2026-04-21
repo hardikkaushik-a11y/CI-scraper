@@ -189,7 +189,7 @@
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Qdrant for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-21",
-    "_input_hash": "f0df15f093e4bd69"
+    "_input_hash": "89a84d0b4b77035c"
   },
   {
     "company": "Milvus",
@@ -261,6 +261,6 @@
     "confidence_reasoning": "Strong compound evidence: 193 open roles + 18 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Databricks battlecard within 2 weeks — new platform capability directly challenges Actian's edge and embedded analytics without cloud lock-in; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-21",
-    "_input_hash": "cd5a77e5b27db6e3"
+    "_input_hash": "ebf395bff93a1ac7"
   }
 ]
