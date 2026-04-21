@@ -45,7 +45,7 @@
     "confidence_reasoning": "Strong compound evidence: 43 open roles + 10 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Collibra battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-21",
-    "_input_hash": "1f80fd856a3a8f03"
+    "_input_hash": "ed168b04ca7fc996"
   },
   {
     "company": "Alation",
@@ -69,7 +69,7 @@
     "confidence_reasoning": "Strong compound evidence: 23 open roles + 7 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Alation battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-21",
-    "_input_hash": "3d6bb32f2f45c54c"
+    "_input_hash": "fa4623e2d6d17248"
   },
   {
     "company": "Monte Carlo",
@@ -92,8 +92,8 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Monte Carlo for hiring acceleration or product launch signals over the next 60 days before escalating.",
-    "last_updated": "2026-04-19",
-    "_input_hash": "2bddb5d38701fb1d"
+    "last_updated": "2026-04-21",
+    "_input_hash": "6208fa00b6ca5110"
   },
   {
     "company": "Bigeye",
@@ -117,7 +117,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "PMM: verify Bigeye's new capability does not undercut Actian's real-time DQ monitoring with push-based alerting in active competitive evaluations; update battlecard if feature gap confirmed.",
     "last_updated": "2026-04-21",
-    "_input_hash": "506391e66536c3a5"
+    "_input_hash": "e526ae63d01123a0"
   },
   {
     "company": "Acceldata",
@@ -165,7 +165,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Pinecone for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-21",
-    "_input_hash": "d92131486864616f"
+    "_input_hash": "c080ba4818e60484"
   },
   {
     "company": "Qdrant",
@@ -189,7 +189,7 @@
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Qdrant for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-21",
-    "_input_hash": "62112c55103a3fdf"
+    "_input_hash": "23cf351f0dd12509"
   },
   {
     "company": "Milvus",
@@ -213,7 +213,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Milvus for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-21",
-    "_input_hash": "b35863db2a71349c"
+    "_input_hash": "4b2aeca442129b65"
   },
   {
     "company": "Snowflake",
@@ -237,7 +237,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Snowflake for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-21",
-    "_input_hash": "90423fb4ac332ff7"
+    "_input_hash": "07ca340cc7792ad9"
   },
   {
     "company": "Databricks",
@@ -261,6 +261,6 @@
     "confidence_reasoning": "Strong compound evidence: 193 open roles + 16 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Databricks battlecard within 2 weeks — new platform capability directly challenges Actian's edge and embedded analytics without cloud lock-in; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-21",
-    "_input_hash": "7ebc4e697feeae32"
+    "_input_hash": "f59d7fe8a3629cdb"
   }
 ]
