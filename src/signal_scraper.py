@@ -249,6 +249,15 @@ _CITY_RE = re.compile(
     re.I,
 )
 
+# ── Nav/hub page titles — these are navigation links scraped from event pages ──
+# e.g. "Resource Center", "Architecture Center", "Learning Center" on Databricks events
+_NAV_TITLE_RE = re.compile(
+    r'^(?:resource|architecture|learning|help|partner|knowledge|solution|'
+    r'community|developer|support|documentation|training|certification)\s+'
+    r'(?:center|hub|portal|base|zone|library|page)$',
+    re.I,
+)
+
 # ── Tier 3: Webinar / workshop hard-exclude ────────────────────────────────────
 # A webinar is kept ONLY if _PRODUCT_LAUNCH_STRONG_RE also matches (it's a launch webinar).
 # All purely informational webinars are dropped.
@@ -1254,6 +1263,11 @@ def main():
                 seen_urls.add(url)
                 continue
 
+            # Nav title block — "Resource Center", "Architecture Center", etc.
+            if _NAV_TITLE_RE.match(title.strip()):
+                seen_urls.add(url)
+                continue
+
             # Skip items outside rolling window — mark seen so we skip next run too
             if not within_window(pub):
                 seen_urls.add(url)
@@ -1362,6 +1376,11 @@ def main():
 
             # Hard URL block — product pages, docs, resources, etc. (all companies)
             if is_blocked_url(item_url):
+                seen_urls.add(item_url)
+                continue
+
+            # Nav title block — "Resource Center", "Architecture Center", etc.
+            if _NAV_TITLE_RE.match(title.strip()):
                 seen_urls.add(item_url)
                 continue
 

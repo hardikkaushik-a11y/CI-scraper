@@ -212,38 +212,6 @@
     "company": "Databricks",
     "product_area": "AI Analyst",
     "type": "event",
-    "title": "Resource Center",
-    "url": "https://www.databricks.com/resources",
-    "published_date": "2026-04-19",
-    "summary": "Learning Training Discover curriculum tailored to your needs Databricks Academy Sign in to the Databricks learning platform Certification Gain recognition and differentiation Free Edition Learn profes...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-19"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "event",
-    "title": "Architecture Center",
-    "url": "https://www.databricks.com/resources/architectures",
-    "published_date": "2026-04-19",
-    "summary": "Learning Training Discover curriculum tailored to your needs Databricks Academy Sign in to the Databricks learning platform Certification Gain recognition and differentiation Free Edition Learn profes...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": null,
-    "scraped_at": "2026-04-19"
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "event",
     "title": "In-Person Event AI Days - Barcelona April 21",
     "url": "https://events.databricks.com/FY27-AI-Days-Barcelona/registration?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=drawer-card&itm_offer=registration",
     "published_date": "2026-04-19",
