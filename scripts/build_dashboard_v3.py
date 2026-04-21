@@ -114,8 +114,19 @@ def build_signals(implications):
 
 def derive_routes(signal, verdict):
     """
-    Determine which team routes are relevant based on threat + posting count.
+    Determine which team routes are relevant for a competitor card.
+    Prefer the verdict's team_routing (intelligence-driven) when present.
+    Fall back to threat + posting count derivation for legacy data.
     """
+    # Primary: verdict.team_routing — computed from hiring + news + launches + events
+    verdict_routing = verdict.get("team_routing") or []
+    allowed = {"Product", "PMM", "Marketing", "SDRs", "Executives"}
+    verdict_routing = [r for r in verdict_routing if r in allowed]
+    if verdict_routing:
+        order = ["Product", "PMM", "Marketing", "SDRs", "Executives"]
+        return [t for t in order if t in verdict_routing]
+
+    # Fallback: legacy threat + hiring-volume logic (keeps older data usable)
     threat = (signal.get("threat_level") or "low").upper()
     posting_count = signal.get("posting_count", 0)
     routes = ["Product"]
@@ -125,7 +136,6 @@ def derive_routes(signal, verdict):
         routes.append("Marketing")
     if threat in ("CRITICAL", "HIGH"):
         routes.append("SDRs")
-    # Deduplicate preserving order
     seen = set()
     unique = []
     for r in routes:
@@ -385,6 +395,8 @@ def build_launches_events(comp_signals):
             clean_title = re.sub(r'\s+https?://\S+', '', clean_title).strip()
             clean_title = re.sub(r'\s+Learn\s+More\s*$', '', clean_title, flags=re.IGNORECASE).strip()
             clean_title = re.sub(r'^(Virtual|In-Person|Webinar|Hackathon)\s+', '', clean_title).strip()
+            # Prefer signal's team_routing (intelligence-driven); fall back to legacy logic
+            event_teams = item.get("team_routing") or derive_event_teams(relevance)
             events.append({
                 "id": f"e{event_id}",
                 "company": company,
@@ -394,7 +406,7 @@ def build_launches_events(comp_signals):
                 "relevance": relevance,
                 "why": item.get("summary", ""),
                 "url": item.get("url", ""),
-                "teams": derive_event_teams(relevance),
+                "teams": event_teams,
                 "action": "Check dashboard for details.",
             })
             event_id += 1
@@ -412,6 +424,7 @@ def build_launches_events(comp_signals):
                 "relevance": relevance,
                 "tags": item.get("tags", []),
                 "url": item.get("url", ""),
+                "teams": item.get("team_routing") or ["Product", "PMM", "Marketing"],
             })
             launch_id += 1
 

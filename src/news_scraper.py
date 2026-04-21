@@ -20,6 +20,8 @@ from urllib.parse import urlparse
 import httpx
 from bs4 import BeautifulSoup
 
+from team_routing import route_by_news_type
+
 # ══════════════════════════════════════════════════════════════════════════
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════
@@ -323,22 +325,8 @@ def classify_item(company: str, title: str, description: str, url: str) -> dict 
         "news_type": news_type,
         "actian_relevance": relevance,
         "tags": tags,
-        "team_routing": _route_by_type(news_type),
+        "team_routing": route_by_news_type(news_type),
     }
-
-
-def _route_by_type(news_type: str) -> list[str]:
-    routing = {
-        "funding": ["Executives", "PMM"],
-        "acquisition": ["Executives", "PMM", "Product"],
-        "leadership": ["Executives", "PMM"],
-        "partnership": ["PMM", "SDRs", "Marketing"],
-        "pricing": ["SDRs", "Marketing", "PMM"],
-        "product_launch": ["Product", "PMM", "Marketing"],
-        "feature": ["Product", "PMM"],
-        "layoff": ["Executives", "SDRs"],
-    }
-    return routing.get(news_type, ["PMM"])
 
 
 # ══════════════════════════════════════════════════════════════════════════

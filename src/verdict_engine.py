@@ -15,6 +15,12 @@ from datetime import date
 
 import httpx
 
+from team_routing import (
+    route_verdict,
+    compute_team_relevance,
+    TEAM_ORDER,
+)
+
 # ══════════════════════════════════════════════════════════════════════════
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════
@@ -23,7 +29,7 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 SONNET_MODEL = "claude-sonnet-4-6"
 
 # Bump this to force all verdicts to regenerate when scoring logic changes
-VERDICT_VERSION = "4"
+VERDICT_VERSION = "6"  # v6: news items now contribute to impact_level + signal score
 
 SIGNALS_PATH = "data/signals.json"
 COMPETITIVE_SIGNALS_PATH = "data/competitive_signals.json"
@@ -89,6 +95,28 @@ alternative_interpretation: MANDATORY — at least one plausible alternative rea
 - medium: one strong signal or multiple weak ones
 - low: sparse signals, uncertain direction
 
+## STEP 6: TEAM ROUTING (WHO NEEDS TO SEE THIS)
+Based on the signal composition, select which Actian internal teams should be alerted.
+Teams: Product, PMM, Marketing, SDRs, Executives.
+
+Routing rules:
+- product_launch / open_source_release present → Product, PMM, Marketing
+- event signals present → Marketing, SDRs, PMM
+- partnership signals present → PMM, SDRs
+- funding / acquisition → Executives, PMM
+- leadership change → Executives, PMM
+- pricing change → SDRs, Marketing, PMM
+- Engineering hiring surge (≥20 roles) → Product
+- GTM/Sales hiring surge (≥20 roles) → SDRs
+- impact_level = platform or market → add Executives
+- actian_relevance = high → always include PMM
+
+A verdict can route to multiple teams. Return as array in canonical order:
+["Product", "PMM", "Marketing", "SDRs", "Executives"].
+
+Also produce team_relevance — how relevant this verdict is to each team on a 0–5 scale
+(0 = ignore, 5 = immediate action). Teams in team_routing get higher scores.
+
 Return ONLY valid JSON — no markdown, no commentary:
 {
   "company": "<company name>",
@@ -109,7 +137,15 @@ Return ONLY valid JSON — no markdown, no commentary:
   },
   "confidence": "high | medium | low",
   "confidence_reasoning": "<1-2 sentences — signal strength and gaps>",
-  "recommended_action": "<1 sentence — who does what, against which specific threat; cite Actian's differentiator; no generic statements>"
+  "recommended_action": "<1 sentence — who does what, against which specific threat; cite Actian's differentiator; no generic statements>",
+  "team_routing": ["Product", "PMM", "Marketing", "SDRs", "Executives"],
+  "team_relevance": {
+    "product": 0,
+    "pmm": 0,
+    "marketing": 0,
+    "sdrs": 0,
+    "executives": 0
+  }
 }
 
 RULES:
@@ -276,30 +312,50 @@ def _fallback_verdict(company: str, product_area: str,
     has_eng_hiring = dominant_fn in eng_fns
 
     # ── STEP 1: COMPETITIVE SIGNAL VALIDATION ────────────────────────────────
-    # Weighted by strategic value — blog_posts excluded
+    # Weighted by strategic value — blog_posts excluded.
+    # News and comp_signals both contribute — they're both "external signals."
     SIGNAL_WEIGHTS = {
         "product_launch":      3,
         "open_source_release": 2,
         "partnership":         2,
         "funding":             2,
+        "acquisition":         3,
+        "leadership":          1,
+        "pricing":             2,
         "event":               1,
         "blog_post":           0,
+        "feature":             1,
+        "layoff":              1,
     }
     RELEVANCE_MULT = {"high": 1.0, "medium": 0.5, "low": 0.0}
 
+    # Fold news items into the signal bucket — a funding news item is as
+    # strategically meaningful as a funding signal. Normalize key: news uses
+    # "news_type", comp signals use "type".
+    merged_signals: list[dict] = list(comp_signals)
+    for n in news_items:
+        merged_signals.append({
+            "type":             n.get("news_type", "blog_post"),
+            "title":            n.get("title", ""),
+            "summary":          n.get("summary", ""),
+            "actian_relevance": n.get("actian_relevance", "medium"),
+            "tags":             n.get("tags", []),
+        })
+
     comp_signal_score = 0.0
-    for sig in comp_signals:
+    for sig in merged_signals:
         w = SIGNAL_WEIGHTS.get(sig.get("type", "blog_post"), 0)
         m = RELEVANCE_MULT.get(sig.get("actian_relevance", "low"), 0.0)
         comp_signal_score += w * m
 
-    # Classify valid comp signals by type
-    product_launches  = [s for s in comp_signals if s.get("type") == "product_launch"
+    # Classify valid signals by type (from merged source)
+    product_launches  = [s for s in merged_signals if s.get("type") == "product_launch"
                          and s.get("actian_relevance") in ("high", "medium")]
-    events            = [s for s in comp_signals if s.get("type") == "event"]
-    partnerships      = [s for s in comp_signals if s.get("type") == "partnership"]
-    funding_signals   = [s for s in comp_signals if s.get("type") == "funding"]
-    oss_releases      = [s for s in comp_signals if s.get("type") == "open_source_release"]
+    events            = [s for s in merged_signals if s.get("type") == "event"]
+    partnerships      = [s for s in merged_signals if s.get("type") == "partnership"]
+    funding_signals   = [s for s in merged_signals if s.get("type") in ("funding", "acquisition")]
+    oss_releases      = [s for s in merged_signals if s.get("type") == "open_source_release"]
+    leadership_moves  = [s for s in merged_signals if s.get("type") == "leadership"]
 
     has_product_launch = bool(product_launches)
     has_event          = bool(events)
@@ -325,7 +381,11 @@ def _fallback_verdict(company: str, product_area: str,
     # platform: GA of a high-impact platform layer, or very strong comp signal
     # product: product launches with real capability expansion
     # feature: minor launches, no strategic shift
-    if has_funding or any("pricing" in (s.get("tags") or []) for s in comp_signals):
+    has_pricing = any(
+        s.get("type") == "pricing" or "pricing" in (s.get("tags") or [])
+        for s in merged_signals
+    )
+    if has_funding or has_pricing:
         impact_level = "market"
     elif has_ga_signal or (has_product_launch and comp_signal_score >= 6):
         impact_level = "platform"
@@ -644,6 +704,53 @@ def _fallback_verdict(company: str, product_area: str,
     else:
         signal_type_str = "none"
 
+    # ── TEAM ROUTING ──────────────────────────────────────────────────────────
+    # Pull everything — news types, comp signal types, hiring function — into
+    # a single team_routing list. This is the intelligence layer's final output:
+    # "which teams need to see this company's verdict."
+    news_types_present = [n.get("news_type", "") for n in news_items if n.get("news_type")]
+    comp_types_present = [s.get("type", "") for s in comp_signals if s.get("type")]
+
+    # Pick the strongest Actian relevance across all signals (drives escalation)
+    relevance_order = {"high": 3, "medium": 2, "low": 1}
+    all_relevances = (
+        [n.get("actian_relevance", "low") for n in news_items]
+        + [s.get("actian_relevance", "low") for s in comp_signals]
+    )
+    top_relevance = "low"
+    for r in all_relevances:
+        if relevance_order.get(r, 0) > relevance_order.get(top_relevance, 0):
+            top_relevance = r
+
+    team_routing = route_verdict(
+        news_types=news_types_present,
+        comp_signal_types=comp_types_present,
+        hiring_function=dominant_fn,
+        posting_count=posting_count,
+        impact_level=impact_level,
+        actian_relevance=top_relevance,
+    )
+
+    # Threat level — reuse hiring signal's threat_level if available, else derive
+    hiring_threat = (hiring_signal or {}).get("threat_level", "")
+    if hiring_threat:
+        threat_for_relevance = hiring_threat
+    elif impact_level == "market":
+        threat_for_relevance = "critical"
+    elif impact_level == "platform":
+        threat_for_relevance = "high"
+    elif impact_level == "product":
+        threat_for_relevance = "medium"
+    else:
+        threat_for_relevance = "low"
+
+    team_relevance = compute_team_relevance(
+        team_routing=team_routing,
+        impact_level=impact_level,
+        threat_level=threat_for_relevance,
+        posting_count=posting_count,
+    )
+
     return {
         "company":                company,
         "signal_type":            signal_type_str,
@@ -664,6 +771,8 @@ def _fallback_verdict(company: str, product_area: str,
         "confidence":           confidence,
         "confidence_reasoning": conf_reasoning,
         "recommended_action":   recommended_action,
+        "team_routing":         team_routing,
+        "team_relevance":       team_relevance,
     }
 
 
@@ -761,11 +870,54 @@ def main():
         verdict_data = generate_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
         if verdict_data:
+            # ── Team routing — guarantee it exists even if Claude omitted it ──
+            impact_level = verdict_data.get("impact_level", "feature")
+            model_routing = verdict_data.get("team_routing") or []
+            # Validate model routing: must be subset of allowed teams
+            model_routing = [t for t in model_routing if t in TEAM_ORDER]
+
+            if not model_routing:
+                # Claude didn't return routing — compute deterministically
+                news_types_present = [n.get("news_type", "") for n in news_items if n.get("news_type")]
+                comp_types_present = [s.get("type", "") for s in comp_signals if s.get("type")]
+                relevance_order = {"high": 3, "medium": 2, "low": 1}
+                all_relevances = (
+                    [n.get("actian_relevance", "low") for n in news_items]
+                    + [s.get("actian_relevance", "low") for s in comp_signals]
+                )
+                top_relevance = "low"
+                for r in all_relevances:
+                    if relevance_order.get(r, 0) > relevance_order.get(top_relevance, 0):
+                        top_relevance = r
+                model_routing = route_verdict(
+                    news_types=news_types_present,
+                    comp_signal_types=comp_types_present,
+                    hiring_function=(hiring_signal or {}).get("dominant_function", ""),
+                    posting_count=(hiring_signal or {}).get("posting_count", 0),
+                    impact_level=impact_level,
+                    actian_relevance=top_relevance,
+                )
+
+            # Team relevance — same fallback pattern
+            model_relevance = verdict_data.get("team_relevance") or {}
+            if not model_relevance or not all(k in model_relevance for k in ("product","pmm","marketing","sdrs","executives")):
+                hiring_threat = (hiring_signal or {}).get("threat_level", "")
+                threat_for_relevance = hiring_threat or {
+                    "market": "critical", "platform": "high",
+                    "product": "medium", "feature": "low",
+                }.get(impact_level, "low")
+                model_relevance = compute_team_relevance(
+                    team_routing=model_routing,
+                    impact_level=impact_level,
+                    threat_level=threat_for_relevance,
+                    posting_count=(hiring_signal or {}).get("posting_count", 0),
+                )
+
             verdict = {
                 "company":                    company,
                 "product_area":               product_area,
                 "signal_type":                verdict_data.get("signal_type", "none"),
-                "impact_level":               verdict_data.get("impact_level", "feature"),
+                "impact_level":               impact_level,
                 "what_is_happening":          verdict_data.get("what_is_happening", ""),
                 "why_it_matters":             verdict_data.get("why_it_matters", ""),
                 "primary_interpretation":     verdict_data.get("primary_interpretation", ""),
@@ -779,12 +931,14 @@ def main():
                 "confidence":                 verdict_data.get("confidence", "low"),
                 "confidence_reasoning":       verdict_data.get("confidence_reasoning", ""),
                 "recommended_action":         verdict_data.get("recommended_action", ""),
+                "team_routing":               model_routing,
+                "team_relevance":             model_relevance,
                 "last_updated": today,
                 "_input_hash": new_hash,
             }
             output_verdicts.append(verdict)
             regenerated += 1
-            print(f"         impact={verdict['impact_level']} | confidence={verdict['confidence']} | correlation={verdict['hiring_event_correlation'].get('strength','?')}")
+            print(f"         impact={verdict['impact_level']} | confidence={verdict['confidence']} | correlation={verdict['hiring_event_correlation'].get('strength','?')} | teams={','.join(model_routing)}")
         else:
             # Keep old verdict if generation failed
             if existing:

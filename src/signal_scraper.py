@@ -20,6 +20,8 @@ from pathlib import Path
 import feedparser
 import httpx
 
+from team_routing import route_by_signal_type
+
 # ══════════════════════════════════════════════════════════════════════════
 # CONFIG — exact same pattern as enrich.py
 # ══════════════════════════════════════════════════════════════════════════
@@ -1212,6 +1214,18 @@ def main():
             dropped = before - len(existing)
             if dropped:
                 print(f"[INFO] Dropped {dropped} signals outside 90-day window")
+
+            # ── Backfill: older signals lack team_routing; compute deterministically ──
+            backfilled = 0
+            for s in existing:
+                if not s.get("team_routing"):
+                    s["team_routing"] = route_by_signal_type(
+                        s.get("type", "blog_post"),
+                        s.get("actian_relevance", "medium"),
+                    )
+                    backfilled += 1
+            if backfilled:
+                print(f"[INFO] Backfilled team_routing on {backfilled} existing signals")
         except Exception:
             existing = []
 
@@ -1335,6 +1349,10 @@ def main():
                 "tags":             classification.get("tags", []),
                 "source_type":      classification.get("source_type", "blog"),
                 "event_date":       classification.get("event_date"),
+                "team_routing":     route_by_signal_type(
+                                        classification["type"],
+                                        classification.get("actian_relevance", "medium"),
+                                    ),
                 "scraped_at":       today_str,
             }
 
@@ -1432,6 +1450,10 @@ def main():
                 "tags":             classification.get("tags", []),
                 "source_type":      "event_page",
                 "event_date":       item.get("event_date"),
+                "team_routing":     route_by_signal_type(
+                                        classification["type"],
+                                        classification.get("actian_relevance", "medium"),
+                                    ),
                 "scraped_at":       today_str,
             }
 
