@@ -5880,35 +5880,40 @@ function NewsPage({ lens, onOpenCompany }) {
           </div>
         </div>
 
-        <div className="toolbar">
-          <div className="seg">
-            <button className={typeFilter === "all" ? "seg-on" : ""} onClick={() => setTypeFilter("all")}>
-              All signals
-            </button>
-            {["product_launch","feature","funding","leadership","partnership","acquisition","pricing","layoff"].map(type => (
-              typeCounts[type] ? (
-                <button
-                  key={type}
-                  className={typeFilter === type ? "seg-on" : ""}
-                  onClick={() => setTypeFilter(type)}
-                >
-                  {TYPE_LABELS[type]} <span style={{opacity:0.5}}>({typeCounts[type]})</span>
-                </button>
-              ) : null
+        {/* 2-row wrapping filter bar */}
+        <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
+          {/* Row 1 — signal types (wrap-safe chips) */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
+            <span style={{ fontSize: "11px", color: "var(--ink-mute)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginRight: "4px" }}>Type</span>
+            {[{k:"all",label:"All signals"}, ...["product_launch","feature","funding","leadership","partnership","acquisition","pricing","layoff"].filter(t => typeCounts[t]).map(t => ({k:t,label:`${TYPE_LABELS[t]} (${typeCounts[t]})`}))].map(({k,label}) => (
+              <button
+                key={k}
+                onClick={() => setTypeFilter(k)}
+                style={{
+                  padding: "5px 12px", fontSize: "12px", fontWeight: 500, borderRadius: "20px", cursor: "pointer",
+                  border: typeFilter === k ? "none" : "1px solid var(--border)",
+                  background: typeFilter === k ? "var(--ink)" : "var(--bg-sunk)",
+                  color: typeFilter === k ? "var(--surface)" : "var(--ink-soft)",
+                  transition: "background 0.15s, color 0.15s",
+                }}
+              >{label}</button>
             ))}
           </div>
-          <div className="seg">
-            <button className={companyFilter === "all" ? "seg-on" : ""} onClick={() => setCompanyFilter("all")}>
-              All companies
-            </button>
-            {allCompaniesWithNews.map(c => (
+          {/* Row 2 — companies (wrap-safe chips) */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
+            <span style={{ fontSize: "11px", color: "var(--ink-mute)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginRight: "4px" }}>Company</span>
+            {[{k:"all",label:"All"}, ...allCompaniesWithNews.map(c => ({k:c,label:c}))].map(({k,label}) => (
               <button
-                key={c}
-                className={companyFilter === c ? "seg-on" : ""}
-                onClick={() => setCompanyFilter(c)}
-              >
-                {c}
-              </button>
+                key={k}
+                onClick={() => setCompanyFilter(k)}
+                style={{
+                  padding: "5px 12px", fontSize: "12px", fontWeight: 500, borderRadius: "20px", cursor: "pointer",
+                  border: companyFilter === k ? "none" : "1px solid var(--border)",
+                  background: companyFilter === k ? "var(--ink)" : "var(--bg-sunk)",
+                  color: companyFilter === k ? "var(--surface)" : "var(--ink-soft)",
+                  transition: "background 0.15s, color 0.15s",
+                }}
+              >{label}</button>
             ))}
           </div>
         </div>
