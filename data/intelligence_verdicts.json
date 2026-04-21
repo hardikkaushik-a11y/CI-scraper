@@ -21,7 +21,7 @@
     "confidence_reasoning": "Moderate evidence: hiring volume supports the signal. Correlation is moderate — one dimension is weaker.",
     "recommended_action": "No immediate action required. Monitor Atlan for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-21",
-    "_input_hash": "3baeaa8a04a275cf"
+    "_input_hash": "3d2d438d332f4701"
   },
   {
     "company": "Collibra",
@@ -45,7 +45,7 @@
     "confidence_reasoning": "Strong compound evidence: 43 open roles + 10 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Collibra battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-21",
-    "_input_hash": "2f9ad80516f9669f"
+    "_input_hash": "1f80fd856a3a8f03"
   },
   {
     "company": "Alation",
@@ -69,7 +69,7 @@
     "confidence_reasoning": "Strong compound evidence: 23 open roles + 7 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Alation battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-21",
-    "_input_hash": "f3f0ee081423a7e4"
+    "_input_hash": "ae137067422b1a0d"
   },
   {
     "company": "Monte Carlo",
@@ -116,8 +116,8 @@
     "confidence": "low",
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "PMM: verify Bigeye's new capability does not undercut Actian's real-time DQ monitoring with push-based alerting in active competitive evaluations; update battlecard if feature gap confirmed.",
-    "last_updated": "2026-04-20",
-    "_input_hash": "d3f052a9e7e9173b"
+    "last_updated": "2026-04-21",
+    "_input_hash": "506391e66536c3a5"
   },
   {
     "company": "Acceldata",
@@ -165,7 +165,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Pinecone for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-21",
-    "_input_hash": "04d309b461838a73"
+    "_input_hash": "b2da4155f206d6a3"
   },
   {
     "company": "Qdrant",
@@ -189,7 +189,7 @@
     "confidence_reasoning": "Sparse signals: only hiring data available, no confirmed events. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Qdrant for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-21",
-    "_input_hash": "e16a69cde4be0894"
+    "_input_hash": "f0df15f093e4bd69"
   },
   {
     "company": "Milvus",
@@ -237,7 +237,7 @@
     "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
     "recommended_action": "No immediate action required. Monitor Snowflake for hiring acceleration or product launch signals over the next 60 days before escalating.",
     "last_updated": "2026-04-21",
-    "_input_hash": "327728611003dce0"
+    "_input_hash": "ca288a60f46fe26a"
   },
   {
     "company": "Databricks",
@@ -261,6 +261,6 @@
     "confidence_reasoning": "Strong compound evidence: 193 open roles + 18 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Databricks battlecard within 2 weeks — new platform capability directly challenges Actian's edge and embedded analytics without cloud lock-in; lead with Actian's deployment flexibility as the counter-position.",
     "last_updated": "2026-04-21",
-    "_input_hash": "a25d866d3c32e741"
+    "_input_hash": "cd5a77e5b27db6e3"
   }
 ]
