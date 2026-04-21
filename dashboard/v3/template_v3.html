@@ -2843,9 +2843,10 @@ function companyIdByName(name) {
 
 // --- News & press releases page -------------------------------------------
 function NewsPage({ lens, onOpenCompany }) {
-  const [relFilter, setRelFilter] = useStateP("all");  // all | HIGH | MEDIUM | LOW
-  const [typeFilter, setTypeFilter] = useStateP("all"); // all | funding | leadership | product | pricing | expansion | award | partnership
-  const [sortBy, setSortBy] = useStateP("date-desc"); // date-desc | date-asc | company
+  const { useState: useNewsState } = React;
+  const [relFilter, setRelFilter] = useNewsState("all");  // all | HIGH | MEDIUM | LOW
+  const [typeFilter, setTypeFilter] = useNewsState("all"); // all | funding | leadership | product | pricing | expansion | award | partnership
+  const [sortBy, setSortBy] = useNewsState("date-desc"); // date-desc | date-asc | company
 
   const TYPE_LABELS = {
     funding: "🎯 Funding",
@@ -2867,39 +2868,24 @@ function NewsPage({ lens, onOpenCompany }) {
     partnership: "oklch(0.56 0.14 270)",
   };
 
-  // Filter and sort news
-  const filtered = useMemoP(() => {
-    let items = (window.NEWS || []);
-
-    // Filter by relevance
-    if (relFilter !== "all") {
-      items = items.filter(n => (n.actian_relevance || "medium").toUpperCase() === relFilter);
-    }
-
-    // Filter by type
-    if (typeFilter !== "all") {
-      items = items.filter(n => n.news_type === typeFilter);
-    }
-
-    // Team routing filter (via lens)
-    if (lens !== "All") {
-      items = items.filter(n => {
-        const routes = n.team_routing || [];
-        return routes.includes(lens);
-      });
-    }
-
-    // Sort
-    if (sortBy === "date-desc") {
-      items.sort((a, b) => new Date(b.published_date || 0) - new Date(a.published_date || 0));
-    } else if (sortBy === "date-asc") {
-      items.sort((a, b) => new Date(a.published_date || 0) - new Date(b.published_date || 0));
-    } else if (sortBy === "company") {
-      items.sort((a, b) => a.company.localeCompare(b.company));
-    }
-
-    return items;
-  }, [relFilter, typeFilter, sortBy, lens]);
+  // Compute filtered inline — no useMemo, no mutation, always fresh on every render
+  let filtered = (window.NEWS || []).slice();
+  if (relFilter !== "all") {
+    filtered = filtered.filter(n => (n.actian_relevance || "medium").toUpperCase() === relFilter);
+  }
+  if (typeFilter !== "all") {
+    filtered = filtered.filter(n => n.news_type === typeFilter);
+  }
+  if (lens !== "All") {
+    filtered = filtered.filter(n => (n.team_routing || []).includes(lens));
+  }
+  if (sortBy === "date-desc") {
+    filtered = filtered.slice().sort((a, b) => new Date(b.published_date || 0) - new Date(a.published_date || 0));
+  } else if (sortBy === "date-asc") {
+    filtered = filtered.slice().sort((a, b) => new Date(a.published_date || 0) - new Date(b.published_date || 0));
+  } else if (sortBy === "company") {
+    filtered = filtered.slice().sort((a, b) => a.company.localeCompare(b.company));
+  }
 
   const newsTypes = ["funding", "leadership", "product", "pricing", "expansion", "award", "partnership"];
 

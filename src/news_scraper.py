@@ -40,9 +40,16 @@ V2_PRODUCT_AREA_MAP = {
     "Collibra": "Data Intelligence",
     "Alation": "Data Intelligence",
     "Pinecone": "VectorAI",
+    # Phase 2 additions
+    "Monte Carlo": "Data Observability",
+    "Acceldata": "Data Observability",
+    "Milvus": "VectorAI",
+    "Snowflake": "AI Analyst",
+    "Databricks": "AI Analyst",
 }
 
 # Newsroom URLs — user-provided, verified
+# Values can be a single URL string or a list of URLs for companies with multiple sections
 NEWSROOM_URLS = {
     "Bigeye": "https://www.bigeye.com/newsroom",
     "Atlan": "https://atlan.com/newsroom/",
@@ -50,6 +57,18 @@ NEWSROOM_URLS = {
     "Collibra": "https://www.collibra.com/company/newsroom/press-releases",
     "Alation": "https://www.alation.com/news-and-press/",
     "Pinecone": "https://www.pinecone.io/newsroom/",
+    # Phase 2 additions
+    "Monte Carlo": "https://www.montecarlodata.com/category/announcements/",
+    "Acceldata": "https://www.acceldata.io/newsroom",
+    "Milvus": "https://zilliz.com/news",
+    "Snowflake": [
+        "https://www.snowflake.com/en/news/press-releases/",
+        "https://www.snowflake.com/en/news/news-coverage/",
+    ],
+    "Databricks": [
+        "https://www.databricks.com/company/newsroom/press-releases",
+        "https://www.databricks.com/company/newsroom/media-coverage",
+    ],
 }
 
 today_str = date.today().isoformat()
@@ -336,10 +355,12 @@ def extract_date(html: str) -> str:
 
 # Newsrooms that require Playwright (JS-rendered dates)
 PLAYWRIGHT_NEWSROOMS = {
-    "Bigeye",  # React-rendered, dates in JS data
-    "Atlan",   # JS-rendered content
-    "Pinecone",  # Dynamic content
-    "Collibra",  # Dynamic content
+    "Bigeye",      # React-rendered, dates in JS data
+    "Atlan",       # JS-rendered content
+    "Pinecone",    # Dynamic content
+    "Collibra",    # Dynamic content
+    "Databricks",  # JS-rendered newsroom
+    "Snowflake",   # JS-rendered press releases
 }
 
 
@@ -563,14 +584,26 @@ def main():
 
     new_news = []
 
-    # Scrape each company's newsroom
-    for company, newsroom_url in NEWSROOM_URLS.items():
+    # Scrape each company's newsroom (supports single URL or list of URLs)
+    for company, url_entry in NEWSROOM_URLS.items():
         product_area = V2_PRODUCT_AREA_MAP.get(company)
         if not product_area:
             continue
 
-        print(f"\n[{company}] {newsroom_url}")
-        articles = fetch_newsroom(company, newsroom_url)
+        urls_to_scrape = url_entry if isinstance(url_entry, list) else [url_entry]
+        articles = []
+        for newsroom_url in urls_to_scrape:
+            print(f"\n[{company}] {newsroom_url}")
+            articles.extend(fetch_newsroom(company, newsroom_url))
+
+        # Deduplicate across multiple URLs by URL
+        seen_in_batch: set[str] = set()
+        deduped = []
+        for a in articles:
+            if a["url"] not in seen_in_batch:
+                seen_in_batch.add(a["url"])
+                deduped.append(a)
+        articles = deduped
 
         if not articles:
             print(f"  No articles found")
