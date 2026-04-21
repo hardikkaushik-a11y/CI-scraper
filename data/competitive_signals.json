@@ -19,6 +19,20 @@
     "scraped_at": "2026-04-18"
   },
   {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Virtual event El futuro del reporting de riesgos (BCBS 239): maximizando la confianza en los datos con Collibra y PwC Apr 29 @ 4 PM CET / 11 AM ET",
+    "url": "https://www.collibra.com/events/el-futuro-del-reporting-de-riesgos-bcbs-239",
+    "published_date": "2026-04-21",
+    "summary": "Virtual event El futuro del reporting de riesgos (BCBS 239): maximizando la confianza en los datos con Collibra y PwC Apr 29 @ 4 PM CET / 11 AM ET",
+    "actian_relevance": "low",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "scraped_at": "2026-04-21"
+  },
+  {
     "company": "Atlan",
     "product_area": "Data Intelligence",
     "type": "event",
