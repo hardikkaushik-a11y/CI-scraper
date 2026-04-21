@@ -24,7 +24,7 @@ from bs4 import BeautifulSoup
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════
 
-MAX_NEWS_AGE_DAYS = 60  # Rolling 60-day window
+MAX_NEWS_AGE_DAYS = 90  # Rolling 90-day window
 MAX_ITEMS_PER_COMPANY = 30  # Cap per company to avoid flooding
 
 REPO_ROOT = Path(__file__).parent.parent
@@ -564,16 +564,31 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
 
 
 def within_window(published_date_str: str) -> bool:
-    """Check if date is within rolling window."""
-    # Empty date = extraction failed, skip this item
+    """Check if date is within rolling window.
+    Empty date = extraction failed — assume recent and let it through.
+    Better to show an undated item than silently drop it.
+    """
     if not published_date_str:
-        return False
+        return True  # Unknown date → assume recent
 
     try:
         pub_date = date.fromisoformat(published_date_str)
         return (date.today() - pub_date).days <= MAX_NEWS_AGE_DAYS
     except Exception:
-        return False  # Malformed dates get dropped
+        return True  # Malformed date → assume recent
+
+
+# Nav/CTA link titles that bleed through from page navigation (Milvus, Zilliz, etc.)
+_NAV_TITLE_RE = re.compile(
+    r'^(?:get\s+started|sign\s+up|log\s+in|learn\s+more|read\s+more|view\s+all|'
+    r'see\s+all|explore|download|contact\s+us|free\s+trial|request\s+demo|'
+    r'book\s+a\s+demo|try\s+for\s+free|start\s+free|watch\s+now|'
+    r'business\s+critical\s+plan|enterprise\s+plan|'
+    r'(?:resource|architecture|learning|help|partner|knowledge|solution|'
+    r'community|developer|support|documentation|training|certification)\s+'
+    r'(?:center|hub|portal|base|zone|library|page))$',
+    re.I,
+)
 
 
 def clean_text(text: str) -> str:
@@ -664,6 +679,11 @@ def main():
             desc = article["description"]
 
             if url in seen_urls:
+                continue
+
+            # Drop nav/CTA links (Milvus, Zilliz sidebar bleed)
+            if _NAV_TITLE_RE.match(title.strip()):
+                seen_urls.add(url)
                 continue
 
             if not within_window(article["published_date"]):

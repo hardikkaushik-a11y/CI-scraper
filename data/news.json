@@ -20,6 +20,42 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-expands-snowflake-intelligence-and-cortex-code-to-power-the-control-plane-for-the-agentic-enterprise/",
+    "published_date": "2026-04-21",
+    "source": "company_newsroom",
+    "summary": "From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions Mar 30, 2026 Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every Busin",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-expands-snowflake-intelligence-and-cortex-code-to-power-the-control-plane-for-the-agentic-enterprise/",
+    "published_date": "2026-04-21",
+    "source": "company_newsroom",
+    "summary": "From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions Mar 30, 2026 Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every Busin",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "news_type": "product",
@@ -252,6 +288,84 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes-ga-features/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Apr 2, 2026 Pinecone Assistant: A Managed Knowledge Layer for Production AI Applications Roie Schwaber-Cohen Product Feb 19, 2026 Pinecone BYOC: Pinecone in your AWS, GCP, or Azure accoun",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-ordnance-survey-flood-readiness-model/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions Mar 30, 2026 Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every Business User Mar 18, 2026 Sn",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes-ga-features/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Apr 2, 2026 Pinecone Assistant: A Managed Knowledge Layer for Production AI Applications Roie Schwaber-Cohen Product Feb 19, 2026 Pinecone BYOC: Pinecone in your AWS, GCP, or Azure accoun",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-ordnance-survey-flood-readiness-model/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions Mar 30, 2026 Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every Business User Mar 18, 2026 Sn",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "news_type": "leadership",
@@ -282,6 +396,44 @@
     "tags": [],
     "team_routing": [
       "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "pricing",
+    "title": "Snowflake broadens open-source embrace, ups Iceberg support Apr 8, 2026 TechTarget",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366641473/Snowflake-broadens-open-source-embrace-ups-Iceberg-support",
+    "published_date": "2026-04-08",
+    "source": "company_newsroom",
+    "summary": "England Has 1.2 Million Buildings at Risk of Flooding With No Defenses Apr 15, 2026 Bloomberg Snowflake Is Rewriting Security for the Age of AI Apr 14, 2026 Cyber Defense Magazine Data Management Tools Help Montana Expand Rural Services Apr 14, 2026 GovTech Snowflake Seeing Strong Return on AI Investment: CEO Apr 9, 2026 Bloomberg Technology Snowflake expands open data strategy with Iceberg V3 sup",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "SDRs",
+      "Marketing",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "pricing",
+    "title": "Snowflake broadens open-source embrace, ups Iceberg support Apr 8, 2026 TechTarget",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366641473/Snowflake-broadens-open-source-embrace-ups-Iceberg-support",
+    "published_date": "2026-04-08",
+    "source": "company_newsroom",
+    "summary": "England Has 1.2 Million Buildings at Risk of Flooding With No Defenses Apr 15, 2026 Bloomberg Snowflake Is Rewriting Security for the Age of AI Apr 14, 2026 Cyber Defense Magazine Data Management Tools Help Montana Expand Rural Services Apr 14, 2026 GovTech Snowflake Seeing Strong Return on AI Investment: CEO Apr 9, 2026 Bloomberg Technology Snowflake expands open data strategy with Iceberg V3 sup",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "SDRs",
+      "Marketing",
       "PMM"
     ],
     "event_date": null,
@@ -344,6 +496,42 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026",
+    "url": "https://www.alation.com/news-and-press/alation-appoints-rick-baker-as-chief-operating-officer/",
+    "published_date": "2026-04-07",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget Press Release Alation Ends the Era of Manual Data Governance March 9, 2026 News 4 trends that will shape data management and AI in 2026 December 29, 2025, TechTarget Press Release Alation Named as a Leader 5x",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026",
+    "url": "https://www.alation.com/news-and-press/alation-appoints-rick-baker-as-chief-operating-officer/",
+    "published_date": "2026-04-07",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget Press Release Alation Ends the Era of Manual Data Governance March 9, 2026 News 4 trends that will shape data management and AI in 2026 December 29, 2025, TechTarget Press Release Alation Named as a Leader 5x",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
     "company": "Pinecone",
     "product_area": "VectorAI",
     "news_type": "product",
@@ -385,6 +573,48 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone Assistant: A Managed Knowledge Layer for Production AI Applications Roie Schwaber-Cohen",
+    "url": "https://www.pinecone.io/blog/assistant-managed-knowledge-layer/",
+    "published_date": "2026-04-02",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Feb 19, 2026 Pinecone BYOC: Pinecone in your AWS, GCP, or",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone Assistant: A Managed Knowledge Layer for Production AI Applications Roie Schwaber-Cohen",
+    "url": "https://www.pinecone.io/blog/assistant-managed-knowledge-layer/",
+    "published_date": "2026-04-02",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Feb 19, 2026 Pinecone BYOC: Pinecone in your AWS, GCP, or",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "news_type": "leadership",
@@ -413,6 +643,42 @@
     "published_date": "2026-03-31",
     "source": "company_newsroom",
     "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-appoints-jonathan-beaulier-as-chief-revenue-officer/",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions Mar 30, 2026 Snowflake Launches Project S",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-appoints-jonathan-beaulier-as-chief-revenue-officer/",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions Mar 30, 2026 Snowflake Launches Project S",
     "actian_relevance": "high",
     "tags": [],
     "team_routing": [
@@ -488,6 +754,86 @@
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "news_type": "leadership",
+    "title": "Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions Mar 30, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-appoints-michel-nader-to-lead-meta-region-advancing-regional-ai-ambitions/",
+    "published_date": "2026-03-30",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake Launches Project SnowWork, Bringing Outco",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions Mar 30, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-appoints-michel-nader-to-lead-meta-region-advancing-regional-ai-ambitions/",
+    "published_date": "2026-03-30",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake Launches Project SnowWork, Bringing Outco",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every Business User Mar 18, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-launches-project-snowwork-bringing-outcome-driven-ai-to-every-business-user/",
+    "published_date": "2026-03-18",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every Business User Mar 18, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-launches-project-snowwork-bringing-outcome-driven-ai-to-every-business-user/",
+    "published_date": "2026-03-18",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
     "title": "Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every Business User Mar 18, 2026",
     "url": "https://www.snowflake.com/en/news/press-releases/snowflake-launches-project-snowwork-bringing-outcome-driven-ai-to-every-business-user/",
     "published_date": "2026-03-18",
@@ -523,6 +869,48 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "funding",
+    "title": "We Raised $50M to Build Composable Vector Search as Core Infrastructure Andre Zayarni March 12, 2026",
+    "url": "https://qdrant.tech/blog/series-b-announcement/",
+    "published_date": "2026-03-12",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "$50M",
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "funding",
+    "title": "We Raised $50M to Build Composable Vector Search as Core Infrastructure Andre Zayarni March 12, 2026",
+    "url": "https://qdrant.tech/blog/series-b-announcement/",
+    "published_date": "2026-03-12",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "$50M",
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product",
@@ -531,6 +919,48 @@
     "published_date": "2026-03-11",
     "source": "company_newsroom",
     "summary": "Databricks Launches AI Assistant for Technical Talent",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Databricks Launches AI Assistant for Technical Talent",
+    "url": "https://www.bloomberg.com/news/videos/2026-03-11/databricks-launches-ai-assistant-for-technical-talent-video",
+    "published_date": "2026-03-11",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Databricks Launches AI Assistant for Technical Talent",
+    "url": "https://www.bloomberg.com/news/videos/2026-03-11/databricks-launches-ai-assistant-for-technical-talent-video",
+    "published_date": "2026-03-11",
+    "source": "company_newsroom",
+    "summary": "",
     "actian_relevance": "high",
     "tags": [
       "AI"
@@ -660,6 +1090,118 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366639805/Alation-automates-governance-with-latest-AI-powered-suite",
+    "published_date": "2026-03-09",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026 Press Release Alation Ends the Era of Manual Data Governance March 9, 2026 News 4 trends that will shape data management and AI in 2026 December 29, 2025, TechTarget Press Release Alation Named as a Leader 5x in the",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "Press Release Alation Ends the Era of Manual Data Governance March 9, 2026",
+    "url": "https://www.alation.com/news-and-press/alation-ends-the-era-of-manual-data-governance/",
+    "published_date": "2026-03-09",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026 News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget News 4 trends that will shape data management and AI in 2026 December 29, 2025, TechTarget Press Release Alation Named as a Le",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366639805/Alation-automates-governance-with-latest-AI-powered-suite",
+    "published_date": "2026-03-09",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026 Press Release Alation Ends the Era of Manual Data Governance March 9, 2026 News 4 trends that will shape data management and AI in 2026 December 29, 2025, TechTarget Press Release Alation Named as a Leader 5x in the",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "Press Release Alation Ends the Era of Manual Data Governance March 9, 2026",
+    "url": "https://www.alation.com/news-and-press/alation-ends-the-era-of-manual-data-governance/",
+    "published_date": "2026-03-09",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026 News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget News 4 trends that will shape data management and AI in 2026 December 29, 2025, TechTarget Press Release Alation Named as a Le",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Reports Financial Results for the Fourth Quarter and Full-Year of Fiscal 2026 Feb 25, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-reports-financial-results-for-the-fourth-quarter-and-full-year-of-fiscal-2026/",
+    "published_date": "2026-02-25",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Reports Financial Results for the Fourth Quarter and Full-Year of Fiscal 2026 Feb 25, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-reports-financial-results-for-the-fourth-quarter-and-full-year-of-fiscal-2026/",
+    "published_date": "2026-02-25",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "news_type": "leadership",
@@ -691,6 +1233,312 @@
     "team_routing": [
       "Executives",
       "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Cortex Code Expands Towards Supporting Any Data, Anywhere Feb 23, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-cortex-code-expands-towards-supporting-any-data-anywhere/",
+    "published_date": "2026-02-23",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Cortex Code Expands Towards Supporting Any Data, Anywhere Feb 23, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-cortex-code-expands-towards-supporting-any-data-anywhere/",
+    "published_date": "2026-02-23",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone BYOC: Pinecone in your AWS, GCP, or Azure account, no vendor access Gavin Johnson",
+    "url": "https://www.pinecone.io/blog/byoc/",
+    "published_date": "2026-02-19",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Apr 2, 2026 Pinecone Assistant: A Managed Knowledge Layer f",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone BYOC: Pinecone in your AWS, GCP, or Azure account, no vendor access Gavin Johnson",
+    "url": "https://www.pinecone.io/blog/byoc/",
+    "published_date": "2026-02-19",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Apr 2, 2026 Pinecone Assistant: A Managed Knowledge Layer f",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "U.S. Figure Skating Elevates Athlete Development and Fan Engagement with Snowflake Intelligence Feb 12, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/us-figure-skating-elevates-athlete-development-and-fan-engagement-with-snowflake-intelligence/",
+    "published_date": "2026-02-12",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "U.S. Figure Skating Elevates Athlete Development and Fan Engagement with Snowflake Intelligence Feb 12, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/us-figure-skating-elevates-athlete-development-and-fan-engagement-with-snowflake-intelligence/",
+    "published_date": "2026-02-12",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Use the Pinecone Plugin for Claude Code to develop AI Applications Faster Arjun Patel",
+    "url": "https://www.pinecone.io/blog/pinecone-plugin-for-claude-code/",
+    "published_date": "2026-02-11",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Apr 2, 2026 Pinecone Assistant: A Managed Knowledge Layer f",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Use the Pinecone Plugin for Claude Code to develop AI Applications Faster Arjun Patel",
+    "url": "https://www.pinecone.io/blog/pinecone-plugin-for-claude-code/",
+    "published_date": "2026-02-11",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Apr 2, 2026 Pinecone Assistant: A Managed Knowledge Layer f",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "United Rentals Empowers Frontline Decision-Making with Business Intelligence Agent Built on Snowflake Feb 4, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/united-rentals-empowers-frontline-decision-making-with-business-intelligence-agent-built-on-snowflake/",
+    "published_date": "2026-02-04",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "United Rentals Empowers Frontline Decision-Making with Business Intelligence Agent Built on Snowflake Feb 4, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/united-rentals-empowers-frontline-decision-making-with-business-intelligence-agent-built-on-snowflake/",
+    "published_date": "2026-02-04",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Unveils Cortex Code, An AI Coding Agent That Drastically Increases Productivity by Understanding Your Enterprise Data Context Feb 3, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-unveils-cortex-code-an-ai-coding-agent-that-drastically-increases-productivity-by-understanding-your-enterprise-data-context/",
+    "published_date": "2026-02-03",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Unveils Cortex Code, An AI Coding Agent That Drastically Increases Productivity by Understanding Your Enterprise Data Context Feb 3, 2026",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-unveils-cortex-code-an-ai-coding-agent-that-drastically-increases-productivity-by-understanding-your-enterprise-data-context/",
+    "published_date": "2026-02-03",
+    "source": "company_newsroom",
+    "summary": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the Agentic Enterprise Apr 21, 2026 From sandbags to datasets: New AI-powered flood readiness model helps identify 1.2m undefended buildings at risk of flooding in England Apr 15, 2026 Snowflake Appoints Jonathan Beaulier as Chief Revenue Officer Mar 31, 2026 Snowflake appoints Michel Nader to lead META region,",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone Dedicated Read Nodes are now in Public Preview Gavin , Jeff , Brad",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes/",
+    "published_date": "2025-12-01",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Apr 2, 2026 Pinecone Assistant: A Managed Knowledge Layer f",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "Press Release Alation Honors 2025 Data Radicals Award Winners at revAlation November 13, 2025",
+    "url": "https://www.alation.com/news-and-press/alation-honors-2025-data-radicals-award-winners-at-revalation/",
+    "published_date": "2025-11-13",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026 News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget Press Release Alation Ends the Era of Manual Data Governance March 9, 2026 News 4 trends that will shape data management and AI",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "Press Release Alation Introduces Critical Data Element Manager to Deliver Agentic Governance for Business-Critical Data November 12, 2025",
+    "url": "https://www.alation.com/news-and-press/alation-introduces-critical-data-element-manager/",
+    "published_date": "2025-11-12",
+    "source": "company_newsroom",
+    "summary": "News Anthropic\u2019s office is surprisingly AI-first, even for an AI company April 13, 2026, FastCompany Press Release Alation Appoints Rick Baker as Chief Operating Officer April 7, 2026 News Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget Press Release Alation Ends the Era of Manual Data Governance March 9, 2026 News 4 trends that will shape data management and AI",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Executives",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "New Bulk Data Operations: Update, Delete, and Fetch by Metadata Lea , Gavin",
+    "url": "https://www.pinecone.io/blog/update-delete-and-fetch-by-metadata/",
+    "published_date": "2025-10-30",
+    "source": "company_newsroom",
+    "summary": "Product Apr 15, 2026 Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin Johnson Product Apr 15, 2026 Pinecone Dedicated Read Nodes: Now Generally Available Gavin Johnson Press Apr 15, 2026 ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams Product Apr 2, 2026 Pinecone Assistant: A Managed Knowledge Layer f",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
     ],
     "event_date": null,
     "scraped_at": "2026-04-21"

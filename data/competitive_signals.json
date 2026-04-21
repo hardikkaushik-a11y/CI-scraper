@@ -1,24 +1,5 @@
 [
   {
-    "company": "Atlan",
-    "product_area": "Data Intelligence",
-    "type": "product_launch",
-    "title": "The Context Layer, Live \u2014 Atlan Activate 2026",
-    "url": "https://atlan.com/activate/",
-    "published_date": "2026-04-29",
-    "summary": "Atlan launches The Context Layer, Live at Activate 2026. New conversational search, data quality, agentic stewards features announced.",
-    "actian_relevance": "high",
-    "tags": [
-      "AI agents",
-      "conversational search",
-      "data quality",
-      "catalog"
-    ],
-    "source_type": "product_launch",
-    "event_date": "2026-04-29",
-    "scraped_at": "2026-04-18"
-  },
-  {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
@@ -760,22 +741,6 @@
     ],
     "source_type": "event_page",
     "event_date": "2026-04-22",
-    "scraped_at": "2026-04-18"
-  },
-  {
-    "company": "Atlan",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Meet Atlan at Data Innovation Summit 2026",
-    "url": "https://atlan.com/event/data-innovation-summit/",
-    "published_date": "2026-04-18",
-    "summary": "INDUSTRY EVENT Stockholm, Sweden Meet Atlan at Data Innovation Summit 2026 06 MAY Join us in Stockholm at the forefront of AI innovation. View Details \u2192",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-05-06",
     "scraped_at": "2026-04-18"
   },
   {
