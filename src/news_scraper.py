@@ -408,10 +408,25 @@ PLAYWRIGHT_ARTICLE_DOMAINS = {
 
 
 def _html_to_date(html: str, url: str = "") -> str:
-    """Try every date pattern on arbitrary HTML. Returns ISO date or ''."""
+    """
+    Try every date pattern on arbitrary HTML. Returns ISO date or ''.
+
+    TRUST HIERARCHY:
+      1. Structured (always trusted): JSON-LD, article:published_time meta, <time datetime>
+      2. Semi-structured (trusted if NOT today): Drupal MM/DD/YYYY
+      3. Text patterns (trusted if NOT today): "Month DD YYYY" in page body
+
+    Reason: many CMS platforms inject today's date into freshness headers,
+    copyright footers, or last-modified fields. Returning today's date from
+    a text match is almost certainly a dynamic CMS artifact, not a real
+    publish date. We only accept today from structured metadata.
+    """
     if not html:
         return ""
-    # JSON-LD datePublished / dateCreated / date
+    today_iso = date.today().isoformat()
+
+    # ── TIER 1: structured metadata — always trusted ──────────────────────
+    # JSON-LD datePublished / dateCreated
     for pat in (
         r'"datePublished"\s*:\s*"([^"]+)"',
         r'"dateCreated"\s*:\s*"([^"]+)"',
@@ -440,13 +455,6 @@ def _html_to_date(html: str, url: str = "") -> str:
             return date.fromisoformat(m.group(1).split("T")[0]).isoformat()
         except Exception:
             pass
-    # Drupal / CMS: "Tue, 03/10/2026 - 23:18"
-    m = re.search(r'\b(\d{2})/(\d{2})/(20\d{2})\b', html[:5000])
-    if m:
-        try:
-            return date.fromisoformat(f"{m.group(3)}-{m.group(1)}-{m.group(2)}").isoformat()
-        except Exception:
-            pass
     # <time datetime="...">
     m = re.search(r'<time[^>]+datetime=["\']([^"\']+)["\']', html, re.I)
     if m:
@@ -454,6 +462,19 @@ def _html_to_date(html: str, url: str = "") -> str:
             return date.fromisoformat(m.group(1).split("T")[0]).isoformat()
         except Exception:
             pass
+
+    # ── TIER 2: semi-structured — reject if result = today ────────────────
+    # Drupal / CMS: "Tue, 03/10/2026 - 23:18"
+    m = re.search(r'\b(\d{2})/(\d{2})/(20\d{2})\b', html[:5000])
+    if m:
+        try:
+            d = date.fromisoformat(f"{m.group(3)}-{m.group(1)}-{m.group(2)}").isoformat()
+            if d != today_iso:
+                return d
+        except Exception:
+            pass
+
+    # ── TIER 3: text patterns — reject if result = today ─────────────────
     # Text: "Month DD, YYYY" in first 6 KB
     m = re.search(
         rf'({_MONTHS})\s+(\d{{1,2}}),?\s+(20\d{{2}})',
@@ -462,13 +483,15 @@ def _html_to_date(html: str, url: str = "") -> str:
     if m:
         try:
             from datetime import datetime
-            return datetime.strptime(
+            d = datetime.strptime(
                 f"{m.group(1)[:3].title()} {m.group(2).zfill(2)} {m.group(3)}",
                 "%b %d %Y",
             ).date().isoformat()
+            if d != today_iso:
+                return d
         except Exception:
             pass
-    # Text: "DD Month YYYY"
+    # Text: "DD Month YYYY" — reject if today
     m = re.search(
         rf'(\d{{1,2}})\s+({_MONTHS})\s+(20\d{{2}})',
         html[:6000], re.I,
@@ -476,13 +499,15 @@ def _html_to_date(html: str, url: str = "") -> str:
     if m:
         try:
             from datetime import datetime
-            return datetime.strptime(
+            d = datetime.strptime(
                 f"{m.group(1)} {m.group(2)[:3].title()} {m.group(3)}",
                 "%d %b %Y",
             ).date().isoformat()
+            if d != today_iso:
+                return d
         except Exception:
             pass
-    # URL-embedded date as fallback
+    # URL-embedded date as fallback (always trusted — dates in URLs are set at publish time)
     if url:
         d = extract_date_from_url(url)
         if d:
@@ -814,14 +839,17 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
 
 
 def within_window(published_date_str: str) -> bool:
-    """Empty date = unknown → assume recent, pass through."""
+    """
+    Empty date = drop. fetch_article_date() already tried to get the date;
+    if it's still empty the item is unverifiable and could be years old.
+    """
     if not published_date_str:
-        return True
+        return False
     try:
         pub_date = date.fromisoformat(published_date_str)
         return (date.today() - pub_date).days <= MAX_NEWS_AGE_DAYS
     except Exception:
-        return True
+        return False
 
 
 def clean_text(text: str) -> str:
