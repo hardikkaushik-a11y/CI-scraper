@@ -88,7 +88,9 @@ _EXPANSION_RE = re.compile(
     r'\bexpand(?:s|ed|ing)?\b'
     r'|\bnew\s+(?:office|region|market|country|location)'
     r'|\blaunch(?:es|ed|ing)?\s+(?:in|to)\b'
-    r'|\benter(?:s|ed|ing)?\s+(?:the\s+)?(?:market|region)',
+    r'|\benter(?:s|ed|ing)?\s+(?:the\s+)?(?:market|region)'
+    r'|\bsurvey\s+(?:finds|reveals|shows|by)'
+    r'|\bnew\s+survey\b|\bresearch\s+(?:finds|reveals|shows)',
     re.I,
 )
 _AWARD_RE = re.compile(
@@ -102,7 +104,9 @@ _PARTNERSHIP_RE = re.compile(
     r'\bpartnership\b|\bpartnered\b'
     r'|\bintegrat(?:es?|ed|ing)\s+with'
     r'|\bacquir(?:es|ed)?\b|\bmerger\b'
-    r'|\bstrategic\s+alliance\b',
+    r'|\bstrategic\s+alliance\b'
+    r'|\bjoins?\s+(?:the\s+)?(?:[A-Z]|\w+\s+ecosystem|open|initiative)'
+    r'|\bteams?\s+up\s+with\b',
     re.I,
 )
 
@@ -234,6 +238,159 @@ def _route_by_type(news_type: str) -> list[str]:
 
 
 # ══════════════════════════════════════════════════════════════════════════
+# DATE EXTRACTION (reference: scraper.py extract_date)
+# ══════════════════════════════════════════════════════════════════════════
+
+
+def extract_date(html: str) -> str:
+    """
+    Extract publication date from HTML using multiple strategies.
+    Returns ISO date string (YYYY-MM-DD) or empty string if not found.
+    Optimized for newsroom pages with unstructured dates.
+    """
+    if not html:
+        return ""
+
+    # Pattern 1: JSON-LD "datePosted" field (most reliable)
+    m = re.search(r'"datePosted"\s*:\s*"([^"]+)"', html)
+    if m:
+        try:
+            return date.fromisoformat(m.group(1).split("T")[0]).isoformat()
+        except Exception:
+            pass
+
+    # Pattern 2: HTML5 <time datetime="..."> tag
+    m = re.search(r'<time[^>]+datetime=["\']([^"\']+)["\']', html, re.I)
+    if m:
+        try:
+            return date.fromisoformat(m.group(1).split("T")[0]).isoformat()
+        except Exception:
+            pass
+
+    # Pattern 3: ISO date format (YYYY-MM-DD) — Pinecone format
+    m = re.search(r'(\d{4}-\d{2}-\d{2})', html)
+    if m:
+        return m.group(1)
+
+    # Pattern 4a: Month DD, YYYY format — Alation, Qdrant, Collibra
+    # Examples: "April 21, 2026", "December 10, 2025", "June 4, 2025"
+    months_long = r'(?:January|February|March|April|May|June|July|August|September|October|November|December)'
+    m = re.search(rf'({months_long})\s+(\d{{1,2}}),\s+(\d{{4}})', html, re.I)
+    if m:
+        try:
+            from datetime import datetime
+            dt = datetime.strptime(f"{m.group(1)} {m.group(2).zfill(2)} {m.group(3)}", "%B %d %Y")
+            return dt.date().isoformat()
+        except Exception:
+            pass
+
+    # Pattern 4b: DD Mon YYYY format — Atlan
+    # Examples: "06 Jan 2026", "09 Jan 2025", "15 Mar 2025"
+    months_short = r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)'
+    m = re.search(rf'(\d{{1,2}})\s+({months_short})\s+(\d{{4}})', html, re.I)
+    if m:
+        try:
+            from datetime import datetime
+            dt = datetime.strptime(f"{m.group(1)} {m.group(2)} {m.group(3)}", "%d %b %Y")
+            return dt.date().isoformat()
+        except Exception:
+            pass
+
+    # Pattern 4c: Mon DD, YYYY format — Collibra
+    # Examples: "Mar 30, 2026", "Jan 28, 2026", "Dec 9, 2025"
+    m = re.search(rf'({months_short})\s+(\d{{1,2}}),?\s+(\d{{4}})', html, re.I)
+    if m:
+        try:
+            from datetime import datetime
+            dt = datetime.strptime(f"{m.group(1)} {m.group(2).zfill(2)} {m.group(3)}", "%b %d %Y")
+            return dt.date().isoformat()
+        except Exception:
+            pass
+
+    # Pattern 5: M/D/YYYY format — Bigeye format
+    # Examples: "4/7/2026", "12/10/2025", "3/23/2022"
+    m = re.search(r'(\d{1,2})/(\d{1,2})/(\d{4})', html)
+    if m:
+        try:
+            month = m.group(1).zfill(2)
+            day = m.group(2).zfill(2)
+            year = m.group(3)
+            return f"{year}-{month}-{day}"
+        except Exception:
+            pass
+
+    # Pattern 6: Relative dates ("posted 5 days ago")
+    m = re.search(r'posted\s+(\d+)\s+days?\s+ago', html, re.I)
+    if m:
+        try:
+            return (date.today() - timedelta(days=int(m.group(1)))).isoformat()
+        except Exception:
+            pass
+
+    return ""
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# PLAYWRIGHT SUPPORT — JS-rendered newsroom pages
+# ══════════════════════════════════════════════════════════════════════════
+
+# Newsrooms that require Playwright (JS-rendered dates)
+PLAYWRIGHT_NEWSROOMS = {
+    "Bigeye",  # React-rendered, dates in JS data
+    "Atlan",   # JS-rendered content
+    "Pinecone",  # Dynamic content
+    "Collibra",  # Dynamic content
+}
+
+
+def fetch_newsroom_playwright(url: str) -> str:
+    """Fetch newsroom page using Playwright for JS rendering.
+    Tries domcontentloaded first (fast), falls back to load, then commit.
+    Handles cookie consent banners automatically.
+    Never lets timeouts be a roadblock.
+    """
+    from playwright.sync_api import sync_playwright
+
+    for wait_event in ("domcontentloaded", "load", "commit"):
+        try:
+            with sync_playwright() as p:
+                browser = p.chromium.launch()
+                page = browser.new_page(
+                    user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+                )
+                page.goto(url, timeout=45000, wait_until=wait_event)
+                page.wait_for_timeout(2000)
+
+                # Dismiss cookie consent banners (OneTrust, Osano, etc.)
+                consent_selectors = [
+                    "button#onetrust-accept-btn-handler",   # OneTrust Accept All
+                    "button.onetrust-accept-btn-handler",
+                    "button[id*='accept'][id*='cookie']",
+                    "button[class*='accept-all']",
+                    "button[aria-label*='Accept']",
+                    "#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",  # Cookiebot
+                    "button.js-cookie-accept",
+                ]
+                for sel in consent_selectors:
+                    try:
+                        btn = page.query_selector(sel)
+                        if btn and btn.is_visible():
+                            btn.click()
+                            page.wait_for_timeout(1500)
+                            break
+                    except Exception:
+                        pass
+
+                html = page.content()
+                browser.close()
+                if len(html) > 5000:
+                    return html
+        except Exception:
+            pass  # Try next wait_event
+    return ""
+
+
+# ══════════════════════════════════════════════════════════════════════════
 # NEWSROOM SCRAPER
 # ══════════════════════════════════════════════════════════════════════════
 
@@ -243,20 +400,34 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
     Scrape newsroom/press release page.
 
     Returns list of articles: {title, url, published_date, description}
+    Published dates extracted from page HTML (JSON-LD, time tags, relative dates).
+    Falls back to empty string if not found (will be filtered by within_window).
+    Uses Playwright for JS-rendered sites (Bigeye, Atlan, Pinecone, Collibra).
     """
-    try:
-        r = httpx.get(
-            url,
-            headers={"User-Agent": "Mozilla/5.0"},
-            follow_redirects=True,
-            timeout=30,
-        )
-        r.raise_for_status()
-    except Exception as e:
-        print(f"  [WARN] {company}: Fetch failed — {e}")
+    html = ""
+
+    # Use Playwright for JS-rendered newsrooms
+    if company in PLAYWRIGHT_NEWSROOMS:
+        html = fetch_newsroom_playwright(url)
+    else:
+        # Use httpx for static HTML sites (Qdrant, Alation)
+        try:
+            r = httpx.get(
+                url,
+                headers={"User-Agent": "Mozilla/5.0"},
+                follow_redirects=True,
+                timeout=30,
+            )
+            r.raise_for_status()
+            html = r.text
+        except Exception as e:
+            print(f"  [WARN] {company}: Fetch failed — {e}")
+            return []
+
+    if not html:
         return []
 
-    soup = BeautifulSoup(r.text, "html.parser")
+    soup = BeautifulSoup(html, "html.parser")
     articles = []
     seen_titles = set()
 
@@ -273,28 +444,67 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
         elif not href.startswith("http"):
             continue
 
-        # Skip obvious nav links
-        if not (15 <= len(title) <= 200):
+        # Skip obvious nav links (allow up to 600 chars for sites like Collibra
+        # that embed date + body into the link text)
+        if len(title) < 15:
             continue
+        # Truncate over-long titles to the first meaningful sentence
+        if len(title) > 200:
+            # Collibra pattern: "Location - Mon DD, YYYY Title body..." — strip location/date prefix
+            clean = re.sub(r'^[A-Za-z ,]+\s*[-–]\s*\w+ \d+, \d{4}\s*', '', title).strip()
+            title = clean[:200] if len(clean) >= 15 else title[:200]
+
         if title in seen_titles:
             continue
 
-        # Extract context (description)
+        # Filter: Only keep links that are external press releases or blog posts
+        # (Skip internal nav/feature/product links)
+        news_domains = ("einpresswire", "prnewswire", "datanami", "techcrunch", "venturebeat", "crn", "forbes", "medium")
+        blog_patterns = ("blog", "press", "newsroom", "news", "release")
+        is_external_news = any(domain in href.lower() for domain in news_domains)
+        is_blog_post = any(pattern in href.lower() for pattern in blog_patterns)
+
+        if not (is_external_news or is_blog_post):
+            continue
+
+        # Extract context (description) and date from parent container
         parent = a.parent
         ctx = ""
+        date_html = str(a)
         for _ in range(4):
             if parent:
                 ctx = parent.get_text(separator=" ", strip=True)[:400]
+                date_html = parent.decode_contents()  # HTML of parent for date extraction
                 parent = parent.parent
             if len(ctx) > 50:
                 break
+
+        # Extract date — try title first (Pinecone, Collibra embed dates in title text),
+        # then fall back to parent HTML (Alation, Qdrant use separate date elements)
+        pub_date = extract_date(title) or extract_date(date_html) or extract_date(ctx)
+
+        # Strip leading date/location/type noise from titles
+        months = r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December)'
+        clean_title = title
+        # "4/7/2026 Title..."
+        clean_title = re.sub(r'^\d{1,2}/\d{1,2}/\d{4}\s*', '', clean_title).strip()
+        # "New York - Mar 30, 2026 Title..." (Collibra)
+        clean_title = re.sub(rf'^[A-Za-z ,]+\s*[-–]\s*{months}\s+\d{{1,2}},?\s+\d{{4}}\s*', '', clean_title).strip()
+        # "Product Apr 15, 2026 Title..." / "Featured Jan 28, 2026 Title..." (Pinecone)
+        clean_title = re.sub(rf'^\w+\s+{months}\s+\d{{1,2}},?\s+\d{{4}}\s*', '', clean_title).strip()
+        # "Apr 15, 2026 Title..." (bare month-day-year prefix)
+        clean_title = re.sub(rf'^{months}\s+\d{{1,2}},?\s+\d{{4}}\s*', '', clean_title).strip()
+        # "06 Jan 2026 Title..." (Atlan DD Mon YYYY)
+        clean_title = re.sub(rf'^\d{{1,2}}\s+{months}\s+\d{{4}}\s*', '', clean_title).strip()
+        if len(clean_title) >= 15:
+            title = clean_title
 
         seen_titles.add(title)
         articles.append(
             {
                 "title": title,
                 "url": href,
-                "published_date": date.today().isoformat(),  # No date on listing, use today
+                "published_date": pub_date,  # Real extracted date or empty string
                 "description": ctx,
             }
         )
@@ -307,11 +517,15 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
 
 def within_window(published_date_str: str) -> bool:
     """Check if date is within rolling window."""
+    # Empty date = extraction failed, skip this item
+    if not published_date_str:
+        return False
+
     try:
         pub_date = date.fromisoformat(published_date_str)
         return (date.today() - pub_date).days <= MAX_NEWS_AGE_DAYS
     except Exception:
-        return True  # Keep items with bad dates
+        return False  # Malformed dates get dropped
 
 
 def clean_text(text: str) -> str:
