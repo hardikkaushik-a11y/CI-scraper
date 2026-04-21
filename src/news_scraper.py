@@ -74,184 +74,188 @@ NEWSROOM_URLS = {
 today_str = date.today().isoformat()
 
 # ══════════════════════════════════════════════════════════════════════════
-# PATTERN MATCHING — Rule-based classification (zero API cost, Phase 1)
+# STRICT CLASSIFICATION — only 6 signal categories kept
 # ══════════════════════════════════════════════════════════════════════════
+# KEEP ONLY: product_launch, feature, funding, leadership, partnership, acquisition
+# (layoff category defined too but rarely appears in company newsrooms)
+#
+# DROP EVERYTHING ELSE: awards/Gartner/Forrester, surveys, generic expansion,
+# pricing tweaks, thought-leadership, "AI will transform X", opinion pieces,
+# webinars, tutorials, customer stories, interviews, podcasts.
 
-# Tier 1: Hard signal patterns — deterministic news types
+# --- KEEP patterns --------------------------------------------------------
 _FUNDING_RE = re.compile(
-    r'\bSeries\s+[A-Z]|\braised\s+\$|\bfunding\s+round|\binvestment\s+round'
-    r'|\bsecured\s+\$|\bclosed\s+\$',
+    r'\bSeries\s+[A-Z]\b'
+    r'|\braised?\s+\$\d'
+    r'|\braises?\s+\$\d'
+    r'|\bfunding\s+round\b'
+    r'|\bsecured?\s+\$\d'
+    r'|\bclosed?\s+\$\d'
+    r'|\bvaluation\s+of\s+\$'
+    r'|\bIPO\b'
+    r'|\bgoes?\s+public\b',
     re.I,
 )
 _LEADERSHIP_RE = re.compile(
-    r'\bappoints?|\bnames?|\bjoins?\s+as|\bhires?\s+(?:as\s+)?(?:new\s+)?(?:CEO|CTO|SVP|VP|Chief|President)'
-    r'|\bCEO|\bCTO|\bChief\s+(?:Executive|Technology|Financial|Revenue|Product|Operating)'
-    r'|\beleads?\s+as',
+    r'\bappoints?\b'
+    r'|\bnames?\s+(?:new\s+)?(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief|President|SVP|VP)'
+    r'|\bjoins?\s+as\s+(?:new\s+)?(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief|President|SVP|VP)'
+    r'|\bhires?\s+(?:new\s+)?(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief|President|SVP|VP)'
+    r'|\bnew\s+(?:CEO|CTO|CFO|CRO|CPO|COO|CMO|Chief)\b'
+    r'|\bsteps?\s+down\s+as\b'
+    r'|\bdeparts?\s+as\b',
     re.I,
 )
-_PRODUCT_RE = re.compile(
-    r'\blaunch(?:es|ed|ing)?(?:\s+(?:new\s+)?(?:product|platform|feature|tool))?\b'
-    r'|\bintroduc(?:es|ed|ing)(?:\s+(?:new\s+)?(?:product|platform|feature|tool))?\b'
-    r'|\bannounce(?:s|d)?(?:\s+(?:new\s+)?(?:product|platform|feature|tool|release))?\b'
-    r'|\bGA\b|\bgeneral\s+availability'
-    r'|\bnow\s+available\b',
-    re.I,
-)
-_PRICING_RE = re.compile(
-    r'\bpricing\b|\bprice\s+(?:change|cut|increase|update)'
-    r'|\bnew\s+pricing\s+(?:model|tier|option)'
-    r'|\bfree\s+tier|\bfree\s+plan',
-    re.I,
-)
-_EXPANSION_RE = re.compile(
-    r'\bexpand(?:s|ed|ing)?\b'
-    r'|\bnew\s+(?:office|region|market|country|location)'
-    r'|\blaunch(?:es|ed|ing)?\s+(?:in|to)\b'
-    r'|\benter(?:s|ed|ing)?\s+(?:the\s+)?(?:market|region)'
-    r'|\bsurvey\s+(?:finds|reveals|shows|by)'
-    r'|\bnew\s+survey\b|\bresearch\s+(?:finds|reveals|shows)',
-    re.I,
-)
-_AWARD_RE = re.compile(
-    r'\bGartner\b|\bMagic\s+Quadrant'
-    r'|\bIDC\b|\bForrester'
-    r'\baward(?:s|ed)?\b|\brecognition\b|\bnamed\s+(?:leader|best)'
-    r'|\bwins?\s+(?:award|recognition)',
+_ACQUISITION_RE = re.compile(
+    r'\bacquires?\b'
+    r'|\bacquired?\s+by\b'
+    r'|\bacquisition\s+of\b'
+    r'|\bmerger\s+with\b'
+    r'|\bmerges?\s+with\b'
+    r'|\bto\s+acquire\b',
     re.I,
 )
 _PARTNERSHIP_RE = re.compile(
-    r'\bpartnership\b|\bpartnered\b'
-    r'|\bintegrat(?:es?|ed|ing)\s+with'
-    r'|\bacquir(?:es|ed)?\b|\bmerger\b'
-    r'|\bstrategic\s+alliance\b'
-    r'|\bjoins?\s+(?:the\s+)?(?:[A-Z]|\w+\s+ecosystem|open|initiative)'
-    r'|\bteams?\s+up\s+with\b',
+    r'\bpartnership\s+with\b'
+    r'|\bpartners?\s+with\b'
+    r'|\bstrategic\s+(?:partnership|alliance|collaboration)\b'
+    r'|\bjoint\s+(?:venture|solution|offering)\b'
+    r'|\bteams?\s+up\s+with\b'
+    r'|\bOEM\s+(?:deal|agreement)\b',
+    re.I,
+)
+# Product launches = an actual shipped product/platform. GA. Public preview.
+_PRODUCT_LAUNCH_RE = re.compile(
+    r'\blaunch(?:es|ed|ing)\s+(?:new\s+)?(?:product|platform|solution|service|SDK|API|engine|framework)\b'
+    r'|\bintroduc(?:es|ed|ing)\s+(?:new\s+)?(?:product|platform|solution|service|SDK|API|engine|framework)\b'
+    r'|\bunveils?\s+(?:new\s+)?(?:product|platform|solution|service)\b'
+    r'|\bgeneral(?:ly)?\s+available\b|\bgeneral\s+availability\b|\bnow\s+GA\b|\breaches?\s+GA\b'
+    r'|\bpublic(?:ly)?\s+available\b'
+    r'|\bpublic\s+preview\b'
+    r'|\bnow\s+available\s+(?:for|on|in)\b'
+    r'|\bdebuts?\b',
+    re.I,
+)
+# Groundbreaking features — major new capability announcements
+_FEATURE_RE = re.compile(
+    r'\bannounces?\s+(?:new\s+)?(?:capability|capabilities|feature|support\s+for|integration)\b'
+    r'|\badds?\s+support\s+for\b'
+    r'|\brolls?\s+out\s+(?:new\s+)?(?:feature|capability)\b'
+    r'|\blaunch(?:es|ed)\s+(?:new\s+)?(?:feature|capability)\b',
+    re.I,
+)
+_LAYOFF_RE = re.compile(
+    r'\blay\s*offs?\b|\blaid\s+off\b|\bjob\s+cuts?\b|\bworkforce\s+reduction\b|\brestructur(?:es|ed|ing)\b',
     re.I,
 )
 
-# Tier 2: Hard exclude — noise patterns (always skip, even if Tier 1 matches)
-_NOISE_RE = re.compile(
-    r'\bcustomer\s+story'
-    r'|\bcase\s+study'
-    r'|\bhow\s+to\b|\bhow\s+[-]?to'
-    r'|\btips?\s+(?:and|&)\s+tricks'
-    r'|\btutorial\b'
-    r'|\bthought\s+leadership'
+# --- HARD DROP — always skip, even if a KEEP pattern matches -------------
+_DROP_RE = re.compile(
+    # Thought leadership / opinion / generic AI trend pieces
+    r'\bAI\s+will\s+(?:change|transform|disrupt|revolutionize|reshape)\b'
+    r'|\bfuture\s+of\s+\w+\b'
+    r'|\bwhy\s+\w+\s+matters?\b'
+    r'|\bthe\s+rise\s+of\b'
+    r'|\bstate\s+of\s+\w+\s+(?:in\s+\d{4}|report)\b'
+    r'|\bthought\s+leadership\b'
     r'|\bopinion\b'
-    r'|\bwebinar\b'
-    r'|\bguide\s+to'
-    r'|\bbeginners?\s+guide'
-    r'|\bbest\s+practices?'
-    r'|\btrends?\s+(?:in|for|report)'
-    r'|\bpodcast\s+episode',
-    re.I,
-)
-
-# Tier 3: Soft exclude — blog-post-only patterns (exclude unless has strong signal)
-_BLOG_ONLY_RE = re.compile(
-    r'\bblog\s+post|^blog:|insights?|perspective|deep\s+dive|interview',
+    r'|\bperspective\b'
+    r'|\bdeep\s+dive\b'
+    # Awards / analyst recognition (not what user wants)
+    r'|\bnamed\s+a\s+leader\b'
+    r'|\bmagic\s+quadrant\b'
+    r'|\bgartner\s+(?:names|recognizes)\b'
+    r'|\bforrester\s+wave\b'
+    r'|\bIDC\s+marketscape\b'
+    r'|\brecogni[sz]ed\s+(?:as|by|in)\b'
+    r'|\bwins?\s+(?:award|recognition)\b'
+    r'|\baward(?:-winning|s)\b'
+    # Customer stories / case studies / testimonials
+    r'|\bcustomer\s+stor(?:y|ies)\b'
+    r'|\bcase\s+stud(?:y|ies)\b'
+    r'|\bsuccess\s+stor(?:y|ies)\b'
+    r'|\bhow\s+\w+\s+(?:uses|used|leverages|leveraged|adopted)\b'
+    # Educational / marketing content
+    r'|\bhow\s+to\b|\btutorial\b|\bguide\s+to\b|\bbeginners?\s+guide\b'
+    r'|\btips?\s+(?:and|&)\s+tricks\b|\bbest\s+practices?\b'
+    r'|\bwebinar\b|\bpodcast\b|\binterview\s+with\b'
+    r'|\bep(?:isode)?\s+\d+\b'
+    # Surveys / reports / generic research
+    r'|\bsurvey\s+(?:finds|reveals|shows|by|of)\b|\bnew\s+survey\b'
+    r'|\bresearch\s+(?:finds|reveals|shows|report)\b'
+    r'|\bbenchmark\s+report\b|\bindustry\s+report\b'
+    # Event recaps (already covered by events page)
+    r'|\brecap\b|\bhighlights?\s+from\b|\bat\s+\w+\s+\d{4}\b',
     re.I,
 )
 
 
 def classify_item(company: str, title: str, description: str, url: str) -> dict | None:
     """
-    Rule-based classification of news item.
+    Strict classification. Returns dict or None (drop).
 
-    Returns dict with: news_type, actian_relevance, tags, team_routing
-    Returns None if should be skipped.
-
-    Phase 2 (later): Can add Haiku here to improve summaries.
+    KEEP categories: product_launch, feature, funding, leadership,
+    partnership, acquisition, layoff.
     """
-    combined = f"{title} {description}".lower()
-    url_lower = url.lower()
+    combined = f"{title} {description}"
 
-    # Hard exclude: noise patterns
-    if _NOISE_RE.search(combined):
+    # Hard drop first — overrides everything
+    if _DROP_RE.search(combined):
         return None
 
-    # Detect news type (priority order)
     news_type = None
-    relevance = "medium"
-
     if _FUNDING_RE.search(combined):
         news_type = "funding"
-        relevance = "high"  # Funding is always strategic
+    elif _ACQUISITION_RE.search(combined):
+        news_type = "acquisition"
     elif _LEADERSHIP_RE.search(combined):
         news_type = "leadership"
-        relevance = "high"  # Leadership changes are strategic
-    elif _PRODUCT_RE.search(combined):
-        news_type = "product"
-        relevance = "high"  # Product launches are strategic
-    elif _AWARD_RE.search(combined):
-        news_type = "award"
-        relevance = "high"  # Awards = market validation
     elif _PARTNERSHIP_RE.search(combined):
         news_type = "partnership"
-        relevance = "high"  # Strategic partnerships matter
-    elif _EXPANSION_RE.search(combined):
-        news_type = "expansion"
-        relevance = "high"  # Expansion = growth signal
-    elif _PRICING_RE.search(combined):
-        news_type = "pricing"
-        relevance = "medium"  # Pricing changes can be significant
-    elif _BLOG_ONLY_RE.search(combined):
-        # Blog posts with no strong signal = skip
-        return None
+    elif _PRODUCT_LAUNCH_RE.search(combined):
+        news_type = "product_launch"
+    elif _FEATURE_RE.search(combined):
+        news_type = "feature"
+    elif _LAYOFF_RE.search(combined):
+        news_type = "layoff"
     else:
-        # Doesn't match any category
-        return None
+        return None  # Not a signal we care about
 
-    if not news_type:
-        return None
+    # All kept categories are high-relevance by construction
+    relevance = "high"
 
-    # Extract tags
+    # Tags
     tags = []
-    if "Series" in title or "raised" in title:
-        if "Series A" in title:
-            tags.append("Series A")
-        elif "Series B" in title:
-            tags.append("Series B")
-        elif "Series C" in title:
-            tags.append("Series C")
-        elif "Series D" in title:
-            tags.append("Series D")
-        if "$" in title:
-            # Extract dollar amount (rough)
-            dollar_match = re.search(r'\$\s*(\d+\.?\d*)\s*[MB](?:illion)?', title)
-            if dollar_match:
-                tags.append(f"${dollar_match.group(1)}M")
-
-    if "CEO" in title or "CTO" in title or "VP" in title:
-        tags.append("leadership_exec")
-
-    if "AI" in title or "agent" in title.lower():
+    m = re.search(r'\$\s*(\d+(?:\.\d+)?)\s*([MB])', title)
+    if m:
+        tags.append(f"${m.group(1)}{m.group(2)}")
+    m = re.search(r'Series\s+([A-Z])\b', title, re.I)
+    if m:
+        tags.append(f"Series {m.group(1).upper()}")
+    for exec_title in ("CEO", "CTO", "CFO", "CRO", "CPO", "COO", "CMO"):
+        if re.search(rf'\b{exec_title}\b', title):
+            tags.append(exec_title)
+            break
+    if re.search(r'\b(?:AI|ML|agent|LLM|vector)\b', title, re.I):
         tags.append("AI")
-
-    if "APAC" in title or "Europe" in title or "Asia" in title:
-        tags.append("international_expansion")
-
-    # Determine team routing
-    team_routing = _route_by_type(news_type)
 
     return {
         "news_type": news_type,
         "actian_relevance": relevance,
         "tags": tags,
-        "team_routing": team_routing,
+        "team_routing": _route_by_type(news_type),
     }
 
 
 def _route_by_type(news_type: str) -> list[str]:
-    """Determine which teams should see this news."""
     routing = {
         "funding": ["Executives", "PMM"],
+        "acquisition": ["Executives", "PMM", "Product"],
         "leadership": ["Executives", "PMM"],
-        "product": ["Product", "PMM", "Marketing"],
-        "pricing": ["Sales", "PMM", "SDRs"],
-        "expansion": ["Sales", "SDRs", "PMM"],
-        "award": ["Marketing", "PMM", "Executives"],
-        "partnership": ["PMM", "SDRs"],
+        "partnership": ["PMM", "SDRs", "Marketing"],
+        "product_launch": ["Product", "PMM", "Marketing"],
+        "feature": ["Product", "PMM"],
+        "layoff": ["Executives", "SDRs"],
     }
     return routing.get(news_type, ["PMM"])
 
@@ -488,17 +492,22 @@ def fetch_newsroom(company: str, url: str) -> list[dict]:
         if not (is_external_news or is_blog_post):
             continue
 
-        # Extract context (description) and date from parent container
-        parent = a.parent
+        # Extract description from the IMMEDIATE parent only (one hop), and only
+        # if it contains additional text beyond the link title itself.
+        # Previously we walked up 4 levels which pulled in ALL neighboring
+        # articles' text as the "description". That bug is fixed here.
         ctx = ""
         date_html = str(a)
-        for _ in range(4):
-            if parent:
-                ctx = parent.get_text(separator=" ", strip=True)[:400]
-                date_html = parent.decode_contents()  # HTML of parent for date extraction
-                parent = parent.parent
-            if len(ctx) > 50:
-                break
+        immediate = a.parent
+        if immediate is not None:
+            date_html = immediate.decode_contents()
+            full = immediate.get_text(separator=" ", strip=True)
+            # Remove the link's own text so we keep only surrounding sibling text
+            link_text = a.get_text(separator=" ", strip=True)
+            remainder = full.replace(link_text, "", 1).strip()
+            # Only use it if it looks like a real teaser (>= 40 chars, not just a date/category)
+            if len(remainder) >= 40 and not re.fullmatch(r'[\d/\-,.\s\w]{1,30}', remainder):
+                ctx = remainder[:400]
 
         # Extract date — try title first (Pinecone, Collibra embed dates in title text),
         # then fall back to parent HTML (Alation, Qdrant use separate date elements)
@@ -552,6 +561,25 @@ def within_window(published_date_str: str) -> bool:
 def clean_text(text: str) -> str:
     """Strip extra whitespace."""
     return re.sub(r'\s+', ' ', text).strip() if text else ""
+
+
+def _clean_summary(desc: str, title: str) -> str:
+    """Return a teaser only if it adds info beyond the title.
+    Returns empty string if the description is just the title or a substring of it,
+    or too short to be meaningful.
+    """
+    d = clean_text(desc)
+    t = clean_text(title)
+    if not d or len(d) < 40:
+        return ""
+    # If description begins with the title or is nearly equal, drop it
+    dl, tl = d.lower(), t.lower()
+    if dl.startswith(tl) or tl.startswith(dl):
+        return ""
+    # If 80%+ of description characters also appear in title → it's a duplicate
+    if tl and len(tl) > 15 and tl in dl and len(dl) < len(tl) * 1.4:
+        return ""
+    return d
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -639,7 +667,7 @@ def main():
                 "url": url,
                 "published_date": article["published_date"],
                 "source": "company_newsroom",
-                "summary": clean_text(desc) if desc else clean_text(title),  # Use description context; fallback to title
+                "summary": _clean_summary(desc, title),  # Blank if summary just echoes title
                 "actian_relevance": classification["actian_relevance"],
                 "tags": classification["tags"],
                 "team_routing": classification["team_routing"],
@@ -654,11 +682,11 @@ def main():
             type_icon = {
                 "funding": "💰",
                 "leadership": "👤",
-                "product": "🚀",
-                "pricing": "💲",
-                "expansion": "🌍",
-                "award": "🎖️",
+                "product_launch": "🚀",
+                "feature": "✨",
                 "partnership": "🤝",
+                "acquisition": "🔀",
+                "layoff": "📉",
             }.get(classification["news_type"], "📰")
 
             print(f"  → {type_icon} {title[:60]}")

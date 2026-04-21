@@ -5791,169 +5791,217 @@ function companyIdByName(name) {
 // --- News & press releases page -------------------------------------------
 function NewsPage({ lens, onOpenCompany }) {
   const { useState: useNewsState } = React;
-  const [relFilter, setRelFilter] = useNewsState("all");  // all | HIGH | MEDIUM | LOW
-  const [typeFilter, setTypeFilter] = useNewsState("all"); // all | funding | leadership | product | pricing | expansion | award | partnership
-  const [sortBy, setSortBy] = useNewsState("date-desc"); // date-desc | date-asc | company
+  const [typeFilter, setTypeFilter] = useNewsState("all");
+  const [companyFilter, setCompanyFilter] = useNewsState("all");
+  const [collapsed, setCollapsed] = useNewsState({});
 
   const TYPE_LABELS = {
-    funding: "🎯 Funding",
-    leadership: "👤 Leadership",
-    product: "🚀 Product",
-    pricing: "💲 Pricing",
-    expansion: "🌍 Expansion",
-    award: "🏆 Award",
-    partnership: "🤝 Partnership",
+    product_launch: "🚀 Product launch",
+    feature:        "✨ Feature",
+    funding:        "💰 Funding",
+    leadership:     "👤 Leadership",
+    partnership:    "🤝 Partnership",
+    acquisition:    "🔀 M&A",
+    layoff:         "📉 Layoff",
   };
-
   const TYPE_COLORS = {
-    funding: "oklch(0.62 0.20 25)",
-    leadership: "oklch(0.50 0.13 65)",
-    product: "oklch(0.60 0.17 248)",
-    pricing: "oklch(0.72 0.15 65)",
-    expansion: "oklch(0.55 0.16 310)",
-    award: "oklch(0.62 0.15 245)",
-    partnership: "oklch(0.56 0.14 270)",
+    product_launch: "oklch(0.60 0.17 248)",
+    feature:        "oklch(0.65 0.14 200)",
+    funding:        "oklch(0.62 0.20 25)",
+    leadership:     "oklch(0.50 0.13 65)",
+    partnership:    "oklch(0.56 0.14 270)",
+    acquisition:    "oklch(0.55 0.18 340)",
+    layoff:         "oklch(0.55 0.14 30)",
   };
 
-  // Compute filtered inline — no useMemo, no mutation, always fresh on every render
-  let filtered = (window.NEWS || []).slice();
-  if (relFilter !== "all") {
-    filtered = filtered.filter(n => (n.actian_relevance || "medium").toUpperCase() === relFilter);
-  }
+  // Strict filter: kept news is only the 7 signal types
+  const KEEP = new Set(Object.keys(TYPE_LABELS));
+  let filtered = (window.NEWS || []).filter(n => KEEP.has(n.news_type));
   if (typeFilter !== "all") {
     filtered = filtered.filter(n => n.news_type === typeFilter);
+  }
+  if (companyFilter !== "all") {
+    filtered = filtered.filter(n => n.company === companyFilter);
   }
   if (lens !== "All") {
     filtered = filtered.filter(n => (n.team_routing || []).includes(lens));
   }
-  if (sortBy === "date-desc") {
-    filtered = filtered.slice().sort((a, b) => new Date(b.published_date || 0) - new Date(a.published_date || 0));
-  } else if (sortBy === "date-asc") {
-    filtered = filtered.slice().sort((a, b) => new Date(a.published_date || 0) - new Date(b.published_date || 0));
-  } else if (sortBy === "company") {
-    filtered = filtered.slice().sort((a, b) => a.company.localeCompare(b.company));
+
+  // Group by company, sort groups by most-recent item first
+  const byCompany = {};
+  for (const n of filtered) {
+    (byCompany[n.company] = byCompany[n.company] || []).push(n);
+  }
+  const companyOrder = Object.keys(byCompany).sort((a, b) => {
+    const la = byCompany[a].reduce((m, x) => Math.max(m, new Date(x.published_date || 0).getTime()), 0);
+    const lb = byCompany[b].reduce((m, x) => Math.max(m, new Date(x.published_date || 0).getTime()), 0);
+    return lb - la;
+  });
+  for (const c of companyOrder) {
+    byCompany[c].sort((a, b) => new Date(b.published_date || 0) - new Date(a.published_date || 0));
   }
 
-  const newsTypes = ["funding", "leadership", "product", "pricing", "expansion", "award", "partnership"];
+  // Type counts for the filter bar
+  const typeCounts = {};
+  for (const n of (window.NEWS || [])) {
+    if (!KEEP.has(n.news_type)) continue;
+    typeCounts[n.news_type] = (typeCounts[n.news_type] || 0) + 1;
+  }
+  // All companies that have any kept news (for company filter dropdown)
+  const allCompaniesWithNews = Array.from(new Set(
+    (window.NEWS || []).filter(n => KEEP.has(n.news_type)).map(n => n.company)
+  )).sort();
+
+  function toggle(company) {
+    setCollapsed(prev => ({ ...prev, [company]: !prev[company] }));
+  }
 
   return (
     <div data-screen-label="04 News">
       <div className="hero">
         <div className="hero-title-row">
           <div>
-            <div className="hero-eyebrow">Press releases · news & announcements · 60-day rolling window</div>
-            <h1 className="hero-title">News & press releases</h1>
+            <div className="hero-eyebrow">Press releases · 60-day rolling window · strict signal filter</div>
+            <h1 className="hero-title">News</h1>
             <p className="hero-sub">
-              Important company announcements from {window.NEWS.length} news items. Filter by type or relevance; click a company to jump to its brief.
+              Only what matters: product launches, funding, leadership changes, partnerships, acquisitions, major features.
+              Grouped by company, newest first. {filtered.length} items across {companyOrder.length} companies.
             </p>
-          </div>
-          <div className="hero-legend">
-            {["HIGH", "MEDIUM", "LOW"].map(l => {
-              const t = REL[l];
-              return (
-                <span key={l} className="legend-item">
-                  <span className="legend-dot" style={{ background: t.dot }} />
-                  <span className="legend-label">{l}</span>
-                </span>
-              );
-            })}
           </div>
         </div>
 
         <div className="toolbar">
-          {/* News type filter */}
           <div className="seg">
-            <button className={typeFilter === "all" ? "seg-on" : ""} onClick={() => setTypeFilter("all")}>All types</button>
-            {newsTypes.map(type => (
+            <button className={typeFilter === "all" ? "seg-on" : ""} onClick={() => setTypeFilter("all")}>
+              All signals
+            </button>
+            {Object.keys(TYPE_LABELS).map(type => (
+              typeCounts[type] ? (
+                <button
+                  key={type}
+                  className={typeFilter === type ? "seg-on" : ""}
+                  onClick={() => setTypeFilter(type)}
+                >
+                  {TYPE_LABELS[type]} <span style={{opacity:0.5}}>({typeCounts[type]})</span>
+                </button>
+              ) : null
+            ))}
+          </div>
+          <div className="seg">
+            <button className={companyFilter === "all" ? "seg-on" : ""} onClick={() => setCompanyFilter("all")}>
+              All companies
+            </button>
+            {allCompaniesWithNews.map(c => (
               <button
-                key={type}
-                className={typeFilter === type ? "seg-on" : ""}
-                onClick={() => setTypeFilter(type)}
+                key={c}
+                className={companyFilter === c ? "seg-on" : ""}
+                onClick={() => setCompanyFilter(c)}
               >
-                {TYPE_LABELS[type]}
+                {c}
               </button>
             ))}
           </div>
-          {/* Relevance filter */}
-          <div className="seg">
-            <button className={relFilter === "all" ? "seg-on" : ""} onClick={() => setRelFilter("all")}>Any relevance</button>
-            <button className={relFilter === "HIGH" ? "seg-on" : ""} onClick={() => setRelFilter("HIGH")}>High</button>
-            <button className={relFilter === "MEDIUM" ? "seg-on" : ""} onClick={() => setRelFilter("MEDIUM")}>Medium</button>
-            <button className={relFilter === "LOW" ? "seg-on" : ""} onClick={() => setRelFilter("LOW")}>Low</button>
-          </div>
-          {/* Sort */}
-          <div className="seg">
-            <button className={sortBy === "date-desc" ? "seg-on" : ""} onClick={() => setSortBy("date-desc")}>Newest</button>
-            <button className={sortBy === "date-asc" ? "seg-on" : ""} onClick={() => setSortBy("date-asc")}>Oldest</button>
-            <button className={sortBy === "company" ? "seg-on" : ""} onClick={() => setSortBy("company")}>Company</button>
-          </div>
-          <span className="toolbar-count">{filtered.length} items</span>
         </div>
       </div>
 
-      {/* News grid */}
-      <div className="grid">
-        {filtered.map(news => (
-          <div key={news.url} className="vcard" style={{ "--rail": TYPE_COLORS[news.news_type] || "oklch(0.60 0.17 248)" }}>
-            <div className="vcard-rail" />
-            <div className="vcard-head">
-              <div className="vcard-head-l">
-                <h3 className="vcard-name">{news.company}</h3>
-                <span className="area-badge">
-                  <span className="area-dot" style={{ background: window.AREA[news.product_area]?.dot || "#ccc" }} />
-                  {news.product_area}
-                </span>
-              </div>
-              <RelevanceBadge level={(news.actian_relevance || "medium").toUpperCase()} />
-            </div>
-
-            <div className="vcard-meta">
-              <div className="vcard-meta-item">
-                <span className="vcard-meta-k">Type</span>
-                <span className="vcard-meta-v">{TYPE_LABELS[news.news_type] || news.news_type}</span>
-              </div>
-              <span className="vcard-meta-sep">·</span>
-              <div className="vcard-meta-item">
-                <span className="vcard-meta-k">Date</span>
-                <span className="vcard-meta-v">{news.published_date}</span>
-              </div>
-            </div>
-
-            <p className="vcard-verdict">{news.title}</p>
-
-            {news.summary && news.summary !== news.title && <p style={{ margin: "8px 0", fontSize: "13px", color: "var(--ink-soft)", lineHeight: 1.5 }}>{news.summary}</p>}
-
-            {news.tags && news.tags.length > 0 && (
-              <div className="vcard-signals">
-                {news.tags.slice(0, 4).map((tag, i) => (
-                  <span key={i} className="signal-chip">{tag}</span>
-                ))}
-              </div>
-            )}
-
-            <div className="vcard-foot">
-              <div className="vcard-routes">
-                <span className="vcard-routes-k">Teams:</span>
-                {(news.team_routing || []).map(team => (
-                  <span
-                    key={team}
-                    className={"route-tag" + (lens === team ? " active" : "")}
-                  >
-                    {team}
+      {/* Company-grouped timeline */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        {companyOrder.map(company => {
+          const items = byCompany[company];
+          const area = items[0].product_area;
+          const isCollapsed = !!collapsed[company];
+          return (
+            <section key={company} style={{
+              background: "var(--bg-elev, #fff)",
+              border: "1px solid var(--line)",
+              borderRadius: "12px",
+              overflow: "hidden",
+            }}>
+              <header
+                onClick={() => toggle(company)}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "14px 18px", cursor: "pointer",
+                  borderBottom: isCollapsed ? "none" : "1px solid var(--line)",
+                  background: "var(--bg-sunk, #fafafa)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ fontSize: "12px", opacity: 0.6 }}>{isCollapsed ? "▸" : "▾"}</span>
+                  <h3 style={{ margin: 0, fontSize: "16px", fontWeight: 600 }}>{company}</h3>
+                  <span className="area-badge">
+                    <span className="area-dot" style={{ background: window.AREA[area]?.dot || "#ccc" }} />
+                    {area}
                   </span>
-                ))}
-              </div>
-              <a href={news.url} target="_blank" rel="noopener noreferrer" className="vcard-brief">
-                Read →
-              </a>
-            </div>
-          </div>
-        ))}
+                  <span style={{ fontSize: "12px", color: "var(--ink-mute)" }}>
+                    {items.length} {items.length === 1 ? "item" : "items"}
+                  </span>
+                </div>
+                <button
+                  onClick={(e) => { e.stopPropagation(); const id = companyIdByName(company); if (id && onOpenCompany) onOpenCompany(id); }}
+                  style={{
+                    fontSize: "12px", padding: "4px 10px",
+                    border: "1px solid var(--line)", borderRadius: "6px",
+                    background: "transparent", cursor: "pointer",
+                  }}
+                >
+                  Open brief →
+                </button>
+              </header>
+              {!isCollapsed && (
+                <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                  {items.map(news => (
+                    <li key={news.url} style={{
+                      display: "grid",
+                      gridTemplateColumns: "110px 140px 1fr auto",
+                      gap: "14px", alignItems: "start",
+                      padding: "12px 18px",
+                      borderTop: "1px solid var(--line-soft, #f0f0f0)",
+                    }}>
+                      <span style={{ fontSize: "12px", color: "var(--ink-mute)", fontVariantNumeric: "tabular-nums" }}>
+                        {news.published_date || "—"}
+                      </span>
+                      <span style={{
+                        fontSize: "11px", fontWeight: 600,
+                        color: TYPE_COLORS[news.news_type],
+                        textTransform: "uppercase", letterSpacing: "0.04em",
+                      }}>
+                        {TYPE_LABELS[news.news_type]}
+                      </span>
+                      <div>
+                        <a href={news.url} target="_blank" rel="noopener noreferrer"
+                           style={{ fontSize: "14px", fontWeight: 500, color: "var(--ink)", textDecoration: "none", lineHeight: 1.4 }}>
+                          {news.title}
+                        </a>
+                        {news.summary && (
+                          <p style={{ margin: "4px 0 0", fontSize: "12px", color: "var(--ink-soft)", lineHeight: 1.5 }}>
+                            {news.summary}
+                          </p>
+                        )}
+                        {news.tags && news.tags.length > 0 && (
+                          <div style={{ marginTop: "6px", display: "flex", flexWrap: "wrap", gap: "4px" }}>
+                            {news.tags.slice(0, 4).map((tag, i) => (
+                              <span key={i} className="signal-chip">{tag}</span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <a href={news.url} target="_blank" rel="noopener noreferrer"
+                         style={{ fontSize: "12px", color: "var(--ink-mute)", textDecoration: "none", whiteSpace: "nowrap" }}>
+                        Read →
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          );
+        })}
       </div>
 
-      {filtered.length === 0 && (
+      {companyOrder.length === 0 && (
         <div style={{ padding: "60px 32px", textAlign: "center", color: "var(--ink-mute)" }}>
-          <p>No news items match your filters. Try adjusting your selection.</p>
+          <p>No news items match your filters.</p>
         </div>
       )}
     </div>
