@@ -41,13 +41,13 @@
     "product_area": "Data Intelligence",
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Collibra is assembling senior leadership (70% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Introducing the Collibra AI Command Center; Collibra Activate AI — Govern any Data. 7 upcoming event(s) confirmed — active GTM motion.",
+    "what_is_happening": "Collibra is assembling senior leadership (70% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Introducing the Collibra AI Command Center; AI Governance dashboard: Introducing catalog metrics for AI visibility. 5 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
-    "primary_interpretation": "Collibra is deepening Data Intelligence product capability: 43 Engineering roles combined with 4 product launch(es) signal sustained R&D investment.",
+    "primary_interpretation": "Collibra is deepening Data Intelligence product capability: 43 Engineering roles combined with 3 product launch(es) signal sustained R&D investment.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
     "hiring_event_correlation": {
       "strength": "strong",
-      "explanation": "43 Engineering roles (volume score 3/3) directly support 4 product launch(es) — substantive engineering buildout behind this release."
+      "explanation": "43 Engineering roles (volume score 3/3) directly support 3 product launch(es) — substantive engineering buildout behind this release."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — data catalog and governance",
@@ -55,7 +55,7 @@
       "type_of_move": "platform"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 43 open roles + 9 non-blog event signals with strong correlation between hiring and events.",
+    "confidence_reasoning": "Strong compound evidence: 43 open roles + 6 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Collibra battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
     "team_routing": [
       "Product",
@@ -72,7 +72,7 @@
       "executives": 5
     },
     "last_updated": "2026-04-22",
-    "_input_hash": "025a9dc25612beed"
+    "_input_hash": "bc47d70b37690a4b"
   },
   {
     "company": "Alation",
@@ -376,7 +376,7 @@
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 22 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing Genie Agent Mode; Governing Coding Agent Sprawl with Unity AI Gateway. 10 upcoming event(s) confirmed — active GTM motion.",
+    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 22 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing Genie Agent Mode; Introducing the Databricks Connector for Google Sheets: Real-Time, Gov. 10 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
     "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 193 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
@@ -390,7 +390,7 @@
       "type_of_move": "expansion"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 193 open roles + 16 non-blog event signals with strong correlation between hiring and events.",
+    "confidence_reasoning": "Strong compound evidence: 193 open roles + 12 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Databricks battlecard within 2 weeks — new platform capability directly challenges Actian's edge and embedded analytics without cloud lock-in; lead with Actian's deployment flexibility as the counter-position.",
     "team_routing": [
       "Product",
@@ -407,6 +407,6 @@
       "executives": 5
     },
     "last_updated": "2026-04-22",
-    "_input_hash": "2d8db6b52ffa5a62"
+    "_input_hash": "940cb94d5633241c"
   }
 ]
