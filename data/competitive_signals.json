@@ -68,31 +68,6 @@
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
-    "title": "Data products \u2014 because agents need context",
-    "url": "https://www.collibra.com/events/data-products-because-agents-need-context",
-    "published_date": "2026-04-19",
-    "summary": "Collibra co-founder Stijn Christiaens + MIT CISR researcher positioning data products as critical infrastructure for AI agents \u2014 arguing AI is only as effective as the data products it consumes. Direct signal of Collibra's catalog-as-AI-foundation strategy.",
-    "actian_relevance": "high",
-    "tags": [
-      "data products",
-      "AI agents",
-      "catalog",
-      "governance",
-      "MIT"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-04-23",
-    "scraped_at": "2026-04-19",
-    "team_routing": [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ]
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
     "title": "How to make your unstructured data AI-ready in minutes \u2014 Deasy Labs",
     "url": "https://www.collibra.com/events/how-to-make-your-unstructured-data-ai-ready",
     "published_date": "2026-04-19",
