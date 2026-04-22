@@ -161,7 +161,7 @@ def clean_text(text: str) -> str:
 # These phrases mean the content IS about a product launch, not just a company event.
 # Used in classify_item() and the event page loop to catch launches on event pages too.
 _PRODUCT_LAUNCH_STRONG_RE = re.compile(
-    r'\bproduct\s+launch\b'                           # "product launch" exact phrase
+    r'\bproduct\s+launches?\b'                         # "product launch" or "product launches"
     r"|we'?re\s+launching"                             # "we're launching"
     r'|officially\s+(?:launch|releas)'                 # "officially launching/releasing"
     # verb + product noun (direct): "launches platform", "releases feature", "ships update"

@@ -1,5 +1,27 @@
 [
   {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "product_launch",
+    "title": "Atlan Activate: Atlan's latest product launches",
+    "url": "https://atlan.com/events/atlan-activate-apr-29/",
+    "published_date": "2026-04-29",
+    "summary": "Atlan's product launch event \u2014 conversational search, data quality, agentic stewards and more. Direct signal of Atlan expanding context layer + agentic governance capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "AI",
+      "product_launch"
+    ],
+    "source_type": "event",
+    "event_date": "2026-04-29",
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "scraped_at": "2026-04-22"
+  },
+  {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
@@ -12,27 +34,6 @@
     "source_type": "event_page",
     "event_date": "2026-04-29",
     "scraped_at": "2026-04-21",
-    "team_routing": [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ]
-  },
-  {
-    "company": "Atlan",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Build the Context Layer That Makes AI Trustworthy",
-    "url": "https://atlan.com/live-demo-series-context-layer-trustworthy-ai/",
-    "published_date": "2026-04-20",
-    "summary": "Atlan in Action Virtual Build the Context Layer That Makes AI Trustworthy May 6 11 AM ET Watch Atlan enrich data assets, build a semantic model, run evals, and answer business questions correctly \u2014 li...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-05-06",
-    "scraped_at": "2026-04-20",
     "team_routing": [
       "PMM",
       "Marketing",
@@ -1109,27 +1110,6 @@
     "tags": [],
     "source_type": "event_page",
     "event_date": "2026-05-19",
-    "scraped_at": "2026-04-18",
-    "team_routing": [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ]
-  },
-  {
-    "company": "Atlan",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "How Atlan Fixes the Three Context Blockers Slowing Your AI",
-    "url": "https://atlan.com/live-demo-series-fixing-context-blockers-demo/",
-    "published_date": "2026-04-18",
-    "summary": "Atlan in Action Virtual How Atlan Fixes the Three Context Blockers Slowing Your AI Apr 22 11 AM ET Your data isn't ready, your evals never end, and every runtime gives a different answer. Three proble...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-04-22",
     "scraped_at": "2026-04-18",
     "team_routing": [
       "PMM",
