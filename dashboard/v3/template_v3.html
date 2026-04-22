@@ -2368,6 +2368,25 @@ function BriefDrawer({ comp, lens, onClose }) {
 // --- Chat drawer --------------------------------------------------------
 const BACKEND_URL = "https://ci-scraper-1.onrender.com";
 
+function renderMd(raw) {
+  // Escape HTML entities, then apply lightweight markdown transforms
+  const esc = raw
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+  const lines = esc.split("\n");
+  const out = [];
+  for (const line of lines) {
+    let l = line;
+    l = l.replace(/^#{1,3}\s+(.+)$/, "<strong style='display:block;margin-top:6px'>$1</strong>");
+    l = l.replace(/^[-*]\s+(.+)$/, "&#8226;&nbsp;$1");
+    l = l.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    l = l.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    out.push(l);
+  }
+  return out.join("<br>");
+}
+
 function ChatDrawer({ open, onClose, lens }) {
   const [messages, setMessages] = useState([
     { role: "ai", text: `Hi — I've got the full ${lens} lens loaded. Ask me about any competitor, signal, or action.` },
@@ -2442,7 +2461,10 @@ function ChatDrawer({ open, onClose, lens }) {
           {messages.map((m, i) => (
             <div key={i} className={"chat-msg chat-" + m.role}>
               {m.role === "ai" && <div className="chat-avatar">CI</div>}
-              <div className="chat-bubble">{m.text}</div>
+              {m.role === "ai"
+                ? <div className="chat-bubble" dangerouslySetInnerHTML={{ __html: renderMd(m.text) }} />
+                : <div className="chat-bubble">{m.text}</div>
+              }
             </div>
           ))}
           {busy && (

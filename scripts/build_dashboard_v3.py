@@ -428,6 +428,11 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
 
 # ── Transform competitive_signals → LAUNCHES + EVENTS ───────────────────────
 
+def _is_latin_title(title):
+    """Return True only when title contains no CJK / Hangul / Arabic / other non-Latin scripts."""
+    return all(ord(c) <= 0x2FF or c in " \t\n\r" for c in title)
+
+
 def build_launches_events(comp_signals):
     launches = []
     events = []
@@ -451,6 +456,9 @@ def build_launches_events(comp_signals):
             clean_title = re.sub(r'\s+https?://\S+', '', clean_title).strip()
             clean_title = re.sub(r'\s+Learn\s+More\s*$', '', clean_title, flags=re.IGNORECASE).strip()
             clean_title = re.sub(r'^(Virtual|In-Person|Webinar|Hackathon)\s+', '', clean_title).strip()
+            # Skip events with non-Latin characters in the title (e.g. Korean, Japanese scraped pages)
+            if not _is_latin_title(clean_title or raw_title):
+                continue
             # Prefer signal's team_routing (intelligence-driven); fall back to legacy logic
             event_teams = item.get("team_routing") or derive_event_teams(relevance)
             events.append({
