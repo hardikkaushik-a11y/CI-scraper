@@ -267,7 +267,12 @@ _DROP_RE = re.compile(
     r'|\bwebinar\b|\bpodcast\b|\binterview\s+with\b'
     r'|\bep(?:isode)?\s+\d+\b'
     # Event recaps
-    r'|\brecap\b|\bhighlights?\s+from\b',
+    r'|\brecap\b|\bhighlights?\s+from\b'
+    # Vague positioning / thought leadership
+    r'|\bbecause\s+\w+\s+needs?\s+(?:context|access|data|insights?)\b'
+    r'|\bwhy\s+\w[\w\s]{0,30}\s+(?:matters?|is\s+critical)\b'
+    r'|\bcritical\s+(?:infrastructure|foundation)\b'
+    r'|\bdata\s+products?\s+(?:are|is)\b',
     re.I,
 )
 
@@ -280,6 +285,10 @@ def classify_item(company: str, title: str, description: str, url: str) -> dict 
     """
     # FIX #13: use title only for all matching — never description
     t = title  # title-only for classification
+
+    # Drop /events/ pages (marketing fluff, not news)
+    if '/events/' in url.lower():
+        return None
 
     # Hard drop on title
     if _DROP_RE.search(t):
