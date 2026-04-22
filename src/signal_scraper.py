@@ -220,7 +220,15 @@ _NOISE_RE = re.compile(
     r'|\bpredictions?\s+for\b'
     r'|\bwhy\s+(?:you\s+should|your\s+team|companies|organizations)\b'
     r'|\bwhat\s+is\s+(?:a\s+)?[a-z]'
-    r'|\bbeginners?\s+guide\b',
+    r'|\bbeginners?\s+guide\b'
+    # Partner co-marketing blogs — "X + Company: do Y with Z"
+    r'|\b\w[\w\s]+\+\s*\w[\w\s]+:\s*(?:build|run|create|use|power|deploy|scale)\b'
+    # Generic "build X with Y" / "at the speed of" marketing copy
+    r'|\bat\s+the\s+speed\s+of\b'
+    r'|\bbuild\s+(?:data.driven|ai.powered|intelligent|smarter)\b'
+    r'|\bpowered\s+by\s+[A-Z]\w+\b'  # "Powered by Databricks" blog posts
+    # Vague "expanding/enhancing X" without concrete product name
+    r'|\bexpanding\s+\w+\s+(?:governance|capabilities|support)\s+with\b',
     re.I,
 )
 
