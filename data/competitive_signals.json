@@ -1264,27 +1264,6 @@
     ]
   },
   {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "product_launch",
-    "title": "Governing Coding Agent Sprawl with Unity AI Gateway",
-    "url": "https://www.databricks.com/blog/governing-coding-agent-sprawl-unity-ai-gateway",
-    "published_date": "2026-04-17",
-    "summary": "Software development has entered a new era. The best engineering teams are now shifting...",
-    "actian_relevance": "medium",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "blog",
-    "event_date": null,
-    "scraped_at": "2026-04-18",
-    "team_routing": [
-      "Product",
-      "PMM",
-      "Marketing"
-    ]
-  },
-  {
     "company": "Bigeye",
     "product_area": "Data Observability",
     "type": "product_launch",
