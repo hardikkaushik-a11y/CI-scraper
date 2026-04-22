@@ -1,0 +1,211 @@
+[
+  {
+    "company": "Nexora",
+    "product_area": "AI Data Fabric",
+    "signal_type": "hiring_surge",
+    "impact_level": "critical",
+    "what_is_happening": "Nexora has posted 240 roles in the past 30 days, with 52% engineering and 28% AI/ML \u2014 indicating a major platform build sprint",
+    "why_it_matters": "Nexora is expanding its AI/ML Pipeline offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended.",
+    "primary_interpretation": "Aggressive product expansion \u2014 Nexora is building toward enterprise parity",
+    "alternative_interpretation": "Hiring may be replacement/attrition, not net new capacity",
+    "hiring_event_correlation": "240 postings in 30-day window",
+    "competitive_impact": "critical",
+    "confidence": "High",
+    "confidence_reasoning": "Sustained hiring across engineering + product + GTM functions",
+    "recommended_action": "Escalate to exec team immediately",
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Executives",
+      "SDRs"
+    ],
+    "team_relevance": {
+      "Product": "Nexora's AI/ML Pipeline hiring signals direct roadmap overlap \u2014 review feature parity and accelerate differentiators",
+      "PMM": "Update competitive positioning and messaging against Nexora's AI/ML Pipeline narrative",
+      "SDRs": "Nexora is likely to appear in competitive deals \u2014 ensure AEs have current objection-handling playbooks",
+      "Executives": "Critical threat: Nexora is building toward feature parity \u2014 strategic response required",
+      "Marketing": "Air-cover opportunity: amplify Axon Analytics differentiators before Nexora's GTM push lands"
+    }
+  },
+  {
+    "company": "Polaria",
+    "product_area": "Data Intelligence",
+    "signal_type": "hiring_surge",
+    "impact_level": "critical",
+    "what_is_happening": "Polaria has posted 210 roles in the past 30 days, with 48% engineering and 18% AI/ML \u2014 indicating sustained product investment",
+    "why_it_matters": "Polaria is expanding its Metadata Catalog offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended.",
+    "primary_interpretation": "Aggressive product expansion \u2014 Polaria is building toward enterprise parity",
+    "alternative_interpretation": "Hiring may be replacement/attrition, not net new capacity",
+    "hiring_event_correlation": "210 postings in 30-day window",
+    "competitive_impact": "critical",
+    "confidence": "High",
+    "confidence_reasoning": "Sustained hiring across engineering + product + GTM functions",
+    "recommended_action": "Escalate to exec team immediately",
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Executives",
+      "SDRs"
+    ],
+    "team_relevance": {
+      "Product": "Polaria's Metadata Catalog hiring signals direct roadmap overlap \u2014 review feature parity and accelerate differentiators",
+      "PMM": "Update competitive positioning and messaging against Polaria's Metadata Catalog narrative",
+      "SDRs": "Polaria is likely to appear in competitive deals \u2014 ensure AEs have current objection-handling playbooks",
+      "Executives": "Critical threat: Polaria is building toward feature parity \u2014 strategic response required",
+      "Marketing": "Air-cover opportunity: amplify Axon Analytics differentiators before Polaria's GTM push lands"
+    }
+  },
+  {
+    "company": "Vextrix",
+    "product_area": "Data Observability",
+    "signal_type": "steady_growth",
+    "impact_level": "high",
+    "what_is_happening": "Vextrix has posted 175 roles in the past 30 days, with 50% engineering and 14% AI/ML \u2014 indicating sustained product investment",
+    "why_it_matters": "Vextrix is expanding its Observability offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+    "primary_interpretation": "Aggressive product expansion \u2014 Vextrix is building toward enterprise parity",
+    "alternative_interpretation": "Hiring may be replacement/attrition, not net new capacity",
+    "hiring_event_correlation": "175 postings in 30-day window",
+    "competitive_impact": "high",
+    "confidence": "Medium",
+    "confidence_reasoning": "Sustained hiring across engineering + product + GTM functions",
+    "recommended_action": "Brief AEs and update battlecard",
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "team_relevance": {
+      "Product": "Vextrix's Observability hiring signals direct roadmap overlap \u2014 review feature parity and accelerate differentiators",
+      "PMM": "Update competitive positioning and messaging against Vextrix's Observability narrative",
+      "SDRs": "Vextrix is likely to appear in competitive deals \u2014 ensure AEs have current objection-handling playbooks",
+      "Executives": "High threat: Vextrix is building toward feature parity \u2014 strategic response required",
+      "Marketing": "Air-cover opportunity: amplify Axon Analytics differentiators before Vextrix's GTM push lands"
+    }
+  },
+  {
+    "company": "Orbital Labs",
+    "product_area": "Data Governance",
+    "signal_type": "steady_growth",
+    "impact_level": "high",
+    "what_is_happening": "Orbital Labs has posted 155 roles in the past 30 days, with 46% engineering and 16% AI/ML \u2014 indicating sustained product investment",
+    "why_it_matters": "Orbital Labs is expanding its Data Governance offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+    "primary_interpretation": "Aggressive product expansion \u2014 Orbital Labs is building toward enterprise parity",
+    "alternative_interpretation": "Hiring may be replacement/attrition, not net new capacity",
+    "hiring_event_correlation": "155 postings in 30-day window",
+    "competitive_impact": "high",
+    "confidence": "Medium",
+    "confidence_reasoning": "Sustained hiring across engineering + product + GTM functions",
+    "recommended_action": "Brief AEs and update battlecard",
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "team_relevance": {
+      "Product": "Orbital Labs's Data Governance hiring signals direct roadmap overlap \u2014 review feature parity and accelerate differentiators",
+      "PMM": "Update competitive positioning and messaging against Orbital Labs's Data Governance narrative",
+      "SDRs": "Orbital Labs is likely to appear in competitive deals \u2014 ensure AEs have current objection-handling playbooks",
+      "Executives": "High threat: Orbital Labs is building toward feature parity \u2014 strategic response required",
+      "Marketing": "Air-cover opportunity: amplify Axon Analytics differentiators before Orbital Labs's GTM push lands"
+    }
+  },
+  {
+    "company": "Quanthorne",
+    "product_area": "Real-Time Analytics",
+    "signal_type": "steady_growth",
+    "impact_level": "high",
+    "what_is_happening": "Quanthorne has posted 130 roles in the past 30 days, with 55% engineering and 12% AI/ML \u2014 indicating a major platform build sprint",
+    "why_it_matters": "Quanthorne is expanding its Streaming Analytics offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+    "primary_interpretation": "Aggressive product expansion \u2014 Quanthorne is building toward enterprise parity",
+    "alternative_interpretation": "Hiring may be replacement/attrition, not net new capacity",
+    "hiring_event_correlation": "130 postings in 30-day window",
+    "competitive_impact": "high",
+    "confidence": "Medium",
+    "confidence_reasoning": "Sustained hiring across engineering + product + GTM functions",
+    "recommended_action": "Brief AEs and update battlecard",
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "team_relevance": {
+      "Product": "Quanthorne's Streaming Analytics hiring signals direct roadmap overlap \u2014 review feature parity and accelerate differentiators",
+      "PMM": "Update competitive positioning and messaging against Quanthorne's Streaming Analytics narrative",
+      "SDRs": "Quanthorne is likely to appear in competitive deals \u2014 ensure AEs have current objection-handling playbooks",
+      "Executives": "High threat: Quanthorne is building toward feature parity \u2014 strategic response required",
+      "Marketing": "Air-cover opportunity: amplify Axon Analytics differentiators before Quanthorne's GTM push lands"
+    }
+  },
+  {
+    "company": "Stratify",
+    "product_area": "MLOps",
+    "signal_type": "steady_growth",
+    "impact_level": "medium",
+    "what_is_happening": "Stratify has posted 95 roles in the past 30 days, with 42% engineering and 35% AI/ML \u2014 indicating sustained product investment",
+    "why_it_matters": "Stratify is expanding its Model Serving offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+    "primary_interpretation": "Measured product expansion \u2014 Stratify is building toward enterprise parity",
+    "alternative_interpretation": "Hiring may be replacement/attrition, not net new capacity",
+    "hiring_event_correlation": "95 postings in 30-day window",
+    "competitive_impact": "medium",
+    "confidence": "Medium",
+    "confidence_reasoning": "Sustained hiring across engineering + product + GTM functions",
+    "recommended_action": "Brief AEs and update battlecard",
+    "team_routing": [
+      "PMM"
+    ],
+    "team_relevance": {
+      "Product": "Stratify's Model Serving hiring signals direct roadmap overlap \u2014 review feature parity and accelerate differentiators",
+      "PMM": "Update competitive positioning and messaging against Stratify's Model Serving narrative",
+      "SDRs": "Stratify is likely to appear in competitive deals \u2014 ensure AEs have current objection-handling playbooks",
+      "Executives": "Medium threat: Stratify is building toward feature parity \u2014 strategic response required",
+      "Marketing": "Air-cover opportunity: amplify Axon Analytics differentiators before Stratify's GTM push lands"
+    }
+  },
+  {
+    "company": "Krytex",
+    "product_area": "Vector / AI",
+    "signal_type": "steady_growth",
+    "impact_level": "medium",
+    "what_is_happening": "Krytex has posted 85 roles in the past 30 days, with 48% engineering and 40% AI/ML \u2014 indicating sustained product investment",
+    "why_it_matters": "Krytex is expanding its Vector Search offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+    "primary_interpretation": "Measured product expansion \u2014 Krytex is building toward enterprise parity",
+    "alternative_interpretation": "Hiring may be replacement/attrition, not net new capacity",
+    "hiring_event_correlation": "85 postings in 30-day window",
+    "competitive_impact": "medium",
+    "confidence": "Medium",
+    "confidence_reasoning": "Sustained hiring across engineering + product + GTM functions",
+    "recommended_action": "Brief AEs and update battlecard",
+    "team_routing": [
+      "PMM"
+    ],
+    "team_relevance": {
+      "Product": "Krytex's Vector Search hiring signals direct roadmap overlap \u2014 review feature parity and accelerate differentiators",
+      "PMM": "Update competitive positioning and messaging against Krytex's Vector Search narrative",
+      "SDRs": "Krytex is likely to appear in competitive deals \u2014 ensure AEs have current objection-handling playbooks",
+      "Executives": "Medium threat: Krytex is building toward feature parity \u2014 strategic response required",
+      "Marketing": "Air-cover opportunity: amplify Axon Analytics differentiators before Krytex's GTM push lands"
+    }
+  },
+  {
+    "company": "Lumiqa",
+    "product_area": "BI & Analytics",
+    "signal_type": "steady_growth",
+    "impact_level": "low",
+    "what_is_happening": "Lumiqa has posted 60 roles in the past 30 days, with 45% engineering and 8% AI/ML \u2014 indicating sustained product investment",
+    "why_it_matters": "Lumiqa is expanding its Business Intelligence offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+    "primary_interpretation": "Measured product expansion \u2014 Lumiqa is building toward enterprise parity",
+    "alternative_interpretation": "Hiring may be replacement/attrition, not net new capacity",
+    "hiring_event_correlation": "60 postings in 30-day window",
+    "competitive_impact": "low",
+    "confidence": "Medium",
+    "confidence_reasoning": "Sustained hiring across engineering + product + GTM functions",
+    "recommended_action": "Brief AEs and update battlecard",
+    "team_routing": [
+      "PMM"
+    ],
+    "team_relevance": {
+      "Product": "Lumiqa's Business Intelligence hiring signals direct roadmap overlap \u2014 review feature parity and accelerate differentiators",
+      "PMM": "Update competitive positioning and messaging against Lumiqa's Business Intelligence narrative",
+      "SDRs": "Lumiqa is likely to appear in competitive deals \u2014 ensure AEs have current objection-handling playbooks",
+      "Executives": "Low threat: Lumiqa is building toward feature parity \u2014 strategic response required",
+      "Marketing": "Air-cover opportunity: amplify Axon Analytics differentiators before Lumiqa's GTM push lands"
+    }
+  }
+]

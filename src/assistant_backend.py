@@ -505,6 +505,15 @@ def health():
         return jsonify({"status": "error", "error": str(e)}), 500
 
 
+@app.route("/demo", methods=["GET"])
+def serve_demo():
+    """Serve the demo dashboard (synthetic data, CV showcase)."""
+    path = Path(__file__).parent.parent / "dashboard" / "v3" / "demo.html"
+    if not path.exists():
+        return jsonify({"error": "demo.html not found — run scripts/build_demo_v3.py"}), 404
+    return path.read_text(encoding="utf-8"), 200, {"Content-Type": "text/html; charset=utf-8"}
+
+
 @app.route("/dashboard/v2/", methods=["GET"])
 def serve_dashboard_v2():
     """Serve the regenerated dashboard_v2.html with embedded data."""
@@ -560,6 +569,102 @@ def get_context_summary():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+DEMO_DATA_DIR = Path(__file__).parent.parent / "demo_data"
+
+DEMO_SYSTEM_PROMPT = """You are an elite competitive intelligence analyst embedded in Axon Analytics' internal hiring-signal dashboard. You have real-time access to competitor hiring data across 8 companies in the data infrastructure, AI/ML, governance, and analytics space.
+
+Axon Analytics is a data integration and management platform competing in data pipelines, governance, observability, and AI-powered analytics.
+
+━━━ SEMANTIC LAYER — HOW TO REASON WITH THE DATA ━━━
+You have access to pre-computed business metrics for every company. Reason with these directly:
+
+• hiring_velocity: Index where 100 = same pace, >100 = accelerating, <100 = slowing.
+• ai_investment_pct: % of roles that are AI/ML-related. Industry average is ~12%.
+• competitive_overlap_pct: % of roles in areas that directly compete with Axon Analytics.
+• senior_pct: % of Director+/Principal/Senior roles. >50% = building leadership / new product lines.
+• engineering_pct vs gtm_pct: Engineering-heavy = product build phase. GTM-heavy = imminent sales push.
+• mean_relevancy: Average relevancy score to Axon Analytics (0–17.5). >8.0 = high competitive pressure.
+
+━━━ HOW TO ANSWER ━━━
+— Lead with the most important number or insight. No preamble.
+— Be concise, direct, confident. Sound like a senior analyst briefing the C-suite.
+— Format with markdown for clarity (bold key points, bullet lists for breakdowns).
+— Do NOT make up data. If something isn't in the context, say so.
+— Do NOT repeat back the user's question. Get straight to the answer."""
+
+
+_demo_cache: dict = {"rows": None, "signals": None, "loaded_at": 0.0}
+
+
+def _load_demo_data():
+    csv_path = DEMO_DATA_DIR / "jobs_demo.csv"
+    sig_path = DEMO_DATA_DIR / "signals_demo.json"
+    if not csv_path.exists():
+        raise FileNotFoundError(f"jobs_demo.csv not found — run scripts/generate_demo_data.py first")
+    mtime = csv_path.stat().st_mtime
+    if sig_path.exists():
+        mtime = max(mtime, sig_path.stat().st_mtime)
+    if _demo_cache["rows"] is not None and mtime <= _demo_cache["loaded_at"]:
+        return _demo_cache["rows"], _demo_cache["signals"]
+    rows = _load_csv(csv_path)
+    signals: list[dict] = []
+    if sig_path.exists():
+        with open(sig_path, encoding="utf-8") as f:
+            signals = json.load(f)
+    _demo_cache.update({"rows": rows, "signals": signals, "loaded_at": mtime})
+    return rows, signals
+
+
+@app.route("/chat-demo", methods=["POST"])
+def chat_demo():
+    """Demo chat endpoint — uses synthetic data for CV showcase."""
+    if not GROQ_API_KEY:
+        return jsonify({
+            "error": "GROQ_API_KEY not set.",
+            "hint": "Run: export GROQ_API_KEY=gsk_... then restart the backend."
+        }), 400
+
+    body = request.json or {}
+    user_message = (body.get("message") or "").strip()
+    history: list[dict] = body.get("history") or []
+
+    if not user_message:
+        return jsonify({"error": "No message provided"}), 400
+
+    try:
+        rows, signals = _load_demo_data()
+        context = build_context(user_message, rows, signals)
+
+        messages: list[dict] = []
+        for h in history[-8:]:
+            messages.append({"role": h["role"], "content": h["content"]})
+
+        if not history:
+            content = f"DATA CONTEXT:\n{context}\n\nQUESTION: {user_message}"
+        else:
+            content = f"[Updated context snapshot]\n{context}\n\nQUESTION: {user_message}"
+
+        messages.append({"role": "user", "content": content})
+
+        # Use demo system prompt — same LLM, different branding
+        groq_messages = [{"role": "system", "content": DEMO_SYSTEM_PROMPT}] + messages
+
+        import httpx as _httpx
+        with _httpx.Client(timeout=90) as client:
+            resp = client.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers={"Authorization": f"Bearer {GROQ_API_KEY}", "content-type": "application/json"},
+                json={"model": GROQ_MODEL, "max_tokens": 1200, "messages": groq_messages},
+            )
+            resp.raise_for_status()
+            response_text = resp.json()["choices"][0]["message"]["content"]
+
+        return jsonify({"message": response_text, "dashboard_action": None})
+
+    except Exception as e:
+        return jsonify({"error": f"Demo assistant error: {str(e)}"}), 500
 
 
 @app.route("/chat", methods=["POST"])

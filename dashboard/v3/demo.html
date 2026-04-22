@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Actian CI Platform — v3</title>
+  <title>CI Platform — v3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-/* Actian CI Dashboard — editorial blue, Linear-style spacing */
+/* CI Platform Dashboard — editorial blue, Linear-style spacing */
 
 /* ---------- Tokens ---------- */
 :root {
@@ -1867,7 +1867,1700 @@ a { color: inherit; cursor: pointer; }
   <!-- Injected data -->
   <script id="ci-data">
 // Injected by build_dashboard_v3.py
-%%DATA_JSON%%
+if (!window.claude) {
+  window.claude = { complete: async () => "CI assistant is unavailable in standalone mode." };
+}
+
+window.THREAT = {
+  CRITICAL: {
+    label: "CRITICAL",
+    fg: "oklch(0.48 0.18 25)",
+    bg: "oklch(0.96 0.04 25)",
+    bd: "oklch(0.88 0.10 25)",
+    dot: "oklch(0.58 0.20 25)",
+    rail: "oklch(0.58 0.18 25)"
+  },
+  HIGH: {
+    label: "HIGH",
+    fg: "oklch(0.50 0.13 65)",
+    bg: "oklch(0.97 0.035 70)",
+    bd: "oklch(0.88 0.08 70)",
+    dot: "oklch(0.66 0.15 65)",
+    rail: "oklch(0.70 0.14 65)"
+  },
+  MEDIUM: {
+    label: "MEDIUM",
+    fg: "oklch(0.44 0.13 245)",
+    bg: "oklch(0.97 0.03 245)",
+    bd: "oklch(0.88 0.06 245)",
+    dot: "oklch(0.58 0.15 245)",
+    rail: "oklch(0.62 0.13 245)"
+  },
+  LOW: {
+    label: "LOW",
+    fg: "oklch(0.48 0.01 250)",
+    bg: "oklch(0.97 0.005 250)",
+    bd: "oklch(0.90 0.01 250)",
+    dot: "oklch(0.68 0.01 250)",
+    rail: "oklch(0.80 0.01 250)"
+  }
+};
+
+window.AREA = {
+  "AI Data Fabric": {
+    fg: "oklch(0.44 0.13 245)",
+    bg: "oklch(0.96 0.03 245)",
+    bd: "oklch(0.88 0.06 245)",
+    dot: "oklch(0.56 0.14 245)"
+  },
+  "Data Intelligence": {
+    fg: "oklch(0.42 0.14 270)",
+    bg: "oklch(0.96 0.03 270)",
+    bd: "oklch(0.88 0.06 270)",
+    dot: "oklch(0.55 0.16 270)"
+  },
+  "Data Observability": {
+    fg: "oklch(0.42 0.10 195)",
+    bg: "oklch(0.96 0.03 195)",
+    bd: "oklch(0.88 0.06 195)",
+    dot: "oklch(0.55 0.12 195)"
+  },
+  "Data Governance": {
+    fg: "oklch(0.44 0.12 140)",
+    bg: "oklch(0.96 0.03 140)",
+    bd: "oklch(0.88 0.06 140)",
+    dot: "oklch(0.56 0.14 140)"
+  },
+  "Real-Time Analytics": {
+    fg: "oklch(0.46 0.12 65)",
+    bg: "oklch(0.97 0.03 65)",
+    bd: "oklch(0.88 0.08 65)",
+    dot: "oklch(0.66 0.15 65)"
+  },
+  MLOps: {
+    fg: "oklch(0.44 0.14 310)",
+    bg: "oklch(0.96 0.03 310)",
+    bd: "oklch(0.88 0.06 310)",
+    dot: "oklch(0.56 0.16 310)"
+  },
+  "Vector / AI": {
+    fg: "oklch(0.44 0.14 310)",
+    bg: "oklch(0.96 0.03 310)",
+    bd: "oklch(0.88 0.06 310)",
+    dot: "oklch(0.56 0.16 310)"
+  },
+  "BI & Analytics": {
+    fg: "oklch(0.48 0.01 250)",
+    bg: "oklch(0.97 0.005 250)",
+    bd: "oklch(0.90 0.01 250)",
+    dot: "oklch(0.68 0.01 250)"
+  }
+};
+
+window.TEAMS = [
+  "All",
+  "Product",
+  "PMM",
+  "Marketing",
+  "SDRs",
+  "Executives"
+];
+
+window.COMPETITORS = [
+  {
+    id: "nexora",
+    name: "Nexora",
+    area: "AI Data Fabric",
+    threat: "CRITICAL",
+    intensity: "HIGH",
+    postingCount: 240,
+    dominantFunction: "Engineering",
+    dominantFocus: "AI/ML Pipeline",
+    signalSummary: "Nexora is in aggressive hiring mode with 240 active roles — building directly into Axon Analytics core market",
+    roadmap: {
+      direction: "Expanding AI/ML Pipeline capabilities toward enterprise-grade automation",
+      confidence: "High",
+      timeline: "Next 6–9 months",
+      watchFor: "Beta launch of AI/ML Pipeline 2.0 platform"
+    },
+    verdict: {
+      All: "Nexora has posted 240 roles in the past 30 days, with 52% engineering and 28% AI/ML — indicating a major platform build sprint",
+      Product: "Aggressive product expansion — Nexora is building toward enterprise parity",
+      PMM: "Nexora is expanding its AI/ML Pipeline offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended.",
+      Marketing: "Nexora is expanding its AI/ML Pipeline offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended.",
+      SDRs: "Nexora has posted 240 roles in the past 30 days, with 52% engineering and 28% AI/ML — indicating a major platform build sprint",
+      Executives: "Nexora is expanding its AI/ML Pipeline offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended. (Confidence: High)"
+    },
+    action: {
+      All: "Expedite competitive positioning against Nexora's AI/ML Pipeline narrative",
+      Product: "Aggressive product expansion — Nexora is building toward enterprise parity",
+      PMM: "Update Nexora battlecard — Nexora is expanding its AI/ML Pipeline offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate…",
+      Marketing: "Nexora is expanding its AI/ML Pipeline offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended.",
+      SDRs: "Expedite competitive positioning against Nexora's AI/ML Pipeline narrative",
+      Executives: "Nexora is expanding its AI/ML Pipeline offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended."
+    },
+    signals: [
+      {
+        label: "Heavy AI/ML hiring (28% of roles) signals a m",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "Engineering-dominant hiring (52% of roles) in",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "High seniority mix (42% Director+/Senior) sug",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "Dominant focus on AI/ML Pipeline aligns with",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      }
+    ],
+    implications: [
+      "Heavy AI/ML hiring (28% of roles) signals a major platform bet — likely building LLM-native features or autonomous agents to embed in data workflows",
+      "Engineering-dominant hiring (52% of roles) indicates Nexora is still in build phase — product gaps remain before full GTM push",
+      "High seniority mix (42% Director+/Senior) suggests new product line formation, not routine headcount expansion",
+      "Dominant focus on AI/ML Pipeline aligns with ai-native data fabric platform with llm integrations — direct competitive pressure on Axon Analytics' core market"
+    ],
+    watchFor: [
+      "Series C/D funding announcement — would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    routes: [
+      "Product",
+      "PMM",
+      "SDRs",
+      "Executives"
+    ],
+    updated: "today",
+    score: 100,
+    functionBreakdown: {
+      Sales: 18,
+      Engineering: 122,
+      "Product Management": 10,
+      "Solution Engineering": 19,
+      "Partners/Alliances": 0
+    },
+    recentActivity: [
+      {
+        date: "Aug 8",
+        text: "Event: Nexora Data Summit 2026 — Nexora's annual user conference"
+      },
+      {
+        date: "Jun 26",
+        text: "Event: Nexora Live Demo Day — AI/ML Pipeline 2.0 Showcase"
+      },
+      {
+        date: "Apr 15",
+        text: "Product launch: Nexora AI/ML Pipeline — Enterprise Compliance Pack"
+      },
+      {
+        date: "Mar 24",
+        text: "Product launch: Nexora AI/ML Pipeline — Enterprise Compliance Pack"
+      },
+      {
+        date: "Mar 21",
+        text: "Pricing change: Nexora Announces Consumption-Based Pricing for AI/ML Pipelin"
+      }
+    ]
+  },
+  {
+    id: "polaria",
+    name: "Polaria",
+    area: "Data Intelligence",
+    threat: "CRITICAL",
+    intensity: "HIGH",
+    postingCount: 210,
+    dominantFunction: "Engineering",
+    dominantFocus: "Metadata Catalog",
+    signalSummary: "Polaria is in aggressive hiring mode with 210 active roles — building directly into Axon Analytics core market",
+    roadmap: {
+      direction: "Expanding Metadata Catalog capabilities toward enterprise-grade automation",
+      confidence: "High",
+      timeline: "Next 6–9 months",
+      watchFor: "Beta launch of Metadata Catalog 2.0 platform"
+    },
+    verdict: {
+      All: "Polaria has posted 210 roles in the past 30 days, with 48% engineering and 18% AI/ML — indicating sustained product investment",
+      Product: "Aggressive product expansion — Polaria is building toward enterprise parity",
+      PMM: "Polaria is expanding its Metadata Catalog offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended.",
+      Marketing: "Polaria is expanding its Metadata Catalog offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended.",
+      SDRs: "Polaria has posted 210 roles in the past 30 days, with 48% engineering and 18% AI/ML — indicating sustained product investment",
+      Executives: "Polaria is expanding its Metadata Catalog offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended. (Confidence: High)"
+    },
+    action: {
+      All: "Expedite competitive positioning against Polaria's Metadata Catalog narrative",
+      Product: "Aggressive product expansion — Polaria is building toward enterprise parity",
+      PMM: "Update Polaria battlecard — Polaria is expanding its Metadata Catalog offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate…",
+      Marketing: "Polaria is expanding its Metadata Catalog offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended.",
+      SDRs: "Expedite competitive positioning against Polaria's Metadata Catalog narrative",
+      Executives: "Polaria is expanding its Metadata Catalog offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Immediate action recommended."
+    },
+    signals: [
+      {
+        label: "Dominant focus on Metadata Catalog aligns wit",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      }
+    ],
+    implications: [
+      "Dominant focus on Metadata Catalog aligns with enterprise metadata catalog and data governance platform — direct competitive pressure on Axon Analytics' core market"
+    ],
+    watchFor: [
+      "Series C/D funding announcement — would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    routes: [
+      "Product",
+      "PMM",
+      "SDRs",
+      "Executives"
+    ],
+    updated: "today",
+    score: 100,
+    functionBreakdown: {
+      Sales: 26,
+      Engineering: 105,
+      "Product Management": 9,
+      "Solution Engineering": 12,
+      "Partners/Alliances": 4
+    },
+    recentActivity: [
+      {
+        date: "May 31",
+        text: "Event: Polaria Live Demo Day — Metadata Catalog 2.0 Showcase"
+      },
+      {
+        date: "May 7",
+        text: "Event: Polaria + AWS Partner Webinar — Winning with Metadata Catalo"
+      },
+      {
+        date: "Apr 4",
+        text: "Product launch: Polaria Metadata Catalog — Advanced Pipeline Automation"
+      },
+      {
+        date: "Mar 25",
+        text: "Funding: Polaria Raises $120M Series C to Accelerate AI-Powered Metad"
+      },
+      {
+        date: "Mar 5",
+        text: "Product launch: Polaria Metadata Catalog — Advanced Pipeline Automation"
+      }
+    ]
+  },
+  {
+    id: "vextrix",
+    name: "Vextrix",
+    area: "Data Observability",
+    threat: "HIGH",
+    intensity: "HIGH",
+    postingCount: 175,
+    dominantFunction: "Engineering",
+    dominantFocus: "Observability",
+    signalSummary: "Vextrix is in aggressive hiring mode with 175 active roles — data observability and pipeline monitoring saas",
+    roadmap: {
+      direction: "Expanding Observability capabilities toward enterprise-grade automation",
+      confidence: "High",
+      timeline: "Next 6–9 months",
+      watchFor: "Beta launch of Observability 2.0 platform"
+    },
+    verdict: {
+      All: "Vextrix has posted 175 roles in the past 30 days, with 50% engineering and 14% AI/ML — indicating sustained product investment",
+      Product: "Aggressive product expansion — Vextrix is building toward enterprise parity",
+      PMM: "Vextrix is expanding its Observability offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      Marketing: "Vextrix is expanding its Observability offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Vextrix has posted 175 roles in the past 30 days, with 50% engineering and 14% AI/ML — indicating sustained product investment",
+      Executives: "Vextrix is expanding its Observability offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely. (Confidence: Medium)"
+    },
+    action: {
+      All: "Ensure battlecard is current and covers latest Vextrix positioning",
+      Product: "Aggressive product expansion — Vextrix is building toward enterprise parity",
+      PMM: "Update Vextrix battlecard — Vextrix is expanding its Observability offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor…",
+      Marketing: "Vextrix is expanding its Observability offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Ensure battlecard is current and covers latest Vextrix positioning",
+      Executives: "Vextrix is expanding its Observability offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely."
+    },
+    signals: [
+      {
+        label: "GTM hiring acceleration (22% Sales/Marketing)",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "Dominant focus on Observability aligns with d",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      }
+    ],
+    implications: [
+      "GTM hiring acceleration (22% Sales/Marketing) — Vextrix is shifting from build to sell; expect aggressive pricing campaigns",
+      "Dominant focus on Observability aligns with data observability and pipeline monitoring saas — direct competitive pressure on Axon Analytics' core market"
+    ],
+    watchFor: [
+      "Series C/D funding announcement — would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    routes: [
+      "Product",
+      "PMM"
+    ],
+    updated: "today",
+    score: 80,
+    functionBreakdown: {
+      Sales: 26,
+      Engineering: 84,
+      "Product Management": 12,
+      "Solution Engineering": 7,
+      "Partners/Alliances": 1
+    },
+    recentActivity: [
+      {
+        date: "Aug 16",
+        text: "Event: Vextrix at Data + AI Summit 2026"
+      },
+      {
+        date: "Aug 16",
+        text: "Event: Vextrix Live Demo Day — Observability 2.0 Showcase"
+      },
+      {
+        date: "Apr 15",
+        text: "Funding: Vextrix Raises $120M Series C to Accelerate AI-Powered Obser"
+      },
+      {
+        date: "Apr 12",
+        text: "Product launch: Vextrix Unveils AI-Powered Observability Assistant"
+      },
+      {
+        date: "Mar 31",
+        text: "Product launch: Vextrix Observability — Advanced Pipeline Automation"
+      }
+    ]
+  },
+  {
+    id: "orbitallabs",
+    name: "Orbital Labs",
+    area: "Data Governance",
+    threat: "HIGH",
+    intensity: "HIGH",
+    postingCount: 155,
+    dominantFunction: "Engineering",
+    dominantFocus: "Data Governance",
+    signalSummary: "Orbital Labs is in aggressive hiring mode with 155 active roles — automated data governance and compliance platform",
+    roadmap: {
+      direction: "Expanding Data Governance capabilities toward enterprise-grade automation",
+      confidence: "High",
+      timeline: "Next 6–9 months",
+      watchFor: "Beta launch of Data Governance 2.0 platform"
+    },
+    verdict: {
+      All: "Orbital Labs has posted 155 roles in the past 30 days, with 46% engineering and 16% AI/ML — indicating sustained product investment",
+      Product: "Aggressive product expansion — Orbital Labs is building toward enterprise parity",
+      PMM: "Orbital Labs is expanding its Data Governance offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      Marketing: "Orbital Labs is expanding its Data Governance offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Orbital Labs has posted 155 roles in the past 30 days, with 46% engineering and 16% AI/ML — indicating sustained product investment",
+      Executives: "Orbital Labs is expanding its Data Governance offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely. (Confidence: Medium)"
+    },
+    action: {
+      All: "Ensure battlecard is current and covers latest Orbital Labs positioning",
+      Product: "Aggressive product expansion — Orbital Labs is building toward enterprise parity",
+      PMM: "Update Orbital Labs battlecard — Orbital Labs is expanding its Data Governance offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities.…",
+      Marketing: "Orbital Labs is expanding its Data Governance offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Ensure battlecard is current and covers latest Orbital Labs positioning",
+      Executives: "Orbital Labs is expanding its Data Governance offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely."
+    },
+    signals: [
+      {
+        label: "High seniority mix (40% Director+/Senior) sug",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "GTM hiring acceleration (24% Sales/Marketing)",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "Dominant focus on Data Governance aligns with",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      }
+    ],
+    implications: [
+      "High seniority mix (40% Director+/Senior) suggests new product line formation, not routine headcount expansion",
+      "GTM hiring acceleration (24% Sales/Marketing) — Orbital Labs is shifting from build to sell; expect aggressive pricing campaigns",
+      "Dominant focus on Data Governance aligns with automated data governance and compliance platform — direct competitive pressure on Axon Analytics' core market"
+    ],
+    watchFor: [
+      "Series C/D funding announcement — would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    routes: [
+      "Product",
+      "PMM"
+    ],
+    updated: "today",
+    score: 80,
+    functionBreakdown: {
+      Sales: 22,
+      Engineering: 78,
+      "Product Management": 5,
+      "Solution Engineering": 5,
+      "Partners/Alliances": 4
+    },
+    recentActivity: [
+      {
+        date: "Aug 19",
+        text: "Event: Orbital Labs Data Summit 2026 — Orbital Labs's annual user c"
+      },
+      {
+        date: "Aug 11",
+        text: "Event: Orbital Labs + AWS Partner Webinar — Winning with Data Gover"
+      },
+      {
+        date: "Apr 4",
+        text: "Product launch: Orbital Labs Data Governance — Enterprise Compliance Pack"
+      },
+      {
+        date: "Apr 1",
+        text: "Product launch: Orbital Labs Data Governance — Enterprise Compliance Pack"
+      },
+      {
+        date: "Mar 19",
+        text: "Leadership change: Orbital Labs Appoints Former Databricks VP as Chief Product "
+      }
+    ]
+  },
+  {
+    id: "quanthorne",
+    name: "Quanthorne",
+    area: "Real-Time Analytics",
+    threat: "HIGH",
+    intensity: "MEDIUM",
+    postingCount: 130,
+    dominantFunction: "Engineering",
+    dominantFocus: "Streaming Analytics",
+    signalSummary: "Quanthorne is in aggressive hiring mode with 130 active roles — real-time streaming analytics and event processing engine",
+    roadmap: {
+      direction: "Expanding Streaming Analytics capabilities toward enterprise-grade automation",
+      confidence: "High",
+      timeline: "Next 6–9 months",
+      watchFor: "Beta launch of Streaming Analytics 2.0 platform"
+    },
+    verdict: {
+      All: "Quanthorne has posted 130 roles in the past 30 days, with 55% engineering and 12% AI/ML — indicating a major platform build sprint",
+      Product: "Aggressive product expansion — Quanthorne is building toward enterprise parity",
+      PMM: "Quanthorne is expanding its Streaming Analytics offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      Marketing: "Quanthorne is expanding its Streaming Analytics offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Quanthorne has posted 130 roles in the past 30 days, with 55% engineering and 12% AI/ML — indicating a major platform build sprint",
+      Executives: "Quanthorne is expanding its Streaming Analytics offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely. (Confidence: Medium)"
+    },
+    action: {
+      All: "Ensure battlecard is current and covers latest Quanthorne positioning",
+      Product: "Aggressive product expansion — Quanthorne is building toward enterprise parity",
+      PMM: "Update Quanthorne battlecard — Quanthorne is expanding its Streaming Analytics offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities.…",
+      Marketing: "Quanthorne is expanding its Streaming Analytics offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Ensure battlecard is current and covers latest Quanthorne positioning",
+      Executives: "Quanthorne is expanding its Streaming Analytics offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely."
+    },
+    signals: [
+      {
+        label: "Engineering-dominant hiring (55% of roles) in",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "Dominant focus on Streaming Analytics aligns",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      }
+    ],
+    implications: [
+      "Engineering-dominant hiring (55% of roles) indicates Quanthorne is still in build phase — product gaps remain before full GTM push",
+      "Dominant focus on Streaming Analytics aligns with real-time streaming analytics and event processing engine — direct competitive pressure on Axon Analytics' core market"
+    ],
+    watchFor: [
+      "Series C/D funding announcement — would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    routes: [
+      "Product",
+      "PMM"
+    ],
+    updated: "today",
+    score: 80,
+    functionBreakdown: {
+      Sales: 16,
+      Engineering: 65,
+      "Product Management": 3,
+      "Solution Engineering": 9,
+      "Partners/Alliances": 1
+    },
+    recentActivity: [
+      {
+        date: "Jul 4",
+        text: "Event: Quanthorne Live Demo Day — Streaming Analytics 2.0 Showcase"
+      },
+      {
+        date: "Jun 19",
+        text: "Event: Quanthorne at Data + AI Summit 2026"
+      },
+      {
+        date: "Apr 17",
+        text: "Product launch: Quanthorne Launches Streaming Analytics for Enterprise Data "
+      },
+      {
+        date: "Apr 5",
+        text: "Product launch: Quanthorne Streaming Analytics — Advanced Pipeline Automatio"
+      },
+      {
+        date: "Apr 2",
+        text: "Product launch: Quanthorne Introduces Streaming Analytics 2.0 with Native LL"
+      }
+    ]
+  },
+  {
+    id: "stratify",
+    name: "Stratify",
+    area: "MLOps",
+    threat: "MEDIUM",
+    intensity: "MEDIUM",
+    postingCount: 95,
+    dominantFunction: "AI/ML & Vector",
+    dominantFocus: "Model Serving",
+    signalSummary: "Stratify is in steady hiring mode with 95 active roles — mlops platform for model deployment and monitoring",
+    roadmap: {
+      direction: "Expanding Model Serving capabilities toward enterprise-grade automation",
+      confidence: "Medium",
+      timeline: "Next 6–9 months",
+      watchFor: "Beta launch of Model Serving 2.0 platform"
+    },
+    verdict: {
+      All: "Stratify has posted 95 roles in the past 30 days, with 42% engineering and 35% AI/ML — indicating sustained product investment",
+      Product: "Measured product expansion — Stratify is building toward enterprise parity",
+      PMM: "Stratify is expanding its Model Serving offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      Marketing: "Stratify is expanding its Model Serving offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Stratify has posted 95 roles in the past 30 days, with 42% engineering and 35% AI/ML — indicating sustained product investment",
+      Executives: "Stratify is expanding its Model Serving offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely. (Confidence: Medium)"
+    },
+    action: {
+      All: "Quarterly review of Stratify signal — no immediate action required",
+      Product: "Measured product expansion — Stratify is building toward enterprise parity",
+      PMM: "Update Stratify battlecard — Stratify is expanding its Model Serving offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor…",
+      Marketing: "Stratify is expanding its Model Serving offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Quarterly review of Stratify signal — no immediate action required",
+      Executives: "Monitor Stratify — Medium threat."
+    },
+    signals: [
+      {
+        label: "Heavy AI/ML hiring (35% of roles) signals a m",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "Dominant focus on Model Serving aligns with m",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      }
+    ],
+    implications: [
+      "Heavy AI/ML hiring (35% of roles) signals a major platform bet — likely building LLM-native features or autonomous agents to embed in data workflows",
+      "Dominant focus on Model Serving aligns with mlops platform for model deployment and monitoring — direct competitive pressure on Axon Analytics' core market"
+    ],
+    watchFor: [
+      "Series C/D funding announcement — would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    routes: [
+      "PMM"
+    ],
+    updated: "today",
+    score: 70,
+    functionBreakdown: {
+      Sales: 12,
+      Engineering: 34,
+      "Product Management": 7,
+      "Solution Engineering": 5,
+      "Partners/Alliances": 2
+    },
+    recentActivity: [
+      {
+        date: "Jun 11",
+        text: "Event: Stratify Live Demo Day — Model Serving 2.0 Showcase"
+      },
+      {
+        date: "Apr 10",
+        text: "Funding: Stratify Raises $120M Series C to Accelerate AI-Powered Mode"
+      },
+      {
+        date: "Apr 6",
+        text: "Product launch: Stratify Introduces Model Serving 2.0 with Native LLM Integr"
+      },
+      {
+        date: "Mar 4",
+        text: "Product launch: Stratify Model Serving — Advanced Pipeline Automation"
+      }
+    ]
+  },
+  {
+    id: "krytex",
+    name: "Krytex",
+    area: "Vector / AI",
+    threat: "MEDIUM",
+    intensity: "MEDIUM",
+    postingCount: 85,
+    dominantFunction: "Engineering",
+    dominantFocus: "Vector Search",
+    signalSummary: "Krytex is in steady hiring mode with 85 active roles — vector database and semantic search infrastructure",
+    roadmap: {
+      direction: "Expanding Vector Search capabilities toward enterprise-grade automation",
+      confidence: "Medium",
+      timeline: "Next 6–9 months",
+      watchFor: "Beta launch of Vector Search 2.0 platform"
+    },
+    verdict: {
+      All: "Krytex has posted 85 roles in the past 30 days, with 48% engineering and 40% AI/ML — indicating sustained product investment",
+      Product: "Measured product expansion — Krytex is building toward enterprise parity",
+      PMM: "Krytex is expanding its Vector Search offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      Marketing: "Krytex is expanding its Vector Search offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Krytex has posted 85 roles in the past 30 days, with 48% engineering and 40% AI/ML — indicating sustained product investment",
+      Executives: "Krytex is expanding its Vector Search offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely. (Confidence: Medium)"
+    },
+    action: {
+      All: "Quarterly review of Krytex signal — no immediate action required",
+      Product: "Measured product expansion — Krytex is building toward enterprise parity",
+      PMM: "Update Krytex battlecard — Krytex is expanding its Vector Search offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      Marketing: "Krytex is expanding its Vector Search offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Quarterly review of Krytex signal — no immediate action required",
+      Executives: "Monitor Krytex — Medium threat."
+    },
+    signals: [
+      {
+        label: "Heavy AI/ML hiring (40% of roles) signals a m",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "Dominant focus on Vector Search aligns with v",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      }
+    ],
+    implications: [
+      "Heavy AI/ML hiring (40% of roles) signals a major platform bet — likely building LLM-native features or autonomous agents to embed in data workflows",
+      "Dominant focus on Vector Search aligns with vector database and semantic search infrastructure — direct competitive pressure on Axon Analytics' core market"
+    ],
+    watchFor: [
+      "Series C/D funding announcement — would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    routes: [
+      "PMM"
+    ],
+    updated: "today",
+    score: 70,
+    functionBreakdown: {
+      Sales: 9,
+      Engineering: 23,
+      "Product Management": 4,
+      "Solution Engineering": 1,
+      "Partners/Alliances": 3
+    },
+    recentActivity: [
+      {
+        date: "Jul 7",
+        text: "Event: Krytex Data Summit 2026 — Krytex's annual user conference"
+      },
+      {
+        date: "Mar 24",
+        text: "Product launch: Krytex Vector Search — Enterprise Compliance Pack"
+      }
+    ]
+  },
+  {
+    id: "lumiqa",
+    name: "Lumiqa",
+    area: "BI & Analytics",
+    threat: "LOW",
+    intensity: "LOW",
+    postingCount: 60,
+    dominantFunction: "Engineering",
+    dominantFocus: "Business Intelligence",
+    signalSummary: "Lumiqa is in steady hiring mode with 60 active roles — self-service bi and embedded analytics platform",
+    roadmap: {
+      direction: "Expanding Business Intelligence capabilities toward enterprise-grade automation",
+      confidence: "Medium",
+      timeline: "Next 6–9 months",
+      watchFor: "Beta launch of Business Intelligence 2.0 platform"
+    },
+    verdict: {
+      All: "Lumiqa has posted 60 roles in the past 30 days, with 45% engineering and 8% AI/ML — indicating sustained product investment",
+      Product: "Measured product expansion — Lumiqa is building toward enterprise parity",
+      PMM: "Lumiqa is expanding its Business Intelligence offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      Marketing: "Lumiqa is expanding its Business Intelligence offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Lumiqa has posted 60 roles in the past 30 days, with 45% engineering and 8% AI/ML — indicating sustained product investment",
+      Executives: "Lumiqa is expanding its Business Intelligence offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely. (Confidence: Medium)"
+    },
+    action: {
+      All: "Quarterly review of Lumiqa signal — no immediate action required",
+      Product: "Measured product expansion — Lumiqa is building toward enterprise parity",
+      PMM: "Update Lumiqa battlecard — Lumiqa is expanding its Business Intelligence offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor…",
+      Marketing: "Lumiqa is expanding its Business Intelligence offering, which overlaps directly with Axon Analytics' core pipeline and governance capabilities. Monitor closely.",
+      SDRs: "Quarterly review of Lumiqa signal — no immediate action required",
+      Executives: "Monitor Lumiqa — Low threat."
+    },
+    signals: [
+      {
+        label: "GTM hiring acceleration (28% Sales/Marketing)",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      },
+      {
+        label: "Dominant focus on Business Intelligence align",
+        weight: {
+          All: 1,
+          Product: 1
+        }
+      }
+    ],
+    implications: [
+      "GTM hiring acceleration (28% Sales/Marketing) — Lumiqa is shifting from build to sell; expect aggressive pricing campaigns",
+      "Dominant focus on Business Intelligence aligns with self-service bi and embedded analytics platform — direct competitive pressure on Axon Analytics' core market"
+    ],
+    watchFor: [
+      "Series C/D funding announcement — would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    routes: [
+      "PMM"
+    ],
+    updated: "today",
+    score: 65,
+    functionBreakdown: {
+      Sales: 7,
+      Engineering: 24,
+      "Product Management": 3,
+      "Solution Engineering": 3,
+      "Partners/Alliances": 4
+    },
+    recentActivity: [
+      {
+        date: "Jul 28",
+        text: "Event: Lumiqa Data Summit 2026 — Lumiqa's annual user conference"
+      },
+      {
+        date: "Apr 5",
+        text: "Product launch: Lumiqa Business Intelligence — Enterprise Compliance Pack"
+      }
+    ]
+  }
+];
+
+window.LAUNCHES = [
+  {
+    id: "l4",
+    company: "Polaria",
+    area: "Data Intelligence",
+    type: "product_launch",
+    title: "Polaria Metadata Catalog — Advanced Pipeline Automation",
+    date: "Mar 5, 2026",
+    summary: "Polaria ships a major upgrade to its Metadata Catalog with autonomous pipeline repair and real-time anomaly detection.",
+    relevance: "HIGH",
+    tags: [
+      "data_intelligence",
+      "product_launch"
+    ],
+    url: "https://polaria.io/blog/launch-6",
+    teams: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ]
+  },
+  {
+    id: "l11",
+    company: "Stratify",
+    area: "MLOps",
+    type: "product_launch",
+    title: "Stratify Model Serving — Advanced Pipeline Automation",
+    date: "Mar 4, 2026",
+    summary: "Stratify ships a major upgrade to its Model Serving with autonomous pipeline repair and real-time anomaly detection.",
+    relevance: "HIGH",
+    tags: [
+      "mlops",
+      "product_launch"
+    ],
+    url: "https://stratify.io/blog/launch-21",
+    teams: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ]
+  },
+  {
+    id: "l5",
+    company: "Vextrix",
+    area: "Data Observability",
+    type: "product_launch",
+    title: "Vextrix Observability — Advanced Pipeline Automation",
+    date: "Mar 31, 2026",
+    summary: "Vextrix ships a major upgrade to its Observability with autonomous pipeline repair and real-time anomaly detection.",
+    relevance: "HIGH",
+    tags: [
+      "data_observability",
+      "product_launch"
+    ],
+    url: "https://vextrix.io/blog/launch-9",
+    teams: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ]
+  },
+  {
+    id: "l9",
+    company: "Quanthorne",
+    area: "Real-Time Analytics",
+    type: "product_launch",
+    title: "Quanthorne Unveils AI-Powered Streaming Analytics Assistant",
+    date: "Mar 29, 2026",
+    summary: "New AI assistant embedded in Streaming Analytics allows data engineers to describe pipelines in natural language.",
+    relevance: "HIGH",
+    tags: [
+      "real-time_analytics",
+      "product_launch"
+    ],
+    url: "https://quanthorne.io/blog/launch-17",
+    teams: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ]
+  },
+  {
+    id: "l2",
+    company: "Nexora",
+    area: "AI Data Fabric",
+    type: "product_launch",
+    title: "Nexora AI/ML Pipeline — Enterprise Compliance Pack",
+    date: "Mar 24, 2026",
+    summary: "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the AI/ML Pipeline workflow.",
+    relevance: "MEDIUM",
+    tags: [
+      "ai_data_fabric",
+      "product_launch"
+    ],
+    url: "https://nexora.io/blog/launch-2",
+    teams: [
+      "PMM"
+    ]
+  },
+  {
+    id: "l12",
+    company: "Krytex",
+    area: "Vector / AI",
+    type: "product_launch",
+    title: "Krytex Vector Search — Enterprise Compliance Pack",
+    date: "Mar 24, 2026",
+    summary: "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the Vector Search workflow.",
+    relevance: "MEDIUM",
+    tags: [
+      "vector_/_ai",
+      "product_launch"
+    ],
+    url: "https://krytex.io/blog/launch-23",
+    teams: [
+      "PMM"
+    ]
+  },
+  {
+    id: "l10",
+    company: "Quanthorne",
+    area: "Real-Time Analytics",
+    type: "product_launch",
+    title: "Quanthorne Streaming Analytics — Advanced Pipeline Automation",
+    date: "Apr 5, 2026",
+    summary: "Quanthorne ships a major upgrade to its Streaming Analytics with autonomous pipeline repair and real-time anomaly detection.",
+    relevance: "HIGH",
+    tags: [
+      "real-time_analytics",
+      "product_launch"
+    ],
+    url: "https://quanthorne.io/blog/launch-18",
+    teams: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ]
+  },
+  {
+    id: "l13",
+    company: "Lumiqa",
+    area: "BI & Analytics",
+    type: "product_launch",
+    title: "Lumiqa Business Intelligence — Enterprise Compliance Pack",
+    date: "Apr 5, 2026",
+    summary: "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the Business Intelligence workflow.",
+    relevance: "MEDIUM",
+    tags: [
+      "bi_&_analytics",
+      "product_launch"
+    ],
+    url: "https://lumiqa.io/blog/launch-25",
+    teams: [
+      "PMM"
+    ]
+  },
+  {
+    id: "l3",
+    company: "Polaria",
+    area: "Data Intelligence",
+    type: "product_launch",
+    title: "Polaria Metadata Catalog — Advanced Pipeline Automation",
+    date: "Apr 4, 2026",
+    summary: "Polaria ships a major upgrade to its Metadata Catalog with autonomous pipeline repair and real-time anomaly detection.",
+    relevance: "HIGH",
+    tags: [
+      "data_intelligence",
+      "product_launch"
+    ],
+    url: "https://polaria.io/blog/launch-5",
+    teams: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ]
+  },
+  {
+    id: "l7",
+    company: "Orbital Labs",
+    area: "Data Governance",
+    type: "product_launch",
+    title: "Orbital Labs Data Governance — Enterprise Compliance Pack",
+    date: "Apr 4, 2026",
+    summary: "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the Data Governance workflow.",
+    relevance: "MEDIUM",
+    tags: [
+      "data_governance",
+      "product_launch"
+    ],
+    url: "https://orbital labs.io/blog/launch-13",
+    teams: [
+      "PMM"
+    ]
+  },
+  {
+    id: "l1",
+    company: "Nexora",
+    area: "AI Data Fabric",
+    type: "product_launch",
+    title: "Nexora AI/ML Pipeline — Enterprise Compliance Pack",
+    date: "Apr 15, 2026",
+    summary: "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the AI/ML Pipeline workflow.",
+    relevance: "MEDIUM",
+    tags: [
+      "ai_data_fabric",
+      "product_launch"
+    ],
+    url: "https://nexora.io/blog/launch-1",
+    teams: [
+      "PMM"
+    ]
+  },
+  {
+    id: "l6",
+    company: "Vextrix",
+    area: "Data Observability",
+    type: "product_launch",
+    title: "Vextrix Unveils AI-Powered Observability Assistant",
+    date: "Apr 12, 2026",
+    summary: "New AI assistant embedded in Observability allows data engineers to describe pipelines in natural language.",
+    relevance: "HIGH",
+    tags: [
+      "data_observability",
+      "product_launch"
+    ],
+    url: "https://vextrix.io/blog/launch-10",
+    teams: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ]
+  },
+  {
+    id: "l8",
+    company: "Orbital Labs",
+    area: "Data Governance",
+    type: "product_launch",
+    title: "Orbital Labs Data Governance — Enterprise Compliance Pack",
+    date: "Apr 1, 2026",
+    summary: "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the Data Governance workflow.",
+    relevance: "MEDIUM",
+    tags: [
+      "data_governance",
+      "product_launch"
+    ],
+    url: "https://orbital labs.io/blog/launch-14",
+    teams: [
+      "PMM"
+    ]
+  }
+];
+
+window.EVENTS = [
+  {
+    id: "e7",
+    company: "Orbital Labs",
+    area: "Data Governance",
+    name: "Orbital Labs + AWS Partner Webinar — Winning with Data Governance",
+    date: "Aug 11, 2026",
+    relevance: "MEDIUM",
+    why: "Co-hosted webinar covering joint go-to-market strategy and customer case studies.",
+    url: "https://events.orbital labs.io/event-15",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e5",
+    company: "Vextrix",
+    area: "Data Observability",
+    name: "Vextrix at Data + AI Summit 2026",
+    date: "Aug 16, 2026",
+    relevance: "MEDIUM",
+    why: "Vextrix presenting keynote and running breakout sessions at the industry's premier data conference.",
+    url: "https://events.vextrix.io/event-11",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e6",
+    company: "Vextrix",
+    area: "Data Observability",
+    name: "Vextrix Live Demo Day — Observability 2.0 Showcase",
+    date: "Aug 16, 2026",
+    relevance: "MEDIUM",
+    why: "Public product demonstration with hands-on labs for enterprise prospects.",
+    url: "https://events.vextrix.io/event-12",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e8",
+    company: "Orbital Labs",
+    area: "Data Governance",
+    name: "Orbital Labs Data Summit 2026 — Orbital Labs's annual user conference",
+    date: "Aug 19, 2026",
+    relevance: "MEDIUM",
+    why: "Annual user and developer conference showcasing Data Governance roadmap and customer success stories.",
+    url: "https://events.orbital labs.io/event-16",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e1",
+    company: "Nexora",
+    area: "AI Data Fabric",
+    name: "Nexora Data Summit 2026 — Nexora's annual user conference",
+    date: "Aug 8, 2026",
+    relevance: "MEDIUM",
+    why: "Annual user and developer conference showcasing AI/ML Pipeline roadmap and customer success stories.",
+    url: "https://events.nexora.io/event-3",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e13",
+    company: "Lumiqa",
+    area: "BI & Analytics",
+    name: "Lumiqa Data Summit 2026 — Lumiqa's annual user conference",
+    date: "Jul 28, 2026",
+    relevance: "MEDIUM",
+    why: "Annual user and developer conference showcasing Business Intelligence roadmap and customer success stories.",
+    url: "https://events.lumiqa.io/event-26",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e10",
+    company: "Quanthorne",
+    area: "Real-Time Analytics",
+    name: "Quanthorne Live Demo Day — Streaming Analytics 2.0 Showcase",
+    date: "Jul 4, 2026",
+    relevance: "MEDIUM",
+    why: "Public product demonstration with hands-on labs for enterprise prospects.",
+    url: "https://events.quanthorne.io/event-20",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e12",
+    company: "Krytex",
+    area: "Vector / AI",
+    name: "Krytex Data Summit 2026 — Krytex's annual user conference",
+    date: "Jul 7, 2026",
+    relevance: "MEDIUM",
+    why: "Annual user and developer conference showcasing Vector Search roadmap and customer success stories.",
+    url: "https://events.krytex.io/event-24",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e11",
+    company: "Stratify",
+    area: "MLOps",
+    name: "Stratify Live Demo Day — Model Serving 2.0 Showcase",
+    date: "Jun 11, 2026",
+    relevance: "MEDIUM",
+    why: "Public product demonstration with hands-on labs for enterprise prospects.",
+    url: "https://events.stratify.io/event-22",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e9",
+    company: "Quanthorne",
+    area: "Real-Time Analytics",
+    name: "Quanthorne at Data + AI Summit 2026",
+    date: "Jun 19, 2026",
+    relevance: "MEDIUM",
+    why: "Quanthorne presenting keynote and running breakout sessions at the industry's premier data conference.",
+    url: "https://events.quanthorne.io/event-19",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e2",
+    company: "Nexora",
+    area: "AI Data Fabric",
+    name: "Nexora Live Demo Day — AI/ML Pipeline 2.0 Showcase",
+    date: "Jun 26, 2026",
+    relevance: "MEDIUM",
+    why: "Public product demonstration with hands-on labs for enterprise prospects.",
+    url: "https://events.nexora.io/event-4",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e3",
+    company: "Polaria",
+    area: "Data Intelligence",
+    name: "Polaria Live Demo Day — Metadata Catalog 2.0 Showcase",
+    date: "May 31, 2026",
+    relevance: "MEDIUM",
+    why: "Public product demonstration with hands-on labs for enterprise prospects.",
+    url: "https://events.polaria.io/event-7",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  },
+  {
+    id: "e4",
+    company: "Polaria",
+    area: "Data Intelligence",
+    name: "Polaria + AWS Partner Webinar — Winning with Metadata Catalog",
+    date: "May 7, 2026",
+    relevance: "MEDIUM",
+    why: "Co-hosted webinar covering joint go-to-market strategy and customer case studies.",
+    url: "https://events.polaria.io/event-8",
+    teams: [
+      "Marketing",
+      "SDRs"
+    ],
+    action: "Check dashboard for details."
+  }
+];
+
+window.NEWS = [
+  {
+    company: "Quanthorne",
+    product_area: "Real-Time Analytics",
+    news_type: "product_launch",
+    title: "Quanthorne Launches Streaming Analytics for Enterprise Data Teams",
+    url: "https://blog.quanthorne.io/news/product_launch-658",
+    published_date: "2026-04-17",
+    source: "company_blog",
+    summary: "A new Streaming Analytics capability designed to accelerate data pipeline automation and reduce time-to-insight for enterprise customers.",
+    actian_relevance: "high",
+    tags: [
+      "real-time_analytics",
+      "product_launch"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Vextrix",
+    product_area: "Data Observability",
+    news_type: "funding",
+    title: "Vextrix Raises $120M Series C to Accelerate AI-Powered Observability",
+    url: "https://blog.vextrix.io/news/funding-424",
+    published_date: "2026-04-15",
+    source: "company_blog",
+    summary: "Vextrix closes $120M Series C led by top-tier VCs, funding continued expansion of its Observability platform.",
+    actian_relevance: "high",
+    tags: [
+      "data_observability",
+      "funding"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Stratify",
+    product_area: "MLOps",
+    news_type: "funding",
+    title: "Stratify Raises $120M Series C to Accelerate AI-Powered Model Serving",
+    url: "https://blog.stratify.io/news/funding-755",
+    published_date: "2026-04-10",
+    source: "company_blog",
+    summary: "Stratify closes $120M Series C led by top-tier VCs, funding continued expansion of its Model Serving platform.",
+    actian_relevance: "high",
+    tags: [
+      "mlops",
+      "funding"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Stratify",
+    product_area: "MLOps",
+    news_type: "product_launch",
+    title: "Stratify Introduces Model Serving 2.0 with Native LLM Integration",
+    url: "https://blog.stratify.io/news/product_launch-427",
+    published_date: "2026-04-06",
+    source: "company_blog",
+    summary: "The new release adds LLM-native connectors and automated metadata enrichment, targeting enterprise data teams.",
+    actian_relevance: "high",
+    tags: [
+      "mlops",
+      "product_launch"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Quanthorne",
+    product_area: "Real-Time Analytics",
+    news_type: "product_launch",
+    title: "Quanthorne Introduces Streaming Analytics 2.0 with Native LLM Integration",
+    url: "https://blog.quanthorne.io/news/product_launch-565",
+    published_date: "2026-04-02",
+    source: "company_blog",
+    summary: "The new release adds LLM-native connectors and automated metadata enrichment, targeting enterprise data teams.",
+    actian_relevance: "high",
+    tags: [
+      "real-time_analytics",
+      "product_launch"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Polaria",
+    product_area: "Data Intelligence",
+    news_type: "funding",
+    title: "Polaria Raises $120M Series C to Accelerate AI-Powered Metadata Catalog",
+    url: "https://blog.polaria.io/news/funding-886",
+    published_date: "2026-03-25",
+    source: "company_blog",
+    summary: "Polaria closes $120M Series C led by top-tier VCs, funding continued expansion of its Metadata Catalog platform.",
+    actian_relevance: "high",
+    tags: [
+      "data_intelligence",
+      "funding"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Vextrix",
+    product_area: "Data Observability",
+    news_type: "product_launch",
+    title: "Vextrix Introduces Observability 2.0 with Native LLM Integration",
+    url: "https://blog.vextrix.io/news/product_launch-436",
+    published_date: "2026-03-25",
+    source: "company_blog",
+    summary: "The new release adds LLM-native connectors and automated metadata enrichment, targeting enterprise data teams.",
+    actian_relevance: "high",
+    tags: [
+      "data_observability",
+      "product_launch"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Nexora",
+    product_area: "AI Data Fabric",
+    news_type: "pricing",
+    title: "Nexora Announces Consumption-Based Pricing for AI/ML Pipeline",
+    url: "https://blog.nexora.io/news/pricing-211",
+    published_date: "2026-03-21",
+    source: "company_blog",
+    summary: "New pricing model replaces annual seat licenses, reducing friction for SMB adoption and putting pressure on incumbents.",
+    actian_relevance: "medium",
+    tags: [
+      "ai_data_fabric",
+      "pricing"
+    ],
+    team_routing: [
+      "PMM"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Orbital Labs",
+    product_area: "Data Governance",
+    news_type: "leadership",
+    title: "Orbital Labs Appoints Former Databricks VP as Chief Product Officer",
+    url: "https://blog.orbital labs.io/news/leadership-317",
+    published_date: "2026-03-19",
+    source: "company_blog",
+    summary: "Industry veteran joins Orbital Labs to lead product strategy and accelerate the next phase of platform growth.",
+    actian_relevance: "medium",
+    tags: [
+      "data_governance",
+      "leadership"
+    ],
+    team_routing: [
+      "PMM"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Nexora",
+    product_area: "AI Data Fabric",
+    news_type: "product_launch",
+    title: "Nexora Introduces AI/ML Pipeline 2.0 with Native LLM Integration",
+    url: "https://blog.nexora.io/news/product_launch-937",
+    published_date: "2026-03-16",
+    source: "company_blog",
+    summary: "The new release adds LLM-native connectors and automated metadata enrichment, targeting enterprise data teams.",
+    actian_relevance: "high",
+    tags: [
+      "ai_data_fabric",
+      "product_launch"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Orbital Labs",
+    product_area: "Data Governance",
+    news_type: "partnership",
+    title: "Orbital Labs Partners with AWS to Co-Sell Data Governance on Marketplace",
+    url: "https://blog.orbital labs.io/news/partnership-859",
+    published_date: "2026-03-06",
+    source: "company_blog",
+    summary: "Orbital Labs joins the AWS ISV Accelerate Program, enabling direct co-sell motions with AWS enterprise sales teams.",
+    actian_relevance: "high",
+    tags: [
+      "data_governance",
+      "partnership"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  },
+  {
+    company: "Polaria",
+    product_area: "Data Intelligence",
+    news_type: "product_launch",
+    title: "Polaria Launches Metadata Catalog for Enterprise Data Teams",
+    url: "https://blog.polaria.io/news/product_launch-210",
+    published_date: "2026-03-04",
+    source: "company_blog",
+    summary: "A new Metadata Catalog capability designed to accelerate data pipeline automation and reduce time-to-insight for enterprise customers.",
+    actian_relevance: "high",
+    tags: [
+      "data_intelligence",
+      "product_launch"
+    ],
+    team_routing: [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    event_date: null,
+    scraped_at: "2026-04-22T13:14:41Z"
+  }
+];
+
+window.FUNCTION_TRENDS = {
+  Sales: {
+    total: 136,
+    companies: [
+      {
+        name: "Polaria",
+        count: 26
+      },
+      {
+        name: "Vextrix",
+        count: 26
+      },
+      {
+        name: "Orbital Labs",
+        count: 22
+      },
+      {
+        name: "Nexora",
+        count: 18
+      },
+      {
+        name: "Quanthorne",
+        count: 16
+      },
+      {
+        name: "Stratify",
+        count: 12
+      }
+    ]
+  },
+  Engineering: {
+    total: 535,
+    companies: [
+      {
+        name: "Nexora",
+        count: 122
+      },
+      {
+        name: "Polaria",
+        count: 105
+      },
+      {
+        name: "Vextrix",
+        count: 84
+      },
+      {
+        name: "Orbital Labs",
+        count: 78
+      },
+      {
+        name: "Quanthorne",
+        count: 65
+      },
+      {
+        name: "Stratify",
+        count: 34
+      }
+    ]
+  },
+  "Product Management": {
+    total: 53,
+    companies: [
+      {
+        name: "Vextrix",
+        count: 12
+      },
+      {
+        name: "Nexora",
+        count: 10
+      },
+      {
+        name: "Polaria",
+        count: 9
+      },
+      {
+        name: "Stratify",
+        count: 7
+      },
+      {
+        name: "Orbital Labs",
+        count: 5
+      },
+      {
+        name: "Krytex",
+        count: 4
+      }
+    ]
+  },
+  "Solution Engineering": {
+    total: 61,
+    companies: [
+      {
+        name: "Nexora",
+        count: 19
+      },
+      {
+        name: "Polaria",
+        count: 12
+      },
+      {
+        name: "Quanthorne",
+        count: 9
+      },
+      {
+        name: "Vextrix",
+        count: 7
+      },
+      {
+        name: "Orbital Labs",
+        count: 5
+      },
+      {
+        name: "Stratify",
+        count: 5
+      }
+    ]
+  },
+  "Partners/Alliances": {
+    total: 19,
+    companies: [
+      {
+        name: "Polaria",
+        count: 4
+      },
+      {
+        name: "Orbital Labs",
+        count: 4
+      },
+      {
+        name: "Lumiqa",
+        count: 4
+      },
+      {
+        name: "Krytex",
+        count: 3
+      },
+      {
+        name: "Stratify",
+        count: 2
+      },
+      {
+        name: "Vextrix",
+        count: 1
+      }
+    ]
+  }
+};
   </script>
 
   <!-- Components (atoms + VerdictCard) -->
@@ -2004,7 +3697,7 @@ function VerdictCard({ c, lens, onOpen }) {
       <p className="vcard-verdict">{verdict}</p>
 
       <div className="vcard-action">
-        <span className="vcard-action-label">Actian action</span>
+        <span className="vcard-action-label">Axon Analytics action</span>
         <span className="vcard-action-body">{action}</span>
       </div>
 
@@ -2059,7 +3752,7 @@ function Sidebar({ lens, onLens, collapsed, onToggle, page, onPage }) {
         </div>
         {!collapsed && (
           <div className="sb-brand-text">
-            <div className="sb-brand-name">Actian CI</div>
+            <div className="sb-brand-name">CI Platform</div>
             <div className="sb-brand-sub">Competitive Intelligence</div>
           </div>
         )}
@@ -2075,7 +3768,7 @@ function Sidebar({ lens, onLens, collapsed, onToggle, page, onPage }) {
           { id:"dashboard", label:"Verdicts",            desc:"Company dashboard",  icon:"◧" },
           { id:"launches",  label:"Launches & events",   desc:"Signal timeline",    icon:"◇" },
           { id:"news",      label:"News",                desc:"Press releases",     icon:"◧" },
-          { id:"companies", label:"Companies",           desc:"Roster of 11",       icon:"◫" },
+          { id:"companies", label:"Companies",           desc:"Roster of 8",       icon:"◫" },
         ].map(p => (
           <button
             key={p.id}
@@ -2133,8 +3826,8 @@ function Sidebar({ lens, onLens, collapsed, onToggle, page, onPage }) {
             <div className="sb-foot-user">
               <div className="sb-avatar">MR</div>
               <div className="sb-foot-text">
-                <div className="sb-foot-name">Morgan Reyes</div>
-                <div className="sb-foot-role">Head of CI · Actian</div>
+                <div className="sb-foot-name">Alex Chen</div>
+                <div className="sb-foot-role">Head of CI · Axon Analytics</div>
               </div>
             </div>
           </div>
@@ -2221,7 +3914,7 @@ function KpiRow({ data }) {
         v={data.critical}
         delta="+1 this week"
         deltaDir="up"
-        sub="Atlan · Snowflake"
+        sub="Nexora · Polaria"
       />
       <KpiTile
         tone="amber"
@@ -2229,7 +3922,7 @@ function KpiRow({ data }) {
         v={data.launches}
         delta="+3 vs last 30d"
         deltaDir="up"
-        sub="6 product · 1 pricing"
+        sub="5 product · 2 events"
       />
       <KpiTile
         tone="blue"
@@ -2237,7 +3930,7 @@ function KpiRow({ data }) {
         v={data.events}
         delta="next 14 days"
         deltaDir="flat"
-        sub="Activate · Summit · ALLIE day"
+        sub="Nexora Summit · Orbital Forum"
       />
       <KpiTile
         tone="slate"
@@ -2287,7 +3980,7 @@ function BriefDrawer({ comp, lens, onClose }) {
         </section>
 
         <section className="drw-sec drw-action-sec">
-          <h4 className="drw-h">Actian action</h4>
+          <h4 className="drw-h">Axon Analytics action</h4>
           <p className="drw-p drw-p-action">{comp.action[lens] || comp.action.All}</p>
         </section>
 
@@ -2413,7 +4106,7 @@ function ChatDrawer({ open, onClose, lens }) {
     setWarming(false);
     const warmTimer = setTimeout(() => setWarming(true), 5000);
     try {
-      const res = await fetch(`${BACKEND_URL}/chat`, {
+      const res = await fetch(`${BACKEND_URL}/chat-demo`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, history }),
@@ -2564,7 +4257,7 @@ function TlCard({ it, onOpenCompany }) {
         <p className="tl-summary">{it.summary}</p>
         {it.kind === "event" && it.action && (
           <div className="tl-action">
-            <span className="tl-action-k">Actian action</span>
+            <span className="tl-action-k">Axon Analytics action</span>
             <span className="tl-action-v">{it.action}</span>
           </div>
         )}
@@ -3142,7 +4835,7 @@ function CompaniesPage({ lens, onOpenCompany }) {
       <div className="hero">
         <div className="hero-title-row">
           <div>
-            <div className="hero-eyebrow">V2 tracked roster · 11 companies</div>
+            <div className="hero-eyebrow">Demo · 8 companies</div>
             <h1 className="hero-title">Companies</h1>
             <p className="hero-sub">
               Every tracked competitor with hiring signal, dominant focus, and strategic direction. Click any row to open its brief.
@@ -3251,7 +4944,7 @@ function HiringPage({ onOpen, lens }) {
       <div className="hero">
         <div className="hero-title-row">
           <div>
-            <div className="hero-eyebrow">V2 roster · {lens} lens · real-time job data</div>
+            <div className="hero-eyebrow">Demo roster · {lens} lens · real-time job data</div>
             <h1 className="hero-title">Hiring intelligence</h1>
             <p className="hero-sub">What competitors are building — decoded from who they're hiring. Click any row or signal to open the full brief.</p>
           </div>
@@ -3508,7 +5201,7 @@ function App() {
         )}
 
         <footer className="app-foot">
-          <span>Actian CI · internal · data updated continuously</span>
+          <span>CI Platform · internal · data updated continuously</span>
           <span>v3.0.0 · 11 competitors · {window.LAUNCHES.length} launches · {window.EVENTS.length} events</span>
         </footer>
       </main>
@@ -3550,7 +5243,7 @@ function DashboardPage({ lens, ordered, kpi, onOpen }) {
             <div className="hero-eyebrow">{todayString()} · Week 16</div>
             <h1 className="hero-title">Competitive verdicts</h1>
             <p className="hero-sub">
-              {sorted.length} companies · sorted by {SORT_LABELS[sortBy].toLowerCase()}. Team lens reweights signals and Actian action per card.
+              {sorted.length} companies · sorted by {SORT_LABELS[sortBy].toLowerCase()}. Team lens reweights signals and Axon Analytics action per card.
             </p>
           </div>
           <div className="hero-legend">
@@ -3651,5 +5344,19 @@ window.CompaniesPage = CompaniesPage;
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>
+
+  <style>
+    .demo-banner {
+      position: fixed; bottom: 16px; right: 16px; z-index: 9999;
+      background: oklch(0.18 0.02 250); color: oklch(0.85 0.05 250);
+      border: 1px solid oklch(0.30 0.04 250);
+      border-radius: 8px; padding: 8px 14px;
+      font-family: ui-monospace, monospace; font-size: 11px;
+      letter-spacing: 0.04em; pointer-events: none;
+      box-shadow: 0 2px 12px oklch(0 0 0 / 0.3);
+    }
+    .demo-banner strong { color: oklch(0.72 0.10 245); }
+  </style>
+  <div class="demo-banner"><strong>DEMO</strong> · synthetic data · AI-powered CI platform</div>
 </body>
 </html>
