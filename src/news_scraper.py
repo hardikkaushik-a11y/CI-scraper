@@ -272,7 +272,15 @@ _DROP_RE = re.compile(
     r'|\bbecause\s+\w+\s+needs?\s+(?:context|access|data|insights?)\b'
     r'|\bwhy\s+\w[\w\s]{0,30}\s+(?:matters?|is\s+critical)\b'
     r'|\bcritical\s+(?:infrastructure|foundation)\b'
-    r'|\bdata\s+products?\s+(?:are|is)\b',
+    r'|\bdata\s+products?\s+(?:are|is)\b'
+    # Generic AI rebranding (Activate/Launch/Introduces AI without substance)
+    r'|\bactivate\s+AI\b'
+    r'|\b(?:launches?|introduces?|unveils?)\s+\w+\s+AI\b'
+    # "How to" content (guides, tutorials, webinars)
+    r'|\bhow\s+to\s+make\b'
+    r'|\bin\s+minutes?\b'  # "...in X minutes" = quick how-to guides
+    # Conference talks / events (catch even in non-English)
+    r'|\b(?:event|webinar|conference|summit)\s+(?:el|la|los|las)\b',
     re.I,
 )
 

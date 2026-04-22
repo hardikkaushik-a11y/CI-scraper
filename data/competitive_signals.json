@@ -1,24 +1,5 @@
 [
   {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "Virtual event El futuro del reporting de riesgos (BCBS 239): maximizando la confianza en los datos con Collibra y PwC Apr 29 @ 4 PM CET / 11 AM ET",
-    "url": "https://www.collibra.com/events/el-futuro-del-reporting-de-riesgos-bcbs-239",
-    "published_date": "2026-04-21",
-    "summary": "Virtual event El futuro del reporting de riesgos (BCBS 239): maximizando la confianza en los datos con Collibra y PwC Apr 29 @ 4 PM CET / 11 AM ET",
-    "actian_relevance": "low",
-    "tags": [],
-    "source_type": "event_page",
-    "event_date": "2026-04-29",
-    "scraped_at": "2026-04-21",
-    "team_routing": [
-      "PMM",
-      "Marketing",
-      "SDRs"
-    ]
-  },
-  {
     "company": "Atlan",
     "product_area": "Data Intelligence",
     "type": "event",
@@ -62,31 +43,6 @@
       "Product",
       "PMM",
       "Marketing"
-    ]
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "event",
-    "title": "How to make your unstructured data AI-ready in minutes \u2014 Deasy Labs",
-    "url": "https://www.collibra.com/events/how-to-make-your-unstructured-data-ai-ready",
-    "published_date": "2026-04-19",
-    "summary": "Collibra demonstrates Deasy Labs product: turns unstructured data into AI-ready datasets with context-rich metadata in a few clicks. Signals Collibra expanding catalog capabilities into unstructured data and AI-readiness \u2014 competing directly with Actian's data catalog positioning.",
-    "actian_relevance": "high",
-    "tags": [
-      "unstructured data",
-      "metadata",
-      "AI-ready",
-      "Deasy Labs",
-      "catalog"
-    ],
-    "source_type": "event_page",
-    "event_date": "2026-05-05",
-    "scraped_at": "2026-04-19",
-    "team_routing": [
-      "PMM",
-      "Marketing",
-      "SDRs"
     ]
   },
   {
@@ -1238,30 +1194,6 @@
       "PMM",
       "Marketing",
       "SDRs"
-    ]
-  },
-  {
-    "company": "Collibra",
-    "product_area": "Data Intelligence",
-    "type": "product_launch",
-    "title": "Collibra Activate AI \u2014 Govern any Data",
-    "url": "https://www.collibra.com/activate/",
-    "published_date": "2026-04-18",
-    "summary": "New AI-powered governance features for cataloging and quality monitoring. Expanded API for third-party integrations.",
-    "actian_relevance": "high",
-    "tags": [
-      "AI",
-      "governance",
-      "quality",
-      "API"
-    ],
-    "source_type": "product_launch",
-    "event_date": null,
-    "scraped_at": "2026-04-18",
-    "team_routing": [
-      "Product",
-      "PMM",
-      "Marketing"
     ]
   },
   {
