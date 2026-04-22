@@ -269,7 +269,11 @@ def build_recent_activity(company, comp_signals, news):
     items = []
     for s in comp_signals:
         if s.get("company") != company: continue
-        raw_date = s.get("published_date") or s.get("event_date") or ""
+        # For events use event_date (when it happens), for launches use published_date (when announced)
+        if s.get("type") == "event":
+            raw_date = s.get("event_date") or s.get("published_date") or ""
+        else:
+            raw_date = s.get("published_date") or s.get("event_date") or ""
         if not raw_date: continue
         try:
             from datetime import date as _date
