@@ -2375,11 +2375,12 @@ function ChatDrawer({ open, onClose, lens }) {
   const [history, setHistory] = useState([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [warming, setWarming] = useState(false);
   const bodyRef = useRef(null);
 
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [messages, busy]);
+  }, [messages, busy, warming]);
 
   async function send(q) {
     const text = (q ?? input).trim();
@@ -2388,6 +2389,8 @@ function ChatDrawer({ open, onClose, lens }) {
     const next = [...messages, { role: "user", text }];
     setMessages(next);
     setBusy(true);
+    setWarming(false);
+    const warmTimer = setTimeout(() => setWarming(true), 5000);
     try {
       const res = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
@@ -2408,6 +2411,8 @@ function ChatDrawer({ open, onClose, lens }) {
     } catch (e) {
       setMessages(m => [...m, { role: "ai", text: `Couldn't reach the assistant — ${e.message}` }]);
     } finally {
+      clearTimeout(warmTimer);
+      setWarming(false);
       setBusy(false);
     }
   }
@@ -2444,6 +2449,14 @@ function ChatDrawer({ open, onClose, lens }) {
             <div className="chat-msg chat-ai">
               <div className="chat-avatar">CI</div>
               <div className="chat-bubble chat-typing"><span/><span/><span/></div>
+            </div>
+          )}
+          {warming && (
+            <div className="chat-msg chat-ai">
+              <div className="chat-avatar">CI</div>
+              <div className="chat-bubble" style={{ fontStyle: "italic", opacity: 0.75, fontSize: "13px" }}>
+                Warming up backend — first request can take ~50s on the free tier.
+              </div>
             </div>
           )}
         </div>
