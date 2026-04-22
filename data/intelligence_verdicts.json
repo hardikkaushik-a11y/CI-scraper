@@ -3,23 +3,23 @@
     "company": "Atlan",
     "product_area": "Data Intelligence",
     "signal_type": "hiring + event",
-    "impact_level": "feature",
-    "what_is_happening": "Atlan is assembling senior leadership (77% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. 4 upcoming event(s) confirmed — active GTM motion.",
-    "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface.",
-    "primary_interpretation": "Atlan shows limited Data Intelligence activity in this window. Signals are insufficient to confirm a strategic directional move.",
+    "impact_level": "product",
+    "what_is_happening": "Atlan is assembling senior leadership (77% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Atlan Activate: Atlan's latest product launches. 2 upcoming event(s) confirmed — active GTM motion.",
+    "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface. New capability reduces the gap in feature parity — affects Actian's positioning in competitive evaluations.",
+    "primary_interpretation": "Atlan has shipped new Data Intelligence capability. 13 open roles suggest they are scaling around this launch.",
     "alternative_interpretation": "Sparse signals may reflect deliberate stealth ahead of a major launch, or simply low activity in this window — insufficient data to distinguish between the two.",
     "hiring_event_correlation": {
-      "strength": "weak",
-      "explanation": "Both dimensions present (13 roles + event signals) but don't reinforce each other — Engineering doesn't directly map to the event type detected."
+      "strength": "moderate",
+      "explanation": "13 open roles + product/event signal present. Hiring function (Engineering) is plausibly related but volume (1/3) is insufficient to confirm at-scale deployment."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — data catalog and governance",
       "at_risk_segments": "enterprise data governance teams, regulated industries (finance, healthcare)",
-      "type_of_move": "expansion"
+      "type_of_move": "defensive"
     },
-    "confidence": "low",
-    "confidence_reasoning": "Sparse signals: event signals present but hiring volume too low to confirm strategic direction. Directional hypothesis only.",
-    "recommended_action": "No immediate action required. Monitor Atlan for hiring acceleration or product launch signals over the next 60 days before escalating.",
+    "confidence": "medium",
+    "confidence_reasoning": "Moderate evidence: hiring volume supports the signal. Correlation is moderate — one dimension is weaker.",
+    "recommended_action": "PMM: verify Atlan's new capability does not undercut Actian's embedded lineage and governance at the data source in active competitive evaluations; update battlecard if feature gap confirmed.",
     "team_routing": [
       "Product",
       "PMM",
@@ -33,15 +33,15 @@
       "sdrs": 4,
       "executives": 2
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "e1ba1c4206db71e8"
+    "last_updated": "2026-04-22",
+    "_input_hash": "80be6aae934ee8c2"
   },
   {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Collibra is assembling senior leadership (70% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Introducing the Collibra AI Command Center; Collibra Activate AI — Govern any Data. 8 upcoming event(s) confirmed — active GTM motion.",
+    "what_is_happening": "Collibra is assembling senior leadership (70% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Introducing the Collibra AI Command Center; Collibra Activate AI — Govern any Data. 7 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian's data catalog, lineage, and metadata management surface. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
     "primary_interpretation": "Collibra is deepening Data Intelligence product capability: 43 Engineering roles combined with 4 product launch(es) signal sustained R&D investment.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
@@ -55,7 +55,7 @@
       "type_of_move": "platform"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 43 open roles + 10 non-blog event signals with strong correlation between hiring and events.",
+    "confidence_reasoning": "Strong compound evidence: 43 open roles + 9 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Collibra battlecard within 2 weeks — new platform capability directly challenges Actian's embedded lineage and governance at the data source; lead with Actian's deployment flexibility as the counter-position.",
     "team_routing": [
       "Product",
@@ -71,8 +71,8 @@
       "sdrs": 5,
       "executives": 5
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "42261f117a884ee1"
+    "last_updated": "2026-04-22",
+    "_input_hash": "025a9dc25612beed"
   },
   {
     "company": "Alation",
@@ -109,8 +109,8 @@
       "sdrs": 4,
       "executives": 5
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "271c66cf32819d14"
+    "last_updated": "2026-04-22",
+    "_input_hash": "872af58a57829a5a"
   },
   {
     "company": "Monte Carlo",
@@ -219,8 +219,8 @@
       "sdrs": 3,
       "executives": 1
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "bf75b42dd56195cf"
+    "last_updated": "2026-04-22",
+    "_input_hash": "ab5166f009612b05"
   },
   {
     "company": "Pinecone",
@@ -257,8 +257,8 @@
       "sdrs": 5,
       "executives": 5
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "c5becb628ba903a7"
+    "last_updated": "2026-04-22",
+    "_input_hash": "305f8965b56e464a"
   },
   {
     "company": "Qdrant",
@@ -267,11 +267,11 @@
     "impact_level": "market",
     "what_is_happening": "Qdrant is scaling infrastructure with 3 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering. Funding event: We Raised $50M to Build Composable Vector Search as Core Infrastructure.",
     "why_it_matters": "Overlaps Actian Vector — direct competition in enterprise vector retrieval. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
-    "primary_interpretation": "Qdrant received new capital, which typically accelerates both product velocity and GTM expansion. With 10 open roles, headcount growth is likely imminent.",
+    "primary_interpretation": "Qdrant received new capital, which typically accelerates both product velocity and GTM expansion. With 11 open roles, headcount growth is likely imminent.",
     "alternative_interpretation": "Funding could be runway extension rather than growth acceleration — if Qdrant is managing burn, capital may not translate to near-term hiring or product velocity. Monitor headcount growth over the next 60 days to confirm.",
     "hiring_event_correlation": {
       "strength": "weak",
-      "explanation": "Both dimensions present (10 roles + event signals) but don't reinforce each other — Engineering doesn't directly map to the event type detected."
+      "explanation": "Both dimensions present (11 roles + event signals) but don't reinforce each other — Engineering doesn't directly map to the event type detected."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — vector database and AI retrieval",
@@ -293,8 +293,8 @@
       "sdrs": 3,
       "executives": 5
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "8b5cde9a133e5f4d"
+    "last_updated": "2026-04-22",
+    "_input_hash": "da2c1e8a06b80e26"
   },
   {
     "company": "Milvus",
@@ -330,8 +330,8 @@
       "sdrs": 2,
       "executives": 3
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "66060df7693bda9d"
+    "last_updated": "2026-04-22",
+    "_input_hash": "bf590c1353c57f0d"
   },
   {
     "company": "Snowflake",
@@ -368,8 +368,8 @@
       "sdrs": 5,
       "executives": 5
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "48a16e4e0ed36468"
+    "last_updated": "2026-04-22",
+    "_input_hash": "0629d9ec5db978a1"
   },
   {
     "company": "Databricks",
@@ -406,7 +406,7 @@
       "sdrs": 5,
       "executives": 5
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "fee779220eaefc7e"
+    "last_updated": "2026-04-22",
+    "_input_hash": "2d8db6b52ffa5a62"
   }
 ]

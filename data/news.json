@@ -3,6 +3,25 @@
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
+    "title": "Introducing the Databricks Excel Add-in for",
+    "url": "https://www.databricks.com/blog/introducing-databricks-excel-add-business-users",
+    "published_date": "2026-04-21",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
     "title": "Introducing Genie Agent Mode",
     "url": "https://www.databricks.com/blog/introducing-genie-agent-mode",
     "published_date": "2026-04-17",
