@@ -1,0 +1,243 @@
+[
+  {
+    "company": "Nexora",
+    "company_group": "AI Data Fabric",
+    "posting_count": 240,
+    "signal_summary": "Nexora is in aggressive hiring mode with 240 active roles \u2014 building directly into Axon Analytics core market",
+    "implications": [
+      "Heavy AI/ML hiring (28% of roles) signals a major platform bet \u2014 likely building LLM-native features or autonomous agents to embed in data workflows",
+      "Engineering-dominant hiring (52% of roles) indicates Nexora is still in build phase \u2014 product gaps remain before full GTM push",
+      "High seniority mix (42% Director+/Senior) suggests new product line formation, not routine headcount expansion",
+      "Dominant focus on AI/ML Pipeline aligns with ai-native data fabric platform with llm integrations \u2014 direct competitive pressure on Axon Analytics' core market"
+    ],
+    "watch_for": [
+      "Series C/D funding announcement \u2014 would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    "recommended_actions": [
+      "Expedite competitive positioning against Nexora's AI/ML Pipeline narrative",
+      "Brief all AEs on Nexora objection-handling \u2014 expect inbound comparisons",
+      "Accelerate roadmap items that neutralise Nexora's key differentiator"
+    ],
+    "hiring_intensity": "HIGH",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "AI/ML Pipeline",
+    "threat_level": "critical",
+    "roadmap": {
+      "direction": "Expanding AI/ML Pipeline capabilities toward enterprise-grade automation",
+      "confidence": "High",
+      "timeline": "Next 6\u20139 months",
+      "watch_for": "Beta launch of AI/ML Pipeline 2.0 platform"
+    },
+    "last_updated": "2026-04-22"
+  },
+  {
+    "company": "Polaria",
+    "company_group": "Data Intelligence",
+    "posting_count": 210,
+    "signal_summary": "Polaria is in aggressive hiring mode with 210 active roles \u2014 building directly into Axon Analytics core market",
+    "implications": [
+      "Dominant focus on Metadata Catalog aligns with enterprise metadata catalog and data governance platform \u2014 direct competitive pressure on Axon Analytics' core market"
+    ],
+    "watch_for": [
+      "Series C/D funding announcement \u2014 would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    "recommended_actions": [
+      "Expedite competitive positioning against Polaria's Metadata Catalog narrative",
+      "Brief all AEs on Polaria objection-handling \u2014 expect inbound comparisons",
+      "Accelerate roadmap items that neutralise Polaria's key differentiator"
+    ],
+    "hiring_intensity": "HIGH",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Metadata Catalog",
+    "threat_level": "critical",
+    "roadmap": {
+      "direction": "Expanding Metadata Catalog capabilities toward enterprise-grade automation",
+      "confidence": "High",
+      "timeline": "Next 6\u20139 months",
+      "watch_for": "Beta launch of Metadata Catalog 2.0 platform"
+    },
+    "last_updated": "2026-04-22"
+  },
+  {
+    "company": "Vextrix",
+    "company_group": "Data Observability",
+    "posting_count": 175,
+    "signal_summary": "Vextrix is in aggressive hiring mode with 175 active roles \u2014 data observability and pipeline monitoring saas",
+    "implications": [
+      "GTM hiring acceleration (22% Sales/Marketing) \u2014 Vextrix is shifting from build to sell; expect aggressive pricing campaigns",
+      "Dominant focus on Observability aligns with data observability and pipeline monitoring saas \u2014 direct competitive pressure on Axon Analytics' core market"
+    ],
+    "watch_for": [
+      "Series C/D funding announcement \u2014 would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    "recommended_actions": [
+      "Monitor Vextrix launches closely over next 60 days",
+      "Ensure battlecard is current and covers latest Vextrix positioning"
+    ],
+    "hiring_intensity": "HIGH",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Observability",
+    "threat_level": "high",
+    "roadmap": {
+      "direction": "Expanding Observability capabilities toward enterprise-grade automation",
+      "confidence": "High",
+      "timeline": "Next 6\u20139 months",
+      "watch_for": "Beta launch of Observability 2.0 platform"
+    },
+    "last_updated": "2026-04-22"
+  },
+  {
+    "company": "Orbital Labs",
+    "company_group": "Data Governance",
+    "posting_count": 155,
+    "signal_summary": "Orbital Labs is in aggressive hiring mode with 155 active roles \u2014 automated data governance and compliance platform",
+    "implications": [
+      "High seniority mix (40% Director+/Senior) suggests new product line formation, not routine headcount expansion",
+      "GTM hiring acceleration (24% Sales/Marketing) \u2014 Orbital Labs is shifting from build to sell; expect aggressive pricing campaigns",
+      "Dominant focus on Data Governance aligns with automated data governance and compliance platform \u2014 direct competitive pressure on Axon Analytics' core market"
+    ],
+    "watch_for": [
+      "Series C/D funding announcement \u2014 would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    "recommended_actions": [
+      "Monitor Orbital Labs launches closely over next 60 days",
+      "Ensure battlecard is current and covers latest Orbital Labs positioning"
+    ],
+    "hiring_intensity": "HIGH",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Data Governance",
+    "threat_level": "high",
+    "roadmap": {
+      "direction": "Expanding Data Governance capabilities toward enterprise-grade automation",
+      "confidence": "High",
+      "timeline": "Next 6\u20139 months",
+      "watch_for": "Beta launch of Data Governance 2.0 platform"
+    },
+    "last_updated": "2026-04-22"
+  },
+  {
+    "company": "Quanthorne",
+    "company_group": "Real-Time Analytics",
+    "posting_count": 130,
+    "signal_summary": "Quanthorne is in aggressive hiring mode with 130 active roles \u2014 real-time streaming analytics and event processing engine",
+    "implications": [
+      "Engineering-dominant hiring (55% of roles) indicates Quanthorne is still in build phase \u2014 product gaps remain before full GTM push",
+      "Dominant focus on Streaming Analytics aligns with real-time streaming analytics and event processing engine \u2014 direct competitive pressure on Axon Analytics' core market"
+    ],
+    "watch_for": [
+      "Series C/D funding announcement \u2014 would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    "recommended_actions": [
+      "Monitor Quanthorne launches closely over next 60 days",
+      "Ensure battlecard is current and covers latest Quanthorne positioning"
+    ],
+    "hiring_intensity": "MEDIUM",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Streaming Analytics",
+    "threat_level": "high",
+    "roadmap": {
+      "direction": "Expanding Streaming Analytics capabilities toward enterprise-grade automation",
+      "confidence": "High",
+      "timeline": "Next 6\u20139 months",
+      "watch_for": "Beta launch of Streaming Analytics 2.0 platform"
+    },
+    "last_updated": "2026-04-22"
+  },
+  {
+    "company": "Stratify",
+    "company_group": "MLOps",
+    "posting_count": 95,
+    "signal_summary": "Stratify is in steady hiring mode with 95 active roles \u2014 mlops platform for model deployment and monitoring",
+    "implications": [
+      "Heavy AI/ML hiring (35% of roles) signals a major platform bet \u2014 likely building LLM-native features or autonomous agents to embed in data workflows",
+      "Dominant focus on Model Serving aligns with mlops platform for model deployment and monitoring \u2014 direct competitive pressure on Axon Analytics' core market"
+    ],
+    "watch_for": [
+      "Series C/D funding announcement \u2014 would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    "recommended_actions": [
+      "Quarterly review of Stratify signal \u2014 no immediate action required"
+    ],
+    "hiring_intensity": "MEDIUM",
+    "dominant_function": "AI/ML & Vector",
+    "dominant_product_focus": "Model Serving",
+    "threat_level": "medium",
+    "roadmap": {
+      "direction": "Expanding Model Serving capabilities toward enterprise-grade automation",
+      "confidence": "Medium",
+      "timeline": "Next 6\u20139 months",
+      "watch_for": "Beta launch of Model Serving 2.0 platform"
+    },
+    "last_updated": "2026-04-22"
+  },
+  {
+    "company": "Krytex",
+    "company_group": "Vector DB",
+    "posting_count": 85,
+    "signal_summary": "Krytex is in steady hiring mode with 85 active roles \u2014 vector database and semantic search infrastructure",
+    "implications": [
+      "Heavy AI/ML hiring (40% of roles) signals a major platform bet \u2014 likely building LLM-native features or autonomous agents to embed in data workflows",
+      "Dominant focus on Vector Search aligns with vector database and semantic search infrastructure \u2014 direct competitive pressure on Axon Analytics' core market"
+    ],
+    "watch_for": [
+      "Series C/D funding announcement \u2014 would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    "recommended_actions": [
+      "Quarterly review of Krytex signal \u2014 no immediate action required"
+    ],
+    "hiring_intensity": "MEDIUM",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Vector Search",
+    "threat_level": "medium",
+    "roadmap": {
+      "direction": "Expanding Vector Search capabilities toward enterprise-grade automation",
+      "confidence": "Medium",
+      "timeline": "Next 6\u20139 months",
+      "watch_for": "Beta launch of Vector Search 2.0 platform"
+    },
+    "last_updated": "2026-04-22"
+  },
+  {
+    "company": "Lumiqa",
+    "company_group": "BI & Analytics",
+    "posting_count": 60,
+    "signal_summary": "Lumiqa is in steady hiring mode with 60 active roles \u2014 self-service bi and embedded analytics platform",
+    "implications": [
+      "GTM hiring acceleration (28% Sales/Marketing) \u2014 Lumiqa is shifting from build to sell; expect aggressive pricing campaigns",
+      "Dominant focus on Business Intelligence aligns with self-service bi and embedded analytics platform \u2014 direct competitive pressure on Axon Analytics' core market"
+    ],
+    "watch_for": [
+      "Series C/D funding announcement \u2014 would enable accelerated enterprise GTM",
+      "New integration partnerships with Snowflake or Databricks",
+      "Pricing change targeting Axon's SMB accounts"
+    ],
+    "recommended_actions": [
+      "Quarterly review of Lumiqa signal \u2014 no immediate action required"
+    ],
+    "hiring_intensity": "LOW",
+    "dominant_function": "Engineering",
+    "dominant_product_focus": "Business Intelligence",
+    "threat_level": "low",
+    "roadmap": {
+      "direction": "Expanding Business Intelligence capabilities toward enterprise-grade automation",
+      "confidence": "Medium",
+      "timeline": "Next 6\u20139 months",
+      "watch_for": "Beta launch of Business Intelligence 2.0 platform"
+    },
+    "last_updated": "2026-04-22"
+  }
+]

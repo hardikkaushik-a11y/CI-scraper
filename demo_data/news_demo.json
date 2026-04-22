@@ -1,0 +1,262 @@
+[
+  {
+    "company": "Quanthorne",
+    "product_area": "Real-Time Analytics",
+    "news_type": "product_launch",
+    "title": "Quanthorne Launches Streaming Analytics for Enterprise Data Teams",
+    "url": "https://blog.quanthorne.io/news/product_launch-658",
+    "published_date": "2026-04-17",
+    "source": "company_blog",
+    "summary": "A new Streaming Analytics capability designed to accelerate data pipeline automation and reduce time-to-insight for enterprise customers.",
+    "actian_relevance": "high",
+    "tags": [
+      "real-time_analytics",
+      "product_launch"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Vextrix",
+    "product_area": "Data Observability",
+    "news_type": "funding",
+    "title": "Vextrix Raises $120M Series C to Accelerate AI-Powered Observability",
+    "url": "https://blog.vextrix.io/news/funding-424",
+    "published_date": "2026-04-15",
+    "source": "company_blog",
+    "summary": "Vextrix closes $120M Series C led by top-tier VCs, funding continued expansion of its Observability platform.",
+    "actian_relevance": "high",
+    "tags": [
+      "data_observability",
+      "funding"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Stratify",
+    "product_area": "MLOps",
+    "news_type": "funding",
+    "title": "Stratify Raises $120M Series C to Accelerate AI-Powered Model Serving",
+    "url": "https://blog.stratify.io/news/funding-755",
+    "published_date": "2026-04-10",
+    "source": "company_blog",
+    "summary": "Stratify closes $120M Series C led by top-tier VCs, funding continued expansion of its Model Serving platform.",
+    "actian_relevance": "high",
+    "tags": [
+      "mlops",
+      "funding"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Stratify",
+    "product_area": "MLOps",
+    "news_type": "product_launch",
+    "title": "Stratify Introduces Model Serving 2.0 with Native LLM Integration",
+    "url": "https://blog.stratify.io/news/product_launch-427",
+    "published_date": "2026-04-06",
+    "source": "company_blog",
+    "summary": "The new release adds LLM-native connectors and automated metadata enrichment, targeting enterprise data teams.",
+    "actian_relevance": "high",
+    "tags": [
+      "mlops",
+      "product_launch"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Quanthorne",
+    "product_area": "Real-Time Analytics",
+    "news_type": "product_launch",
+    "title": "Quanthorne Introduces Streaming Analytics 2.0 with Native LLM Integration",
+    "url": "https://blog.quanthorne.io/news/product_launch-565",
+    "published_date": "2026-04-02",
+    "source": "company_blog",
+    "summary": "The new release adds LLM-native connectors and automated metadata enrichment, targeting enterprise data teams.",
+    "actian_relevance": "high",
+    "tags": [
+      "real-time_analytics",
+      "product_launch"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Polaria",
+    "product_area": "Data Intelligence",
+    "news_type": "funding",
+    "title": "Polaria Raises $120M Series C to Accelerate AI-Powered Metadata Catalog",
+    "url": "https://blog.polaria.io/news/funding-886",
+    "published_date": "2026-03-25",
+    "source": "company_blog",
+    "summary": "Polaria closes $120M Series C led by top-tier VCs, funding continued expansion of its Metadata Catalog platform.",
+    "actian_relevance": "high",
+    "tags": [
+      "data_intelligence",
+      "funding"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Vextrix",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Vextrix Introduces Observability 2.0 with Native LLM Integration",
+    "url": "https://blog.vextrix.io/news/product_launch-436",
+    "published_date": "2026-03-25",
+    "source": "company_blog",
+    "summary": "The new release adds LLM-native connectors and automated metadata enrichment, targeting enterprise data teams.",
+    "actian_relevance": "high",
+    "tags": [
+      "data_observability",
+      "product_launch"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Nexora",
+    "product_area": "AI Data Fabric",
+    "news_type": "pricing",
+    "title": "Nexora Announces Consumption-Based Pricing for AI/ML Pipeline",
+    "url": "https://blog.nexora.io/news/pricing-211",
+    "published_date": "2026-03-21",
+    "source": "company_blog",
+    "summary": "New pricing model replaces annual seat licenses, reducing friction for SMB adoption and putting pressure on incumbents.",
+    "actian_relevance": "medium",
+    "tags": [
+      "ai_data_fabric",
+      "pricing"
+    ],
+    "team_routing": [
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Orbital Labs",
+    "product_area": "Data Governance",
+    "news_type": "leadership",
+    "title": "Orbital Labs Appoints Former Databricks VP as Chief Product Officer",
+    "url": "https://blog.orbital labs.io/news/leadership-317",
+    "published_date": "2026-03-19",
+    "source": "company_blog",
+    "summary": "Industry veteran joins Orbital Labs to lead product strategy and accelerate the next phase of platform growth.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data_governance",
+      "leadership"
+    ],
+    "team_routing": [
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Nexora",
+    "product_area": "AI Data Fabric",
+    "news_type": "product_launch",
+    "title": "Nexora Introduces AI/ML Pipeline 2.0 with Native LLM Integration",
+    "url": "https://blog.nexora.io/news/product_launch-937",
+    "published_date": "2026-03-16",
+    "source": "company_blog",
+    "summary": "The new release adds LLM-native connectors and automated metadata enrichment, targeting enterprise data teams.",
+    "actian_relevance": "high",
+    "tags": [
+      "ai_data_fabric",
+      "product_launch"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Orbital Labs",
+    "product_area": "Data Governance",
+    "news_type": "partnership",
+    "title": "Orbital Labs Partners with AWS to Co-Sell Data Governance on Marketplace",
+    "url": "https://blog.orbital labs.io/news/partnership-859",
+    "published_date": "2026-03-06",
+    "source": "company_blog",
+    "summary": "Orbital Labs joins the AWS ISV Accelerate Program, enabling direct co-sell motions with AWS enterprise sales teams.",
+    "actian_relevance": "high",
+    "tags": [
+      "data_governance",
+      "partnership"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Polaria",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "Polaria Launches Metadata Catalog for Enterprise Data Teams",
+    "url": "https://blog.polaria.io/news/product_launch-210",
+    "published_date": "2026-03-04",
+    "source": "company_blog",
+    "summary": "A new Metadata Catalog capability designed to accelerate data pipeline automation and reduce time-to-insight for enterprise customers.",
+    "actian_relevance": "high",
+    "tags": [
+      "data_intelligence",
+      "product_launch"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-22T13:14:41Z"
+  }
+]

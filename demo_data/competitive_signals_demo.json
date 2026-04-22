@@ -1,0 +1,549 @@
+[
+  {
+    "company": "Nexora",
+    "product_area": "AI Data Fabric",
+    "type": "product_launch",
+    "title": "Nexora AI/ML Pipeline \u2014 Enterprise Compliance Pack",
+    "url": "https://nexora.io/blog/launch-1",
+    "published_date": "2026-04-15",
+    "summary": "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the AI/ML Pipeline workflow.",
+    "actian_relevance": "medium",
+    "tags": [
+      "ai_data_fabric",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "PMM"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Nexora",
+    "product_area": "AI Data Fabric",
+    "type": "product_launch",
+    "title": "Nexora AI/ML Pipeline \u2014 Enterprise Compliance Pack",
+    "url": "https://nexora.io/blog/launch-2",
+    "published_date": "2026-03-24",
+    "summary": "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the AI/ML Pipeline workflow.",
+    "actian_relevance": "medium",
+    "tags": [
+      "ai_data_fabric",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "PMM"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Nexora",
+    "product_area": "AI Data Fabric",
+    "type": "event",
+    "title": "Nexora Data Summit 2026 \u2014 Nexora's annual user conference",
+    "url": "https://events.nexora.io/event-3",
+    "published_date": "2026-04-15",
+    "summary": "Annual user and developer conference showcasing AI/ML Pipeline roadmap and customer success stories.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "ai_data_fabric"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-08-08",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Nexora",
+    "product_area": "AI Data Fabric",
+    "type": "event",
+    "title": "Nexora Live Demo Day \u2014 AI/ML Pipeline 2.0 Showcase",
+    "url": "https://events.nexora.io/event-4",
+    "published_date": "2026-04-17",
+    "summary": "Public product demonstration with hands-on labs for enterprise prospects.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "ai_data_fabric"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-06-26",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Polaria",
+    "product_area": "Data Intelligence",
+    "type": "product_launch",
+    "title": "Polaria Metadata Catalog \u2014 Advanced Pipeline Automation",
+    "url": "https://polaria.io/blog/launch-5",
+    "published_date": "2026-04-04",
+    "summary": "Polaria ships a major upgrade to its Metadata Catalog with autonomous pipeline repair and real-time anomaly detection.",
+    "actian_relevance": "high",
+    "tags": [
+      "data_intelligence",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Polaria",
+    "product_area": "Data Intelligence",
+    "type": "product_launch",
+    "title": "Polaria Metadata Catalog \u2014 Advanced Pipeline Automation",
+    "url": "https://polaria.io/blog/launch-6",
+    "published_date": "2026-03-05",
+    "summary": "Polaria ships a major upgrade to its Metadata Catalog with autonomous pipeline repair and real-time anomaly detection.",
+    "actian_relevance": "high",
+    "tags": [
+      "data_intelligence",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Polaria",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Polaria Live Demo Day \u2014 Metadata Catalog 2.0 Showcase",
+    "url": "https://events.polaria.io/event-7",
+    "published_date": "2026-04-16",
+    "summary": "Public product demonstration with hands-on labs for enterprise prospects.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "data_intelligence"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-05-31",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Polaria",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Polaria + AWS Partner Webinar \u2014 Winning with Metadata Catalog",
+    "url": "https://events.polaria.io/event-8",
+    "published_date": "2026-04-18",
+    "summary": "Co-hosted webinar covering joint go-to-market strategy and customer case studies.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "data_intelligence"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-05-07",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Vextrix",
+    "product_area": "Data Observability",
+    "type": "product_launch",
+    "title": "Vextrix Observability \u2014 Advanced Pipeline Automation",
+    "url": "https://vextrix.io/blog/launch-9",
+    "published_date": "2026-03-31",
+    "summary": "Vextrix ships a major upgrade to its Observability with autonomous pipeline repair and real-time anomaly detection.",
+    "actian_relevance": "high",
+    "tags": [
+      "data_observability",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Vextrix",
+    "product_area": "Data Observability",
+    "type": "product_launch",
+    "title": "Vextrix Unveils AI-Powered Observability Assistant",
+    "url": "https://vextrix.io/blog/launch-10",
+    "published_date": "2026-04-12",
+    "summary": "New AI assistant embedded in Observability allows data engineers to describe pipelines in natural language.",
+    "actian_relevance": "high",
+    "tags": [
+      "data_observability",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Vextrix",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Vextrix at Data + AI Summit 2026",
+    "url": "https://events.vextrix.io/event-11",
+    "published_date": "2026-04-09",
+    "summary": "Vextrix presenting keynote and running breakout sessions at the industry's premier data conference.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "data_observability"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-08-16",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Vextrix",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Vextrix Live Demo Day \u2014 Observability 2.0 Showcase",
+    "url": "https://events.vextrix.io/event-12",
+    "published_date": "2026-04-14",
+    "summary": "Public product demonstration with hands-on labs for enterprise prospects.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "data_observability"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-08-16",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Orbital Labs",
+    "product_area": "Data Governance",
+    "type": "product_launch",
+    "title": "Orbital Labs Data Governance \u2014 Enterprise Compliance Pack",
+    "url": "https://orbital labs.io/blog/launch-13",
+    "published_date": "2026-04-04",
+    "summary": "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the Data Governance workflow.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data_governance",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "PMM"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Orbital Labs",
+    "product_area": "Data Governance",
+    "type": "product_launch",
+    "title": "Orbital Labs Data Governance \u2014 Enterprise Compliance Pack",
+    "url": "https://orbital labs.io/blog/launch-14",
+    "published_date": "2026-04-01",
+    "summary": "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the Data Governance workflow.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data_governance",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "PMM"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Orbital Labs",
+    "product_area": "Data Governance",
+    "type": "event",
+    "title": "Orbital Labs + AWS Partner Webinar \u2014 Winning with Data Governance",
+    "url": "https://events.orbital labs.io/event-15",
+    "published_date": "2026-04-20",
+    "summary": "Co-hosted webinar covering joint go-to-market strategy and customer case studies.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "data_governance"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-08-11",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Orbital Labs",
+    "product_area": "Data Governance",
+    "type": "event",
+    "title": "Orbital Labs Data Summit 2026 \u2014 Orbital Labs's annual user conference",
+    "url": "https://events.orbital labs.io/event-16",
+    "published_date": "2026-04-14",
+    "summary": "Annual user and developer conference showcasing Data Governance roadmap and customer success stories.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "data_governance"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-08-19",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Quanthorne",
+    "product_area": "Real-Time Analytics",
+    "type": "product_launch",
+    "title": "Quanthorne Unveils AI-Powered Streaming Analytics Assistant",
+    "url": "https://quanthorne.io/blog/launch-17",
+    "published_date": "2026-03-29",
+    "summary": "New AI assistant embedded in Streaming Analytics allows data engineers to describe pipelines in natural language.",
+    "actian_relevance": "high",
+    "tags": [
+      "real-time_analytics",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Quanthorne",
+    "product_area": "Real-Time Analytics",
+    "type": "product_launch",
+    "title": "Quanthorne Streaming Analytics \u2014 Advanced Pipeline Automation",
+    "url": "https://quanthorne.io/blog/launch-18",
+    "published_date": "2026-04-05",
+    "summary": "Quanthorne ships a major upgrade to its Streaming Analytics with autonomous pipeline repair and real-time anomaly detection.",
+    "actian_relevance": "high",
+    "tags": [
+      "real-time_analytics",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Quanthorne",
+    "product_area": "Real-Time Analytics",
+    "type": "event",
+    "title": "Quanthorne at Data + AI Summit 2026",
+    "url": "https://events.quanthorne.io/event-19",
+    "published_date": "2026-04-13",
+    "summary": "Quanthorne presenting keynote and running breakout sessions at the industry's premier data conference.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "real-time_analytics"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-06-19",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Quanthorne",
+    "product_area": "Real-Time Analytics",
+    "type": "event",
+    "title": "Quanthorne Live Demo Day \u2014 Streaming Analytics 2.0 Showcase",
+    "url": "https://events.quanthorne.io/event-20",
+    "published_date": "2026-04-09",
+    "summary": "Public product demonstration with hands-on labs for enterprise prospects.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "real-time_analytics"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-07-04",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Stratify",
+    "product_area": "MLOps",
+    "type": "product_launch",
+    "title": "Stratify Model Serving \u2014 Advanced Pipeline Automation",
+    "url": "https://stratify.io/blog/launch-21",
+    "published_date": "2026-03-04",
+    "summary": "Stratify ships a major upgrade to its Model Serving with autonomous pipeline repair and real-time anomaly detection.",
+    "actian_relevance": "high",
+    "tags": [
+      "mlops",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Stratify",
+    "product_area": "MLOps",
+    "type": "event",
+    "title": "Stratify Live Demo Day \u2014 Model Serving 2.0 Showcase",
+    "url": "https://events.stratify.io/event-22",
+    "published_date": "2026-04-09",
+    "summary": "Public product demonstration with hands-on labs for enterprise prospects.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "mlops"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-06-11",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Krytex",
+    "product_area": "Vector / AI",
+    "type": "product_launch",
+    "title": "Krytex Vector Search \u2014 Enterprise Compliance Pack",
+    "url": "https://krytex.io/blog/launch-23",
+    "published_date": "2026-03-24",
+    "summary": "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the Vector Search workflow.",
+    "actian_relevance": "medium",
+    "tags": [
+      "vector_/_ai",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "PMM"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Krytex",
+    "product_area": "Vector / AI",
+    "type": "event",
+    "title": "Krytex Data Summit 2026 \u2014 Krytex's annual user conference",
+    "url": "https://events.krytex.io/event-24",
+    "published_date": "2026-04-08",
+    "summary": "Annual user and developer conference showcasing Vector Search roadmap and customer success stories.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "vector_/_ai"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-07-07",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Lumiqa",
+    "product_area": "BI & Analytics",
+    "type": "product_launch",
+    "title": "Lumiqa Business Intelligence \u2014 Enterprise Compliance Pack",
+    "url": "https://lumiqa.io/blog/launch-25",
+    "published_date": "2026-04-05",
+    "summary": "Adds SOC 2 Type II, GDPR, and HIPAA compliance templates directly into the Business Intelligence workflow.",
+    "actian_relevance": "medium",
+    "tags": [
+      "bi_&_analytics",
+      "product_launch"
+    ],
+    "source_type": "blog",
+    "event_date": null,
+    "team_routing": [
+      "PMM"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  },
+  {
+    "company": "Lumiqa",
+    "product_area": "BI & Analytics",
+    "type": "event",
+    "title": "Lumiqa Data Summit 2026 \u2014 Lumiqa's annual user conference",
+    "url": "https://events.lumiqa.io/event-26",
+    "published_date": "2026-04-10",
+    "summary": "Annual user and developer conference showcasing Business Intelligence roadmap and customer success stories.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "bi_&_analytics"
+    ],
+    "source_type": "events_page",
+    "event_date": "2026-07-28",
+    "team_routing": [
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-22T13:14:41Z"
+  }
+]
