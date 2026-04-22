@@ -273,14 +273,14 @@ _DROP_RE = re.compile(
     r'|\bwhy\s+\w[\w\s]{0,30}\s+(?:matters?|is\s+critical)\b'
     r'|\bcritical\s+(?:infrastructure|foundation)\b'
     r'|\bdata\s+products?\s+(?:are|is)\b'
-    # Generic AI rebranding (Activate/Launch/Introduces AI without substance)
+    # Generic AI rebranding (Activate AI without substance)
     r'|\bactivate\s+AI\b'
-    r'|\b(?:launches?|introduces?|unveils?)\s+\w+\s+AI\b'
-    # "How to" content (guides, tutorials, webinars)
-    r'|\bhow\s+to\s+make\b'
-    r'|\bin\s+minutes?\b'  # "...in X minutes" = quick how-to guides
-    # Conference talks / events (catch even in non-English)
-    r'|\b(?:event|webinar|conference|summit)\s+(?:el|la|los|las)\b',
+    # "How to" tutorials / guides
+    r'|\bhow\s+to\s+make\s+your?\b'
+    r'|\bin\s+\d+\s+minutes?\b'  # "...in 30 minutes" = quick how-to
+    # Explicit webinar/conference titles (with dates/times)
+    r'|\bwebinar\b'
+    r'|\b(?:event|conference|summit)\s+.{1,100}(?:\d{1,2}:\d{2}\s*(?:AM|PM|CET|ET)|Apr|May|June|July|August|September|October|November|December)\b',
     re.I,
 )
 
@@ -293,10 +293,6 @@ def classify_item(company: str, title: str, description: str, url: str) -> dict 
     """
     # FIX #13: use title only for all matching — never description
     t = title  # title-only for classification
-
-    # Drop /events/ pages (marketing fluff, not news)
-    if '/events/' in url.lower():
-        return None
 
     # Hard drop on title
     if _DROP_RE.search(t):
