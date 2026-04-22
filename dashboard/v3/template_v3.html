@@ -2349,6 +2349,17 @@ function BriefDrawer({ comp, lens, onClose }) {
           </div>
         </section>
 
+        {comp.recentActivity && comp.recentActivity.length > 0 && (
+        <section className="drw-sec drw-timeline">
+          <h4 className="drw-h">Recent activity</h4>
+          <ol className="drw-tl">
+            {comp.recentActivity.map((a,i) => (
+              <li key={i}><span className="drw-tl-dt">{a.date}</span><span className="drw-tl-t">{a.text}</span></li>
+            ))}
+          </ol>
+        </section>
+        )}
+
       </aside>
     </div>
   );

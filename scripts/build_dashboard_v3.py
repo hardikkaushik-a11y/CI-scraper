@@ -251,7 +251,55 @@ def load_json(path):
 
 # ── Transform signals → COMPETITORS ─────────────────────────────────────────
 
-def build_competitors(signals, verdicts, per_company=None):
+def build_recent_activity(company, comp_signals, news):
+    """Build real recent activity for a company from signals + news, newest first."""
+    TYPE_LABEL = {
+        "product_launch": "Product launch",
+        "event": "Event",
+        "partnership": "Partnership",
+        "funding": "Funding",
+        "acquisition": "Acquisition",
+        "leadership": "Leadership change",
+        "open_source_release": "OSS release",
+        "feature": "Feature shipped",
+        "pricing": "Pricing change",
+        "layoff": "Layoff",
+        "blog_post": "Blog post",
+    }
+    items = []
+    for s in comp_signals:
+        if s.get("company") != company: continue
+        raw_date = s.get("published_date") or s.get("event_date") or ""
+        if not raw_date: continue
+        try:
+            from datetime import date as _date
+            d = _date.fromisoformat(raw_date)
+            label = d.strftime("%b %-d")
+        except Exception:
+            label = raw_date[:7]
+        ltype = TYPE_LABEL.get(s.get("type",""), s.get("type","").replace("_"," ").title())
+        title = s.get("title","")[:60]
+        items.append({"date": label, "text": f"{ltype}: {title}", "_sort": raw_date})
+    for n in news:
+        if n.get("company") != company: continue
+        raw_date = n.get("published_date","")
+        if not raw_date: continue
+        try:
+            from datetime import date as _date
+            d = _date.fromisoformat(raw_date)
+            label = d.strftime("%b %-d")
+        except Exception:
+            label = raw_date[:7]
+        ltype = TYPE_LABEL.get(n.get("news_type",""), n.get("news_type","").replace("_"," ").title())
+        title = n.get("title","")[:60]
+        items.append({"date": label, "text": f"{ltype}: {title}", "_sort": raw_date})
+    items.sort(key=lambda x: x["_sort"], reverse=True)
+    for item in items:
+        del item["_sort"]
+    return items[:5]
+
+
+def build_competitors(signals, verdicts, per_company=None, comp_signals=None, news=None):
     # Index by lower-cased name for fuzzy matching
     sig_index = {s["company"].lower(): s for s in signals}
     vrd_index = {}
@@ -361,6 +409,7 @@ def build_competitors(signals, verdicts, per_company=None):
             "updated": relative_updated(last_updated),
             "score": compute_score(threat, posting_count),
             "functionBreakdown": {f: (per_company or {}).get(company, {}).get(f, 0) for f in TARGET_FUNCTIONS},
+            "recentActivity": build_recent_activity(company, comp_signals or [], news or []),
         }
         competitors.append(comp)
 
@@ -549,7 +598,7 @@ def main():
 
     # Build COMPETITORS
     print("  Building COMPETITORS array...")
-    competitors = build_competitors(signals, verdicts, per_company)
+    competitors = build_competitors(signals, verdicts, per_company, comp_signals=comp_signals, news=news)
     print(f"    {len(competitors)} competitors built")
     for c in competitors:
         print(f"    - {c['name']:20s} {c['threat']:8s}  {c['postingCount']:3d} postings")
