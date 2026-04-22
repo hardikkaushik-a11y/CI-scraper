@@ -505,6 +505,15 @@ def health():
         return jsonify({"status": "error", "error": str(e)}), 500
 
 
+@app.route("/demo", methods=["GET"])
+def serve_demo():
+    """Serve the demo dashboard (synthetic data, CV showcase)."""
+    path = Path(__file__).parent.parent / "dashboard" / "v3" / "demo.html"
+    if not path.exists():
+        return jsonify({"error": "demo.html not found — run scripts/build_demo_v3.py"}), 404
+    return path.read_text(encoding="utf-8"), 200, {"Content-Type": "text/html; charset=utf-8"}
+
+
 @app.route("/dashboard/v2/", methods=["GET"])
 def serve_dashboard_v2():
     """Serve the regenerated dashboard_v2.html with embedded data."""
