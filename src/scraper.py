@@ -381,6 +381,12 @@ def is_job_url(href: str, text: str) -> bool:
     return False
 
 
+def _strip_html(html_text: str) -> str:
+    """Strip HTML tags and collapse whitespace for description text."""
+    text = re.sub(r'<[^>]+>', ' ', html_text or '')
+    return re.sub(r'\s+', ' ', text).strip()
+
+
 def extract_date(html: str) -> str:
     if not html:
         return ""
@@ -593,6 +599,9 @@ async def extract_lever_jobs(
             if is_too_old(posting_date):
                 continue
 
+            desc = item.get("descriptionPlain", "") or _strip_html(item.get("description", ""))
+            desc = re.sub(r'\s+', ' ', desc).strip()[:600]
+
             jobs.append({
                 "Company": company,
                 "Job Title": title,
@@ -600,6 +609,7 @@ async def extract_lever_jobs(
                 "Location": location,
                 "Posting Date": posting_date,
                 "Seniority": "Mid",  # enrich.py re-detects with better logic
+                "Description": desc,
             })
 
         jobs = dedup_and_cap(jobs, company)
@@ -648,6 +658,10 @@ async def extract_greenhouse_jobs(
             if is_too_old(posting_date):
                 continue
 
+            # Use department name as a classification hint (already in bulk response)
+            depts = item.get("departments", [])
+            dept_hint = depts[0].get("name", "") if depts else ""
+
             jobs.append({
                 "Company": company,
                 "Job Title": title,
@@ -655,6 +669,7 @@ async def extract_greenhouse_jobs(
                 "Location": location,
                 "Posting Date": posting_date,
                 "Seniority": "Mid",
+                "Description": f"Dept: {dept_hint}" if dept_hint else "",
             })
 
         jobs = dedup_and_cap(jobs, company)
@@ -699,6 +714,9 @@ async def extract_ashby_jobs(
             if is_too_old(posting_date):
                 continue
 
+            # Ashby bulk API doesn't include description; use department as hint
+            dept_hint = item.get("department", item.get("team", ""))
+
             jobs.append({
                 "Company": company,
                 "Job Title": title,
@@ -706,6 +724,7 @@ async def extract_ashby_jobs(
                 "Location": location,
                 "Posting Date": posting_date,
                 "Seniority": "Mid",
+                "Description": f"Dept: {dept_hint}" if dept_hint else "",
             })
 
         jobs = dedup_and_cap(jobs, company)
@@ -1563,7 +1582,7 @@ async def scrape_all(competitors_path: str = "data/competitors.csv") -> list[dic
 def write_csv(jobs: list[dict], path: str = "data/jobs_raw.csv") -> int:
     fieldnames = [
         "Company", "Job Title", "Job Link", "Location",
-        "Posting Date", "Seniority", "First_Seen", "Last_Seen",
+        "Posting Date", "Seniority", "First_Seen", "Last_Seen", "Description",
     ]
 
     # Deduplicate by Job Link — prefer row with more data

@@ -184,6 +184,9 @@ def load_function_breakdown(csv_path, allowed_companies):
             for row in reader:
                 company = row.get('Company', '').strip()
                 func = row.get('Function', '').strip()
+                # Normalize legacy value from before Solution Engineering/Partners were added
+                if func == 'Product':
+                    func = 'Product Management'
                 if company in allowed_companies and func:
                     per_company[company][func] += 1
     except FileNotFoundError:

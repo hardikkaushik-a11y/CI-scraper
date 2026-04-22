@@ -35,8 +35,8 @@ MAX_JOB_AGE_DAYS = 365
 # Allowed values — anything outside these sets gets remapped via fallback
 ALLOWED_FUNCTIONS = {
     "Engineering", "Data/Analytics", "AI/ML & Vector", "Sales", "Marketing",
-    "Product", "Operations", "Design", "Finance",
-    "Security", "Customer Success",
+    "Product Management", "Operations", "Design", "Finance",
+    "Security", "Customer Success", "Solution Engineering", "Partners/Alliances",
 }
 # Functions to exclude entirely — these jobs are not relevant to CI analysis
 EXCLUDED_FUNCTIONS = {"Legal", "People/HR"}
@@ -77,7 +77,7 @@ FIELDNAMES = [
     "Company_Group", "Product_Focus", "Product_Focus_Tokens",
     "Primary_Skill", "Extracted_Skills",
     "Relevancy_to_Actian", "Trend_Score",
-    "First_Seen", "Last_Seen",
+    "First_Seen", "Last_Seen", "Description",
 ]
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -574,18 +574,21 @@ def compute_trend(title: str, seniority: str) -> float:
 # CLASSIFICATION — COMPREHENSIVE REGEX FALLBACK
 # ══════════════════════════════════════════════════════════════════════════
 
-CLASSIFY_SYSTEM = """You are a job classification assistant for a competitive intelligence system at Actian (data integration & analytics). Given job titles, return ONLY a JSON array.
+CLASSIFY_SYSTEM = """You are a job classification assistant for a competitive intelligence system at Actian (data integration & analytics). Given job titles and optional description snippets, return ONLY a JSON array.
 Each element: {"function": "<one of the function options>", "product_focus": "<one of the product focus options>"}
-Function options: Engineering, Data/Analytics, AI/ML & Vector, Sales, Marketing, Product, Operations, People/HR, Design, Finance, Legal, Security, Customer Success
+Function options: Engineering, Data/Analytics, AI/ML & Vector, Sales, Marketing, Product Management, Solution Engineering, Partners/Alliances, Operations, People/HR, Design, Finance, Legal, Security, Customer Success
 Product focus options: Data Quality, Data Observability, Data Governance, ETL/Integration, Streaming / Real-time, ML/AI infra, Platform / Infra, Vector / Embedding, Vector / AI, Database / Storage, Cloud Infrastructure, Security / Compliance, Analytics / BI, Developer Tools, Go-to-Market, Corporate Functions, Product Management
 CRITICAL RULES — you MUST follow these:
 1. NEVER return "Other" or "Unknown" for function or product_focus. These are NOT valid values.
-2. Sales/Marketing/Customer Success/BDR/SDR/Account/Partner roles → function: Sales or Marketing, product_focus: Go-to-Market
-3. HR/Finance/Legal/Operations/Admin/Office/Facilities roles → function: People/HR or Finance or Legal or Operations, product_focus: Corporate Functions
-4. Product Manager/Program Manager/Design/Scrum/Agile roles → function: Product or Design, product_focus: Product Management
-5. Vector database, embedding, similarity search roles → product_focus: Vector / AI
-6. Generic software engineer/developer with no specific domain → product_focus: Platform / Infra
-7. If truly unclear, use Platform / Infra for technical roles or Go-to-Market for business roles.
+2. Solutions Engineer/Pre-Sales/Sales Engineer/Technical Presales roles → function: Solution Engineering, product_focus: Go-to-Market
+3. Partner Manager/Alliance Manager/Channel Manager/Ecosystem roles → function: Partners/Alliances, product_focus: Go-to-Market
+4. Sales/BDR/SDR/Account Executive/Account Manager roles → function: Sales, product_focus: Go-to-Market
+5. Marketing/Content/Brand/Growth roles → function: Marketing, product_focus: Go-to-Market
+6. HR/Finance/Legal/Operations/Admin/Office/Facilities roles → function: People/HR or Finance or Legal or Operations, product_focus: Corporate Functions
+7. Product Manager/Program Manager/Design/Scrum/Agile roles → function: Product Management or Design, product_focus: Product Management
+8. Vector database, embedding, similarity search roles → product_focus: Vector / AI
+9. Generic software engineer/developer with no specific domain → product_focus: Platform / Infra
+10. If truly unclear, use Platform / Infra for technical roles or Go-to-Market for business roles.
 Return ONLY the JSON array, no other text."""
 
 
@@ -615,32 +618,35 @@ def _call_claude(model: str, system: str, user_msg: str, max_tokens: int = 4096)
         return ""
 
 
-def _sanitize_classification(cls: dict, title: str) -> dict:
+def _sanitize_classification(cls: dict, title: str, description: str = "") -> dict:
     """Ensure no 'Other', 'Unknown', or invalid values leak through from Claude API."""
     pf = cls.get("product_focus", "")
     fn = cls.get("function", "")
 
     # Reject ANY value not in allowed sets — not just "Other"/"Unknown"
     if not pf or pf not in ALLOWED_PRODUCT_FOCUS:
-        fallback = _fallback_classify(title)
+        fallback = _fallback_classify(title, description)
         pf = fallback["product_focus"]
 
     if not fn or fn not in ALLOWED_FUNCTIONS:
-        fallback = _fallback_classify(title)
+        fallback = _fallback_classify(title, description)
         fn = fallback["function"]
 
     return {"function": fn, "product_focus": pf}
 
 
-def classify_batch(titles: list[str]) -> list[dict]:
-    # PHASE 2.5: Anthropic API restricted to verdict_engine only
-    # Always use fallback regex-based classification
-    return [_fallback_classify(t) for t in titles]
+def classify_batch(titles: list[str], descriptions: list[str] | None = None) -> list[dict]:
+    descs = descriptions or [""] * len(titles)
+    return [_fallback_classify(t, d) for t, d in zip(titles, descs)]
 
 
-def _fallback_classify(title: str) -> dict:
-    """Comprehensive regex classification. Designed to minimize 'Other' results."""
+def _fallback_classify(title: str, description: str = "") -> dict:
+    """Regex classification using title + description for best accuracy."""
     t = (title or "").lower()
+    d = (description or "").lower()
+    # Combined text lets description break ties on ambiguous titles.
+    # Title terms still win because ordering is checked on `t` first.
+    combined = f"{t} {d}"
 
     # ── FUNCTION ─────────────────────────────────────────────────────────
     # AI/ML first (most specific)
@@ -652,6 +658,32 @@ def _fallback_classify(title: str) -> dict:
     elif re.search(r'security|infosec|cyber|penetration|threat|vulnerability|soc analyst|'
                    r'identity|access management|iam\b|ciso', t):
         fn = "Security"
+    # Product Management — before Engineering to prevent "product manager, data platform"
+    # matching "platform" in the Engineering regex
+    elif re.search(r'product manager|product owner|product lead|product director|'
+                   r'product market|product strat|product anal|technical product|'
+                   r'program manager|project manager|scrum|agile|'
+                   r'(?:head|vp|director|chief).{0,10}product|head of product', t):
+        fn = "Product Management"
+    # Solution Engineering — before Engineering to prevent misclassification
+    elif re.search(
+        r'solutions? ?engineer|sales engineer|pre.?sales|technical presales|'
+        r'presales consultant|demo engineer|field sales engineer|'
+        r'technical sales engineer|solutions specialist',
+        combined
+    ):
+        fn = "Solution Engineering"
+    # Partners/Alliances — before Sales to prevent partner roles landing in Sales
+    elif re.search(
+        r'partner (?:manager|director|success|develop|program|lead|executive)|'
+        r'(?:channel|alliance|ecosystem) (?:manager|director|develop|partner|sales|lead)|'
+        r'technology (?:partner|alliance|channel|ecosystem)|'
+        r'partnerships? (?:manager|director|lead|develop|executive)|'
+        r'(?:head|vp|director|chief).{0,10}(?:partner|alliance|channel|ecosystem)|'
+        r'strategic partner|isv partner|reseller|partner develop',
+        combined
+    ):
+        fn = "Partners/Alliances"
     # Engineering (broad — catches most technical roles)
     elif re.search(r'engineer|developer|devops|sre|software|architect|infra|backend|'
                    r'frontend|full.?stack|platform|systems|reliability|embedded|'
@@ -667,15 +699,10 @@ def _fallback_classify(title: str) -> dict:
     elif re.search(r'design|ux|ui|user experience|user interface|graphic|creative|'
                    r'visual|brand design|product design|interaction', t):
         fn = "Design"
-    # Product
-    elif re.search(r'product manager|product owner|product lead|product director|'
-                   r'product market|product strat|product anal|technical product|'
-                   r'program manager|project manager|scrum|agile', t):
-        fn = "Product"
     # Sales
     elif re.search(r'sales|account exec|account manager|business develop|bdr|sdr|'
                    r'revenue|quota|enterprise rep|field rep|solution consult|'
-                   r'pre.?sales|solution engineer|deal|territory|partner manager', t):
+                   r'deal|territory', t):
         fn = "Sales"
     # Customer Success
     elif re.search(r'customer success|csm|customer experience|implementation|'
@@ -705,6 +732,25 @@ def _fallback_classify(title: str) -> dict:
                    r'office manager|admin|executive assistant|it support|'
                    r'help desk|service desk|procurement', t):
         fn = "Operations"
+    # Dept hint fallback for Greenhouse/Ashby jobs — use dept name to classify
+    elif d.startswith("dept: "):
+        dept = d[6:].strip()
+        if re.search(r'solution|pre.?sales|sales eng', dept):
+            fn = "Solution Engineering"
+        elif re.search(r'partner|alliance|channel|ecosystem', dept):
+            fn = "Partners/Alliances"
+        elif re.search(r'engineer|develop|infra|platform|product eng', dept):
+            fn = "Engineering"
+        elif re.search(r'sales|revenue|account|gtm', dept):
+            fn = "Sales"
+        elif re.search(r'product', dept):
+            fn = "Product Management"
+        elif re.search(r'market', dept):
+            fn = "Marketing"
+        elif re.search(r'success|support|service', dept):
+            fn = "Customer Success"
+        else:
+            fn = "Engineering"
     else:
         # Last resort: try to infer from common suffixes
         if re.search(r'manager|director|head|lead|chief|vp', t):
@@ -780,13 +826,11 @@ def _fallback_classify(title: str) -> dict:
         pf = "Platform / Infra"
     else:
         # For non-technical roles, infer from function
-        if fn in ("Sales", "Marketing", "Customer Success"):
+        if fn in ("Sales", "Marketing", "Customer Success", "Solution Engineering", "Partners/Alliances"):
             pf = "Go-to-Market"
         elif fn in ("People/HR", "Finance", "Legal", "Operations"):
             pf = "Corporate Functions"
-        elif fn == "Product":
-            pf = "Product Management"
-        elif fn == "Design":
+        elif fn in ("Product Management", "Design"):
             pf = "Product Management"
         else:
             pf = "Platform / Infra"  # Default for tech companies
@@ -1658,7 +1702,8 @@ def enrich(
         total_batches = max(1, (len(new_rows) - 1) // BATCH + 1)
         print(f"  Classifying batch {batch_num}/{total_batches} ({len(titles)} titles)...")
 
-        results = classify_batch(titles)
+        descriptions_batch = [r.get("Description", "") for r in batch]
+        results = classify_batch(titles, descriptions_batch)
         time.sleep(0.5)
 
         for row, cls in zip(batch, results):
@@ -1699,6 +1744,7 @@ def enrich(
                 "Trend_Score":         compute_trend(row.get("Job Title", ""), seniority),
                 "First_Seen":          row.get("First_Seen", today),
                 "Last_Seen":           today,
+                "Description":         row.get("Description", ""),
             }
             classified.append(enriched_row)
 
@@ -1708,7 +1754,8 @@ def enrich(
         for i in range(0, len(reclassify_rows), BATCH):
             batch = reclassify_rows[i:i + BATCH]
             titles = [r.get("Job Title", "") for r in batch]
-            results = classify_batch(titles)
+            descriptions_batch = [r.get("Description", "") for r in batch]
+            results = classify_batch(titles, descriptions_batch)
             time.sleep(0.3)
 
             for row, cls in zip(batch, results):
