@@ -558,6 +558,9 @@ function getFilteredData(dataArray,companyField='company'){
   return dataArray.filter(item=>companies.includes(item[companyField]));
 }
 
+const TEAM_ROUTE_MAP={overview:null,marketing:'Marketing',product:'Product',sdrs:'SDRs',pmm:'PMM',executives:'Executives'};
+function activeTeamRoute(){return TEAM_ROUTE_MAP[currentTeam]||null;}
+
 function showPage(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.topnav-tab').forEach(t=>t.classList.remove('active'));
@@ -578,7 +581,7 @@ function setTeam(team,el){
     document.getElementById('lensSub').textContent=cfg.sub;
   }else{banner.style.display='none';}
   const _vtl=document.getElementById('verdictTeamLabel');if(_vtl)_vtl.textContent=cfg.title;
-  renderInsights();renderVerdicts();updateVerdictKPIs();applyFilters();
+  renderInsights();renderVerdicts();updateVerdictKPIs();applyFilters();filterLaunches();renderSlack();filterNews();updateNewsKPIs();
 }
 
 function setArea(area,el){
@@ -684,7 +687,8 @@ function filterLaunches(){
   const ty=document.getElementById('lfType').value;
   const re=document.getElementById('lfRel').value;
   const tm=document.getElementById('lfTeam').value;
-  const filtered=getFilteredData(LAUNCHES).filter(l=>(!co||l.company===co)&&(!ty||l.type===ty)&&(!re||l.relevance===re)&&(!tm||(l.routing||[]).includes(tm)));
+  const teamRoute=activeTeamRoute();
+  const filtered=getFilteredData(LAUNCHES).filter(l=>(!co||l.company===co)&&(!ty||l.type===ty)&&(!re||l.relevance===re)&&(!tm||(l.routing||[]).includes(tm))&&(!teamRoute||(l.routing||[]).includes(teamRoute)));
   renderLaunchList('launchesHigh',filtered.filter(l=>l.relevance==='high'));
   renderLaunchList('launchesAll',filtered);
 }
@@ -982,11 +986,13 @@ function filterNews(){
   const ty=document.getElementById('nfType')?.value||'';
   const re=document.getElementById('nfRel')?.value||'';
   const tm=document.getElementById('nfTeam')?.value||'';
+  const teamRoute=activeTeamRoute();
   const filtered=NEWS.filter(n=>{
     if(co&&n.company!==co)return false;
     if(ty&&n.type!==ty)return false;
     if(re&&n.relevance!==re)return false;
     if(tm&&!(n.routing||[]).includes(tm))return false;
+    if(teamRoute&&!(n.routing||[]).includes(teamRoute))return false;
     if(currentNewsSeg!=='all'){const segCos=NEWS_AREA_MAP[currentNewsSeg]||[];if(!segCos.includes(n.company))return false;}
     return true;
   });
