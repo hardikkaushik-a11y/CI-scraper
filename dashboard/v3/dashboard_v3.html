@@ -5071,10 +5071,13 @@ function BriefDrawer({ comp, lens, onClose }) {
 }
 
 // --- Chat drawer --------------------------------------------------------
+const BACKEND_URL = "https://ci-scraper.onrender.com";
+
 function ChatDrawer({ open, onClose, lens }) {
   const [messages, setMessages] = useState([
-    { role: "ai", text: `Hi Morgan — I've got the full ${lens} lens loaded. Ask me about any competitor, signal, or action.` },
+    { role: "ai", text: `Hi — I've got the full ${lens} lens loaded. Ask me about any competitor, signal, or action.` },
   ]);
+  const [history, setHistory] = useState([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const bodyRef = useRef(null);
@@ -5091,16 +5094,24 @@ function ChatDrawer({ open, onClose, lens }) {
     setMessages(next);
     setBusy(true);
     try {
-      const ctx = window.COMPETITORS.map(c => `- ${c.name} (${c.area}, ${c.threat}): ${c.verdict.All}`).join("\n");
-      const sys = `You are Actian's internal CI analyst. Current lens: ${lens}. Be concise, direct, and use only the competitor data below. Keep answers under 90 words.\n\nCOMPETITORS:\n${ctx}`;
-      const reply = await window.claude.complete({
-        messages: [
-          { role: "user", content: sys + "\n\nQuestion: " + text }
-        ]
+      const res = await fetch(`${BACKEND_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, history }),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      const reply = data.message || "No response received.";
       setMessages(m => [...m, { role: "ai", text: reply }]);
+      setHistory(h => [...h,
+        { role: "user", content: text },
+        { role: "assistant", content: reply },
+      ]);
     } catch (e) {
-      setMessages(m => [...m, { role: "ai", text: "Couldn't reach the model just now — try again in a moment." }]);
+      setMessages(m => [...m, { role: "ai", text: `Couldn't reach the assistant — ${e.message}` }]);
     } finally {
       setBusy(false);
     }

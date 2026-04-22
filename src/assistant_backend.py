@@ -65,7 +65,7 @@ def _load_csv(path: Path) -> list[dict]:
 
 def load_data() -> tuple[list[dict], list[dict]]:
     """Load data from disk, refresh only when files are newer than cache."""
-    csv_path = DATA_DIR / "jobs_enriched.csv"
+    csv_path = DATA_DIR / "jobs_enriched_v2.csv"
     sig_path = DATA_DIR / "signals.json"
 
     if not csv_path.exists():
