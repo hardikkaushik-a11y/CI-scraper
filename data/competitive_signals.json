@@ -1311,27 +1311,6 @@
     "company": "Databricks",
     "product_area": "AI Analyst",
     "type": "product_launch",
-    "title": "Expanding Agent Governance with Unity AI Gateway",
-    "url": "https://www.databricks.com/blog/ai-gateway-governance-layer-agentic-ai",
-    "published_date": "2026-04-15",
-    "summary": "Today, we are announcing major enhancements to AI Gateway. As part of this release,...",
-    "actian_relevance": "high",
-    "tags": [
-      "AI"
-    ],
-    "source_type": "blog",
-    "event_date": null,
-    "scraped_at": "2026-04-16",
-    "team_routing": [
-      "Product",
-      "PMM",
-      "Marketing"
-    ]
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "product_launch",
     "title": "Introducing the Databricks Connector for Google Sheets: Real-Time, Governed Lakehouse Data in the Sheets Users Love",
     "url": "https://www.databricks.com/blog/introducing-databricks-connector-google-sheets-real-time-governed-lakehouse-data-sheets-users",
     "published_date": "2026-04-15",
@@ -1383,48 +1362,6 @@
       "AI",
       "auto-remediation",
       "DataOps"
-    ],
-    "source_type": "product_launch",
-    "event_date": null,
-    "scraped_at": "2026-04-18",
-    "team_routing": [
-      "Product",
-      "PMM",
-      "Marketing"
-    ]
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "product_launch",
-    "title": "Lovable + Databricks: Build Data-Driven Apps at the Speed of Thought",
-    "url": "https://www.databricks.com/blog/lovable-databricks-build-data-driven-apps-speed-thought",
-    "published_date": "2026-04-13",
-    "summary": "Bridging the gap between Databricks and your business teamsDatabricks gives your organization a powerful...",
-    "actian_relevance": "medium",
-    "tags": [],
-    "source_type": "blog",
-    "event_date": null,
-    "scraped_at": "2026-04-15",
-    "team_routing": [
-      "Product",
-      "PMM",
-      "Marketing"
-    ]
-  },
-  {
-    "company": "Databricks",
-    "product_area": "AI Analyst",
-    "type": "product_launch",
-    "title": "Unity Catalog 2.0 \u2014 Multi-Cloud, Multi-Account",
-    "url": "https://www.databricks.com/product/unity-catalog/",
-    "published_date": "2026-04-12",
-    "summary": "Unity Catalog now spans multi-cloud deployments. Unified lineage across AWS, Azure, GCP. Data governance at scale.",
-    "actian_relevance": "high",
-    "tags": [
-      "governance",
-      "multi-cloud",
-      "lineage"
     ],
     "source_type": "product_launch",
     "event_date": null,
