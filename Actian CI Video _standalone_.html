@@ -32,7 +32,95 @@
   <div id="__bundler_loading">Unpacking...</div>
 
   <script>
-    
+    // --- Playback speed control (injected) ---
+    // Slows/speeds all JS-driven animation timing. Default 0.6 = 40% slower.
+    (function(){
+      let RATE = 0.6;
+      const origPerfNow = performance.now.bind(performance);
+      const startReal = origPerfNow();
+      performance.now = function() {
+        return startReal + (origPerfNow() - startReal) * RATE;
+      };
+      const origST = window.setTimeout.bind(window);
+      window.setTimeout = function(fn, delay, ...args) {
+        return origST(fn, Math.max(0, (delay || 0) / RATE), ...args);
+      };
+      const origSI = window.setInterval.bind(window);
+      window.setInterval = function(fn, delay, ...args) {
+        return origSI(fn, Math.max(0, (delay || 0) / RATE), ...args);
+      };
+      const origRAF = window.requestAnimationFrame.bind(window);
+      window.requestAnimationFrame = function(cb) {
+        return origRAF(function(t) {
+          cb(startReal + (t - startReal) * RATE);
+        });
+      };
+      // CSS animation/transition slowdown via root style multiplier
+      function applyCssRate() {
+        const root = document.documentElement;
+        if (!root) return;
+        root.style.setProperty('--speed-mult', String(1 / RATE));
+      }
+      applyCssRate();
+      const styleEl = document.createElement('style');
+      styleEl.textContent = `
+        *, *::before, *::after {
+          animation-duration: calc(var(--speed-mult, 1) * var(--_anim-dur, 1s)) !important;
+          transition-duration: calc(var(--speed-mult, 1) * var(--_trans-dur, 1s)) !important;
+        }
+      `;
+      // Only inject CSS rule if user opts in (can be noisy) — off by default
+      // document.head.appendChild(styleEl);
+
+      // Floating control panel
+      function mountControls() {
+        if (document.getElementById('__speed_ctrl')) return;
+        const ctrl = document.createElement('div');
+        ctrl.id = '__speed_ctrl';
+        ctrl.style.cssText = 'position:fixed;top:12px;right:12px;z-index:2147483647;background:rgba(14,20,32,0.92);color:#f0f4ff;font:12px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 12px;border-radius:8px;border:1px solid #2a3348;backdrop-filter:blur(6px);display:flex;align-items:center;gap:10px;user-select:none;';
+        ctrl.innerHTML = '<span style="opacity:0.7">speed</span>' +
+          '<input id="__speed_slider" type="range" min="0.25" max="1.5" step="0.05" value="' + RATE + '" style="width:120px">' +
+          '<span id="__speed_val" style="font-family:ui-monospace,monospace;min-width:42px;text-align:right">' + RATE.toFixed(2) + 'x</span>' +
+          '<button id="__speed_reload" style="background:#1a2233;color:#cfd8f5;border:1px solid #2a3348;border-radius:5px;padding:3px 8px;cursor:pointer;font:11px/1 -apple-system,sans-serif">reload</button>';
+        (document.body || document.documentElement).appendChild(ctrl);
+        const slider = ctrl.querySelector('#__speed_slider');
+        const val = ctrl.querySelector('#__speed_val');
+        slider.addEventListener('input', function() {
+          RATE = parseFloat(slider.value);
+          val.textContent = RATE.toFixed(2) + 'x';
+          applyCssRate();
+          try { localStorage.setItem('__playback_rate', String(RATE)); } catch(e){}
+        });
+        ctrl.querySelector('#__speed_reload').addEventListener('click', function() {
+          location.reload();
+        });
+        // Restore saved rate
+        try {
+          const saved = parseFloat(localStorage.getItem('__playback_rate'));
+          if (!isNaN(saved) && saved > 0) {
+            RATE = saved;
+            slider.value = RATE;
+            val.textContent = RATE.toFixed(2) + 'x';
+            applyCssRate();
+          }
+        } catch(e){}
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mountControls);
+      } else {
+        mountControls();
+      }
+      // Re-mount after bundler replaces documentElement
+      const observer = new MutationObserver(() => {
+        if (!document.getElementById('__speed_ctrl')) mountControls();
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: false });
+      setTimeout(() => { mountControls(); }, 500);
+      setTimeout(() => { mountControls(); }, 1500);
+      setTimeout(() => { mountControls(); }, 3000);
+    })();
+    // --- End playback speed control ---
+
 document.addEventListener('DOMContentLoaded', async function() {
   const loading = document.getElementById('__bundler_loading');
   function setStatus(msg) { if (loading) loading.textContent = msg; }
