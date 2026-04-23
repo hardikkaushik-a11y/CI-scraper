@@ -76,6 +76,7 @@
         audioEl = document.createElement('audio');
         audioEl.src = 'narration.mp3';
         audioEl.preload = 'auto';
+        audioEl.loop = true;
         audioEl.style.display = 'none';
         (document.body || document.documentElement).appendChild(audioEl);
         return audioEl;
