@@ -24,6 +24,48 @@
   {
     "company": "Collibra",
     "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "In-person event \u2014 Spain - Madrid SAP Sapphire Madrid 2026 May 19 - 21",
+    "url": "https://www.sap.com/events/sapphire/madrid.html",
+    "published_date": "2026-04-23",
+    "summary": "In-person event \u2014 Singapore - Sentosa Chief Data & Analytics Officer (CDAO) Singapore Apr 23 - 24 Virtual event Data products \u2013 because agents need context Apr 23 @ 10:00 AM ET / 4:00 PM CET In-person...",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-19",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-23"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "London AI Innovation Day",
+    "url": "https://www.snowflake.com/event/london-ai-innovation-day-2026-05-12/",
+    "published_date": "2026-04-23",
+    "summary": "12 May London AI Innovation Day 10:00 AM BST 1 Crown Place London Register now",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-12",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-23"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
     "type": "product_launch",
     "title": "Introducing the Collibra AI Command Center",
     "url": "https://www.collibra.com/events/introducing-the-ai-command-center",

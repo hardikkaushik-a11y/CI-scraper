@@ -1,5 +1,24 @@
 [
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Introducing DCM Projects: Declarative Infrastructure Management for Snowflake \u2014 Now in",
+    "url": "https://www.snowflake.com/en/blog/snowflake-dcm-projects-public-preview/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-23"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
