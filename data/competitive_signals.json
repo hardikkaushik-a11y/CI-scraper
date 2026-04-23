@@ -64,6 +64,90 @@
     "scraped_at": "2026-04-23"
   },
   {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Virtual Event Smarter R&D: AI-Powered Insights w Genie April 29",
+    "url": "https://events.databricks.com/FY27Q1-WB-LifeSciences-RandD-Productivity/register?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=drawer-card&itm_offer=register",
+    "published_date": "2026-04-23",
+    "summary": "Virtual Event Smarter R&D: AI-Powered Insights w Genie April 29 Virtual Event The Future of Fast App Development May 5 - May 7",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-23"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "In-Person Event AI Days - Warsaw Warsaw, Poland April 28 Register now",
+    "url": "https://events.databricks.com/FY27-AI-Days-Warsaw/registration?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=registration",
+    "published_date": "2026-04-23",
+    "summary": "Virtual Event 2026 Foundational \uc6cc\ud06c\uc20d \uc6e8\ube44\ub098 \uc2dc\ub9ac\uc988 February 12 - July 16 \ub4f1\ub85d\ud558\uae30 In-Person Event AI Days - Sydney Sydney, Australia April 24 Register now In-Person Event AI Days - Tel Aviv Tel Aviv, Israel Apri...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-28",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-23"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "DevConnect Databricks DevConnect I London London, UK April 29 Register now",
+    "url": "https://events.databricks.com/devconnect-london?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=devconnect-london",
+    "published_date": "2026-04-23",
+    "summary": "Virtual Event 2026 Foundational \uc6cc\ud06c\uc20d \uc6e8\ube44\ub098 \uc2dc\ub9ac\uc988 February 12 - July 16 \ub4f1\ub85d\ud558\uae30 In-Person Event AI Days - Sydney Sydney, Australia April 24 Register now In-Person Event AI Days - Tel Aviv Tel Aviv, Israel Apri...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-23"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Virtual Event Smarter R&D: AI-Powered Insights w Genie April 29 Register now",
+    "url": "https://events.databricks.com/FY27Q1-WB-LifeSciences-RandD-Productivity/register?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=register",
+    "published_date": "2026-04-23",
+    "summary": "Virtual Event 2026 Foundational \uc6cc\ud06c\uc20d \uc6e8\ube44\ub098 \uc2dc\ub9ac\uc988 February 12 - July 16 \ub4f1\ub85d\ud558\uae30 In-Person Event AI Days - Sydney Sydney, Australia April 24 Register now In-Person Event AI Days - Tel Aviv Tel Aviv, Israel Apri...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-23"
+  },
+  {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "product_launch",
