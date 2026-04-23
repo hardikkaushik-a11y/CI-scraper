@@ -32,14 +32,20 @@
   <div id="__bundler_loading">Unpacking...</div>
 
   <script>
-    // --- Playback speed control (injected) ---
-    // Slows/speeds all JS-driven animation timing. Default 0.75 = 80s real playback.
+    // --- Playback control + audio narration (injected) ---
+    // Animation is frozen at frame 0 until user clicks the overlay.
+    // Click starts animation and audio simultaneously — perfect sync.
     (function(){
       let RATE = 0.75;
+      let frozen = true;        // animation frozen until user clicks
+      let clickRealTime = null; // origPerfNow() value at click moment
       const origPerfNow = performance.now.bind(performance);
       const startReal = origPerfNow();
+      // Frozen → return startReal (animation sees t=0 always).
+      // Playing → return startReal + elapsed_since_click * RATE (plays from 0).
       performance.now = function() {
-        return startReal + (origPerfNow() - startReal) * RATE;
+        if (frozen) return startReal;
+        return startReal + (origPerfNow() - clickRealTime) * RATE;
       };
       const origST = window.setTimeout.bind(window);
       window.setTimeout = function(fn, delay, ...args) {
@@ -52,7 +58,7 @@
       const origRAF = window.requestAnimationFrame.bind(window);
       window.requestAnimationFrame = function(cb) {
         return origRAF(function(t) {
-          cb(startReal + (t - startReal) * RATE);
+          cb(frozen ? startReal : startReal + (t - clickRealTime) * RATE);
         });
       };
       // CSS animation/transition slowdown via root style multiplier
@@ -62,74 +68,9 @@
         root.style.setProperty('--speed-mult', String(1 / RATE));
       }
       applyCssRate();
-      const styleEl = document.createElement('style');
-      styleEl.textContent = `
-        *, *::before, *::after {
-          animation-duration: calc(var(--speed-mult, 1) * var(--_anim-dur, 1s)) !important;
-          transition-duration: calc(var(--speed-mult, 1) * var(--_trans-dur, 1s)) !important;
-        }
-      `;
-      // Only inject CSS rule if user opts in (can be noisy) — off by default
-      // document.head.appendChild(styleEl);
 
-      // Floating control panel
-      function mountControls() {
-        if (document.getElementById('__speed_ctrl')) return;
-        const ctrl = document.createElement('div');
-        ctrl.id = '__speed_ctrl';
-        ctrl.style.cssText = 'position:fixed;top:12px;right:12px;z-index:2147483647;background:rgba(14,20,32,0.92);color:#f0f4ff;font:12px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 12px;border-radius:8px;border:1px solid #2a3348;backdrop-filter:blur(6px);display:flex;align-items:center;gap:10px;user-select:none;';
-        ctrl.innerHTML = '<span style="opacity:0.7">speed</span>' +
-          '<input id="__speed_slider" type="range" min="0.25" max="1.5" step="0.05" value="' + RATE + '" style="width:120px">' +
-          '<span id="__speed_val" style="font-family:ui-monospace,monospace;min-width:42px;text-align:right">' + RATE.toFixed(2) + 'x</span>' +
-          '<button id="__speed_reload" style="background:#1a2233;color:#cfd8f5;border:1px solid #2a3348;border-radius:5px;padding:3px 8px;cursor:pointer;font:11px/1 -apple-system,sans-serif">reload</button>';
-        (document.body || document.documentElement).appendChild(ctrl);
-        const slider = ctrl.querySelector('#__speed_slider');
-        const val = ctrl.querySelector('#__speed_val');
-        slider.addEventListener('input', function() {
-          RATE = parseFloat(slider.value);
-          val.textContent = RATE.toFixed(2) + 'x';
-          applyCssRate();
-          try { localStorage.setItem('__playback_rate', String(RATE)); } catch(e){}
-        });
-        ctrl.querySelector('#__speed_reload').addEventListener('click', function() {
-          location.reload();
-        });
-        // Restore saved rate
-        try {
-          const saved = parseFloat(localStorage.getItem('__playback_rate'));
-          if (!isNaN(saved) && saved > 0) {
-            RATE = saved;
-            slider.value = RATE;
-            val.textContent = RATE.toFixed(2) + 'x';
-            applyCssRate();
-          }
-        } catch(e){}
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', mountControls);
-      } else {
-        mountControls();
-      }
-      // Re-mount after bundler replaces documentElement
-      const observer = new MutationObserver(() => {
-        if (!document.getElementById('__speed_ctrl')) mountControls();
-      });
-      observer.observe(document.documentElement, { childList: true, subtree: false });
-      setTimeout(() => { mountControls(); }, 500);
-      setTimeout(() => { mountControls(); }, 1500);
-      setTimeout(() => { mountControls(); }, 3000);
-    })();
-    // --- End playback speed control ---
-
-    // --- Audio narration (injected) ---
-    // Shows a "Click to Start" overlay. On click: resets animation to frame 0,
-    // sets a flag, reloads. After reload: audio and animation both start from 0 — perfectly synced.
-    (function(){
-      var PERSIST_KEY = 'actian-ci-video';
-      var AUTOPLAY_FLAG = '__narr_autoplay';
+      // ── Audio element ──────────────────────────────────────────────────────
       var audioEl = null;
-      var animStartMs = null;
-
       function getAudio() {
         if (audioEl) return audioEl;
         audioEl = document.createElement('audio');
@@ -140,30 +81,39 @@
         return audioEl;
       }
 
-      // Full-screen "Click to Start" overlay — shown on first load
-      function showStartOverlay() {
+      // ── Start presentation: unfreeze animation + play audio simultaneously ──
+      function startPresentation() {
+        var ov = document.getElementById('__narr_overlay');
+        if (ov) ov.remove();
+        clickRealTime = origPerfNow();  // unfreeze — time advances from here
+        frozen = false;
+        var audio = getAudio();
+        audio.currentTime = 0;
+        audio.play().catch(function(e) { console.warn('[narr]', e); });
+        updateAudioBtn();
+      }
+
+      // ── Full-screen overlay ────────────────────────────────────────────────
+      function showOverlay() {
         if (document.getElementById('__narr_overlay')) return;
-        var overlay = document.createElement('div');
-        overlay.id = '__narr_overlay';
-        overlay.style.cssText = [
-          'position:fixed', 'inset:0', 'z-index:2147483646',
-          'background:rgba(14,20,32,0.88)',
-          'display:flex', 'align-items:center', 'justify-content:center',
-          'cursor:pointer', 'backdrop-filter:blur(2px)',
-        ].join(';');
-        overlay.innerHTML =
+        var ov = document.createElement('div');
+        ov.id = '__narr_overlay';
+        ov.style.cssText = 'position:fixed;inset:0;z-index:2147483646;background:rgba(14,20,32,0.92);display:flex;align-items:center;justify-content:center;cursor:pointer;';
+        ov.innerHTML =
           '<div style="text-align:center;color:#f0f4ff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;pointer-events:none">' +
-          '<div style="font-size:72px;margin-bottom:20px">▶</div>' +
+          '<div style="font-size:72px;margin-bottom:20px">&#9654;</div>' +
           '<div style="font-size:26px;font-weight:500;letter-spacing:-0.5px">Click to Start</div>' +
-          '<div style="font-size:14px;opacity:0.45;margin-top:8px;letter-spacing:2px">WITH NARRATION</div>' +
+          '<div style="font-size:14px;opacity:0.4;margin-top:8px;letter-spacing:3px">WITH NARRATION</div>' +
           '</div>';
-        overlay.addEventListener('click', function() {
-          // Reset animation state and reload so both start from zero
-          try { localStorage.removeItem(PERSIST_KEY); } catch(e){}
-          try { sessionStorage.setItem(AUTOPLAY_FLAG, '1'); } catch(e){}
-          location.reload();
-        });
-        (document.body || document.documentElement).appendChild(overlay);
+        ov.addEventListener('click', startPresentation);
+        (document.body || document.documentElement).appendChild(ov);
+      }
+
+      // ── Pause/resume button ────────────────────────────────────────────────
+      function updateAudioBtn() {
+        var btn = document.getElementById('__audio_ctrl');
+        if (!btn) return;
+        btn.textContent = (audioEl && !audioEl.paused) ? '⏸ Pause' : '🔊 Play';
       }
 
       function mountAudioBtn() {
@@ -171,75 +121,78 @@
         var audio = getAudio();
         var btn = document.createElement('button');
         btn.id = '__audio_ctrl';
-        btn.style.cssText = [
-          'position:fixed', 'top:52px', 'right:12px',
-          'z-index:2147483647',
-          'background:rgba(14,20,32,0.92)', 'color:#f0f4ff',
-          'font:12px/1.3 -apple-system,BlinkMacSystemFont,sans-serif',
-          'padding:8px 14px', 'border-radius:8px',
-          'border:1px solid #2a3348', 'backdrop-filter:blur(6px)',
-          'cursor:pointer', 'user-select:none', 'white-space:nowrap',
-        ].join(';');
-
-        function updateBtn() {
-          btn.textContent = audio.paused ? '🔊 Play' : '⏸ Pause';
-        }
-        updateBtn();
-
+        btn.style.cssText = 'position:fixed;top:52px;right:12px;z-index:2147483647;background:rgba(14,20,32,0.92);color:#f0f4ff;font:12px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;padding:8px 14px;border-radius:8px;border:1px solid #2a3348;backdrop-filter:blur(6px);cursor:pointer;user-select:none;white-space:nowrap;';
+        btn.textContent = '🔊 Play';
         btn.addEventListener('click', function() {
-          if (!audio.paused) { audio.pause(); updateBtn(); return; }
-          var elapsed = animStartMs ? (Date.now() - animStartMs) / 1000 : 0;
-          if (elapsed > 0 && audio.readyState >= 1)
-            audio.currentTime = Math.min(elapsed, audio.duration || 0);
-          audio.play().then(updateBtn).catch(function(e){ console.warn('[narr]', e); });
+          if (!audio.paused) { audio.pause(); }
+          else { audio.play(); }
+          setTimeout(updateAudioBtn, 30);
         });
-        audio.addEventListener('ended', updateBtn);
-        audio.addEventListener('pause', updateBtn);
+        audio.addEventListener('ended', updateAudioBtn);
+        audio.addEventListener('pause', updateAudioBtn);
+        audio.addEventListener('play', updateAudioBtn);
         (document.body || document.documentElement).appendChild(btn);
       }
 
-      function watchForAnimStart() {
-        if (animStartMs) return;
+      // ── Speed control panel ────────────────────────────────────────────────
+      function mountControls() {
+        if (document.getElementById('__speed_ctrl')) return;
+        var ctrl = document.createElement('div');
+        ctrl.id = '__speed_ctrl';
+        ctrl.style.cssText = 'position:fixed;top:12px;right:12px;z-index:2147483647;background:rgba(14,20,32,0.92);color:#f0f4ff;font:12px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 12px;border-radius:8px;border:1px solid #2a3348;backdrop-filter:blur(6px);display:flex;align-items:center;gap:10px;user-select:none;';
+        ctrl.innerHTML =
+          '<span style="opacity:0.7">speed</span>' +
+          '<input id="__speed_slider" type="range" min="0.25" max="1.5" step="0.05" value="' + RATE + '" style="width:100px">' +
+          '<span id="__speed_val" style="font-family:ui-monospace,monospace;min-width:36px">' + RATE.toFixed(2) + 'x</span>' +
+          '<button id="__speed_reload" style="background:#1a2233;color:#cfd8f5;border:1px solid #2a3348;border-radius:5px;padding:3px 8px;cursor:pointer;font:11px/1 -apple-system,sans-serif">restart</button>';
+        (document.body || document.documentElement).appendChild(ctrl);
+        var slider = ctrl.querySelector('#__speed_slider');
+        var val = ctrl.querySelector('#__speed_val');
+        slider.addEventListener('input', function() {
+          RATE = parseFloat(slider.value);
+          val.textContent = RATE.toFixed(2) + 'x';
+          applyCssRate();
+        });
+        ctrl.querySelector('#__speed_reload').addEventListener('click', function() {
+          location.reload();
+        });
+      }
+
+      // ── Watch for React mount → show overlay ──────────────────────────────
+      var overlayShown = false;
+      function watchForReact() {
+        if (overlayShown) return;
         var iv = setInterval(function() {
           var root = document.getElementById('root');
           if (root && root.childElementCount > 0) {
             clearInterval(iv);
-            animStartMs = Date.now();
-            var shouldAutoplay = false;
-            try { shouldAutoplay = sessionStorage.getItem(AUTOPLAY_FLAG) === '1'; } catch(e){}
-            if (shouldAutoplay) {
-              try { sessionStorage.removeItem(AUTOPLAY_FLAG); } catch(e){}
-              // Start audio immediately — animation is also at frame 0
-              setTimeout(function() {
-                var audio = getAudio();
-                audio.currentTime = 0;
-                audio.play().catch(function(e){ console.warn('[narr]', e); });
-                mountAudioBtn();
-              }, 80);
-            } else {
-              showStartOverlay();
+            if (!overlayShown) {
+              overlayShown = true;
+              showOverlay();
               mountAudioBtn();
             }
           }
-        }, 300);
+        }, 200);
       }
 
-      var docObs = new MutationObserver(function() {
-        watchForAnimStart();
-        if (!document.getElementById('__audio_ctrl') && animStartMs) mountAudioBtn();
+      // Re-mount controls after bundler replaces documentElement
+      var observer = new MutationObserver(function() {
+        if (!document.getElementById('__speed_ctrl')) mountControls();
+        watchForReact();
       });
-      docObs.observe(document.documentElement, { childList: true, subtree: false });
+      observer.observe(document.documentElement, { childList: true, subtree: false });
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', watchForAnimStart);
+        document.addEventListener('DOMContentLoaded', function() { mountControls(); watchForReact(); });
       } else {
-        watchForAnimStart();
+        mountControls();
+        watchForReact();
       }
-      setTimeout(watchForAnimStart, 500);
-      setTimeout(watchForAnimStart, 1500);
-      setTimeout(watchForAnimStart, 3000);
+      setTimeout(function() { mountControls(); watchForReact(); }, 500);
+      setTimeout(function() { mountControls(); watchForReact(); }, 1500);
+      setTimeout(function() { mountControls(); watchForReact(); }, 3000);
     })();
-    // --- End audio narration ---
+    // --- End playback control + audio narration ---
 
 document.addEventListener('DOMContentLoaded', async function() {
   const loading = document.getElementById('__bundler_loading');
