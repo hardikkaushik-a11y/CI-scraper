@@ -36,7 +36,7 @@
     // Animation is frozen at frame 0 until user clicks the overlay.
     // Click starts animation and audio simultaneously — perfect sync.
     (function(){
-      let RATE = 0.75;
+      let RATE = 0.6667;  // 60 virtual ÷ 90s audio = 0.6667 → video runs 90 real seconds
       let frozen = true;        // animation frozen until user clicks
       let clickRealTime = null; // origPerfNow() value at click moment
       const origPerfNow = performance.now.bind(performance);
