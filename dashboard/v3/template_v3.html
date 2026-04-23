@@ -684,6 +684,19 @@ a { color: inherit; cursor: pointer; }
 .drw-tl-dt { font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); padding-top: 1px; }
 .drw-tl-t { color: var(--ink-soft); }
 
+.drw-source-list { display: flex; flex-direction: column; }
+.drw-source-chip {
+  display: grid; grid-template-columns: 72px 1fr 52px; align-items: baseline; gap: 8px;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+  text-decoration: none; color: var(--ink-soft); font-size: 12.5px; line-height: 1.4;
+}
+.drw-source-chip:last-child { border-bottom: 0; }
+.drw-source-chip:hover { color: var(--ink); }
+.drw-source-type { font-family: var(--font-mono); font-size: 10px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.04em; }
+.drw-source-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.drw-source-date { font-family: var(--font-mono); font-size: 10px; color: var(--ink-mute); text-align: right; }
+.drw-classification { font-family: var(--font-mono); font-size: 10px; color: var(--ink-mute); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; letter-spacing: 0.03em; }
+
 /* ---------- Chat drawer ---------- */
 .chat { }
 .chat-body {
@@ -2221,7 +2234,7 @@ function KpiRow({ data }) {
         v={data.critical}
         delta="+1 this week"
         deltaDir="up"
-        sub="Atlan · Snowflake"
+        sub={data.criticalSub}
       />
       <KpiTile
         tone="amber"
@@ -2237,7 +2250,7 @@ function KpiRow({ data }) {
         v={data.events}
         delta="next 14 days"
         deltaDir="flat"
-        sub="Activate · Summit · ALLIE day"
+        sub={data.eventSub}
       />
       <KpiTile
         tone="slate"
@@ -2274,6 +2287,7 @@ function BriefDrawer({ comp, lens, onClose }) {
               <window.AreaBadge>{comp.area}</window.AreaBadge>
               <window.ThreatBadge level={comp.threat} />
               <span className="drw-updated">Updated {comp.updated}</span>
+              <span className="drw-classification">public data</span>
             </div>
           </div>
           <button className="drw-close" onClick={onClose} aria-label="Close">
@@ -2357,6 +2371,21 @@ function BriefDrawer({ comp, lens, onClose }) {
               <li key={i}><span className="drw-tl-dt">{a.date}</span><span className="drw-tl-t">{a.text}</span></li>
             ))}
           </ol>
+        </section>
+        )}
+
+        {comp.sources && comp.sources.length > 0 && (
+        <section className="drw-sec drw-sources">
+          <h4 className="drw-h">Sources</h4>
+          <div className="drw-source-list">
+            {comp.sources.map((s, i) => (
+              <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="drw-source-chip">
+                <span className="drw-source-type">{s.type}</span>
+                <span className="drw-source-title">{s.title}</span>
+                <span className="drw-source-date">{s.date ? s.date.slice(0, 7) : ""}</span>
+              </a>
+            ))}
+          </div>
         </section>
         )}
 
@@ -3454,12 +3483,22 @@ function App() {
   useEffectApp(() => { localStorage.setItem("ci-lens", lens); }, [lens]);
   useEffectApp(() => { localStorage.setItem("ci-page", page); }, [page]);
 
-  const kpi = useMemoApp(() => ({
-    critical: window.COMPETITORS.filter(c => c.threat === "CRITICAL").length,
-    launches: window.LAUNCHES.length,
-    events: window.EVENTS.length,
-    actions: 12,
-  }), []);
+  const kpi = useMemoApp(() => {
+    const criticals = window.COMPETITORS.filter(c => c.threat === "CRITICAL");
+    const criticalSub = criticals.length
+      ? criticals.map(c => c.name).slice(0, 2).join(" · ")
+      : "None this week";
+    const upcomingNames = window.EVENTS.slice(0, 3).map(e => e.name.split(":")[0].trim());
+    const eventSub = upcomingNames.length ? upcomingNames.join(" · ") : "No upcoming events";
+    return {
+      critical: criticals.length,
+      launches: window.LAUNCHES.length,
+      events: window.EVENTS.length,
+      actions: 12,
+      criticalSub,
+      eventSub,
+    };
+  }, []);
 
   const ordered = useMemoApp(() => {
     const order = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
@@ -3508,7 +3547,7 @@ function App() {
         )}
 
         <footer className="app-foot">
-          <span>Actian CI · internal · data updated continuously</span>
+          <span>Actian CI · internal · data updated continuously · <span style={{fontFamily:"var(--font-mono)",fontSize:"10px",opacity:0.7}}>public data</span></span>
           <span>v3.0.0 · 11 competitors · {window.LAUNCHES.length} launches · {window.EVENTS.length} events</span>
         </footer>
       </main>

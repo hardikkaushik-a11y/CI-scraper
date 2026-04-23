@@ -254,6 +254,55 @@ def load_json(path):
 
 # ── Transform signals → COMPETITORS ─────────────────────────────────────────
 
+def build_sources(company, comp_signals, news):
+    """Collect source URLs backing a company's signals and news, newest first."""
+    TYPE_LABEL = {
+        "product_launch": "Launch",
+        "event": "Event",
+        "partnership": "Partnership",
+        "funding": "Funding",
+        "acquisition": "Acquisition",
+        "leadership": "Leadership",
+        "open_source_release": "OSS",
+        "feature": "Feature",
+        "pricing": "Pricing",
+        "layoff": "Layoff",
+        "blog_post": "Blog",
+    }
+    sources = []
+    seen_urls = set()
+    for s in (comp_signals or []):
+        if s.get("company") != company:
+            continue
+        url = s.get("url", "")
+        if not url or url in seen_urls:
+            continue
+        seen_urls.add(url)
+        sources.append({
+            "type": TYPE_LABEL.get(s.get("type", ""), s.get("type", "").replace("_", " ").title()),
+            "title": s.get("title", "")[:80],
+            "url": url,
+            "date": s.get("published_date") or s.get("event_date") or "",
+            "sourceType": s.get("source_type", "web"),
+        })
+    for n in (news or []):
+        if n.get("company") != company:
+            continue
+        url = n.get("url", "")
+        if not url or url in seen_urls:
+            continue
+        seen_urls.add(url)
+        sources.append({
+            "type": TYPE_LABEL.get(n.get("news_type", ""), n.get("news_type", "").replace("_", " ").title()),
+            "title": n.get("title", "")[:80],
+            "url": url,
+            "date": n.get("published_date", ""),
+            "sourceType": n.get("source", "company_newsroom"),
+        })
+    sources.sort(key=lambda x: x.get("date", ""), reverse=True)
+    return sources[:8]
+
+
 def build_recent_activity(company, comp_signals, news):
     """Build real recent activity for a company from signals + news, newest first."""
     TYPE_LABEL = {
@@ -417,6 +466,7 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
             "score": compute_score(threat, posting_count),
             "functionBreakdown": {f: (per_company or {}).get(company, {}).get(f, 0) for f in TARGET_FUNCTIONS},
             "recentActivity": build_recent_activity(company, comp_signals or [], news or []),
+            "sources": build_sources(company, comp_signals or [], news or []),
         }
         competitors.append(comp)
 
@@ -650,9 +700,36 @@ def main():
     # Inject data
     output_html = template_html.replace("%%DATA_JSON%%", data_js)
 
+    # Prepend pipeline provenance comment
+    run_at = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    provenance_comment = (
+        f"<!-- CI Pipeline · run: {run_at} · {len(competitors)} competitors · "
+        f"{len(launches)} launches · {len(events)} events · public data -->\n"
+    )
+    output_html = provenance_comment + output_html
+
     # Write output
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(output_html, encoding="utf-8")
+
+    # Write pipeline manifest
+    manifest = {
+        "run_at": run_at,
+        "sources": {
+            "signals.json":               {"records": len(signals),      "data_classification": "PUBLIC"},
+            "competitive_signals.json":   {"records": len(comp_signals), "data_classification": "PUBLIC"},
+            "news.json":                  {"records": len(news),          "data_classification": "PUBLIC"},
+            "intelligence_verdicts.json": {"records": len(verdicts),     "data_classification": "PUBLIC"},
+        },
+        "output": {
+            "competitors": len(competitors),
+            "launches":    len(launches),
+            "events":      len(events),
+        },
+    }
+    manifest_path = DATA_DIR / "pipeline_manifest.json"
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    print(f"  Manifest: {manifest_path}")
 
     size_kb = OUTPUT.stat().st_size / 1024
     print(f"\n  Done! Output: {OUTPUT}")
