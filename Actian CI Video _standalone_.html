@@ -90,7 +90,6 @@
         var audio = getAudio();
         audio.currentTime = 0;
         audio.play().catch(function(e) { console.warn('[narr]', e); });
-        updateAudioBtn();
       }
 
       // ── Full-screen overlay ────────────────────────────────────────────────
@@ -169,7 +168,7 @@
             if (!overlayShown) {
               overlayShown = true;
               showOverlay();
-              mountAudioBtn();
+              // mountAudioBtn();  // hidden — no separate audio button
             }
           }
         }, 200);
@@ -177,15 +176,15 @@
 
       // Re-mount controls after bundler replaces documentElement
       var observer = new MutationObserver(function() {
-        if (!document.getElementById('__speed_ctrl')) mountControls();
+        // mountControls();  // hidden — no speed panel
         watchForReact();
       });
       observer.observe(document.documentElement, { childList: true, subtree: false });
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() { mountControls(); watchForReact(); });
+        document.addEventListener('DOMContentLoaded', function() { /* mountControls(); */ watchForReact(); });
       } else {
-        mountControls();
+        /* mountControls(); */
         watchForReact();
       }
       setTimeout(function() { mountControls(); watchForReact(); }, 500);
