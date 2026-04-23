@@ -121,6 +121,104 @@
     })();
     // --- End playback speed control ---
 
+    // --- Audio narration (injected) ---
+    // Plays narration.mp3 in sync with the animation.
+    // Click "🔊 Play Narration" after the animation starts.
+    (function(){
+      var audioEl = null;
+      var animStartMs = null;  // real wall-clock ms when animation became visible
+
+      function getAudio() {
+        if (audioEl) return audioEl;
+        audioEl = document.createElement('audio');
+        audioEl.src = 'narration.mp3';
+        audioEl.preload = 'auto';
+        audioEl.style.display = 'none';
+        (document.body || document.documentElement).appendChild(audioEl);
+        return audioEl;
+      }
+
+      // Watch for React mounting into #root — that signals animation start
+      function watchForAnimStart() {
+        if (animStartMs) return;
+        var interval = setInterval(function() {
+          var root = document.getElementById('root');
+          if (root && root.childElementCount > 0) {
+            clearInterval(interval);
+            if (!animStartMs) animStartMs = Date.now();
+            mountAudioBtn();
+          }
+        }, 300);
+      }
+
+      function mountAudioBtn() {
+        if (document.getElementById('__audio_ctrl')) return;
+        var audio = getAudio();
+
+        var btn = document.createElement('button');
+        btn.id = '__audio_ctrl';
+        btn.style.cssText = [
+          'position:fixed',
+          'top:52px',
+          'right:12px',
+          'z-index:2147483647',
+          'background:rgba(14,20,32,0.92)',
+          'color:#f0f4ff',
+          'font:12px/1.3 -apple-system,BlinkMacSystemFont,sans-serif',
+          'padding:8px 14px',
+          'border-radius:8px',
+          'border:1px solid #2a3348',
+          'backdrop-filter:blur(6px)',
+          'cursor:pointer',
+          'user-select:none',
+          'white-space:nowrap',
+        ].join(';');
+        btn.textContent = '🔊 Play Narration';
+
+        function updateBtn() {
+          btn.textContent = audio.paused ? '🔊 Play Narration' : '⏸ Pause';
+        }
+
+        btn.addEventListener('click', function() {
+          if (!audio.paused) {
+            audio.pause();
+            updateBtn();
+            return;
+          }
+          // Seek to match current animation position based on real elapsed time
+          var realElapsed = animStartMs ? (Date.now() - animStartMs) / 1000 : 0;
+          if (realElapsed > 0 && audio.readyState >= 1) {
+            audio.currentTime = Math.min(realElapsed, audio.duration || 0);
+          }
+          audio.play().then(updateBtn).catch(function(e) {
+            console.warn('[narration]', e);
+          });
+        });
+
+        audio.addEventListener('ended', updateBtn);
+        audio.addEventListener('pause', updateBtn);
+
+        (document.body || document.documentElement).appendChild(btn);
+      }
+
+      // Re-mount after bundler replaces documentElement
+      var docObs = new MutationObserver(function() {
+        watchForAnimStart();
+        if (!document.getElementById('__audio_ctrl') && animStartMs) mountAudioBtn();
+      });
+      docObs.observe(document.documentElement, { childList: true, subtree: false });
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', watchForAnimStart);
+      } else {
+        watchForAnimStart();
+      }
+      setTimeout(watchForAnimStart, 500);
+      setTimeout(watchForAnimStart, 1500);
+      setTimeout(watchForAnimStart, 3000);
+    })();
+    // --- End audio narration ---
+
 document.addEventListener('DOMContentLoaded', async function() {
   const loading = document.getElementById('__bundler_loading');
   function setStatus(msg) { if (loading) loading.textContent = msg; }
