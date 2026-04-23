@@ -33,9 +33,9 @@
 
   <script>
     // --- Playback speed control (injected) ---
-    // Slows/speeds all JS-driven animation timing. Default 0.67 = matches 90s narration audio.
+    // Slows/speeds all JS-driven animation timing. Default 0.75 = 80s real playback.
     (function(){
-      let RATE = 0.67;
+      let RATE = 0.75;
       const origPerfNow = performance.now.bind(performance);
       const startReal = origPerfNow();
       performance.now = function() {
