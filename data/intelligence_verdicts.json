@@ -33,8 +33,8 @@
       "sdrs": 4,
       "executives": 2
     },
-    "last_updated": "2026-04-23",
-    "_input_hash": "2db68cc84f45fa93"
+    "last_updated": "2026-04-24",
+    "_input_hash": "4faea59db1c7ed07"
   },
   {
     "company": "Collibra",
@@ -71,8 +71,8 @@
       "sdrs": 5,
       "executives": 5
     },
-    "last_updated": "2026-04-23",
-    "_input_hash": "7f6b44de9b17bddd"
+    "last_updated": "2026-04-24",
+    "_input_hash": "3322ec1a52c82703"
   },
   {
     "company": "Alation",
@@ -109,8 +109,8 @@
       "sdrs": 5,
       "executives": 5
     },
-    "last_updated": "2026-04-23",
-    "_input_hash": "d3fe97af26ac5875"
+    "last_updated": "2026-04-24",
+    "_input_hash": "a92626d066609778"
   },
   {
     "company": "Monte Carlo",
@@ -219,8 +219,8 @@
       "sdrs": 3,
       "executives": 1
     },
-    "last_updated": "2026-04-23",
-    "_input_hash": "167e5af5ac0f0ad6"
+    "last_updated": "2026-04-24",
+    "_input_hash": "21e689c00674a0e3"
   },
   {
     "company": "Pinecone",
@@ -257,8 +257,8 @@
       "sdrs": 5,
       "executives": 5
     },
-    "last_updated": "2026-04-23",
-    "_input_hash": "3ff896ff8e3a4f5d"
+    "last_updated": "2026-04-24",
+    "_input_hash": "eadb31e5f8a0b838"
   },
   {
     "company": "Qdrant",
@@ -267,11 +267,11 @@
     "impact_level": "market",
     "what_is_happening": "Qdrant is scaling infrastructure with 3 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering. Funding event: We Raised $50M to Build Composable Vector Search as Core Infrastructure.",
     "why_it_matters": "Overlaps Actian Vector — direct competition in enterprise vector retrieval. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
-    "primary_interpretation": "Qdrant received new capital, which typically accelerates both product velocity and GTM expansion. With 10 open roles, headcount growth is likely imminent.",
+    "primary_interpretation": "Qdrant received new capital, which typically accelerates both product velocity and GTM expansion. With 11 open roles, headcount growth is likely imminent.",
     "alternative_interpretation": "Funding could be runway extension rather than growth acceleration — if Qdrant is managing burn, capital may not translate to near-term hiring or product velocity. Monitor headcount growth over the next 60 days to confirm.",
     "hiring_event_correlation": {
       "strength": "weak",
-      "explanation": "Both dimensions present (10 roles + event signals) but don't reinforce each other — Engineering doesn't directly map to the event type detected."
+      "explanation": "Both dimensions present (11 roles + event signals) but don't reinforce each other — Engineering doesn't directly map to the event type detected."
     },
     "competitive_impact": {
       "overlap_with_actian": "yes — vector database and AI retrieval",
@@ -293,8 +293,8 @@
       "sdrs": 3,
       "executives": 5
     },
-    "last_updated": "2026-04-23",
-    "_input_hash": "8d8e553ffda193ad"
+    "last_updated": "2026-04-24",
+    "_input_hash": "11953357d9236328"
   },
   {
     "company": "Milvus",
@@ -330,15 +330,15 @@
       "sdrs": 2,
       "executives": 3
     },
-    "last_updated": "2026-04-23",
-    "_input_hash": "fd15225cb8dd53f2"
+    "last_updated": "2026-04-24",
+    "_input_hash": "d1de635b32f96e75"
   },
   {
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Snowflake is doubling down on data engineering with 5 pipeline/integration roles — direct competitive move against Actian in the data integration space. Product launches detected: Introducing DCM Projects: Declarative Infrastructure Management for Sn; Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Eve. 14 upcoming event(s) confirmed — active GTM motion.",
+    "what_is_happening": "Snowflake is doubling down on data engineering with 5 pipeline/integration roles — direct competitive move against Actian in the data integration space. Product launches detected: Introducing DCM Projects: Declarative Infrastructure Management for Sn; Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Eve. 15 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
     "primary_interpretation": "Snowflake is deepening AI Analyst product capability: 198 Engineering roles combined with 3 product launch(es) signal sustained R&D investment.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
@@ -352,7 +352,7 @@
       "type_of_move": "platform"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong compound evidence: 198 open roles + 14 non-blog event signals with strong correlation between hiring and events.",
+    "confidence_reasoning": "Strong compound evidence: 198 open roles + 15 non-blog event signals with strong correlation between hiring and events.",
     "recommended_action": "PMM + SDRs: refresh Snowflake battlecard within 2 weeks — new platform capability directly challenges Actian's edge and embedded analytics without cloud lock-in; lead with Actian's deployment flexibility as the counter-position.",
     "team_routing": [
       "Product",
@@ -368,15 +368,15 @@
       "sdrs": 5,
       "executives": 5
     },
-    "last_updated": "2026-04-23",
-    "_input_hash": "3c25c3a37379a576"
+    "last_updated": "2026-04-24",
+    "_input_hash": "1456829c3b2cf800"
   },
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 20 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing Genie Agent Mode; Introducing the Databricks Connector for Google Sheets: Real-Time, Gov. 14 upcoming event(s) confirmed — active GTM motion.",
+    "what_is_happening": "Databricks is in aggressive GTM expansion mode with 20 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing Genie Agent Mode; Introducing the Databricks Connector for Google Sheets: Real-Time, Gov. Partnership: Databricks partners with OpenAI on GPT-5.5. 14 upcoming event(s) confirmed — active GTM motion.",
     "why_it_matters": "Overlaps Actian's analytics and data integration platform. A platform- or market-level move narrows Actian's differentiation window and raises the switching cost for shared customers.",
     "primary_interpretation": "Databricks is executing a coordinated product + GTM expansion in AI Analyst: 195 open roles (led by Sales) paired with recent product launches indicate a deliberate market entry push, not just internal tooling.",
     "alternative_interpretation": "The hiring surge may reflect post-acquisition integration or backfill, not a net-new product investment — without explicit GA or release language, the launch could be a beta or limited-access release not yet at enterprise scale.",
@@ -406,7 +406,7 @@
       "sdrs": 5,
       "executives": 5
     },
-    "last_updated": "2026-04-23",
-    "_input_hash": "81eca5dad40bd99a"
+    "last_updated": "2026-04-24",
+    "_input_hash": "a93ea3a73363381d"
   }
 ]

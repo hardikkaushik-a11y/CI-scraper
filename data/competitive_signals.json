@@ -22,6 +22,25 @@
     "scraped_at": "2026-04-22"
   },
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "SPN Technical Connect",
+    "url": "https://www.snowflake.com/events/spn-tech-connect-17-06-2026/",
+    "published_date": "2026-04-24",
+    "summary": "17 Jun SPN Technical Connect 2:00 PM BST 1 Crown Place London Register now",
+    "actian_relevance": "low",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-06-17",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-24"
+  },
+  {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",

@@ -19,6 +19,25 @@
     "scraped_at": "2026-04-23"
   },
   {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "partnership",
+    "title": "Databricks partners with OpenAI on GPT-5.5",
+    "url": "https://www.databricks.com/blog/databricks-partners-openai-gpt-55",
+    "published_date": "2026-04-23",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-24"
+  },
+  {
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
