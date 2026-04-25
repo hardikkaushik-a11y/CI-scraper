@@ -3,6 +3,25 @@
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
+    "title": "OpenAI GPT-5.5 + Codex, now available and fully-governed in Databricks",
+    "url": "https://www.databricks.com/blog/openai-gpt-55-now-available-databricks-fully-governed-through-unity-ai-gateway",
+    "published_date": "2026-04-24",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-25"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
     "title": "Announcing the Public Preview of Lakeflow Designer",
     "url": "https://www.databricks.com/blog/announcing-public-preview-lakeflow-designer",
     "published_date": "2026-04-23",
