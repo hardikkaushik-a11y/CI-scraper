@@ -51,17 +51,23 @@ jobs:
         run: python src/scraper.py
 
       - name: Run enrichment + signal generation
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python src/enrich.py
 
       - name: Run competitive signal scraper (launches + events)
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python src/signal_scraper.py
 
       - name: Scrape company newsrooms (press releases)
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python src/news_scraper.py
 
       - name: Generate intelligence verdicts (Phase 2.5 — verdict layer)
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python src/verdict_engine.py
 
       - name: Refresh v2 dataset (keep in sync with latest enriched data)

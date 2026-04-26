@@ -26,8 +26,8 @@ from team_routing import route_by_signal_type
 # CONFIG — exact same pattern as enrich.py
 # ══════════════════════════════════════════════════════════════════════════
 
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-SONNET_MODEL = "claude-sonnet-4-6"
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+DEEPSEEK_MODEL = "deepseek-chat"  # V4-Flash
 
 MAX_SIGNAL_AGE_DAYS = 90
 MAX_ITEMS_PER_FEED = 20   # Cap per company per run — avoid flooding
@@ -303,32 +303,33 @@ _STRATEGIC_OVERRIDE_RE = re.compile(
 )
 
 # ══════════════════════════════════════════════════════════════════════════
-# CLAUDE API — copied exactly from enrich.py, do not diverge
+# DEEPSEEK API
 # ══════════════════════════════════════════════════════════════════════════
 
-def _call_claude(model: str, system: str, user_msg: str, max_tokens: int = 512) -> str:
-    if not ANTHROPIC_API_KEY:
+def _call_deepseek(system: str, user_msg: str, max_tokens: int = 512) -> str:
+    if not DEEPSEEK_API_KEY:
         return ""
     try:
         r = httpx.post(
-            "https://api.anthropic.com/v1/messages",
+            "https://api.deepseek.com/chat/completions",
             headers={
-                "x-api-key": ANTHROPIC_API_KEY,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
+                "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+                "Content-Type": "application/json",
             },
             json={
-                "model": model,
+                "model": DEEPSEEK_MODEL,
                 "max_tokens": max_tokens,
-                "system": system,
-                "messages": [{"role": "user", "content": user_msg}],
+                "messages": [
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user_msg},
+                ],
             },
             timeout=90,
         )
         r.raise_for_status()
-        return r.json()["content"][0]["text"].strip()
+        return r.json()["choices"][0]["message"]["content"].strip()
     except Exception as e:
-        print(f"  [WARN] Claude API call failed ({model}): {e}")
+        print(f"  [WARN] DeepSeek API call failed: {e}")
         return ""
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -371,14 +372,9 @@ Generic phrases like "company invests in AI" are not acceptable.\
 """
 
 
-def classify_item(company: str, title: str, description: str) -> dict | None:
-    """
-    PHASE 2.5: Anthropic API restricted to verdict_engine only.
-    Replace Claude Sonnet classification with rule-based keyword logic.
-    """
-    # Clean before classification — removes dates, author names, prefixes
-    title = clean_text(title)
-    description = clean_text(description)
+def _rule_classify(company: str, title: str, description: str) -> dict | None:
+    """Rule-based fallback classifier — used when DeepSeek is unavailable."""
+    # (original rule-based logic below)
 
     combined_text = (title + " " + description).lower()
 
@@ -474,6 +470,46 @@ def classify_item(company: str, title: str, description: str) -> dict | None:
         "source_type": source_type,
         "event_date": event_date,
     }
+
+
+def classify_item(company: str, title: str, description: str) -> dict | None:
+    """
+    Classify a competitive signal item.
+    Tries DeepSeek first for richer summaries; falls back to rule-based logic.
+    """
+    title = clean_text(title)
+    description = clean_text(description)
+
+    if DEEPSEEK_API_KEY:
+        user_msg = (
+            f"Company: {company}\n"
+            f"Title: {title}\n"
+            f"Description: {description[:500] if description else '(none)'}"
+        )
+        raw = _call_deepseek(CLASSIFY_SYSTEM, user_msg, max_tokens=512)
+        if raw:
+            text = raw.strip()
+            if text.startswith("```"):
+                lines = text.split("\n")
+                text = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
+            try:
+                parsed = json.loads(text)
+                # Validate required fields
+                if (parsed.get("type") in
+                        ("product_launch", "event", "partnership", "funding",
+                         "open_source_release", "blog_post")
+                        and parsed.get("actian_relevance") in ("low", "medium", "high")):
+                    parsed.setdefault("tags", [])
+                    parsed.setdefault("source_type", "blog")
+                    parsed.setdefault("event_date", None)
+                    parsed.setdefault("summary", title)
+                    return parsed
+            except (json.JSONDecodeError, AttributeError):
+                pass
+
+    # Fallback to rule-based classifier
+    return _rule_classify(company, title, description)
+
 
 # ══════════════════════════════════════════════════════════════════════════
 # DEDUPLICATION — file-based, same principle as seen_jobs.db

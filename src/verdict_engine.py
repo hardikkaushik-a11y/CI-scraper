@@ -25,8 +25,8 @@ from team_routing import (
 # CONFIG
 # ══════════════════════════════════════════════════════════════════════════
 
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-SONNET_MODEL = "claude-sonnet-4-6"
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+DEEPSEEK_MODEL = "deepseek-chat"  # V4-Flash
 
 # Bump this to force all verdicts to regenerate when scoring logic changes
 VERDICT_VERSION = "6"  # v6: news items now contribute to impact_level + signal score
@@ -158,32 +158,33 @@ RULES:
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# CLAUDE CALL (exact pattern from enrich.py)
+# DEEPSEEK CALL
 # ══════════════════════════════════════════════════════════════════════════
 
-def _call_claude(model: str, system: str, user_msg: str, max_tokens: int = 1500) -> str:
-    if not ANTHROPIC_API_KEY:
+def _call_deepseek(system: str, user_msg: str, max_tokens: int = 1500) -> str:
+    if not DEEPSEEK_API_KEY:
         return ""
     try:
         r = httpx.post(
-            "https://api.anthropic.com/v1/messages",
+            "https://api.deepseek.com/chat/completions",
             headers={
-                "x-api-key": ANTHROPIC_API_KEY,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
+                "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+                "Content-Type": "application/json",
             },
             json={
-                "model": model,
+                "model": DEEPSEEK_MODEL,
                 "max_tokens": max_tokens,
-                "system": system,
-                "messages": [{"role": "user", "content": user_msg}],
+                "messages": [
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user_msg},
+                ],
             },
             timeout=90,
         )
         r.raise_for_status()
-        return r.json()["content"][0]["text"].strip()
+        return r.json()["choices"][0]["message"]["content"].strip()
     except Exception as e:
-        print(f"  [WARN] Claude API call failed ({model}): {e}")
+        print(f"  [WARN] DeepSeek API call failed: {e}")
         return ""
 
 
@@ -781,14 +782,14 @@ def generate_verdict(company: str, product_area: str,
                      comp_signals: list[dict],
                      news_items: list[dict]) -> dict | None:
     """Generate verdict via Claude if API key available, else use fallback."""
-    if not ANTHROPIC_API_KEY:
+    if not DEEPSEEK_API_KEY:
         print(f"  [FALLBACK] {company} — using rule-based verdict logic")
         return _fallback_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
     prompt = _build_user_prompt(company, product_area, hiring_signal, comp_signals, news_items)
-    raw = _call_claude(SONNET_MODEL, VERDICT_SYSTEM, prompt)
+    raw = _call_deepseek(VERDICT_SYSTEM, prompt)
     if not raw:
-        print(f"  [FALLBACK] {company} — Claude call failed, using rule-based logic")
+        print(f"  [FALLBACK] {company} — DeepSeek call failed, using rule-based logic")
         return _fallback_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
     # Strip markdown fences if Claude wrapped it
