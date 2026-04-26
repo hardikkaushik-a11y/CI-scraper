@@ -29,6 +29,9 @@ from team_routing import route_by_news_type
 MAX_NEWS_AGE_DAYS = 90
 MAX_ITEMS_PER_COMPANY = 15
 
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+DEEPSEEK_MODEL = "deepseek-chat"  # V4-Flash
+
 REPO_ROOT = Path(__file__).parent.parent
 DATA_DIR = REPO_ROOT / "data"
 OUTPUT_FILE = DATA_DIR / "news.json"
@@ -285,18 +288,103 @@ _DROP_RE = re.compile(
 )
 
 
+_NEWS_CLASSIFY_SYSTEM = """\
+You are a competitive intelligence analyst at Actian Corporation — a data integration \
+and analytics platform. Classify a competitor news item for the Actian team.
+
+Return ONLY valid JSON. No commentary. No markdown fences.
+
+Required fields:
+- "news_type": one of exactly: funding, acquisition, leadership, partnership, pricing, \
+product_launch, feature, layoff — or null to drop the item
+- "actian_relevance": one of exactly: high, medium, low
+- "tags": array of 0–4 short tags (e.g. ["Series C", "$120M", "AI", "CEO"])
+- "summary": 1 sharp sentence explaining what happened and why it matters to Actian
+
+Classification rules:
+- leadership: C-suite appointment or departure only (CEO/CTO/CFO/CRO/CPO/COO/CMO)
+- product_launch: new product, major feature GA, new capability announced
+- feature: incremental improvement to existing product
+- funding: investment round, IPO, or strategic investment
+- acquisition: company acquired or acquiring another
+- partnership: integration, technology alliance, OEM/reseller deal
+- pricing: pricing change, new tier, or monetization announcement
+- layoff: workforce reduction
+- Return null for news_type if the item is a blog post, thought leadership, or general news \
+with no competitive signal for Actian
+"""
+
+
+def _call_deepseek_news(title: str, description: str, company: str) -> dict | None:
+    """Call DeepSeek to classify a news item. Returns parsed dict or None."""
+    if not DEEPSEEK_API_KEY:
+        return None
+    user_msg = (
+        f"Company: {company}\n"
+        f"Title: {title}\n"
+        f"Description: {description[:400] if description else '(none)'}"
+    )
+    try:
+        r = httpx.post(
+            "https://api.deepseek.com/chat/completions",
+            headers={
+                "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": DEEPSEEK_MODEL,
+                "max_tokens": 400,
+                "messages": [
+                    {"role": "system", "content": _NEWS_CLASSIFY_SYSTEM},
+                    {"role": "user", "content": user_msg},
+                ],
+            },
+            timeout=60,
+        )
+        r.raise_for_status()
+        text = r.json()["choices"][0]["message"]["content"].strip()
+        if text.startswith("```"):
+            lines = text.split("\n")
+            text = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
+        parsed = json.loads(text)
+        if parsed.get("news_type") is None:
+            return None  # DeepSeek says drop
+        valid_types = {"funding", "acquisition", "leadership", "partnership",
+                       "pricing", "product_launch", "feature", "layoff"}
+        if parsed.get("news_type") not in valid_types:
+            return None
+        if parsed.get("actian_relevance") not in ("high", "medium", "low"):
+            parsed["actian_relevance"] = "high"
+        parsed.setdefault("tags", [])
+        parsed.setdefault("summary", title)
+        return parsed
+    except Exception as e:
+        print(f"  [WARN] DeepSeek news classify failed: {e}")
+        return None
+
+
 def classify_item(company: str, title: str, description: str, url: str) -> dict | None:
     """
-    Strict classification based on TITLE ONLY.
-    Description is ignored for type detection (untrusted neighbor text).
+    Classify a news item. Tries DeepSeek first; falls back to title-only rule matching.
+    Description is intentionally ignored in the rule path (untrusted neighbor text).
     Returns dict or None (drop).
     """
-    # FIX #13: use title only for all matching — never description
-    t = title  # title-only for classification
-
-    # Hard drop on title
-    if _DROP_RE.search(t):
+    # Hard drop on title — always run this regardless of LLM path
+    if _DROP_RE.search(title):
         return None
+
+    # Try DeepSeek first
+    if DEEPSEEK_API_KEY:
+        result = _call_deepseek_news(title, description, company)
+        if result is not None:
+            result["team_routing"] = route_by_news_type(result["news_type"])
+            return result
+        # result == None means DeepSeek said drop the item
+        # but we only trust that if the API call succeeded; a connection error
+        # returns None too — fall through to rule-based to be safe
+
+    # ── Rule-based fallback ──────────────────────────────────────────────
+    t = title  # title-only for classification
 
     news_type = None
     if _FUNDING_RE.search(t):

@@ -30,6 +30,8 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 HAIKU_MODEL = "claude-haiku-4-5-20251001"
 SONNET_MODEL = "claude-sonnet-4-6"
 OPUS_MODEL = "claude-opus-4-5-20250115"
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+DEEPSEEK_MODEL = "deepseek-chat"  # V4-Flash
 MAX_JOB_AGE_DAYS = 365
 
 # Allowed values — anything outside these sets gets remapped via fallback
@@ -618,6 +620,33 @@ def _call_claude(model: str, system: str, user_msg: str, max_tokens: int = 4096)
         return ""
 
 
+def _call_deepseek(system: str, user_msg: str, max_tokens: int = 1500) -> str:
+    if not DEEPSEEK_API_KEY:
+        return ""
+    try:
+        r = httpx.post(
+            "https://api.deepseek.com/chat/completions",
+            headers={
+                "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": DEEPSEEK_MODEL,
+                "max_tokens": max_tokens,
+                "messages": [
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user_msg},
+                ],
+            },
+            timeout=90,
+        )
+        r.raise_for_status()
+        return r.json()["choices"][0]["message"]["content"].strip()
+    except Exception as e:
+        print(f"  [WARN] DeepSeek API call failed: {e}")
+        return ""
+
+
 def _sanitize_classification(cls: dict, title: str, description: str = "") -> dict:
     """Ensure no 'Other', 'Unknown', or invalid values leak through from Claude API."""
     pf = cls.get("product_focus", "")
@@ -1108,9 +1137,36 @@ Return a JSON object with these fields:
 
 Return ONLY the JSON object, no markdown fences or other text."""
 
-        # PHASE 2.5: Anthropic API restricted to verdict_engine only
-        # Always use fallback signal generation
-        signals.append(_fallback_signal(company, company_group, rows))
+        # Call DeepSeek for LLM-grade signal generation; fall back to rule-based on failure
+        raw = _call_deepseek(
+            "You are a competitive intelligence analyst. Return ONLY the JSON object described, no markdown fences.",
+            prompt,
+            max_tokens=1500,
+        )
+        parsed = None
+        if raw:
+            text = raw.strip()
+            if text.startswith("```"):
+                lines = text.split("\n")
+                text = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
+            try:
+                parsed = json.loads(text)
+            except json.JSONDecodeError:
+                print(f"    [WARN] DeepSeek JSON parse error for {company} — using fallback")
+        if parsed:
+            # Ensure required keys are present; fill from fallback if missing
+            fallback = _fallback_signal(company, company_group, rows)
+            for key in ("company", "hiring_intensity", "dominant_function",
+                        "dominant_product_focus", "threat_level", "last_updated"):
+                if key not in parsed or not parsed[key]:
+                    parsed[key] = fallback[key]
+            parsed.setdefault("signal_summary", fallback.get("signal_summary", ""))
+            parsed.setdefault("implications", fallback.get("implications", []))
+            parsed.setdefault("watch_for", fallback.get("watch_for", []))
+            parsed.setdefault("recommended_actions", fallback.get("recommended_actions", []))
+            signals.append(parsed)
+        else:
+            signals.append(_fallback_signal(company, company_group, rows))
 
     # Include companies with <3 postings using rule-based signal so all tracked
     # companies appear in Market Pulse metrics (consistent universe with page 1)

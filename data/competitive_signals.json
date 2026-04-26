@@ -25,6 +25,65 @@
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
+    "title": "In-person event - U.K. - London Gartner Data & Analytics Summit in London May 11 - 13",
+    "url": "https://www.collibra.com/events/collibra-at-gartner-data-analytics-summit-london",
+    "published_date": "2026-04-25",
+    "summary": "In-person event - U.S. - Orlando SAP Sapphire Orlando 2026 May 11 - 13 In-person event - U.K. - London Gartner Data & Analytics Summit in London May 11 - 13 Global event series Join Collibra on the ro...",
+    "actian_relevance": "high",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-05-11",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-25"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "In-Person Event AI Days - Kuala Lumpur Kuala Lumpur, Malaysia May 5 Register now",
+    "url": "https://events.databricks.com/FY27-AI-Days-KualaLumpur/registration?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=registration",
+    "published_date": "2026-04-25",
+    "summary": "Virtual Event 2026 Foundational \uc6cc\ud06c\uc20d \uc6e8\ube44\ub098 \uc2dc\ub9ac\uc988 February 12 - July 16 \ub4f1\ub85d\ud558\uae30 Virtual Event The EMEA Learning Festival April 28 - April 29 Save your spot DevConnect Databricks DevConnect | Munich Munich, Ger...",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-05",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-25"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "SPN Technical Connect",
+    "url": "https://www.snowflake.com/events/spn-tech-connect-17-06-2026/",
+    "published_date": "2026-04-24",
+    "summary": "17 Jun SPN Technical Connect 2:00 PM BST 1 Crown Place London Register now",
+    "actian_relevance": "low",
+    "tags": [],
+    "source_type": "event_page",
+    "event_date": "2026-06-17",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "scraped_at": "2026-04-24"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
     "title": "In-person event \u2014 Spain - Madrid SAP Sapphire Madrid 2026 May 19 - 21",
     "url": "https://www.sap.com/events/sapphire/madrid.html",
     "published_date": "2026-04-23",
