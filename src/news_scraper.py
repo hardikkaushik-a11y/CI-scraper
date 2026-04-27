@@ -1123,10 +1123,11 @@ def main():
                 "url": url,
                 "published_date": article["published_date"],
                 "source": "company_newsroom",
-                "summary": _clean_summary(desc, title),
+                "summary": classification.get("summary") or _clean_summary(desc, title),
                 "actian_relevance": classification["actian_relevance"],
                 "tags": classification["tags"],
                 "team_routing": classification["team_routing"],
+                "themes": classification.get("themes", []),
                 "event_date": None,
                 "scraped_at": today_str,
             }

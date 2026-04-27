@@ -1400,6 +1400,7 @@ def main():
                                         classification["type"],
                                         classification.get("actian_relevance", "medium"),
                                     ),
+                "themes":           classification.get("themes", []),
                 "scraped_at":       today_str,
             }
 
@@ -1501,6 +1502,7 @@ def main():
                                         classification["type"],
                                         classification.get("actian_relevance", "medium"),
                                     ),
+                "themes":           classification.get("themes", []),
                 "scraped_at":       today_str,
             }
 
