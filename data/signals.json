@@ -110,14 +110,14 @@
     "company": "Alteryx",
     "company_group": "Warehouse/Processing",
     "posting_count": 32,
-    "signal_summary": "Alteryx is in aggressive GTM expansion mode with 10 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "signal_summary": "Alteryx is in aggressive GTM expansion mode with 11 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
       "5 AI/ML roles (16% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
-      "Aggressive go-to-market expansion (10 sales/marketing roles) in US, Prague, Czechia, Bangalore, India — likely preparing for a major product launch or entering new market segments",
-      "Heavy infrastructure hiring (3 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model",
+      "Aggressive go-to-market expansion (11 sales/marketing roles) in US, Prague, Czechia, Bangalore, India — likely preparing for a major product launch or entering new market segments",
       "Alteryx (Warehouse/Processing) could expand into data integration through Go-to-Market capabilities — watch for bundling or platform plays that undercut standalone integration tools like Actian",
-      "Distributed hiring across 18 locations (Bangalore, India, 4 Locations, United Kingdom+) indicates global expansion or multi-hub strategy — suggests new regional offices or remote-first shift",
-      "Hiring across 9 product areas (ML/AI infra, Go-to-Market...) suggests portfolio expansion or major platform consolidation"
+      "Distributed hiring across 19 locations (Bangalore, India, 4 Locations, United Kingdom+) indicates global expansion or multi-hub strategy — suggests new regional offices or remote-first shift",
+      "Hiring across 9 product areas (ML/AI infra, Go-to-Market...) suggests portfolio expansion or major platform consolidation",
+      "Aggressive 32-role hiring surge indicates rapid product iteration or preparation for a major launch window — expect feature announcements within 3-6 months"
     ],
     "watch_for": [
       "Alteryx's AI team growing past 5 roles — crossing 5+ AI hires typically precedes a standalone AI feature launch within 2 quarters",
@@ -135,7 +135,7 @@
     "threat_level": "high",
     "roadmap": {
       "direction": "Enterprise Warehouse Land-and-Expand Motion",
-      "rationale": "Alteryx is signalling this direction through 5 AI/ML roles (16% of hiring), 3 platform/infrastructure roles, 10 sales and marketing hires pointing to market readiness. This volume of hiring in a focused area typically precedes a product launch or major feature announcement within one to two quarters.",
+      "rationale": "Alteryx is signalling this direction through 5 AI/ML roles (16% of hiring), 2 platform/infrastructure roles, 11 sales and marketing hires pointing to market readiness. This volume of hiring in a focused area typically precedes a product launch or major feature announcement within one to two quarters.",
       "confidence": "Medium",
       "timeline": "Next 6–12 months",
       "watch_for": "Alteryx posting industry-specific sales roles (healthcare, finance, government) — signals vertical expansion strategy"
@@ -850,30 +850,30 @@
     "company": "Qlik",
     "company_group": "Data Intelligence",
     "posting_count": 13,
-    "signal_summary": "Qlik is in aggressive GTM expansion mode with 5 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
+    "signal_summary": "Qlik is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments.",
     "implications": [
-      "Aggressive go-to-market expansion (5 sales/marketing roles)  — likely preparing for a major product launch or entering new market segments",
+      "Aggressive go-to-market expansion (4 sales/marketing roles)  — likely preparing for a major product launch or entering new market segments",
       "Qlik is a direct competitor in Data Intelligence but current hiring focuses on Go-to-Market — monitor for lateral expansion into Actian's core areas",
-      "Hiring across 5 product areas (Go-to-Market, Corporate Functions...) suggests portfolio expansion or major platform consolidation",
-      "Monitor Qlik's quarterly earnings calls and product roadmaps for announcements aligned with their sales hiring surge"
+      "Hiring across 6 product areas (ML/AI infra, Go-to-Market...) suggests portfolio expansion or major platform consolidation",
+      "Monitor Qlik's quarterly earnings calls and product roadmaps for announcements aligned with their engineering hiring surge"
     ],
     "watch_for": [
       "Uptick in Qlik's enterprise AE or solution architect hiring in Actian's core verticals (manufacturing, financial services) — signals direct competitive displacement effort",
       "Qlik announcing partnerships with cloud data platforms (Snowflake, Databricks) — would signal an embedded integration play that threatens Actian's standalone value proposition",
-      "Qlik's senior hiring concentration (46%) shifting toward product or architecture roles — indicates new product line formation, not just scaling"
+      "Qlik hiring in new geographies or verticals beyond their current footprint — geographic expansion in Data Intelligence typically precedes competitive displacement campaigns against incumbents like Actian"
     ],
     "recommended_actions": [
-      "[Immediate / GTM] Brief enterprise AEs on Qlik's trajectory in Go-to-Market — their 13-role hiring surge signals aggressive expansion that will hit Actian's pipeline within 1-2 quarters",
-      "[Immediate / GTM] Preemptively engage Qlik's target accounts — their 5 GTM hires signal a land-grab in progress. Focus on demonstrating Actian's time-to-value advantage in competitive evaluations",
+      "[Next Quarter / Product] Evaluate Qlik's Go-to-Market trajectory against Actian's roadmap — determine if Actian needs to build competitive parity or can differentiate by doubling down on integration depth",
+      "[Immediate / GTM] Preemptively engage Qlik's target accounts — their 4 GTM hires signal a land-grab in progress. Focus on demonstrating Actian's time-to-value advantage in competitive evaluations",
       "[Next Quarter / GTM] Include Qlik's Data Intelligence trajectory in Actian's quarterly competitive review — share Go-to-Market hiring patterns with product leadership to inform roadmap prioritization decisions"
     ],
     "hiring_intensity": "medium",
-    "dominant_function": "Sales",
+    "dominant_function": "Engineering",
     "dominant_product_focus": "Go-to-Market",
-    "threat_level": "high",
+    "threat_level": "medium",
     "roadmap": {
       "direction": "Self-Service Data Governance for Business Teams",
-      "rationale": "Qlik is signalling this direction through 5 sales and marketing hires pointing to market readiness. The pattern suggests early-stage investment — laying groundwork before a broader push.",
+      "rationale": "Qlik is signalling this direction through 4 sales and marketing hires pointing to market readiness. The pattern suggests early-stage investment — laying groundwork before a broader push.",
       "confidence": "Medium",
       "timeline": "Next 6–12 months",
       "watch_for": "Qlik posting industry-specific sales roles (healthcare, finance, government) — signals vertical expansion strategy"
@@ -886,33 +886,33 @@
     "posting_count": 195,
     "signal_summary": "Salesforce is doubling down on data engineering with 8 pipeline/integration roles — direct competitive move against Actian in the data integration space.",
     "implications": [
-      "14 AI/ML roles (7% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
+      "13 AI/ML roles (7% of postings) — likely building AI-powered features such as intelligent data matching, automated schema mapping, or LLM-based query optimization",
       "Cloud infrastructure hiring (16 roles) suggests expanding multi-cloud deployment options — potential new managed service or marketplace listing",
       "Security/compliance hiring (4 roles) indicates upcoming enterprise compliance certifications (SOC2, FedRAMP, HIPAA) or a new security product layer",
       "Data engineering focus (8 roles) — likely expanding connector ecosystem, improving data pipeline performance, or building new integration capabilities — direct competitive overlap with Actian's data integration offering",
-      "Aggressive go-to-market expansion (34 sales/marketing roles) in California - San FranciscoWashington - Seattle, Japan - Tokyo, Ireland - Dublin — likely preparing for a major product launch or entering new market segments",
+      "Aggressive go-to-market expansion (35 sales/marketing roles) in California - San FranciscoWashington - Seattle, Japan - Tokyo, Ireland - Dublin — likely preparing for a major product launch or entering new market segments",
       "Heavy infrastructure hiring (7 roles) signals scaling for enterprise workloads — possibly preparing for 10x traffic growth or new deployment model"
     ],
     "watch_for": [
-      "Salesforce's AI team growing past 14 roles — crossing 5+ AI hires typically precedes a standalone AI feature launch within 2 quarters",
+      "Salesforce's AI team growing past 13 roles — crossing 5+ AI hires typically precedes a standalone AI feature launch within 2 quarters",
       "Track Salesforce's job posting velocity — sustained increase (>20% quarter-over-quarter) signals strategic investment acceleration, not just backfill",
       "Salesforce hiring product roles focused on data integration or analytics — would signal expansion into Actian's competitive territory"
     ],
     "recommended_actions": [
-      "[Immediate / GTM] Brief enterprise AEs on Salesforce's trajectory in Platform / Infra — their 195-role hiring surge signals aggressive expansion that will hit Actian's pipeline within 1-2 quarters",
-      "[Next Quarter / Product] Assess whether Salesforce's AI investment (currently 14 roles) threatens Actian's analytics value proposition — if they ship AI-powered Platform / Infra, Actian needs to counter with AI capabilities in the integration layer",
+      "[Immediate / GTM] Brief enterprise AEs on Salesforce's trajectory in Go-to-Market — their 195-role hiring surge signals aggressive expansion that will hit Actian's pipeline within 1-2 quarters",
+      "[Next Quarter / Product] Assess whether Salesforce's AI investment (currently 13 roles) threatens Actian's analytics value proposition — if they ship AI-powered Go-to-Market, Actian needs to counter with AI capabilities in the integration layer",
       "[Immediate / GTM] Add Salesforce to Actian's top-5 competitive watchlist — their 195-role hiring velocity combined with Engineering concentration indicates a product launch cycle. Prepare competitive battle cards by end of quarter"
     ],
     "hiring_intensity": "high",
     "dominant_function": "Engineering",
-    "dominant_product_focus": "Platform / Infra",
+    "dominant_product_focus": "Go-to-Market",
     "threat_level": "critical",
     "roadmap": {
-      "direction": "Enterprise Infrastructure Modernization at Scale",
-      "rationale": "Salesforce is signalling this direction through 14 AI/ML roles (7% of hiring), 7 platform/infrastructure roles, 34 sales and marketing hires pointing to market readiness. This volume of hiring in a focused area typically precedes a product launch or major feature announcement within one to two quarters.",
+      "direction": "Enterprise Suite Expansion into New Industry Verticals",
+      "rationale": "Salesforce is signalling this direction through 13 AI/ML roles (7% of hiring), 7 platform/infrastructure roles, 35 sales and marketing hires pointing to market readiness. This volume of hiring in a focused area typically precedes a product launch or major feature announcement within one to two quarters.",
       "confidence": "Medium",
       "timeline": "Next 6–12 months",
-      "watch_for": "Salesforce hiring database internals or systems engineers with distributed systems expertise — suggests core engine rewrite or performance overhaul"
+      "watch_for": "Salesforce posting industry-specific sales roles (healthcare, finance, government) — signals vertical expansion strategy"
     },
     "last_updated": "2026-04-27"
   },
