@@ -1,5 +1,29 @@
 [
   {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Now Available on Qdrant Cloud: GPU Indexing, Multi-AZ, and Audit Logging",
+    "url": "https://qdrant.tech/blog/qdrant-cloud-enterprise-launch/",
+    "published_date": "2026-04-28",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "low",
+    "tags": [
+      "GPU Indexing",
+      "Multi-AZ",
+      "Audit Logging",
+      "Vector Database"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
@@ -43,6 +67,54 @@
     "scraped_at": "2026-04-25"
   },
   {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "Alation Announces Agent Builder To Deliver Enterprise-Grade AI Agents for",
+    "url": "https://www.alation.com/news-and-press/alation-announces-agent-builder-delivering-enterprise-grade-ai-agents/",
+    "published_date": "2026-04-24",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI agents",
+      "Alation",
+      "data catalog",
+      "enterprise AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "We Built Graph RAG Without the Graph Database",
+    "url": "https://milvus.io/blog/vector-graph-rag-without-graph-database.md",
+    "published_date": "2026-04-24",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "Graph RAG",
+      "vector database",
+      "no graph DB",
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
@@ -84,6 +156,29 @@
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
+    "title": "OpenAI GPT 5.5 on Snowflake Cortex AI",
+    "url": "https://www.snowflake.com/en/blog/openai-gpt-5-5-snowflake-cortex-ai/",
+    "published_date": "2026-04-23",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "GPT-5.5",
+      "Snowflake Cortex AI",
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
     "title": "Introducing DCM Projects: Declarative Infrastructure Management for Snowflake \u2014 Now in",
     "url": "https://www.snowflake.com/en/blog/snowflake-dcm-projects-public-preview/",
     "published_date": "2026-04-22",
@@ -98,6 +193,190 @@
     ],
     "event_date": null,
     "scraped_at": "2026-04-23"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "partnership",
+    "title": "Google Cloud And Collibra Deepen Partnership To Bring Business Context And Semantics Directly To",
+    "url": "https://www.collibra.com/company/newsroom/press-releases/google-cloud-and-collibra-deepen-partnership",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "low",
+    "tags": [
+      "Google Cloud",
+      "partnership",
+      "data governance"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "partnership",
+    "title": "Google Cloud and Collibra deepen their partnership to bring business context and semantics directly",
+    "url": "https://www.collibra.com/blog/google-cloud-and-collibra-deepen-their-partnership-to-bring-business-context-and-semantics",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "Google Cloud",
+      "data governance",
+      "semantics",
+      "partnership"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Makes AI Real for Businesses at Snowflake Summit 26, Featuring Anthropic's Daniela Amodei",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-makes-ai-real-at-snowflake-summit-26-featuring-anthropics-daniela-amodei-and-other-industry-leaders/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "AI",
+      "summit",
+      "Anthropic"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-expands-snowflake-intelligence-and-cortex-code-to-power-the-control-plane-for-the-agentic-enterprise/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "Snowflake Intelligence",
+      "Cortex Code",
+      "control plane"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Appoints Jonathan Beaulier as Chief",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-appoints-jonathan-beaulier-as-chief-revenue-officer/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "CRO",
+      "Snowflake"
+    ],
+    "team_routing": [
+      "PMM",
+      "Executives"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-appoints-michel-nader-to-lead-meta-region-advancing-regional-ai-ambitions/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "META",
+      "AI",
+      "regional expansion"
+    ],
+    "team_routing": [
+      "PMM",
+      "Executives"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Cortex Code Expands Towards Supporting Any",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-cortex-code-expands-towards-supporting-any-data-anywhere/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "Snowflake",
+      "Cortex Code",
+      "AI",
+      "multi-platform"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "AI & ML Cortex Code Expands: One Governed Agent for Your Entire Data Stack, Everywhere You Work",
+    "url": "https://www.snowflake.com/en/blog/cortex-code-governed-agent-data-stack/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "AI",
+      "Cortex",
+      "ML",
+      "Data Governance"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
   },
   {
     "company": "Databricks",
@@ -119,6 +398,53 @@
     "scraped_at": "2026-04-22"
   },
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Cortex Agents: The Platform Powering Snowflake Intelligence and Enterprise AI Agents",
+    "url": "https://www.snowflake.com/en/blog/enterprise-ai-agent-platform/",
+    "published_date": "2026-04-21",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "Snowflake Intelligence",
+      "AI agents",
+      "Cortex",
+      "enterprise AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Intelligence: From Answers to Action with Your Personal",
+    "url": "https://www.snowflake.com/en/blog/snowflake-intelligence-work-agent/",
+    "published_date": "2026-04-21",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "Snowflake Intelligence",
+      "data action",
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
@@ -138,6 +464,28 @@
     ],
     "event_date": null,
     "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Databricks Appoints Simon Davies as Head of Asia Pacific & Japan Amidst Rapid Expansion in the",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-appoints-simon-davies-head-asia-pacific-japan-amidst",
+    "published_date": "2026-04-17",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "APJ",
+      "Databricks",
+      "regional head"
+    ],
+    "team_routing": [
+      "PMM",
+      "Executives"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
   },
   {
     "company": "Pinecone",
@@ -199,6 +547,170 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "partnership",
+    "title": "ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams",
+    "url": "https://www.pinecone.io/newsroom/zoominfo-pinecone-drn/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Featured Jan 28, 2026 Pinecone Assistant Node in n8n: Turn Any Data Source Into Knowledge Lea , Jenna",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "real-time",
+      "GTM",
+      "Pinecone"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "feature",
+    "title": "Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes-ga-features/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "read nodes",
+      "control",
+      "observability",
+      "vector database"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone Assistant: A Managed Knowledge Layer for Production AI Applications Roie Schwaber-Cohen",
+    "url": "https://www.pinecone.io/blog/assistant-managed-knowledge-layer/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "knowledge layer",
+      "managed service",
+      "vector database"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone BYOC: Pinecone in your AWS, GCP, or Azure account, no vendor access Gavin Johnson",
+    "url": "https://www.pinecone.io/blog/byoc/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "BYOC",
+      "AWS",
+      "GCP",
+      "Azure"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "feature",
+    "title": "Pinecone Dedicated Read Nodes are now in",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "low",
+    "tags": [
+      "vector database",
+      "dedicated nodes",
+      "read replicas"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "feature",
+    "title": "New Bulk Data Operations: Update, Delete, and Fetch by Metadata",
+    "url": "https://www.pinecone.io/blog/update-delete-and-fetch-by-metadata/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "Pinecone",
+      "bulk operations",
+      "metadata",
+      "vector database"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake updates further goal of being control pane for AI",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366642015/Snowflake-updates-further-goal-of-being-control-pane-for-AI",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "AI",
+      "platform",
+      "Snowflake",
+      "data control"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
     "company": "Alation",
     "product_area": "Data Intelligence",
     "news_type": "leadership",
@@ -234,6 +746,30 @@
     ],
     "event_date": null,
     "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "news_type": "partnership",
+    "title": "Bigeye Joins Snowflake-Led Open Semantic Interchange to Power Data and AI Interoperability",
+    "url": "https://www.einpresswire.com/article/904171663/bigeye-joins-snowflake-led-open-semantic-interchange-to-power-data-and-ai-interoperability",
+    "published_date": "2026-04-07",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "Snowflake",
+      "Open Semantic Interchange",
+      "data interoperability",
+      "AI"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
   },
   {
     "company": "Collibra",
@@ -276,6 +812,123 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "AI trust score: Measure trust in every AI system",
+    "url": "https://www.collibra.com/blog/ai-trust-score-measure-trust-in-every-ai-system",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI trust score",
+      "governance",
+      "data intelligence"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "Automatically register AI models from code workflows",
+    "url": "https://www.collibra.com/blog/automatically-register-ai-models-from-code-workflows",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI models",
+      "automation",
+      "data governance"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Monte Carlo",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Data Observability, ML Model, and Agent Observability In A Single Pane Of Glass",
+    "url": "https://www.montecarlodata.com/blog-data-observability-ml-model-and-agent-observability-in-a-single-pane-of-glass/",
+    "published_date": "2026-03-24",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "ML model observability",
+      "agent observability",
+      "unified monitoring"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Databricks Enters Security Market with Launch of Lakewatch: New Open, Agentic SIEM",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-enters-security-market-launch-lakewatch-new-open-agentic",
+    "published_date": "2026-03-24",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "SIEM",
+      "Lakewatch",
+      "security",
+      "agentic"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Databricks Announces Lakewatch: New Open,",
+    "url": "https://www.databricks.com/blog/databricks-announces-lakewatch-new-open-agentic-siem",
+    "published_date": "2026-03-24",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "Lakewatch",
+      "open",
+      "data lakehouse"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
@@ -295,6 +948,76 @@
     ],
     "event_date": null,
     "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Monte Carlo",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Discover All Cortex Agents In A Single Click: Agent Observability for Snowflake Intelligence",
+    "url": "https://www.montecarlodata.com/blog-agent-observability-for-snowflake-intelligence-cortex-agents/",
+    "published_date": "2026-03-18",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "low",
+    "tags": [
+      "Snowflake",
+      "Agent Observability",
+      "Cortex"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "partnership",
+    "title": "Accenture and Databricks Accelerate Enterprise Adoption of AI Applications and Agents at Scale",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/accenture-and-databricks-accelerate-enterprise-adoption-ai",
+    "published_date": "2026-03-16",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "Accenture",
+      "AI",
+      "scale"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Video Anomaly Detection From Edge to Cloud With Qdrant Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA",
+    "url": "https://qdrant.tech/blog/video-anomaly-detection-edge-to-cloud/",
+    "published_date": "2026-03-15",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "low",
+    "tags": [
+      "Qdrant",
+      "Edge",
+      "Video Anomaly Detection",
+      "NVIDIA"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
   },
   {
     "company": "Qdrant",
@@ -339,6 +1062,76 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Qdrant Meets Google Gemini Embedding 2 Neil Kanungo",
+    "url": "https://qdrant.tech/blog/qdrant-gemini-embedding-2/",
+    "published_date": "2026-03-10",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "Qdrant",
+      "Google Gemini",
+      "embedding",
+      "vector database"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Databricks Launches Genie Code: Bringing Agentic Engineering to Data Work",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-launches-genie-code-bringing-agentic-engineering-data",
+    "published_date": "2026-03-10",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "Genie Code",
+      "agentic",
+      "Databricks"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366639805/Alation-automates-governance-with-latest-AI-powered-suite",
+    "published_date": "2026-03-09",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "AI-powered",
+      "governance",
+      "automation"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
     "company": "Monte Carlo",
     "product_area": "Data Observability",
     "news_type": "product_launch",
@@ -360,6 +1153,29 @@
     "scraped_at": "2026-04-21"
   },
   {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "feature",
+    "title": "Qdrant 1.17 - Relevance Feedback & Search Latency Improvements Version 1.17 of Qdrant features a",
+    "url": "https://qdrant.tech/blog/qdrant-1.17.x/",
+    "published_date": "2026-02-20",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "vector search",
+      "relevance feedback",
+      "latency improvements",
+      "Qdrant"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
     "company": "Milvus",
     "product_area": "VectorAI",
     "news_type": "pricing",
@@ -377,6 +1193,29 @@
     ],
     "event_date": null,
     "scraped_at": "2026-04-21"
+  },
+  {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "partnership",
+    "title": "How Bazaarvoice scaled AI-powered product insights with Qdrant Discover how Bazaarvoice reduced",
+    "url": "https://qdrant.tech/blog/case-study-bazaarvoice/",
+    "published_date": "2026-02-10",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "vector search",
+      "customer success"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
   },
   {
     "company": "Snowflake",
