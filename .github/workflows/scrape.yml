@@ -128,18 +128,3 @@ jobs:
           git pull --rebase --autostash -X ours origin main
           git push
 
-      # ── Push dashboards to public Pages repo ─────────────────────────
-      - name: Deploy dashboards to actian-ci-dashboard
-        env:
-          PAGES_TOKEN: ${{ secrets.PAGES_TOKEN }}
-        run: |
-          git clone https://x-access-token:${PAGES_TOKEN}@github.com/hardikkaushik-a11y/actian-ci-dashboard.git /tmp/pages-deploy
-          cp dashboard/v3/dashboard_v3.html /tmp/pages-deploy/index.html
-          cp dashboard/v2/dashboard_v2.html /tmp/pages-deploy/dashboard_v2.html
-          cp dashboard/v2.1/dashboard_v21.html /tmp/pages-deploy/dashboard_v21.html
-          cd /tmp/pages-deploy
-          git config user.name "CI Bot"
-          git config user.email "ci-bot@actian.com"
-          git add -A
-          git diff --cached --quiet || git commit -m "deploy: dashboard update $(date -u '+%Y-%m-%d')"
-          git push
