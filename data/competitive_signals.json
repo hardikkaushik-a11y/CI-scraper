@@ -1,0 +1,1681 @@
+[
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "In-person event - U.S. - Orlando SAP Sapphire Orlando 2026 May 11 - 13",
+    "url": "https://www.collibra.com/events/sap-sapphire-orlando-2026",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is participating with in-person booths or sessions at SAP Sapphire Orlando and Gartner Data & Analytics Summit London, both May 11-13, 2026, signaling a focus on enterprise data governance and analytics community engagement that could draw attention away from Actian's data catalog/observability products.",
+    "actian_relevance": "high",
+    "tags": [
+      "data governance",
+      "enterprise",
+      "SAP",
+      "Gartner",
+      "events"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-11",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "In-person event - U.K. - London Gartner Data & Analytics Summit in London May 11 - 13",
+    "url": "https://www.collibra.com/events/collibra-at-gartner-data-analytics-summit-london",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is exhibiting at the Gartner Data & Analytics Summit in London from May 11-13, 2026, as part of its global Data Citizens event series, signaling its continued investment in face-to-face engagement with data professionals in a key European market where Actian also competes.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data governance",
+      "data analytics",
+      "London",
+      "Gartner summit",
+      "enterprise events"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-11",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Virtual event Deliver AI at race pace without losing control: Introducing the AI command center Apr 30 @ 5 PM CET / 11 AM ET / 8 AM PT",
+    "url": "https://www.collibra.com/events/introducing-the-ai-command-center",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is hosting a virtual event on April 30 to introduce its AI command center, aiming to help enterprises rapidly deploy AI while maintaining governance and control, which poses a competitive threat to Actian's data catalog and governance offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data governance",
+      "AI governance",
+      "virtual event",
+      "enterprise AI"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-30",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Virtual event How to make your unstructured data AI-ready in minutes instead of months May 5 @ 11:00 AM - 11:45 AM ET",
+    "url": "https://www.collibra.com/events/how-to-make-your-unstructured-data-ai-ready",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is hosting a virtual event on , focused on speeding up AI readiness of unstructured data, directly promoting their data catalog/governance capabilities in a space where Actian competes.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "unstructured data",
+      "AI readiness",
+      "virtual event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-05",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph",
+      "Unstructured Data"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "In-person event \u2014 Sweden - Stockholm Data Innovation Summit May 6 - 8",
+    "url": "https://datainnovationsummit.com/region/nordics/",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is hosting multiple events between April 30 and , including a virtual AI command center launch, unstructured data readiness session, and in-person summits in Stockholm and London, signaling intensified focus on data governance for AI and enterprise data readiness.",
+    "actian_relevance": "high",
+    "tags": [
+      "data governance",
+      "AI readiness",
+      "enterprise events",
+      "Gartner summit"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-06",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Unstructured Data"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "In-person event \u2014 U.K. - London Gartner Data & Analytics Summit May 11 - 13",
+    "url": "https://www.gartner.com/en/conferences/emea/data-analytics-uk",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is participating in the Gartner Data & Analytics Summit in London from May 11-13, a key industry conference where they will likely showcase their data intelligence offerings, potentially highlighting their AI command center and capabilities for managing AI readiness of unstructured data, which competes directly with Actian's data catalog and governance products.",
+    "actian_relevance": "high",
+    "tags": [
+      "data governance",
+      "data catalog",
+      "Gartner summit",
+      "enterprise",
+      "AI readiness"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-11",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph",
+      "Unstructured Data"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "In-person event \u2014 U.S. - Orlando SAP Sapphire Orlando 2026 May 11 - 13",
+    "url": "https://www.sap.com/events/sapphire/orlando.html",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is participating in SAP Sapphire Orlando 2026, May 11\u201313, with multiple other virtual and in-person events (AI command center webinar Apr 30, Data Innovation Summit May 6\u20138, Gartner Data & Analytics Summit May 11\u201313), indicating aggressive customer engagement and thought leadership in AI governance and data readiness\u2014directly competitive to Actian's data catalog/governance and AI analytics positioning.",
+    "actian_relevance": "high",
+    "tags": [
+      "data governance",
+      "AI readiness",
+      "enterprise events",
+      "data catalog",
+      "unstructured data"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-11",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph",
+      "Unstructured Data"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Virtual event The data scavenger hunt: Why analysts struggle and why AI suffers May 12 @ 10 AM ET / 4 PM CET",
+    "url": "https://www.collibra.com/events/the-data-scavenger-hunt-why-analysts-struggle-and-why-ai-suffers",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is hosting a virtual event on May 12 about data analyst struggles and AI challenges, highlighting their focus on data intelligence and governance as a solution.",
+    "actian_relevance": "high",
+    "tags": [
+      "data governance",
+      "AI",
+      "analytics",
+      "data intelligence",
+      "virtual event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-12",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "In-person event \u2014 Spain - Madrid SAP Sapphire Madrid 2026 May 19 - 21",
+    "url": "https://www.sap.com/events/sapphire/madrid.html",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is hosting multiple in-person and virtual events from April to May 2026, including a Madrid SAP Sapphire conference and a virtual AI command center launch, signaling aggressive customer engagement and positioning against Actian's data catalog and AI governance capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "AI governance",
+      "virtual event",
+      "SAP",
+      "unstructured data"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-19",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph",
+      "Unstructured Data"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "In-person event \u2014 U.S. - San Francisco Snowflake Summit 26 Jun 1 - 4",
+    "url": "https://www.snowflake.com/en/summit/",
+    "published_date": "2026-04-27",
+    "summary": "Collibra is exhibiting and speaking at the San Francisco Snowflake Summit from June 1-4, with a focus on their AI command center and data governance for AI workloads, signaling continued integration with Snowflake's ecosystem to compete in data catalog and governance.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "governance",
+      "Snowflake",
+      "AI",
+      "event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-26",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph",
+      "Unstructured Data"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Virtual Event Smarter R&D: AI-Powered Insights w Genie April 29",
+    "url": "https://events.databricks.com/FY27Q1-WB-LifeSciences-RandD-Productivity/register?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=drawer-card&itm_offer=register",
+    "published_date": "2026-04-27",
+    "summary": "Databricks is hosting a virtual event on April 29 showcasing AI-powered insights using Genie, followed by a separate virtual event on May 5-7 for fast app development, signaling Databricks' focus on AI-driven analytics and development tools that compete with Actian's AI-powered analytics platform.",
+    "actian_relevance": "high",
+    "tags": [
+      "AI analytics",
+      "virtual event",
+      "Databricks Genie",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "DevConnect Databricks DevConnect | Munich Munich, Germany April 28 Register now",
+    "url": "https://events.databricks.com/devconnect-munich?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=devconnect-munich",
+    "published_date": "2026-04-27",
+    "summary": "Databricks is hosting DevConnect Munich on April 28, an in-person developer event, as part of a broader series of regional events, signaling deepened community engagement and ecosystem expansion in Europe.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Databricks",
+      "developer event",
+      "Europe",
+      "community"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-28",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "In-Person Event AI Days - Warsaw Warsaw, Poland April 28 Register now",
+    "url": "https://events.databricks.com/FY27-AI-Days-Warsaw/registration?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=registration",
+    "published_date": "2026-04-27",
+    "summary": "Databricks is hosting an in-person AI Days event in Warsaw, Poland on , as part of a broader series of regional events and learning festivals across EMEA, signaling continued investment in community engagement and AI adoption in Europe.",
+    "actian_relevance": "low",
+    "tags": [
+      "event",
+      "AI",
+      "Poland",
+      "EMEA"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-28",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "DevConnect Databricks DevConnect I London London, UK April 29 Register now",
+    "url": "https://events.databricks.com/devconnect-london?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=devconnect-london",
+    "published_date": "2026-04-27",
+    "summary": "Databricks will host DevConnect in London on , along with other regional events, signaling ongoing community engagement and developer evangelism that may indirectly push its data and AI platform, including its Unity Catalog, against Actian's catalog and governance offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "developer_event",
+      "Data+AI",
+      "community"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Virtual Event Smarter R&D: AI-Powered Insights w Genie April 29 Register now",
+    "url": "https://events.databricks.com/FY27Q1-WB-LifeSciences-RandD-Productivity/register?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=register",
+    "published_date": "2026-04-27",
+    "summary": "Databricks announced a virtual event titled 'Smarter R&D: AI-Powered Insights w Genie' scheduled for , focusing on AI-driven insights, which signals their push to embed AI analytics into R&D workflows, potentially encroaching on Actian's AI-powered analytics domain.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI-powered analytics",
+      "virtual event",
+      "Databricks Genie",
+      "R&D"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "In-Person Event AI Days - Kuala Lumpur Kuala Lumpur, Malaysia May 5 Register now",
+    "url": "https://events.databricks.com/FY27-AI-Days-KualaLumpur/registration?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=registration",
+    "published_date": "2026-04-27",
+    "summary": "Databricks is hosting an in-person AI Days event in Kuala Lumpur on , joining a series of global DevConnect and learning events through mid-2025, signaling aggressive community engagement that could expand their data+AI platform's reach and pressure Actian's customer base.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Databricks",
+      "AI Days",
+      "in-person event",
+      "community engagement",
+      "Malaysia"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-05",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Data & AI Leaders Dinner at Data Decoded",
+    "url": "https://www.bigeye.com/events/data-ai-leaders-dinner-data-decoded",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye is hosting a private dinner and roundtable at Faber during the Data Decoded conference, signaling a focus on executive-level relationship building in the data observability space where Actian competes.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "executive event",
+      "conference networking"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-22",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Data + AI Leaders Dinner in London",
+    "url": "https://www.bigeye.com/events/data-ai-leaders-dinner-in-london",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye and Atlan are co-hosting a private dinner in London for data and AI leaders, likely to build executive relationships and showcase their data observability and governance capabilities in a key market for Actian.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "data governance",
+      "enterprise",
+      "London"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Snowflake Summit 2025",
+    "url": "https://www.bigeye.com/events/snowflake-summit-2025",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye will showcase its data observability platform at Snowflake Summit 2025, offering personalized demos at Booth #1805, directly competing with Actian's data observability capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "Snowflake",
+      "enterprise",
+      "event"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Data & AI Leaders Dinner",
+    "url": "https://www.bigeye.com/events/data-ai-leaders-dinner",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye is hosting an exclusive Data & AI Leaders Dinner at The Fly Trap for networking and roundtable discussions, signaling they are deepening relationships in the data and AI leadership community, which may strengthen their data observability positioning against Actian.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "networking",
+      "leadership"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Gartner Data & Analytics Summit London 2025",
+    "url": "https://www.bigeye.com/events/gartner-data-analytics-summit-london-2025",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye will exhibit enterprise data observability at the Gartner Data & Analytics Summit in London 2025, directly positioning in a key event and use case overlapping with Actian's data observability market.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "enterprise",
+      "Gartner",
+      "summit"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Data & AI Executive Dinner",
+    "url": "https://www.bigeye.com/events/data-ai-executive-dinner",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye is hosting an executive dinner on an unspecified date at Zero Sette in Boston, aiming to build relationships with data and AI leaders, which may signal competitive positioning in data observability against Actian.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "executive event",
+      "networking"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "The AI Data Readiness Tour",
+    "url": "https://www.bigeye.com/events/the-ai-data-readiness-tour",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye is kicking off its AI Data Readiness Tour in NYC, a roadshow featuring industry leaders on AI-ready data, signaling focus on data quality and observability for AI\u2014competes directly with Actian's data observability offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "AI readiness",
+      "event",
+      "roadshow",
+      "New York City"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "AI-Ready Data",
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Gartner Data & Analytics Summit 2025",
+    "url": "https://www.bigeye.com/events/gartner-data-analytics-summit-2025",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye will exhibit at the Gartner Data & Analytics Summit 2025 at booth 831, showcasing its data observability platform, directly competing with Actian's data observability capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "Gartner",
+      "conference",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Data Governance & Information Quality Conference (DGIQ)",
+    "url": "https://www.bigeye.com/events/data-governance-information-quality-conference-dgiq",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye is exhibiting at the Data Governance & Information Quality Conference (DGIQ) in booth #18 to showcase its data observability platform, which targets the same data governance and quality monitoring space as Actian's data catalog and observability products.",
+    "actian_relevance": "high",
+    "tags": [
+      "data governance",
+      "data observability",
+      "data quality",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Observability / Quality / Lineage",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Gartner IT Symposium/Xpo 2024",
+    "url": "https://www.bigeye.com/events/gartner-it-symposium-xpo-2024",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye will showcase its data observability platform at Gartner IT Symposium/Xpo 2024 in booth #115, promoting reliable data insights for enterprise stakeholders.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "Gartner",
+      "enterprise",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Gartner Data & Analytics Summit 2024 - Sydney",
+    "url": "https://www.bigeye.com/events/gartner-data-analytics-summit-2024-sydney",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye is attending the Gartner Data & Analytics Summit 2024 in Sydney, signaling its focus on data observability and analytics within the Gartner community, which directly challenges Actian in the data observability market.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "Gartner",
+      "conference",
+      "Sydney"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Databricks: Data + AI Summit 2024",
+    "url": "https://www.bigeye.com/events/databricks-data-ai-summit-2024",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye will exhibit at Databricks Data + AI Summit 2024 to showcase automated data quality monitoring and lineage tracking, signaling competitive pressure on Actian regarding data observability capabilities.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "data quality",
+      "Databricks",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Snowflake Summit 2024",
+    "url": "https://www.bigeye.com/events/snowflake-summit",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye is exhibiting at Snowflake Summit 2024 (booth 1302) to showcase enterprise data observability, potentially targeting shared customers with Actian's data observability products.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "Snowflake",
+      "conference",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Event - February, 2026 Bigeye AI Trust Summit, 2026 Learn more about the inaugural AI Trust Summit scheduled for February, 2026 and how you can atten",
+    "url": "https://www.bigeye.com/ai-trust-summit",
+    "published_date": "2026-04-27",
+    "summary": "Bigeye is hosting the inaugural AI Trust Summit in February 2026, plus participating in Data Decoded LDN in April 2026, promoting their data quality and sensitive data identification capabilities as critical for scaling AI, directly challenging Actian's data observability and governance offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data quality",
+      "AI trust",
+      "data observability",
+      "governance"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-22",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Meet Atlan at Data Innovation Summit 2026",
+    "url": "https://atlan.com/event/data-innovation-summit/",
+    "published_date": "2026-04-27",
+    "summary": "Atlan will exhibit at the Data Innovation Summit 2026 on 06 May in Stockholm, focusing on AI-driven data management, signaling their push into European markets and AI integration, which competes with Actian's data catalog/governance offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data catalog",
+      "AI",
+      "enterprise",
+      "Europe",
+      "event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-06",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Meet Atlan at Gartner EMEA Data & Analytics Summit 2026",
+    "url": "https://atlan.com/event/gartner-emea-2026/",
+    "published_date": "2026-04-27",
+    "summary": "Atlan will exhibit and demo its data catalog platform at Gartner EMEA Data & Analytics Summit in London on , competing directly with Actian in the data catalog space.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "Gartner summit",
+      "enterprise",
+      "EMEA"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-11",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "product_launch",
+    "title": "Atlan Activate: Atlan's latest product launches",
+    "url": "https://atlan.com/activate/",
+    "published_date": "2026-04-27",
+    "summary": "Atlan announced multiple product launches including conversational search, data quality, and agentic stewards at its virtual Atlan Activate event on April 29, directly challenging Actian's data catalog and governance capabilities with AI-driven features.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "governance",
+      "AI agents",
+      "data quality",
+      "conversational search"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Build the Context Layer That Makes AI Trustworthy",
+    "url": "https://atlan.com/live-demo-series-context-layer-trustworthy-ai/",
+    "published_date": "2026-04-27",
+    "summary": "Atlan is hosting a virtual event on , showcasing how its platform builds a context layer for AI agents\u2014directly targeting the data catalog and governance space Actian competes in.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data catalog",
+      "governance",
+      "AI agents",
+      "semantic model"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-06",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Semantic / Metrics Layer",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "product_launch",
+    "title": "The only platform that brings all the humans of data & AI together.",
+    "url": "https://atlan.com/forms/talk-to-sales-contact/",
+    "published_date": "2026-04-27",
+    "summary": "Atlan is hosting Atlan Activate on 29 April to launch conversational search, data quality, and agentic steward capabilities, positioning these as direct competition to Actian's data catalog and governance offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "conversational search",
+      "data quality",
+      "agentic stewards"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-04-29",
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Building Trusted AI through Precision AI Agents",
+    "url": "https://www.alation.com/learn-more/",
+    "published_date": "2026-04-27",
+    "summary": "Alation announced a new 'Agentic Data Intelligence Platform' emphasizing trusted AI agents, integrating data catalog, governance, and a Data Products Marketplace; positions against Actian's observability and governance offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "AI agents",
+      "data catalog",
+      "data governance",
+      "data products",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data Products / Contracts",
+      "Data / AI Governance",
+      "Observability / Quality / Lineage",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Upcoming Events",
+    "url": "https://www.alation.com/events/",
+    "published_date": "2026-04-27",
+    "summary": "Alation's upcoming events page showcases community and demo engagement without specific competitive signals, but the focus on data catalog community activities indicates ongoing market presence.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data catalog",
+      "community",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "AWS Summit Singapore",
+    "url": "https://aws.amazon.com/cn/events/summits/singapore/",
+    "published_date": "2026-04-27",
+    "summary": "Zilliz (Milvus) is sponsoring the AWS Summit Singapore on an unspecified date in 2025, offering private meetings to promote its vector database solutions, signaling continued competitive presence in the vector/AI database space relevant to Actian.",
+    "actian_relevance": "medium",
+    "tags": [
+      "vector database",
+      "AWS",
+      "sponsorship",
+      "Singapore"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-05",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "AWS Summit Japan 2026",
+    "url": "https://aws.amazon.com/jp/summits/japan/en/",
+    "published_date": "2026-04-27",
+    "summary": "Zilliz (the company behind Milvus) is a Bronze Sponsor at AWS Summit Japan 2026 in Chiba, showcasing how Milvus powers AI and vector search on AWS, representing a threat to Actian's vector database positioning in the region.",
+    "actian_relevance": "high",
+    "tags": [
+      "AWS Summit",
+      "vector search",
+      "AI",
+      "Japan"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-24",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Acceldata Autonomous 26",
+    "url": "https://www.acceldata.io/events/acceldata-autonomous-26",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is hosting the Acceldata Autonomous 26 event in San Francisco to showcase its data observability platform, signaling direct competition with Actian's data observability offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "enterprise",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-19",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CDAO - New York",
+    "url": "https://www.acceldata.io/events/evanta-cdao---new-york",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is presenting at the Evanta CDAO event in New York on an unspecified date, signaling focus on engaging chief data and analytics officers in a major market.",
+    "actian_relevance": "medium",
+    "tags": [
+      "CDAO",
+      "enterprise",
+      "data observability"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-06",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Data Innovation Summit 2026",
+    "url": "https://www.acceldata.io/events/data-innovation-summit-2026",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is hosting the Data Innovation Summit 2026 in Stockholm from May 6-8, 2026, signaling its growing presence in the data observability space which directly competes with Actian's data observability offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "enterprise",
+      "conference",
+      "competitor event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-06",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CIO - Chicago",
+    "url": "https://www.acceldata.io/events/evanta-cio---chicago",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is participating in the Evanta CIO event in Chicago on a specific date not provided, signaling its focus on enterprise CIOs and data observability, which competes with Actian's data integration and analytics platform.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "enterprise",
+      "CIO",
+      "Chicago"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-12",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CDAO - Boston",
+    "url": "https://www.acceldata.io/events/evanta-cdao---boston",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata will attend the Evanta CDAO conference in Boston, targeting chief data and analytics officers to promote its data observability platform, signaling continued enterprise investment in this space where Actian's data integration and analytics compete indirectly.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "CDAO",
+      "conference",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-12",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Gartner Data and Analytics | London",
+    "url": "https://www.acceldata.io/events/gartner-data-and-analytics-london",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is exhibiting at Gartner Data and Analytics in London from May 11-13, 2026, a key industry event for Gartner's data and analytics audience.",
+    "actian_relevance": "high",
+    "tags": [
+      "observability",
+      "enterprise",
+      "conference",
+      "Gartner"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-11",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta Nordic CIO Executive Summit",
+    "url": "https://www.acceldata.io/events/evanta-nordic-cio-executive-summit",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is participating in the Evanta Nordic CIO Executive Summit in May 2026, targeting Nordic CIOs, potentially to gain enterprise traction in data observability, a market where Actian competes with its data integration and observability capabilities.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "CIO",
+      "Nordic",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Snowflake Summit 2026",
+    "url": "https://www.acceldata.io/events/snowflake-summit-2026",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is hosting at Snowflake Summit 2026 in San Francisco from June 1-4, 2026, signaling its focus on Snowflake ecosystem integrations, which may threaten Actian's data observability positioning in cloud data platforms.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "Snowflake",
+      "conference",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-01",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Gartner Data and Analytics | Australia",
+    "url": "https://www.acceldata.io/events/gartner-data-and-analytics-australia",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is presenting or exhibiting at the Gartner Data and Analytics conference in Sydney, Australia on June 16-17, 2026, signaling their push into the APAC market for data observability.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "APAC",
+      "Gartner conference"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-16",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CDAO - Dallas",
+    "url": "https://www.acceldata.io/events/evanta-cdao---dallas",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is participating in the Evanta CDAO Dallas conference, targeting chief data and analytics officers, signaling continued investment in the data observability community and competition with Actian's observability capabilities.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "CDAO",
+      "enterprise",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-17",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Databricks Data + AI Summit 2026",
+    "url": "https://www.acceldata.io/events/databricks-data-ai-summit-2026",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is sponsoring or participating in the Databricks Data + AI Summit 2026 in San Francisco from June 15-18, 2026, signaling its focus on data observability for Databricks ecosystems, which competes with Actian's data observability and integration offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "Databricks",
+      "conference",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-15",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CIO - New York",
+    "url": "https://www.acceldata.io/events/evanta-cio---new-york",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is participating in the Evanta CIO conference in New York on an unspecified date, showcasing its data observability platform to CIOs, potentially impacting Actian's positioning in the enterprise data observability and governance market.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "CIO event",
+      "enterprise",
+      "New York"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-23",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CDAO - South California",
+    "url": "https://www.acceldata.io/events/evanta-cdao---south-california",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is participating in the Evanta CDAO event in South California on a specific date (not provided), targeting data leaders to promote its data observability platform, directly competing with Actian's data observability capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "CDAO",
+      "enterprise",
+      "event participation"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-25",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CIO - Toronto",
+    "url": "https://www.acceldata.io/events/evanta-cio---toronto",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is participating in the Evanta CIO event in Toronto on an unspecified date, likely to promote their data observability platform to CIOs, directly competing with Actian's data integration and observability offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "CIO event",
+      "enterprise",
+      "Toronto"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-25",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Gartner Data and Analytics | Mumbai",
+    "url": "https://www.acceldata.io/events/gartner-data-and-analytics-mumbai",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is exhibiting at the Gartner Data and Analytics conference in Mumbai on September 21-22, 2026, signaling a focus on enterprise data observability in the Indian market.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "enterprise",
+      "conference",
+      "Gartner",
+      "India"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-09-21",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Big Data London 2026",
+    "url": "https://www.acceldata.io/events/big-data-london-2026",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is exhibiting at Big Data London 2026 on September 23-24, 2026, signaling continued presence in data observability; Actian's observability efforts face indirect competition for mindshare.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "conference",
+      "London"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-09-23",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "UK and Ireland CIO Executive Summit",
+    "url": "https://www.acceldata.io/events/uk-and-ireland-cio-executive-summit",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is participating in or sponsoring the UK and Ireland CIO Executive Summit in EMEA, signaling its focus on enterprise data observability for senior IT leaders in that region, which may compete with Actian's data observability offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "enterprise",
+      "EMEA",
+      "CIO"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-10-14",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CDAO - UK and Ireland",
+    "url": "https://www.acceldata.io/events/evanta-cdao---uk-and-ireland",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is exhibiting or speaking at the Evanta CDAO conference for UK and Ireland in London, a key event for chief data and analytics officers, signaling continued focus on enterprise data observability for large-scale deployments.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "CDAO",
+      "enterprise",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-10-15",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CDAO - Chicago",
+    "url": "https://www.acceldata.io/events/evanta-cdao---chicago",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is sponsoring or presenting at the Evanta CDAO Chicago event, targeting chief data and analytics officers to promote their data observability platform, directly competing with Actian's data observability and analytics offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "CDAO",
+      "conference",
+      "Chicago"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-10-21",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Gartner IT Symposium 2026",
+    "url": "https://www.acceldata.io/events/gartner-it-symposium-2026",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata will exhibit at Gartner IT Symposium 2026 in Orlando from October 19-22, a key enterprise IT conference, signaling efforts to gain visibility in the data observability space where Actian competes.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "enterprise",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-10-19",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta CDAO - Atlanta",
+    "url": "https://www.evanta.com/cdao/atlanta/atlanta-cdao-executive-summit-9251",
+    "published_date": "2026-04-27",
+    "summary": "Acceldata is exhibiting at the Evanta CDAO event in Atlanta on an unspecified date, targeting Chief Data and Analytics Officers, which signals a focus on enterprise data observability customers that overlap with Actian's data integration and catalog audience.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "enterprise",
+      "Evanta CDAO",
+      "CDAO"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-19",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "London AI Innovation Day",
+    "url": "https://www.snowflake.com/event/london-ai-innovation-day-2026-05-12/",
+    "published_date": "2026-04-27",
+    "summary": "Snowflake is hosting an AI Innovation Day in London on May 12, focusing on AI advancements, which may signal increased competition in AI-powered analytics and data platforms for Actian.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "London",
+      "event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-12",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "SPN Technical Connect",
+    "url": "https://www.snowflake.com/events/spn-tech-connect-17-06-2026/",
+    "published_date": "2026-04-27",
+    "summary": "Snowflake is hosting the SPN Technical Connect in London on June 17, a partner networking event with a data/AI focus, signaling increased competitiveness for Actian in the EMEA data integration and analytics market.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "London",
+      "partner",
+      "data integration"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-17",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-04-27"
+  }
+]

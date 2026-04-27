@@ -1,0 +1,1385 @@
+[
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "The next generation of Databricks Genie",
+    "url": "https://www.databricks.com/blog/next-generation-databricks-genie",
+    "published_date": "2026-04-26",
+    "source": "company_newsroom",
+    "summary": "Databricks has launched the next generation of Databricks Genie, enhancing its AI-powered conversational analytics on the lakehouse, which directly competes with Actian's data analytics and AI integration capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "Genie",
+      "next generation",
+      "lakehouse",
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Conversational Analytics",
+      "Lakehouse / Warehouse / HTAP / Postgres"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "leadership",
+    "title": "Alation Appoints Rick Baker as Chief Operating Officer",
+    "url": "https://www.alation.com/news-and-press/alation-appoints-rick-baker-as-chief-operating-officer/",
+    "published_date": "2026-04-24",
+    "source": "company_newsroom",
+    "summary": "Alation appoints Rick Baker as COO, signaling operational scaling that may intensify competition against Actian in the data catalog and analytics market.",
+    "actian_relevance": "high",
+    "tags": [
+      "COO",
+      "Alation",
+      "leadership change"
+    ],
+    "team_routing": [
+      "PMM",
+      "Executives"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "Alation Introduces Critical Data Element Manager to Deliver Agentic Governance for",
+    "url": "https://www.alation.com/news-and-press/alation-introduces-critical-data-element-manager/",
+    "published_date": "2026-04-24",
+    "source": "company_newsroom",
+    "summary": "Alation launched a Critical Data Element Manager focused on agentic governance, introducing AI-driven capabilities for data quality and stewardship that could tighten competition with Actian in the data catalog and governance space.",
+    "actian_relevance": "medium",
+    "tags": [
+      "governance",
+      "AI",
+      "data catalog",
+      "product launch"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "Alation Announces Agent Builder To Deliver Enterprise-Grade AI Agents for",
+    "url": "https://www.alation.com/news-and-press/alation-announces-agent-builder-delivering-enterprise-grade-ai-agents/",
+    "published_date": "2026-04-24",
+    "source": "company_newsroom",
+    "summary": "Alation's Agent Builder enables enterprises to deploy AI agents on their data catalog, directly competing with Actian's data integration and analytics platform by expanding AI-driven data management capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "AI agents",
+      "enterprise",
+      "data catalog"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "OpenAI GPT-5.5 + Codex, now available and fully-governed on Databricks",
+    "url": "https://www.databricks.com/blog/openai-gpt-55-now-available-databricks-fully-governed-through-unity-ai-gateway",
+    "published_date": "2026-04-24",
+    "source": "company_newsroom",
+    "summary": "Databricks is launching OpenAI's GPT-5.5 and Codex on its platform with full governance, intensifying AI/ML competition and putting pressure on Actian's data integration and analytics for AI workloads.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "GPT-5.5",
+      "governance",
+      "Databricks"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "OpenAI GPT 5.5 on Snowflake Cortex AI",
+    "url": "https://www.snowflake.com/en/blog/openai-gpt-5-5-snowflake-cortex-ai/",
+    "published_date": "2026-04-23",
+    "source": "company_newsroom",
+    "summary": "Snowflake launches GPT-5.5 on Cortex AI, strengthening its AI capabilities and intensifying competition with Actian in data analytics and AI-driven data integration.",
+    "actian_relevance": "high",
+    "tags": [
+      "Snowflake",
+      "GPT-5.5",
+      "Cortex AI",
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Announcing the Public Preview of Lakeflow Designer",
+    "url": "https://www.databricks.com/blog/announcing-public-preview-lakeflow-designer",
+    "published_date": "2026-04-23",
+    "source": "company_newsroom",
+    "summary": "Databricks launched Lakeflow Designer in public preview, adding a visual workflow design capability for its lakehouse platform that directly competes with Actian's data integration and pipeline orchestration offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "Databricks",
+      "Lakeflow Designer",
+      "public preview",
+      "lakehouse"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Lakehouse / Warehouse / HTAP / Postgres",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "partnership",
+    "title": "Databricks partners with OpenAI on GPT-5.5",
+    "url": "https://www.databricks.com/blog/databricks-partners-openai-gpt-55",
+    "published_date": "2026-04-23",
+    "source": "company_newsroom",
+    "summary": "Databricks partners with OpenAI on GPT-5.5, intensifying the AI data lakehouse competition and pressuring Actian to accelerate AI-native integration capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "Databricks",
+      "OpenAI",
+      "GPT-5.5",
+      "partnership"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Lakehouse / Warehouse / HTAP / Postgres"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "partnership",
+    "title": "Google Cloud And Collibra Deepen Partnership To Bring Business Context And Semantics Directly To",
+    "url": "https://www.collibra.com/company/newsroom/press-releases/google-cloud-and-collibra-deepen-partnership",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "Collibra is deepening its partnership with Google Cloud to embed business context and semantics into cloud data, which may signal tighter integration but does not directly threaten Actian's core integration and analytics market.",
+    "actian_relevance": "low",
+    "tags": [
+      "Google Cloud",
+      "Collibra",
+      "data governance",
+      "partnership"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "partnership",
+    "title": "Google Cloud and Collibra deepen their partnership to bring business context and semantics directly",
+    "url": "https://www.collibra.com/blog/google-cloud-and-collibra-deepen-their-partnership-to-bring-business-context-and-semantics",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "Collibra is deepening its integration with Google Cloud to embed business context and semantics into cloud data workflows, increasing competitive pressure on Actian's data governance and analytics offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Google Cloud",
+      "data governance",
+      "business context",
+      "semantics"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Monte Carlo",
+    "product_area": "Data Observability",
+    "news_type": "partnership",
+    "title": "Enterprise AI Confidence with Atlan + Monte Carlo",
+    "url": "https://www.montecarlodata.com/blog-atlan-monte-carlo-enterprise-context/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "Monte Carlo partnered with Atlan to boost enterprise AI confidence, which could strengthen their joint value proposition and challenge Actian in data observability and AI governance.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Atlan",
+      "data observability",
+      "AI",
+      "enterprise"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Observability / Quality / Lineage"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Expands Snowflake Intelligence and Cortex Code to Power the Control Plane for the",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-expands-snowflake-intelligence-and-cortex-code-to-power-the-control-plane-for-the-agentic-enterprise/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "Snowflake launched Snowflake Intelligence and expanded Cortex capabilities to strengthen its AI-powered data control plane, directly intensifying competition with Actian's data integration and analytics platform.",
+    "actian_relevance": "high",
+    "tags": [
+      "Snowflake Intelligence",
+      "Cortex",
+      "AI",
+      "control plane"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake Appoints Jonathan Beaulier as Chief",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-appoints-jonathan-beaulier-as-chief-revenue-officer/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "Snowflake appointed Jonathan Beaulier as Chief, signaling leadership growth that may intensify competition in the data cloud market for Actian.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Snowflake",
+      "Chief"
+    ],
+    "team_routing": [
+      "PMM",
+      "Executives"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Snowflake appoints Michel Nader to lead META region, advancing regional AI ambitions",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-appoints-michel-nader-to-lead-meta-region-advancing-regional-ai-ambitions/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "Snowflake appointed Michel Nader to lead the META region to drive AI growth, signaling increased regional competition for Actian's data integration and analytics platform in that market.",
+    "actian_relevance": "medium",
+    "tags": [
+      "META region",
+      "AI",
+      "regional focus"
+    ],
+    "team_routing": [
+      "PMM",
+      "Executives"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Every",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-launches-project-snowwork-bringing-outcome-driven-ai-to-every-business-user/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "Snowflake announced Project SnowWork, a major new AI initiative to embed outcome-driven intelligence across its platform, intensifying competition for Actian in the data integration and analytics space.",
+    "actian_relevance": "high",
+    "tags": [
+      "Project SnowWork",
+      "AI",
+      "Outcome-driven"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "AI & ML Cortex Code Expands: One Governed Agent for Your Entire Data Stack, Everywhere You Work",
+    "url": "https://www.snowflake.com/en/blog/cortex-code-governed-agent-data-stack/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "Snowflake's new governed AI agent across the entire data stack directly competes with Actian's integration and analytics platform, potentially drawing enterprise customers toward a unified AI-driven solution.",
+    "actian_relevance": "high",
+    "tags": [
+      "AI Agent",
+      "Cortex",
+      "governed data stack",
+      "Snowflake"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Cortex Agents: The Platform Powering Snowflake Intelligence and Enterprise AI Agents",
+    "url": "https://www.snowflake.com/en/blog/enterprise-ai-agent-platform/",
+    "published_date": "2026-04-21",
+    "source": "company_newsroom",
+    "summary": "Snowflake launched Cortex Agents as a platform for building enterprise AI agents within Snowflake Intelligence, intensifying competition for Actian by embedding AI-native data capabilities directly into Snowflake's ecosystem.",
+    "actian_relevance": "high",
+    "tags": [
+      "Cortex Agents",
+      "AI agents",
+      "Snowflake Intelligence",
+      "enterprise AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Intelligence: From Answers to Action with Your Personal",
+    "url": "https://www.snowflake.com/en/blog/snowflake-intelligence-work-agent/",
+    "published_date": "2026-04-21",
+    "source": "company_newsroom",
+    "summary": "Snowflake launched Snowflake Intelligence, moving from query answers to actionable insights, which intensifies competition in the data analytics market against Actian.",
+    "actian_relevance": "medium",
+    "tags": [
+      "product launch",
+      "AI",
+      "analytics"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "leadership",
+    "title": "Databricks Appoints Simon Davies as Head of Asia Pacific & Japan Amidst Rapid Expansion in the",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-appoints-simon-davies-head-asia-pacific-japan-amidst",
+    "published_date": "2026-04-17",
+    "source": "company_newsroom",
+    "summary": "Databricks appointed Simon Davies as its Head of Asia Pacific & Japan, signaling intensified competition and market share battles in a region critical to Actian's growth.",
+    "actian_relevance": "high",
+    "tags": [
+      "Asia Pacific & Japan",
+      "Simon Davies",
+      "regional expansion"
+    ],
+    "team_routing": [
+      "PMM",
+      "Executives"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Dedicated Read Nodes are now GA",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes-ga/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Pinecone has made dedicated read nodes generally available, enhancing its vector database capabilities, which increases competitive pressure on Actian in the AI and data analytics space.",
+    "actian_relevance": "medium",
+    "tags": [
+      "GA",
+      "Pinecone",
+      "vector database",
+      "read nodes"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "partnership",
+    "title": "ZoomInfo and Pinecone Bring Real-Time, AI-Powered Contact Recommendations to Go-to-Market Teams",
+    "url": "https://www.pinecone.io/newsroom/zoominfo-pinecone-drn/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Pinecone and ZoomInfo partnered to deliver AI-powered contact recommendations for sales teams, highlighting Pinecone's continued push into real-time AI use cases that could compete with Actian's data integration and analytics offerings for go-to-market workflows.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "real-time",
+      "go-to-market",
+      "ZoomInfo"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "partnership",
+    "title": "Pinecone Assistant Node in n8n: Turn Any Data Source",
+    "url": "https://www.pinecone.io/blog/pinecone-assistant-node/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Pinecone partnered with n8n and ZoomInfo to enable real-time AI contact recommendations for go-to-market teams, indicating continued embedding of vector databases into workflow automation, but Actian's direct competitive exposure is limited given different target use cases.",
+    "actian_relevance": "low",
+    "tags": [
+      "Pinecone",
+      "n8n",
+      "ZoomInfo",
+      "AI"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "feature",
+    "title": "Four New GA Features for Dedicated Read Nodes That Give Teams More Control and Observability Gavin",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes-ga-features/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Pinecone GA'd four new features for dedicated read nodes to enhance team control and observability, which intensifies competition for Actian's data integration and analytics platform in managed vector database and AI/ML workloads.",
+    "actian_relevance": "medium",
+    "tags": [
+      "GA",
+      "Read Nodes",
+      "control",
+      "observability"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone Assistant: A Managed Knowledge Layer for Production AI Applications Roie Schwaber-Cohen",
+    "url": "https://www.pinecone.io/blog/assistant-managed-knowledge-layer/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Pinecone launched a managed knowledge layer for AI applications, reinforcing the vector database trend but with limited direct competition to Actian's integration and analytics focus.",
+    "actian_relevance": "low",
+    "tags": [
+      "vector database",
+      "AI",
+      "knowledge layer"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone BYOC: Pinecone in your AWS, GCP, or Azure account, no vendor access Gavin Johnson",
+    "url": "https://www.pinecone.io/blog/byoc/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Pinecone launched a bring-your-own-cloud (BYOC) option for AWS, GCP, and Azure, eliminating vendor access to the customer's infrastructure and potentially increasing adoption among enterprises that require strict data control, which may pressure Actian to enhance its own data residency and deployment flexibility in the AI/vector space.",
+    "actian_relevance": "medium",
+    "tags": [
+      "BYOC",
+      "vector database",
+      "cloud deployment"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Use the Pinecone Plugin for Claude Code to develop AI Applications Faster Arjun Patel",
+    "url": "https://www.pinecone.io/blog/pinecone-plugin-for-claude-code/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "",
+    "actian_relevance": "high",
+    "tags": [
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "feature",
+    "title": "Pinecone Dedicated Read Nodes are now in",
+    "url": "https://www.pinecone.io/blog/dedicated-read-nodes/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Pinecone has announced dedicated read nodes, a feature that improves scalability and performance for read workloads, but as a vector database vendor, this is not a direct competitive threat to Actian's data integration and analytics platform.",
+    "actian_relevance": "low",
+    "tags": [
+      "Pinecone",
+      "dedicated read nodes",
+      "vector database"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "feature",
+    "title": "New Bulk Data Operations: Update, Delete, and Fetch by Metadata",
+    "url": "https://www.pinecone.io/blog/update-delete-and-fetch-by-metadata/",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Pinecone added bulk update, delete, and metadata-based fetch capabilities, expanding vector database functionality that competes with Actian's data integration and analytics platform features.",
+    "actian_relevance": "medium",
+    "tags": [
+      "vector database",
+      "metadata operations",
+      "bulk data"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake updates further goal of being control pane for AI",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366642015/Snowflake-updates-further-goal-of-being-control-pane-for-AI",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Snowflake is positioning itself as the central control plane for AI workloads, which directly competes with Actian's data integration and analytics platform by potentially capturing more enterprise AI data management use cases.",
+    "actian_relevance": "high",
+    "tags": [
+      "AI",
+      "control plane",
+      "Snowflake"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake broadens open-source embrace, ups",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366641473/Snowflake-broadens-open-source-embrace-ups-Iceberg-support",
+    "published_date": "2026-04-15",
+    "source": "company_newsroom",
+    "summary": "Snowflake expands its open-source capabilities, directly intensifying competition with Actian in the data integration and analytics space.",
+    "actian_relevance": "high",
+    "tags": [
+      "open-source",
+      "Snowflake",
+      "data platform"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "news_type": "partnership",
+    "title": "Bigeye Joins Snowflake-Led Open Semantic Interchange to Power Data and AI Interoperability",
+    "url": "https://www.einpresswire.com/article/904171663/bigeye-joins-snowflake-led-open-semantic-interchange-to-power-data-and-ai-interoperability",
+    "published_date": "2026-04-07",
+    "source": "company_newsroom",
+    "summary": "Bigeye has joined the Snowflake-led Open Semantic Interchange initiative, aiming to establish data and AI interoperability standards, which raises the competitive stakes for Actian's data integration and quality offerings in the Snowflake ecosystem.",
+    "actian_relevance": "high",
+    "tags": [
+      "Snowflake",
+      "data interoperability",
+      "open standard",
+      "data quality"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "AI Governance dashboard: Introducing catalog metrics for AI visibility",
+    "url": "https://www.collibra.com/blog/ai-governance-dashboard-introducing-catalog-metrics-for-ai-visibility",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "Collibra launched an AI Governance dashboard with catalog metrics for AI visibility, directly competing with Actian's data governance and catalog capabilities in the AI era.",
+    "actian_relevance": "high",
+    "tags": [
+      "AI governance",
+      "data catalog",
+      "Collibra",
+      "visibility"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Data / AI Governance"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "AI trust score: Measure trust in every AI system",
+    "url": "https://www.collibra.com/blog/ai-trust-score-measure-trust-in-every-ai-system",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "Collibra launched an AI trust score product, reinforcing its governance leadership and pressuring Actian to differentiate its own AI data management capabilities.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI trust",
+      "governance"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "Find trusted data products faster with the new Collibra Data",
+    "url": "https://www.collibra.com/blog/find-trusted-data-products-faster-with-the-new-collibra-data-marketplace-experience",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "Collibra launched a feature to help users find trusted data products faster, increasing competition in the data catalog and governance space where Actian plays.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data products",
+      "data catalog",
+      "discovery"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Data Products / Contracts",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "feature",
+    "title": "Automatically register AI models from code workflows",
+    "url": "https://www.collibra.com/blog/automatically-register-ai-models-from-code-workflows",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "Collibra introduced automatic AI model registration from code workflows, enhancing its data governance capabilities and increasing competitive pressure on Actian's data integration and governance offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI model registration",
+      "code workflows"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "Introducing Collibra Data Access: Connect the right users to the right",
+    "url": "https://www.collibra.com/blog/introducing-collibra-data-access-connect-the-right-users-to-the-right-data-faster",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "Collibra launched a data access product to streamline user-to-data connections, intensifying competition in the data governance and access market Actian operates in.",
+    "actian_relevance": "high",
+    "tags": [
+      "data access",
+      "data catalog",
+      "governance"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Data / AI Governance"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "partnership",
+    "title": "Databricks joins STATION F to Accelerate AI Adoption for European Founders",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-joins-station-f-accelerate-ai-adoption-european-founders",
+    "published_date": "2026-03-31",
+    "source": "company_newsroom",
+    "summary": "Databricks partners with STATION F to support AI adoption for European startups, which may signal a push into the European market but has limited direct competitive impact on Actian's data integration and analytics platform.",
+    "actian_relevance": "low",
+    "tags": [
+      "Databricks",
+      "STATION F",
+      "European founders",
+      "AI adoption"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "funding",
+    "title": "Databricks Announces $850M UK Investment to Accelerate Enterprise Data + AI Adoption",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-announces-850m-uk-investment-accelerate-enterprise-data",
+    "published_date": "2026-03-27",
+    "source": "company_newsroom",
+    "summary": "Databricks committed $850M to UK data and AI infrastructure, signaling aggressive regional expansion but not a direct near-term threat to Actian's core mid-market and data integration focus.",
+    "actian_relevance": "low",
+    "tags": [
+      "$850M",
+      "UK",
+      "investment"
+    ],
+    "team_routing": [
+      "PMM",
+      "Executives"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Monte Carlo",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Data Observability, ML Model, and Agent Observability In A Single Pane Of Glass",
+    "url": "https://www.montecarlodata.com/blog-data-observability-ml-model-and-agent-observability-in-a-single-pane-of-glass/",
+    "published_date": "2026-03-24",
+    "source": "company_newsroom",
+    "summary": "Monte Carlo launches a unified observability platform covering data, ML models, and agents, expanding its competitive footprint in the data reliability space where Actian competes with its data integration and analytics offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "ML model",
+      "unified platform"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "ETL / ELT / Integration",
+      "Agent Observability"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Databricks Enters Security Market with Launch of Lakewatch: New Open, Agentic SIEM",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-enters-security-market-launch-lakewatch-new-open-agentic",
+    "published_date": "2026-03-24",
+    "source": "company_newsroom",
+    "summary": "Databricks announced Lakewatch, an open, agentic SIEM product, signaling its expansion into the security analytics market, which may increase competition for Actian's data integration and analytics offerings in security use cases.",
+    "actian_relevance": "medium",
+    "tags": [
+      "SIEM",
+      "Databricks",
+      "Lakewatch",
+      "security"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Databricks Announces Lakewatch: New Open,",
+    "url": "https://www.databricks.com/blog/databricks-announces-lakewatch-new-open-agentic-siem",
+    "published_date": "2026-03-24",
+    "source": "company_newsroom",
+    "summary": "Databricks launched Lakewatch, an open data lakehouse platform, intensifying competition in the data integration and analytics space and challenging Actian's position.",
+    "actian_relevance": "high",
+    "tags": [
+      "Databricks",
+      "Lakewatch",
+      "open",
+      "data lakehouse"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Lakehouse / Warehouse / HTAP / Postgres",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Monte Carlo",
+    "product_area": "Data Observability",
+    "news_type": "partnership",
+    "title": "Morningstar Accelerates Validations and Resolutions for Key IP With",
+    "url": "https://www.montecarlodata.com/blog-morningstar-accelerates-validations-and-resolutions-for-key-ip-with-monte-carlo/",
+    "published_date": "2026-03-19",
+    "source": "company_newsroom",
+    "summary": "Monte Carlo's partnership with Morningstar to improve data validation and resolution may set a benchmark for data reliability that Actian's data integration platform should monitor for competitive positioning.",
+    "actian_relevance": "low",
+    "tags": [
+      "Monte Carlo",
+      "Morningstar",
+      "data observability"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Monte Carlo",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Discover All Cortex Agents In A Single Click: Agent Observability for Snowflake Intelligence",
+    "url": "https://www.montecarlodata.com/blog-agent-observability-for-snowflake-intelligence-cortex-agents/",
+    "published_date": "2026-03-18",
+    "source": "company_newsroom",
+    "summary": "Monte Carlo launched a one-click agent observability feature for Snowflake Intelligence, expanding its data reliability platform to monitor AI agents, which is a niche capability that does not directly compete with Actian's core data integration and analytics platform.",
+    "actian_relevance": "low",
+    "tags": [
+      "Monte Carlo",
+      "Snowflake",
+      "agent observability",
+      "data reliability"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration",
+      "Agent Observability"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "partnership",
+    "title": "Accenture and Databricks Accelerate Enterprise Adoption of AI Applications and Agents at Scale",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/accenture-and-databricks-accelerate-enterprise-adoption-ai",
+    "published_date": "2026-03-16",
+    "source": "company_newsroom",
+    "summary": "Accenture and Databricks partner to scale enterprise AI and agent adoption, increasing competitive pressure on Actian's data integration and analytics platform offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "Accenture",
+      "AI",
+      "enterprise",
+      "agents"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "partnership",
+    "title": "Video Anomaly Detection From Edge to Cloud With Qdrant Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA",
+    "url": "https://qdrant.tech/blog/video-anomaly-detection-edge-to-cloud/",
+    "published_date": "2026-03-15",
+    "source": "company_newsroom",
+    "summary": "Qdrant announced a partnership with Twelve Labs and NVIDIA to deliver video anomaly detection from edge to cloud, enhancing their vector database offering with specialized AI capabilities, which pressures Actian's data integration platform to support similar real-time AI-driven use cases.",
+    "actian_relevance": "medium",
+    "tags": [
+      "edge computing",
+      "video",
+      "NVIDIA",
+      "anomaly detection"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "funding",
+    "title": "We Raised $50M to Build Composable Vector Search as Core Infrastructure",
+    "url": "https://qdrant.tech/blog/series-b-announcement/",
+    "published_date": "2026-03-12",
+    "source": "company_newsroom",
+    "summary": "Qdrant raised $50M to advance composable vector search, intensifying competition in the vector database space and signaling that Actian should monitor this funding for potential impact on its own data integration and analytics offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "$50M",
+      "vector search",
+      "Qdrant"
+    ],
+    "team_routing": [
+      "PMM",
+      "Executives"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Databricks Launches AI Assistant for Technical Talent",
+    "url": "https://www.bloomberg.com/news/videos/2026-03-11/databricks-launches-ai-assistant-for-technical-talent-video",
+    "published_date": "2026-03-11",
+    "source": "company_newsroom",
+    "summary": "Databricks released an AI assistant aimed at technical users, potentially intensifying the AI tooling competition in the data analytics space and pressuring Actian to differentiate its own AI offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "assistant",
+      "technical",
+      "Databricks"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "partnership",
+    "title": "Qdrant Meets Google Gemini Embedding 2 Neil Kanungo",
+    "url": "https://qdrant.tech/blog/qdrant-gemini-embedding-2/",
+    "published_date": "2026-03-10",
+    "source": "company_newsroom",
+    "summary": "Qdrant announced a partnership with Google Gemini Embedding 2, enhancing its vector database with Google's latest embedding model; this strengthens Qdrant's AI capabilities but has limited direct impact on Actian's data integration and analytics platform.",
+    "actian_relevance": "low",
+    "tags": [
+      "Qdrant",
+      "Google Gemini",
+      "embedding"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Databricks Launches Genie Code: Bringing Agentic Engineering to Data Work",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-launches-genie-code-bringing-agentic-engineering-data",
+    "published_date": "2026-03-10",
+    "source": "company_newsroom",
+    "summary": "Databricks launched Genie Code, introducing agentic engineering capabilities for data work, raising the competitive bar for Actian by advancing automated data engineering features.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Genie Code",
+      "agentic engineering",
+      "Databricks"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "product_launch",
+    "title": "Alation automates governance with latest AI-powered suite March 9, 2026, TechTarget",
+    "url": "https://www.techtarget.com/searchdatamanagement/news/366639805/Alation-automates-governance-with-latest-AI-powered-suite",
+    "published_date": "2026-03-09",
+    "source": "company_newsroom",
+    "summary": "Alation launched an AI-powered governance automation suite, intensifying competition in the data catalog and governance space where Actian's data management offerings compete.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "data governance",
+      "automation"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Monte Carlo",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "From Insight to Action: Operations Agent is now Generally Available",
+    "url": "https://www.montecarlodata.com/blog-from-insight-to-action-operations-agent-is-now-generally-available/",
+    "published_date": "2026-02-26",
+    "source": "company_newsroom",
+    "summary": "Monte Carlo's new Operations Agent, now GA, automates data quality remediation, increasing pressure on Actian to enhance autonomous data quality actions in its platform.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Monte Carlo",
+      "Observability",
+      "Operational",
+      "GA"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Qdrant 1.17 - Relevance Feedback & Search Latency Improvements Version 1.17 of Qdrant features a",
+    "url": "https://qdrant.tech/blog/qdrant-1.17.x/",
+    "published_date": "2026-02-20",
+    "source": "company_newsroom",
+    "summary": "Qdrant launched version 1.17 with relevance feedback and search latency improvements, intensifying competition in the vector database space where Actian's platform may need to benchmark its own search performance.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Qdrant",
+      "vector database",
+      "search latency"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "news_type": "pricing",
+    "title": "We Extracted OpenClaw\u2019s Memory System and Open-Sourced It (memsearch)",
+    "url": "https://milvus.io/blog/we-extracted-openclaws-memory-system-and-opensourced-it-memsearch.md",
+    "published_date": "2026-02-13",
+    "source": "company_newsroom",
+    "summary": "TRENDING We extracted OpenClaw's AI memory architecture into memsearch \u2014 a standalone Python library with Markdown logs, hybrid vector search, and Git support. Engineering Feb 13, 2026",
+    "actian_relevance": "high",
+    "tags": [],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-27"
+  }
+]
