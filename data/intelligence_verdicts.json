@@ -2,6 +2,10 @@
   {
     "company": "Atlan",
     "product_area": "Data Intelligence",
+    "product_areas": [
+      "Data Intelligence"
+    ],
+    "themes": [],
     "signal_type": "hiring + event",
     "impact_level": "product",
     "what_is_happening": "Atlan is assembling senior leadership (73% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Atlan Activate: Atlan's latest product launches. 2 upcoming event(s) confirmed — active GTM motion.",
@@ -34,11 +38,17 @@
       "executives": 2
     },
     "last_updated": "2026-04-27",
-    "_input_hash": "dfa76c39528ab48a"
+    "_input_hash": "8aadddcc4751e0e1"
   },
   {
     "company": "Collibra",
     "product_area": "Data Intelligence",
+    "product_areas": [
+      "Data Intelligence"
+    ],
+    "themes": [
+      "Data / AI Governance"
+    ],
     "signal_type": "hiring + event",
     "impact_level": "platform",
     "what_is_happening": "Collibra is in aggressive GTM expansion mode with 4 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing the Collibra AI Command Center; AI Governance dashboard: Introducing catalog metrics for AI visibility. 7 upcoming event(s) confirmed — active GTM motion.",
@@ -72,11 +82,15 @@
       "executives": 5
     },
     "last_updated": "2026-04-27",
-    "_input_hash": "8d8ef73134845b7a"
+    "_input_hash": "85efda173f9c07e5"
   },
   {
     "company": "Alation",
     "product_area": "Data Intelligence",
+    "product_areas": [
+      "Data Intelligence"
+    ],
+    "themes": [],
     "signal_type": "hiring + event",
     "impact_level": "platform",
     "what_is_happening": "Alation is actively hiring 25 roles across Engineering focused on Platform / Infra, with high intensity — steady investment in their Data Intelligence capabilities. Product launches detected: Alation AI Catalog — Self-Healing Data Intelligence; Alation Introduces Critical Data Element Manager to Deliver Agentic Go. 6 upcoming event(s) confirmed — active GTM motion.",
@@ -110,11 +124,17 @@
       "executives": 5
     },
     "last_updated": "2026-04-27",
-    "_input_hash": "078961e709b038c3"
+    "_input_hash": "e0f167e66eced0b4"
   },
   {
     "company": "Monte Carlo",
     "product_area": "Data Observability",
+    "product_areas": [
+      "Data Observability"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
     "signal_type": "event only",
     "impact_level": "product",
     "what_is_happening": "Product launches detected: Monte Carlo Impact Engine — ROI Metrics; From Insight to Action: Operations Agent is now Generally Available.",
@@ -145,12 +165,18 @@
       "sdrs": 1,
       "executives": 1
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "26dd652335f1e8e3"
+    "last_updated": "2026-04-27",
+    "_input_hash": "d0168fb9ab021a20"
   },
   {
     "company": "Bigeye",
     "product_area": "Data Observability",
+    "product_areas": [
+      "Data Observability"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
     "signal_type": "event only",
     "impact_level": "product",
     "what_is_happening": "Product launches detected: Bigeye Analytics — Unified Observability. 1 upcoming event(s) confirmed — active GTM motion.",
@@ -182,12 +208,18 @@
       "sdrs": 3,
       "executives": 1
     },
-    "last_updated": "2026-04-21",
-    "_input_hash": "d275a59c4897463d"
+    "last_updated": "2026-04-27",
+    "_input_hash": "ab9f003d63e966af"
   },
   {
     "company": "Acceldata",
     "product_area": "Data Observability",
+    "product_areas": [
+      "Data Observability"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
     "signal_type": "hiring + event",
     "impact_level": "product",
     "what_is_happening": "Acceldata is scaling infrastructure with 7 platform roles — indicates preparation for enterprise-grade deployments or a new managed service offering. Product launches detected: DataOps AI Assistant — Auto-Remediation. 7 upcoming event(s) confirmed — active GTM motion.",
@@ -220,11 +252,17 @@
       "executives": 1
     },
     "last_updated": "2026-04-27",
-    "_input_hash": "24fb0c2454c0fb57"
+    "_input_hash": "a04ac4fab8f8dd59"
   },
   {
     "company": "Pinecone",
     "product_area": "VectorAI",
+    "product_areas": [
+      "VectorAI"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
     "signal_type": "hiring + event",
     "impact_level": "platform",
     "what_is_happening": "Pinecone is assembling senior leadership (75% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Product launches detected: Pinecone Inference API — Real-time Embeddings; Dedicated Read Nodes are now GA. 5 upcoming event(s) confirmed — active GTM motion.",
@@ -258,11 +296,17 @@
       "executives": 5
     },
     "last_updated": "2026-04-27",
-    "_input_hash": "d57bffee59774144"
+    "_input_hash": "a992f3973dc19978"
   },
   {
     "company": "Qdrant",
     "product_area": "VectorAI",
+    "product_areas": [
+      "VectorAI"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
     "signal_type": "hiring only",
     "impact_level": "market",
     "what_is_happening": "Qdrant is assembling senior leadership (100% senior+ roles) — signals a strategic pivot or new product line launch in Platform / Infra. Funding event: We Raised $50M to Build Composable Vector Search as Core Infrastructure.",
@@ -293,11 +337,15 @@
       "executives": 5
     },
     "last_updated": "2026-04-27",
-    "_input_hash": "1b98034a0e6b422f"
+    "_input_hash": "75d2f17f81940b80"
   },
   {
     "company": "Milvus",
     "product_area": "VectorAI",
+    "product_areas": [
+      "VectorAI"
+    ],
+    "themes": [],
     "signal_type": "hiring + event",
     "impact_level": "market",
     "what_is_happening": "Milvus is actively hiring 8 roles across Sales focused on Go-to-Market, with medium intensity — steady investment in their Other capabilities. 5 upcoming event(s) confirmed — active GTM motion.",
@@ -330,11 +378,19 @@
       "executives": 3
     },
     "last_updated": "2026-04-27",
-    "_input_hash": "541253610c18938d"
+    "_input_hash": "07ffde666df9f4b4"
   },
   {
     "company": "Snowflake",
     "product_area": "AI Analyst",
+    "product_areas": [
+      "AI Analyst",
+      "Data Intelligence"
+    ],
+    "themes": [
+      "Agentic BI",
+      "ETL / ELT / Integration"
+    ],
     "signal_type": "hiring + event",
     "impact_level": "platform",
     "what_is_happening": "Snowflake is doubling down on data engineering with 5 pipeline/integration roles — direct competitive move against Actian in the data integration space. Product launches detected: Introducing DCM Projects: Declarative Infrastructure Management for Sn; Snowflake Launches Project SnowWork, Bringing Outcome-Driven AI to Eve. 15 upcoming event(s) confirmed — active GTM motion.",
@@ -368,11 +424,17 @@
       "executives": 5
     },
     "last_updated": "2026-04-27",
-    "_input_hash": "3d710dab6a6f1fbb"
+    "_input_hash": "ca245b0a48d20a8b"
   },
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
+    "product_areas": [
+      "AI Analyst"
+    ],
+    "themes": [
+      "Agentic BI"
+    ],
     "signal_type": "hiring + event",
     "impact_level": "platform",
     "what_is_happening": "Databricks is in aggressive GTM expansion mode with 20 sales and marketing hires — likely preparing a major product push or entering new enterprise segments. Product launches detected: Introducing Genie Agent Mode; Introducing the Databricks Connector for Google Sheets: Real-Time, Gov. Partnership: Databricks partners with OpenAI on GPT-5.5. 15 upcoming event(s) confirmed — active GTM motion.",
@@ -406,6 +468,6 @@
       "executives": 5
     },
     "last_updated": "2026-04-27",
-    "_input_hash": "dda74349a0c30c97"
+    "_input_hash": "dc70f0415b420c8d"
   }
 ]

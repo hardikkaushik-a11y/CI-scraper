@@ -1,63 +1,63 @@
-Company,Career_URL,Company_Group
-Acceldata,https://jobs.lever.co/acceldata,Data Observability
-Airtable,https://boards.greenhouse.io/airtable,Data Intelligence
-Alation,https://alation.wd503.myworkdayjobs.com/ExternalSite,Data Intelligence
-Alex Solutions,https://alexsolutions.com/about-us/opportunities/,Data Intelligence
-Alibaba Cloud,https://careers.aliyun.com/,Warehouse/Processing
-Alteryx,https://alteryx.wd108.myworkdayjobs.com/AlteryxCareers,Warehouse/Processing
-Anomalo,https://boards.greenhouse.io/anomalojobs,Data Observability
-Ataccama,https://jobs.ataccama.com/#one-team,Data Intelligence
-Atlan,https://jobs.ashbyhq.com/atlan,Data Intelligence
-Atlassian,https://www.atlassian.com/company/careers,Data Intelligence
-BigEye,https://jobs.gem.com/bigeye,Data Observability
-Milvus,https://jobs.lever.co/zilliz,Vector DB / AI
-Boomi,https://boards.greenhouse.io/boomilp,ETL/Connectors
-Cloudera,https://cloudera.wd5.myworkdayjobs.com/External_Career,Warehouse/Processing
-Collate,https://jobs.lever.co/collate,Data Intelligence
-Collibra,https://boards.greenhouse.io/collibra,Data Intelligence
-Couchbase,https://boards.greenhouse.io/couchbaseinc,Warehouse/Processing
-CastorDoc,https://jobs.ashbyhq.com/coalesce,Data Intelligence
-Data.World,https://data.world/company/careers/#careers-list,Data Intelligence
-Databricks,https://boards.greenhouse.io/databricks,Warehouse/Processing
-Datadog,https://careers.datadoghq.com/all-jobs/?s=,Monitoring/Platforms
-DataGalaxy,https://www.welcometothejungle.com/en/companies/datagalaxy/jobs,Data Intelligence
-DataHub,https://job-boards.greenhouse.io/acryldata,Data Intelligence
-Decube,https://www.decube.io/careers,Data Observability
-Denodo,https://www.denodo.com/en/company/careers,ETL/Connectors
-Domo,https://domo.wd12.myworkdayjobs.com/DomoCareers,Analytics / BI
-Exasol,https://careers.exasol.com/en/jobs,Warehouse/Processing
-Firebolt,https://www.firebolt.io/careers,Warehouse/Processing
-Fivetran,https://boards.greenhouse.io/fivetran,ETL/Connectors
-Google,https://www.google.com/about/careers,Warehouse/Processing
-InfluxData,https://jobs.ashbyhq.com/influxdata,Warehouse/Processing
-Informatica,https://informatica.gr8people.com/jobs,Data Intelligence
-Inorigo,https://www.linkedin.com/company/inorigo/jobs,Data Intelligence
-Matillion,https://jobs.lever.co/matillion,ETL/Connectors
-Metakarta,https://www.metaintegration.net/Company/HR/JobOpenings.html,Data Intelligence
-Microsoft,https://careers.microsoft.com/,Data Intelligence
-MongoDB,https://boards.greenhouse.io/mongodb,Warehouse/Processing
-Monte Carlo,https://jobs.ashbyhq.com/montecarlodata,Data Observability
-OneTrust,https://boards.greenhouse.io/onetrust,Data Intelligence
-Oracle,https://careers.oracle.com/en/sites/jobsearch/jobs,Enterprise
-Orion Governance,https://www.linkedin.com/company/orion-information-governance-solutions/jobs,Data Intelligence
-OvalEdge,https://www.ovaledge.com/careers,Data Intelligence
-Pentaho,https://www.hitachivantara.com/en-us/company/careers/job-search,Warehouse/Processing
-Precisely,https://boards.greenhouse.io/preciselyusjobs,ETL/Connectors
-Pinecone,https://jobs.ashbyhq.com/pinecone,Vector DB / AI
-Qdrant,https://join.com/companies/qdrant,Vector DB / AI
-Qlik,https://careerhub.qlik.com/careers?start=0&pid=1133911975915&sort_by=hot,Data Intelligence
-Salesforce,https://careers.salesforce.com/en/jobs/,Enterprise
-Secoda,https://jobs.ashbyhq.com/Secoda,Data Intelligence
-Sifflet,https://www.welcometothejungle.com/en/companies/sifflet/jobs,Data Observability
-Snowflake,https://jobs.ashbyhq.com/snowflake,Warehouse/Processing
-Soda.io,https://apply.workable.com/soda-data-nv/,Data Observability
-Solidatus,https://solidatus.bamboohr.com/careers,Data Intelligence
-Syniti,https://careers.syniti.com/go/Explore-Our-Roles/8777900/,ETL/Connectors
-Synq,https://wellfound.com/company/synq/jobs,Data Observability
-Teradata,https://careers.teradata.com/jobs,Warehouse/Processing
-Vertica,https://careers.opentext.com/us/en/home,Warehouse/Processing
-Weaviate,https://jobs.ashbyhq.com/weaviate,Vector DB / AI
-Zilliz,https://jobs.lever.co/zilliz,Vector DB / AI
-Amazon,https://www.amazon.jobs/en/,Enterprise
-IBM,https://www.ibm.com/careers/search,Enterprise
-SAP,https://jobs.sap.com/,Enterprise
+Company,Career_URL,Company_Group,Battlecard_URL
+Acceldata,https://jobs.lever.co/acceldata,Data Observability,https://actian.atlassian.net/wiki/spaces/ACI/pages/1731198997/Competitor+Profile+Acceldata
+Airtable,https://boards.greenhouse.io/airtable,Data Intelligence,
+Alation,https://alation.wd503.myworkdayjobs.com/ExternalSite,Data Intelligence,https://actian.atlassian.net/wiki/spaces/ACI/pages/939196429/Competitor+Profile+Alation
+Alex Solutions,https://alexsolutions.com/about-us/opportunities/,Data Intelligence,
+Alibaba Cloud,https://careers.aliyun.com/,Warehouse/Processing,
+Alteryx,https://alteryx.wd108.myworkdayjobs.com/AlteryxCareers,Warehouse/Processing,
+Anomalo,https://boards.greenhouse.io/anomalojobs,Data Observability,
+Ataccama,https://jobs.ataccama.com/#one-team,Data Intelligence,
+Atlan,https://jobs.ashbyhq.com/atlan,Data Intelligence,https://actian.atlassian.net/wiki/spaces/ACI/pages/939032615/Competitor+Profile+Atlan
+Atlassian,https://www.atlassian.com/company/careers,Data Intelligence,
+BigEye,https://jobs.gem.com/bigeye,Data Observability,https://actian.atlassian.net/wiki/spaces/ACI/pages/1542881312/Competitor+Profile+BigEye
+Milvus,https://jobs.lever.co/zilliz,Vector DB / AI,https://actian.atlassian.net/wiki/spaces/ACI/pages/2375483478/Competitor+Profile+Milvus
+Boomi,https://boards.greenhouse.io/boomilp,ETL/Connectors,
+Cloudera,https://cloudera.wd5.myworkdayjobs.com/External_Career,Warehouse/Processing,
+Collate,https://jobs.lever.co/collate,Data Intelligence,
+Collibra,https://boards.greenhouse.io/collibra,Data Intelligence,https://actian.atlassian.net/wiki/spaces/ACI/pages/939163685/Competitor+Profile+Collibra
+Couchbase,https://boards.greenhouse.io/couchbaseinc,Warehouse/Processing,
+CastorDoc,https://jobs.ashbyhq.com/coalesce,Data Intelligence,
+Data.World,https://data.world/company/careers/#careers-list,Data Intelligence,
+Databricks,https://boards.greenhouse.io/databricks,Warehouse/Processing,https://actian.atlassian.net/wiki/spaces/ACI/pages/125632560/Competitor+Profile+Databricks
+Datadog,https://careers.datadoghq.com/all-jobs/?s=,Monitoring/Platforms,
+DataGalaxy,https://www.welcometothejungle.com/en/companies/datagalaxy/jobs,Data Intelligence,
+DataHub,https://job-boards.greenhouse.io/acryldata,Data Intelligence,
+Decube,https://www.decube.io/careers,Data Observability,
+Denodo,https://www.denodo.com/en/company/careers,ETL/Connectors,
+Domo,https://domo.wd12.myworkdayjobs.com/DomoCareers,Analytics / BI,
+Exasol,https://careers.exasol.com/en/jobs,Warehouse/Processing,
+Firebolt,https://www.firebolt.io/careers,Warehouse/Processing,
+Fivetran,https://boards.greenhouse.io/fivetran,ETL/Connectors,
+Google,https://www.google.com/about/careers,Warehouse/Processing,
+InfluxData,https://jobs.ashbyhq.com/influxdata,Warehouse/Processing,
+Informatica,https://informatica.gr8people.com/jobs,Data Intelligence,
+Inorigo,https://www.linkedin.com/company/inorigo/jobs,Data Intelligence,
+Matillion,https://jobs.lever.co/matillion,ETL/Connectors,
+Metakarta,https://www.metaintegration.net/Company/HR/JobOpenings.html,Data Intelligence,
+Microsoft,https://careers.microsoft.com/,Data Intelligence,
+MongoDB,https://boards.greenhouse.io/mongodb,Warehouse/Processing,
+Monte Carlo,https://jobs.ashbyhq.com/montecarlodata,Data Observability,https://actian.atlassian.net/wiki/spaces/ACI/pages/1517551620/Competitor+Profile+Monte+Carlo
+OneTrust,https://boards.greenhouse.io/onetrust,Data Intelligence,
+Oracle,https://careers.oracle.com/en/sites/jobsearch/jobs,Enterprise,
+Orion Governance,https://www.linkedin.com/company/orion-information-governance-solutions/jobs,Data Intelligence,
+OvalEdge,https://www.ovaledge.com/careers,Data Intelligence,
+Pentaho,https://www.hitachivantara.com/en-us/company/careers/job-search,Warehouse/Processing,
+Precisely,https://boards.greenhouse.io/preciselyusjobs,ETL/Connectors,
+Pinecone,https://jobs.ashbyhq.com/pinecone,Vector DB / AI,https://actian.atlassian.net/wiki/spaces/ACI/pages/2375843919/Competitor+Profile+Pinecone
+Qdrant,https://join.com/companies/qdrant,Vector DB / AI,https://actian.atlassian.net/wiki/spaces/ACI/pages/2375024675/Competitor+Profile+Qdrant
+Qlik,https://careerhub.qlik.com/careers?start=0&pid=1133911975915&sort_by=hot,Data Intelligence,
+Salesforce,https://careers.salesforce.com/en/jobs/,Enterprise,
+Secoda,https://jobs.ashbyhq.com/Secoda,Data Intelligence,
+Sifflet,https://www.welcometothejungle.com/en/companies/sifflet/jobs,Data Observability,
+Snowflake,https://jobs.ashbyhq.com/snowflake,Warehouse/Processing,https://actian.atlassian.net/wiki/spaces/ACI/pages/97550761/Competitor+Profile+Snowflake
+Soda.io,https://apply.workable.com/soda-data-nv/,Data Observability,
+Solidatus,https://solidatus.bamboohr.com/careers,Data Intelligence,
+Syniti,https://careers.syniti.com/go/Explore-Our-Roles/8777900/,ETL/Connectors,
+Synq,https://wellfound.com/company/synq/jobs,Data Observability,
+Teradata,https://careers.teradata.com/jobs,Warehouse/Processing,
+Vertica,https://careers.opentext.com/us/en/home,Warehouse/Processing,
+Weaviate,https://jobs.ashbyhq.com/weaviate,Vector DB / AI,
+Zilliz,https://jobs.lever.co/zilliz,Vector DB / AI,
+Amazon,https://www.amazon.jobs/en/,Enterprise,
+IBM,https://www.ibm.com/careers/search,Enterprise,
+SAP,https://jobs.sap.com/,Enterprise,

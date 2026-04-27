@@ -355,7 +355,22 @@ def build_recent_activity(company, comp_signals, news):
     return items[:5]
 
 
-def build_competitors(signals, verdicts, per_company=None, comp_signals=None, news=None):
+def load_battlecards(csv_path):
+    """Read competitors.csv → {company: battlecard_url}. Empty values dropped."""
+    out = {}
+    try:
+        with open(csv_path, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                url = (row.get("Battlecard_URL") or "").strip()
+                if url:
+                    out[row["Company"]] = url
+    except FileNotFoundError:
+        pass
+    return out
+
+
+def build_competitors(signals, verdicts, per_company=None, comp_signals=None, news=None, battlecards=None):
+    battlecards = battlecards or {}
     # Index by lower-cased name for fuzzy matching
     sig_index = {s["company"].lower(): s for s in signals}
     vrd_index = {}
@@ -433,10 +448,18 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
                 return f"{base} (Confidence: {confidence.title()})"
             return base
 
+        # Multi-area + theme exposure (from verdict)
+        product_areas = verdict.get("product_areas") or [area]
+        verdict_themes = verdict.get("themes") or []
+        battlecard_url = battlecards.get(company, "")
+
         comp = {
             "id": re.sub(r"[^a-z0-9]", "", company.lower()),
             "name": company,
             "area": area,
+            "areas": product_areas,
+            "themes": verdict_themes,
+            "battlecardUrl": battlecard_url,
             "threat": threat,
             "intensity": intensity,
             "postingCount": posting_count,
@@ -533,6 +556,7 @@ def build_launches_events(comp_signals):
                 "why": item.get("summary", ""),
                 "url": item.get("url", ""),
                 "teams": event_teams,
+                "themes": item.get("themes", []),
                 "action": "Check dashboard for details.",
             })
             event_id += 1
@@ -551,6 +575,7 @@ def build_launches_events(comp_signals):
                 "tags": item.get("tags", []),
                 "url": item.get("url", ""),
                 "teams": item.get("team_routing") or ["Product", "PMM", "Marketing"],
+                "themes": item.get("themes", []),
             })
             launch_id += 1
 
@@ -673,9 +698,16 @@ def main():
     per_company = load_function_breakdown(DATA_DIR / "jobs_enriched_v2.csv", allowed)
     function_trends = build_function_trends(per_company, allowed)
 
+    print("  Loading data/competitors.csv for battlecard URLs...")
+    battlecards = load_battlecards(DATA_DIR / "competitors.csv")
+    print(f"    {len(battlecards)} battlecard URLs loaded")
+
     # Build COMPETITORS
     print("  Building COMPETITORS array...")
-    competitors = build_competitors(signals, verdicts, per_company, comp_signals=comp_signals, news=news)
+    competitors = build_competitors(
+        signals, verdicts, per_company,
+        comp_signals=comp_signals, news=news, battlecards=battlecards,
+    )
     print(f"    {len(competitors)} competitors built")
     for c in competitors:
         print(f"    - {c['name']:20s} {c['threat']:8s}  {c['postingCount']:3d} postings")

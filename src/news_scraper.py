@@ -21,6 +21,7 @@ import httpx
 from bs4 import BeautifulSoup
 
 from team_routing import route_by_news_type
+from themes import classify_themes
 
 # ══════════════════════════════════════════════════════════════════════════
 # CONFIG
@@ -378,6 +379,7 @@ def classify_item(company: str, title: str, description: str, url: str) -> dict 
         result = _call_deepseek_news(title, description, company)
         if result is not None:
             result["team_routing"] = route_by_news_type(result["news_type"])
+            result["themes"] = classify_themes(title, description, result.get("summary", ""))
             return result
         # result == None means DeepSeek said drop the item
         # but we only trust that if the API call succeeded; a connection error
@@ -427,6 +429,7 @@ def classify_item(company: str, title: str, description: str, url: str) -> dict 
         "actian_relevance": relevance,
         "tags": tags,
         "team_routing": route_by_news_type(news_type),
+        "themes": classify_themes(title, description),
     }
 
 

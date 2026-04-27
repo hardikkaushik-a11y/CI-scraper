@@ -20,6 +20,11 @@ from team_routing import (
     compute_team_relevance,
     TEAM_ORDER,
 )
+from themes import (
+    classify_themes,
+    aggregate_themes,
+    derive_product_areas,
+)
 
 # ══════════════════════════════════════════════════════════════════════════
 # CONFIG
@@ -29,7 +34,7 @@ DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 DEEPSEEK_MODEL = "deepseek-chat"  # V4-Flash
 
 # Bump this to force all verdicts to regenerate when scoring logic changes
-VERDICT_VERSION = "6"  # v6: news items now contribute to impact_level + signal score
+VERDICT_VERSION = "7"  # v7: adds product_areas (multi) + themes (semantic layer)
 
 SIGNALS_PATH = "data/signals.json"
 COMPETITIVE_SIGNALS_PATH = "data/competitive_signals.json"
@@ -914,9 +919,23 @@ def main():
                     posting_count=(hiring_signal or {}).get("posting_count", 0),
                 )
 
+            # Aggregate themes from all signals + news for this company,
+            # then derive multi-area product list (primary + theme-driven).
+            all_signal_items = list(comp_signals) + list(news_items)
+            verdict_themes = aggregate_themes(all_signal_items)
+            # If no themes from signals, also try classifying the verdict text itself
+            if not verdict_themes and verdict_data.get("what_is_happening"):
+                verdict_themes = classify_themes(
+                    verdict_data.get("what_is_happening", ""),
+                    verdict_data.get("primary_interpretation", ""),
+                )
+            multi_areas = derive_product_areas(product_area, verdict_themes)
+
             verdict = {
                 "company":                    company,
                 "product_area":               product_area,
+                "product_areas":              multi_areas,
+                "themes":                     verdict_themes,
                 "signal_type":                verdict_data.get("signal_type", "none"),
                 "impact_level":               impact_level,
                 "what_is_happening":          verdict_data.get("what_is_happening", ""),

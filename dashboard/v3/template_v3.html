@@ -1994,7 +1994,21 @@ function VerdictCard({ c, lens, onOpen }) {
       <header className="vcard-head">
         <div className="vcard-head-l">
           <h3 className="vcard-name">{c.name}</h3>
-          <AreaBadge>{c.area}</AreaBadge>
+          <div style={{display:"flex", gap:"6px", flexWrap:"wrap", alignItems:"center"}}>
+            {(c.areas && c.areas.length ? c.areas : [c.area]).map(a =>
+              <AreaBadge key={a}>{a}</AreaBadge>
+            )}
+            {c.battlecardUrl ? (
+              <a href={c.battlecardUrl} target="_blank" rel="noopener noreferrer"
+                 onClick={e => e.stopPropagation()}
+                 style={{
+                   fontSize:"10px", padding:"2px 8px", borderRadius:"10px",
+                   background:"rgba(99,102,241,0.15)", color:"#818cf8",
+                   border:"1px solid rgba(99,102,241,0.35)", textDecoration:"none",
+                   fontWeight:600, letterSpacing:"0.02em",
+                 }}>📋 Battlecard</a>
+            ) : null}
+          </div>
         </div>
         <div className="vcard-head-r">
           <ThreatBadge level={c.threat} />
@@ -3162,7 +3176,7 @@ function CompaniesPage({ lens, onOpenCompany }) {
 
   const rows = useMemoP(() => {
     return window.COMPETITORS
-      .filter(c => areaF === "all" || c.area === areaF)
+      .filter(c => areaF === "all" || (c.areas && c.areas.length ? c.areas.includes(areaF) : c.area === areaF))
       .sort((a,b) => b.score - a.score);
   }, [areaF]);
 
@@ -3241,7 +3255,7 @@ function HiringPage({ onOpen, lens }) {
   []);
 
   const filtered = useMemoP(() => {
-    let list = sorted.filter(c => areaFilter === "all" || c.area === areaFilter);
+    let list = sorted.filter(c => areaFilter === "all" || (c.areas && c.areas.length ? c.areas.includes(areaFilter) : c.area === areaFilter));
     // Apply lens filter — each team sees relevant subset
     if (lens === "Executives") list = list.filter(c => c.threat === "CRITICAL" || c.threat === "HIGH");
     else if (lens === "SDRs")  list = list.filter(c => ["CRITICAL","HIGH","MEDIUM"].includes(c.threat));
@@ -3572,7 +3586,7 @@ function DashboardPage({ lens, ordered, kpi, onOpen }) {
   const areas = useMemoDash(() => ["all", ...Object.keys(window.AREA)], []);
 
   const sorted = useMemoDash(() => {
-    let list = areaFilter === "all" ? [...ordered] : ordered.filter(c => c.area === areaFilter);
+    let list = areaFilter === "all" ? [...ordered] : ordered.filter(c => (c.areas && c.areas.length ? c.areas.includes(areaFilter) : c.area === areaFilter));
     const THREAT_ORDER = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
     if (sortBy === "threat") list.sort((a, b) => THREAT_ORDER[a.threat] - THREAT_ORDER[b.threat] || b.score - a.score);
     else if (sortBy === "score") list.sort((a, b) => b.score - a.score);

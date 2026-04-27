@@ -21,6 +21,7 @@ import feedparser
 import httpx
 
 from team_routing import route_by_signal_type
+from themes import classify_themes
 
 # ══════════════════════════════════════════════════════════════════════════
 # CONFIG — exact same pattern as enrich.py
@@ -469,6 +470,7 @@ def _rule_classify(company: str, title: str, description: str) -> dict | None:
         "tags": tags,
         "source_type": source_type,
         "event_date": event_date,
+        "themes": classify_themes(title, description, summary),
     }
 
 
@@ -503,6 +505,7 @@ def classify_item(company: str, title: str, description: str) -> dict | None:
                     parsed.setdefault("source_type", "blog")
                     parsed.setdefault("event_date", None)
                     parsed.setdefault("summary", title)
+                    parsed["themes"] = classify_themes(title, description, parsed.get("summary", ""))
                     return parsed
             except (json.JSONDecodeError, AttributeError):
                 pass
