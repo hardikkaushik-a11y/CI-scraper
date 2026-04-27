@@ -122,7 +122,9 @@ A verdict can route to multiple teams. Return as array in canonical order:
 Also produce team_relevance — how relevant this verdict is to each team on a 0–5 scale
 (0 = ignore, 5 = immediate action). Teams in team_routing get higher scores.
 
-Return ONLY valid JSON — no markdown, no commentary:
+Return ONLY valid JSON — no markdown, no commentary. Use straight ASCII quotes (").
+Escape any double quotes inside string values with backslash. No trailing commas.
+Do not include any text outside the JSON object.
 {
   "company": "<company name>",
   "signal_type": "hiring + event | hiring only | event only | none",
@@ -797,17 +799,33 @@ def generate_verdict(company: str, product_area: str,
         print(f"  [FALLBACK] {company} — DeepSeek call failed, using rule-based logic")
         return _fallback_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
-    # Strip markdown fences if Claude wrapped it
+    # Strip markdown fences if model wrapped it
     text = raw.strip()
     if text.startswith("```"):
         lines = text.split("\n")
         text = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
 
+    # Extract first {...} block in case there's preamble/trailing prose
+    import re as _re
+    m = _re.search(r"\{[\s\S]*\}", text)
+    if m:
+        text = m.group(0)
+
+    parsed = None
     try:
         parsed = json.loads(text)
-    except json.JSONDecodeError as e:
-        print(f"  [FALLBACK] {company} — JSON parse failed, using rule-based logic: {e}")
-        return _fallback_verdict(company, product_area, hiring_signal, comp_signals)
+    except json.JSONDecodeError:
+        # Best-effort repair: trailing commas, smart quotes, unescaped newlines in strings
+        repaired = text
+        repaired = _re.sub(r",(\s*[}\]])", r"\1", repaired)            # trailing commas
+        repaired = repaired.replace("“", '"').replace("”", '"')  # smart quotes
+        repaired = repaired.replace("‘", "'").replace("’", "'")
+        try:
+            parsed = json.loads(repaired)
+            print(f"  [REPAIR] {company} — JSON repaired after retry")
+        except json.JSONDecodeError as e:
+            print(f"  [FALLBACK] {company} — JSON parse failed, using rule-based logic: {e}")
+            return _fallback_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
     return parsed
 
