@@ -34,7 +34,7 @@ DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 DEEPSEEK_MODEL = "deepseek-chat"  # V4-Flash
 
 # Bump this to force all verdicts to regenerate when scoring logic changes
-VERDICT_VERSION = "7"  # v7: adds product_areas (multi) + themes (semantic layer)
+VERDICT_VERSION = "8"  # v8: tightened theme→product_area mapping (no more cross-pollution)
 
 SIGNALS_PATH = "data/signals.json"
 COMPETITIVE_SIGNALS_PATH = "data/competitive_signals.json"
