@@ -2297,9 +2297,20 @@ function BriefDrawer({ comp, lens, onClose }) {
           <div>
             <div className="drw-eyebrow">Full brief · {lens} lens</div>
             <h2 className="drw-title">{comp.name}</h2>
-            <div className="drw-sub">
-              <window.AreaBadge>{comp.area}</window.AreaBadge>
+            <div className="drw-sub" style={{display:"flex", gap:"6px", flexWrap:"wrap", alignItems:"center"}}>
+              {(comp.areas && comp.areas.length ? comp.areas : [comp.area]).map(a =>
+                <window.AreaBadge key={a}>{a}</window.AreaBadge>
+              )}
               <window.ThreatBadge level={comp.threat} />
+              {comp.battlecardUrl ? (
+                <a href={comp.battlecardUrl} target="_blank" rel="noopener noreferrer"
+                   style={{
+                     fontSize:"11px", padding:"3px 10px", borderRadius:"12px",
+                     background:"rgba(99,102,241,0.15)", color:"#818cf8",
+                     border:"1px solid rgba(99,102,241,0.35)", textDecoration:"none",
+                     fontWeight:600, letterSpacing:"0.02em",
+                   }}>📋 Battlecard</a>
+              ) : null}
               <span className="drw-updated">Updated {comp.updated}</span>
               <span className="drw-classification">public data</span>
             </div>
