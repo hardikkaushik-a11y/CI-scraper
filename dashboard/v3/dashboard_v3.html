@@ -1,4 +1,4 @@
-<!-- CI Pipeline · run: 2026-04-28T10:34:47Z · 11 competitors · 17 launches · 46 events · public data -->
+<!-- CI Pipeline · run: 2026-04-28T10:36:07Z · 11 competitors · 17 launches · 46 events · public data -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7685,16 +7685,28 @@ function NewsPage({ lens, onOpenCompany, q }) {
     byCompany[c].sort((a, b) => new Date(b.published_date || 0) - new Date(a.published_date || 0));
   }
 
-  // Type counts for the filter bar — normalise old "product" alias into "product_launch"
+  // Type counts for the filter bar — reflect lens + company + search filters,
+  // but NOT the type filter itself (so user can see what's available per type).
+  // This keeps pill counts honest with what's actually visible.
   const typeCounts = {};
   for (const n of (window.NEWS || [])) {
     if (!KEEP.has(n.news_type)) continue;
+    if (companyFilter !== "all" && n.company !== companyFilter) continue;
+    if (lens !== "All" && !(n.team_routing || []).includes(lens)) continue;
+    if (needle) {
+      const blob = [n.company, n.title, n.summary, (n.themes || []).join(" "), (n.tags || []).join(" "), n.news_type]
+        .filter(Boolean).join(" ").toLowerCase();
+      if (!blob.includes(needle)) continue;
+    }
     const key = n.news_type === "product" ? "product_launch" : n.news_type;
     typeCounts[key] = (typeCounts[key] || 0) + 1;
   }
-  // All companies that have any kept news (for company filter dropdown)
+  // All companies that have any kept news (for company filter dropdown) — also lens-aware
   const allCompaniesWithNews = Array.from(new Set(
-    (window.NEWS || []).filter(n => KEEP.has(n.news_type)).map(n => n.company)
+    (window.NEWS || [])
+      .filter(n => KEEP.has(n.news_type))
+      .filter(n => lens === "All" || (n.team_routing || []).includes(lens))
+      .map(n => n.company)
   )).sort();
 
   function toggle(company) {
