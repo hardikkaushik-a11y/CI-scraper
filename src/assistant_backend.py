@@ -93,60 +93,7 @@ def load_data() -> tuple[list[dict], list[dict]]:
 # CONTEXT BUILDER
 # ══════════════════════════════════════════════════════════════════════════
 
-# ──────────────────────────────────────────────────────────────────────────
-# GEOGRAPHIC NORMALIZATION
-# ──────────────────────────────────────────────────────────────────────────
-# Maps freeform Location strings (e.g. "Bengaluru, Karnataka, India, APAC",
-# "US-CA-Menlo Park", "IND-CHENNAI") to a canonical country.
-
-_COUNTRY_PATTERNS = [
-    # India — many city + region variants
-    (r"\b(india|bengaluru|bangalore|gurugram|gurgaon|hyderabad|chennai|mumbai|pune|noida|kolkata|delhi|ind[-_])\b", "India"),
-    # United States — codes, states, common cities
-    (r"\b(united states|usa|^us$|us[-_ ]|amer|new york|san francisco|california|seattle|atlanta|austin|denver|menlo park|oakland|raleigh|north carolina|texas|massachusetts|boston|chicago|washington|virginia|colorado|wa-bellevue)\b", "United States"),
-    # UK / Ireland
-    (r"\b(united kingdom|england|uk|london|manchester|edinburgh|scotland|ireland|dublin)\b", "United Kingdom"),
-    (r"\b(dublin)\b", "Ireland"),  # only if no other UK match
-    # EU
-    (r"\b(germany|berlin|munich|hamburg|frankfurt|cologne|deu[-_])\b", "Germany"),
-    (r"\b(france|paris|lyon|fra[-_])\b", "France"),
-    (r"\b(spain|madrid|barcelona|esp[-_])\b", "Spain"),
-    (r"\b(netherlands|amsterdam|nld[-_])\b", "Netherlands"),
-    (r"\b(belgium|brussels|antwerp|bel[-_])\b", "Belgium"),
-    (r"\b(poland|warsaw|krakow|pl[-_]warsaw|pol[-_])\b", "Poland"),
-    (r"\b(italy|milan|rome|ita[-_])\b", "Italy"),
-    (r"\b(switzerland|zurich|geneva|che[-_])\b", "Switzerland"),
-    (r"\b(sweden|stockholm|swe[-_])\b", "Sweden"),
-    (r"\b(czech|prague|cze[-_])\b", "Czechia"),
-    # APAC
-    (r"\b(japan|tokyo|jpn[-_])\b", "Japan"),
-    (r"\b(singapore|sgp[-_])\b", "Singapore"),
-    (r"\b(australia|sydney|melbourne|aus[-_])\b", "Australia"),
-    (r"\b(china|beijing|shanghai|chn[-_])\b", "China"),
-    (r"\b(south korea|seoul|kor[-_])\b", "South Korea"),
-    # Americas
-    (r"\b(canada|toronto|vancouver|montreal|kitchener|ontario|quebec|can[-_])\b", "Canada"),
-    (r"\b(brazil|sao paulo|brazil[-_]|bra[-_])\b", "Brazil"),
-    (r"\b(mexico|mexico city|mex[-_])\b", "Mexico"),
-    # Middle East / Africa
-    (r"\b(israel|tel aviv|isr[-_])\b", "Israel"),
-    (r"\b(uae|dubai|abu dhabi)\b", "UAE"),
-    # Generic remote
-    (r"\b(remote|anywhere|worldwide|global)\b", "Remote"),
-]
-_COUNTRY_RE = [(re.compile(p, re.I), c) for p, c in _COUNTRY_PATTERNS]
-
-
-def country_from_location(loc: str) -> str:
-    """Normalize a freeform location string into a single country label.
-    Returns 'Unknown' when no pattern matches (e.g. blank, ambiguous codes)."""
-    if not loc:
-        return "Unknown"
-    s = loc.strip().lower()
-    for rx, country in _COUNTRY_RE:
-        if rx.search(s):
-            return country
-    return "Unknown"
+from geo import country_from_location  # shared normalizer (src/geo.py)
 
 
 def _count(rows: list[dict], key: str) -> dict:

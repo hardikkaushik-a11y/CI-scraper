@@ -1,4 +1,4 @@
-<!-- CI Pipeline · run: 2026-04-28T10:39:54Z · 11 competitors · 17 launches · 46 events · public data -->
+<!-- CI Pipeline · run: 2026-04-28T10:52:08Z · 11 competitors · 17 launches · 46 events · public data -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1956,6 +1956,49 @@ window.TEAMS = [
   "Executives"
 ];
 
+window.COUNTRIES = [
+  {
+    country: "United States",
+    count: 77
+  },
+  {
+    country: "India",
+    count: 31
+  },
+  {
+    country: "Belgium",
+    count: 10
+  },
+  {
+    country: "Canada",
+    count: 9
+  },
+  {
+    country: "United Kingdom",
+    count: 9
+  },
+  {
+    country: "Australia",
+    count: 6
+  },
+  {
+    country: "Czechia",
+    count: 5
+  },
+  {
+    country: "Japan",
+    count: 5
+  },
+  {
+    country: "Germany",
+    count: 4
+  },
+  {
+    country: "Singapore",
+    count: 3
+  }
+];
+
 window.COMPETITORS = [
   {
     id: "collibra",
@@ -2153,6 +2196,42 @@ window.COMPETITORS = [
       "ETL / ELT / Integration"
     ],
     battlecardUrl: "https://actian.atlassian.net/wiki/spaces/ACI/pages/97550761/Competitor+Profile+Snowflake",
+    topCountries: [
+      {
+        country: "United States",
+        count: 22
+      },
+      {
+        country: "Poland",
+        count: 3
+      },
+      {
+        country: "Australia",
+        count: 3
+      },
+      {
+        country: "Israel",
+        count: 2
+      },
+      {
+        country: "Canada",
+        count: 2
+      }
+    ],
+    recentCountries: [
+      {
+        country: "United States",
+        count: 4
+      },
+      {
+        country: "Poland",
+        count: 1
+      },
+      {
+        country: "Australia",
+        count: 1
+      }
+    ],
     threat: "HIGH",
     intensity: "HIGH",
     postingCount: 36,
@@ -2336,6 +2415,26 @@ window.COMPETITORS = [
       "ETL / ELT / Integration"
     ],
     battlecardUrl: "https://actian.atlassian.net/wiki/spaces/ACI/pages/939196429/Competitor+Profile+Alation",
+    topCountries: [
+      {
+        country: "United States",
+        count: 13
+      },
+      {
+        country: "India",
+        count: 12
+      }
+    ],
+    recentCountries: [
+      {
+        country: "United States",
+        count: 5
+      },
+      {
+        country: "India",
+        count: 4
+      }
+    ],
     threat: "HIGH",
     intensity: "HIGH",
     postingCount: 26,
@@ -2502,6 +2601,50 @@ window.COMPETITORS = [
       "ETL / ELT / Integration"
     ],
     battlecardUrl: "https://actian.atlassian.net/wiki/spaces/ACI/pages/125632560/Competitor+Profile+Databricks",
+    topCountries: [
+      {
+        country: "United States",
+        count: 4
+      },
+      {
+        country: "Singapore",
+        count: 3
+      },
+      {
+        country: "India",
+        count: 3
+      },
+      {
+        country: "Australia",
+        count: 2
+      },
+      {
+        country: "Germany",
+        count: 2
+      }
+    ],
+    recentCountries: [
+      {
+        country: "United States",
+        count: 4
+      },
+      {
+        country: "Singapore",
+        count: 1
+      },
+      {
+        country: "Australia",
+        count: 1
+      },
+      {
+        country: "Netherlands",
+        count: 1
+      },
+      {
+        country: "Japan",
+        count: 1
+      }
+    ],
     threat: "HIGH",
     intensity: "HIGH",
     postingCount: 22,
@@ -2681,6 +2824,38 @@ window.COMPETITORS = [
       "ETL / ELT / Integration"
     ],
     battlecardUrl: "https://actian.atlassian.net/wiki/spaces/ACI/pages/1731198997/Competitor+Profile+Acceldata",
+    topCountries: [
+      {
+        country: "India",
+        count: 11
+      },
+      {
+        country: "Canada",
+        count: 5
+      },
+      {
+        country: "United States",
+        count: 3
+      },
+      {
+        country: "United Kingdom",
+        count: 1
+      }
+    ],
+    recentCountries: [
+      {
+        country: "India",
+        count: 3
+      },
+      {
+        country: "Canada",
+        count: 1
+      },
+      {
+        country: "United States",
+        count: 1
+      }
+    ],
     threat: "HIGH",
     intensity: "HIGH",
     postingCount: 21,
@@ -3338,6 +3513,8 @@ window.COMPETITORS = [
       "ETL / ELT / Integration"
     ],
     battlecardUrl: "",
+    topCountries: [],
+    recentCountries: [],
     threat: "MEDIUM",
     intensity: "LOW",
     postingCount: 1,
@@ -3518,6 +3695,8 @@ window.COMPETITORS = [
       "Agent Observability"
     ],
     battlecardUrl: "https://actian.atlassian.net/wiki/spaces/ACI/pages/1517551620/Competitor+Profile+Monte+Carlo",
+    topCountries: [],
+    recentCountries: [],
     threat: "MEDIUM",
     intensity: "PRODUCT",
     postingCount: 0,
@@ -3641,6 +3820,8 @@ window.COMPETITORS = [
       "ETL / ELT / Integration"
     ],
     battlecardUrl: "https://actian.atlassian.net/wiki/spaces/ACI/pages/2375024675/Competitor+Profile+Qdrant",
+    topCountries: [],
+    recentCountries: [],
     threat: "MEDIUM",
     intensity: "MARKET",
     postingCount: 0,
@@ -8078,6 +8259,14 @@ function HiringPage({ onOpen, lens, q, theme }) {
                 <div className="hi-bar-meta">
                   <span className="hi-bar-val">{c.postingCount}</span>
                   <span className="hi-bar-fn">{c.dominantFunction}</span>
+                  {(c.topCountries && c.topCountries[0]) ? (
+                    <span style={{
+                      fontSize:"11px", color:"var(--ink-mute)",
+                      fontFamily:"var(--font-mono)", whiteSpace:"nowrap",
+                    }} title={(c.topCountries || []).map(x => x.country + " " + x.count).join(" · ")}>
+                      {c.topCountries[0].country}{c.topCountries.length > 1 ? ` +${c.topCountries.length - 1}` : ""}
+                    </span>
+                  ) : null}
                   <window.ThreatBadge level={c.threat} />
                 </div>
               </div>
@@ -8085,6 +8274,75 @@ function HiringPage({ onOpen, lens, q, theme }) {
           })}
         </div>
       </div>
+
+      {/* Section 1.5 — Geographic footprint */}
+      {(window.COUNTRIES && window.COUNTRIES.length > 0) && (() => {
+        const totalCountryRoles = window.COUNTRIES.reduce((s, c) => s + c.count, 0);
+        // Companies with active 30-day expansion (recent country count > 0)
+        const expanding = filtered
+          .filter(c => c.recentCountries && c.recentCountries.length > 0)
+          .map(c => ({
+            name: c.name,
+            threat: c.threat,
+            primary: (c.topCountries && c.topCountries[0]) ? c.topCountries[0].country : null,
+            recent: c.recentCountries,
+            id: c.id,
+          }))
+          .filter(e => e.recent.some(r => r.count > 0));
+        return (
+          <div className="hi-section">
+            <div className="hi-sec-head">
+              <div className="hi-sec-head-l">
+                <h2 className="list-h">Geographic footprint</h2>
+                <span className="list-count">{window.COUNTRIES.length} countries</span>
+              </div>
+              <span style={{ fontSize:"12px", color:"var(--ink-mute)" }}>
+                Where competitors are hiring · last 30 days highlights active expansion
+              </span>
+            </div>
+            <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:"24px", padding:"4px 0"}}>
+              {/* Left: overall country distribution */}
+              <div>
+                <div style={{fontSize:"11px", textTransform:"uppercase", letterSpacing:"0.08em", color:"var(--ink-mute)", marginBottom:"10px", fontFamily:"var(--font-mono)"}}>
+                  Top hiring countries · all 11 V2 competitors
+                </div>
+                {window.COUNTRIES.slice(0, 8).map(c => {
+                  const pct = totalCountryRoles > 0 ? (c.count / window.COUNTRIES[0].count) * 100 : 0;
+                  return (
+                    <div key={c.country} style={{display:"flex", alignItems:"center", gap:"10px", padding:"5px 0", fontSize:"13px"}}>
+                      <span style={{minWidth:"120px", color:"var(--ink)"}}>{c.country}</span>
+                      <div style={{flex:1, height:"5px", background:"var(--bg-sunk)", borderRadius:"3px", overflow:"hidden"}}>
+                        <div style={{width: pct + "%", height:"100%", background:"oklch(0.62 0.18 248)", borderRadius:"3px"}} />
+                      </div>
+                      <span style={{fontFamily:"var(--font-mono)", fontSize:"12px", color:"var(--ink-soft)", minWidth:"32px", textAlign:"right"}}>{c.count}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              {/* Right: active expansion in last 30 days */}
+              <div>
+                <div style={{fontSize:"11px", textTransform:"uppercase", letterSpacing:"0.08em", color:"var(--ink-mute)", marginBottom:"10px", fontFamily:"var(--font-mono)"}}>
+                  Active expansion · last 30 days
+                </div>
+                {expanding.length === 0 ? (
+                  <div style={{fontSize:"13px", color:"var(--ink-mute)", fontStyle:"italic"}}>No recent geographic activity in current view.</div>
+                ) : expanding.map(e => {
+                  const t = window.THREAT[e.threat];
+                  return (
+                    <div key={e.id} onClick={() => onOpen(e.id)} style={{padding:"7px 0", borderTop:"1px solid var(--border)", cursor:"pointer", display:"flex", alignItems:"center", gap:"8px", fontSize:"13px"}}>
+                      <span style={{width:"6px", height:"6px", borderRadius:"50%", background: t.dot}} />
+                      <span style={{minWidth:"100px", fontWeight:600}}>{e.name}</span>
+                      <span style={{flex:1, color:"var(--ink-soft)", fontFamily:"var(--font-mono)", fontSize:"11.5px"}}>
+                        {e.recent.slice(0, 4).map(r => `${r.country} ${r.count}`).join(" · ")}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Section 2 — What they're building (implications feed) */}
       <div className="hi-section">

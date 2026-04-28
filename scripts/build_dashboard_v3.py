@@ -20,6 +20,10 @@ from pathlib import Path
 from datetime import datetime, date
 from collections import defaultdict
 
+# Pull shared country normalizer from src/
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+from geo import country_from_location
+
 # ── Repo root (script lives in scripts/) ────────────────────────────────────
 REPO = Path(__file__).parent.parent
 DATA_DIR = REPO / "data"
@@ -197,6 +201,49 @@ def load_function_breakdown(csv_path, allowed_companies):
     return per_company
 
 
+def load_country_breakdown(csv_path, allowed_companies):
+    """Read jobs_enriched_v2.csv and return per-company country distributions.
+
+    Returns:
+      {company: {"top": [(country, count), ...], "recent": [(country, count_30d), ...]}}
+    """
+    per_company = defaultdict(lambda: {"all": defaultdict(int), "recent": defaultdict(int)})
+    overall = defaultdict(int)
+    try:
+        with open(csv_path, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                company = row.get('Company', '').strip()
+                if company not in allowed_companies:
+                    continue
+                country = country_from_location(row.get('Location', ''))
+                per_company[company]["all"][country] += 1
+                overall[country] += 1
+                try:
+                    days = int(float(row.get("Days Since Posted") or 9999))
+                except (ValueError, TypeError):
+                    days = 9999
+                if days <= 30:
+                    per_company[company]["recent"][country] += 1
+    except FileNotFoundError:
+        pass
+
+    out = {}
+    for company, dists in per_company.items():
+        # Drop "Unknown" from headline lists unless it's everything
+        named_all = {k: v for k, v in dists["all"].items() if k != "Unknown"}
+        named_recent = {k: v for k, v in dists["recent"].items() if k != "Unknown"}
+        all_sorted = sorted((named_all or dists["all"]).items(), key=lambda x: -x[1])[:5]
+        recent_sorted = sorted((named_recent or dists["recent"]).items(), key=lambda x: -x[1])[:5]
+        out[company] = {"top": all_sorted, "recent": recent_sorted}
+
+    overall_named = {k: v for k, v in overall.items() if k != "Unknown"}
+    out["__overall__"] = {
+        "top": sorted((overall_named or overall).items(), key=lambda x: -x[1])[:10],
+    }
+    return out
+
+
 def build_function_trends(per_company, allowed_companies):
     """Cross-company count for each target function."""
     trends = {}
@@ -372,8 +419,9 @@ def load_battlecards(csv_path):
     return out
 
 
-def build_competitors(signals, verdicts, per_company=None, comp_signals=None, news=None, battlecards=None):
+def build_competitors(signals, verdicts, per_company=None, comp_signals=None, news=None, battlecards=None, country_breakdown=None):
     battlecards = battlecards or {}
+    country_breakdown = country_breakdown or {}
     # Index by lower-cased name for fuzzy matching
     sig_index = {s["company"].lower(): s for s in signals}
     vrd_index = {}
@@ -455,6 +503,10 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
         product_areas = verdict.get("product_areas") or [area]
         verdict_themes = verdict.get("themes") or []
         battlecard_url = battlecards.get(company, "")
+        # Geographic footprint (top countries + active expansion in last 30d)
+        cb = country_breakdown.get(company, {})
+        top_countries = [{"country": c, "count": n} for c, n in cb.get("top", [])]
+        recent_countries = [{"country": c, "count": n} for c, n in cb.get("recent", [])]
 
         comp = {
             "id": re.sub(r"[^a-z0-9]", "", company.lower()),
@@ -463,6 +515,8 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
             "areas": product_areas,
             "themes": verdict_themes,
             "battlecardUrl": battlecard_url,
+            "topCountries": top_countries,
+            "recentCountries": recent_countries,
             "threat": threat,
             "intensity": intensity,
             "postingCount": posting_count,
@@ -629,7 +683,7 @@ def to_js_value(val, indent=0):
     return f'"{val}"'
 
 
-def generate_data_js(competitors, launches, events, function_trends=None, news=None):
+def generate_data_js(competitors, launches, events, function_trends=None, news=None, overall_countries=None):
     lines = []
 
     # claude fallback
@@ -650,6 +704,10 @@ def generate_data_js(competitors, launches, events, function_trends=None, news=N
 
     # TEAMS
     lines.append("window.TEAMS = " + to_js_value(TEAMS) + ";")
+    lines.append("")
+
+    # OVERALL COUNTRY FOOTPRINT (top 10)
+    lines.append("window.COUNTRIES = " + to_js_value(overall_countries or []) + ";")
     lines.append("")
 
     # COMPETITORS
@@ -705,11 +763,17 @@ def main():
     battlecards = load_battlecards(DATA_DIR / "competitors.csv")
     print(f"    {len(battlecards)} battlecard URLs loaded")
 
+    print("  Computing per-company country breakdown...")
+    country_breakdown = load_country_breakdown(DATA_DIR / "jobs_enriched_v2.csv", allowed)
+    overall_countries = [{"country": c, "count": n} for c, n in country_breakdown.get("__overall__", {}).get("top", [])]
+    print(f"    {len(overall_countries)} countries in overall footprint")
+
     # Build COMPETITORS
     print("  Building COMPETITORS array...")
     competitors = build_competitors(
         signals, verdicts, per_company,
         comp_signals=comp_signals, news=news, battlecards=battlecards,
+        country_breakdown=country_breakdown,
     )
     print(f"    {len(competitors)} competitors built")
     for c in competitors:
@@ -722,7 +786,7 @@ def main():
 
     # Generate data JS
     print("  Generating JS data block...")
-    data_js = generate_data_js(competitors, launches, events, function_trends, news)
+    data_js = generate_data_js(competitors, launches, events, function_trends, news, overall_countries)
 
     # Load template
     print(f"  Loading template: {TEMPLATE}")
