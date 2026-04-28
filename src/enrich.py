@@ -79,8 +79,13 @@ FIELDNAMES = [
     "Company_Group", "Product_Focus", "Product_Focus_Tokens",
     "Primary_Skill", "Extracted_Skills",
     "Relevancy_to_Actian", "Trend_Score",
+    "AI_Analyst_Overlap",  # yes/no/(blank if not classified)
     "First_Seen", "Last_Seen", "Description",
 ]
+
+# Companies whose primary product area is AI Analyst — the only ones we
+# classify against Actian's AI Analyst scope today.
+AI_ANALYST_COMPANIES = {"Snowflake", "Databricks"}
 
 # ══════════════════════════════════════════════════════════════════════════
 # COMPANY GROUPS (loaded from competitors.csv when available)
@@ -669,6 +674,92 @@ def classify_batch(titles: list[str], descriptions: list[str] | None = None) -> 
     return [_fallback_classify(t, d) for t, d in zip(titles, descs)]
 
 
+# ══════════════════════════════════════════════════════════════════════════
+# AI ANALYST OVERLAP CLASSIFIER (DeepSeek)
+# ══════════════════════════════════════════════════════════════════════════
+
+_AI_ANALYST_SYSTEM = """\
+You decide whether a job posting is relevant to Actian's AI Analyst product scope.
+
+Actian's AI Analyst competes with Databricks Genie, Snowflake Cortex/Intelligence,
+ThoughtSpot, Sigma. The product is: AI-powered analytics that lets business users
+ask questions of their data in natural language and get sourced, governed answers
+— with conversational data analysis, semantic-layer-grounded NL2SQL, AI agents
+that act on structured business data, outcome-driven AI for analytics.
+
+A role IS relevant if it directly contributes to building, shipping, marketing,
+or selling capabilities like:
+  - Conversational analytics / NL2SQL / text-to-SQL
+  - AI agents that query/act on structured data
+  - Semantic layer + AI / metrics layer
+  - LLM-grounded analytics, RAG over warehouses
+  - AI assistant inside a BI/analytics tool
+  - Outcome-driven AI for business metrics
+
+A role is NOT relevant if it's about:
+  - Generic platform/infra/SRE not tied to AI analytics
+  - General software engineering with no AI angle
+  - Sales/marketing for non-analytics products
+  - HR, finance, legal, recruiting
+  - Customer support not specific to AI products
+  - Generic data engineering (ETL only) without AI assistant work
+
+Reply with ONLY one word: yes or no. No explanation.
+"""
+
+
+def _classify_one_ai_analyst(title: str, description: str) -> str:
+    """Returns 'yes' or 'no' — DeepSeek-classified AI Analyst overlap."""
+    if not DEEPSEEK_API_KEY:
+        return ""  # leave blank when API not available
+    user_msg = f"Title: {title}\nDescription: {(description or '')[:600]}"
+    raw = _call_deepseek(_AI_ANALYST_SYSTEM, user_msg, max_tokens=4)
+    if not raw:
+        return ""
+    answer = raw.strip().lower().split()[0] if raw.strip() else ""
+    if answer.startswith("yes"):
+        return "yes"
+    if answer.startswith("no"):
+        return "no"
+    return ""
+
+
+def classify_ai_analyst_overlap(rows: list[dict]) -> None:
+    """
+    Mutates `rows` in-place, adding AI_Analyst_Overlap = 'yes' | 'no' | ''.
+    Currently runs only for AI_ANALYST_COMPANIES (Snowflake + Databricks).
+    Other rows get blank — they're not in the AI Analyst competitive scope.
+    """
+    if not DEEPSEEK_API_KEY:
+        print("[AI-Analyst] DEEPSEEK_API_KEY not set — skipping overlap classification")
+        return
+
+    target = [r for r in rows if r.get("Company") in AI_ANALYST_COMPANIES]
+    if not target:
+        return
+
+    print(f"\n[AI-Analyst] Classifying {len(target)} jobs from {sorted(AI_ANALYST_COMPANIES)} for AI Analyst overlap...")
+    yes_count = 0
+    for i, row in enumerate(target):
+        # Skip if already classified (incremental — only re-run on new rows)
+        existing = (row.get("AI_Analyst_Overlap") or "").strip().lower()
+        if existing in ("yes", "no"):
+            if existing == "yes":
+                yes_count += 1
+            continue
+        title = row.get("Job Title", "")
+        desc = row.get("Description", "")
+        verdict = _classify_one_ai_analyst(title, desc)
+        row["AI_Analyst_Overlap"] = verdict
+        if verdict == "yes":
+            yes_count += 1
+        if (i + 1) % 25 == 0:
+            print(f"  [{i+1}/{len(target)}] classified — {yes_count} overlap so far")
+        time.sleep(0.05)  # gentle rate limit
+
+    print(f"[AI-Analyst] Done — {yes_count}/{len(target)} flagged as AI Analyst overlap")
+
+
 def _fallback_classify(title: str, description: str = "") -> dict:
     """Regex classification using title + description for best accuracy."""
     t = (title or "").lower()
@@ -1084,12 +1175,23 @@ def _infer_roadmap(company: str, company_group: str, n: int, all_titles: list[st
 
 
 def generate_signals(enriched_rows: list[dict]) -> list[dict]:
-    """Generate strategic signals for each company with 3+ postings."""
+    """Generate strategic signals for each company with 3+ postings.
+
+    For AI Analyst companies (Snowflake, Databricks), only count and analyse roles
+    flagged AI_Analyst_Overlap=yes — narrows signal scope to actual AI Analyst
+    competition rather than every open role at those companies.
+    """
     by_company: dict[str, list[dict]] = defaultdict(list)
     for row in enriched_rows:
         company = row.get("Company", "")
-        if company:
-            by_company[company].append(row)
+        if not company:
+            continue
+        # AI Analyst scope filter — drop roles classified as not-overlapping
+        if company in AI_ANALYST_COMPANIES:
+            overlap = (row.get("AI_Analyst_Overlap") or "").strip().lower()
+            if overlap == "no":
+                continue
+        by_company[company].append(row)
 
     signals = []
     eligible = {c: rows for c, rows in by_company.items() if len(rows) >= 3}
@@ -1858,6 +1960,9 @@ def enrich(
              and not is_junk_job(v.get("Job Title", ""))}
 
     out = sorted(dedup.values(), key=lambda x: (x.get("Company", ""), x.get("Job Title", "")))
+
+    # ── AI Analyst overlap classification (Snowflake + Databricks only) ────
+    classify_ai_analyst_overlap(out)
 
     with open(enriched_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=FIELDNAMES, extrasaction="ignore")
