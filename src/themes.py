@@ -100,23 +100,37 @@ def aggregate_themes(items: Iterable[dict]) -> list[str]:
 # ── Multi-area mapping: which Actian product areas does a theme touch? ────
 # Used by verdict_engine to expand a verdict's `product_areas` array beyond
 # the company's primary area when their signals span multiple areas.
+#
+# Mapping is INTENTIONALLY SPARSE. Only themes that unambiguously denote
+# competition in a specific Actian product area get mapped. Generic themes
+# (ETL, MCP, Lakehouse) are NOT mapped — almost every vendor touches them,
+# so mapping them would pollute every area filter with every vendor.
+#
+# A vendor only appears in a non-primary area if a hard-signal theme tied to
+# that area is present (e.g. Conversational Analytics → AI Analyst).
 
 THEME_TO_PRODUCT_AREAS: dict[str, tuple[str, ...]] = {
+    # AI Analyst — direct, unambiguous AI-on-analytics competition only
     "Agentic BI":                            ("AI Analyst",),
     "Conversational Analytics":              ("AI Analyst",),
-    "Embedded Analytics":                    ("AI Analyst",),
-    "Semantic / Metrics Layer":              ("Data Intelligence", "AI Analyst"),
-    "AI-Ready Data":                         ("Data Intelligence", "VectorAI"),
-    "Data Products / Contracts":             ("Data Intelligence",),
-    "Data / AI Governance":                  ("Data Intelligence",),
-    "Observability / Quality / Lineage":     ("Data Observability",),
+
+    # Data Intelligence — catalog/governance pure plays
     "Catalog / Metadata / Knowledge Graph":  ("Data Intelligence",),
-    "Unstructured Data":                     ("VectorAI",),
-    "Vector / RAG / Retrieval":              ("VectorAI",),
-    "Lakehouse / Warehouse / HTAP / Postgres": ("AI Analyst",),
-    "ETL / ELT / Integration":               ("AI Analyst", "Data Intelligence"),
-    "MCP for Data":                          ("AI Analyst", "Data Intelligence"),
+    "Data / AI Governance":                  ("Data Intelligence",),
+
+    # Data Observability — quality/lineage/agent observability
+    "Observability / Quality / Lineage":     ("Data Observability",),
     "Agent Observability":                   ("Data Observability",),
+
+    # VectorAI — vector / unstructured retrieval
+    "Vector / RAG / Retrieval":              ("VectorAI",),
+    "Unstructured Data":                     ("VectorAI",),
+
+    # The following are intentionally NOT mapped (too generic to assign cleanly):
+    # - Embedded Analytics, Semantic / Metrics Layer, AI-Ready Data,
+    # - Data Products / Contracts, Lakehouse / Warehouse / HTAP / Postgres,
+    # - ETL / ELT / Integration, MCP for Data
+    # These themes still surface via the theme filter, just don't pollute areas.
 }
 
 
@@ -124,6 +138,7 @@ def derive_product_areas(primary: str, themes: list[str]) -> list[str]:
     """
     Compute the multi-area list for a verdict given its primary area and
     aggregated theme set. Primary always first. De-dupes while preserving order.
+    Only direct, unambiguous theme→area mappings expand beyond primary.
     """
     out = [primary] if primary else []
     for theme in themes:

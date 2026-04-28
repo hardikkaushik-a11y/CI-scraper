@@ -94,17 +94,20 @@ def extract_team_action(recommended_actions, team_keyword):
 
 def build_signals(implications):
     """
-    Take first 4 implications, create signal chips with short labels.
+    Take first 4 implications and create signal chips. Use the full clause
+    before the em-dash separator (the "what they're doing" half), but never
+    cut mid-word — the dashboard handles overflow with wrap, not truncation.
     """
     chips = []
     for impl in (implications or [])[:4]:
-        # Extract text before em dash, first comma, or truncate at 45 chars
+        # Extract text before em dash (drop the "why it matters" half).
+        # Comma is NOT a separator (cuts mid-clause).
         label = impl
-        for sep in [" — ", " – ", " - ", ", "]:
+        for sep in [" — ", " – "]:
             if sep in label:
                 label = label.split(sep)[0]
                 break
-        label = label[:45].strip()
+        label = label.strip()
         chips.append({
             "label": label,
             "weight": {"All": 1, "Product": 1}
@@ -225,17 +228,17 @@ def derive_team_actions(company, threat, verdict, recommended_actions, fallback)
             break
     base = specific or fallback
 
-    def clip(s, n=180):
-        s = s.strip()
-        return s[:n].rsplit(" ", 1)[0] + "…" if len(s) > n else s
+    # No truncation — render full sentences. UI handles wrapping.
+    def s(x):
+        return (x or "").strip()
 
     return {
-        "All": clip(base),
-        "Product": clip(primary or what or base),
-        "PMM": clip(f"Update {company} battlecard — {overlap or why or base}") if overlap or why else clip(base),
-        "Marketing": clip(why or what or base),
-        "SDRs": clip(f"At-risk accounts: {at_risk}. {base}" if at_risk else base),
-        "Executives": clip(why or base) if threat in ("CRITICAL", "HIGH") else f"Monitor {company} — {threat.title()} threat.",
+        "All": s(base),
+        "Product": s(primary or what or base),
+        "PMM": s(f"Update {company} battlecard — {overlap or why or base}") if overlap or why else s(base),
+        "Marketing": s(why or what or base),
+        "SDRs": s(f"At-risk accounts: {at_risk}. {base}" if at_risk else base),
+        "Executives": s(why or base) if threat in ("CRITICAL", "HIGH") else f"Monitor {company} — {threat.title()} threat.",
     }
 
 
