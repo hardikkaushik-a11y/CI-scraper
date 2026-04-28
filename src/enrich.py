@@ -1156,12 +1156,18 @@ Return ONLY the JSON object, no markdown fences or other text."""
         if parsed:
             # Ensure required keys are present; fill from fallback if missing
             fallback = _fallback_signal(company, company_group, rows)
+            # Always overwrite metadata fields that LLM doesn't compute (counts, groups, dates)
+            parsed["posting_count"] = fallback.get("posting_count", len(rows))
+            parsed["company_group"] = fallback.get("company_group", company_group)
+            parsed["last_updated"] = fallback.get("last_updated", "")
             for key in ("company", "hiring_intensity", "dominant_function",
-                        "dominant_product_focus", "threat_level", "last_updated"):
+                        "dominant_product_focus", "threat_level"):
                 if key not in parsed or not parsed[key]:
                     parsed[key] = fallback[key]
             parsed.setdefault("signal_summary", fallback.get("signal_summary", ""))
             parsed.setdefault("implications", fallback.get("implications", []))
+            parsed.setdefault("roadmap", fallback.get("roadmap", {}))
+            parsed.setdefault("recommended_actions", fallback.get("recommended_actions", []))
             parsed.setdefault("watch_for", fallback.get("watch_for", []))
             parsed.setdefault("recommended_actions", fallback.get("recommended_actions", []))
             signals.append(parsed)
