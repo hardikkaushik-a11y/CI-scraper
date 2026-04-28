@@ -1,5 +1,30 @@
 [
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "IMDA GenAI Digital Leaders Kickstart Clinic",
+    "url": "https://www.snowflake.com/event/imda-snowflake-genai-jump-start/",
+    "published_date": "2026-04-28",
+    "summary": "Snowflake is hosting an IMDA GenAI Digital Leaders Kickstart Clinic on 15 May at its Singapore office, signaling deepened engagement in APAC GenAI thought leadership and enterprise adoption events.",
+    "actian_relevance": "medium",
+    "tags": [
+      "GenAI",
+      "enterprise",
+      "Singapore",
+      "thought leadership"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-15",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-28"
+  },
+  {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
