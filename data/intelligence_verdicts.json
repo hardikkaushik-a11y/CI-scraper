@@ -13,38 +13,38 @@
     ],
     "signal_type": "hiring + event",
     "impact_level": "product",
-    "what_is_happening": "Atlan announced product launches at its virtual Atlan Activate event on April 29, 2026, including conversational search, data quality, and agentic steward capabilities. Concurrently, Atlan is hiring 11 roles, with 7 senior engineering hires (Principal/Staff/Sr. Engineering Manager) across India, US, and Mexico focused on platform/infra, and 2 senior Sales Engineers for US and UK. They also added a 'Security Engineer (Automation & AI)' and a 'Sr. Cybersecurity Engineer' in India, signaling a push toward enterprise-grade security and automated compliance.",
-    "why_it_matters": "Atlan's simultaneous GTM expansion and product launches directly challenge Actian's data catalog and governance narrative, especially in EMEA and North America. Their AI-driven features (conversational search, agentic stewards) could erode Actian's differentiation in metadata management unless Actian can demonstrate superior integration maturity or security compliance.",
-    "primary_interpretation": "Atlan is executing a coordinated GTM and engineering strategy to position itself as the AI-ready data catalog for large enterprises, using new product features to attract prospects at key summits (Data Innovation Summit, Gartner EMEA) and building global support infrastructure to close deals.",
-    "alternative_interpretation": "The security hires and engineering ramp may be reactive, addressing compliance gaps exposed by existing enterprise customers, rather than a proactive competitive move against Actian. The sales engineer hires in US/UK could be to replace churn rather than net-new expansion.",
+    "what_is_happening": "Atlan has 11 active job postings with 6 senior/principal engineer roles focused on platform and infra scalability, plus a security engineer and cybersecurity engineer, indicating enterprise readiness. On April 29, 2026, at its Atlan Activate virtual event, it launched conversational search, data quality, and agentic steward capabilities—directly targeting data catalog and governance with AI-driven features. Atlan is also exhibiting at Gartner EMEA Data & Analytics Summit in London on May 11, 2026, and at Data Innovation Summit 2026 in Stockholm on May 6, 2026.",
+    "why_it_matters": "Atlan's AI-enhanced data catalog and governance features directly compete with Actian's data management and integration offerings in enterprise accounts, especially in regulated industries where compliance and security are key. Their combined event presence in Europe and NA, plus hiring for sales engineers in the US and UK, signals a targeted GTM push that could erode Actian's deal win rates in mid-market and regulated enterprise segments.",
+    "primary_interpretation": "Atlan is executing a coordinated product and GTM strategy to capture enterprise data intelligence market share by integrating AI into its catalog platform—conversational search, data quality, agentic stewards—while scaling engineering for platform reliability and security, and investing in direct sales coverage in key markets (US, UK, Europe) to win regulated accounts.",
+    "alternative_interpretation": "The hiring of 11 roles (including 2 implementation engineers and 2 sales engineers) is modest, suggesting the product launches may be early-stage or feature-limited, and Atlan may struggle to deliver enterprise-grade reliability and support at scale. The residual uncertainty is whether they can maintain execution velocity post-launch.",
     "hiring_event_correlation": {
       "strength": "moderate",
-      "explanation": "7 engineering roles (platform/infra focus) plus 2 security engineer hires correlate with product launches but volume (11 total) is below the 20-role threshold for 'strong'; GTM hires (2 Sales Engineers) directly support event presence in London and Stockholm."
+      "explanation": "6 engineering roles plus a security engineer directly support the platform and security focus of the product launches, but total hiring volume of 11 roles is below the 20-role threshold for strong correlation."
     },
     "competitive_impact": {
-      "overlap_with_actian": "yes, direct overlap in data catalog, governance, and metadata management",
-      "at_risk_segments": "Enterprise mid-market in EMEA (UK, Nordic) and North America; financial services and regulated industries requiring AI governance",
-      "type_of_move": "expansion"
+      "overlap_with_actian": "yes, data catalog, data governance, and data integration segments",
+      "at_risk_segments": "mid-market enterprises in Europe (DACH, Nordics) and NA, regulated industries (financial services, healthcare) requiring compliance and AI-driven governance",
+      "type_of_move": "platform"
     },
     "confidence": "medium",
-    "confidence_reasoning": "Product launch details (conversational search, data quality, agentic stewards) are confirmed via multiple April 27 competitive signals; hiring data is specific (11 roles, 7 engineering, 2 sales engineers) but lacks volume for 'high' confidence in strategic correlation.",
-    "recommended_action": "PMM should prepare a competitive battle card for Actian reps at Gartner EMEA (May 11) highlighting Actian's superior data integration maturity and security compliance versus Atlan's new AI features, citing specific Atlan product gaps (lack of vector DB support, unproven agentic stewards in production).",
+    "confidence_reasoning": "Product launch evidence (Atlan Activate) is strong and highly relevant, but hiring signals are limited to 11 roles with no GTM hiring surge, and we lack press release confirmation of the launch scope. The combination is consistent but not overwhelming.",
+    "recommended_action": "PMM should run a competitive brief this week mapping Atlan's new agentic steward and data quality features against Actian's current data catalog capabilities to identify gaps, and Product should accelerate Actian's AI governance narrative in Q2 2026 roadmap reviews.",
     "team_routing": [
+      "Product",
       "PMM",
       "Marketing",
       "SDRs",
-      "Product",
       "Executives"
     ],
     "team_relevance": {
-      "product": 3,
+      "product": 5,
       "pmm": 5,
       "marketing": 4,
-      "sdrs": 4,
-      "executives": 3
+      "sdrs": 3,
+      "executives": 4
     },
-    "last_updated": "2026-04-28",
-    "_input_hash": "71dbc0d8009c8da0"
+    "last_updated": "2026-04-29",
+    "_input_hash": "c3e4172b1fa9aae0"
   },
   {
     "company": "Collibra",
@@ -62,22 +62,22 @@
     ],
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Collibra is executing a multi-pronged platform shift: hiring 45 roles (6 AI/ML, 4 GTM, high seniority ratio of 67%), launching an AI Governance dashboard with trust scores and automated AI model registration (March 31, 2026), and announcing Data Access and Data Products features. This is supported by a partnership with Google Cloud (April 22, 2026) and a blitz of 14+ events (April–June 2026) including SAP Sapphire, Gartner Data & Analytics Summit, and Snowflake Summit.",
-    "why_it_matters": "Collibra's AI governance suite (trust scores, AI command center) directly threatens Actian's data catalog and governance positioning in the enterprise AI era. Their GTM push into Snowflake, SAP, and Google Cloud ecosystems could displace Actian from strategic accounts where data integration and catalog are pre-sales hooks.",
-    "primary_interpretation": "Collibra is building an AI-native governance platform layer to own the 'trust layer' for enterprise AI, using hiring (AI/ML engineers, enterprise GTM) and events (Snowflake Summit, SAP Sapphire) to lock-in key cloud ecosystems and displace standalone catalog/integration vendors like Actian.",
-    "alternative_interpretation": "Collibra may be over-investing ahead of a potential down-market pivot; their hiring focus on senior architects (67%) suggests they are building for a platform rewrite, not just feature shipping. If the AI governance features are pre-mature, the GTM blitz could accelerate churn from enterprises that find the tool too rigid.",
+    "what_is_happening": "Collibra is hiring 5 Senior AI Engineers in Brussels, Prague, and NY to build a vector-ready governance layer for unstructured data, and has launched an AI Governance dashboard (March 31, 2026), AI trust score, and Data Access product. They are hosting 10+ events in April-May 2026 including an AI command center virtual event (April 30) and an unstructured data AI readiness session (May 5), targeting SAP and Snowflake ecosystems.",
+    "why_it_matters": "Collibra's platform shift into unstructured data governance and AI readiness directly threatens Actian's data catalog, governance, and embedded analytics positions by embedding compliance into AI workflows, potentially preempting Actian's upcoming vector/AI launch and eroding Actian's enterprise trust advantage in regulated industries.",
+    "primary_interpretation": "Collibra is executing a coordinated platform play to become the governance layer for AI-ready unstructured data, using 44 total hires (5 AI engineers, 7 GTM staff) and a dense event calendar (12+ events in 5 weeks) to drive adoption before Actian ships its own AI product.",
+    "alternative_interpretation": "Collibra may be over-investing in AI hype without delivering deep integration—their 5 AI engineers are a small team for an ambitious vector catalog, and the events could generate buzz but fail to convert into enterprise deployments against Actian's mature hybrid integration.",
     "hiring_event_correlation": {
-      "strength": "strong",
-      "explanation": "6 AI/ML engineering hires directly support the AI Governance dashboard and trust score launch; 4 GTM hires reinforce event presence at 14+ events; senior hiring ratio (67%) signals a strategic platform build, not a tactical feature."
+      "strength": "moderate",
+      "explanation": "5 AI engineering hires + AI Governance dashboard (March 31) and AI command center event (April 30) show alignment, but 44 total roles include only 5 AI hires, limiting correlation strength."
     },
     "competitive_impact": {
-      "overlap_with_actian": "yes — data catalog, data governance, AI governance, data access management",
-      "at_risk_segments": "enterprise financial services, manufacturing, and regulated industries in North America and Europe (London, Madrid, Stockholm events); data and analytics officer personas at Snowflake/SAP accounts",
+      "overlap_with_actian": "yes - data catalog, governance, AI readiness",
+      "at_risk_segments": "enterprise financial services (BCBS 239 regulatory), SAP customers, Snowflake ecosystem users, regulated EU markets (GDPR-heavy industries)",
       "type_of_move": "platform"
     },
-    "confidence": "high",
-    "confidence_reasoning": "Strong correlation between AI/ML hiring (6 roles) and GA launches of AI Governance dashboard and trust scores; GTM hiring (4 roles) matches 14+ event schedule; consistent messaging across press releases, events, and job postings.",
-    "recommended_action": "Actian PMM must prepare a competitive playbook highlighting Actian's lighter-weight, embeddable data catalog and integration stack against Collibra's heavy governance platform, targeting enterprise prospects who need AI readiness without full governance overhead — present this to SDRs and field teams before the May 11–13 Gartner summit.",
+    "confidence": "medium",
+    "confidence_reasoning": "Strong event signals (12 launches/events) + moderate hiring support (5 AI engineers) reveal clear direction, but small engineering team size and no GA of the vector catalog yet create execution uncertainty.",
+    "recommended_action": "PMM should produce a comparative brief by May 15 showing how Actian's hybrid integration and real-time analytics deliver more predictable AI data pipelines than Collibra's compliance-first approach, targeting accounts at SAP Sapphire Orlando (May 11-13) before Collibra's booths convert leads.",
     "team_routing": [
       "Product",
       "PMM",
@@ -86,14 +86,14 @@
       "Executives"
     ],
     "team_relevance": {
-      "product": 4,
+      "product": 5,
       "pmm": 5,
       "marketing": 4,
-      "sdrs": 3,
-      "executives": 4
+      "sdrs": 4,
+      "executives": 5
     },
-    "last_updated": "2026-04-28",
-    "_input_hash": "e1d7601686eab630"
+    "last_updated": "2026-04-29",
+    "_input_hash": "723d1b53a88e5376"
   },
   {
     "company": "Alation",
@@ -111,22 +111,22 @@
     ],
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Alation has posted 26 jobs, with 14 in platform/infrastructure engineering including 5 Sr. Staff Deployment Strategists, signaling a major push to operationalize cloud-native deployments at scale. Concurrently, on 2026-04-24, Alation announced a COO appointment (Rick Baker), a Critical Data Element Manager for agentic governance, and an Agent Builder for enterprise AI agents. On 2026-04-27, they unveiled an 'Agentic Data Intelligence Platform' integrating a data catalog, governance, and a Data Products Marketplace.",
-    "why_it_matters": "Alation's platform pivot directly challenges Actian's differentiators in ease-of-deployment and time-to-value for data integration, and their Agent Builder and agentic governance suite threaten Actian's upcoming vector/AI product launch by targeting the same enterprise AI agent workflow market.",
-    "primary_interpretation": "Alation is executing a coordinated platform play: scaling cloud infrastructure (14 infra hires) while simultaneously launching agentic AI products (Agent Builder, Critical Data Element Manager) and bringing in a COO (Rick Baker) to manage operational growth — all aimed at capturing enterprise AI governance budgets where Actian competes.",
-    "alternative_interpretation": "The hiring and product launches may be partially reactive to customer pressure for AI features rather than a fully integrated platform strategy; the heavy infra hiring suggests Alation is playing catch-up on cloud maturity, which could delay execution on the agentic vision.",
+    "what_is_happening": "Alation announced Agent Builder (2026-04-24) and a Critical Data Element Manager for agentic governance, alongside a new 'Agentic Data Intelligence Platform' positioning that integrates catalog, governance, and a Data Products Marketplace (2026-04-27). Hiring includes 5 Sr. Staff Deployment Strategists (cloud infra), 2 Product Managers (Redwood City/Chennai), and 4 core engineering roles (Chennai/Redwood City), totaling 25 active job postings concentrated on platform/infra and AI-readiness.",
+    "why_it_matters": "Alation's platform shift from catalog to agentic governance and AI agents directly challenges Actian's differentiation in hybrid data integration and metadata management — if Alation ships seamless multi-cloud governance with AI-driven automation before Actian's vector/AI product reaches GA, it could erode Actian's enterprise deal win rates in regulated verticals (financial services, healthcare) where trust and lineage are critical.",
+    "primary_interpretation": "Alation is executing a deliberate platform expansion from data catalog to agentic data intelligence, using hiring for cloud deployment expertise and product management to accelerate feature parity in governance and AI-readiness, likely aiming to capture Actian's mid-market and enterprise accounts that prioritize automated data quality and lineage over raw integration speed.",
+    "alternative_interpretation": "While the platform narrative is clear, Alation's hiring of only 5 deployment strategists suggests the multi-cloud scalability story may be aspirational — execution risk on delivering turnkey cloud migration and agentic governance at enterprise scale remains high, giving Actian a 1-2 quarter window to reinforce its hybrid integration advantage.",
     "hiring_event_correlation": {
-      "strength": "strong",
-      "explanation": "14 platform/infrastructure engineering roles directly support the GA of the Agentic Data Intelligence Platform and Agent Builder (launched 2026-04-24/27), while the COO hire (Rick Baker) aligns with the operational scale needed for these launches."
+      "strength": "moderate",
+      "explanation": "25 total hires (5 deployment, 2 PM, 4 engineering) align with the Agent Builder and agentic governance launch themes but volume is below the 20-role threshold for 'strong', and GTM hires are absent, limiting the correlation to moderate."
     },
     "competitive_impact": {
-      "overlap_with_actian": "yes, in data catalog, governance, and AI agent workflows",
-      "at_risk_segments": "mid-market to enterprise accounts in financial services, healthcare, and tech where Actian competes on data integration and analytics",
+      "overlap_with_actian": "yes — data catalog and governance features overlap with Actian's metadata management and data integration offerings",
+      "at_risk_segments": "regulated mid-market and enterprise accounts in financial services, healthcare, and DACH region where trust and automated governance are deal-breakers",
       "type_of_move": "platform"
     },
-    "confidence": "high",
-    "confidence_reasoning": "Strong correlation between 14 infra hires and multiple GA product launches (Agent Builder, Critical Data Element Manager, Agentic Data Intelligence Platform) within the same week, plus a COO appointment — signal convergence is unambiguous.",
-    "recommended_action": "PMM should produce a side-by-side comparison of Alation's Agent Builder vs Actian's upcoming vector/AI product within two weeks, highlighting Actian's edge in deployment simplicity and real-time integration that Alation's infra hires have not yet proven.",
+    "confidence": "medium",
+    "confidence_reasoning": "Multiple product launches (Agent Builder, Critical Data Element Manager, agentic platform announcement) and a senior COO appointment provide strong event signals, but hiring volume is moderate (25 roles) and GTM hiring is absent, leaving uncertainty on Alation's go-to-market readiness against Actian's established sales channels.",
+    "recommended_action": "PMM should immediately develop a competitive response brief for the 'Agentic Data Intelligence Platform' targeting the DACH and financial services segments, highlighting Actian's proven hybrid integration and real-time data quality capabilities that Alation's aspirational platform cannot yet match; Product should accelerate the vector/AI product GA timeline to Q2 2026 to preempt Alation's AI agent narrative.",
     "team_routing": [
       "Product",
       "PMM",
@@ -139,10 +139,10 @@
       "pmm": 5,
       "marketing": 4,
       "sdrs": 3,
-      "executives": 5
+      "executives": 4
     },
-    "last_updated": "2026-04-28",
-    "_input_hash": "f9d8c6725bceb100"
+    "last_updated": "2026-04-29",
+    "_input_hash": "236a08674fb46307"
   },
   {
     "company": "Monte Carlo",
@@ -252,67 +252,22 @@
     ],
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Acceldata is executing a platform rebuild from Hadoop-centric monitoring to a cloud-native, open-source data observability stack, backed by 21 active roles, 63% engineering (8+ senior/principal engineers for 'Open Data Platform' ODP). They have scheduled 20+ first-party and partner events through Oct 2026, including Gartner Data & Analytics London, Mumbai, Sydney, Snowflake Summit, Databricks Data + AI Summit, and Evanta CDAO/CIO summits in NY, Chicago, Boston, Toronto, Atlanta, Dallas, UK/Ireland, and Nordics. This is a coordinated GTM assault across North America, EMEA, and APAC, targeting CDOs and CIOs.",
-    "why_it_matters": "Acceldata's open-source ODP pivot threatens to commoditize Actian's proprietary integration and observability story, especially in enterprise accounts evaluating modern, cloud-native alternatives. Their event density in Actian's key markets (NY, Chicago, Toronto, London, Stockholm) creates direct competitive displacement risk in mid-market and enterprise financial services, retail, and public sector segments.",
-    "primary_interpretation": "Acceldata is using a low-cost Bengaluru engineering hub (63% of hires) to accelerate ODP development while saturating Gartner and Evanta events to build mindshare among CDO/CIO decision-makers. This is a classic 'open-core + enterprise events' play to undercut legacy vendors on price and lock in cloud-native buyers.",
-    "alternative_interpretation": "The event-heavy GTM may be a land-grab before a Series B or C funding round to show traction velocity. If ODP is not yet GA or revenue-generating, the 20+ events could be awareness-only, buying time for engineering to ship.",
+    "what_is_happening": "Acceldata is investing in an Open Data Platform (ODP) initiative, staffing 2 Principal/Staff Engineers and multiple senior engineers in Kitchener focused on open-source data platform development, alongside 23 total hires including 3 Technical Account Managers and Product Support Engineers for Hadoop and cloud infrastructure. They are aggressively executing an event marketing strategy with 20+ engagements in 2026 including Gartner Data & Analytics (London, Sydney, Mumbai), Evanta CDAO/CIO summits across US and Europe, and platform-specific events like Databricks Data + AI Summit and Snowflake Summit, all centered on their 'Acceldata Autonomous 26' theme.",
+    "why_it_matters": "Acceldata is pivoting from pure data observability to an integrated data management and migration platform that could directly undercut Actian's legacy modernization (Hadoop-to-cloud) and hybrid integration value proposition, especially among mid-market and enterprise accounts in North America and Europe where they are gearing up sales teams.",
+    "primary_interpretation": "Acceldata is using its data observability foothold as a wedge to expand into Hadoop modernization and open data platform migration services, bundling monitoring with migration support to increase account control and reduce churn — a direct attack on Actian's integration-centric modernization story.",
+    "alternative_interpretation": "The ODP hiring might be R&D for an internal platform to scale observability pipelines, not a customer-facing migration product; however, the Hadoop-specific TAM hires suggest otherwise, confirming a go-to-market migration play.",
     "hiring_event_correlation": {
       "strength": "strong",
-      "explanation": "21 roles (63% engineering, including ODP platform rebuild) + 20+ targeted enterprise events = strong correlation: engineering builds the product while GTM hires and events execute the launch pipeline."
+      "explanation": "23 engineering and GTM hires focused on ODP and Hadoop migration directly reinforce the event blitz (20+ conferences) and the 'Autonomous 26' theme, indicating synchronized product and field readiness."
     },
     "competitive_impact": {
-      "overlap_with_actian": "yes — data observability, data integration replacement",
-      "at_risk_segments": "mid-market financial services, retail, public sector; North America, UK, Nordics, Canada",
+      "overlap_with_actian": "yes — data observability, legacy modernization (Hadoop-to-cloud), and hybrid data integration",
+      "at_risk_segments": "mid-market and enterprise accounts with Hadoop/on-premises workloads in North America and Europe, especially those evaluating cloud migration paths",
       "type_of_move": "platform"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong signal from both hiring (21 roles, specific ODP platform focus) and event pipeline (20+ named events with specific dates/locations) with direct geographical overlap with Actian's core markets.",
-    "recommended_action": "PMM to prepare a 'cloud-native vs. Actian hybrid' battlecard by May 15, 2026, highlighting Actian's legacy integration breadth and hybrid deployment flexibility vs. Acceldata's unproven open-source ODP, and route to SDRs covering Evanta CDAO Chicago (May 19) and Toronto (June 25) events.",
-    "team_routing": [
-      "Product",
-      "PMM",
-      "Marketing",
-      "SDRs",
-      "Executives"
-    ],
-    "team_relevance": {
-      "product": 4,
-      "pmm": 5,
-      "marketing": 5,
-      "sdrs": 4,
-      "executives": 4
-    },
-    "last_updated": "2026-04-28",
-    "_input_hash": "ac59a0f3c3b8b7c8"
-  },
-  {
-    "company": "Pinecone",
-    "product_area": "VectorAI",
-    "product_areas": [
-      "VectorAI"
-    ],
-    "themes": [
-      "Vector / RAG / Retrieval",
-      "ETL / ELT / Integration"
-    ],
-    "signal_type": "hiring + event",
-    "impact_level": "platform",
-    "what_is_happening": "Pinecone is hiring 7 senior roles (Principal PM Database, Staff Database Engineer, Principal PM Knowledge, Staff Experience Platform, Staff Developer Advocate) to build an integrated vector database platform with retrieval and knowledge capabilities. Simultaneously, they announced GA of Dedicated Read Nodes (2026-04-15), BYOC for AWS/GCP/Azure (2026-04-15), a managed knowledge layer (Pinecone Assistant), and a partnership with ZoomInfo and n8n for real-time AI contact recommendations.",
-    "why_it_matters": "Pinecone is transitioning from standalone vector search to a full-stack AI data platform with knowledge management and BYOC deployment, directly threatening Actian's upcoming vector launch and enterprise data residency advantage. Their managed knowledge layer and RAG infrastructure could bypass Actian's traditional ETL and analytics workflows in AI-native applications.",
-    "primary_interpretation": "Pinecone is executing a strategic pivot to become an end-to-end AI data platform, adding knowledge retrieval, enterprise deployment options (BYOC), and bulk metadata operations to capture production AI workloads and bypass traditional data integration pipelines.",
-    "alternative_interpretation": "Pinecone may be over-investing in enterprise features (BYOC, dedicated read nodes, knowledge layer) before achieving product-market fit in the vector database market, facing execution risk if developer adoption of the new knowledge layer lags.",
-    "hiring_event_correlation": {
-      "strength": "moderate",
-      "explanation": "7 senior engineering and GTM roles (Principal PM Database, Staff Database Engineer, Principal PM Knowledge) align with the launch of BYOC and Pinecone Assistant, but hiring volume is below 20 roles, making correlation moderate rather than strong."
-    },
-    "competitive_impact": {
-      "overlap_with_actian": "yes — vector database, knowledge management, and data integration workflows",
-      "at_risk_segments": "enterprise AI/ML teams building RAG applications, mid-market companies seeking managed vector databases with BYOC, and sales intelligence workflows (ZoomInfo partnership)",
-      "type_of_move": "platform"
-    },
-    "confidence": "medium",
-    "confidence_reasoning": "Multiple product announcements (BYOC, Dedicated Read Nodes, Pinecone Assistant, zoomInfo partnership) provide strong event signals, but hiring volume (7 roles) is low for a major platform shift, and the knowledge layer is early-stage with unknown adoption.",
-    "recommended_action": "Product should accelerate Actian's vector launch with a differentiated BYOC option and hybrid transactional/vector capabilities to counter Pinecone's platform play; PMM should position Actian's data integration heritage as superior for enterprise RAG workflows requiring real-time analytics and legacy system connectivity.",
+    "confidence_reasoning": "Strong hiring volume (23 roles) directly maps to ODP and migration support, backed by a dense event calendar (20+ conferences) with consistent messaging — no product GA yet but the pattern is clear.",
+    "recommended_action": "PMM should immediately develop counter-messaging for Hadoop modernization RFPs pairing Actian's integration depth (DataConnect, ActianX) with observability proof points, and Product should accelerate the Vector/AI roadmap's migration toolkit to preempt Acceldata's ODP narrative in Q3 sales cycles.",
     "team_routing": [
       "Product",
       "PMM",
@@ -327,8 +282,51 @@
       "sdrs": 3,
       "executives": 4
     },
-    "last_updated": "2026-04-28",
-    "_input_hash": "e0f64bc30fea2ba5"
+    "last_updated": "2026-04-29",
+    "_input_hash": "cd0afb7bd0a1c87c"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "product_areas": [
+      "VectorAI"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "signal_type": "hiring + event",
+    "impact_level": "product",
+    "what_is_happening": "Pinecone GA'd Dedicated Read Nodes on 2026-04-15 with four new observability and control features, launched BYOC for AWS/GCP/Azure eliminating vendor access, and released a ZoomInfo partnership for real-time AI contact recommendations. Concurrently, Pinecone is hiring 8 roles including 2 Principal PMs (Database + Knowledge) and 2 Staff Engineers for search and retrieval infrastructure, plus a Commercial AE in NYC and a Staff Developer Advocate in SF.",
+    "why_it_matters": "Pinecone's integrated vector storage+retrieval product, combined with enterprise BYOC deployment and NYC sales hiring, directly threatens Actian's upcoming vector/AI launch by offering a more cohesive API-first solution backed by developer community mindshare, particularly in financial/tech hubs.",
+    "primary_interpretation": "Pinecone is accelerating its move from pure vector search infrastructure to a managed production AI knowledge platform, using dedicated read nodes and BYOC to target enterprise workloads that require data residency and observability — exactly the buyers Actian is courting for hybrid analytics.",
+    "alternative_interpretation": "These releases may be defensive parity moves against rivals like Weaviate or Chroma, with the ZoomInfo partnership a niche GTM play; the hiring volume (8 roles) is modest, suggesting product iteration rather than a major platform shift.",
+    "hiring_event_correlation": {
+      "strength": "moderate",
+      "explanation": "Engineering hires (4 senior roles) align with GA of dedicated read nodes and BYOC, but the low hiring volume (8 total) and non-overlapping GTM roles (AE, Dev Advocate) indicate incremental expansion rather than a coordinated big bet."
+    },
+    "competitive_impact": {
+      "overlap_with_actian": "yes — vector database for AI workloads, real-time analytics, and enterprise data deployment controls",
+      "at_risk_segments": "Enterprise financial services in NYC, mid-market tech companies adopting vector AI, and data-sensitive industries requiring BYOC (healthcare, gov)",
+      "type_of_move": "expansion"
+    },
+    "confidence": "medium",
+    "confidence_reasoning": "Product launch dates and hiring signals are consistent, but the hiring volume (8 roles) is too low for strong correlation; the BYOC and ZoomInfo moves are clear enterprise GTM signals but may not yet threaten Actian's core data integration revenue.",
+    "recommended_action": "PMM should immediately map Pinecone's Dedicated Read Node pricing vs Actian's upcoming vector offering and prepare a comparison datasheet highlighting Actian's superior data integration across structured + unstructured workloads, while SDRs in NYC flag any Pinecone BYOC proof-of-concept activity to block.",
+    "team_routing": [
+      "Product",
+      "PMM",
+      "SDRs"
+    ],
+    "team_relevance": {
+      "product": 4,
+      "pmm": 5,
+      "marketing": 2,
+      "sdrs": 3,
+      "executives": 2
+    },
+    "last_updated": "2026-04-29",
+    "_input_hash": "f85bafaedc134bfd"
   },
   {
     "company": "Qdrant",
@@ -343,39 +341,38 @@
       "ETL / ELT / Integration"
     ],
     "signal_type": "event only",
-    "impact_level": "market",
-    "what_is_happening": "Qdrant raised $50M (March 12, 2026) to build composable vector search as core infrastructure, announced a partnership with Twelve Labs and NVIDIA for edge-to-cloud video anomaly detection (March 15, 2026), and shipped Qdrant 1.17 with relevance feedback and search latency improvements (February 20, 2026).",
-    "why_it_matters": "Qdrant's $50M funding and edge AI partnerships pressure Actian's data integration and analytics platform to support real-time, AI-driven vector workloads at the edge, potentially pulling enterprise deals toward specialized vector databases instead of Actian's integrated stack.",
-    "primary_interpretation": "Qdrant is aggressively expanding beyond a standalone vector DB into composable infrastructure with edge AI capabilities, leveraging NVIDIA and Twelve Labs to win enterprise video analytics and IoT workloads that would otherwise require Actian's data pipeline.",
-    "alternative_interpretation": "The lack of hiring signals weakens the narrative; Qdrant may be using the $50M primarily for GTM expansion rather than product buildout, meaning the near-term threat to Actian is market presence, not feature parity.",
+    "impact_level": "product",
+    "what_is_happening": "Qdrant raised $50M on March 12, 2026 to build composable vector search as core infrastructure and launched GPU indexing, multi-AZ support, and audit logging on Qdrant Cloud on April 28, 2026. They also announced a partnership with Twelve Labs and NVIDIA for video anomaly detection from edge to cloud on March 15, 2026.",
+    "why_it_matters": "Qdrant's $50M funding and cloud enhancements—especially GPU indexing and edge-to-cloud AI use cases like video anomaly detection—pressure Actian's data integration and analytics platform to support real-time vector search and embedding workflows, potentially eroding Actian's positioning in AI-driven data pipelines.",
+    "primary_interpretation": "Qdrant is investing its funding to harden the cloud vector database with enterprise features (multi-AZ, audit, GPU indexing) and targeting vertical AI applications (video anomaly detection via Twelve Labs/NVIDIA), aiming to expand beyond vector search into broader AI infrastructure.",
+    "alternative_interpretation": "Given no hiring signal data, the observed product/partnership moves could be pre-revenue marketing for future enterprise sales, and the $50M may be burned on GTM rather than scalable product engineering, delaying direct competition with Actian's integration-focused platform.",
     "hiring_event_correlation": {
       "strength": "none",
-      "explanation": "No hiring signals available, so correlation cannot be assessed despite three high-impact events."
+      "explanation": "No hiring signal data is available, so correlation cannot be assessed."
     },
     "competitive_impact": {
-      "overlap_with_actian": "yes - data integration and real-time analytics for AI workloads, especially edge-to-cloud video pipelines",
-      "at_risk_segments": "enterprise video surveillance, manufacturing IoT, retail anomaly detection, and AI-driven data pipelines in North America and Europe",
+      "overlap_with_actian": "yes — vector database and AI pipeline integration",
+      "at_risk_segments": "enterprises deploying real-time AI use cases (video analytics, anomaly detection, semantic search) in cloud-native environments",
       "type_of_move": "expansion"
     },
     "confidence": "medium",
-    "confidence_reasoning": "Three clear event signals (funding, partnership, product launch) all point in the same strategic direction, but absence of hiring data limits visibility into execution pace and internal investment.",
-    "recommended_action": "PMM should immediately benchmark Actian's data integration platform against Qdrant's edge-to-cloud video anomaly detection pipeline, targeting the same NVIDIA/Twelve Labs partnerships with Actian's real-time data ingestion and transformation capabilities to block this use case.",
+    "confidence_reasoning": "Strong product and partnership signals from newsroom, but lack of hiring data creates uncertainty about actual engineering velocity and GTM execution behind the $50M funding.",
+    "recommended_action": "Product and PMM should audit Actian's vector embedding and real-time AI pipeline capabilities against Qdrant Cloud's GPU indexing and edge-to-cloud video analytics use case, and prepare a technical benchmark comparison for top-of-funnel enterprise deals in verticals like video surveillance and anomaly detection.",
     "team_routing": [
       "Product",
       "PMM",
       "Marketing",
-      "SDRs",
       "Executives"
     ],
     "team_relevance": {
-      "product": 4,
-      "pmm": 5,
-      "marketing": 4,
-      "sdrs": 3,
+      "product": 5,
+      "pmm": 4,
+      "marketing": 3,
+      "sdrs": 1,
       "executives": 4
     },
-    "last_updated": "2026-04-28",
-    "_input_hash": "31ef8120c64cf34d"
+    "last_updated": "2026-04-29",
+    "_input_hash": "60a3f04c1aa0a9ad"
   },
   {
     "company": "Milvus",
@@ -387,23 +384,23 @@
       "Vector / RAG / Retrieval"
     ],
     "signal_type": "hiring + event",
-    "impact_level": "product",
-    "what_is_happening": "Milvus (Zilliz) is hiring 5 Enterprise Account Executives across Tokyo, Austin, London, New York, and Seoul in a single batch, plus a senior Site Reliability Engineer for Cloud Platform and a Staff Software Engineer for Database Systems. It is also a Bronze Sponsor at AWS Summit Japan 2026 and a sponsor at AWS Summit Singapore, both in Q2 2026, and on 2026-02-13 open-sourced its 'memsearch' memory architecture library.",
-    "why_it_matters": "This coordinated global GTM hiring and APAC event sponsorship signals a systematic push to win enterprise vector database workloads, threatening Actian's foothold in real-time analytics and data integration for hybrid cloud accounts in Japan, APAC, and other key regions.",
-    "primary_interpretation": "Milvus is building out a dedicated enterprise sales force and cloud reliability engineering team to support a managed vector database service launch, aiming to convert its open-source developer mindshare into recurring enterprise revenue, particularly in AWS-centric AI workloads.",
-    "alternative_interpretation": "The hiring and events could be a defensive move to shore up existing enterprise accounts against competition from newer vector DB entrants like Pinecone or Weaviate, rather than a direct assault on Actian's core analytics market.",
+    "impact_level": "platform",
+    "what_is_happening": "Milvus is scaling enterprise sales with 5 Enterprise Account Executives in Tokyo, Austin, London, New York, and Seoul, and hiring a Senior Site Reliability Engineer for Cloud Platform in Redwood City and a Staff Software Engineer for Database Systems. It is sponsoring AWS Summit Singapore on 2026-05-05 and AWS Summit Japan 2026 on 2026-06-24, and open-sourced memsearch (hybrid vector search library) on 2026-02-13.",
+    "why_it_matters": "Milvus's enterprise sales build-out, cloud reliability investment, and AWS event presence directly threaten Actian's enterprise accounts in APAC and North America, especially in vector database and real-time analytics workloads where Actian's hybrid integration is a key differentiator.",
+    "primary_interpretation": "Milvus is transitioning from open-source vector database to a commercial enterprise platform, investing in cloud reliability, core engine performance, and regional go-to-market teams to compete for large enterprise deals against Actian and other data infrastructure incumbents.",
+    "alternative_interpretation": "Hiring 8 roles is modest; the sales expansion may be trial-based rather than a full strategic push, and open-sourcing memsearch could be a PR move to drive adoption without immediate enterprise monetization.",
     "hiring_event_correlation": {
       "strength": "moderate",
-      "explanation": "5 AE roles + SRE + Staff DB Engineer (8 total roles) aligned with two AWS Summit sponsorships and a pricing open-source announcement, but hiring volume is below the 20-role threshold for 'strong' correlation."
+      "explanation": "5 sales roles and 2 engineering roles (including SRE for cloud) correlate with AWS Summit sponsorships in APAC, but low hiring volume (8 roles total) weakens the correlation."
     },
     "competitive_impact": {
-      "overlap_with_actian": "yes, in real-time analytics and data management for hybrid enterprise workloads in APAC",
-      "at_risk_segments": "Enterprise accounts in Japan and broader APAC, particularly those already using AWS for AI/ML pipelines and considering vector search or RAG architectures",
+      "overlap_with_actian": "yes, in vector database and enterprise data integration for real-time analytics",
+      "at_risk_segments": "enterprise customers in APAC (Japan, Singapore) and North America, particularly financial services, retail, and manufacturing",
       "type_of_move": "expansion"
     },
-    "confidence": "high",
-    "confidence_reasoning": "Clear alignment between batch enterprise hiring (5 AEs in global hubs) and two AWS Summit sponsorships in high-value APAC markets (Japan, Singapore), plus a concrete open-source release (memsearch) on 2026-02-13. No contradictory signals observed.",
-    "recommended_action": "Actian PMM should immediately brief SDRs in APAC and North America on Milvus's enterprise push, and Product should accelerate validation of Actian's vector/real-time analytics parity in hybrid deployments to arm sales with technical counter-narratives for at-risk accounts.",
+    "confidence": "medium",
+    "confidence_reasoning": "Hiring is low in volume but focused on enterprise sales and cloud reliability; AWS event presence is confirmed but memsearch release is more community-focused than enterprise.",
+    "recommended_action": "PMM and SDRs should prepare a competitive battle card for Milvus targeting APAC enterprise accounts, emphasizing Actian's proven hybrid integration reliability and real-time analytics SLAs over Milvus's still-emerging cloud enterprise story.",
     "team_routing": [
       "Product",
       "PMM",
@@ -412,14 +409,14 @@
       "Executives"
     ],
     "team_relevance": {
-      "product": 4,
+      "product": 3,
       "pmm": 5,
       "marketing": 4,
-      "sdrs": 5,
+      "sdrs": 4,
       "executives": 3
     },
-    "last_updated": "2026-04-28",
-    "_input_hash": "8a66ce08695b5e4f"
+    "last_updated": "2026-04-29",
+    "_input_hash": "bebebcb0197499e3"
   },
   {
     "company": "Snowflake",
@@ -434,22 +431,22 @@
     ],
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Snowflake is executing a major platform shift to an AI-native data control plane, launching multiple products in April 2026: Snowflake Intelligence (AI agent for actionable insights), Cortex Agents (agent platform), Cortex Code (governed AI agent), and Project SnowWork (outcome-driven AI). This is reinforced by 36 job postings with 6 dedicated AI/ML engineering roles and multiple Senior PMs for Applied AI and Snowflake Intelligence.",
-    "why_it_matters": "Snowflake's AI-native platform directly threatens Actian's differentiation in data integration and real-time analytics by offering enterprises a unified, governed AI layer that may eliminate the need for standalone integration or analytics tools, especially in the mid-market and enterprise segments.",
-    "primary_interpretation": "Snowflake is pivoting from a cloud warehouse to an intelligent data orchestration layer, embedding AI agents and governance as native capabilities to capture higher-value workloads upstream of Actian's integration and analytics offerings.",
-    "alternative_interpretation": "Snowflake may be preemptively bundling AI capabilities to defend against emerging AI-native data platforms like Databricks and BigQuery, but execution risk remains in delivering governed agent functionality at enterprise scale.",
+    "what_is_happening": "Snowflake has posted 38 job roles, with a dominant engineering focus (5 senior ML/AI engineers, 3 senior PMs for Cortex Platform and Snowflake Intelligence), and simultaneously launched multiple products: Kafka Connector 4.0 GA (Apr 28), Data Clean Rooms (Apr 28), GPT-5.5 on Cortex AI (Apr 23), Snowflake Intelligence and Cortex Agents (Apr 21-22), and Project SnowWork (Apr 22). This combination signals an aggressive build-out of an AI-native data platform layer that embeds AI agents, automated integration, and governed data collaboration directly into Snowflake's lakehouse.",
+    "why_it_matters": "Snowflake's AI-native push directly attacks Actian's differentiation in hybrid data integration, real-time analytics, and legacy modernization by offering automated, AI-driven alternatives within a single governed platform. Enterprise customers evaluating Actian for cost-effective data management may now see Snowflake as a 'one-stop' AI control plane, increasing churn risk in mid-market and enterprise segments.",
+    "primary_interpretation": "Snowflake is executing a strategic pivot to become the control plane for enterprise AI workloads, using its lakehouse foundation and AI features (Cortex Agents, Snowflake Intelligence) to capture data integration, analytics, and governance use cases that were previously served by best-of-breed tools like Actian. The hiring surge in ML/AI infrastructure and PM roles for Snowflake Intelligence directly aligns with the product launches, indicating a well-resourced, coordinated push.",
+    "alternative_interpretation": "While the signals are strong, Snowflake's AI features (e.g., GPT-5.5, Cortex Agents) may still be in early adoption and lack the depth of Actian's proven hybrid integration for complex on-prem/cloud mixes. Execution risk remains—Snowflake has historically struggled with real-time and hybrid use cases, so the Kafka Connector 4.0 GA may not yet match Actian's streaming reliability for mission-critical workloads.",
     "hiring_event_correlation": {
       "strength": "strong",
-      "explanation": "36 total roles with 6 dedicated AI/ML roles, 2+ AI product managers, and 5 solution engineer roles directly supporting the launch of Cortex Agents, Snowflake Intelligence, and Project SnowWork — hiring volume and function both align with the launch pattern."
+      "explanation": "38 roles, with 8 senior AI/ML engineers and 3 senior PMs for Cortex/Snowflake Intelligence, directly support the simultaneous launch of 6+ AI-native products (Mar-Apr 2026), indicating a well-funded, deliberate platform shift."
     },
     "competitive_impact": {
-      "overlap_with_actian": "yes — directly overlaps with Actian's data integration, real-time analytics, and legacy modernization value props by offering a governed AI control plane that can automate data pipelines and query optimization.",
-      "at_risk_segments": "enterprise financial services, mid-market analytics, EMEA data integration (with London SPN event), and APAC GenAI adopters (Singapore clinic).",
+      "overlap_with_actian": "yes — data integration, real-time analytics, legacy migration, data governance/clean rooms",
+      "at_risk_segments": "mid-market enterprises evaluating hybrid data management, financial services (privacy-critical data clean rooms), EMEA (regional events in London, Singapore), and on-prem-to-cloud migration customers",
       "type_of_move": "platform"
     },
     "confidence": "high",
-    "confidence_reasoning": "Strong correlation between high-volume specialized AI hiring (36 roles) and multiple simultaneous platform-level product launches (Cortex Agents, Snowflake Intelligence, Project SnowWork) in April 2026 provides clear strategic directionality.",
-    "recommended_action": "PMM should immediately prepare a competitive brief mapping Snowflake's Cortex Agent capabilities against Actian's Avalanche and DataConnect, highlighting Actian's hybrid/multi-cloud flexibility and real-time ingestion advantages that Snowflake's cloud-locked AI agent cannot address.",
+    "confidence_reasoning": "Strong alignment between a high-volume AI/ML engineering hiring surge (38 roles) and multiple concurrent product launches that directly target Actian's core value props (integration, real-time, governance). The signal density and consistency leave little ambiguity about Snowflake's strategic direction.",
+    "recommended_action": "Product and PMM should immediately map Snowflake's Cortex Agent and Snowflake Intelligence capabilities against Actian's Actian Data Platform and Avalanche hybrid integration; prepare a cross-functional 'AI Integration Reality Check' battle card for SDRs that highlights Actian's proven real-time hybrid ingestion and lower TCO for complex multi-source environments, and deliver this within 2 weeks.",
     "team_routing": [
       "Product",
       "PMM",
@@ -461,11 +458,11 @@
       "product": 5,
       "pmm": 5,
       "marketing": 4,
-      "sdrs": 3,
+      "sdrs": 5,
       "executives": 4
     },
-    "last_updated": "2026-04-28",
-    "_input_hash": "efbaf9691085b946"
+    "last_updated": "2026-04-29",
+    "_input_hash": "6054d1f7c2868920"
   },
   {
     "company": "Databricks",
@@ -480,22 +477,22 @@
     ],
     "signal_type": "hiring + event",
     "impact_level": "platform",
-    "what_is_happening": "Databricks is executing a multi-front attack: hiring 22 senior roles (Director of Engineering for Lakeflow in Bengaluru, multiple Data & AI Platform Architects in Europe, Lead Solution Architects in Munich/London/Tokyo, and an AI/BI Manager in Vancouver) while simultaneously launching Genie next-gen (2026-04-26), Lakeflow Designer public preview (2026-04-23), a GPT-5.5 partnership with OpenAI (2026-04-23), and appointing Simon Davies as Head of APJ (2026-04-17). They are also hosting a Genie-powered insights event on April 29.",
-    "why_it_matters": "This coordinated ramp directly threatens Actian's core data integration (Lakeflow Designer), analytics (Genie AI/BI), and AI workload pipelines (GPT-5.5 on Databricks), especially in APAC where Simon Davies' appointment and the Kuala Lumpur AI Days event signal aggressive GTM expansion against Actian's mid-market strongholds.",
-    "primary_interpretation": "Databricks is weaponizing its lakehouse platform to absorb traditional ETL and BI workloads by making AI-native data workflows visual (Lakeflow Designer) and conversational (Genie next-gen), backed by vertical-specific SAs and regional execs to displace incumbents like Actian in regulated verticals like financial services and retail.",
-    "alternative_interpretation": "The hiring and product launches could be defensive moves to retain Databricks' existing enterprise customers who are considering lighter-weight alternatives like Actian for simpler integration and analytics needs, rather than a full-fledged offensive against Actian's installed base.",
+    "what_is_happening": "Databricks is launching a wave of AI-native data engineering and analytics products (Genie Code on 2026-04-28, next-gen Genie on 2026-04-26, Lakeflow Designer public preview on 2026-04-23) while concurrently posting 24 job roles globally, including 3 AI Engineer FDEs, 3 Solution Architects in Europe, and a Manager Engineering for AI/BI in Vancouver. This signals a coordinated push to embed agentic AI directly into data pipeline and BI workflows.",
+    "why_it_matters": "Databricks' Genie and Lakeflow Designer directly target the same data integration, pipeline orchestration, and conversational analytics use cases Actian serves, with agentic AI features that could commoditize Actian's manual integration strengths and erode deal velocity in enterprise accounts.",
+    "primary_interpretation": "Databricks is executing a deliberate platform play to make agentic AI the default interface for data engineering and analytics, using Genie and Lakeflow as hooks to pull users deeper into the lakehouse ecosystem — a direct assault on Actian's integration and analytics sweet spot.",
+    "alternative_interpretation": "These launches could be pre-summit marketing to reclaim mindshare after a noisy quarter from Snowflake and Microsoft, with actual enterprise readiness 6–12 months away; the hiring surge may be backfill for attrition rather than net-new capacity.",
     "hiring_event_correlation": {
       "strength": "strong",
-      "explanation": "22 new roles (primarily engineering and senior SAs) directly reinforce the Lakeflow Designer public preview and Genie next-gen launch, with field SA hires in APAC and Europe matching the regional GTM push signaled by Simon Davies' appointment."
+      "explanation": "24 roles (including AI/BI Manager, AI Engineer FDEs, and European architects) directly support the agentic AI and BI launches, with geographically distributed GTM hires reinforcing the product messaging."
     },
     "competitive_impact": {
-      "overlap_with_actian": "yes - data integration, pipeline orchestration, AI-powered analytics, and catalog/governance",
-      "at_risk_segments": "mid-market enterprises in APAC (Australia, Japan, Malaysia), financial services, retail/CPG, and regulated EMEA verticals",
+      "overlap_with_actian": "yes — data integration, pipeline orchestration, and conversational analytics",
+      "at_risk_segments": "mid-market financial services, European legacy modernization deals, and embedded analytics in insurance",
       "type_of_move": "platform"
     },
     "confidence": "high",
-    "confidence_reasoning": "High hiring volume (22 roles) with direct function-to-launch alignment (Lakeflow engineers + Designer release, Genie team + Genie launch), plus a new regional head in APAC — all within 10 days.",
-    "recommended_action": "Actian PMM should immediately prepare a competitive response highlighting Actian's simpler, lower-cost data integration and analytics for mid-market enterprises, targeting Databricks' complexity and cost overruns in field battles, especially in APAC financial services accounts.",
+    "confidence_reasoning": "12 product/event signals in 30 days plus 24 correlated hires provide unambiguous evidence of coordinated platform expansion; weak alternative explanation relies on unrealized maturity risk.",
+    "recommended_action": "PMM and Product must immediately map Genie Code and Lakeflow Designer feature-by-feature against Actian's integration and analytics products, then arm SDRs with a competitive brief on agentic AI maturity gaps before Databricks' May 2026 AI Days events in Mumbai and Kuala Lumpur.",
     "team_routing": [
       "Product",
       "PMM",
@@ -504,13 +501,13 @@
       "Executives"
     ],
     "team_relevance": {
-      "product": 4,
+      "product": 5,
       "pmm": 5,
       "marketing": 4,
-      "sdrs": 3,
-      "executives": 4
+      "sdrs": 5,
+      "executives": 5
     },
-    "last_updated": "2026-04-28",
-    "_input_hash": "6b3e8c3cae954d9a"
+    "last_updated": "2026-04-29",
+    "_input_hash": "00bf6ef921873c4a"
   }
 ]

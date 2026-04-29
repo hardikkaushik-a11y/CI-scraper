@@ -8,9 +8,11 @@
   "https://aws.amazon.com/jp/summits/japan/en/",
   "https://datainnovationsummit.com/region/nordics/",
   "https://events.databricks.com/FY27-AI-Days-KualaLumpur/registration?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=registration",
+  "https://events.databricks.com/FY27-AI-Days-Mumbai/registration?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=registration",
   "https://events.databricks.com/FY27-AI-Days-Warsaw/registration?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=registration",
   "https://events.databricks.com/FY27Q1-WB-LifeSciences-RandD-Productivity/register?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=drawer-card&itm_offer=register",
   "https://events.databricks.com/FY27Q1-WB-LifeSciences-RandD-Productivity/register?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=register",
+  "https://events.databricks.com/databricks-at-sap-sapphire-2026?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=databricks-at-sap-sapphire-2026",
   "https://events.databricks.com/devconnect-london?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=devconnect-london",
   "https://events.databricks.com/devconnect-munich?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=devconnect-munich",
   "https://events.reutersevents.com/oilandgas/data-driven-usa",
@@ -72,6 +74,7 @@
   "https://www.collibra.com/events/collibra-at-gartner-data-analytics-summit-london",
   "https://www.collibra.com/events/how-to-make-your-unstructured-data-ai-ready",
   "https://www.collibra.com/events/introducing-the-ai-command-center",
+  "https://www.collibra.com/events/maximizando-la-fiabilidad-del-dato-bajo-bcbs-239",
   "https://www.collibra.com/events/sap-sapphire-orlando-2026",
   "https://www.collibra.com/events/the-data-scavenger-hunt-why-analysts-struggle-and-why-ai-suffers",
   "https://www.collibra.com/resources/ama-why-sap-and-collibra-are-better-together",
@@ -100,5 +103,6 @@
   "https://www.snowflake.com/event/london-ai-innovation-day-2026-05-12/",
   "https://www.snowflake.com/event/northstar-ai-builder-series-dynamic-tables/",
   "https://www.snowflake.com/events/spn-tech-connect-17-06-2026/",
+  "https://www.torontomachinelearning.com/",
   "https://www.youtube.com/@pinecone-io/live"
 ]

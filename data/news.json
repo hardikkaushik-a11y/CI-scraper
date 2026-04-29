@@ -1,5 +1,114 @@
 [
   {
+    "company": "Qdrant",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Now Available on Qdrant Cloud: GPU Indexing, Multi-AZ, and Audit Logging",
+    "url": "https://qdrant.tech/blog/qdrant-cloud-enterprise-launch/",
+    "published_date": "2026-04-28",
+    "source": "company_newsroom",
+    "summary": "Qdrant launched GPU indexing, multi-AZ support, and audit logging on Qdrant Cloud, enhancing vector database capabilities, which is low relevance to Actian's data integration and analytics focus.",
+    "actian_relevance": "low",
+    "tags": [
+      "GPU Indexing",
+      "Multi-AZ",
+      "Audit Logging",
+      "Vector Database"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-29"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Kafka Connector Version 4.0 is Generally Available. Here\u2019s Why We Think It's a",
+    "url": "https://www.snowflake.com/en/blog/snowflake-kafka-connector-v4-ga/",
+    "published_date": "2026-04-28",
+    "source": "company_newsroom",
+    "summary": "Snowflake's GA of Kafka Connector 4.0 enhances real-time data ingestion, increasing competitive pressure on Actian's data integration and streaming capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "Kafka connector",
+      "GA",
+      "real-time",
+      "Snowflake"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-29"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Snowflake Data Clean Rooms Enable Privacy-First",
+    "url": "https://www.snowflake.com/en/blog/data-clean-rooms-multiparty-collaboration/",
+    "published_date": "2026-04-28",
+    "source": "company_newsroom",
+    "summary": "Snowflake launched a Data Clean Rooms capability for privacy-compliant data collaboration, directly competing with Actian's data integration offerings by providing an alternative for secure, governed data sharing without heavy ETL.",
+    "actian_relevance": "high",
+    "tags": [
+      "Snowflake",
+      "data clean room",
+      "privacy",
+      "data sharing"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-29"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Agentic Data Engineering with Genie Code",
+    "url": "https://www.databricks.com/blog/agentic-data-engineering-genie-code-and-lakeflow",
+    "published_date": "2026-04-28",
+    "source": "company_newsroom",
+    "summary": "Databricks launched Genie Code, an agentic AI tool for data engineering, intensifying competition in the intelligent data integration and analytics space that Actian also targets.",
+    "actian_relevance": "high",
+    "tags": [
+      "Databricks",
+      "Genie",
+      "agentic AI",
+      "data engineering"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-29"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
@@ -133,6 +242,32 @@
     ],
     "event_date": null,
     "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "feature",
+    "title": "Introducing DCM Projects: Declarative Infrastructure Management for Snowflake \u2014 Now in Public",
+    "url": "https://www.snowflake.com/en/blog/snowflake-dcm-projects-public-preview/",
+    "published_date": "2026-04-24",
+    "source": "company_newsroom",
+    "summary": "Snowflake launched DCM Projects in public preview, enabling declarative infrastructure management via Terraform-like workflows, which simplifies data pipeline automation and could erode Actian's differentiation in data engineering and integration workflows.",
+    "actian_relevance": "medium",
+    "tags": [
+      "declarative infrastructure",
+      "Snowflake",
+      "public preview",
+      "DevOps"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-29"
   },
   {
     "company": "Snowflake",

@@ -1,5 +1,88 @@
 [
   {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Virtual event Maximizando la fiabilidad del dato bajo BCBS 239: agregaci\u00f3n y reporting estrat\u00e9gico con Collibra y PwC May 26 @ 4 PM CET / 11 AM ET",
+    "url": "https://www.collibra.com/events/maximizando-la-fiabilidad-del-dato-bajo-bcbs-239",
+    "published_date": "2026-04-29",
+    "summary": "Collibra and PwC are hosting a virtual event on May 26 focusing on data reliability under BCBS 239, targeting strategic data aggregation and reporting in banking, which signals Collibra's push into regulatory data governance that competes with Actian's data catalog capabilities.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data governance",
+      "BCBS 239",
+      "regulatory reporting",
+      "PwC partnership",
+      "virtual event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-26",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-04-29"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "In-Person Event AI Days - Mumbai Mumbai, India May 7 Register now",
+    "url": "https://events.databricks.com/FY27-AI-Days-Mumbai/registration?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=registration",
+    "published_date": "2026-04-29",
+    "summary": "Databricks is hosting in-person and virtual AI and data events globally in 2026, including AI Days in Mumbai and learning festivals, signaling aggressive community engagement that could draw attention away from Actian's data integration and analytics platform.",
+    "actian_relevance": "medium",
+    "tags": [
+      "conference",
+      "AI",
+      "data platform",
+      "community event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-07",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-04-29"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "In-Person Event Databricks at SAP Sapphire May 12 Register now",
+    "url": "https://events.databricks.com/databricks-at-sap-sapphire-2026?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=databricks-at-sap-sapphire-2026",
+    "published_date": "2026-04-29",
+    "summary": "Databricks is hosting multiple events including a virtual Foundational Workshop series from February 12 to , and an in-person event at SAP Sapphire on May 12, signaling ongoing enterprise engagement that may pressure Actian's position in data integration and analytics.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Databricks",
+      "enterprise",
+      "data integration",
+      "analytics"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-12",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-04-29"
+  },
+  {
     "company": "Snowflake",
     "product_area": "AI Analyst",
     "type": "event",
