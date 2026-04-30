@@ -1,5 +1,57 @@
 [
   {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "feature",
+    "title": "Approximate Answers, Exact Decisions: New Sketch Functions",
+    "url": "https://www.databricks.com/blog/approximate-answers-exact-decisions-new-sketch-functions-analytics",
+    "published_date": "2026-04-29",
+    "source": "company_newsroom",
+    "summary": "Databricks introduced new sketch functions for approximate query results, which could challenge Actian's data integration and analytics platform by offering faster approximate analytics capabilities.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Databricks",
+      "sketch functions",
+      "approximate analytics"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-30"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "partnership",
+    "title": "Stripe data now available on Databricks via",
+    "url": "https://www.databricks.com/blog/stripe-data-now-available-databricks-databricks-marketplace",
+    "published_date": "2026-04-29",
+    "source": "company_newsroom",
+    "summary": "Databricks now offers native access to Stripe data, strengthening its data lakehouse ecosystem and posing increased competitive pressure on Actian's data integration offerings for analytics workloads.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Stripe",
+      "Databricks",
+      "data integration"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Lakehouse / Warehouse / HTAP / Postgres",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-04-30"
+  },
+  {
     "company": "Qdrant",
     "product_area": "VectorAI",
     "news_type": "product_launch",

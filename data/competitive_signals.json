@@ -1,5 +1,80 @@
 [
   {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "In-Person Event AI Days - Johannesburg Johannesburg, South Africa May 20 Register now",
+    "url": "https://events.databricks.com/FY27-AI-Days-Johannesburg?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=fy27-ai-days-johannesburg",
+    "published_date": "2026-04-30",
+    "summary": "Databricks is hosting a series of in-person AI Days events globally, including Johannesburg on May 20, as part of a broader virtual and in-person workshop/webinar series, aiming to expand their AI platform reach.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI events",
+      "enterprise",
+      "global reach"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-20",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-30"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "In-Person Event Databricks at SAP Sapphire in Madrid May 20 Register now",
+    "url": "https://events.databricks.com/databricks-at-sap-sapphire-madrid-2026?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=databricks-at-sap-sapphire-madrid-2026",
+    "published_date": "2026-04-30",
+    "summary": "Databricks is hosting an in-person event at SAP Sapphire in Madrid on May 20, offering a chance to engage with SAP customers and partners, potentially strengthening their data and AI positioning against Actian in European markets.",
+    "actian_relevance": "medium",
+    "tags": [
+      "event",
+      "SAP",
+      "Madrid",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-20",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-04-30"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Cortex Code Masterclass: Accelerating the Agentic Enterprise",
+    "url": "https://www.snowflake.com/events/cortex-code-masterclass-melbourne/",
+    "published_date": "2026-04-30",
+    "summary": "Snowflake is hosting a masterclass in Melbourne on 27 May focused on accelerating the agentic enterprise, signaling their push into AI agent ecosystems that compete with Actian's data integration and analytics platform.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI agents",
+      "enterprise",
+      "event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-27",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-04-30"
+  },
+  {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
