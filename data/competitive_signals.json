@@ -3,6 +3,57 @@
     "company": "Databricks",
     "product_area": "AI Analyst",
     "type": "event",
+    "title": "JUNE 15\u201318 | SAN FRANCISCO Join us at the world\u2019s largest data, apps and AI event. Register",
+    "url": "https://www.databricks.com/dataaisummit?itm_source=www&itm_category=home&itm_page=home&itm_location=navigation&itm_component=navigation&itm_offer=dataaisummit",
+    "published_date": "2026-05-01",
+    "summary": "Databricks will host Data + AI Summit in San Francisco from June 15\u201318, 2025, the largest data, apps, and AI event, which may showcase competitive advancements in data catalog/governance and AI analytics, challenging Actian's platform.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "AI analytics",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-15",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-01"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Featured In-Person Event Data + AI Summit 2026 Secure your spot at the world\u2019s largest data, apps and AI event. San Francisco, United States June 15 -",
+    "url": "https://www.databricks.com/dataaisummit?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=drawer-card&itm_offer=dataaisummit",
+    "published_date": "2026-05-01",
+    "summary": "Databricks announced Data + AI Summit 2026, scheduled for June 15\u201318 in San Francisco, positioning it as the world's largest data, apps, and AI event, which may drive market attention away from Actian's competing platforms.",
+    "actian_relevance": "medium",
+    "tags": [
+      "conference",
+      "data integration",
+      "AI",
+      "competitive event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-15",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "scraped_at": "2026-05-01"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "type": "event",
     "title": "In-Person Event AI Days - Johannesburg Johannesburg, South Africa May 20 Register now",
     "url": "https://events.databricks.com/FY27-AI-Days-Johannesburg?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=general-asset-card&itm_offer=fy27-ai-days-johannesburg",
     "published_date": "2026-04-30",

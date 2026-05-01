@@ -2,6 +2,60 @@
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Unlocking SAP Business Context in Databricks with Semantic Metadata",
+    "url": "https://www.databricks.com/blog/unlocking-sap-business-context-databricks-semantic-metadata-delta-sharing",
+    "published_date": "2026-04-30",
+    "source": "company_newsroom",
+    "summary": "Databricks launches semantic metadata capability to natively integrate SAP business context, directly competing with Actian's data integration and analytics offerings for SAP environments.",
+    "actian_relevance": "high",
+    "tags": [
+      "Databricks",
+      "SAP",
+      "semantic metadata",
+      "data integration"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-01"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "partnership",
+    "title": "The marketing activation gap has a fix: Databricks and Stitch partner to turn data infrastructure",
+    "url": "https://www.databricks.com/blog/databricks-and-stitch-marketing-activation",
+    "published_date": "2026-04-30",
+    "source": "company_newsroom",
+    "summary": "Databricks partners with Stitch to bridge the marketing activation gap, directly challenging Actian's data integration and analytics platform by offering a competing solution for turning data infrastructure into actionable marketing insights.",
+    "actian_relevance": "high",
+    "tags": [
+      "Databricks",
+      "Stitch",
+      "data integration",
+      "marketing activation"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-01"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
     "news_type": "feature",
     "title": "Approximate Answers, Exact Decisions: New Sketch Functions",
     "url": "https://www.databricks.com/blog/approximate-answers-exact-decisions-new-sketch-functions-analytics",
