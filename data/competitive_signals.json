@@ -1,5 +1,90 @@
 [
   {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "WTF is the Context Layer?",
+    "url": "https://atlan.com/wtf-context-layer/what-is-context-layer/",
+    "published_date": "2026-05-02",
+    "summary": "Atlan is hosting a virtual event on , to define and cut through the noise around the 'Context Layer' concept they coined, challenging data catalog vendors like Actian to clarify their positioning in data governance.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "context layer",
+      "governance",
+      "virtual event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-12",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-02"
+  },
+  {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Atlan + Databricks: Building the AI-Native Enterprise, Together",
+    "url": "https://atlan.com/live-demo-series-atlan-databricks-2026/",
+    "published_date": "2026-05-02",
+    "summary": "Atlan and Databricks are co-hosting a virtual event on May 20 showing how Databricks Genie integrated with Atlan's context layer enables AI agents to use certified, governed data and explain outputs, directly threatening Actian's data governance and AI analytics positioning.",
+    "actian_relevance": "high",
+    "tags": [
+      "Databricks",
+      "AI agents",
+      "governance",
+      "data catalog",
+      "virtual event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-20",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-02"
+  },
+  {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Industry Perspective: Why is context so important?",
+    "url": "https://atlan.com/wtf-context-layer/why-is-context-important/",
+    "published_date": "2026-05-02",
+    "summary": "Atlan is hosting a virtual industry perspective event on , featuring analyst Sanjeev Mohan to discuss the importance of context in data, signaling a thought leadership push that could reinforce Atlan's position in the data catalog space, where Actian competes.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "context layer",
+      "analyst",
+      "thought leadership",
+      "virtual event"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-27",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-02"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "type": "event",
