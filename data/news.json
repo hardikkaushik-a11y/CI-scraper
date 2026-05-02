@@ -54,6 +54,58 @@
     "scraped_at": "2026-05-01"
   },
   {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "partnership",
+    "title": "Snowflake Intelligence Partner Offerings Bring AI Edge to Industries",
+    "url": "https://www.snowflake.com/en/blog/snowflake-intelligence-partner-solutions/",
+    "published_date": "2026-04-30",
+    "source": "company_newsroom",
+    "summary": "Snowflake launched AI-focused partner offerings targeting vertical industries, intensifying competition for Actian in the data integration and analytics market by leveraging AI capabilities and industry-specific solutions.",
+    "actian_relevance": "high",
+    "tags": [
+      "AI",
+      "industry-specific",
+      "partner ecosystem",
+      "Snowflake"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-02"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "product_launch",
+    "title": "Announcing Datometry for Snowflake: Accelerate Teradata Exit to the AI",
+    "url": "https://www.snowflake.com/en/blog/datometry-for-snowflake-teradata-migration/",
+    "published_date": "2026-04-30",
+    "source": "company_newsroom",
+    "summary": "Snowflake launched Datometry to help enterprises exit Teradata faster, directly competing with Actian's data migration and integration offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "Snowflake",
+      "Datometry",
+      "Teradata migration",
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-05-02"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "feature",
