@@ -1,5 +1,193 @@
 [
   {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Data & AI Leaders Dinner",
+    "url": "https://www.bigeye.com/events/data-ai-leaders-dinner-snowflake-summit",
+    "published_date": "2026-05-03",
+    "summary": "Bigeye is hosting a private Data & AI Leaders Dinner at Fly Trap on an unspecified date, offering an exclusive networking and discussion event that may signal efforts to strengthen thought leadership and customer relationships in the data observability space.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "networking",
+      "enterprise",
+      "leadership"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-02",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-05-03"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Alteryx Inspire 2024",
+    "url": "https://www.bigeye.com/events/alteryx-inspire-2024",
+    "published_date": "2026-05-03",
+    "summary": "Bigeye participated in Alteryx Inspire 2024, a data analytics conference, signaling potential partnership or integration with Alteryx and highlighting the data observability space.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "conference",
+      "Alteryx",
+      "partnership"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-05-03"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Gartner Data & Analytics Summit 2024 - London",
+    "url": "https://www.bigeye.com/events/gartner-data-analytics-summit-2024-london",
+    "published_date": "2026-05-03",
+    "summary": "Bigeye is exhibiting at the Gartner Data & Analytics Summit 2024 in London, targeting the data observability market where Actian competes.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "conference",
+      "Gartner"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-05-03"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Tableau Conference 2024",
+    "url": "https://www.bigeye.com/events/tableau-conference-2024",
+    "published_date": "2026-05-03",
+    "summary": "Bigeye is exhibiting at Tableau Conference 2024 to demo its data observability platform, signaling a focus on analytics integration that could overlap with Actian's data observability and analytics capabilities.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "Tableau",
+      "analytics",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-05-03"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Join Bigeye at Gartner Data & Analytics Summit 2024",
+    "url": "https://www.bigeye.com/events/gartner-data-analytics-summit-2024",
+    "published_date": "2026-05-03",
+    "summary": "Bigeye will exhibit at Gartner Data & Analytics Summit 2024, showcasing its data observability platform at booth #416, a direct competitive threat to Actian's data observability offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "conference",
+      "competitive threat"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-05-03"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Databricks: Data + AI Summit 2023",
+    "url": "https://www.bigeye.com/events/2023-06-26-databricks-data-ai-summit-2023",
+    "published_date": "2026-05-03",
+    "summary": "Bigeye will exhibit its data observability platform at Databricks' Data + AI Summit 2023, emphasizing trust in Databricks environments, which signals direct competition with Actian's data observability efforts.",
+    "actian_relevance": "high",
+    "tags": [
+      "data observability",
+      "Databricks",
+      "conference",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-05-03"
+  },
+  {
+    "company": "Bigeye",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Snowflake Summit 2023",
+    "url": "https://www.bigeye.com/events/2023-06-26-snowflake-summit-2023",
+    "published_date": "2026-05-03",
+    "summary": "Bigeye is attending Snowflake Summit 2023 to showcase data quality and reliable pipeline capabilities integrated with Snowflake's Data Cloud, highlighting their focus on data observability.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "Snowflake Summit",
+      "data quality",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage",
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-05-03"
+  },
+  {
     "company": "Atlan",
     "product_area": "Data Intelligence",
     "type": "event",
