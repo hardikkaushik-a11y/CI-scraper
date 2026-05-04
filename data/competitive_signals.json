@@ -1,5 +1,33 @@
 [
   {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Meet Atlan at Snowflake Summit 2026",
+    "url": "https://atlan.com/event/snowflake-summit-2026/",
+    "published_date": "2026-05-04",
+    "summary": "Atlan will exhibit at Snowflake Summit 2026 (June 1-4 in San Francisco) showcasing its data governance and collaboration platform, directly competing with Actian's data catalog/governance capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "data governance",
+      "Snowflake Summit",
+      "enterprise",
+      "booth demo"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-01",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-04"
+  },
+  {
     "company": "Bigeye",
     "product_area": "Data Observability",
     "type": "event",
