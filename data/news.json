@@ -1,5 +1,32 @@
 [
   {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "partnership",
+    "title": "Pinecone Nexus: The Knowledge Engine for Agents",
+    "url": "https://www.pinecone.io/blog/knowledge-infrastructure-for-agents/",
+    "published_date": "2026-05-04",
+    "source": "company_newsroom",
+    "summary": "Pinecone partnered with ZoomInfo to deliver AI-driven contact recommendations, combining real-time data with vector search; this signals deepening competition in AI-powered data enrichment space that overlaps with Actian's integration and analytics capabilities.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Pinecone",
+      "ZoomInfo",
+      "AI",
+      "go-to-market"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-04"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
