@@ -528,12 +528,8 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
             "dominantFunction": signal.get("dominant_function", "Engineering"),
             "dominantFocus": signal.get("dominant_product_focus", "Platform"),
             "signalSummary": signal.get("signal_summary", ""),
-            "roadmap": {
-                "direction": signal.get("roadmap", {}).get("direction", ""),
-                "confidence": signal.get("roadmap", {}).get("confidence", "Medium"),
-                "timeline": signal.get("roadmap", {}).get("timeline", "Next 6–12 months"),
-                "watchFor": signal.get("roadmap", {}).get("watch_for", ""),
-            },
+            # Note: `roadmap` is set above from data/roadmaps.json (rich schema with pillars).
+            # Legacy flat-schema roadmap from hiring signal is not used — new schema supersedes.
             "verdict": {
                 "All":        what,
                 "Product":    primary or what,
