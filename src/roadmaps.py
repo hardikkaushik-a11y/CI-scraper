@@ -261,10 +261,16 @@ def infer_roadmap(company: str, verdict: dict, hiring_signal: dict,
         return None
     print(f"  [INFERRED]  {company}")
     user_prompt = _build_inferred_user_prompt(company, verdict, hiring_signal, comp_signals, news_items)
-    raw = _call_deepseek(INFERRED_SYSTEM, user_prompt, max_tokens=1500)
+    raw = _call_deepseek(INFERRED_SYSTEM, user_prompt, max_tokens=2000)
     parsed = _parse_json(raw)
     if not parsed:
-        print(f"    [WARN] {company} — inference parse failed")
+        # Retry once with stricter wrapper
+        print(f"    [RETRY] {company} — first parse failed, retrying with stricter prompt")
+        retry_user = user_prompt + "\n\nIMPORTANT: Respond with ONLY the raw JSON object. No prose before or after. No markdown code fences."
+        raw = _call_deepseek(INFERRED_SYSTEM, retry_user, max_tokens=2000)
+        parsed = _parse_json(raw)
+    if not parsed:
+        print(f"    [WARN] {company} — inference parse failed after retry")
         return None
 
     # Compute overall confidence from per-pillar
