@@ -419,9 +419,10 @@ def load_battlecards(csv_path):
     return out
 
 
-def build_competitors(signals, verdicts, per_company=None, comp_signals=None, news=None, battlecards=None, country_breakdown=None):
+def build_competitors(signals, verdicts, per_company=None, comp_signals=None, news=None, battlecards=None, country_breakdown=None, roadmaps_by_co=None):
     battlecards = battlecards or {}
     country_breakdown = country_breakdown or {}
+    roadmaps_by_co = roadmaps_by_co or {}
     # Index by lower-cased name for fuzzy matching
     sig_index = {s["company"].lower(): s for s in signals}
     vrd_index = {}
@@ -508,6 +509,9 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
         top_countries = [{"country": c, "count": n} for c, n in cb.get("top", [])]
         recent_countries = [{"country": c, "count": n} for c, n in cb.get("recent", [])]
 
+        # Strategic roadmap (published or inferred)
+        roadmap = roadmaps_by_co.get(company)
+
         comp = {
             "id": re.sub(r"[^a-z0-9]", "", company.lower()),
             "name": company,
@@ -517,6 +521,7 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
             "battlecardUrl": battlecard_url,
             "topCountries": top_countries,
             "recentCountries": recent_countries,
+            "roadmap": roadmap,
             "threat": threat,
             "intensity": intensity,
             "postingCount": posting_count,
@@ -768,12 +773,21 @@ def main():
     overall_countries = [{"country": c, "count": n} for c, n in country_breakdown.get("__overall__", {}).get("top", [])]
     print(f"    {len(overall_countries)} countries in overall footprint")
 
+    # Roadmaps (published + inferred)
+    roadmaps_path = DATA_DIR / "roadmaps.json"
+    roadmaps = load_json(roadmaps_path) if roadmaps_path.exists() else []
+    roadmaps_by_co = {r.get("company"): r for r in roadmaps}
+    print(f"  Loaded {len(roadmaps_by_co)} roadmaps "
+          f"({sum(1 for r in roadmaps if r.get('source')=='published')} published, "
+          f"{sum(1 for r in roadmaps if r.get('source')=='inferred')} inferred)")
+
     # Build COMPETITORS
     print("  Building COMPETITORS array...")
     competitors = build_competitors(
         signals, verdicts, per_company,
         comp_signals=comp_signals, news=news, battlecards=battlecards,
         country_breakdown=country_breakdown,
+        roadmaps_by_co=roadmaps_by_co,
     )
     print(f"    {len(competitors)} competitors built")
     for c in competitors:

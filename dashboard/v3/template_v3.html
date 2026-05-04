@@ -2357,17 +2357,88 @@ function BriefDrawer({ comp, lens, onClose }) {
           <p className="drw-p drw-p-action">{comp.action[lens] || comp.action.All}</p>
         </section>
 
-        {comp.roadmap && (
-          <section className="drw-sec drw-roadmap">
-            <h4 className="drw-h">Strategic direction</h4>
-            <div className="drw-roadmap-title">{comp.roadmap.direction}</div>
-            <div className="drw-roadmap-meta">
-              <span><span className="drw-roadmap-k">Confidence</span><span className="drw-roadmap-val">{comp.roadmap.confidence}</span></span>
-              <span><span className="drw-roadmap-k">Timeline</span><span className="drw-roadmap-val">{comp.roadmap.timeline}</span></span>
-            </div>
-            <p className="drw-p drw-roadmap-watch"><span className="drw-roadmap-k">Watch for</span> {comp.roadmap.watchFor}</p>
-          </section>
-        )}
+        {comp.roadmap && (() => {
+          const rm = comp.roadmap;
+          // Detect new richer schema (has pillars[]) vs legacy flat schema
+          const isNew = Array.isArray(rm.pillars);
+          if (!isNew) {
+            // Legacy flat fallback (direction/confidence/timeline/watchFor)
+            return (
+              <section className="drw-sec drw-roadmap">
+                <h4 className="drw-h">Strategic direction</h4>
+                <div className="drw-roadmap-title">{rm.direction}</div>
+                <div className="drw-roadmap-meta">
+                  <span><span className="drw-roadmap-k">Confidence</span><span className="drw-roadmap-val">{rm.confidence}</span></span>
+                  <span><span className="drw-roadmap-k">Timeline</span><span className="drw-roadmap-val">{rm.timeline}</span></span>
+                </div>
+                <p className="drw-p drw-roadmap-watch"><span className="drw-roadmap-k">Watch for</span> {rm.watchFor}</p>
+              </section>
+            );
+          }
+          // New roadmap schema
+          const isPublished = rm.source === "published";
+          const badgeIcon = isPublished ? "🗺️" : "🔮";
+          const badgeText = isPublished ? "Roadmap · published" : "Inferred direction";
+          const accent = isPublished ? "#0ea5e9" : "#f59e0b";
+          const conf = (rm.overall_confidence || "medium").toLowerCase();
+          const confColor = conf === "high" ? "#10b981" : conf === "medium" ? "#f59e0b" : "#94a3b8";
+          return (
+            <section className="drw-sec">
+              <div style={{display:"flex", alignItems:"center", gap:"10px", marginBottom:"6px"}}>
+                <h4 className="drw-h" style={{margin:0}}>Strategic direction</h4>
+                <span style={{
+                  fontSize:"10px", padding:"2px 8px", borderRadius:"10px",
+                  background:`color-mix(in oklab, ${accent}, white 88%)`,
+                  color: accent, fontWeight:600, fontFamily:"var(--font-mono)",
+                  textTransform:"uppercase", letterSpacing:"0.05em",
+                }}>{badgeIcon} {badgeText}</span>
+                {rm.url && (
+                  <a href={rm.url} target="_blank" rel="noopener noreferrer"
+                     style={{fontSize:"11px", color: accent, textDecoration:"none"}}>↗ source</a>
+                )}
+              </div>
+              {rm.title && <div className="drw-roadmap-title" style={{fontWeight:600, fontSize:"15px", marginBottom:"6px"}}>{rm.title}</div>}
+              {rm.summary && <p className="drw-p" style={{marginBottom:"12px"}}>{rm.summary}</p>}
+              {rm.pillars && rm.pillars.length > 0 && (
+                <div style={{display:"grid", gap:"10px", marginBottom:"12px"}}>
+                  {rm.pillars.map((p, i) => {
+                    const pc = (p.confidence || "medium").toLowerCase();
+                    const pcColor = pc === "high" ? "#10b981" : pc === "medium" ? "#f59e0b" : "#94a3b8";
+                    return (
+                      <div key={i} style={{
+                        padding:"10px 12px", border:"1px solid var(--border)",
+                        borderRadius:"8px", borderLeft:`3px solid ${pcColor}`,
+                      }}>
+                        <div style={{display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"4px"}}>
+                          <div style={{fontWeight:600, fontSize:"13.5px"}}>{p.name}</div>
+                          <span style={{fontSize:"10px", color: pcColor, fontFamily:"var(--font-mono)", textTransform:"uppercase", letterSpacing:"0.05em"}}>{pc} confidence</span>
+                        </div>
+                        <div style={{fontSize:"12.5px", color:"var(--ink-soft)", lineHeight:1.5}}>{p.evidence}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              <div style={{display:"flex", gap:"24px", flexWrap:"wrap", fontSize:"12px", marginBottom:"10px"}}>
+                <span><span className="drw-roadmap-k">Timeline</span> <span className="drw-roadmap-val">{rm.timeline_estimate || "—"}</span></span>
+                <span><span className="drw-roadmap-k">Overall confidence</span> <span style={{color: confColor, fontWeight:600, fontSize:"12px"}}>{conf}</span></span>
+              </div>
+              {rm.actian_competitive_impact && (
+                <p className="drw-p" style={{fontSize:"12.5px", fontStyle:"italic", color:"var(--ink-soft)", marginBottom:"10px"}}>
+                  <strong>Actian impact:</strong> {rm.actian_competitive_impact}
+                </p>
+              )}
+              {rm.what_to_watch_for && rm.what_to_watch_for.length > 0 && (
+                <div>
+                  <span className="drw-roadmap-k" style={{display:"block", marginBottom:"4px"}}>Watch for</span>
+                  <ul style={{margin:0, paddingLeft:"18px", fontSize:"12.5px", color:"var(--ink-soft)"}}>
+                    {rm.what_to_watch_for.map((w, i) => <li key={i} style={{marginBottom:"3px"}}>{w}</li>)}
+                  </ul>
+                </div>
+              )}
+            </section>
+          );
+        })()}
 
         <section className="drw-sec">
           <div className="drw-stats">
