@@ -1520,6 +1520,18 @@ def main():
 
             # ── Event quality gate — 4-tier filter (event page items) ────────────
             if classification["type"] != "product_launch":
+                # Tier 0 (HARD RULE): an event without a parseable date is NOT an event.
+                # This kills section-header captures (e.g. "Upcoming Events"), on-demand
+                # webinars (no date), and any phantom row that slipped past Strategy A/B.
+                # Try title and description fields if event_date wasn't already set.
+                if not classification.get("event_date"):
+                    derived = _parse_event_date(title) or _parse_event_date(item.get("description", ""))
+                    if derived:
+                        classification["event_date"] = derived
+                    else:
+                        seen_urls.add(item_url)
+                        continue
+
                 combined = title + " " + item.get("description", "") + " " + item_url
                 # Tier 1: Named educational series — always skip
                 if _SERIES_BLACKLIST_RE.search(combined):

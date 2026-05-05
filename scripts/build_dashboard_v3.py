@@ -598,6 +598,13 @@ def build_launches_events(comp_signals):
     comp_signals = [s for s in (comp_signals or []) if not _title_year_in_past(s.get("title", ""))]
     if before != len(comp_signals):
         print(f"  [SANITY] dropped {before - len(comp_signals)} stale signal(s) by title-year scan")
+    # An event without a parseable date is not an event — drop it. Mirrors the
+    # write-time gate in signal_scraper.py. Belt-and-suspenders.
+    before = len(comp_signals)
+    comp_signals = [s for s in comp_signals
+                    if s.get("type") != "event" or s.get("event_date")]
+    if before != len(comp_signals):
+        print(f"  [SANITY] dropped {before - len(comp_signals)} dateless event(s)")
     launches = []
     events = []
     launch_id = 1

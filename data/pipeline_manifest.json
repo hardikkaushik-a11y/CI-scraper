@@ -1,16 +1,16 @@
 {
-  "run_at": "2026-05-05T09:31:16Z",
+  "run_at": "2026-05-05T11:32:52Z",
   "sources": {
     "signals.json": {
-      "records": 35,
+      "records": 36,
       "data_classification": "PUBLIC"
     },
     "competitive_signals.json": {
-      "records": 83,
+      "records": 62,
       "data_classification": "PUBLIC"
     },
     "news.json": {
-      "records": 68,
+      "records": 82,
       "data_classification": "PUBLIC"
     },
     "intelligence_verdicts.json": {
@@ -20,7 +20,7 @@
   },
   "output": {
     "competitors": 11,
-    "launches": 10,
+    "launches": 2,
     "events": 60
   }
 }
