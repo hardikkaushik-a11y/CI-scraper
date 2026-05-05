@@ -88,7 +88,7 @@ EVENT_URLS = {
 
 # Companies whose event pages require JavaScript execution (React/Next.js)
 # These will use Playwright instead of httpx for event page scraping.
-PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus", "Databricks", "Snowflake"}
+PLAYWRIGHT_EVENT_PAGES = {"Atlan", "Acceldata", "Alation", "Bigeye", "Milvus", "Databricks", "Snowflake", "Pinecone"}
 
 # ══════════════════════════════════════════════════════════════════════════
 # HARD URL BLOCKLIST — drop any URL matching these path segments, regardless
@@ -1098,6 +1098,79 @@ def fetch_event_page_playwright(company: str, url: str) -> list[dict]:
 
         print(f"  [Milvus/Zilliz] Strategy Zilliz: {len(items)} upcoming events found")
         return items  # Skip generic A+/A/B for Milvus
+
+    # ── Strategy Pinecone: parse rendered text triplets + harvest hrefs ──
+    # pinecone.io/community renders events as cards with structure:
+    #   TYPE (Webinar/In-Person/Hackathon/Conference) → TITLE → DATE → "Learn More"
+    # Each card is wrapped in an <a> ancestor whose href points to the actual
+    # registration page (luma.com, lu.ma, partiful, youtube live, etc.).
+    # We extract the text triplets, then zip with hrefs in DOM order.
+    if company == "Pinecone":
+        try:
+            from playwright.sync_api import sync_playwright as _sp
+            with _sp() as p:
+                _b = p.chromium.launch(headless=True)
+                _pg = _b.new_context().new_page()
+                _pg.goto(url, wait_until="networkidle", timeout=60000)
+                _pg.wait_for_timeout(3000)
+                # Harvest hrefs in DOM order
+                pine_hrefs = _pg.evaluate("""() => {
+                    const out = [];
+                    document.querySelectorAll('*').forEach(el => {
+                        const t = (el.textContent||'').trim();
+                        if (t === 'Learn More' && el.children.length === 0) {
+                            const a = el.closest('a');
+                            if (a) out.push(a.href);
+                        }
+                    });
+                    return out;
+                }""")
+                pine_text = _pg.evaluate("() => document.body.innerText")
+                _b.close()
+
+            tri = re.compile(
+                r'(Webinar|In-Person|Hackathon|Conference|Virtual|Meetup|Hybrid Event)\s*\n+'
+                r'([^\n]{8,200})\s*\n+'
+                r'((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{1,2}(?:[,\s-]+\d{4})?[^\n]*)\s*\n+'
+                r'Learn\s*More',
+                re.I,
+            )
+            triplets = tri.findall(pine_text)
+
+            # Parse "May 5, 2026 at 11:30 AM PDT" → "2026-05-05"
+            month_map = {m: f"{i+1:02d}" for i, m in enumerate(
+                ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"])}
+            def _to_iso(date_str: str) -> str | None:
+                m_ = re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+(\d{1,2})(?:[,\s-]+(\d{4}))?', date_str, re.I)
+                if not m_:
+                    return None
+                mon = m_.group(1)[:3].title()
+                day = int(m_.group(2))
+                year = m_.group(3) or str(date.today().year)
+                return f"{year}-{month_map.get(mon, '01')}-{day:02d}"
+
+            for i, (typ, title, dat) in enumerate(triplets):
+                title = title.strip()
+                if not title or title in seen_titles:
+                    continue
+                href = pine_hrefs[i] if i < len(pine_hrefs) else url
+                if href in seen_hrefs:
+                    continue
+                event_iso = _to_iso(dat)
+                seen_titles.add(title)
+                seen_hrefs.add(href)
+                items.append({
+                    "title":          title[:150],
+                    "url":            href,
+                    "published_date": date.today().isoformat(),
+                    "description":    f"{typ.strip()} · {dat.strip()}"[:400],
+                    "event_date":     event_iso,
+                })
+            print(f"  [Pinecone] Strategy Pinecone: {len(items)} events from card text")
+            if items:
+                return items
+        except Exception as e_:
+            print(f"  [Pinecone] strategy failed ({e_}) — falling through")
 
     # ── Strategy Alation: parse __NEXT_DATA__ JSON blob ──────────────────
     # alation.com/events/ is a Next.js page with all events embedded as JSON
