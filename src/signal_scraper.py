@@ -982,9 +982,46 @@ def fetch_event_page_playwright(company: str, url: str) -> list[dict]:
                 )
             )
             page = ctx.new_page()
-            # Use load (not networkidle) — Atlan's page never reaches networkidle
-            page.goto(url, wait_until="load", timeout=45000)
-            page.wait_for_timeout(4000)  # Extra settle time for React hydration
+
+            # Atlan's page never reaches networkidle — fall back to load there.
+            # Other vendors' event grids are lazy-fetched, so prefer networkidle.
+            wait_strategy = "load" if company == "Atlan" else "networkidle"
+            try:
+                page.goto(url, wait_until=wait_strategy, timeout=60000)
+            except Exception:
+                # networkidle can time out on persistent SSE/websocket connections —
+                # retry with `load` rather than abandon the page entirely.
+                page.goto(url, wait_until="load", timeout=45000)
+
+            # Wait for actual event-shaped content to render — strong signal that
+            # the JS-loaded event grid has populated. Heuristic: ≥2 dated entries.
+            # This is what unblocks Alation, whose events are fetched after `load`.
+            try:
+                page.wait_for_function(
+                    """() => {
+                        const text = document.body && document.body.innerText || '';
+                        const dateRe = /\\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\s+\\d{1,2}/gi;
+                        const matches = text.match(dateRe);
+                        return matches && matches.length >= 2;
+                    }""",
+                    timeout=15000,
+                )
+            except Exception:
+                # No event-shaped content rendered after 15s — page might genuinely
+                # have 0 upcoming events (Alation right now), or events use a date
+                # format the heuristic doesn't catch. Continue regardless.
+                pass
+
+            # Scroll once — many event pages lazy-load on intersection observer.
+            try:
+                page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                page.wait_for_timeout(1500)
+                page.evaluate("window.scrollTo(0, 0)")
+                page.wait_for_timeout(500)
+            except Exception:
+                pass
+
+            page.wait_for_timeout(3000)  # Final settle — Atlan-style React hydration
             html = page.content()
             browser.close()
     except Exception as e:
