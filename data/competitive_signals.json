@@ -33,7 +33,7 @@
     "title": "Gartner Data & Analytics Summit",
     "url": "/events/gartner-london-2026/",
     "published_date": "2026-05-05",
-    "summary": "Alation is participating in the Gartner Data & Analytics Summit from May 11–13, 2026, a key industry event where they will likely showcase their data catalog and governance capabilities, potentially influencing enterprise buyers that overlap with Actian's market.",
+    "summary": "Alation is participating in the Gartner Data & Analytics Summit from May 11\u201313, 2026, a key industry event where they will likely showcase their data catalog and governance capabilities, potentially influencing enterprise buyers that overlap with Actian's market.",
     "actian_relevance": "high",
     "tags": [
       "data catalog",
@@ -51,6 +51,390 @@
     "themes": [
       "Catalog / Metadata / Knowledge Graph"
     ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Collibra",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "In-person event \u2014 U.S. - San Francisco Databricks Data + AI Summit Jun 15 - 18",
+    "url": "https://www.databricks.com/dataaisummit",
+    "published_date": "2026-05-05",
+    "summary": "Collibra is presenting a virtual event on on making unstructured data AI-ready in minutes, and will be exhibiting at multiple key industry summits in May and June 2026, including Databricks Data + AI Summit, Gartner Data & Analytics Summit, and SAP Sapphire, showing its push into AI-readiness and data governance for analytics platforms.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data governance",
+      "AI readiness",
+      "unstructured data",
+      "industry events",
+      "Databricks summit"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-15",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Unstructured Data"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "AI Meetup, SF Bay Area",
+    "url": "https://luma.com/5lms9659",
+    "published_date": "2026-05-05",
+    "summary": "Pinecone is hosting an in-person AI meetup in the San Francisco Bay Area on 5:00 PM PDT, fostering community engagement around vector databases and AI applications, which signals growing developer interest in vector search that Actian must address.",
+    "actian_relevance": "medium",
+    "tags": [
+      "vector database",
+      "AI",
+      "community",
+      "San Francisco"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-05",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "AI Meetup, New York",
+    "url": "https://luma.com/tm4v84ij",
+    "published_date": "2026-05-05",
+    "summary": "Pinecone is hosting an in-person AI meetup in New York at 11:00 AM EDT, likely showcasing their vector database and AI capabilities, signaling community engagement that may strengthen their enterprise mindshare.",
+    "actian_relevance": "medium",
+    "tags": [
+      "vector database",
+      "AI meetup",
+      "enterprise",
+      "community"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-09",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Gartner New York CDAO Community Executive Summit \u2014 New York",
+    "url": "https://www.evanta.com/cdao/new-york/new-york-cdao-executive-summit-9320#location",
+    "published_date": "2026-05-05",
+    "summary": "Alation is participating in the Gartner New York CDAO Community Executive Summit on , a key data and analytics leadership event where Alation may showcase its data catalog capabilities to senior decision-makers.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data catalog",
+      "executive summit",
+      "Gartner",
+      "CDAO"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-06",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Gartner Minneapolis CDAO Community Executive Summit",
+    "url": "https://www.evanta.com/cdao/minneapolis/minneapolis-cdao-executive-summit-9309",
+    "published_date": "2026-05-05",
+    "summary": "Alation is participating in the Gartner Minneapolis CDAO Community Executive Summit on 2026-05-20, targeting chief data and analytics officers, which signals ongoing executive engagement and potential competition in the data catalog space.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data catalog",
+      "executive summit",
+      "CDAO",
+      "Gartner"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-05-20",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Snowflake Summit",
+    "url": "https://www.alation.com/events/snowflake-summit-2026/",
+    "published_date": "2026-05-05",
+    "summary": "Alation is participating as a partner at Snowflake Summit from June 1-4, 2026, showcasing its data catalog integration with Snowflake to deepen enterprise adoption of unified data governance and analytics.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "Snowflake",
+      "partnership",
+      "data governance"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-01",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Databricks Data + AI Summit",
+    "url": "https://www.databricks.com/dataaisummit",
+    "published_date": "2026-05-05",
+    "summary": "Alation is participating as a partner at the Databricks Data + AI Summit from June 15-18, 2026, likely showcasing integrations with Databricks for data catalog and governance, reinforcing its position in the data intelligence ecosystem.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data catalog",
+      "partner event",
+      "Databricks",
+      "data governance"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-15",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Toronto Machine Learning Summit",
+    "url": "https://www.torontomachinelearning.com/",
+    "published_date": "2026-05-05",
+    "summary": "Alation is participating in the Toronto Machine Learning Summit from June 16-19, 2026, signaling its continued push into AI/ML integration with its data catalog, which competes with Actian's data catalog and governance offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data catalog",
+      "machine learning",
+      "AI",
+      "conference"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-16",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Gartner Data & Analytics Summit",
+    "url": "https://www.gartner.com/en/conferences/apac/data-analytics-australia",
+    "published_date": "2026-05-05",
+    "summary": "Alation is presenting at the Gartner Data & Analytics Summit on June 16-17, 2026, highlighting its data catalog and governance capabilities, which directly competes with Actian's data catalog offering.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "governance",
+      "conference",
+      "Gartner",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-16",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "type": "event",
+    "title": "Data Driven Oil & Gas USA 2026",
+    "url": "https://events.reutersevents.com/oilandgas/data-driven-usa",
+    "published_date": "2026-05-05",
+    "summary": "Alation is sponsoring or presenting at the Data Driven Oil & Gas USA 2026 conference on June 25\u201326, 2026, specifically targeting the oil and gas sector with data catalog and governance solutions.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data catalog",
+      "oil & gas",
+      "conference",
+      "enterprise"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-25",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "Snowflake Summit 2026",
+    "url": "https://www.snowflake.com/en/summit/",
+    "published_date": "2026-05-05",
+    "summary": "Zilliz (Milvus) will sponsor Snowflake Summit 2026 in San Francisco to showcase Milvus vector database integration with Snowflake Data Cloud for AI/vector search workloads, signaling deeper Snowflake ecosystem alignment that challenges Actian's data integration and AI database offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "vector database",
+      "Snowflake",
+      "AI",
+      "sponsorship"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-01",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Milvus",
+    "product_area": "VectorAI",
+    "type": "event",
+    "title": "Databricks Data + AI Summit 2026",
+    "url": "https://www.databricks.com/dataaisummit",
+    "published_date": "2026-05-05",
+    "summary": "Zilliz (the company behind Milvus) will be an Enthusiast Sponsor at the Databricks Data + AI Summit 2026 in San Francisco, using booth #704 to promote Milvus's vector search integration with the Databricks Lakehouse platform, highlighting an ongoing strategic push into the enterprise Lakehouse ecosystem.",
+    "actian_relevance": "high",
+    "tags": [
+      "vector database",
+      "Databricks",
+      "lakehouse",
+      "AI",
+      "sponsorship"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-15",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "Lakehouse / Warehouse / HTAP / Postgres"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "type": "event",
+    "title": "Evanta Nordic CIO Executive Summit",
+    "url": "https://www.acceldata.io/events/evanta-nordic-cio-executive-summit",
+    "published_date": "2026-05-05",
+    "summary": "Acceldata is exhibiting at the Evanta Nordic CIO Executive Summit in May 2026, targeting Nordic CIOs and enterprise decision-makers, likely to promote their data observability platform in a market where Actian's data observability competes.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "enterprise",
+      "Nordic",
+      "executive summit",
+      "EMEA"
+    ],
+    "source_type": "event_page",
+    "event_date": null,
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "type": "event",
+    "title": "Snowflake Summit 26",
+    "url": "https://www.snowflake.com/en/summit/",
+    "published_date": "2026-05-05",
+    "summary": "Snowflake Summit 26 announced for June 1-4, 2026 in San Francisco, focusing on leading in the era of agents and enterprise intelligence, which signals Snowflake's continued prioritization of AI-powered data platforms directly competing with Actian's analytics and AI offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "AI agents",
+      "enterprise intelligence",
+      "Summit",
+      "Snowflake"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-01",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
     "scraped_at": "2026-05-05"
   },
   {
@@ -112,10 +496,10 @@
     "company": "Databricks",
     "product_area": "AI Analyst",
     "type": "event",
-    "title": "JUNE 15–18 | SAN FRANCISCO Join us at the world’s largest data, apps and AI event. Register",
+    "title": "JUNE 15\u201318 | SAN FRANCISCO Join us at the world\u2019s largest data, apps and AI event. Register",
     "url": "https://www.databricks.com/dataaisummit?itm_source=www&itm_category=home&itm_page=home&itm_location=navigation&itm_component=navigation&itm_offer=dataaisummit",
     "published_date": "2026-05-01",
-    "summary": "Databricks will host Data + AI Summit in San Francisco from June 15–18, 2025, the largest data, apps, and AI event, which may showcase competitive advancements in data catalog/governance and AI analytics, challenging Actian's platform.",
+    "summary": "Databricks will host Data + AI Summit in San Francisco from June 15\u201318, 2025, the largest data, apps, and AI event, which may showcase competitive advancements in data catalog/governance and AI analytics, challenging Actian's platform.",
     "actian_relevance": "high",
     "tags": [
       "data catalog",
@@ -138,10 +522,10 @@
     "company": "Databricks",
     "product_area": "AI Analyst",
     "type": "event",
-    "title": "Featured In-Person Event Data + AI Summit 2026 Secure your spot at the world’s largest data, apps and AI event. San Francisco, United States June 15 -",
+    "title": "Featured In-Person Event Data + AI Summit 2026 Secure your spot at the world\u2019s largest data, apps and AI event. San Francisco, United States June 15 -",
     "url": "https://www.databricks.com/dataaisummit?itm_source=www&itm_category=events&itm_page=events&itm_location=body&itm_component=drawer-card&itm_offer=dataaisummit",
     "published_date": "2026-05-01",
-    "summary": "Databricks announced Data + AI Summit 2026, scheduled for June 15–18 in San Francisco, positioning it as the world's largest data, apps, and AI event, which may drive market attention away from Actian's competing platforms.",
+    "summary": "Databricks announced Data + AI Summit 2026, scheduled for June 15\u201318 in San Francisco, positioning it as the world's largest data, apps, and AI event, which may drive market attention away from Actian's competing platforms.",
     "actian_relevance": "medium",
     "tags": [
       "conference",
@@ -238,7 +622,7 @@
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
-    "title": "Virtual event Maximizando la fiabilidad del dato bajo BCBS 239: agregación y reporting estratégico con Collibra y PwC May 26 @ 4 PM CET / 11 AM ET",
+    "title": "Virtual event Maximizando la fiabilidad del dato bajo BCBS 239: agregaci\u00f3n y reporting estrat\u00e9gico con Collibra y PwC May 26 @ 4 PM CET / 11 AM ET",
     "url": "https://www.collibra.com/events/maximizando-la-fiabilidad-del-dato-bajo-bcbs-239",
     "published_date": "2026-04-29",
     "summary": "Collibra and PwC are hosting a virtual event on May 26 focusing on data reliability under BCBS 239, targeting strategic data aggregation and reporting in banking, which signals Collibra's push into regulatory data governance that competes with Actian's data catalog capabilities.",
@@ -456,7 +840,7 @@
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
-    "title": "In-person event — Sweden - Stockholm Data Innovation Summit May 6 - 8",
+    "title": "In-person event \u2014 Sweden - Stockholm Data Innovation Summit May 6 - 8",
     "url": "https://datainnovationsummit.com/region/nordics/",
     "published_date": "2026-04-27",
     "summary": "Collibra is hosting multiple events between April 30 and , including a virtual AI command center launch, unstructured data readiness session, and in-person summits in Stockholm and London, signaling intensified focus on data governance for AI and enterprise data readiness.",
@@ -484,7 +868,7 @@
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
-    "title": "In-person event — U.K. - London Gartner Data & Analytics Summit May 11 - 13",
+    "title": "In-person event \u2014 U.K. - London Gartner Data & Analytics Summit May 11 - 13",
     "url": "https://www.gartner.com/en/conferences/emea/data-analytics-uk",
     "published_date": "2026-04-27",
     "summary": "Collibra is participating in the Gartner Data & Analytics Summit in London from May 11-13, a key industry conference where they will likely showcase their data intelligence offerings, potentially highlighting their AI command center and capabilities for managing AI readiness of unstructured data, which competes directly with Actian's data catalog and governance products.",
@@ -513,10 +897,10 @@
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
-    "title": "In-person event — U.S. - Orlando SAP Sapphire Orlando 2026 May 11 - 13",
+    "title": "In-person event \u2014 U.S. - Orlando SAP Sapphire Orlando 2026 May 11 - 13",
     "url": "https://www.sap.com/events/sapphire/orlando.html",
     "published_date": "2026-04-27",
-    "summary": "Collibra is participating in SAP Sapphire Orlando 2026, May 11–13, with multiple other virtual and in-person events (AI command center webinar Apr 30, Data Innovation Summit May 6–8, Gartner Data & Analytics Summit May 11–13), indicating aggressive customer engagement and thought leadership in AI governance and data readiness—directly competitive to Actian's data catalog/governance and AI analytics positioning.",
+    "summary": "Collibra is participating in SAP Sapphire Orlando 2026, May 11\u201313, with multiple other virtual and in-person events (AI command center webinar Apr 30, Data Innovation Summit May 6\u20138, Gartner Data & Analytics Summit May 11\u201313), indicating aggressive customer engagement and thought leadership in AI governance and data readiness\u2014directly competitive to Actian's data catalog/governance and AI analytics positioning.",
     "actian_relevance": "high",
     "tags": [
       "data governance",
@@ -569,7 +953,7 @@
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
-    "title": "In-person event — Spain - Madrid SAP Sapphire Madrid 2026 May 19 - 21",
+    "title": "In-person event \u2014 Spain - Madrid SAP Sapphire Madrid 2026 May 19 - 21",
     "url": "https://www.sap.com/events/sapphire/madrid.html",
     "published_date": "2026-04-27",
     "summary": "Collibra is hosting multiple in-person and virtual events from April to May 2026, including a Madrid SAP Sapphire conference and a virtual AI command center launch, signaling aggressive customer engagement and positioning against Actian's data catalog and AI governance capabilities.",
@@ -599,7 +983,7 @@
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "type": "event",
-    "title": "In-person event — U.S. - San Francisco Snowflake Summit 26 Jun 1 - 4",
+    "title": "In-person event \u2014 U.S. - San Francisco Snowflake Summit 26 Jun 1 - 4",
     "url": "https://www.snowflake.com/en/summit/",
     "published_date": "2026-04-27",
     "summary": "Collibra is exhibiting and speaking at the San Francisco Snowflake Summit from June 1-4, with a focus on their AI command center and data governance for AI workloads, signaling continued integration with Snowflake's ecosystem to compete in data catalog and governance.",
