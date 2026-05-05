@@ -3099,6 +3099,9 @@ function NewsPage({ lens, onOpenCompany, q, theme }) {
     acquisition:    "🔀 M&A",
     pricing:        "💲 Pricing",
     layoff:         "📉 Layoff",
+    integration:    "🌐 Integration",
+    expansion:      "🗺️ Expansion",
+    coverage:       "📰 Coverage",
     // backward-compat aliases for items scraped with old classifier
     product:        "🚀 Product launch",
   };
@@ -3111,6 +3114,9 @@ function NewsPage({ lens, onOpenCompany, q, theme }) {
     acquisition:    "oklch(0.55 0.18 340)",
     pricing:        "oklch(0.72 0.15 65)",
     layoff:         "oklch(0.55 0.14 30)",
+    integration:    "oklch(0.58 0.16 165)",
+    expansion:      "oklch(0.60 0.14 145)",
+    coverage:       "oklch(0.55 0.04 250)",
     product:        "oklch(0.60 0.17 248)",
   };
 
@@ -3203,7 +3209,7 @@ function NewsPage({ lens, onOpenCompany, q, theme }) {
           {/* Row 1 — signal types (wrap-safe chips) */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
             <span style={{ fontSize: "11px", color: "var(--ink-mute)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginRight: "4px" }}>Type</span>
-            {[{k:"all",label:"All signals"}, ...["product_launch","feature","funding","leadership","partnership","acquisition","pricing","layoff"].filter(t => typeCounts[t]).map(t => ({k:t,label:`${TYPE_LABELS[t]} (${typeCounts[t]})`}))].map(({k,label}) => (
+            {[{k:"all",label:"All signals"}, ...["product_launch","feature","integration","expansion","funding","leadership","partnership","acquisition","pricing","layoff","coverage"].filter(t => typeCounts[t]).map(t => ({k:t,label:`${TYPE_LABELS[t]} (${typeCounts[t]})`}))].map(({k,label}) => (
               <button
                 key={k}
                 onClick={() => setTypeFilter(k)}

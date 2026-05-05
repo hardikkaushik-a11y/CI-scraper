@@ -334,6 +334,10 @@ def _fallback_verdict(company: str, product_area: str,
         "blog_post":           0,
         "feature":             1,
         "layoff":              1,
+        # New news types — added 2026-05
+        "integration":         2,    # third-party tech on a platform = real competitive signal
+        "expansion":           2,    # geo/infra expansion = GTM intent
+        "coverage":            0.5,  # third-party noise; useful only for sentiment, low signal
     }
     RELEVANCE_MULT = {"high": 1.0, "medium": 0.5, "low": 0.0}
 
