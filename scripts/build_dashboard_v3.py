@@ -576,7 +576,28 @@ def _is_latin_title(title):
     return True
 
 
+# Sanity rule — runtime defensive pass. Mirrors signal_scraper._title_year_in_past.
+# Drops any signal whose title references only past years before the dashboard
+# renders it, regardless of what the JSON says. Belt-and-suspenders.
+_TITLE_YEAR_RE = re.compile(r"\b(20\d{2})\b")
+
+
+def _title_year_in_past(title: str) -> bool:
+    if not title:
+        return False
+    years = [int(y) for y in _TITLE_YEAR_RE.findall(title)]
+    if not years:
+        return False
+    return max(years) < date.today().year
+
+
 def build_launches_events(comp_signals):
+    # Defensive sanity filter on input — even if competitive_signals.json has
+    # stale items, never let them reach the dashboard.
+    before = len(comp_signals or [])
+    comp_signals = [s for s in (comp_signals or []) if not _title_year_in_past(s.get("title", ""))]
+    if before != len(comp_signals):
+        print(f"  [SANITY] dropped {before - len(comp_signals)} stale signal(s) by title-year scan")
     launches = []
     events = []
     launch_id = 1

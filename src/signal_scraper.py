@@ -120,6 +120,23 @@ _BLOCKED_URL_PATHS_RE = re.compile(
 )
 
 
+# Sanity rule — drop items whose title references only past years. Catches
+# stale conference listings (e.g. "Snowflake Summit 2024") that slip past the
+# date-window filter when the scraper can't parse a real event date and falls
+# back to the scrape date.
+_TITLE_YEAR_RE = re.compile(r"\b(20\d{2})\b")
+
+
+def _title_year_in_past(title: str) -> bool:
+    """True if title contains 4-digit year tokens AND max year < today.year."""
+    if not title:
+        return False
+    years = [int(y) for y in _TITLE_YEAR_RE.findall(title)]
+    if not years:
+        return False  # no year mentioned → defer to event_date filter
+    return max(years) < date.today().year
+
+
 def is_blocked_url(url: str) -> bool:
     """Return True if this URL should never be scraped (product page, docs, etc.)."""
     return bool(_BLOCKED_URL_PATHS_RE.search(url))
@@ -1518,6 +1535,17 @@ def main():
     # Merge new with existing, re-enforce rolling window, sort newest first
     all_signals = existing + new_signals
     all_signals = [s for s in all_signals if within_window(s.get("published_date", ""))]
+
+    # ── Sanity layer: drop items whose TITLE clearly references a past year ──
+    # The scraper sometimes can't extract a real event date and falls back to the
+    # scrape date — a title like "Snowflake Summit 2024" then sneaks past the
+    # date-window filter. Catch those here at write time.
+    before = len(all_signals)
+    all_signals = [s for s in all_signals if not _title_year_in_past(s.get("title", ""))]
+    dropped = before - len(all_signals)
+    if dropped:
+        print(f"  [SANITY] dropped {dropped} item(s) — title year < {date.today().year}")
+
     all_signals.sort(key=lambda s: s.get("published_date", ""), reverse=True)
 
     OUTPUT_FILE.write_text(json.dumps(all_signals, indent=2))
