@@ -1237,6 +1237,7 @@ def fetch_event_page_playwright(company: str, url: str) -> list[dict]:
                     continue
                 seen_titles.add(c["title"])
                 seen_hrefs.add(c["url"])
+                c["_pre_curated"] = True  # signal downstream gate to trust this item
                 items.append(c)
             print(f"  [Pinecone] Strategy Pinecone: {len(items)} events kept (top 3 by date, hackathons dropped)")
             if items:
@@ -1735,7 +1736,11 @@ def main():
                 continue
 
             # ── Event quality gate — 4-tier filter (event page items) ────────────
-            if classification["type"] != "product_launch":
+            # Vendor-specific strategies (e.g. Strategy Pinecone) that already curate
+            # to a tight top-N can mark items _pre_curated to bypass noise gates.
+            # The strategy did the editorial work; downstream gates should trust it.
+            pre_curated = bool(item.get("_pre_curated"))
+            if classification["type"] != "product_launch" and not pre_curated:
                 # Tier 0 (HARD RULE): an event without a parseable date is NOT an event.
                 # This kills section-header captures (e.g. "Upcoming Events"), on-demand
                 # webinars (no date), and any phantom row that slipped past Strategy A/B.
