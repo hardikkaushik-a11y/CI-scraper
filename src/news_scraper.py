@@ -313,26 +313,80 @@ _INTEGRATION_RE = re.compile(
 )
 
 _EXPANSION_RE = re.compile(
-    # "Frankfurt cloud region", "expands to Singapore", "new region in Tokyo"
-    r"\b(?:new\s+)?(?:cloud\s+)?region\s+(?:in|on)\s+\w+|"
-    r"\bexpand(?:s|ed|ing)?\s+(?:to|in|into)\s+(?:Frankfurt|Singapore|Tokyo|Sydney|"
+    # "Frankfurt cloud region", "expands to Singapore", "new region in Tokyo",
+    # "expands in Europe", "first serverless region in Asia"
+    r"\b(?:new\s+|first\s+\w*\s*)?(?:cloud\s+|serverless\s+)?region\s+(?:in|on|across)\s+"
+    r"(?:\w+|Europe|Asia|EMEA|APAC|Americas?)|"
+    r"\bexpand(?:s|ed|ing)?\s+(?:to|in|into|across)\s+(?:Frankfurt|Singapore|Tokyo|Sydney|"
     r"London|Paris|Mumbai|Berlin|Dublin|Madrid|Toronto|São?\s*Paulo|Seoul|"
-    r"Asia|Europe|EMEA|APAC|North\s+America|South\s+America)|"
+    r"Asia|Europe|EMEA|APAC|North\s+America|South\s+America|Americas?)|"
     r"\b(?:Frankfurt|Singapore|Tokyo|Sydney|Mumbai|Seoul|Toronto)\s+(?:cloud\s+)?region\b|"
-    r"\bnew\s+(?:cloud\s+)?(?:region|data\s+center)\b|"
-    r"\b(?:opening|launches?\s+first)\s+(?:cloud\s+)?(?:region|data\s+center)\b",
+    r"\bnew\s+(?:cloud\s+|serverless\s+)?(?:region|data\s+center)\b|"
+    r"\b(?:opening|launches?\s+first|launches?\s+\w+\s+first)\s+(?:cloud\s+|serverless\s+)?"
+    r"(?:region|data\s+center)\b",
+    re.I,
+)
+
+# Feature/expansion of an EXISTING product (not a new product launch).
+# e.g. "Snowflake Expands Snowflake Intelligence", "Cortex Code Expands",
+# "broadens open-source embrace", "updates further goal of being control plane"
+_FEATURE_EXPANSION_RE = re.compile(
+    # Match expand/extend/broaden/enhance verbs anywhere in the title.
+    # Use \b boundaries (not \s+) so 'Expands:' is caught the same as 'expands the'.
+    # Negative lookahead excludes 'expands in Europe/Asia' (that's expansion type).
+    r"\b(?:expands?(?!\s+(?:in|to|across)\s+(?:Europe|Asia|EMEA|APAC|Americas?))|"
+    r"expanded|expanding|broadens?|broadened|extends?|extended|extending|"
+    r"enhances?|enhanced|deepens?|strengthens?|"
+    r"updates\s+(?:further|its|the)\s+)\b",
+    re.I,
+)
+
+# Tutorial / how-to / blog content masquerading as a launch.
+# "Use the X Plugin", "Build with X", "Unlocking X with Y", "Agentic X with Y"
+# (reads like a use-case post about an already-shipped product).
+_TUTORIAL_BLOG_RE = re.compile(
+    r"^\s*(?:Use\s+the\s+|Building\s+|Build\s+with\s+|Unlocking\s+|"
+    r"Agentic\s+[\w\s]{1,40}?\s+with\s+|"  # "Agentic Data Engineering with Genie Code"
+    r"How\s+to\s+(?!launch)|Getting\s+started\s+with\s+|"
+    r"Discover\s+(?:All|Every|How|the))",
+    re.I,
+)
+
+# HR / recruiting tools — not data products, not strategically relevant for CI.
+_RECRUITING_TOOL_RE = re.compile(
+    r"\b(?:for\s+(?:Technical\s+)?Talent|recruiting|hiring|job\s+seekers?|"
+    r"interview\s+(?:prep|tool))\b",
+    re.I,
+)
+
+# Marketing pillar / positioning copy — vague titles with no specific
+# capability. "Snowflake Intelligence: From Answers to Action with Your Personal..."
+# "Cortex Agents: The Platform Powering Snowflake Intelligence and Enterprise AI Agents"
+_MARKETING_PILLAR_RE = re.compile(
+    r":\s*(?:The\s+Platform\s+Powering|From\s+\w+\s+to\s+\w+\s+with|"
+    r"The\s+(?:Future|Foundation)\s+of)\b",
     re.I,
 )
 
 
 def _pre_classify(title: str) -> str | None:
-    """Returns a news_type if a deterministic rule matches; otherwise None."""
+    """Returns a news_type if a deterministic rule matches; otherwise None.
+    Order matters — coverage/integration/expansion checked before feature so a
+    'GPT-5.5 on Snowflake' doesn't get downgraded to feature."""
     if _COVERAGE_RE.search(title):
         return "coverage"
     if _INTEGRATION_RE.search(title):
         return "integration"
     if _EXPANSION_RE.search(title):
         return "expansion"
+    if _RECRUITING_TOOL_RE.search(title):
+        return None  # drop — not a CI signal
+    if _TUTORIAL_BLOG_RE.search(title):
+        return "feature"  # downgrade to feature/blog (not a launch)
+    if _MARKETING_PILLAR_RE.search(title):
+        return "feature"  # marketing positioning, not a launch
+    if _FEATURE_EXPANSION_RE.search(title):
+        return "feature"
     return None
 
 

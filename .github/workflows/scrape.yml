@@ -5,6 +5,16 @@ on:
     - cron: '0 6 * * *'  # Daily at 06:00 UTC (all weekdays)
     - cron: '0 6 * * 6'  # Saturday 06:00 UTC (weekly digest)
   workflow_dispatch:      # Manual trigger
+    inputs:
+      mode:
+        description: 'Run scope — `full` (default, ~25min), `news-only` (~5min, news+verdicts+dashboards), `dashboard-only` (~1min, just rebuild HTML from existing data)'
+        required: false
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - news-only
+          - dashboard-only
 
 permissions:
   contents: write
@@ -46,40 +56,52 @@ jobs:
           restore-keys: |
             jobs-enriched-csv-
 
-      # ── Run pipeline ─────────────────────────────────────────────────
+      # MODE: scheduled runs default to 'full'; manual dispatch can pick a smaller scope.
+      # Each step gates on whether the chosen mode includes its work.
+
+      # ── Heavy scrapers — only on full mode ───────────────────────────
       - name: Run scraper
+        if: github.event_name == 'schedule' || inputs.mode == 'full'
         run: python src/scraper.py
 
       - name: Run enrichment + signal generation
+        if: github.event_name == 'schedule' || inputs.mode == 'full'
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python src/enrich.py
 
       - name: Run competitive signal scraper (launches + events)
+        if: github.event_name == 'schedule' || inputs.mode == 'full'
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python src/signal_scraper.py
 
+      # ── News + verdicts — full and news-only modes ───────────────────
       - name: Scrape company newsrooms (press releases)
+        if: github.event_name == 'schedule' || inputs.mode == 'full' || inputs.mode == 'news-only'
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python src/news_scraper.py
 
       - name: Generate intelligence verdicts (Phase 2.5 — verdict layer)
+        if: github.event_name == 'schedule' || inputs.mode == 'full' || inputs.mode == 'news-only'
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python src/verdict_engine.py
 
       - name: Build strategic roadmaps (published + inferred)
+        if: github.event_name == 'schedule' || inputs.mode == 'full' || inputs.mode == 'news-only'
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python src/roadmaps.py
         continue-on-error: true
 
+      # ── Always: semantic layer + V2 dataset + dashboards ─────────────
       - name: Precompute Ask CI semantic layer
         run: python src/build_semantic_layer.py
 
       - name: Refresh v2 dataset (keep in sync with latest enriched data)
+        if: github.event_name == 'schedule' || inputs.mode == 'full'
         run: python scripts/create_v2_dataset.py
 
       - name: Regenerate dashboard_v2.html with latest data (Phase 3b)
