@@ -39,6 +39,12 @@ def main():
 
     kept = 0
     skipped = 0
+    ai_analyst_dropped = 0
+
+    # AI Analyst companies — only keep roles flagged as overlap=yes.
+    # Roles classified as 'no' are dropped from V2 dataset (not AI Analyst-relevant).
+    # Blank classification is kept (e.g. when DeepSeek wasn't run).
+    AI_ANALYST_FILTER = {"Snowflake", "Databricks"}
 
     with INPUT.open(newline="", encoding="utf-8") as fin, \
          OUTPUT.open("w", newline="", encoding="utf-8") as fout:
@@ -53,11 +59,17 @@ def main():
             if company not in ALLOWED:
                 skipped += 1
                 continue
+            # AI Analyst scope: drop roles classified as 'no'
+            if company in AI_ANALYST_FILTER:
+                overlap = (row.get("AI_Analyst_Overlap") or "").strip().lower()
+                if overlap == "no":
+                    ai_analyst_dropped += 1
+                    continue
             row["product_area"] = PRODUCT_AREA_MAP[company]
             writer.writerow(row)
             kept += 1
 
-    print(f"Done. Kept: {kept} rows | Skipped: {skipped} rows")
+    print(f"Done. Kept: {kept} rows | Skipped (non-V2): {skipped} | Dropped (non-AI-Analyst-overlap): {ai_analyst_dropped}")
     print(f"Written to: {OUTPUT}")
 
 

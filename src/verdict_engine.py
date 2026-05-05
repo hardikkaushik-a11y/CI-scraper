@@ -20,6 +20,11 @@ from team_routing import (
     compute_team_relevance,
     TEAM_ORDER,
 )
+from themes import (
+    classify_themes,
+    aggregate_themes,
+    derive_product_areas,
+)
 
 # ══════════════════════════════════════════════════════════════════════════
 # CONFIG
@@ -29,7 +34,7 @@ DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 DEEPSEEK_MODEL = "deepseek-chat"  # V4-Flash
 
 # Bump this to force all verdicts to regenerate when scoring logic changes
-VERDICT_VERSION = "6"  # v6: news items now contribute to impact_level + signal score
+VERDICT_VERSION = "9"  # v9: areas[] = [primary] only (no theme-driven expansion)
 
 SIGNALS_PATH = "data/signals.json"
 COMPETITIVE_SIGNALS_PATH = "data/competitive_signals.json"
@@ -117,7 +122,9 @@ A verdict can route to multiple teams. Return as array in canonical order:
 Also produce team_relevance — how relevant this verdict is to each team on a 0–5 scale
 (0 = ignore, 5 = immediate action). Teams in team_routing get higher scores.
 
-Return ONLY valid JSON — no markdown, no commentary:
+Return ONLY valid JSON — no markdown, no commentary. Use straight ASCII quotes (").
+Escape any double quotes inside string values with backslash. No trailing commas.
+Do not include any text outside the JSON object.
 {
   "company": "<company name>",
   "signal_type": "hiring + event | hiring only | event only | none",
@@ -327,6 +334,10 @@ def _fallback_verdict(company: str, product_area: str,
         "blog_post":           0,
         "feature":             1,
         "layoff":              1,
+        # New news types — added 2026-05
+        "integration":         2,    # third-party tech on a platform = real competitive signal
+        "expansion":           2,    # geo/infra expansion = GTM intent
+        "coverage":            0.5,  # third-party noise; useful only for sentiment, low signal
     }
     RELEVANCE_MULT = {"high": 1.0, "medium": 0.5, "low": 0.0}
 
@@ -792,17 +803,33 @@ def generate_verdict(company: str, product_area: str,
         print(f"  [FALLBACK] {company} — DeepSeek call failed, using rule-based logic")
         return _fallback_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
-    # Strip markdown fences if Claude wrapped it
+    # Strip markdown fences if model wrapped it
     text = raw.strip()
     if text.startswith("```"):
         lines = text.split("\n")
         text = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
 
+    # Extract first {...} block in case there's preamble/trailing prose
+    import re as _re
+    m = _re.search(r"\{[\s\S]*\}", text)
+    if m:
+        text = m.group(0)
+
+    parsed = None
     try:
         parsed = json.loads(text)
-    except json.JSONDecodeError as e:
-        print(f"  [FALLBACK] {company} — JSON parse failed, using rule-based logic: {e}")
-        return _fallback_verdict(company, product_area, hiring_signal, comp_signals)
+    except json.JSONDecodeError:
+        # Best-effort repair: trailing commas, smart quotes, unescaped newlines in strings
+        repaired = text
+        repaired = _re.sub(r",(\s*[}\]])", r"\1", repaired)            # trailing commas
+        repaired = repaired.replace("“", '"').replace("”", '"')  # smart quotes
+        repaired = repaired.replace("‘", "'").replace("’", "'")
+        try:
+            parsed = json.loads(repaired)
+            print(f"  [REPAIR] {company} — JSON repaired after retry")
+        except json.JSONDecodeError as e:
+            print(f"  [FALLBACK] {company} — JSON parse failed, using rule-based logic: {e}")
+            return _fallback_verdict(company, product_area, hiring_signal, comp_signals, news_items)
 
     return parsed
 
@@ -914,9 +941,23 @@ def main():
                     posting_count=(hiring_signal or {}).get("posting_count", 0),
                 )
 
+            # Aggregate themes from all signals + news for this company,
+            # then derive multi-area product list (primary + theme-driven).
+            all_signal_items = list(comp_signals) + list(news_items)
+            verdict_themes = aggregate_themes(all_signal_items)
+            # If no themes from signals, also try classifying the verdict text itself
+            if not verdict_themes and verdict_data.get("what_is_happening"):
+                verdict_themes = classify_themes(
+                    verdict_data.get("what_is_happening", ""),
+                    verdict_data.get("primary_interpretation", ""),
+                )
+            multi_areas = derive_product_areas(product_area, verdict_themes)
+
             verdict = {
                 "company":                    company,
                 "product_area":               product_area,
+                "product_areas":              multi_areas,
+                "themes":                     verdict_themes,
                 "signal_type":                verdict_data.get("signal_type", "none"),
                 "impact_level":               impact_level,
                 "what_is_happening":          verdict_data.get("what_is_happening", ""),

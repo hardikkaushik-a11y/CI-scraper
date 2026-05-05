@@ -21,6 +21,7 @@ import httpx
 from bs4 import BeautifulSoup
 
 from team_routing import route_by_news_type
+from themes import classify_themes
 
 # ══════════════════════════════════════════════════════════════════════════
 # CONFIG
@@ -87,10 +88,11 @@ NEWSROOM_URLS = {
     # Acceldata: newsroom only — their blog has persistent CMS date injection
     # (always returns today's date; items would fail within_window check)
     "Acceldata": "https://www.acceldata.io/newsroom",
-    # Milvus/Zilliz: Zilliz news + Milvus blog for vector DB integration releases
+    # Milvus/Zilliz: Zilliz news + Milvus blog + roadmap (major product announcements)
     "Milvus": [
         "https://zilliz.com/news",
         "https://milvus.io/blog/",
+        "https://milvus.io/docs/roadmap.md",
     ],
     # Snowflake: press releases + coverage + blog for AI/agent integration posts
     "Snowflake": [
@@ -98,6 +100,9 @@ NEWSROOM_URLS = {
         "https://www.snowflake.com/en/news/news-coverage/",
         "https://www.snowflake.com/blog/",
     ],
+    # Pinecone: roadmap is publicly published; major version announcements land there first
+    # (note: news_scraper expects article listings; for single-page roadmaps the new
+    # signal_scraper roadmap path picks them up — see roadmap_pages config below)
     # Databricks: press releases + coverage + blog for open-source/agent releases
     "Databricks": [
         "https://www.databricks.com/company/newsroom/press-releases",
@@ -288,6 +293,49 @@ _DROP_RE = re.compile(
 )
 
 
+# ─── Deterministic pre-classification rules (run BEFORE DeepSeek) ─────────
+# Catch obvious miscategorizations at the title level before the LLM sees them.
+# These short-circuit DeepSeek and assign the type directly.
+
+_COVERAGE_RE = re.compile(
+    r"\b(TechTarget|TechCrunch|VentureBeat|ZDNet|Forbes|Reuters|Bloomberg|"
+    r"Computerworld|CIO\.com|InfoWorld|SiliconAngle|Wall Street Journal|WSJ|"
+    r"The Register|The Information|Business Insider|CNBC|Wired|Forrester|Gartner)\b",
+    re.I,
+)
+
+_INTEGRATION_RE = re.compile(
+    # "GPT-5.5 on Snowflake", "Claude 3 in Databricks", "Llama 4 available on X"
+    r"\b(GPT[-\s]?[0-9.]+|Claude\s*[0-9]+|Gemini|Llama\s*[0-9]+|Codex|"
+    r"OpenAI|Anthropic|Mistral|Cohere)\b.{1,40}\b(on|in|available\s+on|now\s+on|"
+    r"now\s+available\s+(?:on|in)|fully[-\s]governed\s+(?:on|in))\b",
+    re.I,
+)
+
+_EXPANSION_RE = re.compile(
+    # "Frankfurt cloud region", "expands to Singapore", "new region in Tokyo"
+    r"\b(?:new\s+)?(?:cloud\s+)?region\s+(?:in|on)\s+\w+|"
+    r"\bexpand(?:s|ed|ing)?\s+(?:to|in|into)\s+(?:Frankfurt|Singapore|Tokyo|Sydney|"
+    r"London|Paris|Mumbai|Berlin|Dublin|Madrid|Toronto|São?\s*Paulo|Seoul|"
+    r"Asia|Europe|EMEA|APAC|North\s+America|South\s+America)|"
+    r"\b(?:Frankfurt|Singapore|Tokyo|Sydney|Mumbai|Seoul|Toronto)\s+(?:cloud\s+)?region\b|"
+    r"\bnew\s+(?:cloud\s+)?(?:region|data\s+center)\b|"
+    r"\b(?:opening|launches?\s+first)\s+(?:cloud\s+)?(?:region|data\s+center)\b",
+    re.I,
+)
+
+
+def _pre_classify(title: str) -> str | None:
+    """Returns a news_type if a deterministic rule matches; otherwise None."""
+    if _COVERAGE_RE.search(title):
+        return "coverage"
+    if _INTEGRATION_RE.search(title):
+        return "integration"
+    if _EXPANSION_RE.search(title):
+        return "expansion"
+    return None
+
+
 _NEWS_CLASSIFY_SYSTEM = """\
 You are a competitive intelligence analyst at Actian Corporation — a data integration \
 and analytics platform. Classify a competitor news item for the Actian team.
@@ -296,22 +344,42 @@ Return ONLY valid JSON. No commentary. No markdown fences.
 
 Required fields:
 - "news_type": one of exactly: funding, acquisition, leadership, partnership, pricing, \
-product_launch, feature, layoff — or null to drop the item
+product_launch, feature, integration, expansion, coverage, layoff — or null to drop the item
 - "actian_relevance": one of exactly: high, medium, low
 - "tags": array of 0–4 short tags (e.g. ["Series C", "$120M", "AI", "CEO"])
 - "summary": 1 sharp sentence explaining what happened and why it matters to Actian
 
-Classification rules:
-- leadership: C-suite appointment or departure only (CEO/CTO/CFO/CRO/CPO/COO/CMO)
-- product_launch: new product, major feature GA, new capability announced
-- feature: incremental improvement to existing product
-- funding: investment round, IPO, or strategic investment
-- acquisition: company acquired or acquiring another
-- partnership: integration, technology alliance, OEM/reseller deal
-- pricing: pricing change, new tier, or monetization announcement
-- layoff: workforce reduction
-- Return null for news_type if the item is a blog post, thought leadership, or general news \
-with no competitive signal for Actian
+Classification rules — be STRICT, do not over-classify as product_launch:
+- product_launch: a NEW first-party product or service hits GA / public preview, \
+or a brand-new capability is announced for the first time. Must be the vendor's OWN \
+announcement of THEIR OWN new thing.
+- feature: incremental improvement / extension of an EXISTING product (e.g., \
+"X expands", "X adds Y", "next version of X", "X v2.0", "X.x update"). NOT a new product.
+- integration: third-party tech becomes available on the vendor's platform \
+(e.g., "GPT-5.5 on Snowflake Cortex", "OpenAI + Codex on Databricks"). The signal is \
+about availability, not a new product the vendor built. Distinguished from `partnership` \
+which is the deal/announcement itself.
+- expansion: geographic or infrastructure footprint expansion — new cloud regions, \
+new data centers, market entry into new geographies (e.g., "Pinecone Frankfurt region", \
+"Expand to Singapore").
+- coverage: third-party media article ABOUT the vendor (TechTarget, TechCrunch, VentureBeat, \
+ZDNet, Forbes, Reuters, Bloomberg, Computerworld, CIO.com, Forrester, Gartner). NOT the \
+vendor's own announcement. Mark `actian_relevance` as `low` unless the article reveals a \
+strategic move not already announced elsewhere.
+- partnership: vendor-announced strategic alliance / OEM / reseller deal (their own news).
+- funding: investment round, IPO, or strategic investment.
+- acquisition: company acquired or acquiring another.
+- leadership: C-suite appointment or departure only (CEO/CTO/CFO/CRO/CPO/COO/CMO).
+- pricing: pricing change, new tier, or monetization announcement.
+- layoff: workforce reduction.
+- Return null for news_type if the item is a blog post, thought leadership, tutorial, \
+explainer, customer story, or general news with no competitive signal for Actian.
+
+Hard test for product_launch vs feature:
+- Could a customer buy this thing today as a NEW SKU/product? → product_launch
+- Is it a new version, expansion, "now also supports", "expanded to" of something \
+already shipped? → feature
+- Is it a third-party tech now available on the vendor's platform? → integration
 """
 
 
@@ -350,7 +418,8 @@ def _call_deepseek_news(title: str, description: str, company: str) -> dict | No
         if parsed.get("news_type") is None:
             return None  # DeepSeek says drop
         valid_types = {"funding", "acquisition", "leadership", "partnership",
-                       "pricing", "product_launch", "feature", "layoff"}
+                       "pricing", "product_launch", "feature", "layoff",
+                       "integration", "expansion", "coverage"}
         if parsed.get("news_type") not in valid_types:
             return None
         if parsed.get("actian_relevance") not in ("high", "medium", "low"):
@@ -373,11 +442,28 @@ def classify_item(company: str, title: str, description: str, url: str) -> dict 
     if _DROP_RE.search(title):
         return None
 
+    # Deterministic pre-classification — catches obvious miscategorizations
+    # (third-party coverage, integrations, region expansions) BEFORE DeepSeek
+    # would mislabel them as product_launch.
+    pre = _pre_classify(title)
+    if pre is not None:
+        # Coverage downgrades relevance — third-party noise unless tagged otherwise
+        relevance = "low" if pre == "coverage" else "medium"
+        return {
+            "news_type": pre,
+            "actian_relevance": relevance,
+            "tags": [],
+            "team_routing": route_by_news_type(pre),
+            "themes": classify_themes(title, description),
+            "summary": title,
+        }
+
     # Try DeepSeek first
     if DEEPSEEK_API_KEY:
         result = _call_deepseek_news(title, description, company)
         if result is not None:
             result["team_routing"] = route_by_news_type(result["news_type"])
+            result["themes"] = classify_themes(title, description, result.get("summary", ""))
             return result
         # result == None means DeepSeek said drop the item
         # but we only trust that if the API call succeeded; a connection error
@@ -427,6 +513,7 @@ def classify_item(company: str, title: str, description: str, url: str) -> dict 
         "actian_relevance": relevance,
         "tags": tags,
         "team_routing": route_by_news_type(news_type),
+        "themes": classify_themes(title, description),
     }
 
 
@@ -1120,10 +1207,11 @@ def main():
                 "url": url,
                 "published_date": article["published_date"],
                 "source": "company_newsroom",
-                "summary": _clean_summary(desc, title),
+                "summary": classification.get("summary") or _clean_summary(desc, title),
                 "actian_relevance": classification["actian_relevance"],
                 "tags": classification["tags"],
                 "team_routing": classification["team_routing"],
+                "themes": classification.get("themes", []),
                 "event_date": None,
                 "scraped_at": today_str,
             }

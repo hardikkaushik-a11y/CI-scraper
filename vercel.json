@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "functions": {
+    "api/ask-ci.py": {
+      "memory": 512,
+      "maxDuration": 30
+    }
+  }
+}

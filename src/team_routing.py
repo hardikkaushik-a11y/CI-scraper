@@ -47,6 +47,10 @@ def route_by_news_type(news_type: str) -> list[str]:
         "product_launch": ["Product", "PMM", "Marketing"],
         "feature":        ["Product", "PMM"],
         "layoff":         ["Executives", "SDRs"],
+        # New types
+        "integration":    ["Product", "PMM"],          # third-party LLM/tool now on a vendor's platform
+        "expansion":      ["SDRs", "Marketing", "PMM"], # geographic / infra footprint expansion
+        "coverage":       ["Marketing", "PMM"],         # third-party media — analyst sentiment tracking
     }
     return _ordered(routing.get(news_type, ["PMM"]))
 

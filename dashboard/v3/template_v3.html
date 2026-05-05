@@ -1994,7 +1994,21 @@ function VerdictCard({ c, lens, onOpen }) {
       <header className="vcard-head">
         <div className="vcard-head-l">
           <h3 className="vcard-name">{c.name}</h3>
-          <AreaBadge>{c.area}</AreaBadge>
+          <div style={{display:"flex", gap:"6px", flexWrap:"wrap", alignItems:"center"}}>
+            {(c.areas && c.areas.length ? c.areas : [c.area]).map(a =>
+              <AreaBadge key={a}>{a}</AreaBadge>
+            )}
+            {c.battlecardUrl ? (
+              <a href={c.battlecardUrl} target="_blank" rel="noopener noreferrer"
+                 onClick={e => e.stopPropagation()}
+                 style={{
+                   fontSize:"10px", padding:"2px 8px", borderRadius:"10px",
+                   background:"rgba(99,102,241,0.15)", color:"#818cf8",
+                   border:"1px solid rgba(99,102,241,0.35)", textDecoration:"none",
+                   fontWeight:600, letterSpacing:"0.02em",
+                 }}>📋 Battlecard</a>
+            ) : null}
+          </div>
         </div>
         <div className="vcard-head-r">
           <ThreatBadge level={c.threat} />
@@ -2089,6 +2103,7 @@ function Sidebar({ lens, onLens, collapsed, onToggle, page, onPage }) {
           { id:"launches",  label:"Launches & events",   desc:"Signal timeline",    icon:"◇" },
           { id:"news",      label:"News",                desc:"Press releases",     icon:"◧" },
           { id:"companies", label:"Companies",           desc:"Roster of 11",       icon:"◫" },
+          { id:"slack",     label:"Slack routing",       desc:"Pending approval",   icon:"#" },
         ].map(p => (
           <button
             key={p.id}
@@ -2144,10 +2159,10 @@ function Sidebar({ lens, onLens, collapsed, onToggle, page, onPage }) {
 
           <div className="sb-foot">
             <div className="sb-foot-user">
-              <div className="sb-avatar">MR</div>
+              <div className="sb-avatar">CI</div>
               <div className="sb-foot-text">
-                <div className="sb-foot-name">Morgan Reyes</div>
-                <div className="sb-foot-role">Head of CI · Actian</div>
+                <div className="sb-foot-name">Competitive Intelligence</div>
+                <div className="sb-foot-role">Actian</div>
               </div>
             </div>
           </div>
@@ -2175,13 +2190,14 @@ function KpiTile({ k, v, delta, deltaDir, sub, tone }) {
   );
 }
 
-function TopBar({ onSearch, q, onChat, onNotif, lens, page, onPage }) {
+function TopBar({ onSearch, q, onChat, onNotif, lens, page, onPage, theme, onTheme, themes }) {
   const pageLabels = {
     launches: "Launches & events",
     companies: "Companies",
     hiring: "Hiring intelligence",
     dashboard: "Verdict view",
     news: "News & press releases",
+    slack: "Slack routing",
   };
   const pageLabel = pageLabels[page] || "Verdict view";
   return (
@@ -2195,6 +2211,33 @@ function TopBar({ onSearch, q, onChat, onNotif, lens, page, onPage }) {
       </div>
 
       <div className="tb-tools">
+        <select
+          className="tb-theme"
+          value={theme || "all"}
+          onChange={e => onTheme(e.target.value)}
+          title="Filter all pages by theme"
+          style={{
+            background:"transparent",
+            border:"1px solid var(--border)",
+            borderRadius:"8px",
+            color: theme && theme !== "all" ? "var(--blue-600)" : "var(--ink-soft)",
+            fontSize:"12px",
+            fontFamily:"inherit",
+            padding:"6px 24px 6px 10px",
+            cursor:"pointer",
+            outline:"none",
+            appearance:"none",
+            WebkitAppearance:"none",
+            backgroundImage:"linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%)",
+            backgroundPosition:"right 10px top 14px, right 6px top 14px",
+            backgroundSize:"4px 4px, 4px 4px",
+            backgroundRepeat:"no-repeat",
+            fontWeight: theme && theme !== "all" ? 600 : 400,
+          }}
+        >
+          <option value="all">All themes</option>
+          {(themes || []).map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
         <div className="tb-search">
           <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
             <circle cx="6" cy="6" r="4" fill="none" stroke="currentColor" strokeWidth="1.4"/>
@@ -2203,7 +2246,7 @@ function TopBar({ onSearch, q, onChat, onNotif, lens, page, onPage }) {
           <input
             value={q}
             onChange={e => onSearch(e.target.value)}
-            placeholder="Search competitors, signals, briefs…"
+            placeholder="Search competitors, signals, themes, briefs…"
           />
           <span className="tb-search-kbd">⌘K</span>
         </div>
@@ -2283,9 +2326,20 @@ function BriefDrawer({ comp, lens, onClose }) {
           <div>
             <div className="drw-eyebrow">Full brief · {lens} lens</div>
             <h2 className="drw-title">{comp.name}</h2>
-            <div className="drw-sub">
-              <window.AreaBadge>{comp.area}</window.AreaBadge>
+            <div className="drw-sub" style={{display:"flex", gap:"6px", flexWrap:"wrap", alignItems:"center"}}>
+              {(comp.areas && comp.areas.length ? comp.areas : [comp.area]).map(a =>
+                <window.AreaBadge key={a}>{a}</window.AreaBadge>
+              )}
               <window.ThreatBadge level={comp.threat} />
+              {comp.battlecardUrl ? (
+                <a href={comp.battlecardUrl} target="_blank" rel="noopener noreferrer"
+                   style={{
+                     fontSize:"11px", padding:"3px 10px", borderRadius:"12px",
+                     background:"rgba(99,102,241,0.15)", color:"#818cf8",
+                     border:"1px solid rgba(99,102,241,0.35)", textDecoration:"none",
+                     fontWeight:600, letterSpacing:"0.02em",
+                   }}>📋 Battlecard</a>
+              ) : null}
               <span className="drw-updated">Updated {comp.updated}</span>
               <span className="drw-classification">public data</span>
             </div>
@@ -2305,17 +2359,88 @@ function BriefDrawer({ comp, lens, onClose }) {
           <p className="drw-p drw-p-action">{comp.action[lens] || comp.action.All}</p>
         </section>
 
-        {comp.roadmap && (
-          <section className="drw-sec drw-roadmap">
-            <h4 className="drw-h">Strategic direction</h4>
-            <div className="drw-roadmap-title">{comp.roadmap.direction}</div>
-            <div className="drw-roadmap-meta">
-              <span><span className="drw-roadmap-k">Confidence</span><span className="drw-roadmap-val">{comp.roadmap.confidence}</span></span>
-              <span><span className="drw-roadmap-k">Timeline</span><span className="drw-roadmap-val">{comp.roadmap.timeline}</span></span>
-            </div>
-            <p className="drw-p drw-roadmap-watch"><span className="drw-roadmap-k">Watch for</span> {comp.roadmap.watchFor}</p>
-          </section>
-        )}
+        {comp.roadmap && (() => {
+          const rm = comp.roadmap;
+          // Detect new richer schema (has pillars[]) vs legacy flat schema
+          const isNew = Array.isArray(rm.pillars);
+          if (!isNew) {
+            // Legacy flat fallback (direction/confidence/timeline/watchFor)
+            return (
+              <section className="drw-sec drw-roadmap">
+                <h4 className="drw-h">Strategic direction</h4>
+                <div className="drw-roadmap-title">{rm.direction}</div>
+                <div className="drw-roadmap-meta">
+                  <span><span className="drw-roadmap-k">Confidence</span><span className="drw-roadmap-val">{rm.confidence}</span></span>
+                  <span><span className="drw-roadmap-k">Timeline</span><span className="drw-roadmap-val">{rm.timeline}</span></span>
+                </div>
+                <p className="drw-p drw-roadmap-watch"><span className="drw-roadmap-k">Watch for</span> {rm.watchFor}</p>
+              </section>
+            );
+          }
+          // New roadmap schema
+          const isPublished = rm.source === "published";
+          const badgeIcon = isPublished ? "🗺️" : "🔮";
+          const badgeText = isPublished ? "Roadmap · published" : "Inferred direction";
+          const accent = isPublished ? "#0ea5e9" : "#f59e0b";
+          const conf = (rm.overall_confidence || "medium").toLowerCase();
+          const confColor = conf === "high" ? "#10b981" : conf === "medium" ? "#f59e0b" : "#94a3b8";
+          return (
+            <section className="drw-sec">
+              <div style={{display:"flex", alignItems:"center", gap:"10px", marginBottom:"6px"}}>
+                <h4 className="drw-h" style={{margin:0}}>Strategic direction</h4>
+                <span style={{
+                  fontSize:"10px", padding:"2px 8px", borderRadius:"10px",
+                  background:`color-mix(in oklab, ${accent}, white 88%)`,
+                  color: accent, fontWeight:600, fontFamily:"var(--font-mono)",
+                  textTransform:"uppercase", letterSpacing:"0.05em",
+                }}>{badgeIcon} {badgeText}</span>
+                {rm.url && (
+                  <a href={rm.url} target="_blank" rel="noopener noreferrer"
+                     style={{fontSize:"11px", color: accent, textDecoration:"none"}}>↗ source</a>
+                )}
+              </div>
+              {rm.title && <div className="drw-roadmap-title" style={{fontWeight:600, fontSize:"15px", marginBottom:"6px"}}>{rm.title}</div>}
+              {rm.summary && <p className="drw-p" style={{marginBottom:"12px"}}>{rm.summary}</p>}
+              {rm.pillars && rm.pillars.length > 0 && (
+                <div style={{display:"grid", gap:"10px", marginBottom:"12px"}}>
+                  {rm.pillars.map((p, i) => {
+                    const pc = (p.confidence || "medium").toLowerCase();
+                    const pcColor = pc === "high" ? "#10b981" : pc === "medium" ? "#f59e0b" : "#94a3b8";
+                    return (
+                      <div key={i} style={{
+                        padding:"10px 12px", border:"1px solid var(--border)",
+                        borderRadius:"8px", borderLeft:`3px solid ${pcColor}`,
+                      }}>
+                        <div style={{display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"4px"}}>
+                          <div style={{fontWeight:600, fontSize:"13.5px"}}>{p.name}</div>
+                          <span style={{fontSize:"10px", color: pcColor, fontFamily:"var(--font-mono)", textTransform:"uppercase", letterSpacing:"0.05em"}}>{pc} confidence</span>
+                        </div>
+                        <div style={{fontSize:"12.5px", color:"var(--ink-soft)", lineHeight:1.5}}>{p.evidence}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              <div style={{display:"flex", gap:"24px", flexWrap:"wrap", fontSize:"12px", marginBottom:"10px"}}>
+                <span><span className="drw-roadmap-k">Timeline</span> <span className="drw-roadmap-val">{rm.timeline_estimate || "—"}</span></span>
+                <span><span className="drw-roadmap-k">Overall confidence</span> <span style={{color: confColor, fontWeight:600, fontSize:"12px"}}>{conf}</span></span>
+              </div>
+              {rm.actian_competitive_impact && (
+                <p className="drw-p" style={{fontSize:"12.5px", fontStyle:"italic", color:"var(--ink-soft)", marginBottom:"10px"}}>
+                  <strong>Actian impact:</strong> {rm.actian_competitive_impact}
+                </p>
+              )}
+              {rm.what_to_watch_for && rm.what_to_watch_for.length > 0 && (
+                <div>
+                  <span className="drw-roadmap-k" style={{display:"block", marginBottom:"4px"}}>Watch for</span>
+                  <ul style={{margin:0, paddingLeft:"18px", fontSize:"12.5px", color:"var(--ink-soft)"}}>
+                    {rm.what_to_watch_for.map((w, i) => <li key={i} style={{marginBottom:"3px"}}>{w}</li>)}
+                  </ul>
+                </div>
+              )}
+            </section>
+          );
+        })()}
 
         <section className="drw-sec">
           <div className="drw-stats">
@@ -2483,9 +2608,35 @@ function ChatDrawer({ open, onClose, lens }) {
             <div className="chat-eyebrow">Ask CI · {lens} lens</div>
             <h2 className="chat-title">Intelligence assistant</h2>
           </div>
-          <button className="drw-close" onClick={onClose} aria-label="Close">
-            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 3 L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-          </button>
+          <div style={{display:"flex", gap:"6px", alignItems:"center"}}>
+            <button
+              onClick={() => {
+                setMessages([{ role: "ai", text: `Hi — I've got the full ${lens} lens loaded. Ask me about any competitor, signal, or action.` }]);
+                setHistory([]);
+                setInput("");
+              }}
+              title="Start new chat"
+              style={{
+                background:"transparent",
+                border:"1px solid var(--border)",
+                borderRadius:"6px",
+                color:"var(--ink-soft)",
+                fontSize:"11px",
+                padding:"5px 10px",
+                cursor:"pointer",
+                fontFamily:"inherit",
+                display:"flex", alignItems:"center", gap:"5px",
+              }}
+            >
+              <svg width="11" height="11" viewBox="0 0 14 14" aria-hidden>
+                <path d="M2 7 a5 5 0 1 0 1.5 -3.5 M2 2 v3 h3" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              New chat
+            </button>
+            <button className="drw-close" onClick={onClose} aria-label="Close">
+              <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 3 L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            </button>
+          </div>
         </header>
 
         <div className="chat-body" ref={bodyRef}>
@@ -2742,7 +2893,8 @@ function CoModal({ company, items, onClose }) {
 // Legacy grouped section — no longer rendered but kept for safety
 function TlCompanySection({ company, items }) { return null; }
 
-function LaunchesPage({ lens, onOpenCompany }) {
+function LaunchesPage({ lens, onOpenCompany, q, theme }) {
+  const themeF = theme && theme !== "all" ? theme : null;
   const [filter, setFilter]           = useStateP("all");       // all | launches | events
   const [rel, setRel]                 = useStateP("all");       // all | HIGH | MEDIUM | LOW
   const [viewMode, setViewMode]       = useStateP("card");      // card | compact | grouped
@@ -2752,14 +2904,24 @@ function LaunchesPage({ lens, onOpenCompany }) {
   const cutoff365   = new Date(now); cutoff365.setDate(now.getDate() + 365);  // Full year ahead
   const cutoffPast45 = new Date(now); cutoffPast45.setDate(now.getDate() - 45); // Last 45 days
 
+  const needle = (q || "").trim().toLowerCase();
+  const matchQ = (it) => {
+    if (!needle) return true;
+    const blob = [it.company, it.title, it.name, it.summary, it.why, (it.themes || []).join(" "), (it.tags || []).join(" "), it.area]
+      .filter(Boolean).join(" ").toLowerCase();
+    return blob.includes(needle);
+  };
+
   const allItems = useMemoP(() => {
     const items = [];
     for (const l of window.LAUNCHES) items.push({ kind:"launch", ...l });
     for (const e of window.EVENTS)   items.push({ kind:"event",  ...e, title:e.name, summary:e.why });
     return items
       .filter(it => filter === "all" || (filter === "launches" && it.kind === "launch") || (filter === "events" && it.kind === "event"))
-      .filter(it => rel === "all" || it.relevance === rel);
-  }, [filter, rel]);
+      .filter(it => rel === "all" || it.relevance === rel)
+      .filter(it => !themeF || (it.themes || []).includes(themeF))
+      .filter(matchQ);
+  }, [filter, rel, needle, themeF]);
 
   // ── Card view data ──
   const upcomingAll = useMemoP(() =>
@@ -2921,11 +3083,14 @@ function companyIdByName(name) {
 }
 
 // --- News & press releases page -------------------------------------------
-function NewsPage({ lens, onOpenCompany }) {
+function NewsPage({ lens, onOpenCompany, q, theme }) {
   const { useState: useNewsState } = React;
   const [typeFilter, setTypeFilter] = useNewsState("all");
   const [companyFilter, setCompanyFilter] = useNewsState("all");
   const [collapsed, setCollapsed] = useNewsState({});
+
+  const needle = (q || "").trim().toLowerCase();
+  const themeF = theme && theme !== "all" ? theme : null;
 
   const TYPE_LABELS = {
     product_launch: "🚀 Product launch",
@@ -2936,6 +3101,9 @@ function NewsPage({ lens, onOpenCompany }) {
     acquisition:    "🔀 M&A",
     pricing:        "💲 Pricing",
     layoff:         "📉 Layoff",
+    integration:    "🌐 Integration",
+    expansion:      "🗺️ Expansion",
+    coverage:       "📰 Coverage",
     // backward-compat aliases for items scraped with old classifier
     product:        "🚀 Product launch",
   };
@@ -2948,6 +3116,9 @@ function NewsPage({ lens, onOpenCompany }) {
     acquisition:    "oklch(0.55 0.18 340)",
     pricing:        "oklch(0.72 0.15 65)",
     layoff:         "oklch(0.55 0.14 30)",
+    integration:    "oklch(0.58 0.16 165)",
+    expansion:      "oklch(0.60 0.14 145)",
+    coverage:       "oklch(0.55 0.04 250)",
     product:        "oklch(0.60 0.17 248)",
   };
 
@@ -2967,6 +3138,16 @@ function NewsPage({ lens, onOpenCompany }) {
   if (lens !== "All") {
     filtered = filtered.filter(n => (n.team_routing || []).includes(lens));
   }
+  if (themeF) {
+    filtered = filtered.filter(n => (n.themes || []).includes(themeF));
+  }
+  if (needle) {
+    filtered = filtered.filter(n => {
+      const blob = [n.company, n.title, n.summary, (n.themes || []).join(" "), (n.tags || []).join(" "), n.news_type]
+        .filter(Boolean).join(" ").toLowerCase();
+      return blob.includes(needle);
+    });
+  }
 
   // Group by company, sort groups by most-recent item first
   const byCompany = {};
@@ -2982,16 +3163,29 @@ function NewsPage({ lens, onOpenCompany }) {
     byCompany[c].sort((a, b) => new Date(b.published_date || 0) - new Date(a.published_date || 0));
   }
 
-  // Type counts for the filter bar — normalise old "product" alias into "product_launch"
+  // Type counts for the filter bar — reflect lens + company + search filters,
+  // but NOT the type filter itself (so user can see what's available per type).
+  // This keeps pill counts honest with what's actually visible.
   const typeCounts = {};
   for (const n of (window.NEWS || [])) {
     if (!KEEP.has(n.news_type)) continue;
+    if (companyFilter !== "all" && n.company !== companyFilter) continue;
+    if (lens !== "All" && !(n.team_routing || []).includes(lens)) continue;
+    if (themeF && !(n.themes || []).includes(themeF)) continue;
+    if (needle) {
+      const blob = [n.company, n.title, n.summary, (n.themes || []).join(" "), (n.tags || []).join(" "), n.news_type]
+        .filter(Boolean).join(" ").toLowerCase();
+      if (!blob.includes(needle)) continue;
+    }
     const key = n.news_type === "product" ? "product_launch" : n.news_type;
     typeCounts[key] = (typeCounts[key] || 0) + 1;
   }
-  // All companies that have any kept news (for company filter dropdown)
+  // All companies that have any kept news (for company filter dropdown) — also lens-aware
   const allCompaniesWithNews = Array.from(new Set(
-    (window.NEWS || []).filter(n => KEEP.has(n.news_type)).map(n => n.company)
+    (window.NEWS || [])
+      .filter(n => KEEP.has(n.news_type))
+      .filter(n => lens === "All" || (n.team_routing || []).includes(lens))
+      .map(n => n.company)
   )).sort();
 
   function toggle(company) {
@@ -3017,7 +3211,7 @@ function NewsPage({ lens, onOpenCompany }) {
           {/* Row 1 — signal types (wrap-safe chips) */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
             <span style={{ fontSize: "11px", color: "var(--ink-mute)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginRight: "4px" }}>Type</span>
-            {[{k:"all",label:"All signals"}, ...["product_launch","feature","funding","leadership","partnership","acquisition","pricing","layoff"].filter(t => typeCounts[t]).map(t => ({k:t,label:`${TYPE_LABELS[t]} (${typeCounts[t]})`}))].map(({k,label}) => (
+            {[{k:"all",label:"All signals"}, ...["product_launch","feature","integration","expansion","funding","leadership","partnership","acquisition","pricing","layoff","coverage"].filter(t => typeCounts[t]).map(t => ({k:t,label:`${TYPE_LABELS[t]} (${typeCounts[t]})`}))].map(({k,label}) => (
               <button
                 key={k}
                 onClick={() => setTypeFilter(k)}
@@ -3156,15 +3350,24 @@ function NewsPage({ lens, onOpenCompany }) {
 }
 
 // --- Companies roster page ---------------------------------------------
-function CompaniesPage({ lens, onOpenCompany }) {
+function CompaniesPage({ lens, onOpenCompany, q, theme }) {
   const [areaF, setAreaF] = useStateP("all");
   const areas = ["all", ...Object.keys(window.AREA)];
+  const needle = (q || "").trim().toLowerCase();
+  const themeF = theme && theme !== "all" ? theme : null;
 
   const rows = useMemoP(() => {
     return window.COMPETITORS
-      .filter(c => areaF === "all" || c.area === areaF)
+      .filter(c => areaF === "all" || (c.areas && c.areas.length ? c.areas.includes(areaF) : c.area === areaF))
+      .filter(c => !themeF || (c.themes || []).includes(themeF))
+      .filter(c => {
+        if (!needle) return true;
+        const blob = [c.name, c.area, (c.areas || []).join(" "), (c.themes || []).join(" "), c.signalSummary, c.dominantFunction, c.dominantFocus]
+          .filter(Boolean).join(" ").toLowerCase();
+        return blob.includes(needle);
+      })
       .sort((a,b) => b.score - a.score);
-  }, [areaF]);
+  }, [areaF, needle, themeF]);
 
   return (
     <div data-screen-label="03 Companies">
@@ -3231,17 +3434,27 @@ function CompaniesPage({ lens, onOpenCompany }) {
 }
 
 // --- Hiring page -------------------------------------------------------
-function HiringPage({ onOpen, lens }) {
+function HiringPage({ onOpen, lens, q, theme }) {
   lens = lens || "All";
   const [areaFilter, setAreaFilter] = useStateP("all");
   const areas = ["all", ...Object.keys(window.AREA)];
+  const needle = (q || "").trim().toLowerCase();
+  const themeF = theme && theme !== "all" ? theme : null;
 
   const sorted = useMemoP(() =>
     [...window.COMPETITORS].sort((a, b) => b.postingCount - a.postingCount),
   []);
 
   const filtered = useMemoP(() => {
-    let list = sorted.filter(c => areaFilter === "all" || c.area === areaFilter);
+    let list = sorted.filter(c => areaFilter === "all" || (c.areas && c.areas.length ? c.areas.includes(areaFilter) : c.area === areaFilter));
+    if (themeF) list = list.filter(c => (c.themes || []).includes(themeF));
+    if (needle) {
+      list = list.filter(c => {
+        const blob = [c.name, c.area, (c.areas || []).join(" "), (c.themes || []).join(" "), c.signalSummary, c.dominantFunction, c.dominantFocus]
+          .filter(Boolean).join(" ").toLowerCase();
+        return blob.includes(needle);
+      });
+    }
     // Apply lens filter — each team sees relevant subset
     if (lens === "Executives") list = list.filter(c => c.threat === "CRITICAL" || c.threat === "HIGH");
     else if (lens === "SDRs")  list = list.filter(c => ["CRITICAL","HIGH","MEDIUM"].includes(c.threat));
@@ -3249,7 +3462,7 @@ function HiringPage({ onOpen, lens }) {
     else if (lens === "Marketing") list = list.filter(c => c.routes && c.routes.includes("Marketing"));
     // Product / All: full roster
     return list;
-  }, [sorted, areaFilter, lens]);
+  }, [sorted, areaFilter, lens, needle, themeF]);
 
   const maxCount = useMemoP(() => Math.max(...sorted.map(c => c.postingCount)), [sorted]);
 
@@ -3324,6 +3537,14 @@ function HiringPage({ onOpen, lens }) {
                 <div className="hi-bar-meta">
                   <span className="hi-bar-val">{c.postingCount}</span>
                   <span className="hi-bar-fn">{c.dominantFunction}</span>
+                  {(c.topCountries && c.topCountries[0]) ? (
+                    <span style={{
+                      fontSize:"11px", color:"var(--ink-mute)",
+                      fontFamily:"var(--font-mono)", whiteSpace:"nowrap",
+                    }} title={(c.topCountries || []).map(x => x.country + " " + x.count).join(" · ")}>
+                      {c.topCountries[0].country}{c.topCountries.length > 1 ? ` +${c.topCountries.length - 1}` : ""}
+                    </span>
+                  ) : null}
                   <window.ThreatBadge level={c.threat} />
                 </div>
               </div>
@@ -3331,6 +3552,75 @@ function HiringPage({ onOpen, lens }) {
           })}
         </div>
       </div>
+
+      {/* Section 1.5 — Geographic footprint */}
+      {(window.COUNTRIES && window.COUNTRIES.length > 0) && (() => {
+        const totalCountryRoles = window.COUNTRIES.reduce((s, c) => s + c.count, 0);
+        // Companies with active 30-day expansion (recent country count > 0)
+        const expanding = filtered
+          .filter(c => c.recentCountries && c.recentCountries.length > 0)
+          .map(c => ({
+            name: c.name,
+            threat: c.threat,
+            primary: (c.topCountries && c.topCountries[0]) ? c.topCountries[0].country : null,
+            recent: c.recentCountries,
+            id: c.id,
+          }))
+          .filter(e => e.recent.some(r => r.count > 0));
+        return (
+          <div className="hi-section">
+            <div className="hi-sec-head">
+              <div className="hi-sec-head-l">
+                <h2 className="list-h">Geographic footprint</h2>
+                <span className="list-count">{window.COUNTRIES.length} countries</span>
+              </div>
+              <span style={{ fontSize:"12px", color:"var(--ink-mute)" }}>
+                Where competitors are hiring · last 30 days highlights active expansion
+              </span>
+            </div>
+            <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:"24px", padding:"4px 0"}}>
+              {/* Left: overall country distribution */}
+              <div>
+                <div style={{fontSize:"11px", textTransform:"uppercase", letterSpacing:"0.08em", color:"var(--ink-mute)", marginBottom:"10px", fontFamily:"var(--font-mono)"}}>
+                  Top hiring countries · all 11 V2 competitors
+                </div>
+                {window.COUNTRIES.slice(0, 8).map(c => {
+                  const pct = totalCountryRoles > 0 ? (c.count / window.COUNTRIES[0].count) * 100 : 0;
+                  return (
+                    <div key={c.country} style={{display:"flex", alignItems:"center", gap:"10px", padding:"5px 0", fontSize:"13px"}}>
+                      <span style={{minWidth:"120px", color:"var(--ink)"}}>{c.country}</span>
+                      <div style={{flex:1, height:"5px", background:"var(--bg-sunk)", borderRadius:"3px", overflow:"hidden"}}>
+                        <div style={{width: pct + "%", height:"100%", background:"oklch(0.62 0.18 248)", borderRadius:"3px"}} />
+                      </div>
+                      <span style={{fontFamily:"var(--font-mono)", fontSize:"12px", color:"var(--ink-soft)", minWidth:"32px", textAlign:"right"}}>{c.count}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              {/* Right: active expansion in last 30 days */}
+              <div>
+                <div style={{fontSize:"11px", textTransform:"uppercase", letterSpacing:"0.08em", color:"var(--ink-mute)", marginBottom:"10px", fontFamily:"var(--font-mono)"}}>
+                  Active expansion · last 30 days
+                </div>
+                {expanding.length === 0 ? (
+                  <div style={{fontSize:"13px", color:"var(--ink-mute)", fontStyle:"italic"}}>No recent geographic activity in current view.</div>
+                ) : expanding.map(e => {
+                  const t = window.THREAT[e.threat];
+                  return (
+                    <div key={e.id} onClick={() => onOpen(e.id)} style={{padding:"7px 0", borderTop:"1px solid var(--border)", cursor:"pointer", display:"flex", alignItems:"center", gap:"8px", fontSize:"13px"}}>
+                      <span style={{width:"6px", height:"6px", borderRadius:"50%", background: t.dot}} />
+                      <span style={{minWidth:"100px", fontWeight:600}}>{e.name}</span>
+                      <span style={{flex:1, color:"var(--ink-soft)", fontFamily:"var(--font-mono)", fontSize:"11.5px"}}>
+                        {e.recent.slice(0, 4).map(r => `${r.country} ${r.count}`).join(" · ")}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Section 2 — What they're building (implications feed) */}
       <div className="hi-section">
@@ -3463,7 +3753,130 @@ function NotifDrawer({ open, onClose }) {
   );
 }
 
-Object.assign(window, { LaunchesPage, CompaniesPage, HiringPage, NotifDrawer, RelevanceBadge });
+// ─── Slack routing preview page ──────────────────────────────────────────
+function SlackRoutingPage() {
+  const sp = window.SLACK_PREVIEW;
+  if (!sp) {
+    return (
+      <div data-screen-label="06 Slack routing">
+        <div className="hero">
+          <div className="hero-eyebrow">Slack routing · pending approval</div>
+          <h1 className="hero-title">Slack routing</h1>
+          <p className="hero-sub">No preview file present. The first CI run with the routing engine produces it.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const channels = sp.channels_in_use || [];
+  const messages = sp.messages || [];
+  const groupedByChannel = {};
+  for (const m of messages) {
+    (groupedByChannel[m.channel] = groupedByChannel[m.channel] || []).push(m);
+  }
+  const channelOrder = Object.keys(groupedByChannel).sort();
+
+  const CHANNEL_BLURB = {
+    "#competitive-product":  "Product launches, GA releases, OSS drops",
+    "#competitive-gtm":       "Partnerships, high-relevance events",
+    "#competitive-signals":  "Critical & high verdicts, funding, M&A",
+  };
+
+  return (
+    <div data-screen-label="06 Slack routing">
+      <div className="hero">
+        <div className="hero-title-row">
+          <div>
+            <div className="hero-eyebrow">Routing engine wired · awaiting webhook approval</div>
+            <h1 className="hero-title">Slack routing</h1>
+            <p className="hero-sub">
+              {sp.total_queued} messages queued across {channels.length} channels for the next dispatch.
+              The pipeline classifies every signal, picks the right channel, and formats the post.
+              Delivery activates the moment a Slack webhook URL is approved and added to repo secrets.
+            </p>
+          </div>
+          <div style={{
+            padding:"10px 16px", borderRadius:"10px",
+            background: sp.webhook_configured ? "rgba(16,185,129,0.12)" : "rgba(245,158,11,0.12)",
+            color: sp.webhook_configured ? "#059669" : "#d97706",
+            border: sp.webhook_configured ? "1px solid rgba(16,185,129,0.35)" : "1px solid rgba(245,158,11,0.35)",
+            fontSize:"12.5px", fontWeight:600,
+          }}>
+            {sp.webhook_configured
+              ? "● Webhook configured — live"
+              : "○ Awaiting webhook · preview only"}
+          </div>
+        </div>
+
+        <div style={{display:"flex", gap:"24px", marginTop:"16px", flexWrap:"wrap"}}>
+          {channelOrder.map(ch => (
+            <div key={ch} style={{
+              padding:"10px 14px", borderRadius:"8px",
+              background:"var(--bg-sunk)", border:"1px solid var(--border)",
+              minWidth:"220px",
+            }}>
+              <div style={{fontSize:"11px", fontFamily:"var(--font-mono)", textTransform:"uppercase", letterSpacing:"0.06em", color:"var(--ink-mute)"}}>Channel</div>
+              <div style={{fontWeight:600, fontSize:"15px", marginTop:"3px"}}>{ch}</div>
+              <div style={{fontSize:"11.5px", color:"var(--ink-soft)", marginTop:"4px"}}>{CHANNEL_BLURB[ch] || ""}</div>
+              <div style={{fontSize:"11px", marginTop:"6px", color:"var(--ink-mute)", fontFamily:"var(--font-mono)"}}>{groupedByChannel[ch].length} queued</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {channelOrder.map(ch => (
+        <section key={ch} className="hi-section" style={{marginTop:"22px"}}>
+          <div className="hi-sec-head">
+            <div className="hi-sec-head-l">
+              <h2 className="list-h">{ch}</h2>
+              <span className="list-count">{groupedByChannel[ch].length} messages</span>
+            </div>
+            <span style={{fontSize:"12px", color:"var(--ink-mute)"}}>
+              {CHANNEL_BLURB[ch] || ""}
+            </span>
+          </div>
+          <div style={{display:"grid", gap:"10px"}}>
+            {groupedByChannel[ch].slice(0, 12).map(m => (
+              <div key={m.msg_id} style={{
+                padding:"14px 16px", border:"1px solid var(--border)",
+                borderRadius:"10px", background:"var(--bg)",
+                borderLeft:"3px solid #4a154b",  /* Slack purple */
+              }}>
+                <div style={{display:"flex", alignItems:"center", gap:"10px", marginBottom:"6px", fontSize:"12px"}}>
+                  <span style={{fontWeight:700, color:"#4a154b", fontFamily:"var(--font-mono)"}}>{ch}</span>
+                  <span style={{color:"var(--ink-mute)"}}>·</span>
+                  <span style={{fontWeight:600}}>{m.company}</span>
+                  <span style={{color:"var(--ink-mute)"}}>·</span>
+                  <span style={{
+                    fontSize:"10px", padding:"2px 7px", borderRadius:"10px",
+                    background:"rgba(74,21,75,0.10)", color:"#4a154b",
+                    fontFamily:"var(--font-mono)", textTransform:"uppercase", letterSpacing:"0.04em",
+                  }}>{m.type || "—"}</span>
+                  <span style={{flex:1}} />
+                  <span style={{fontSize:"10px", padding:"2px 8px", borderRadius:"10px",
+                    background:"rgba(245,158,11,0.12)", color:"#d97706", fontWeight:600,
+                    fontFamily:"var(--font-mono)", textTransform:"uppercase", letterSpacing:"0.04em",
+                  }}>preview</span>
+                </div>
+                <pre style={{
+                  margin:0, fontFamily:"var(--font-sans)", fontSize:"13px",
+                  whiteSpace:"pre-wrap", color:"var(--ink)", lineHeight:1.55,
+                }}>{m.text}</pre>
+              </div>
+            ))}
+            {groupedByChannel[ch].length > 12 && (
+              <div style={{padding:"8px 14px", fontSize:"12px", color:"var(--ink-mute)", textAlign:"center"}}>
+                + {groupedByChannel[ch].length - 12} more queued for this channel
+              </div>
+            )}
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+Object.assign(window, { LaunchesPage, CompaniesPage, HiringPage, NotifDrawer, RelevanceBadge, SlackRoutingPage });
   </script>
 
   <!-- App (routes + DashboardPage) -->
@@ -3475,6 +3888,18 @@ function App() {
   const [lens, setLens] = useStateApp(() => localStorage.getItem("ci-lens") || "All");
   const [page, setPage] = useStateApp(() => localStorage.getItem("ci-page") || "hiring");
   const [q, setQ] = useStateApp("");
+  const [theme, setTheme] = useStateApp(() => localStorage.getItem("ci-theme") || "all");
+  useEffectApp(() => { localStorage.setItem("ci-theme", theme); }, [theme]);
+
+  // All themes seen across the dataset (for the dropdown options)
+  const availableThemes = useMemoApp(() => {
+    const all = new Set();
+    for (const c of (window.COMPETITORS || [])) for (const t of (c.themes || [])) all.add(t);
+    for (const l of (window.LAUNCHES || []))    for (const t of (l.themes || [])) all.add(t);
+    for (const e of (window.EVENTS || []))      for (const t of (e.themes || [])) all.add(t);
+    for (const n of (window.NEWS || []))        for (const t of (n.themes || [])) all.add(t);
+    return Array.from(all).sort();
+  }, []);
   const [openId, setOpenId] = useStateApp(null);
   const [chatOpen, setChatOpen] = useStateApp(false);
   const [notifOpen, setNotifOpen] = useStateApp(false);
@@ -3508,14 +3933,19 @@ function App() {
       return (
         c.name.toLowerCase().includes(needle) ||
         c.area.toLowerCase().includes(needle) ||
+        (c.areas || []).some(a => a.toLowerCase().includes(needle)) ||
+        (c.themes || []).some(t => t.toLowerCase().includes(needle)) ||
         c.signals.some(s => s.label.toLowerCase().includes(needle)) ||
-        (c.verdict.All || "").toLowerCase().includes(needle)
+        (c.verdict.All || "").toLowerCase().includes(needle) ||
+        (c.signalSummary || "").toLowerCase().includes(needle)
       );
     };
+    const themeOk = (c) => theme === "all" || !theme || (c.themes || []).includes(theme);
     return [...window.COMPETITORS]
       .filter(hit)
+      .filter(themeOk)
       .sort((a, b) => order[a.threat] - order[b.threat] || b.score - a.score);
-  }, [q]);
+  }, [q, theme]);
 
   const openComp = openId ? window.COMPETITORS.find(c => c.id === openId) : null;
 
@@ -3528,22 +3958,25 @@ function App() {
       />
 
       <main className="main">
-        <window.TopBar q={q} onSearch={setQ} onChat={() => setChatOpen(true)} onNotif={() => setNotifOpen(true)} lens={lens} page={page} onPage={setPage} />
+        <window.TopBar q={q} onSearch={setQ} onChat={() => setChatOpen(true)} onNotif={() => setNotifOpen(true)} lens={lens} page={page} onPage={setPage} theme={theme} onTheme={setTheme} themes={availableThemes} />
 
         {page === "hiring" && (
-          <window.HiringPage onOpen={setOpenId} lens={lens} />
+          <window.HiringPage onOpen={setOpenId} lens={lens} q={q} theme={theme} />
         )}
         {page === "dashboard" && (
-          <DashboardPage lens={lens} ordered={ordered} kpi={kpi} onOpen={setOpenId} />
+          <DashboardPage lens={lens} ordered={ordered} kpi={kpi} onOpen={setOpenId} q={q} theme={theme} />
         )}
         {page === "launches" && (
-          <window.LaunchesPage lens={lens} onOpenCompany={setOpenId} />
+          <window.LaunchesPage lens={lens} onOpenCompany={setOpenId} q={q} theme={theme} />
         )}
         {page === "news" && (
-          <window.NewsPage lens={lens} onOpenCompany={setOpenId} />
+          <window.NewsPage lens={lens} onOpenCompany={setOpenId} q={q} theme={theme} />
         )}
         {page === "companies" && (
-          <window.CompaniesPage lens={lens} onOpenCompany={setOpenId} />
+          <window.CompaniesPage lens={lens} onOpenCompany={setOpenId} q={q} theme={theme} />
+        )}
+        {page === "slack" && (
+          <window.SlackRoutingPage />
         )}
 
         <footer className="app-foot">
@@ -3572,7 +4005,7 @@ function DashboardPage({ lens, ordered, kpi, onOpen }) {
   const areas = useMemoDash(() => ["all", ...Object.keys(window.AREA)], []);
 
   const sorted = useMemoDash(() => {
-    let list = areaFilter === "all" ? [...ordered] : ordered.filter(c => c.area === areaFilter);
+    let list = areaFilter === "all" ? [...ordered] : ordered.filter(c => (c.areas && c.areas.length ? c.areas.includes(areaFilter) : c.area === areaFilter));
     const THREAT_ORDER = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
     if (sortBy === "threat") list.sort((a, b) => THREAT_ORDER[a.threat] - THREAT_ORDER[b.threat] || b.score - a.score);
     else if (sortBy === "score") list.sort((a, b) => b.score - a.score);

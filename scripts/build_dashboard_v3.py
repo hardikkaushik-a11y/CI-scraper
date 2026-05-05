@@ -20,6 +20,10 @@ from pathlib import Path
 from datetime import datetime, date
 from collections import defaultdict
 
+# Pull shared country normalizer from src/
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+from geo import country_from_location
+
 # ── Repo root (script lives in scripts/) ────────────────────────────────────
 REPO = Path(__file__).parent.parent
 DATA_DIR = REPO / "data"
@@ -94,17 +98,20 @@ def extract_team_action(recommended_actions, team_keyword):
 
 def build_signals(implications):
     """
-    Take first 4 implications, create signal chips with short labels.
+    Take first 4 implications and create signal chips. Use the full clause
+    before the em-dash separator (the "what they're doing" half), but never
+    cut mid-word — the dashboard handles overflow with wrap, not truncation.
     """
     chips = []
     for impl in (implications or [])[:4]:
-        # Extract text before em dash, first comma, or truncate at 45 chars
+        # Extract text before em dash (drop the "why it matters" half).
+        # Comma is NOT a separator (cuts mid-clause).
         label = impl
-        for sep in [" — ", " – ", " - ", ", "]:
+        for sep in [" — ", " – "]:
             if sep in label:
                 label = label.split(sep)[0]
                 break
-        label = label[:45].strip()
+        label = label.strip()
         chips.append({
             "label": label,
             "weight": {"All": 1, "Product": 1}
@@ -194,6 +201,49 @@ def load_function_breakdown(csv_path, allowed_companies):
     return per_company
 
 
+def load_country_breakdown(csv_path, allowed_companies):
+    """Read jobs_enriched_v2.csv and return per-company country distributions.
+
+    Returns:
+      {company: {"top": [(country, count), ...], "recent": [(country, count_30d), ...]}}
+    """
+    per_company = defaultdict(lambda: {"all": defaultdict(int), "recent": defaultdict(int)})
+    overall = defaultdict(int)
+    try:
+        with open(csv_path, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                company = row.get('Company', '').strip()
+                if company not in allowed_companies:
+                    continue
+                country = country_from_location(row.get('Location', ''))
+                per_company[company]["all"][country] += 1
+                overall[country] += 1
+                try:
+                    days = int(float(row.get("Days Since Posted") or 9999))
+                except (ValueError, TypeError):
+                    days = 9999
+                if days <= 30:
+                    per_company[company]["recent"][country] += 1
+    except FileNotFoundError:
+        pass
+
+    out = {}
+    for company, dists in per_company.items():
+        # Drop "Unknown" from headline lists unless it's everything
+        named_all = {k: v for k, v in dists["all"].items() if k != "Unknown"}
+        named_recent = {k: v for k, v in dists["recent"].items() if k != "Unknown"}
+        all_sorted = sorted((named_all or dists["all"]).items(), key=lambda x: -x[1])[:5]
+        recent_sorted = sorted((named_recent or dists["recent"]).items(), key=lambda x: -x[1])[:5]
+        out[company] = {"top": all_sorted, "recent": recent_sorted}
+
+    overall_named = {k: v for k, v in overall.items() if k != "Unknown"}
+    out["__overall__"] = {
+        "top": sorted((overall_named or overall).items(), key=lambda x: -x[1])[:10],
+    }
+    return out
+
+
 def build_function_trends(per_company, allowed_companies):
     """Cross-company count for each target function."""
     trends = {}
@@ -225,17 +275,17 @@ def derive_team_actions(company, threat, verdict, recommended_actions, fallback)
             break
     base = specific or fallback
 
-    def clip(s, n=180):
-        s = s.strip()
-        return s[:n].rsplit(" ", 1)[0] + "…" if len(s) > n else s
+    # No truncation — render full sentences. UI handles wrapping.
+    def s(x):
+        return (x or "").strip()
 
     return {
-        "All": clip(base),
-        "Product": clip(primary or what or base),
-        "PMM": clip(f"Update {company} battlecard — {overlap or why or base}") if overlap or why else clip(base),
-        "Marketing": clip(why or what or base),
-        "SDRs": clip(f"At-risk accounts: {at_risk}. {base}" if at_risk else base),
-        "Executives": clip(why or base) if threat in ("CRITICAL", "HIGH") else f"Monitor {company} — {threat.title()} threat.",
+        "All": s(base),
+        "Product": s(primary or what or base),
+        "PMM": s(f"Update {company} battlecard — {overlap or why or base}") if overlap or why else s(base),
+        "Marketing": s(why or what or base),
+        "SDRs": s(f"At-risk accounts: {at_risk}. {base}" if at_risk else base),
+        "Executives": s(why or base) if threat in ("CRITICAL", "HIGH") else f"Monitor {company} — {threat.title()} threat.",
     }
 
 
@@ -355,7 +405,24 @@ def build_recent_activity(company, comp_signals, news):
     return items[:5]
 
 
-def build_competitors(signals, verdicts, per_company=None, comp_signals=None, news=None):
+def load_battlecards(csv_path):
+    """Read competitors.csv → {company: battlecard_url}. Empty values dropped."""
+    out = {}
+    try:
+        with open(csv_path, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                url = (row.get("Battlecard_URL") or "").strip()
+                if url:
+                    out[row["Company"]] = url
+    except FileNotFoundError:
+        pass
+    return out
+
+
+def build_competitors(signals, verdicts, per_company=None, comp_signals=None, news=None, battlecards=None, country_breakdown=None, roadmaps_by_co=None):
+    battlecards = battlecards or {}
+    country_breakdown = country_breakdown or {}
+    roadmaps_by_co = roadmaps_by_co or {}
     # Index by lower-cased name for fuzzy matching
     sig_index = {s["company"].lower(): s for s in signals}
     vrd_index = {}
@@ -433,22 +500,36 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
                 return f"{base} (Confidence: {confidence.title()})"
             return base
 
+        # Multi-area + theme exposure (from verdict)
+        product_areas = verdict.get("product_areas") or [area]
+        verdict_themes = verdict.get("themes") or []
+        battlecard_url = battlecards.get(company, "")
+        # Geographic footprint (top countries + active expansion in last 30d)
+        cb = country_breakdown.get(company, {})
+        top_countries = [{"country": c, "count": n} for c, n in cb.get("top", [])]
+        recent_countries = [{"country": c, "count": n} for c, n in cb.get("recent", [])]
+
+        # Strategic roadmap (published or inferred)
+        roadmap = roadmaps_by_co.get(company)
+
         comp = {
             "id": re.sub(r"[^a-z0-9]", "", company.lower()),
             "name": company,
             "area": area,
+            "areas": product_areas,
+            "themes": verdict_themes,
+            "battlecardUrl": battlecard_url,
+            "topCountries": top_countries,
+            "recentCountries": recent_countries,
+            "roadmap": roadmap,
             "threat": threat,
             "intensity": intensity,
             "postingCount": posting_count,
             "dominantFunction": signal.get("dominant_function", "Engineering"),
             "dominantFocus": signal.get("dominant_product_focus", "Platform"),
             "signalSummary": signal.get("signal_summary", ""),
-            "roadmap": {
-                "direction": signal.get("roadmap", {}).get("direction", ""),
-                "confidence": signal.get("roadmap", {}).get("confidence", "Medium"),
-                "timeline": signal.get("roadmap", {}).get("timeline", "Next 6–12 months"),
-                "watchFor": signal.get("roadmap", {}).get("watch_for", ""),
-            },
+            # Note: `roadmap` is set above from data/roadmaps.json (rich schema with pillars).
+            # Legacy flat-schema roadmap from hiring signal is not used — new schema supersedes.
             "verdict": {
                 "All":        what,
                 "Product":    primary or what,
@@ -495,7 +576,35 @@ def _is_latin_title(title):
     return True
 
 
+# Sanity rule — runtime defensive pass. Mirrors signal_scraper._title_year_in_past.
+# Drops any signal whose title references only past years before the dashboard
+# renders it, regardless of what the JSON says. Belt-and-suspenders.
+_TITLE_YEAR_RE = re.compile(r"\b(20\d{2})\b")
+
+
+def _title_year_in_past(title: str) -> bool:
+    if not title:
+        return False
+    years = [int(y) for y in _TITLE_YEAR_RE.findall(title)]
+    if not years:
+        return False
+    return max(years) < date.today().year
+
+
 def build_launches_events(comp_signals):
+    # Defensive sanity filter on input — even if competitive_signals.json has
+    # stale items, never let them reach the dashboard.
+    before = len(comp_signals or [])
+    comp_signals = [s for s in (comp_signals or []) if not _title_year_in_past(s.get("title", ""))]
+    if before != len(comp_signals):
+        print(f"  [SANITY] dropped {before - len(comp_signals)} stale signal(s) by title-year scan")
+    # An event without a parseable date is not an event — drop it. Mirrors the
+    # write-time gate in signal_scraper.py. Belt-and-suspenders.
+    before = len(comp_signals)
+    comp_signals = [s for s in comp_signals
+                    if s.get("type") != "event" or s.get("event_date")]
+    if before != len(comp_signals):
+        print(f"  [SANITY] dropped {before - len(comp_signals)} dateless event(s)")
     launches = []
     events = []
     launch_id = 1
@@ -533,6 +642,7 @@ def build_launches_events(comp_signals):
                 "why": item.get("summary", ""),
                 "url": item.get("url", ""),
                 "teams": event_teams,
+                "themes": item.get("themes", []),
                 "action": "Check dashboard for details.",
             })
             event_id += 1
@@ -551,6 +661,7 @@ def build_launches_events(comp_signals):
                 "tags": item.get("tags", []),
                 "url": item.get("url", ""),
                 "teams": item.get("team_routing") or ["Product", "PMM", "Marketing"],
+                "themes": item.get("themes", []),
             })
             launch_id += 1
 
@@ -601,7 +712,7 @@ def to_js_value(val, indent=0):
     return f'"{val}"'
 
 
-def generate_data_js(competitors, launches, events, function_trends=None, news=None):
+def generate_data_js(competitors, launches, events, function_trends=None, news=None, overall_countries=None):
     lines = []
 
     # claude fallback
@@ -622,6 +733,21 @@ def generate_data_js(competitors, launches, events, function_trends=None, news=N
 
     # TEAMS
     lines.append("window.TEAMS = " + to_js_value(TEAMS) + ";")
+    lines.append("")
+
+    # OVERALL COUNTRY FOOTPRINT (top 10)
+    lines.append("window.COUNTRIES = " + to_js_value(overall_countries or []) + ";")
+    lines.append("")
+    # Slack routing preview — demo state when SLACK_WEBHOOK_URL not yet set
+    slack_preview_path = DATA_DIR / "slack_preview.json"
+    if slack_preview_path.exists():
+        try:
+            slack_preview = json.loads(slack_preview_path.read_text(encoding="utf-8"))
+        except Exception:
+            slack_preview = None
+    else:
+        slack_preview = None
+    lines.append("window.SLACK_PREVIEW = " + to_js_value(slack_preview) + ";")
     lines.append("")
 
     # COMPETITORS
@@ -673,9 +799,31 @@ def main():
     per_company = load_function_breakdown(DATA_DIR / "jobs_enriched_v2.csv", allowed)
     function_trends = build_function_trends(per_company, allowed)
 
+    print("  Loading data/competitors.csv for battlecard URLs...")
+    battlecards = load_battlecards(DATA_DIR / "competitors.csv")
+    print(f"    {len(battlecards)} battlecard URLs loaded")
+
+    print("  Computing per-company country breakdown...")
+    country_breakdown = load_country_breakdown(DATA_DIR / "jobs_enriched_v2.csv", allowed)
+    overall_countries = [{"country": c, "count": n} for c, n in country_breakdown.get("__overall__", {}).get("top", [])]
+    print(f"    {len(overall_countries)} countries in overall footprint")
+
+    # Roadmaps (published + inferred)
+    roadmaps_path = DATA_DIR / "roadmaps.json"
+    roadmaps = load_json(roadmaps_path) if roadmaps_path.exists() else []
+    roadmaps_by_co = {r.get("company"): r for r in roadmaps}
+    print(f"  Loaded {len(roadmaps_by_co)} roadmaps "
+          f"({sum(1 for r in roadmaps if r.get('source')=='published')} published, "
+          f"{sum(1 for r in roadmaps if r.get('source')=='inferred')} inferred)")
+
     # Build COMPETITORS
     print("  Building COMPETITORS array...")
-    competitors = build_competitors(signals, verdicts, per_company, comp_signals=comp_signals, news=news)
+    competitors = build_competitors(
+        signals, verdicts, per_company,
+        comp_signals=comp_signals, news=news, battlecards=battlecards,
+        country_breakdown=country_breakdown,
+        roadmaps_by_co=roadmaps_by_co,
+    )
     print(f"    {len(competitors)} competitors built")
     for c in competitors:
         print(f"    - {c['name']:20s} {c['threat']:8s}  {c['postingCount']:3d} postings")
@@ -687,7 +835,7 @@ def main():
 
     # Generate data JS
     print("  Generating JS data block...")
-    data_js = generate_data_js(competitors, launches, events, function_trends, news)
+    data_js = generate_data_js(competitors, launches, events, function_trends, news, overall_countries)
 
     # Load template
     print(f"  Loading template: {TEMPLATE}")

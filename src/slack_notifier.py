@@ -29,6 +29,7 @@ SLACK_WEBHOOK_URL = os.environ.get("SLACK_WEBHOOK_URL", "")
 VERDICTS_PATH = "data/intelligence_verdicts.json"
 COMPETITIVE_SIGNALS_PATH = "data/competitive_signals.json"
 SLACK_SENT_PATH = "data/slack_sent.json"
+SLACK_PREVIEW_PATH = "data/slack_preview.json"  # Demo-ready preview of routing
 
 # Channel routing rules
 CHANNEL_ROUTING = {
@@ -102,7 +103,7 @@ Why it matters: {why}
 
 Actian action: {action}
 
-→ <https://ci-scraper-dashboard.onrender.com/dashboard/v2/|View Dashboard>"""
+→ <https://hardikkaushik-a11y.github.io/CI-scraper/|View Dashboard>"""
 
     return {
         "channel": CHANNEL_ROUTING.get(f"verdict_{threat.lower()}", "#competitive-signals"),
@@ -148,7 +149,7 @@ def format_launch_message(l):
 
 Published: {published} · Relevance: {relevance.upper()}
 
-→ <https://ci-scraper-dashboard.onrender.com/dashboard/v2/|View Dashboard>"""
+→ <https://hardikkaushik-a11y.github.io/CI-scraper/|View Dashboard>"""
 
     return {
         "channel": channel,
@@ -229,12 +230,21 @@ def main():
         if msg_id in sent_ids:
             continue  # Already sent
 
-        # Only send high-threat verdicts to Slack
-        threat = v.get("threat", "").lower()
-        if threat not in ["critical", "high"]:
+        # Verdict-level filter: high-impact (platform/market) + medium+ confidence
+        # OR any platform/market impact (these are the analyst-grade "must alert" verdicts)
+        impact = (v.get("impact_level") or "").lower()
+        confidence = (v.get("confidence") or "").lower()
+        is_alertable = (
+            impact in ("platform", "market")  # always alert on platform/market shifts
+            or (impact == "product" and confidence == "high")  # high-confidence product moves
+        )
+        if not is_alertable:
             continue
+        # Synthesize a "threat" label for the message routing key
+        v_for_msg = dict(v)
+        v_for_msg["threat"] = "critical" if impact == "market" else "high"
 
-        msg = format_verdict_message(v)
+        msg = format_verdict_message(v_for_msg)
         if msg:
             messages_to_send.append((msg_id, msg))
 
@@ -267,6 +277,35 @@ def main():
             signals_to_send += 1
 
     print(f"  → {signals_to_send} new signals to send")
+
+    # ─── Always write demo preview (regardless of webhook) ──────────────
+    # Stakeholders can see exactly what would be sent, where, before greenlighting.
+    preview_payload = {
+        "snapshot": datetime.utcnow().isoformat() + "Z",
+        "webhook_configured": bool(SLACK_WEBHOOK_URL),
+        "channels_in_use": sorted({m["channel"] for _, m in messages_to_send}),
+        "total_queued": len(messages_to_send),
+        "messages": [
+            {
+                "channel":  m["channel"],
+                "company":  m.get("company"),
+                "type":     m.get("type") or m.get("threat"),
+                "ts":       m.get("ts"),
+                "text":     m.get("text"),
+                "msg_id":   mid,
+                "would_send": mid not in sent_ids,
+            }
+            for mid, m in messages_to_send
+        ],
+    }
+    try:
+        with open(SLACK_PREVIEW_PATH, "w") as f:
+            json.dump(preview_payload, f, indent=2, ensure_ascii=False)
+        print(f"\n✓ Preview written: {SLACK_PREVIEW_PATH} "
+              f"({len(messages_to_send)} messages across "
+              f"{len(preview_payload['channels_in_use'])} channels)")
+    except Exception as e:
+        print(f"⚠ Could not write preview: {e}")
 
     # ─── Post to Slack ──────────────────────────────────────────────────
     print("\nPosting to Slack...")

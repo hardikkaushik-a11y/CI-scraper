@@ -17,6 +17,7 @@ Usage:
 import csv
 import json
 import os
+import re
 import time
 from datetime import datetime
 from pathlib import Path
@@ -92,6 +93,9 @@ def load_data() -> tuple[list[dict], list[dict]]:
 # CONTEXT BUILDER
 # ══════════════════════════════════════════════════════════════════════════
 
+from geo import country_from_location  # shared normalizer (src/geo.py)
+
+
 def _count(rows: list[dict], key: str) -> dict:
     counts: dict[str, int] = defaultdict(int)
     for r in rows:
@@ -109,6 +113,11 @@ def build_semantic_layer(rows: list[dict], signals: list[dict]) -> dict:
     """
     company_counts = _count(rows, "Company")
     sig_by_company = {s.get("company", ""): s for s in signals}
+
+    # Pre-normalize country once per row for reuse downstream
+    for r in rows:
+        if "_country" not in r:
+            r["_country"] = country_from_location(r.get("Location", ""))
 
     metrics = {}
     for company, total in company_counts.items():
@@ -164,6 +173,16 @@ def build_semantic_layer(rows: list[dict], signals: list[dict]) -> dict:
         sig    = sig_by_company.get(company, {})
         threat = sig.get("threat_level", "low").lower()
 
+        # ── Geographic footprint ─────────────────────────────────────────
+        country_counts = _count(c_rows, "_country")
+        # Drop "Unknown" from the headline list unless it's the only entry
+        named = {k: v for k, v in country_counts.items() if k != "Unknown"}
+        country_top = list((named or country_counts).items())[:5]
+        # Hiring acceleration by country — recent 30d distribution
+        recent_country_counts = _count(recent_30, "_country")
+        recent_named = {k: v for k, v in recent_country_counts.items() if k != "Unknown"}
+        country_recent = list((recent_named or recent_country_counts).items())[:5]
+
         metrics[company] = {
             "total_roles":        total,
             "threat_level":       threat,
@@ -179,6 +198,10 @@ def build_semantic_layer(rows: list[dict], signals: list[dict]) -> dict:
             "dominant_product":   dom_pf,
             "recent_30d":         len(recent_30),
             "company_group":      sig.get("company_group", ""),
+            # Geographic dimension — top countries by total + recent 30d delta
+            "country_top":        country_top,         # [(country, count), ...]
+            "country_recent_30d": country_recent,      # [(country, count_in_last_30d), ...]
+            "primary_country":    country_top[0][0] if country_top else "Unknown",
         }
 
     return metrics
@@ -336,6 +359,19 @@ Total roles: {total}, Companies: {len(company_counts)}, New (7d): {len(recent)}
 Top functions: {json.dumps(dict(list(function_counts.items())[:3]))}
 Top products: {json.dumps(dict(list(product_counts.items())[:3]))}
 
+━━━ GEOGRAPHIC FOOTPRINT — WHERE COMPETITORS ARE HIRING ━━━
+Top 10 hiring countries (all-time, 365-day window):
+{json.dumps(dict(list(_count(rows, "_country").items())[:10]))}
+
+Top 10 hiring countries — last 30 days (active expansion signal):
+{json.dumps(dict(list(_count([r for r in rows if r["_days"] <= 30], "_country").items())[:10]))}
+
+Per-priority-company top countries:
+{json.dumps({c: m.get("country_top", []) for c, m in priority_sem.items()})}
+
+Per-priority-company recent-30d countries (where they're hiring NOW):
+{json.dumps({c: m.get("country_recent_30d", []) for c, m in priority_sem.items()})}
+
 ━━━ HIGH-SIGNAL ROLES ━━━
 {json.dumps(top_roles)}
 
@@ -382,6 +418,13 @@ You have access to pre-computed business metrics for every company. Reason with 
 • mean_relevancy: Average relevancy score to Actian (0–17.5). >8.0 = high competitive pressure.
 
 • Market Pressure Index: Weighted threat score across all companies. Use to frame urgency.
+
+• Geographic dimension: Each company has country_top (all-time hiring footprint) and
+  country_recent_30d (where they're hiring RIGHT NOW). Compare those two arrays to detect
+  geographic expansion: a country appearing in recent_30d but not at the top of country_top
+  is a NEW geographic push. Top 10 country counts (overall and recent) are also in the
+  GEOGRAPHIC FOOTPRINT section. You CAN answer questions about countries, regions, and
+  geographic expansion using this data.
 
 ━━━ HOW TO ANSWER ━━━
 — Lead with the most important number or insight. No preamble.
