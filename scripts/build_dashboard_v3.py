@@ -591,7 +591,41 @@ def _title_year_in_past(title: str) -> bool:
     return max(years) < date.today().year
 
 
-def build_launches_events(comp_signals):
+def build_launches_events(comp_signals, news=None):
+    # Merge news-room product launches into the launches feed. News.json carries
+    # press-release launches that comp_signals (event-page scrapes) misses.
+    # Dedup by URL across the two sources.
+    if news:
+        seen_urls = {s.get("url", "") for s in (comp_signals or [])}
+        adapted_count = 0
+        for n in news:
+            ntype = n.get("news_type", "")
+            # Only first-party launches/integrations/expansions/features feed this view
+            if ntype not in ("product_launch", "integration", "expansion", "feature"):
+                continue
+            url = n.get("url", "")
+            if url and url in seen_urls:
+                continue
+            # Adapt news → comp_signal shape
+            comp_signals.append({
+                "company":          n.get("company"),
+                "product_area":     n.get("product_area"),
+                "type":             "product_launch" if ntype == "product_launch" else ntype,
+                "title":            n.get("title", ""),
+                "url":              url,
+                "published_date":   n.get("published_date", ""),
+                "summary":          n.get("summary", ""),
+                "actian_relevance": n.get("actian_relevance", "medium"),
+                "tags":             n.get("tags", []),
+                "source_type":      "newsroom",
+                "event_date":       n.get("published_date", ""),  # use pub date as launch date
+                "team_routing":     n.get("team_routing", []),
+                "themes":           n.get("themes", []),
+            })
+            seen_urls.add(url)
+            adapted_count += 1
+        if adapted_count:
+            print(f"  [MERGE] {adapted_count} news-room launches/features added to launches feed")
     # Defensive sanity filter on input — even if competitive_signals.json has
     # stale items, never let them reach the dashboard.
     before = len(comp_signals or [])
@@ -830,7 +864,7 @@ def main():
 
     # Build LAUNCHES + EVENTS
     print("  Building LAUNCHES + EVENTS...")
-    launches, events = build_launches_events(comp_signals)
+    launches, events = build_launches_events(comp_signals, news=news)
     print(f"    {len(launches)} launches, {len(events)} events")
 
     # Generate data JS
