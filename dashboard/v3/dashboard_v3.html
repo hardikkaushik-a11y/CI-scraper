@@ -2434,7 +2434,7 @@ window.COMPETITORS = [
       "SDRs",
       "Executives"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 65,
     functionBreakdown: {
       Sales: 11,
@@ -2921,7 +2921,7 @@ window.COMPETITORS = [
       "SDRs",
       "Executives"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 46,
     functionBreakdown: {
       Sales: 3,
@@ -3151,7 +3151,7 @@ window.COMPETITORS = [
       "SDRs",
       "Executives"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 43,
     functionBreakdown: {
       Sales: 2,
@@ -3390,7 +3390,7 @@ window.COMPETITORS = [
       "SDRs",
       "Executives"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 30,
     functionBreakdown: {
       Sales: 0,
@@ -3635,7 +3635,7 @@ window.COMPETITORS = [
       "SDRs",
       "Executives"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 28,
     functionBreakdown: {
       Sales: 5,
@@ -4036,7 +4036,7 @@ window.COMPETITORS = [
       "SDRs",
       "Executives"
     ],
-    updated: "today",
+    updated: "1 day ago",
     score: 11,
     functionBreakdown: {
       Sales: 0,
@@ -8764,9 +8764,35 @@ function ChatDrawer({ open, onClose, lens }) {
             <div className="chat-eyebrow">Ask CI · {lens} lens</div>
             <h2 className="chat-title">Intelligence assistant</h2>
           </div>
-          <button className="drw-close" onClick={onClose} aria-label="Close">
-            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 3 L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-          </button>
+          <div style={{display:"flex", gap:"6px", alignItems:"center"}}>
+            <button
+              onClick={() => {
+                setMessages([{ role: "ai", text: `Hi — I've got the full ${lens} lens loaded. Ask me about any competitor, signal, or action.` }]);
+                setHistory([]);
+                setInput("");
+              }}
+              title="Start new chat"
+              style={{
+                background:"transparent",
+                border:"1px solid var(--border)",
+                borderRadius:"6px",
+                color:"var(--ink-soft)",
+                fontSize:"11px",
+                padding:"5px 10px",
+                cursor:"pointer",
+                fontFamily:"inherit",
+                display:"flex", alignItems:"center", gap:"5px",
+              }}
+            >
+              <svg width="11" height="11" viewBox="0 0 14 14" aria-hidden>
+                <path d="M2 7 a5 5 0 1 0 1.5 -3.5 M2 2 v3 h3" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              New chat
+            </button>
+            <button className="drw-close" onClick={onClose} aria-label="Close">
+              <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3 L11 11 M11 3 L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            </button>
+          </div>
         </header>
 
         <div className="chat-body" ref={bodyRef}>
