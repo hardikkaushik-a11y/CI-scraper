@@ -10047,8 +10047,8 @@ function KpiRow({ data, onTileClick }) {
         tone="red"
         k="Critical threats"
         v={data.critical}
-        delta="+1 this week"
-        deltaDir="up"
+        delta={data.criticalDelta}
+        deltaDir="flat"
         sub={data.criticalSub}
         onClick={handle("critical")}
       />
@@ -10056,9 +10056,9 @@ function KpiRow({ data, onTileClick }) {
         tone="amber"
         k="New launches"
         v={data.launches}
-        delta="+3 vs last 30d"
+        delta={data.launchDelta}
         deltaDir="up"
-        sub="6 product · 1 pricing"
+        sub={data.launchSub}
         onClick={handle("launches")}
       />
       <KpiTile
@@ -10072,11 +10072,11 @@ function KpiRow({ data, onTileClick }) {
       />
       <KpiTile
         tone="slate"
-        k="Actions due"
+        k="Needs response"
         v={data.actions}
-        delta="5 this week"
+        delta={data.actionDelta}
         deltaDir="up"
-        sub="Assigned to 4 teams"
+        sub={data.actionSub}
         onClick={handle("actions")}
       />
     </div>
@@ -11723,19 +11723,55 @@ function App() {
   useEffectApp(() => { localStorage.setItem("ci-page", page); }, [page]);
 
   const kpi = useMemoApp(() => {
-    const criticals = window.COMPETITORS.filter(c => c.threat === "CRITICAL");
+    const today = new Date();
+    const competitors = window.COMPETITORS || [];
+
+    // Critical + High threats — companies needing GTM response
+    const criticals = competitors.filter(c => c.threat === "CRITICAL");
+    const highs = competitors.filter(c => c.threat === "HIGH");
+    const actionable = [...criticals, ...highs];
     const criticalSub = criticals.length
       ? criticals.map(c => c.name).slice(0, 2).join(" · ")
       : "None this week";
-    const upcomingNames = window.EVENTS.slice(0, 3).map(e => e.name.split(":")[0].trim());
-    const eventSub = upcomingNames.length ? upcomingNames.join(" · ") : "No upcoming events";
+
+    // Launches: split by relevance (HIGH/MEDIUM/LOW) + last-7-day delta
+    const launchesAll = window.LAUNCHES || [];
+    const highRelLaunches = launchesAll.filter(l => l.relevance === "HIGH").length;
+    const medRelLaunches = launchesAll.filter(l => l.relevance === "MEDIUM").length;
+    const launchesLast7 = launchesAll.filter(l => {
+      const d = new Date(l.date);
+      return !isNaN(d) && (today - d) / 86400000 <= 7;
+    }).length;
+    const launchSub = highRelLaunches + " high · " + medRelLaunches + " medium relevance";
+    const launchDelta = launchesLast7 + " in last 7d";
+
+    // Events: only count those actually in the next 14 days
+    const eventsAll = window.EVENTS || [];
+    const upcoming14 = eventsAll.filter(e => {
+      const d = new Date(e.date);
+      return !isNaN(d) && d >= today && (d - today) / 86400000 <= 14;
+    });
+    const upcomingNames = upcoming14.slice(0, 3).map(e => (e.name || "").split(":")[0].trim());
+    const eventSub = upcomingNames.length ? upcomingNames.join(" · ") : "No events in next 14 days";
+
+    // Routes touched by actionable companies — real "team coverage"
+    const teamSet = new Set();
+    actionable.forEach(c => (c.routes || []).forEach(t => teamSet.add(t)));
+
     return {
       critical: criticals.length,
-      launches: window.LAUNCHES.length,
-      events: window.EVENTS.length,
-      actions: 12,
       criticalSub,
+      criticalDelta: criticals.length + " of " + competitors.length + " tracked",
+      launches: launchesAll.length,
+      launchSub,
+      launchDelta,
+      events: upcoming14.length,
       eventSub,
+      actions: actionable.length,
+      actionSub: actionable.length
+        ? "Routed across " + teamSet.size + " teams"
+        : "No companies needing response",
+      actionDelta: highs.length + " HIGH · " + criticals.length + " CRITICAL",
     };
   }, []);
 
@@ -11839,29 +11875,38 @@ function DashboardPage({ lens, ordered, kpi, onOpen }) {
         companies: list,
       });
     } else if (key === "launches") {
-      const launchCompanyNames = new Set((window.LAUNCHES || []).map(l => l.company));
+      const launches = window.LAUNCHES || [];
+      const launchCompanyNames = new Set(launches.map(l => l.company));
       const list = ordered.filter(c => launchCompanyNames.has(c.name));
+      const highRel = launches.filter(l => l.relevance === "HIGH").length;
+      const medRel = launches.filter(l => l.relevance === "MEDIUM").length;
       setDrill({
         eyebrow: "New launches",
-        title: launchCompanyNames.size + " companies shipping product or pricing moves",
-        subtitle: (window.LAUNCHES || []).length + " launches in the last 30 days \u00b7 click to open the company brief",
+        title: launchCompanyNames.size + " companies with product launches",
+        subtitle: launches.length + " launches \u00b7 " + highRel + " high \u00b7 " + medRel + " medium relevance",
         companies: list,
       });
     } else if (key === "events") {
-      const eventCompanyNames = new Set((window.EVENTS || []).map(e => e.company));
-      const list = ordered.filter(c => eventCompanyNames.has(c.name));
+      const today = new Date();
+      const next14Companies = new Set((window.EVENTS || []).filter(e => {
+        const d = new Date(e.date);
+        return !isNaN(d) && d >= today && (d - today) / 86400000 <= 14;
+      }).map(e => e.company));
+      const list = ordered.filter(c => next14Companies.has(c.name));
       setDrill({
         eyebrow: "Upcoming events",
-        title: eventCompanyNames.size + " companies with events on the radar",
-        subtitle: (window.EVENTS || []).length + " events tracked \u00b7 click to open the company brief",
+        title: next14Companies.size + " companies with events in next 14 days",
+        subtitle: "Click any company to open the full brief",
         companies: list,
       });
     } else if (key === "actions") {
-      const list = ordered.filter(c => c.actions && c.actions.length > 0);
+      const list = ordered.filter(c => c.threat === "CRITICAL" || c.threat === "HIGH");
+      const teams = new Set();
+      list.forEach(c => (c.routes || []).forEach(t => teams.add(t)));
       setDrill({
-        eyebrow: "Actions due",
-        title: list.length + " companies with open Actian actions",
-        subtitle: "Assigned across teams \u00b7 click to open the company brief",
+        eyebrow: "Needs response",
+        title: list.length + " companies requiring GTM response",
+        subtitle: "CRITICAL + HIGH threat \u00b7 routed across " + teams.size + " teams",
         companies: list,
       });
     }
