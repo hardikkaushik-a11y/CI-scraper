@@ -1,10 +1,10 @@
 {
-  "snapshot": "2026-05-05T13:04:53Z",
+  "snapshot": "2026-05-05T13:29:30Z",
   "totals": {
     "jobs": 1631,
     "companies": 37,
     "comp_signals": 72,
-    "news": 82,
+    "news": 81,
     "verdicts": 11,
     "roadmaps": 11
   },
@@ -2524,7 +2524,7 @@
     },
     {
       "company": "Pinecone",
-      "type": "product_launch",
+      "type": "expansion",
       "title": "Pinecone Expands in Europe with New Frankfurt Cloud Region, Delivering the Knowledge Infrastructure",
       "summary": "Pinecone opened a new cloud region in Frankfurt, extending its vector database infrastructure in Europe, which increases competitive pressure on Actian's data platform for low-latency AI workloads in that region.",
       "date": "2026-05-05"
@@ -2538,7 +2538,7 @@
     },
     {
       "company": "Pinecone",
-      "type": "product_launch",
+      "type": "expansion",
       "title": "Pinecone Launches First Serverless Region in Asia with New Singapore Cloud Region, Bringing the",
       "summary": "Pinecone launched its first serverless region in Asia (Singapore), expanding its vector database cloud footprint, which may indirectly increase competition for Actian's data platform offerings in the region but has limited direct overlap.",
       "date": "2026-05-04"
@@ -2552,7 +2552,7 @@
     },
     {
       "company": "Databricks",
-      "type": "product_launch",
+      "type": "feature",
       "title": "Unlocking SAP Business Context in Databricks with Semantic Metadata",
       "summary": "Databricks launches semantic metadata capability to natively integrate SAP business context, directly competing with Actian's data integration and analytics offerings for SAP environments.",
       "date": "2026-04-30"
@@ -2615,7 +2615,7 @@
     },
     {
       "company": "Databricks",
-      "type": "product_launch",
+      "type": "feature",
       "title": "Agentic Data Engineering with Genie Code",
       "summary": "Databricks launched Genie Code, an agentic AI tool for data engineering, intensifying competition in the intelligent data integration and analytics space that Actian also targets.",
       "date": "2026-04-28"
@@ -2664,7 +2664,7 @@
     },
     {
       "company": "Acceldata",
-      "type": "integration",
+      "type": "feature",
       "title": "Acceldata Expands Access to Enterprise Data Observability with Google Cloud Marketplace Integration",
       "summary": "Acceldata's availability on Google Cloud Marketplace broadens enterprise access to its data observability platform, intensifying competition for Actian in the data reliability and observability space.",
       "date": "2026-04-27"
@@ -2685,7 +2685,7 @@
     },
     {
       "company": "Acceldata",
-      "type": "acquisition",
+      "type": "feature",
       "title": "Acceldata Acquires Bewgle to Extend Data Observability Capabilities Acceldata announces the",
       "summary": "Acceldata acquired Bewgle to bolster its data observability with AI-driven quality insights, signaling intensifying competition in the data observability space that includes Actian's integration and analytics platform.",
       "date": "2026-04-27"
