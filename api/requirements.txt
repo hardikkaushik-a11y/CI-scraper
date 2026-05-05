@@ -1,0 +1,2 @@
+# Vercel Python runtime — ask-ci.py uses stdlib only (json, urllib, http.server)
+# This file exists only so Vercel detects the api/ folder as a Python target.

@@ -1,0 +1,2647 @@
+{
+  "snapshot": "2026-05-05T09:42:33Z",
+  "totals": {
+    "jobs": 1610,
+    "companies": 35,
+    "comp_signals": 83,
+    "news": 68,
+    "verdicts": 11,
+    "roadmaps": 11
+  },
+  "market": {
+    "market_pressure_index": 3879,
+    "top_velocity": [
+      {
+        "company": "Precisely",
+        "velocity": 500,
+        "threat": "high"
+      },
+      {
+        "company": "Qlik",
+        "velocity": 400,
+        "threat": "medium"
+      },
+      {
+        "company": "DataGalaxy",
+        "velocity": 400,
+        "threat": "medium"
+      },
+      {
+        "company": "OneTrust",
+        "velocity": 312,
+        "threat": "high"
+      },
+      {
+        "company": "Boomi",
+        "velocity": 293,
+        "threat": "high"
+      }
+    ],
+    "top_ai_leaders": [
+      {
+        "company": "Exasol",
+        "ai_pct": 100
+      },
+      {
+        "company": "Pinecone",
+        "ai_pct": 57
+      },
+      {
+        "company": "Collate",
+        "ai_pct": 20
+      },
+      {
+        "company": "Collibra",
+        "ai_pct": 18
+      },
+      {
+        "company": "Airtable",
+        "ai_pct": 17
+      }
+    ],
+    "top_overlap": [
+      {
+        "company": "DataGalaxy",
+        "overlap_pct": 33
+      },
+      {
+        "company": "DataHub",
+        "overlap_pct": 29
+      },
+      {
+        "company": "Pinecone",
+        "overlap_pct": 29
+      },
+      {
+        "company": "Fivetran",
+        "overlap_pct": 15
+      },
+      {
+        "company": "Acceldata",
+        "overlap_pct": 13
+      }
+    ],
+    "top_functions": {
+      "Engineering": 654,
+      "Sales": 371,
+      "Operations": 137,
+      "Product Management": 76,
+      "Customer Success": 71
+    },
+    "top_products": {
+      "Go-to-Market": 520,
+      "Platform / Infra": 470,
+      "Corporate Functions": 170,
+      "Product Management": 103,
+      "ML/AI infra": 70
+    },
+    "seniority": {
+      "Mid": 541,
+      "Senior": 487,
+      "Manager": 261,
+      "Principal/Staff": 155,
+      "Director+": 133,
+      "Entry": 18,
+      "Intern": 15
+    },
+    "top_countries": {
+      "United States": 671,
+      "India": 197,
+      "Unknown": 183,
+      "United Kingdom": 91,
+      "France": 53,
+      "Singapore": 48,
+      "Ireland": 47,
+      "Japan": 43,
+      "Canada": 35,
+      "Australia": 35
+    },
+    "top_countries_30d": {
+      "United States": 314,
+      "India": 115,
+      "Unknown": 62,
+      "United Kingdom": 55,
+      "France": 33,
+      "Singapore": 31,
+      "Ireland": 25,
+      "Australia": 22,
+      "Canada": 19,
+      "Japan": 19
+    }
+  },
+  "per_company": {
+    "Snowflake": {
+      "total_roles": 199,
+      "threat_level": "high",
+      "hiring_velocity": 66,
+      "ai_investment_pct": 11,
+      "competitive_overlap_pct": 4,
+      "senior_pct": 63,
+      "engineering_pct": 45,
+      "gtm_pct": 20,
+      "mean_relevancy": 3.8,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 38,
+      "company_group": "Warehouse/Processing",
+      "country_top": [
+        [
+          "United States",
+          121
+        ],
+        [
+          "Poland",
+          12
+        ],
+        [
+          "United Kingdom",
+          11
+        ],
+        [
+          "Japan",
+          6
+        ],
+        [
+          "Canada",
+          6
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          22
+        ],
+        [
+          "United Kingdom",
+          4
+        ],
+        [
+          "Switzerland",
+          3
+        ],
+        [
+          "India",
+          2
+        ],
+        [
+          "Poland",
+          2
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Datadog": {
+      "total_roles": 194,
+      "threat_level": "critical",
+      "hiring_velocity": 192,
+      "ai_investment_pct": 6,
+      "competitive_overlap_pct": 7,
+      "senior_pct": 65,
+      "engineering_pct": 37,
+      "gtm_pct": 34,
+      "mean_relevancy": 3.3,
+      "high_signal_roles": 3,
+      "dominant_function": "Engineering",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 95,
+      "company_group": "Monitoring/Platforms",
+      "country_top": [
+        [
+          "United States",
+          88
+        ],
+        [
+          "France",
+          14
+        ],
+        [
+          "Singapore",
+          13
+        ],
+        [
+          "Brazil",
+          13
+        ],
+        [
+          "United Kingdom",
+          10
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          42
+        ],
+        [
+          "Singapore",
+          8
+        ],
+        [
+          "France",
+          7
+        ],
+        [
+          "Brazil",
+          6
+        ],
+        [
+          "United Kingdom",
+          5
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Databricks": {
+      "total_roles": 193,
+      "threat_level": "critical",
+      "hiring_velocity": 164,
+      "ai_investment_pct": 6,
+      "competitive_overlap_pct": 3,
+      "senior_pct": 48,
+      "engineering_pct": 36,
+      "gtm_pct": 44,
+      "mean_relevancy": 3.3,
+      "high_signal_roles": 0,
+      "dominant_function": "Sales",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 87,
+      "company_group": "Warehouse/Processing",
+      "country_top": [
+        [
+          "United States",
+          66
+        ],
+        [
+          "India",
+          22
+        ],
+        [
+          "United Kingdom",
+          18
+        ],
+        [
+          "Germany",
+          14
+        ],
+        [
+          "Singapore",
+          13
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          26
+        ],
+        [
+          "United Kingdom",
+          12
+        ],
+        [
+          "India",
+          9
+        ],
+        [
+          "Japan",
+          6
+        ],
+        [
+          "France",
+          5
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "MongoDB": {
+      "total_roles": 192,
+      "threat_level": "critical",
+      "hiring_velocity": 274,
+      "ai_investment_pct": 3,
+      "competitive_overlap_pct": 2,
+      "senior_pct": 73,
+      "engineering_pct": 29,
+      "gtm_pct": 36,
+      "mean_relevancy": 2.9,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 111,
+      "company_group": "Warehouse/Processing",
+      "country_top": [
+        [
+          "United States",
+          63
+        ],
+        [
+          "India",
+          25
+        ],
+        [
+          "Ireland",
+          25
+        ],
+        [
+          "Singapore",
+          9
+        ],
+        [
+          "Germany",
+          6
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          35
+        ],
+        [
+          "Ireland",
+          17
+        ],
+        [
+          "India",
+          15
+        ],
+        [
+          "Singapore",
+          9
+        ],
+        [
+          "Germany",
+          5
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Salesforce": {
+      "total_roles": 189,
+      "threat_level": "critical",
+      "hiring_velocity": 200,
+      "ai_investment_pct": 4,
+      "competitive_overlap_pct": 5,
+      "senior_pct": 57,
+      "engineering_pct": 24,
+      "gtm_pct": 37,
+      "mean_relevancy": 2.3,
+      "high_signal_roles": 0,
+      "dominant_function": "Sales",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 189,
+      "company_group": "Enterprise",
+      "country_top": [
+        [
+          "United States",
+          86
+        ],
+        [
+          "India",
+          28
+        ],
+        [
+          "France",
+          16
+        ],
+        [
+          "United Kingdom",
+          13
+        ],
+        [
+          "Japan",
+          7
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          86
+        ],
+        [
+          "India",
+          28
+        ],
+        [
+          "France",
+          16
+        ],
+        [
+          "United Kingdom",
+          13
+        ],
+        [
+          "Japan",
+          7
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Fivetran": {
+      "total_roles": 122,
+      "threat_level": "high",
+      "hiring_velocity": 109,
+      "ai_investment_pct": 5,
+      "competitive_overlap_pct": 15,
+      "senior_pct": 80,
+      "engineering_pct": 47,
+      "gtm_pct": 25,
+      "mean_relevancy": 4.9,
+      "high_signal_roles": 1,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 43,
+      "company_group": "ETL/Connectors",
+      "country_top": [
+        [
+          "United States",
+          65
+        ],
+        [
+          "India",
+          19
+        ],
+        [
+          "Ireland",
+          8
+        ],
+        [
+          "United Kingdom",
+          7
+        ],
+        [
+          "Canada",
+          4
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          21
+        ],
+        [
+          "India",
+          8
+        ],
+        [
+          "Canada",
+          3
+        ],
+        [
+          "Ireland",
+          2
+        ],
+        [
+          "United Kingdom",
+          2
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "OneTrust": {
+      "total_roles": 87,
+      "threat_level": "high",
+      "hiring_velocity": 312,
+      "ai_investment_pct": 7,
+      "competitive_overlap_pct": 11,
+      "senior_pct": 72,
+      "engineering_pct": 47,
+      "gtm_pct": 29,
+      "mean_relevancy": 3.7,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 53,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "United States",
+          40
+        ],
+        [
+          "India",
+          22
+        ],
+        [
+          "Spain",
+          15
+        ],
+        [
+          "Germany",
+          5
+        ],
+        [
+          "United Kingdom",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          21
+        ],
+        [
+          "India",
+          16
+        ],
+        [
+          "Spain",
+          10
+        ],
+        [
+          "Germany",
+          2
+        ],
+        [
+          "United Kingdom",
+          1
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Boomi": {
+      "total_roles": 69,
+      "threat_level": "high",
+      "hiring_velocity": 293,
+      "ai_investment_pct": 9,
+      "competitive_overlap_pct": 4,
+      "senior_pct": 68,
+      "engineering_pct": 57,
+      "gtm_pct": 22,
+      "mean_relevancy": 4.0,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 41,
+      "company_group": "ETL/Connectors",
+      "country_top": [
+        [
+          "United States",
+          9
+        ],
+        [
+          "Canada",
+          9
+        ],
+        [
+          "India",
+          6
+        ],
+        [
+          "United Kingdom",
+          4
+        ],
+        [
+          "Australia",
+          3
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          9
+        ],
+        [
+          "Canada",
+          8
+        ],
+        [
+          "India",
+          6
+        ],
+        [
+          "United Kingdom",
+          4
+        ],
+        [
+          "Australia",
+          3
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Collibra": {
+      "total_roles": 45,
+      "threat_level": "high",
+      "hiring_velocity": 160,
+      "ai_investment_pct": 18,
+      "competitive_overlap_pct": 2,
+      "senior_pct": 76,
+      "engineering_pct": 44,
+      "gtm_pct": 27,
+      "mean_relevancy": 4.8,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 20,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "United States",
+          22
+        ],
+        [
+          "Belgium",
+          10
+        ],
+        [
+          "Czechia",
+          5
+        ],
+        [
+          "United Kingdom",
+          4
+        ],
+        [
+          "Germany",
+          2
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          7
+        ],
+        [
+          "Belgium",
+          4
+        ],
+        [
+          "United Kingdom",
+          3
+        ],
+        [
+          "Germany",
+          2
+        ],
+        [
+          "Czechia",
+          2
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Cloudera": {
+      "total_roles": 38,
+      "threat_level": "high",
+      "hiring_velocity": 50,
+      "ai_investment_pct": 8,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 76,
+      "engineering_pct": 47,
+      "gtm_pct": 18,
+      "mean_relevancy": 3.5,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 15,
+      "company_group": "Warehouse/Processing",
+      "country_top": [
+        [
+          "United States",
+          7
+        ],
+        [
+          "India",
+          4
+        ],
+        [
+          "Ireland",
+          3
+        ],
+        [
+          "Singapore",
+          2
+        ],
+        [
+          "France",
+          2
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          4
+        ],
+        [
+          "India",
+          4
+        ],
+        [
+          "Singapore",
+          1
+        ],
+        [
+          "France",
+          1
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Alteryx": {
+      "total_roles": 31,
+      "threat_level": "high",
+      "hiring_velocity": 87,
+      "ai_investment_pct": 10,
+      "competitive_overlap_pct": 3,
+      "senior_pct": 74,
+      "engineering_pct": 32,
+      "gtm_pct": 42,
+      "mean_relevancy": 3.6,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 26,
+      "company_group": "Warehouse/Processing",
+      "country_top": [
+        [
+          "United States",
+          9
+        ],
+        [
+          "India",
+          5
+        ],
+        [
+          "United Kingdom",
+          4
+        ],
+        [
+          "Czechia",
+          3
+        ],
+        [
+          "Brazil",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          7
+        ],
+        [
+          "India",
+          5
+        ],
+        [
+          "United Kingdom",
+          3
+        ],
+        [
+          "Czechia",
+          3
+        ],
+        [
+          "Brazil",
+          1
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Alation": {
+      "total_roles": 26,
+      "threat_level": "high",
+      "hiring_velocity": 43,
+      "ai_investment_pct": 8,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 54,
+      "engineering_pct": 65,
+      "gtm_pct": 19,
+      "mean_relevancy": 4.4,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 13,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "India",
+          13
+        ],
+        [
+          "United States",
+          11
+        ],
+        [
+          "United Kingdom",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "India",
+          7
+        ],
+        [
+          "United States",
+          6
+        ]
+      ],
+      "primary_country": "India"
+    },
+    "Couchbase": {
+      "total_roles": 25,
+      "threat_level": "medium",
+      "hiring_velocity": 133,
+      "ai_investment_pct": 8,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 88,
+      "engineering_pct": 68,
+      "gtm_pct": 8,
+      "mean_relevancy": 4.3,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 10,
+      "company_group": "Warehouse/Processing",
+      "country_top": [
+        [
+          "India",
+          16
+        ],
+        [
+          "United States",
+          4
+        ],
+        [
+          "Singapore",
+          1
+        ],
+        [
+          "Sweden",
+          1
+        ],
+        [
+          "Remote",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "India",
+          5
+        ],
+        [
+          "Singapore",
+          1
+        ],
+        [
+          "Remote",
+          1
+        ],
+        [
+          "United Kingdom",
+          1
+        ],
+        [
+          "United States",
+          1
+        ]
+      ],
+      "primary_country": "India"
+    },
+    "Airtable": {
+      "total_roles": 24,
+      "threat_level": "medium",
+      "hiring_velocity": 59,
+      "ai_investment_pct": 17,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 54,
+      "engineering_pct": 62,
+      "gtm_pct": 12,
+      "mean_relevancy": 4.3,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 5,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "United States",
+          18
+        ],
+        [
+          "United Kingdom",
+          4
+        ],
+        [
+          "Canada",
+          1
+        ],
+        [
+          "Australia",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          4
+        ],
+        [
+          "United Kingdom",
+          1
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Acceldata": {
+      "total_roles": 23,
+      "threat_level": "high",
+      "hiring_velocity": 200,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 13,
+      "senior_pct": 57,
+      "engineering_pct": 70,
+      "gtm_pct": 13,
+      "mean_relevancy": 3.2,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 6,
+      "company_group": "Other",
+      "country_top": [
+        [
+          "India",
+          11
+        ],
+        [
+          "United States",
+          5
+        ],
+        [
+          "Canada",
+          5
+        ],
+        [
+          "United Kingdom",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "India",
+          2
+        ],
+        [
+          "United States",
+          2
+        ],
+        [
+          "Canada",
+          1
+        ]
+      ],
+      "primary_country": "India"
+    },
+    "Precisely": {
+      "total_roles": 22,
+      "threat_level": "high",
+      "hiring_velocity": 500,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 9,
+      "senior_pct": 68,
+      "engineering_pct": 27,
+      "gtm_pct": 55,
+      "mean_relevancy": 4.6,
+      "high_signal_roles": 0,
+      "dominant_function": "Sales",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 16,
+      "company_group": "ETL/Connectors",
+      "country_top": [
+        [
+          "United States",
+          22
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          16
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Syniti": {
+      "total_roles": 21,
+      "threat_level": "high",
+      "hiring_velocity": 100,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 5,
+      "senior_pct": 38,
+      "engineering_pct": 48,
+      "gtm_pct": 24,
+      "mean_relevancy": 3.7,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 0,
+      "company_group": "ETL/Connectors",
+      "country_top": [
+        [
+          "Remote",
+          7
+        ]
+      ],
+      "country_recent_30d": [],
+      "primary_country": "Remote"
+    },
+    "Domo": {
+      "total_roles": 15,
+      "threat_level": "high",
+      "hiring_velocity": 20,
+      "ai_investment_pct": 7,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 47,
+      "engineering_pct": 47,
+      "gtm_pct": 27,
+      "mean_relevancy": 1.9,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 6,
+      "company_group": "Analytics / BI",
+      "country_top": [
+        [
+          "United States",
+          6
+        ],
+        [
+          "Japan",
+          5
+        ],
+        [
+          "India",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          3
+        ],
+        [
+          "Japan",
+          2
+        ],
+        [
+          "India",
+          1
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Matillion": {
+      "total_roles": 15,
+      "threat_level": "medium",
+      "hiring_velocity": 150,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 7,
+      "senior_pct": 60,
+      "engineering_pct": 47,
+      "gtm_pct": 40,
+      "mean_relevancy": 3.8,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 6,
+      "company_group": "ETL/Connectors",
+      "country_top": [
+        [
+          "United States",
+          6
+        ],
+        [
+          "United Kingdom",
+          5
+        ],
+        [
+          "India",
+          4
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "India",
+          3
+        ],
+        [
+          "United Kingdom",
+          2
+        ],
+        [
+          "United States",
+          1
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Qlik": {
+      "total_roles": 12,
+      "threat_level": "medium",
+      "hiring_velocity": 400,
+      "ai_investment_pct": 8,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 75,
+      "engineering_pct": 25,
+      "gtm_pct": 25,
+      "mean_relevancy": 3.1,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 8,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "Unknown",
+          12
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "Unknown",
+          8
+        ]
+      ],
+      "primary_country": "Unknown"
+    },
+    "Atlan": {
+      "total_roles": 10,
+      "threat_level": "high",
+      "hiring_velocity": 40,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 80,
+      "engineering_pct": 70,
+      "gtm_pct": 10,
+      "mean_relevancy": 4.7,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 1,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "India",
+          5
+        ],
+        [
+          "United States",
+          3
+        ],
+        [
+          "United Kingdom",
+          1
+        ],
+        [
+          "Mexico",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "India",
+          1
+        ]
+      ],
+      "primary_country": "India"
+    },
+    "Decube": {
+      "total_roles": 9,
+      "threat_level": "high",
+      "hiring_velocity": 100,
+      "ai_investment_pct": 11,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 56,
+      "engineering_pct": 67,
+      "gtm_pct": 11,
+      "mean_relevancy": 3.6,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 0,
+      "company_group": "Data Observability",
+      "country_top": [
+        [
+          "India",
+          2
+        ]
+      ],
+      "country_recent_30d": [],
+      "primary_country": "India"
+    },
+    "Milvus": {
+      "total_roles": 8,
+      "threat_level": "high",
+      "hiring_velocity": 7,
+      "ai_investment_pct": 12,
+      "competitive_overlap_pct": 12,
+      "senior_pct": 25,
+      "engineering_pct": 38,
+      "gtm_pct": 62,
+      "mean_relevancy": 1.9,
+      "high_signal_roles": 0,
+      "dominant_function": "Sales",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 2,
+      "company_group": "Other",
+      "country_top": [
+        [
+          "Japan",
+          2
+        ],
+        [
+          "United States",
+          2
+        ],
+        [
+          "United Kingdom",
+          1
+        ],
+        [
+          "South Korea",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "United States",
+          1
+        ],
+        [
+          "South Korea",
+          1
+        ]
+      ],
+      "primary_country": "Japan"
+    },
+    "DataHub": {
+      "total_roles": 7,
+      "threat_level": "medium",
+      "hiring_velocity": 133,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 29,
+      "senior_pct": 71,
+      "engineering_pct": 71,
+      "gtm_pct": 29,
+      "mean_relevancy": 4.4,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 2,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "United States",
+          4
+        ],
+        [
+          "Remote",
+          3
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "Remote",
+          2
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Pinecone": {
+      "total_roles": 7,
+      "threat_level": "high",
+      "hiring_velocity": 50,
+      "ai_investment_pct": 57,
+      "competitive_overlap_pct": 29,
+      "senior_pct": 100,
+      "engineering_pct": 86,
+      "gtm_pct": 0,
+      "mean_relevancy": 4.5,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Database / Storage",
+      "recent_30d": 1,
+      "company_group": "Vector DB / AI",
+      "country_top": [
+        [
+          "United States",
+          6
+        ],
+        [
+          "Israel",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "Israel",
+          1
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Weaviate": {
+      "total_roles": 6,
+      "threat_level": "medium",
+      "hiring_velocity": 40,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 33,
+      "engineering_pct": 50,
+      "gtm_pct": 33,
+      "mean_relevancy": 1.7,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Platform / Infra",
+      "recent_30d": 1,
+      "company_group": "Vector DB / AI",
+      "country_top": [
+        [
+          "United States",
+          2
+        ],
+        [
+          "Ireland",
+          1
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "Unknown",
+          1
+        ]
+      ],
+      "primary_country": "United States"
+    },
+    "Collate": {
+      "total_roles": 5,
+      "threat_level": "high",
+      "hiring_velocity": 100,
+      "ai_investment_pct": 20,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 40,
+      "engineering_pct": 40,
+      "gtm_pct": 40,
+      "mean_relevancy": 3.3,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 0,
+      "company_group": "Other",
+      "country_top": [
+        [
+          "United States",
+          5
+        ]
+      ],
+      "country_recent_30d": [],
+      "primary_country": "United States"
+    },
+    "Ataccama": {
+      "total_roles": 3,
+      "threat_level": "medium",
+      "hiring_velocity": 100,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 67,
+      "engineering_pct": 0,
+      "gtm_pct": 33,
+      "mean_relevancy": 4.1,
+      "high_signal_roles": 0,
+      "dominant_function": "Operations",
+      "dominant_product": "Corporate Functions",
+      "recent_30d": 0,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "Unknown",
+          3
+        ]
+      ],
+      "country_recent_30d": [],
+      "primary_country": "Unknown"
+    },
+    "DataGalaxy": {
+      "total_roles": 3,
+      "threat_level": "medium",
+      "hiring_velocity": 400,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 33,
+      "senior_pct": 67,
+      "engineering_pct": 67,
+      "gtm_pct": 0,
+      "mean_relevancy": 4.2,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Data Governance",
+      "recent_30d": 2,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "France",
+          3
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "France",
+          2
+        ]
+      ],
+      "primary_country": "France"
+    },
+    "Sifflet": {
+      "total_roles": 3,
+      "threat_level": "medium",
+      "hiring_velocity": 0,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 67,
+      "engineering_pct": 33,
+      "gtm_pct": 33,
+      "mean_relevancy": 3.7,
+      "high_signal_roles": 0,
+      "dominant_function": "Product Management",
+      "dominant_product": "Product Management",
+      "recent_30d": 0,
+      "company_group": "Data Observability",
+      "country_top": [
+        [
+          "France",
+          2
+        ],
+        [
+          "United States",
+          1
+        ]
+      ],
+      "country_recent_30d": [],
+      "primary_country": "France"
+    },
+    "CastorDoc": {
+      "total_roles": 2,
+      "threat_level": "medium",
+      "hiring_velocity": 0,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 100,
+      "engineering_pct": 50,
+      "gtm_pct": 50,
+      "mean_relevancy": 2.9,
+      "high_signal_roles": 0,
+      "dominant_function": "Sales",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 0,
+      "company_group": "Data Intelligence",
+      "country_top": [
+        [
+          "France",
+          1
+        ]
+      ],
+      "country_recent_30d": [],
+      "primary_country": "France"
+    },
+    "InfluxData": {
+      "total_roles": 2,
+      "threat_level": "low",
+      "hiring_velocity": 3,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 50,
+      "engineering_pct": 0,
+      "gtm_pct": 50,
+      "mean_relevancy": 3.0,
+      "high_signal_roles": 0,
+      "dominant_function": "Finance",
+      "dominant_product": "Corporate Functions",
+      "recent_30d": 1,
+      "company_group": "Warehouse/Processing",
+      "country_top": [
+        [
+          "Remote",
+          2
+        ]
+      ],
+      "country_recent_30d": [
+        [
+          "Remote",
+          1
+        ]
+      ],
+      "primary_country": "Remote"
+    },
+    "Atlassian": {
+      "total_roles": 1,
+      "threat_level": "low",
+      "hiring_velocity": 100,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 0,
+      "engineering_pct": 0,
+      "gtm_pct": 0,
+      "mean_relevancy": 0.4,
+      "high_signal_roles": 0,
+      "dominant_function": "Design",
+      "dominant_product": "Product Management",
+      "recent_30d": 0,
+      "company_group": "Other",
+      "country_top": [
+        [
+          "Unknown",
+          1
+        ]
+      ],
+      "country_recent_30d": [],
+      "primary_country": "Unknown"
+    },
+    "BigEye": {
+      "total_roles": 1,
+      "threat_level": "medium",
+      "hiring_velocity": 100,
+      "ai_investment_pct": 0,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 0,
+      "engineering_pct": 0,
+      "gtm_pct": 100,
+      "mean_relevancy": 3.2,
+      "high_signal_roles": 0,
+      "dominant_function": "Sales",
+      "dominant_product": "Go-to-Market",
+      "recent_30d": 0,
+      "company_group": "Data Observability",
+      "country_top": [
+        [
+          "Australia",
+          1
+        ]
+      ],
+      "country_recent_30d": [],
+      "primary_country": "Australia"
+    },
+    "Exasol": {
+      "total_roles": 1,
+      "threat_level": "low",
+      "hiring_velocity": 100,
+      "ai_investment_pct": 100,
+      "competitive_overlap_pct": 0,
+      "senior_pct": 100,
+      "engineering_pct": 100,
+      "gtm_pct": 0,
+      "mean_relevancy": 5.6,
+      "high_signal_roles": 0,
+      "dominant_function": "Engineering",
+      "dominant_product": "Analytics / BI",
+      "recent_30d": 0,
+      "company_group": "Warehouse/Processing",
+      "country_top": [
+        [
+          "India",
+          1
+        ]
+      ],
+      "country_recent_30d": [],
+      "primary_country": "India"
+    }
+  },
+  "verdicts_by_co": {
+    "Atlan": {
+      "what_is_happening": "Atlan held its Atlan Activate event on April 29, 2026, launching conversational search, data quality, and agentic steward capabilities. It is also co-hosting a virtual event with Databricks on May 20 showing Databricks Genie integrated with Atlan's context layer. Concurrently, Atlan is hiring 10 roles including senior security engineers in India/Mexico and senior sales engineers in the US/UK, signaling a push into enterprise compliance and channel partnerships.",
+      "why_it_matters": "Atlan's AI-native data catalog and governance features, combined with Databricks integration, directly threaten Actian's data catalog, governance, and hybrid integration positioning in regulated markets like EMEA and financial services.",
+      "primary_interpretation": "Atlan is executing a coordinated GTM and product offensive to establish itself as the enterprise data governance standard for AI workloads, using Databricks/Snowflake partnerships and a 'context layer' narrative to differentiate from legacy catalog vendors like Actian.",
+      "recommended_action": "PMM should immediately prepare a rebuttal playbook emphasizing Actian's hybrid integration trust story and mature compliance certifications (SOC 2, FedRAMP) vs Atlan's newer AI features, and Marketing should target EMEA and Databricks/Snowflake accounts with side-by-side comparison content before Atlan's June summit presence.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes — data catalog, governance, and AI-powered data quality",
+        "at_risk_segments": "Enterprise regulated markets (EMEA financial services, US healthcare), Databricks/Snowflake-native customers, mid-market accounts evaluating governance platforms",
+        "type_of_move": "expansion"
+      },
+      "themes": [
+        "Semantic / Metrics Layer",
+        "Data / AI Governance",
+        "Observability / Quality / Lineage",
+        "Catalog / Metadata / Knowledge Graph"
+      ],
+      "product_areas": [
+        "Data Intelligence",
+        "Data Observability"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    },
+    "Collibra": {
+      "what_is_happening": "Collibra hired 45 roles including Senior AI Engineers, Postgres Database Engineers, and SAP Specialist Customer Engineers across Raleigh, Prague, Brussels, and New York. They launched AI Governance dashboard (March 31, 2026), AI trust score, Data Access product, and announced multiple events including an AI command center virtual event (April 30) and participation at SAP Sapphire Orlando, Gartner Data & Analytics Summit London, and Snowflake Summit (June 1-4).",
+      "why_it_matters": "Collibra is building an AI-native data intelligence platform with database and AI governance capabilities, directly threatening Actian's differentiation in hybrid integration, legacy modernization, and analytics for regulated industries like banking and finance.",
+      "primary_interpretation": "Collibra is executing a strategic pivot from metadata management to an integrated AI data stack, leveraging hiring in database and AI engineering to embed governance directly into data stores, reducing the need for separate integration and analytics tools.",
+      "recommended_action": "PMM should prepare competitive battlecards for the AI command center and AI trust score, positioning Actian's real-time analytics and hybrid integration capabilities as complementary to (not competing with) governance-first approaches; Product should accelerate vector support in Actian Data Platform to counter Collibra's Postgres-based AI store.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes",
+        "at_risk_segments": "Enterprise financial services (BCBS 239 event), SAP legacy modernization (SAP Sapphire participation), regulated industries in DACH and Nordics (Stockholm, Prague engineering hubs)",
+        "type_of_move": "platform"
+      },
+      "themes": [
+        "Data Products / Contracts",
+        "Data / AI Governance",
+        "Catalog / Metadata / Knowledge Graph",
+        "Unstructured Data",
+        "ETL / ELT / Integration"
+      ],
+      "product_areas": [
+        "Data Intelligence",
+        "VectorAI"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    },
+    "Alation": {
+      "what_is_happening": "Alation is staffing 26 roles, with heavy emphasis on engineering, cloud infrastructure, and senior deployment strategists, while launching an Agentic Data Intelligence Platform (April 27, 2026) that integrates catalog, governance, and a Data Products Marketplace. The appointment of Rick Baker as COO signals operational scaling for enterprise sales execution.",
+      "why_it_matters": "Alation is pivoting from a data catalog to a full-stack data intelligence platform with AI agents, directly threatening Actian's integration-centric value prop and eroding Actian's differentiation in hybrid deployment and AI-governed analytics.",
+      "primary_interpretation": "Alation is executing a coordinated platform play: recruiting deployment-savvy engineers to support complex enterprise rollouts while launching AI-agent governance and marketplace capabilities to capture budget previously allocated to separate integration and governance tools.",
+      "recommended_action": "PMM and Product should immediately map Alation's Agent Builder capabilities against Actian's upcoming vector/AI product release to script a competitive response emphasizing Actian's superior hybrid deployment and real-time integration strength, briefing SDRs on counter-narratives for financial services accounts this week.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes - data catalog, governance, and AI-driven data integration",
+        "at_risk_segments": "mid-market and enterprise accounts in financial services, manufacturing, and DACH region evaluating unified data management platforms",
+        "type_of_move": "platform"
+      },
+      "themes": [
+        "Data Products / Contracts",
+        "Data / AI Governance",
+        "Observability / Quality / Lineage",
+        "Catalog / Metadata / Knowledge Graph",
+        "ETL / ELT / Integration"
+      ],
+      "product_areas": [
+        "Data Intelligence",
+        "Data Observability"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    },
+    "Monte Carlo": {
+      "what_is_happening": "Monte Carlo launched a unified observability platform covering data, ML models, and agents (March 24, 2026), and GA'd its Operations Agent for automated data quality remediation (Feb 26, 2026). It also partnered with Atlan for enterprise AI confidence (April 22, 2026) and shipped a one-click agent observability feature for Snowflake Intelligence (March 18, 2026).",
+      "why_it_matters": "Monte Carlo's expansion into ML and agent observability narrows the gap with Actian's broader data integration and analytics platform, especially for AI governance deals where enterprises demand end-to-end observability across pipelines.",
+      "primary_interpretation": "Monte Carlo is platformizing from data observability into AI reliability, using partnerships (Atlan, Snowflake) to accelerate enterprise adoption and automate remediation, which reduces differentiation for Actian's data quality and governance capabilities.",
+      "recommended_action": "PMM should prepare a competitive brief for enterprise AI governance deals comparing Monte Carlo's unified observability versus Actian's integration-plus-observability stack; highlight Actian's stronger support for hybrid and on-premises deployments in financial services RFPs.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes, data observability and AI governance",
+        "at_risk_segments": "enterprise AI/ML teams, financial services, and Snowflake-native customers",
+        "type_of_move": "expansion"
+      },
+      "themes": [
+        "Data / AI Governance",
+        "Observability / Quality / Lineage",
+        "ETL / ELT / Integration",
+        "Agent Observability"
+      ],
+      "product_areas": [
+        "Data Observability",
+        "Data Intelligence"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    },
+    "Bigeye": {
+      "what_is_happening": "Bigeye is aggressively expanding its presence in the data observability market through high-visibility event participation (Gartner Data & Analytics Summits, Snowflake Summits, Databricks Data + AI Summits, Tableau Conference, Alteryx Inspire) and thought leadership dinners. Key strategic moves include joining the Snowflake-led Open Semantic Interchange initiative (April 2026) to co-author data and AI interoperability standards, and launching the AI Trust Summit (February 2026) and AI Data Readiness Tour as proprietary event vehicles targeting AI data quality use cases.",
+      "why_it_matters": "Bigeye's Snowflake partnership (Open Semantic Interchange) threatens to lock Actian out of the Snowflake ecosystem as the default data observability layer, while the AI Trust Summit positions Bigeye as the vendor for AI data readiness, a segment Actian has not yet claimed. This narrows Actian's differentiation in data observability and quality, especially in Snowflake and Databricks environments.",
+      "primary_interpretation": "Bigeye is executing a pure GTM blitz — saturating the top 4 B2B data events (Gartner, Snowflake, Databricks, Tableau) and building exclusive executive dinners to own the data observability category in North America and EMEA, while coupling with Snowflake's standard to create a de facto lock-in for shared customers.",
+      "recommended_action": "Product and PMM should immediately audit Actian's Snowflake and Databricks integration documentation and benchmark against Bigeye's booth demos at Gartner Data & Analytics Summit London 2025; if gaps exist, create a 'AI Data Readiness' campaign targeting the same executive dinners and event slots within 6 weeks.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes — data observability, data quality, data governance (data catalog adjacency in sensitive data identification)",
+        "at_risk_segments": "enterprises running Snowflake and Databricks; mid-market data teams attending Gartner Summits; AI/ML teams seeking data readiness",
+        "type_of_move": "GTM"
+      },
+      "themes": [
+        "AI-Ready Data",
+        "Data / AI Governance",
+        "Observability / Quality / Lineage",
+        "Catalog / Metadata / Knowledge Graph",
+        "ETL / ELT / Integration"
+      ],
+      "product_areas": [
+        "Data Observability",
+        "Data Intelligence"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    },
+    "Acceldata": {
+      "what_is_happening": "Acceldata is staffing 17 engineering roles focused on Open Data Platform, Hadoop, and data observability, signaling a platform play around legacy Hadoop modernization. Simultaneously, they have scheduled 20+ events through late 2026 targeting CDAOs and CIOs across US, Europe, and APAC, including Snowflake Summit, Databricks Data + AI Summit, and multiple Gartner conferences.",
+      "why_it_matters": "Acceldata's Hadoop modernization wedge directly undercuts Actian's legacy integration and analytics messaging for hybrid deployments. Their aggressive enterprise event cadence positions them to displace Actian in RFP processes for data observability and migration deals, particularly in financial services and retail verticals.",
+      "primary_interpretation": "Acceldata is executing a deliberate land-and-expand strategy: use Hadoop-to-cloud migration as the initial wedge (17 ODP/infra engineers in Canada), then upsell data observability across Snowflake and Databricks ecosystems, backed by a North American enterprise sales team (2 Enterprise AEs, TAMs in US/UK) to drive deal conversions.",
+      "recommended_action": "Product and PMM must prepare a competitive battle card within 2 weeks that contrasts Actian's proven hybrid integration with Acceldata's pre-GA ODP migration story, and arm SDRs with objection-handling scripts for the 'migrate and observe' pitch at Gartner London (May 11-13) and Snowflake Summit (June 1-4).",
+      "competitive_impact": {
+        "overlap_with_actian": "yes, data observability and legacy modernization for hybrid deployments",
+        "at_risk_segments": "mid-market North American enterprises with Hadoop/on-premise data lakes, financial services, retail, and healthcare accounts in the Great Lakes region",
+        "type_of_move": "platform"
+      },
+      "themes": [
+        "Observability / Quality / Lineage",
+        "ETL / ELT / Integration"
+      ],
+      "product_areas": [
+        "Data Observability"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    },
+    "Pinecone": {
+      "what_is_happening": "Pinecone is staffing 3 senior database/engine leaders, 2 Principal Product Managers (database + knowledge), and 4 senior search/infrastructure engineers, while simultaneously launching a BYOC option (April 15), a Frankfurt cloud region (May 5), a Marketplace (May 5), and a partnership with ZoomInfo for real-time AI contact recommendations (April 15/May 4). These hires and launches signal a push to productize vector search as an enterprise knowledge platform with real-time data enrichment, managed deployment, and low-latency retrieval.",
+      "why_it_matters": "Pinecone's buildout of a managed knowledge layer with BYOC and regional cloud expansion directly threatens Actian's embedded analytics use cases where customers query structured + unstructured data together. Their partnership with ZoomInfo and push into real-time enrichment could pull Actian's hybrid data integration customers toward a unified AI-native stack, bypassing traditional BI/ETL workflows.",
+      "primary_interpretation": "Pinecone is systematically extending its vector DB into an enterprise knowledge infrastructure layer, combining real-time data enrichment (ZoomInfo), managed deployment (BYOC, Frankfurt region), and developer ecosystem (Marketplace, Claude Code plugin) to capture AI application workflows that historically relied on Actian's data integration and analytics capabilities.",
+      "recommended_action": "Actian PMM should immediately build a competitive brief on Pinecone for the VP of Product and CMO, highlighting Actian's hybrid transactional/analytical processing (HTAP) advantage and existing structured data integration capabilities that Pinecone lacks, and arm SDRs with battle cards for deals where Pinecone's BYOC or real-time enrichment is mentioned.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes — vector database and knowledge infrastructure overlapping with Actian's data integration, embedded analytics, and hybrid data processing where customers combine structured and unstructured data",
+        "at_risk_segments": "enterprise AI teams building retrieval-augmented generation (RAG) applications requiring real-time data enrichment; mid-market companies seeking all-in-one AI-native stacks; European firms with data residency requirements (Frankfurt region)",
+        "type_of_move": "expansion"
+      },
+      "themes": [
+        "Vector / RAG / Retrieval",
+        "ETL / ELT / Integration"
+      ],
+      "product_areas": [
+        "VectorAI"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    },
+    "Qdrant": {
+      "what_is_happening": "Qdrant raised $50M on March 12, 2026 to build composable vector search as core infrastructure and launched GPU indexing, multi-AZ support, and audit logging on Qdrant Cloud on April 28, 2026. They also announced a partnership with Twelve Labs and NVIDIA for video anomaly detection from edge to cloud on March 15, 2026.",
+      "why_it_matters": "Qdrant's $50M funding and cloud enhancements—especially GPU indexing and edge-to-cloud AI use cases like video anomaly detection—pressure Actian's data integration and analytics platform to support real-time vector search and embedding workflows, potentially eroding Actian's positioning in AI-driven data pipelines.",
+      "primary_interpretation": "Qdrant is investing its funding to harden the cloud vector database with enterprise features (multi-AZ, audit, GPU indexing) and targeting vertical AI applications (video anomaly detection via Twelve Labs/NVIDIA), aiming to expand beyond vector search into broader AI infrastructure.",
+      "recommended_action": "Product and PMM should audit Actian's vector embedding and real-time AI pipeline capabilities against Qdrant Cloud's GPU indexing and edge-to-cloud video analytics use case, and prepare a technical benchmark comparison for top-of-funnel enterprise deals in verticals like video surveillance and anomaly detection.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes — vector database and AI pipeline integration",
+        "at_risk_segments": "enterprises deploying real-time AI use cases (video analytics, anomaly detection, semantic search) in cloud-native environments",
+        "type_of_move": "expansion"
+      },
+      "themes": [
+        "Observability / Quality / Lineage",
+        "Vector / RAG / Retrieval",
+        "ETL / ELT / Integration"
+      ],
+      "product_areas": [
+        "VectorAI",
+        "Data Observability"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "Executives"
+      ]
+    },
+    "Milvus": {
+      "what_is_happening": "Milvus hired 5 enterprise AEs across Tokyo, Austin, London, New York, and Seoul, a Site Reliability Engineer for cloud, and a database engineer, while sponsoring AWS Summits in Singapore (2026-05-05) and Japan (2026-06-24) to promote vector search on AWS. They also open-sourced memsearch (2026-02-13), a vector search library with memory features, indicating a push to enterprise adoption and cloud reliability.",
+      "why_it_matters": "Milvus's geographic sales expansion and cloud reliability investments directly threaten Actian's enterprise foothold in APAC and Europe, particularly in Japan where Actian has legacy modernization strength. Their vector search open-source move and AWS partnerships could erode Actian's differentiation in vector and AI-driven analytics.",
+      "primary_interpretation": "Milvus is executing a coordinated global GTM expansion, using AWS partnerships for credibility and regional AE teams to target large enterprise accounts, while open-sourcing memsearch to drive developer adoption and cloud vector search mindshare.",
+      "recommended_action": "PMM should prepare a competitive response package for Japan and APAC, highlighting Actian's hybrid deployment reliability and legacy integration advantages, while SDRs prioritize monitoring Milvus's Tokyo and London AE outreach to Actian accounts this quarter.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes — vector database and analytics segments, especially in Japan and APAC markets",
+        "at_risk_segments": "enterprise customers in Japan and APAC (AWS Summit Japan, Singapore), mid-market analytics buyers considering vector search, Actian's legacy modernization accounts in Tokyo",
+        "type_of_move": "GTM"
+      },
+      "themes": [
+        "Vector / RAG / Retrieval"
+      ],
+      "product_areas": [
+        "VectorAI"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    },
+    "Snowflake": {
+      "what_is_happening": "Snowflake is executing a coordinated platform pivot to an AI-native data control plane, evidenced by 37 new roles (16 engineering, 11 GTM), the GA of Kafka Connector 4.0 (Apr 28), Cortex Agents (Apr 21), Snowflake Intelligence (Apr 22), and a Datometry partnership for Teradata migration (Apr 30). The hiring mix of AI/ML engineers and enterprise sales reps aligns with product launches targeting real-time ingestion, governed AI agents, and legacy migration.",
+      "why_it_matters": "Snowflake's AI-native control plane and real-time Kafka GA directly threaten Actian's core differentiation in hybrid data integration and legacy modernization, particularly in mid-market and regulated enterprise segments where Actian's reliability story has been strongest.",
+      "primary_interpretation": "Snowflake is consolidating its lakehouse into a governed AI orchestration layer, using Cortex Agents and Snowflake Intelligence to automate data pipelines and analytics, which commoditizes point-to-point integration and undermines Actian's value proposition as a standalone integration platform.",
+      "recommended_action": "Product and PMM should immediately prepare a competitive response playbook highlighting Actian's hybrid deployment, lower TCO, and proven data quality governance vs. Snowflake's cloud-locked, high-cost AI stack, targeting DACH financial services and APAC mid-market accounts contacted by Snowflake's new APAC enterprise sales hires.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes - data integration, data quality, legacy migration, analytics",
+        "at_risk_segments": "mid-market enterprises in financial services, healthcare, and retail; DACH and APAC regions; Teradata/Hadoop migration prospects",
+        "type_of_move": "platform"
+      },
+      "themes": [
+        "Vector / RAG / Retrieval",
+        "ETL / ELT / Integration"
+      ],
+      "product_areas": [
+        "AI Analyst",
+        "VectorAI"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    },
+    "Databricks": {
+      "what_is_happening": "Databricks is executing a coordinated platform offensive—embedding AI directly into data pipelines via Genie (agentic data engineering, April 26/28), launching visual workflow design (Lakeflow Designer public preview April 23), and natively integrating SAP business context (April 30). This is backed by 26 active AI/ML-infra engineering and pre-sales hires (10+ AI-specific roles, 7 senior-grade), verticalized sales (Financial Services, Retail, Public Sector), and new APAC leadership (Simon Davies appointed April 17) plus $850M UK investment. The combined signal set points to a deliberate strategy to commoditize the data warehouse layer and make Databricks the default for enterprise AI workloads.",
+      "why_it_matters": "For Actian, this directly threatens our standalone data integration and real-time analytics value proposition—if customers can get AI-native processing, SAP semantic integration, and no-code pipeline design from a single lakehouse platform, the need for a separate integration/analytics layer weakens. Databricks' vertical sales push (including at SAP Sapphire) and APAC expansion (3 Forward Deployment Engineers in Singapore/Sydney) put specific segments (financial services, retail, SAP-heavy enterprises) and regions (Asia-Pacific, Europe) at immediate risk.",
+      "primary_interpretation": "Databricks is using AI-infused automation and semantic metadata (SAP context, Genie Code, Lakeflow Designer) to close the gap between raw data ingestion and actionable analytics, reducing the addressable market for standalone data integration/analytics middleware. The hiring and launch cadence are tightly synchronized—engineering hires plus pre-sales scale plus new regional leadership—to execute a full-stack platform play.",
+      "recommended_action": "Product must accelerate Actian's own SAP semantic integration and AI-assisted pipeline automation capabilities, while PMM runs head-to-head messaging emphasizing Actian's proven hybrid/on-prem deployment and real-time streaming over Databricks' complex, cloud-only lakehouse stack—target top 20 SAP-on-Actian accounts within 30 days with retention/expansion plays.",
+      "competitive_impact": {
+        "overlap_with_actian": "yes - data integration (Lakeflow Designer, SAP semantic metadata), analytics (Genie conversational AI), and pipeline orchestration",
+        "at_risk_segments": "mid-market and enterprise SAP customers, financial services, retail/CPG, Asia-Pacific (especially Australia, Singapore, China), and European SAP-centric accounts",
+        "type_of_move": "platform"
+      },
+      "themes": [
+        "Conversational Analytics",
+        "Catalog / Metadata / Knowledge Graph",
+        "Lakehouse / Warehouse / HTAP / Postgres",
+        "ETL / ELT / Integration"
+      ],
+      "product_areas": [
+        "AI Analyst",
+        "Data Intelligence"
+      ],
+      "team_routing": [
+        "Product",
+        "PMM",
+        "Marketing",
+        "SDRs",
+        "Executives"
+      ]
+    }
+  },
+  "roadmaps_by_co": {
+    "Milvus": {
+      "source": "published",
+      "summary": "Milvus is evolving from a vector database into a next-generation multimodal database and data lake, spanning structured to unstructured data, real-time retrieval to offline analytics, and single-cluster to global data lake architecture. The roadmap covers Milvus v2.6 (in progress through end of 2025), v3.0 (targeted for early 2026), and v3.1 (mid-2026), along with the Vector Lake data lake evolution. Key themes include data model upgrades, streaming architecture refactoring, hot/cold tiering, expanded unstructured data types, and deep integration with distributed computing and data lake ecosystems.",
+      "pillars": [
+        {
+          "name": "Unified Data Model & Types",
+          "evidence": "Tensor/StructList for multi-vector embeddings (ColBERT, CoLQwen, video, multimodal), Geo data with spatial indexing, Timestamp with Timezone, BLOB and TEXT types for binary and full-text content, support for NULL in vector fields, flexible schema management with add/drop columns and Global PK Dedup.",
+          "confidence": "high"
+        },
+        {
+          "name": "Streaming & Storage Architecture",
+          "evidence": "StreamNode rewrite for real-time ingestion and concurrency, new Woodpecker message queue engine, StorageV2 with Parquet/Vortex dual formats, automatic hot/cold tiering and intelligent scheduling, dynamic sharding and load balancing in v3.1.",
+          "confidence": "high"
+        },
+        {
+          "name": "Vector Lake (Data Lake Integration)",
+          "evidence": "Prototype v0.1 integrates Spark/DuckDB/DataFusion via FFI for offline schema evolution and KNN queries; v0.2 adds TEXT/BLOB storage, multi-version snapshots, Spark offline indexing; v1.0 deep integration with Ray/Daft/PyTorch for distributed UDFs and RAG demos, Iceberg table import.",
+          "confidence": "high"
+        },
+        {
+          "name": "Enterprise & Search Enhancements",
+          "evidence": "More Like This search, semantic highlighting/boosting, custom dictionaries and synonym tables, aggregation capabilities, multi-tenancy with resource isolation, snapshot backup/recovery, end-to-end tracing and audit logging, Active-Standby HA, RankBy/OrderBy/Facet/Fuzzy queries, match_phrase_prefix and completion/term/phrase suggesters.",
+          "confidence": "high"
+        },
+        {
+          "name": "UDF & Distributed Computing Ecosystem",
+          "evidence": "User-Defined Functions for custom logic in retrieval and computation, deep integration with Ray Dataset and Daft for distributed UDF execution and multimodal data processing, enabling Context Engineering and RAG workflows in Vector Lake v1.0.",
+          "confidence": "high"
+        }
+      ],
+      "timeline_estimate": "6-12 months for v2.6 (through end of 2025), v3.0 targeted early 2026, v3.1 mid-2026",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Milvus's expansion into a multimodal database and data lake with hot/cold tiering, BLOB/TEXT types, and distributed UDFs directly threatens Actian's data management and analytics workloads by offering an open-source unified platform for both structured and unstructured data, real-time search, and offline analytics.",
+      "what_to_watch_for": [
+        "Release of Milvus v2.6 with Tensor/StructList data type and Woodpecker message queue",
+        "Vector Lake v0.1 prototype integrating Spark/DuckDB/DataFusion",
+        "Announcement of v3.0 beta with BLOB/TEXT types and Global PK Dedup",
+        "Milvus v3.1 UDF support and distributed computing integrations (Ray/Daft)",
+        "Vector Lake v1.0 supporting Iceberg table import and RAG demos"
+      ]
+    },
+    "Atlan": {
+      "source": "inferred",
+      "summary": "Atlan is executing a coordinated product and GTM offensive to position itself as the enterprise data governance standard for AI workloads, leveraging deep Databricks/Snowflake partnerships and a 'context layer' narrative. The company is simultaneously scaling its platform infrastructure and security engineering to meet enterprise compliance demands in regulated markets, directly threatening Actian's data catalog and governance positioning.",
+      "pillars": [
+        {
+          "name": "Enterprise AI-Native Governance",
+          "evidence": "Atlan Activate event launching conversational search, data quality, and agentic steward capabilities; co-hosting event with Databricks showing Genie integration; hiring Senior Security Engineer for Automation & AI",
+          "confidence": "high"
+        },
+        {
+          "name": "Platform Infrastructure and Security Scale-Up",
+          "evidence": "Hiring Sr. Cybersecurity Engineer, Security Engineer, Staff Software Engineer for Foundation Platform (India); multiple senior engineering roles clustered in India and Mexico; zero specific AI/architecture hires suggesting build or acquire approach",
+          "confidence": "high"
+        },
+        {
+          "name": "Channel and Enterprise GTM Expansion",
+          "evidence": "Hiring Senior Partner Sales Engineer (US), Senior Sales Engineer EMEA (UK), Strategic Customer Success Manager (US); exhibiting at Databricks Data+AI Summit, Snowflake Summit, Data Innovation Summit Stockholm, Gartner EMEA Data & Analytics Summit",
+          "confidence": "high"
+        },
+        {
+          "name": "Context Layer Differentiator vs. Legacy Catalogs",
+          "evidence": "Virtual events 'WTF is the Context Layer?' and 'Industry Perspective: Why is context so important?' featuring analyst Sanjeev Mohan; narrative directly challenges traditional catalog vendors like Actian",
+          "confidence": "medium"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Atlan's AI-native governance and context layer narrative, combined with Databricks and Snowflake partnerships, directly threatens Actian's data catalog, governance, and hybrid integration positioning in regulated EMEA and financial services markets.",
+      "what_to_watch_for": [
+        "Job posting for 'AI Architect' or 'Vector Database Engineer' in India within 3 months confirming internal AI platform build",
+        "Announcement of new compliance certifications (SOC 2 Type II, HIPAA, FedRAMP) or major cloud partnership validating security hiring",
+        "Release of real-time data integration or streaming analytics feature encroaching on Actian's hybrid integration strength",
+        "Further co-marketing events or product integrations with Databricks or Snowflake beyond current partnership"
+      ]
+    },
+    "Collibra": {
+      "source": "inferred",
+      "summary": "Collibra is executing a strategic pivot from metadata management to an AI-native data intelligence stack, investing in database engineering and AI governance capabilities to embed intelligence directly into data stores. Their aggressive hiring of Postgres and AI engineers, combined with launches like the AI Governance dashboard and AI trust score, signals a move to directly compete with Actian in hybrid integration and legacy modernization, particularly for regulated industries.",
+      "pillars": [
+        {
+          "name": "AI-Native Platform Infrastructure",
+          "evidence": "Hired Senior AI Engineers across Raleigh, Prague, and Brussels; launched AI Governance dashboard (March 31, 2026), AI trust score, and AI command center virtual event (April 30, 2026); introduced automatic AI model registration from code workflows.",
+          "confidence": "high"
+        },
+        {
+          "name": "Database and Storage Deepening",
+          "evidence": "Hired Postgres Database Engineers in Raleigh and New York, suggesting vector and AI workload support; Forward Deployed Engineer for Unstructured AI hiring signals focus on unstructured data AI-readiness.",
+          "confidence": "medium"
+        },
+        {
+          "name": "Enterprise Hybrid and Legacy Modernization",
+          "evidence": "Hired Integration Automation Engineer, SAP Specialist Customer Engineer, and multiple Customer Engineers in Europe; participation at SAP Sapphire Orlando 2026 and virtual BCBS 239 event with PwC targeting banking.",
+          "confidence": "high"
+        },
+        {
+          "name": "Data Access and Product Maturity",
+          "evidence": "Launched Collibra Data Access product and Data Products faster find feature; hired Senior Product Managers, Senior UX Designer, and Associate Product Content Engineer to improve documentation and user experience.",
+          "confidence": "medium"
+        },
+        {
+          "name": "Regulated Industry GTM Expansion",
+          "evidence": "Centralized Director-level Security roles in Raleigh; hired Business Intelligence & Analytics Manager in Brussels and multiple Sales roles globally; partnership news with Google Cloud for business context and semantics; events targeting banking (BCBS 239) and data governance.",
+          "confidence": "medium"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "medium",
+      "actian_competitive_impact": "Collibra's pivot to an AI-native platform with database and governance capabilities directly threatens Actian's differentiation in hybrid integration, legacy modernization, and analytics for regulated industries like banking and finance.",
+      "what_to_watch_for": [
+        "Announcement of a vector database or AI-native data intelligence product at major conferences like Snowflake Summit or Data + AI Summit.",
+        "Job postings for a head of AI or dedicated AI product manager in the US, formalizing AI product line.",
+        "Partnership announcements with cloud providers (AWS, Azure, GCP) or SAP to push hybrid and legacy modernization.",
+        "Release of database-level governance features that reduce need for separate integration tools."
+      ]
+    },
+    "Alation": {
+      "source": "inferred",
+      "summary": "Alation is aggressively staffing engineering, cloud infrastructure, and senior deployment roles while launching an Agentic Data Intelligence Platform with governance and marketplace capabilities. The appointment of a new COO signals operational scaling for enterprise sales, positioning Alation to capture budget traditionally allocated to separate integration and governance tools.",
+      "pillars": [
+        {
+          "name": "Platform Expansion with AI-Agent Governance",
+          "evidence": "Launch of Agentic Data Intelligence Platform, Agent Builder, Critical Data Element Manager, and AI-powered governance automation suite within the last 90 days; 26 active hires include engineering and platform/infra roles.",
+          "confidence": "high"
+        },
+        {
+          "name": "Enterprise Go-to-Market Scaling",
+          "evidence": "Rick Baker appointed as COO; 7 sales, marketing, and GTM analyst roles in current postings; multiple senior-level deployment strategist hires.",
+          "confidence": "high"
+        },
+        {
+          "name": "Cloud and Hybrid Deployment Readiness",
+          "evidence": "Dominant product focus on Platform/Infra in hiring; multiple staff/principal deployment strategist roles; cloud infrastructure engineering recruitment.",
+          "confidence": "medium"
+        },
+        {
+          "name": "Data Security and Compliance Prioritization",
+          "evidence": "Cybersecurity engineer hire alongside platform/infra roles; governance automation suite launch emphasizes stewardship and quality.",
+          "confidence": "medium"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Alation's pivot to a full-stack AI-governed platform directly threatens Actian's integration-centric value prop and legacy modernization differentiation.",
+      "what_to_watch_for": [
+        "Next product announcement or blog post mentioning real-time data integration or hybrid deployment",
+        "Increased sales hiring focused on financial services or manufacturing verticals",
+        "Higher conference participation at events like Gartner Data & Analytics Summit or Snowflake user conference"
+      ]
+    },
+    "Monte Carlo": {
+      "source": "inferred",
+      "summary": "Monte Carlo is rapidly expanding beyond traditional data observability into a unified AI reliability platform covering ML models and agents, while automating remediation through its Operations Agent. Strategic partnerships with Atlan and Snowflake accelerate enterprise adoption, directly challenging Actian in data quality, governance, and AI trustworthiness deals.",
+      "pillars": [
+        {
+          "name": "Unified AI observability platform",
+          "evidence": "March 24, 2026 launch of unified observability for data, ML models, and agents in a single pane of glass; March 18, 2026 one-click agent observability for Snowflake Intelligence",
+          "confidence": "high"
+        },
+        {
+          "name": "Automated remediation and action",
+          "evidence": "February 26, 2026 GA of Operations Agent for automated data quality remediation",
+          "confidence": "high"
+        },
+        {
+          "name": "Ecosystem partnerships for enterprise AI confidence",
+          "evidence": "April 22, 2026 partnership with Atlan for enterprise AI confidence; Snowflake partnership for agent observability",
+          "confidence": "high"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Monte Carlo's unified AI observability and automated remediation narrows differentiation with Actian's data quality and governance capabilities, especially in AI governance deals where end-to-end pipeline observability is now table stakes.",
+      "what_to_watch_for": [
+        "Further integration of ML model observability into existing data pipeline offerings",
+        "Expansion of Operations Agent capabilities beyond remediation to proactive governance",
+        "Additional partnerships with AI/ML platform providers or data catalogs",
+        "Customer case studies specifically highlighting AI/agent reliability wins over competitors"
+      ]
+    },
+    "Bigeye": {
+      "source": "inferred",
+      "summary": "Bigeye is intensifying a multi-vector GTM offensive — saturating top-tier data/AI conferences, launching proprietary AI Trust/Readiness events, and embedding itself into Snowflake's Open Semantic Interchange standard. This dual strategy aims to position Bigeye as the default observability layer (especially on the Snowflake/Databricks stack) and as the go-to vendor for AI data quality and governance, a segment Actian has not yet aggressively claimed.",
+      "pillars": [
+        {
+          "name": "Executive networking & category events",
+          "evidence": "Multiple Data & AI Leaders dinners (Fly Trap, Data Decoded) and the AI Trust Summit (Feb 2026) – proprietary event vehicles targeting senior buyers and AI data quality use cases.",
+          "confidence": "high"
+        },
+        {
+          "name": "Snowflake ecosystem lock-in",
+          "evidence": "Joining the Snowflake-led Open Semantic Interchange (April 2026) to co-author data/AI interoperability standards; exhibiting at Snowflake Summit 2023 and Databricks Data + AI Summit.",
+          "confidence": "high"
+        },
+        {
+          "name": "Cross-platform event saturation",
+          "evidence": "Exhibiting at Gartner Data & Analytics Summit (London 2024), Tableau Conference 2024, Alteryx Inspire 2024 – signals a broad GTM push across the major data-platform and analytics ecosystems.",
+          "confidence": "high"
+        },
+        {
+          "name": "AI data readiness positioning",
+          "evidence": "Launch of AI Trust Summit and AI Data Readiness Tour as proprietary events; emphasis on 'AI-ready data' and trust in Databricks environments (Databricks Data + AI Summit participation).",
+          "confidence": "medium"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Bigeye's Snowflake-aligned standard and its AI readiness events narrow Actian's differentiation in data observability for the Snowflake ecosystem and the AI data quality segment, forcing Actian to either counter with a Snowflake partnership or re-assert its own AI data quality narrative.",
+      "what_to_watch_for": [
+        "Expansion of Open Semantic Interchange to include more Snowflake partners or joint product integrations",
+        "Launch of Bigeye-specific AI data quality benchmarks or certifications",
+        "Further proprietary events targeting AI/ML leaders (in addition to the AI Trust Summit)",
+        "Product announcements integrating Bigeye's observability with Snowflake's data catalog or governance features"
+      ]
+    },
+    "Acceldata": {
+      "source": "inferred",
+      "summary": "Acceldata is investing heavily in Hadoop/Open Data Platform engineering to drive legacy-to-cloud migration as an initial wedge, then cross-selling data observability across Snowflake and Databricks ecosystems. A coordinated enterprise sales buildout and dense event calendar targeting CDAOs and CIOs through 2026 suggest a platform land-and-expand play, directly competing with Actian's hybrid integration and modernization messaging.",
+      "pillars": [
+        {
+          "name": "Legacy Hadoop modernization as entry point",
+          "evidence": "17 of 23 job postings focus on Open Data Platform, Hadoop, and data observability engineering; dedicated Staff Product Support Engineer for Hadoop Operations and Site Reliability Engineer for Hadoop Modernization roles; Kitchener-based specialized R&D team for ODP components",
+          "confidence": "high"
+        },
+        {
+          "name": "Multi-cloud observability cross-sell (Snowflake, Databricks)",
+          "evidence": "Scheduled presence at Snowflake Summit 2026 and Databricks Data + AI Summit; 20+ events through late 2026 targeting CDAOs/CIOs across US, Europe, APAC; Gartner Data and Analytics London engagement",
+          "confidence": "high"
+        },
+        {
+          "name": "North American enterprise sales engine buildout",
+          "evidence": "Hiring 2 Enterprise Account Executives (US) and Technical Account Managers in US and UK; Bengaluru-based Motion Designer for product-led growth content; product specialist for customer onboarding",
+          "confidence": "medium"
+        },
+        {
+          "name": "Managed services layer around migrations",
+          "evidence": "Staff Product Support Engineer for Hadoop Operations and Site Reliability Engineer for Hadoop Modernization indicate a managed service approach to reduce buyer friction and commoditize legacy integration",
+          "confidence": "medium"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Acceldata's Hadoop modernization wedge directly undercuts Actian's hybrid integration and legacy analytics messaging, with enterprise event presence and sales builds positioned to displace Actian in data observability and migration RFPs for financial services and retail accounts.",
+      "what_to_watch_for": [
+        "GA announcement of automated Hadoop-to-cloud migration product at Data + AI Summit or Hadoop Summit",
+        "Competitive comparison content from Motion Designer targeting Actian's legacy modernization line",
+        "Additional Enterprise AE or Solution Architect hires in Great Lakes region for direct account displacement",
+        "Published case studies or technical sessions on ODP migration patterns"
+      ]
+    },
+    "Pinecone": {
+      "source": "inferred",
+      "summary": "Based on multiple senior engineering and product management hires, coupled with a string of product launches (BYOC, Frankfurt region, Marketplace) and a real-time data enrichment partnership with ZoomInfo, Pinecone's most probable strategic direction over the next 6-12 months is to productize its vector database into a full enterprise knowledge platform. This move is designed to capture AI application workflows that require real-time data integration, managed deployment, and low-latency retrieval, directly challenging Actian's data integration and embedded analytics position.",
+      "pillars": [
+        {
+          "name": "Enterprise Knowledge Platform via Product Management",
+          "evidence": "Two Principal Product Manager hires (database + knowledge) directly signal that Pinecone is strategically productizing vector search into a knowledge management platform, not just a database. This is corroborated by the 'Knowledge Engine for Agents' brief in the ZoomInfo partnership and the general push toward AI-driven recommendations.",
+          "confidence": "high"
+        },
+        {
+          "name": "Managed Deployment and Global Infrastructure Expansion",
+          "evidence": "Launches of BYOC (April 15), Frankfurt cloud region (May 5), and Singapore serverless region demonstrate a systematic effort to offer managed, region-specific, and on-premise deployment options. This is supported by multiple engineering hires focused on database reliability and performance.",
+          "confidence": "high"
+        },
+        {
+          "name": "Real-Time Data Enrichment and Integration Partnerships",
+          "evidence": "The partnership with ZoomInfo (April 15/May 4) and the n8n assistant node partnership clearly show Pinecone moving beyond pure vector storage into real-time data enrichment pipelines. The Marketplace launch (May 5) further supports a strategy of lowering integration barriers for developers.",
+          "confidence": "high"
+        },
+        {
+          "name": "Low-Latency Retrieval Infrastructure Engineering",
+          "evidence": "Concentration of 4 senior engineers on search & retrieval infrastructure (NYC, Tel Aviv) points to building high-throughput, low-latency retrieval pipelines. This is corroborated by the GA of dedicated read nodes with enhanced control and observability features.",
+          "confidence": "medium"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Pinecone's buildout of a managed knowledge layer with BYOC, real-time enrichment, and regional cloud expansion directly threatens Actian's embedded analytics and hybrid data integration use cases by offering a unified AI-native stack that could bypass traditional BI/ETL workflows.",
+      "what_to_watch_for": [
+        "Job postings for 'real-time analytics' or 'SQL support' indicating a direct query layer targeting hybrid analytics.",
+        "Conference keynotes announcing a 'Knowledge Platform' or 'Pinecone for Enterprises' brand shift.",
+        "Partnership announcements with cloud data warehouses (Snowflake, Databricks) or streaming platforms (Kafka, Flink)."
+      ]
+    },
+    "Qdrant": {
+      "source": "inferred",
+      "summary": "Qdrant's $50M funding, enterprise cloud features (GPU indexing, multi-AZ, audit logging), and vertical partnerships (Twelve Labs/NVIDIA for video anomaly detection) indicate a strategic push to harden the vector database for production AI workloads and expand into edge-to-cloud vertical applications. The Google Gemini embedding partnership further extends their embedding ecosystem, positioning Qdrant as a composable AI infrastructure layer rather than just a vector store.",
+      "pillars": [
+        {
+          "name": "Enterprise cloud hardening",
+          "evidence": "Launch of GPU indexing, multi-AZ support, and audit logging on Qdrant Cloud (April 28, 2026); $50M funding (March 12, 2026) to build composable vector search as core infrastructure.",
+          "confidence": "high"
+        },
+        {
+          "name": "Vertical AI application expansion (edge-to-cloud)",
+          "evidence": "Partnership with Twelve Labs and NVIDIA for video anomaly detection from edge to cloud (March 15, 2026).",
+          "confidence": "high"
+        },
+        {
+          "name": "Embedding ecosystem integration",
+          "evidence": "Partnership with Google Gemini Embedding 2 (Neil Kanungo, date not specified but referenced in recent news).",
+          "confidence": "medium"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Qdrant's focus on composable, GPU-accelerated vector search with vertical solutions pressures Actian's data integration and analytics platform to natively support real-time embedding workflows and edge-to-cloud AI pipelines to remain relevant in AI-driven data architectures.",
+      "what_to_watch_for": [
+        "Additional vertical-specific integrations beyond video anomaly detection",
+        "Pricing or packaging changes on Qdrant Cloud for enterprise tiers",
+        "Launch of managed edge offerings or closer coupling with NVIDIA hardware",
+        "Expansion of embedding model partnerships beyond Google (e.g., Anthropic, Cohere)",
+        "Hiring for enterprise sales, solutions engineering, or industry-specific roles"
+      ]
+    },
+    "Snowflake": {
+      "source": "inferred",
+      "summary": "Snowflake is aggressively pivoting to an AI-native data control plane, evidenced by 37 new hires (16 in engineering), the GA of Kafka Connector 4.0, and product launches like Cortex Agents and Snowflake Intelligence. This strategy aims to commoditize point-to-point integration and directly threaten Actian's differentiation in hybrid data integration and legacy modernization.",
+      "pillars": [
+        {
+          "name": "Real-Time Ingestion & Integration",
+          "evidence": "GA of Kafka Connector 4.0 (Apr 28), hiring for data engineering Solution Engineers and Principal Software Engineers for platform infrastructure.",
+          "confidence": "high"
+        },
+        {
+          "name": "AI-Native Data Control Plane",
+          "evidence": "Launches of Cortex Agents (Apr 21), Snowflake Intelligence (Apr 22), and Cortex Code Masterclass events; hiring of Principal AI/ML Solution Engineers, Staff Software Engineer for AI Developer Tooling, and Senior PMs for Cortex/Snowflake Intelligence.",
+          "confidence": "high"
+        },
+        {
+          "name": "Legacy Migration & Enterprise Expansion",
+          "evidence": "Datometry partnership for Teradata migration (Apr 30), hiring of enterprise sales roles in Asia-Pacific and Americas, and multiple AI-focused events in APAC and London.",
+          "confidence": "high"
+        },
+        {
+          "name": "Observability & AI-Driven Monitoring",
+          "evidence": "Hiring for Senior Product Manager and Software Engineer for 'Observe by Snowflake', which complements integration with AI-powered monitoring.",
+          "confidence": "medium"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Snowflake's consolidation of AI-powered integration, real-time ingestion, and legacy migration directly undermines Actian's value proposition as a standalone hybrid integration platform in mid-market and regulated enterprises.",
+      "what_to_watch_for": [
+        "Product announcements at Snowflake Summit 2026 for integrated AI data quality or automated pipeline features.",
+        "Expansion of Cortex Agents or Snowflake Intelligence into real-time ETL or legacy migration tools.",
+        "Filling of Principal Engineer roles in AI Poland and expansion to Asia-Pacific hiring, indicating scaling of AI features."
+      ]
+    },
+    "Databricks": {
+      "source": "inferred",
+      "summary": "Databricks is tightly synchronizing AI product launches (Genie Code, Lakeflow Designer, SAP semantic metadata) with aggressive AI/ML engineering and pre-sales hiring (26 postings, 10+ AI roles, 7 senior-grade) and vertical/global go-to-market expansion (APAC leadership, industry-specific sales, SAP Sapphire presence) to embed intelligence directly into the data pipeline. This coordinated push aims to make Databricks the default enterprise AI platform, directly threatening standalone data integration and analytics middleware like Actian by reducing the need for separate tools.",
+      "pillars": [
+        {
+          "name": "AI-native pipeline automation and conversational analytics",
+          "evidence": "Launch of Genie Code for agentic data engineering (April 26/28), next-generation Genie for conversational analytics, and virtual event showcasing AI-powered insights with Genie (April 29). Hiring for 10+ AI/ML-focused roles including AI Engineer, AI Solutions Architect, and Manager Engineering - AI/BI in Vancouver. Lakeflow Designer public preview for visual workflow design (April 23).",
+          "confidence": "high"
+        },
+        {
+          "name": "Semantic metadata and ecosystem integration",
+          "evidence": "Launch of semantic metadata capability to natively integrate SAP business context (April 30), partnership with Stitch for marketing activation (challenges Actian integration), native Stripe data access, and OpenAI GPT-5.5 + Codex with full governance on platform. Presence at SAP Sapphire events (May 12 and May 20 in Madrid) to engage SAP customers.",
+          "confidence": "high"
+        },
+        {
+          "name": "Verticalized and global go-to-market expansion",
+          "evidence": "Hiring multiple Account Executives with industry vertical focus (Financial Services, Retail/CPG, Public Sector). Appointment of Simon Davies as new APAC leadership (April 17), $850M UK investment, 3 Forward Deployment Engineers in Singapore/Sydney, Sales in China/Australia, and AI/ML event push in Johannesburg, Mumbai, Munich. Data + AI Summit announced for June 2025 and 2026 in San Francisco.",
+          "confidence": "high"
+        },
+        {
+          "name": "Scaled pre-sales and engineering capacity for enterprise AI deployments",
+          "evidence": "Cluster of 7 senior-grade roles (Director, Lead Solutions Architect, Manager) in engineering and solutions architecture globally. Total 26 active postings with dominant function in engineering and ML/AI infrastructure focus. This indicates building a global pre-sales and professional services layer to handle complex enterprise AI workloads.",
+          "confidence": "medium"
+        }
+      ],
+      "timeline_estimate": "6-12 months",
+      "overall_confidence": "high",
+      "actian_competitive_impact": "Databricks' AI-native pipeline automation and semantic integration directly commoditize Actian's standalone data integration and real-time analytics value proposition, particularly in SAP-heavy and financial services accounts, while aggressive APAC and vertical go-to-market threatens Actian's regional hybrid strength.",
+      "what_to_watch_for": [
+        "Announcement of new AI/BI product or major feature at Data + AI Summit (June 2025)",
+        "Increase in hiring for data integration, real-time streaming, or embedded analytics roles signaling direct encroachment on Actian's core strengths",
+        "New partnership announcements with cloud providers (Azure/AWS in APAC) and system integrators to lock in enterprise accounts",
+        "Expansion of industry-specific sales teams beyond Financial Services, Retail, and Public Sector"
+      ]
+    }
+  },
+  "recent_comp_signals": [
+    {
+      "company": "Atlan",
+      "type": "event",
+      "title": "Meet Atlan at Databricks Data+AI Summit 2026",
+      "summary": "Atlan will be a Visionary Sponsor at the Databricks Data+AI Summit in San Francisco from June 15-18, 2026, signaling its continued investment in the Databricks ecosystem and positioning against Actian's data catalog and governance offerings",
+      "date": "2026-05-05"
+    },
+    {
+      "company": "Atlan",
+      "type": "event",
+      "title": "Meet Atlan at Snowflake Summit 2026",
+      "summary": "Atlan will exhibit at Snowflake Summit 2026 (June 1-4 in San Francisco) showcasing its data governance and collaboration platform, directly competing with Actian's data catalog/governance capabilities.",
+      "date": "2026-05-04"
+    },
+    {
+      "company": "Bigeye",
+      "type": "event",
+      "title": "Data & AI Leaders Dinner",
+      "summary": "Bigeye is hosting a private Data & AI Leaders Dinner at Fly Trap on an unspecified date, offering an exclusive networking and discussion event that may signal efforts to strengthen thought leadership and customer relationships in the data o",
+      "date": "2026-05-03"
+    },
+    {
+      "company": "Bigeye",
+      "type": "event",
+      "title": "Alteryx Inspire 2024",
+      "summary": "Bigeye participated in Alteryx Inspire 2024, a data analytics conference, signaling potential partnership or integration with Alteryx and highlighting the data observability space.",
+      "date": "2026-05-03"
+    },
+    {
+      "company": "Bigeye",
+      "type": "event",
+      "title": "Gartner Data & Analytics Summit 2024 - London",
+      "summary": "Bigeye is exhibiting at the Gartner Data & Analytics Summit 2024 in London, targeting the data observability market where Actian competes.",
+      "date": "2026-05-03"
+    },
+    {
+      "company": "Bigeye",
+      "type": "event",
+      "title": "Tableau Conference 2024",
+      "summary": "Bigeye is exhibiting at Tableau Conference 2024 to demo its data observability platform, signaling a focus on analytics integration that could overlap with Actian's data observability and analytics capabilities.",
+      "date": "2026-05-03"
+    },
+    {
+      "company": "Bigeye",
+      "type": "event",
+      "title": "Join Bigeye at Gartner Data & Analytics Summit 2024",
+      "summary": "Bigeye will exhibit at Gartner Data & Analytics Summit 2024, showcasing its data observability platform at booth #416, a direct competitive threat to Actian's data observability offerings.",
+      "date": "2026-05-03"
+    },
+    {
+      "company": "Bigeye",
+      "type": "event",
+      "title": "Databricks: Data + AI Summit 2023",
+      "summary": "Bigeye will exhibit its data observability platform at Databricks' Data + AI Summit 2023, emphasizing trust in Databricks environments, which signals direct competition with Actian's data observability efforts.",
+      "date": "2026-05-03"
+    },
+    {
+      "company": "Bigeye",
+      "type": "event",
+      "title": "Snowflake Summit 2023",
+      "summary": "Bigeye is attending Snowflake Summit 2023 to showcase data quality and reliable pipeline capabilities integrated with Snowflake's Data Cloud, highlighting their focus on data observability.",
+      "date": "2026-05-03"
+    },
+    {
+      "company": "Atlan",
+      "type": "event",
+      "title": "WTF is the Context Layer?",
+      "summary": "Atlan is hosting a virtual event on , to define and cut through the noise around the 'Context Layer' concept they coined, challenging data catalog vendors like Actian to clarify their positioning in data governance.",
+      "date": "2026-05-02"
+    },
+    {
+      "company": "Atlan",
+      "type": "event",
+      "title": "Atlan + Databricks: Building the AI-Native Enterprise, Together",
+      "summary": "Atlan and Databricks are co-hosting a virtual event on May 20 showing how Databricks Genie integrated with Atlan's context layer enables AI agents to use certified, governed data and explain outputs, directly threatening Actian's data gover",
+      "date": "2026-05-02"
+    },
+    {
+      "company": "Atlan",
+      "type": "event",
+      "title": "Industry Perspective: Why is context so important?",
+      "summary": "Atlan is hosting a virtual industry perspective event on , featuring analyst Sanjeev Mohan to discuss the importance of context in data, signaling a thought leadership push that could reinforce Atlan's position in the data catalog space, wh",
+      "date": "2026-05-02"
+    },
+    {
+      "company": "Databricks",
+      "type": "event",
+      "title": "JUNE 15–18 | SAN FRANCISCO Join us at the world’s largest data, apps and AI event. Register",
+      "summary": "Databricks will host Data + AI Summit in San Francisco from June 15–18, 2025, the largest data, apps, and AI event, which may showcase competitive advancements in data catalog/governance and AI analytics, challenging Actian's platform.",
+      "date": "2026-05-01"
+    },
+    {
+      "company": "Databricks",
+      "type": "event",
+      "title": "Featured In-Person Event Data + AI Summit 2026 Secure your spot at the world’s largest data, apps and AI event. San Fran",
+      "summary": "Databricks announced Data + AI Summit 2026, scheduled for June 15–18 in San Francisco, positioning it as the world's largest data, apps, and AI event, which may drive market attention away from Actian's competing platforms.",
+      "date": "2026-05-01"
+    },
+    {
+      "company": "Databricks",
+      "type": "event",
+      "title": "In-Person Event AI Days - Johannesburg Johannesburg, South Africa May 20 Register now",
+      "summary": "Databricks is hosting a series of in-person AI Days events globally, including Johannesburg on May 20, as part of a broader virtual and in-person workshop/webinar series, aiming to expand their AI platform reach.",
+      "date": "2026-04-30"
+    },
+    {
+      "company": "Databricks",
+      "type": "event",
+      "title": "In-Person Event Databricks at SAP Sapphire in Madrid May 20 Register now",
+      "summary": "Databricks is hosting an in-person event at SAP Sapphire in Madrid on May 20, offering a chance to engage with SAP customers and partners, potentially strengthening their data and AI positioning against Actian in European markets.",
+      "date": "2026-04-30"
+    },
+    {
+      "company": "Snowflake",
+      "type": "event",
+      "title": "Cortex Code Masterclass: Accelerating the Agentic Enterprise",
+      "summary": "Snowflake is hosting a masterclass in Melbourne on 27 May focused on accelerating the agentic enterprise, signaling their push into AI agent ecosystems that compete with Actian's data integration and analytics platform.",
+      "date": "2026-04-30"
+    },
+    {
+      "company": "Collibra",
+      "type": "event",
+      "title": "Virtual event Maximizando la fiabilidad del dato bajo BCBS 239: agregación y reporting estratégico con Collibra y PwC Ma",
+      "summary": "Collibra and PwC are hosting a virtual event on May 26 focusing on data reliability under BCBS 239, targeting strategic data aggregation and reporting in banking, which signals Collibra's push into regulatory data governance that competes w",
+      "date": "2026-04-29"
+    },
+    {
+      "company": "Databricks",
+      "type": "event",
+      "title": "In-Person Event AI Days - Mumbai Mumbai, India May 7 Register now",
+      "summary": "Databricks is hosting in-person and virtual AI and data events globally in 2026, including AI Days in Mumbai and learning festivals, signaling aggressive community engagement that could draw attention away from Actian's data integration and",
+      "date": "2026-04-29"
+    },
+    {
+      "company": "Databricks",
+      "type": "event",
+      "title": "In-Person Event Databricks at SAP Sapphire May 12 Register now",
+      "summary": "Databricks is hosting multiple events including a virtual Foundational Workshop series from February 12 to , and an in-person event at SAP Sapphire on May 12, signaling ongoing enterprise engagement that may pressure Actian's position in da",
+      "date": "2026-04-29"
+    },
+    {
+      "company": "Snowflake",
+      "type": "event",
+      "title": "IMDA GenAI Digital Leaders Kickstart Clinic",
+      "summary": "Snowflake is hosting an IMDA GenAI Digital Leaders Kickstart Clinic on 15 May at its Singapore office, signaling deepened engagement in APAC GenAI thought leadership and enterprise adoption events.",
+      "date": "2026-04-28"
+    },
+    {
+      "company": "Collibra",
+      "type": "event",
+      "title": "In-person event - U.S. - Orlando SAP Sapphire Orlando 2026 May 11 - 13",
+      "summary": "Collibra is participating with in-person booths or sessions at SAP Sapphire Orlando and Gartner Data & Analytics Summit London, both May 11-13, 2026, signaling a focus on enterprise data governance and analytics community engagement that co",
+      "date": "2026-04-27"
+    },
+    {
+      "company": "Collibra",
+      "type": "event",
+      "title": "In-person event - U.K. - London Gartner Data & Analytics Summit in London May 11 - 13",
+      "summary": "Collibra is exhibiting at the Gartner Data & Analytics Summit in London from May 11-13, 2026, as part of its global Data Citizens event series, signaling its continued investment in face-to-face engagement with data professionals in a key E",
+      "date": "2026-04-27"
+    },
+    {
+      "company": "Collibra",
+      "type": "event",
+      "title": "Virtual event Deliver AI at race pace without losing control: Introducing the AI command center Apr 30 @ 5 PM CET / 11 A",
+      "summary": "Collibra is hosting a virtual event on April 30 to introduce its AI command center, aiming to help enterprises rapidly deploy AI while maintaining governance and control, which poses a competitive threat to Actian's data catalog and governa",
+      "date": "2026-04-27"
+    },
+    {
+      "company": "Collibra",
+      "type": "event",
+      "title": "Virtual event How to make your unstructured data AI-ready in minutes instead of months May 5 @ 11:00 AM - 11:45 AM ET",
+      "summary": "Collibra is hosting a virtual event on , focused on speeding up AI readiness of unstructured data, directly promoting their data catalog/governance capabilities in a space where Actian competes.",
+      "date": "2026-04-27"
+    }
+  ],
+  "recent_news": [
+    {
+      "company": "Pinecone",
+      "type": "product_launch",
+      "title": "Introducing Pinecone Marketplace: Getting to Production in Minutes Roie Schwaber-Cohen",
+      "summary": "Pinecone launched a marketplace to accelerate deployment of vector database applications to production, posing competitive pressure on Actian's data integration and analytics offerings by simplifying AI/ML workflows.",
+      "date": "2026-05-05"
+    },
+    {
+      "company": "Pinecone",
+      "type": "product_launch",
+      "title": "Pinecone Expands in Europe with New Frankfurt Cloud Region, Delivering the Knowledge Infrastructure",
+      "summary": "Pinecone opened a new cloud region in Frankfurt, extending its vector database infrastructure in Europe, which increases competitive pressure on Actian's data platform for low-latency AI workloads in that region.",
+      "date": "2026-05-05"
+    },
+    {
+      "company": "Pinecone",
+      "type": "partnership",
+      "title": "Pinecone Nexus: The Knowledge Engine for Agents",
+      "summary": "Pinecone partnered with ZoomInfo to deliver AI-driven contact recommendations, combining real-time data with vector search; this signals deepening competition in AI-powered data enrichment space that overlaps with Actian's integration and a",
+      "date": "2026-05-04"
+    },
+    {
+      "company": "Pinecone",
+      "type": "product_launch",
+      "title": "Pinecone Launches First Serverless Region in Asia with New Singapore Cloud Region, Bringing the",
+      "summary": "Pinecone launched its first serverless region in Asia (Singapore), expanding its vector database cloud footprint, which may indirectly increase competition for Actian's data platform offerings in the region but has limited direct overlap.",
+      "date": "2026-05-04"
+    },
+    {
+      "company": "Databricks",
+      "type": "product_launch",
+      "title": "Unlocking SAP Business Context in Databricks with Semantic Metadata",
+      "summary": "Databricks launches semantic metadata capability to natively integrate SAP business context, directly competing with Actian's data integration and analytics offerings for SAP environments.",
+      "date": "2026-04-30"
+    },
+    {
+      "company": "Databricks",
+      "type": "partnership",
+      "title": "The marketing activation gap has a fix: Databricks and Stitch partner to turn data infrastructure",
+      "summary": "Databricks partners with Stitch to bridge the marketing activation gap, directly challenging Actian's data integration and analytics platform by offering a competing solution for turning data infrastructure into actionable marketing insight",
+      "date": "2026-04-30"
+    },
+    {
+      "company": "Snowflake",
+      "type": "partnership",
+      "title": "Snowflake Intelligence Partner Offerings Bring AI Edge to Industries",
+      "summary": "Snowflake launched AI-focused partner offerings targeting vertical industries, intensifying competition for Actian in the data integration and analytics market by leveraging AI capabilities and industry-specific solutions.",
+      "date": "2026-04-30"
+    },
+    {
+      "company": "Snowflake",
+      "type": "product_launch",
+      "title": "Announcing Datometry for Snowflake: Accelerate Teradata Exit to the AI",
+      "summary": "Snowflake launched Datometry to help enterprises exit Teradata faster, directly competing with Actian's data migration and integration offerings.",
+      "date": "2026-04-30"
+    },
+    {
+      "company": "Databricks",
+      "type": "feature",
+      "title": "Approximate Answers, Exact Decisions: New Sketch Functions",
+      "summary": "Databricks introduced new sketch functions for approximate query results, which could challenge Actian's data integration and analytics platform by offering faster approximate analytics capabilities.",
+      "date": "2026-04-29"
+    },
+    {
+      "company": "Databricks",
+      "type": "partnership",
+      "title": "Stripe data now available on Databricks via",
+      "summary": "Databricks now offers native access to Stripe data, strengthening its data lakehouse ecosystem and posing increased competitive pressure on Actian's data integration offerings for analytics workloads.",
+      "date": "2026-04-29"
+    },
+    {
+      "company": "Qdrant",
+      "type": "product_launch",
+      "title": "Now Available on Qdrant Cloud: GPU Indexing, Multi-AZ, and Audit Logging",
+      "summary": "Qdrant launched GPU indexing, multi-AZ support, and audit logging on Qdrant Cloud, enhancing vector database capabilities, which is low relevance to Actian's data integration and analytics focus.",
+      "date": "2026-04-28"
+    },
+    {
+      "company": "Snowflake",
+      "type": "product_launch",
+      "title": "Snowflake Kafka Connector Version 4.0 is Generally Available. Here’s Why We Think It's a",
+      "summary": "Snowflake's GA of Kafka Connector 4.0 enhances real-time data ingestion, increasing competitive pressure on Actian's data integration and streaming capabilities.",
+      "date": "2026-04-28"
+    },
+    {
+      "company": "Snowflake",
+      "type": "product_launch",
+      "title": "Snowflake Data Clean Rooms Enable Privacy-First",
+      "summary": "Snowflake launched a Data Clean Rooms capability for privacy-compliant data collaboration, directly competing with Actian's data integration offerings by providing an alternative for secure, governed data sharing without heavy ETL.",
+      "date": "2026-04-28"
+    },
+    {
+      "company": "Databricks",
+      "type": "product_launch",
+      "title": "Agentic Data Engineering with Genie Code",
+      "summary": "Databricks launched Genie Code, an agentic AI tool for data engineering, intensifying competition in the intelligent data integration and analytics space that Actian also targets.",
+      "date": "2026-04-28"
+    },
+    {
+      "company": "Databricks",
+      "type": "product_launch",
+      "title": "The next generation of Databricks Genie",
+      "summary": "Databricks has launched the next generation of Databricks Genie, enhancing its AI-powered conversational analytics on the lakehouse, which directly competes with Actian's data analytics and AI integration capabilities.",
+      "date": "2026-04-26"
+    },
+    {
+      "company": "Alation",
+      "type": "leadership",
+      "title": "Alation Appoints Rick Baker as Chief Operating Officer",
+      "summary": "Alation appoints Rick Baker as COO, signaling operational scaling that may intensify competition against Actian in the data catalog and analytics market.",
+      "date": "2026-04-24"
+    },
+    {
+      "company": "Alation",
+      "type": "product_launch",
+      "title": "Alation Introduces Critical Data Element Manager to Deliver Agentic Governance for",
+      "summary": "Alation launched a Critical Data Element Manager focused on agentic governance, introducing AI-driven capabilities for data quality and stewardship that could tighten competition with Actian in the data catalog and governance space.",
+      "date": "2026-04-24"
+    },
+    {
+      "company": "Alation",
+      "type": "product_launch",
+      "title": "Alation Announces Agent Builder To Deliver Enterprise-Grade AI Agents for",
+      "summary": "Alation's Agent Builder enables enterprises to deploy AI agents on their data catalog, directly competing with Actian's data integration and analytics platform by expanding AI-driven data management capabilities.",
+      "date": "2026-04-24"
+    },
+    {
+      "company": "Databricks",
+      "type": "product_launch",
+      "title": "OpenAI GPT-5.5 + Codex, now available and fully-governed on Databricks",
+      "summary": "Databricks is launching OpenAI's GPT-5.5 and Codex on its platform with full governance, intensifying AI/ML competition and putting pressure on Actian's data integration and analytics for AI workloads.",
+      "date": "2026-04-24"
+    },
+    {
+      "company": "Snowflake",
+      "type": "feature",
+      "title": "Introducing DCM Projects: Declarative Infrastructure Management for Snowflake — Now in Public",
+      "summary": "Snowflake launched DCM Projects in public preview, enabling declarative infrastructure management via Terraform-like workflows, which simplifies data pipeline automation and could erode Actian's differentiation in data engineering and integ",
+      "date": "2026-04-24"
+    },
+    {
+      "company": "Snowflake",
+      "type": "product_launch",
+      "title": "OpenAI GPT 5.5 on Snowflake Cortex AI",
+      "summary": "Snowflake launches GPT-5.5 on Cortex AI, strengthening its AI capabilities and intensifying competition with Actian in data analytics and AI-driven data integration.",
+      "date": "2026-04-23"
+    },
+    {
+      "company": "Databricks",
+      "type": "product_launch",
+      "title": "Announcing the Public Preview of Lakeflow Designer",
+      "summary": "Databricks launched Lakeflow Designer in public preview, adding a visual workflow design capability for its lakehouse platform that directly competes with Actian's data integration and pipeline orchestration offerings.",
+      "date": "2026-04-23"
+    },
+    {
+      "company": "Databricks",
+      "type": "partnership",
+      "title": "Databricks partners with OpenAI on GPT-5.5",
+      "summary": "Databricks partners with OpenAI on GPT-5.5, intensifying the AI data lakehouse competition and pressuring Actian to accelerate AI-native integration capabilities.",
+      "date": "2026-04-23"
+    },
+    {
+      "company": "Collibra",
+      "type": "partnership",
+      "title": "Google Cloud And Collibra Deepen Partnership To Bring Business Context And Semantics Directly To",
+      "summary": "Collibra is deepening its partnership with Google Cloud to embed business context and semantics into cloud data, which may signal tighter integration but does not directly threaten Actian's core integration and analytics market.",
+      "date": "2026-04-22"
+    },
+    {
+      "company": "Collibra",
+      "type": "partnership",
+      "title": "Google Cloud and Collibra deepen their partnership to bring business context and semantics directly",
+      "summary": "Collibra is deepening its integration with Google Cloud to embed business context and semantics into cloud data workflows, increasing competitive pressure on Actian's data governance and analytics offerings.",
+      "date": "2026-04-22"
+    }
+  ]
+}
