@@ -2103,6 +2103,7 @@ function Sidebar({ lens, onLens, collapsed, onToggle, page, onPage }) {
           { id:"launches",  label:"Launches & events",   desc:"Signal timeline",    icon:"◇" },
           { id:"news",      label:"News",                desc:"Press releases",     icon:"◧" },
           { id:"companies", label:"Companies",           desc:"Roster of 11",       icon:"◫" },
+          { id:"slack",     label:"Slack routing",       desc:"Pending approval",   icon:"#" },
         ].map(p => (
           <button
             key={p.id}
@@ -2196,6 +2197,7 @@ function TopBar({ onSearch, q, onChat, onNotif, lens, page, onPage, theme, onThe
     hiring: "Hiring intelligence",
     dashboard: "Verdict view",
     news: "News & press releases",
+    slack: "Slack routing",
   };
   const pageLabel = pageLabels[page] || "Verdict view";
   return (
@@ -3751,7 +3753,130 @@ function NotifDrawer({ open, onClose }) {
   );
 }
 
-Object.assign(window, { LaunchesPage, CompaniesPage, HiringPage, NotifDrawer, RelevanceBadge });
+// ─── Slack routing preview page ──────────────────────────────────────────
+function SlackRoutingPage() {
+  const sp = window.SLACK_PREVIEW;
+  if (!sp) {
+    return (
+      <div data-screen-label="06 Slack routing">
+        <div className="hero">
+          <div className="hero-eyebrow">Slack routing · pending approval</div>
+          <h1 className="hero-title">Slack routing</h1>
+          <p className="hero-sub">No preview file present. The first CI run with the routing engine produces it.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const channels = sp.channels_in_use || [];
+  const messages = sp.messages || [];
+  const groupedByChannel = {};
+  for (const m of messages) {
+    (groupedByChannel[m.channel] = groupedByChannel[m.channel] || []).push(m);
+  }
+  const channelOrder = Object.keys(groupedByChannel).sort();
+
+  const CHANNEL_BLURB = {
+    "#competitive-product":  "Product launches, GA releases, OSS drops",
+    "#competitive-gtm":       "Partnerships, high-relevance events",
+    "#competitive-signals":  "Critical & high verdicts, funding, M&A",
+  };
+
+  return (
+    <div data-screen-label="06 Slack routing">
+      <div className="hero">
+        <div className="hero-title-row">
+          <div>
+            <div className="hero-eyebrow">Routing engine wired · awaiting webhook approval</div>
+            <h1 className="hero-title">Slack routing</h1>
+            <p className="hero-sub">
+              {sp.total_queued} messages queued across {channels.length} channels for the next dispatch.
+              The pipeline classifies every signal, picks the right channel, and formats the post.
+              Delivery activates the moment a Slack webhook URL is approved and added to repo secrets.
+            </p>
+          </div>
+          <div style={{
+            padding:"10px 16px", borderRadius:"10px",
+            background: sp.webhook_configured ? "rgba(16,185,129,0.12)" : "rgba(245,158,11,0.12)",
+            color: sp.webhook_configured ? "#059669" : "#d97706",
+            border: sp.webhook_configured ? "1px solid rgba(16,185,129,0.35)" : "1px solid rgba(245,158,11,0.35)",
+            fontSize:"12.5px", fontWeight:600,
+          }}>
+            {sp.webhook_configured
+              ? "● Webhook configured — live"
+              : "○ Awaiting webhook · preview only"}
+          </div>
+        </div>
+
+        <div style={{display:"flex", gap:"24px", marginTop:"16px", flexWrap:"wrap"}}>
+          {channelOrder.map(ch => (
+            <div key={ch} style={{
+              padding:"10px 14px", borderRadius:"8px",
+              background:"var(--bg-sunk)", border:"1px solid var(--border)",
+              minWidth:"220px",
+            }}>
+              <div style={{fontSize:"11px", fontFamily:"var(--font-mono)", textTransform:"uppercase", letterSpacing:"0.06em", color:"var(--ink-mute)"}}>Channel</div>
+              <div style={{fontWeight:600, fontSize:"15px", marginTop:"3px"}}>{ch}</div>
+              <div style={{fontSize:"11.5px", color:"var(--ink-soft)", marginTop:"4px"}}>{CHANNEL_BLURB[ch] || ""}</div>
+              <div style={{fontSize:"11px", marginTop:"6px", color:"var(--ink-mute)", fontFamily:"var(--font-mono)"}}>{groupedByChannel[ch].length} queued</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {channelOrder.map(ch => (
+        <section key={ch} className="hi-section" style={{marginTop:"22px"}}>
+          <div className="hi-sec-head">
+            <div className="hi-sec-head-l">
+              <h2 className="list-h">{ch}</h2>
+              <span className="list-count">{groupedByChannel[ch].length} messages</span>
+            </div>
+            <span style={{fontSize:"12px", color:"var(--ink-mute)"}}>
+              {CHANNEL_BLURB[ch] || ""}
+            </span>
+          </div>
+          <div style={{display:"grid", gap:"10px"}}>
+            {groupedByChannel[ch].slice(0, 12).map(m => (
+              <div key={m.msg_id} style={{
+                padding:"14px 16px", border:"1px solid var(--border)",
+                borderRadius:"10px", background:"var(--bg)",
+                borderLeft:"3px solid #4a154b",  /* Slack purple */
+              }}>
+                <div style={{display:"flex", alignItems:"center", gap:"10px", marginBottom:"6px", fontSize:"12px"}}>
+                  <span style={{fontWeight:700, color:"#4a154b", fontFamily:"var(--font-mono)"}}>{ch}</span>
+                  <span style={{color:"var(--ink-mute)"}}>·</span>
+                  <span style={{fontWeight:600}}>{m.company}</span>
+                  <span style={{color:"var(--ink-mute)"}}>·</span>
+                  <span style={{
+                    fontSize:"10px", padding:"2px 7px", borderRadius:"10px",
+                    background:"rgba(74,21,75,0.10)", color:"#4a154b",
+                    fontFamily:"var(--font-mono)", textTransform:"uppercase", letterSpacing:"0.04em",
+                  }}>{m.type || "—"}</span>
+                  <span style={{flex:1}} />
+                  <span style={{fontSize:"10px", padding:"2px 8px", borderRadius:"10px",
+                    background:"rgba(245,158,11,0.12)", color:"#d97706", fontWeight:600,
+                    fontFamily:"var(--font-mono)", textTransform:"uppercase", letterSpacing:"0.04em",
+                  }}>preview</span>
+                </div>
+                <pre style={{
+                  margin:0, fontFamily:"var(--font-sans)", fontSize:"13px",
+                  whiteSpace:"pre-wrap", color:"var(--ink)", lineHeight:1.55,
+                }}>{m.text}</pre>
+              </div>
+            ))}
+            {groupedByChannel[ch].length > 12 && (
+              <div style={{padding:"8px 14px", fontSize:"12px", color:"var(--ink-mute)", textAlign:"center"}}>
+                + {groupedByChannel[ch].length - 12} more queued for this channel
+              </div>
+            )}
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+Object.assign(window, { LaunchesPage, CompaniesPage, HiringPage, NotifDrawer, RelevanceBadge, SlackRoutingPage });
   </script>
 
   <!-- App (routes + DashboardPage) -->
@@ -3849,6 +3974,9 @@ function App() {
         )}
         {page === "companies" && (
           <window.CompaniesPage lens={lens} onOpenCompany={setOpenId} q={q} theme={theme} />
+        )}
+        {page === "slack" && (
+          <window.SlackRoutingPage />
         )}
 
         <footer className="app-foot">

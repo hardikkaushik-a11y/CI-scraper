@@ -132,7 +132,7 @@ jobs:
         run: |
           git config user.name "CI Bot"
           git config user.email "ci-bot@actian.com"
-          git add -f data/jobs_enriched.csv data/jobs_enriched_v2.csv data/signals.json data/competitive_signals.json data/intelligence_verdicts.json data/news.json data/roadmaps.json data/semantic_layer.json data/seen_signals.json data/seen_news.json data/slack_sent.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html dashboard/v3/dashboard_v3.html dashboard/v2.1/dashboard_v21.html
+          git add -f data/jobs_enriched.csv data/jobs_enriched_v2.csv data/signals.json data/competitive_signals.json data/intelligence_verdicts.json data/news.json data/roadmaps.json data/semantic_layer.json data/seen_signals.json data/seen_news.json data/slack_sent.json data/slack_preview.json dashboard/v1/dashboard.html dashboard/v2/dashboard_v2.html dashboard/v3/dashboard_v3.html dashboard/v2.1/dashboard_v21.html
           git diff --cached --quiet || git commit -m "chore: daily scrape $(date -u '+%Y-%m-%d')"
           git pull --rebase --autostash -X ours origin main
           git push

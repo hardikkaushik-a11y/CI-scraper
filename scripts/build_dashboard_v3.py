@@ -738,6 +738,17 @@ def generate_data_js(competitors, launches, events, function_trends=None, news=N
     # OVERALL COUNTRY FOOTPRINT (top 10)
     lines.append("window.COUNTRIES = " + to_js_value(overall_countries or []) + ";")
     lines.append("")
+    # Slack routing preview — demo state when SLACK_WEBHOOK_URL not yet set
+    slack_preview_path = DATA_DIR / "slack_preview.json"
+    if slack_preview_path.exists():
+        try:
+            slack_preview = json.loads(slack_preview_path.read_text(encoding="utf-8"))
+        except Exception:
+            slack_preview = None
+    else:
+        slack_preview = None
+    lines.append("window.SLACK_PREVIEW = " + to_js_value(slack_preview) + ";")
+    lines.append("")
 
     # COMPETITORS
     lines.append("window.COMPETITORS = " + to_js_value(competitors) + ";")
