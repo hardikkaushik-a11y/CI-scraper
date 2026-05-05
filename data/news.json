@@ -110,6 +110,32 @@
   {
     "company": "Databricks",
     "product_area": "AI Analyst",
+    "news_type": "expansion",
+    "title": "Databricks to invest US$300 million in ANZ over the next three years",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-invest-us300-million-anz-over-next-three-years",
+    "published_date": "2026-05-04",
+    "source": "company_newsroom",
+    "summary": "Databricks commits $300M investment in Australia and New Zealand, signaling increased regional competition for data analytics and lakehouse customers.",
+    "actian_relevance": "low",
+    "tags": [
+      "Databricks",
+      "ANZ",
+      "$300M"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Lakehouse / Warehouse / HTAP / Postgres"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
     "news_type": "product_launch",
     "title": "Unlocking SAP Business Context in Databricks with Semantic Metadata",
     "url": "https://www.databricks.com/blog/unlocking-sap-business-context-databricks-semantic-metadata-delta-sharing",
@@ -375,6 +401,249 @@
     "scraped_at": "2026-04-29"
   },
   {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "integration",
+    "title": "Mistral\u2019s Leanstral wants to kill off human-in-the-loop code checks, but is it blowing in the wind?",
+    "url": "https://thenewstack.io/leanstral-formal-verification-code/",
+    "published_date": "2026-04-28",
+    "source": "company_newsroom",
+    "summary": "Mistral\u2019s Leanstral wants to kill off human-in-the-loop code checks, but is it blowing in the wind?",
+    "actian_relevance": "medium",
+    "tags": [],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Acceldata's xLake Reasoning Engine Establishes First Benchmark for AI-Ready Data Quality at Scale",
+    "url": "https://www.acceldata.io/newsroom/acceldatas-xlake-reasoning-engine-establishes-first-benchmark-for-ai-ready-data-quality-at-scale",
+    "published_date": "2026-04-27",
+    "source": "company_newsroom",
+    "summary": "Acceldata launched the xLake Reasoning Engine, an AI-ready data quality benchmark at scale, which raises the bar for autonomous data observability and could pressure Actian's data quality offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "data quality",
+      "benchmark",
+      "xLake"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "AI-Ready Data",
+      "Observability / Quality / Lineage"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Acceldata Announces General Availability of Agentic Data Management (ADM)",
+    "url": "https://www.acceldata.io/newsroom/acceldata-announces-general-availability-of-agentic-data-management-adm",
+    "published_date": "2026-04-27",
+    "source": "company_newsroom",
+    "summary": "Acceldata launched Agentic Data Management (ADM) to GA, introducing AI-driven automation for data observability and operations, which directly competes with Actian's data management and analytics platform capabilities.",
+    "actian_relevance": "high",
+    "tags": [
+      "Agentic Data Management",
+      "GA",
+      "AI",
+      "Observability"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Acceldata Unveils Agentic Data Management Platform at Autonomous 25 Agentic data management leader",
+    "url": "https://www.acceldata.io/newsroom/acceldata-unveils-agentic-data-management-platform-at-autonomous-25",
+    "published_date": "2026-04-27",
+    "source": "company_newsroom",
+    "summary": "Acceldata launched an agentic data management platform at Autonomous 25, signaling a move toward autonomous data operations that could increase competitive pressure on Actian\u2019s data integration and analytics offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "agentic data management",
+      "Autonomous 25",
+      "new platform"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Acceldata Launches Industry\u2019s First Agentic Data Management Platform Company Revolutionizes Data",
+    "url": "https://www.acceldata.io/newsroom/acceldata-launches-industrys-first-agentic-data-management-platform",
+    "published_date": "2026-04-27",
+    "source": "company_newsroom",
+    "summary": "Acceldata launched the industry's first agentic data management platform, introducing a new competitive category that challenges Actian's data management and analytics positioning.",
+    "actian_relevance": "high",
+    "tags": [
+      "agentic",
+      "data management",
+      "first-of-its-kind"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "news_type": "feature",
+    "title": "Acceldata Expands Enterprise Data Observability Platform with Advanced AI-Powered Data",
+    "url": "https://www.acceldata.io/newsroom/acceldata-expands-enterprise-data-observability-platform-with-advanced-ai-powered-data-reconciliation",
+    "published_date": "2026-04-27",
+    "source": "company_newsroom",
+    "summary": "Acceldata enhanced its existing data observability platform with new AI capabilities, intensifying competition in the data reliability and observability space relevant to Actian's integration and analytics offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Acceldata",
+      "data observability",
+      "AI-powered"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "news_type": "integration",
+    "title": "Acceldata Expands Access to Enterprise Data Observability with Google Cloud Marketplace Integration",
+    "url": "https://www.acceldata.io/newsroom/acceldata-google-cloud-marketplace",
+    "published_date": "2026-04-27",
+    "source": "company_newsroom",
+    "summary": "Acceldata's availability on Google Cloud Marketplace broadens enterprise access to its data observability platform, intensifying competition for Actian in the data reliability and observability space.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Google Cloud Marketplace",
+      "data observability",
+      "marketplace"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "news_type": "product_launch",
+    "title": "Acceldata Unveils Groundbreaking AI Technology for Data Observability Explore Acceldata's",
+    "url": "https://www.acceldata.io/newsroom/acceldata-unveils-groundbreaking-ai-technology-for-data-observability",
+    "published_date": "2026-04-27",
+    "source": "company_newsroom",
+    "summary": "Acceldata launched a new AI-driven data observability capability, increasing competition for Actian in the data observability space.",
+    "actian_relevance": "medium",
+    "tags": [
+      "AI",
+      "data observability"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "news_type": "coverage",
+    "title": "Acceldata Wins InfoWorld\u2019s 2023 Technology of the Year Award Company named winner of the Data",
+    "url": "https://www.acceldata.io/newsroom/acceldata-wins-infoworlds-2023-technology-of-the-year-award",
+    "published_date": "2026-04-27",
+    "source": "company_newsroom",
+    "summary": "Acceldata Wins InfoWorld\u2019s 2023 Technology of the Year Award Company named winner of the Data",
+    "actian_relevance": "low",
+    "tags": [],
+    "team_routing": [
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Acceldata",
+    "product_area": "Data Observability",
+    "news_type": "acquisition",
+    "title": "Acceldata Acquires Bewgle to Extend Data Observability Capabilities Acceldata announces the",
+    "url": "https://www.acceldata.io/newsroom/acceldata-extends-enterprise-data-observability-capabilities-into-ai-with-acquisition-of-bewgle",
+    "published_date": "2026-04-27",
+    "source": "company_newsroom",
+    "summary": "Acceldata acquired Bewgle to bolster its data observability with AI-driven quality insights, signaling intensifying competition in the data observability space that includes Actian's integration and analytics platform.",
+    "actian_relevance": "medium",
+    "tags": [
+      "data observability",
+      "AI"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Executives"
+    ],
+    "themes": [
+      "Observability / Quality / Lineage"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
     "company": "Databricks",
     "product_area": "AI Analyst",
     "news_type": "product_launch",
@@ -618,6 +887,28 @@
     "scraped_at": "2026-04-27"
   },
   {
+    "company": "Alation",
+    "product_area": "Data Intelligence",
+    "news_type": "coverage",
+    "title": "Beyond Automation: Forrester Research on AI Agents and Data Governance Most data governance",
+    "url": "https://www.alation.com/blog/ai-agents-data-governance-forrester-compounding-learning/",
+    "published_date": "2026-04-23",
+    "source": "company_newsroom",
+    "summary": "Beyond Automation: Forrester Research on AI Agents and Data Governance Most data governance",
+    "actian_relevance": "low",
+    "tags": [],
+    "team_routing": [
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Data / AI Governance",
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
     "company": "Collibra",
     "product_area": "Data Intelligence",
     "news_type": "partnership",
@@ -821,6 +1112,31 @@
     "themes": [],
     "event_date": null,
     "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Snowflake",
+    "product_area": "AI Analyst",
+    "news_type": "feature",
+    "title": "Snowflake Cortex Code Expands Towards Supporting Any",
+    "url": "https://www.snowflake.com/en/news/press-releases/snowflake-cortex-code-expands-towards-supporting-any-data-anywhere/",
+    "published_date": "2026-04-22",
+    "source": "company_newsroom",
+    "summary": "Snowflake expanded its Cortex Code service to support any programming language, strengthening its platform's code execution capabilities and increasing competitive pressure on Actian's data integration and analytics offerings.",
+    "actian_relevance": "medium",
+    "tags": [
+      "Snowflake",
+      "Cortex",
+      "Code"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM"
+    ],
+    "themes": [
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
   },
   {
     "company": "Snowflake",
@@ -1734,6 +2050,31 @@
     ],
     "event_date": null,
     "scraped_at": "2026-04-27"
+  },
+  {
+    "company": "Databricks",
+    "product_area": "AI Analyst",
+    "news_type": "expansion",
+    "title": "Databricks Opens 13,000 SQM Amsterdam Office to Accelerate Benelux Growth",
+    "url": "https://www.databricks.com/company/newsroom/press-releases/databricks-opens-13000-sqm-amsterdam-office-accelerate-benelux",
+    "published_date": "2026-02-26",
+    "source": "company_newsroom",
+    "summary": "Databricks expands its physical presence in the Benelux region with a sizable new office in Amsterdam, signaling continued growth and investment in the European market.",
+    "actian_relevance": "low",
+    "tags": [
+      "Amsterdam",
+      "Benelux",
+      "office",
+      "Databricks"
+    ],
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
   },
   {
     "company": "Qdrant",
