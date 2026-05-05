@@ -290,6 +290,8 @@ _NAV_TITLE_RE = re.compile(
 # A webinar is kept ONLY if _PRODUCT_LAUNCH_STRONG_RE also matches (it's a launch webinar).
 # All purely informational webinars are dropped.
 _WEBINAR_RE = re.compile(r'\bwebinar\b', re.I)
+# Hackathons are never strategic competitive intelligence — always drop.
+_HACKATHON_RE = re.compile(r'\bhackathon\b', re.I)
 
 _WORKSHOP_RE = re.compile(r'\bworkshop\b', re.I)
 _LOW_VALUE_WEBINAR_RE = re.compile(
@@ -1149,24 +1151,40 @@ def fetch_event_page_playwright(company: str, url: str) -> list[dict]:
                 year = m_.group(3) or str(date.today().year)
                 return f"{year}-{month_map.get(mon, '01')}-{day:02d}"
 
+            # SHORT-TERM (today): keep top 3 most-imminent Pinecone events
+            #   by event_date ascending, drop hackathons.
+            # LONG-TERM (TODO): replace with DeepSeek strategic-relevance scoring
+            #   per event (0-10 scale: own product launch=10, partner-org keynote=8,
+            #   product feature webinar=6, generic AI meetup=3, hackathon=0).
+            #   Keep events scoring >= threshold rather than arbitrary top-N.
+            #   Why: 'AI Meetup SF' and 'AI Meetup NY' are first by date but
+            #   strategically less interesting than 'Pinecone Nexus AI Launch Party'.
+            candidates = []
             for i, (typ, title, dat) in enumerate(triplets):
                 title = title.strip()
-                if not title or title in seen_titles:
+                if not title:
+                    continue
+                # Hackathons skipped — never strategic CI value
+                if typ.strip().lower() == "hackathon" or "hackathon" in title.lower():
                     continue
                 href = pine_hrefs[i] if i < len(pine_hrefs) else url
-                if href in seen_hrefs:
-                    continue
                 event_iso = _to_iso(dat)
-                seen_titles.add(title)
-                seen_hrefs.add(href)
-                items.append({
+                candidates.append({
                     "title":          title[:150],
                     "url":            href,
                     "published_date": date.today().isoformat(),
                     "description":    f"{typ.strip()} · {dat.strip()}"[:400],
                     "event_date":     event_iso,
                 })
-            print(f"  [Pinecone] Strategy Pinecone: {len(items)} events from card text")
+            # Sort by event_date ascending (earliest first), then keep top 3
+            candidates.sort(key=lambda x: x.get("event_date") or "9999-12-31")
+            for c in candidates[:3]:
+                if c["title"] in seen_titles or c["url"] in seen_hrefs:
+                    continue
+                seen_titles.add(c["title"])
+                seen_hrefs.add(c["url"])
+                items.append(c)
+            print(f"  [Pinecone] Strategy Pinecone: {len(items)} events kept (top 3 by date, hackathons dropped)")
             if items:
                 return items
         except Exception as e_:
@@ -1560,6 +1578,10 @@ def main():
                     if not _PRODUCT_LAUNCH_STRONG_RE.search(gate_text):
                         seen_urls.add(url)
                         continue
+                # Tier 5: Hackathons — always dropped, no strategic CI value
+                if _HACKATHON_RE.search(gate_text):
+                    seen_urls.add(url)
+                    continue
 
             # Event gating: blog posts must contain an explicit event keyword to pass
             # All other types (product_launch, partnership, etc.) already required
