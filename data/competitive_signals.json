@@ -3,6 +3,33 @@
     "company": "Atlan",
     "product_area": "Data Intelligence",
     "type": "event",
+    "title": "Meet Atlan at Databricks Data+AI Summit 2026",
+    "url": "https://atlan.com/event/databricks-summit-2026/",
+    "published_date": "2026-05-05",
+    "summary": "Atlan will be a Visionary Sponsor at the Databricks Data+AI Summit in San Francisco from June 15-18, 2026, signaling its continued investment in the Databricks ecosystem and positioning against Actian's data catalog and governance offerings.",
+    "actian_relevance": "high",
+    "tags": [
+      "data catalog",
+      "Databricks",
+      "conference",
+      "governance"
+    ],
+    "source_type": "event_page",
+    "event_date": "2026-06-15",
+    "team_routing": [
+      "PMM",
+      "Marketing",
+      "SDRs"
+    ],
+    "themes": [
+      "Catalog / Metadata / Knowledge Graph"
+    ],
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Atlan",
+    "product_area": "Data Intelligence",
+    "type": "event",
     "title": "Meet Atlan at Snowflake Summit 2026",
     "url": "https://atlan.com/event/snowflake-summit-2026/",
     "published_date": "2026-05-04",

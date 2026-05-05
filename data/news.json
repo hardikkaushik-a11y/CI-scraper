@@ -2,6 +2,61 @@
   {
     "company": "Pinecone",
     "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Introducing Pinecone Marketplace: Getting to Production in Minutes Roie Schwaber-Cohen",
+    "url": "https://www.pinecone.io/blog/marketplace/",
+    "published_date": "2026-05-05",
+    "source": "company_newsroom",
+    "summary": "Pinecone launched a marketplace to accelerate deployment of vector database applications to production, posing competitive pressure on Actian's data integration and analytics offerings by simplifying AI/ML workflows.",
+    "actian_relevance": "medium",
+    "tags": [
+      "vector database",
+      "marketplace",
+      "Pinecone",
+      "deployment speed"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval",
+      "ETL / ELT / Integration"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone Expands in Europe with New Frankfurt Cloud Region, Delivering the Knowledge Infrastructure",
+    "url": "https://www.pinecone.io/newsroom/Pinecone-Expands-in-Europe-with-New-Frankfurt-Cloud-Region/",
+    "published_date": "2026-05-05",
+    "source": "company_newsroom",
+    "summary": "Pinecone opened a new cloud region in Frankfurt, extending its vector database infrastructure in Europe, which increases competitive pressure on Actian's data platform for low-latency AI workloads in that region.",
+    "actian_relevance": "medium",
+    "tags": [
+      "New Region",
+      "Frankfurt",
+      "Cloud",
+      "Vector Database"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
     "news_type": "partnership",
     "title": "Pinecone Nexus: The Knowledge Engine for Agents",
     "url": "https://www.pinecone.io/blog/knowledge-infrastructure-for-agents/",
@@ -25,6 +80,32 @@
     ],
     "event_date": null,
     "scraped_at": "2026-05-04"
+  },
+  {
+    "company": "Pinecone",
+    "product_area": "VectorAI",
+    "news_type": "product_launch",
+    "title": "Pinecone Launches First Serverless Region in Asia with New Singapore Cloud Region, Bringing the",
+    "url": "https://www.pinecone.io/newsroom/Pinecone-Launches-First-Serverless-Region-in-Asia/",
+    "published_date": "2026-05-04",
+    "source": "company_newsroom",
+    "summary": "Pinecone launched its first serverless region in Asia (Singapore), expanding its vector database cloud footprint, which may indirectly increase competition for Actian's data platform offerings in the region but has limited direct overlap.",
+    "actian_relevance": "low",
+    "tags": [
+      "serverless",
+      "Singapore",
+      "Asia expansion"
+    ],
+    "team_routing": [
+      "Product",
+      "PMM",
+      "Marketing"
+    ],
+    "themes": [
+      "Vector / RAG / Retrieval"
+    ],
+    "event_date": null,
+    "scraped_at": "2026-05-05"
   },
   {
     "company": "Databricks",
