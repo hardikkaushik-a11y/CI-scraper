@@ -1099,6 +1099,64 @@ def fetch_event_page_playwright(company: str, url: str) -> list[dict]:
         print(f"  [Milvus/Zilliz] Strategy Zilliz: {len(items)} upcoming events found")
         return items  # Skip generic A+/A/B for Milvus
 
+    # ── Strategy Alation: parse __NEXT_DATA__ JSON blob ──────────────────
+    # alation.com/events/ is a Next.js page with all events embedded as JSON
+    # in <script id="__NEXT_DATA__">. Path: data.props.pageProps.eventsData
+    # Each entry: { title, startDate (ISO), endDate?, url, category, ... }
+    # This is the source of truth — no DOM heuristics needed.
+    if company == "Alation":
+        try:
+            m = re.search(r'<script\s+id="__NEXT_DATA__"[^>]*>(.*?)</script>', html, re.S)
+            if m:
+                next_data = json.loads(m.group(1))
+                events = (next_data.get("props", {})
+                                    .get("pageProps", {})
+                                    .get("eventsData") or [])
+                for e in events:
+                    title = (e.get("title") or "").strip()
+                    if not title:
+                        continue
+                    start = e.get("startDate") or ""
+                    end   = e.get("endDate") or ""
+                    href  = e.get("url") or url   # detail URL or fallback to listing
+                    # Dedupe by title+startDate — Alation has two distinct
+                    # "Gartner Data & Analytics Summit" events (London + Sydney)
+                    # with the same title but different dates.
+                    dedup_key = f"{title}|{start}"
+                    if dedup_key in seen_titles:
+                        continue
+                    cat   = e.get("categoryName") or e.get("category") or ""
+                    # Append location hint to title when it's a duplicate-prone name
+                    display_title = title
+                    if start and start[5:7] != "":
+                        # If url has a location slug (e.g., /sydney/, /london/), surface it
+                        loc_match = re.search(r"/(sydney|london|munich|paris|new[-_]york|"
+                                              r"san[-_]francisco|tokyo|singapore|berlin|madrid|"
+                                              r"amsterdam|toronto|chicago|austin|boston|dublin)/?",
+                                              href, re.I)
+                        if loc_match and loc_match.group(1).lower() not in title.lower():
+                            display_title = f"{title} — {loc_match.group(1).replace('-', ' ').title()}"
+                    desc_parts = [cat] if cat else []
+                    if start and end:
+                        desc_parts.append(f"{start} → {end}")
+                    elif start:
+                        desc_parts.append(start)
+                    description = " · ".join(desc_parts)[:400]
+                    seen_titles.add(dedup_key)
+                    seen_hrefs.add(href)
+                    items.append({
+                        "title":          display_title[:150],
+                        "url":            href,
+                        "published_date": date.today().isoformat(),
+                        "description":    description,
+                        "event_date":     start or None,
+                    })
+                print(f"  [Alation] Strategy Alation: {len(items)} events from __NEXT_DATA__")
+                if items:
+                    return items
+        except Exception as e_:
+            print(f"  [Alation] __NEXT_DATA__ parse failed ({e_}) — falling through to generic")
+
     # ── Strategy Snowflake: article card extraction ──────────────────────
     # snowflake.com/en/events/all-events renders a clean grid of article cards.
     # Each card is: <link><article>...<heading>Title</heading>...<generic>Month</generic>...</article></link>

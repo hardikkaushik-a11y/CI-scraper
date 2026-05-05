@@ -136,13 +136,18 @@ THEME_TO_PRODUCT_AREAS: dict[str, tuple[str, ...]] = {
 
 def derive_product_areas(primary: str, themes: list[str]) -> list[str]:
     """
-    Compute the multi-area list for a verdict given its primary area and
-    aggregated theme set. Primary always first. De-dupes while preserving order.
-    Only direct, unambiguous theme→area mappings expand beyond primary.
+    Return the vendor's primary product area only.
+
+    Earlier we expanded into secondary areas based on theme→area mapping, but
+    that polluted filters: every vendor touching vector / unstructured / catalog
+    themes appeared in the corresponding area filter, so VectorAI showed
+    Snowflake + Collibra alongside the actual vector specialists. The user's
+    mental model of an area filter is "show me the specialists" — not "show
+    me anyone touching this concern."
+
+    Cross-cutting concerns are still surfaced via:
+      - the dashboard's theme dropdown filter (search 'vector' → all relevant)
+      - themes[] on each verdict
+      - verdict narrative text and roadmap pillars
     """
-    out = [primary] if primary else []
-    for theme in themes:
-        for area in THEME_TO_PRODUCT_AREAS.get(theme, ()):
-            if area and area not in out:
-                out.append(area)
-    return out
+    return [primary] if primary else []
