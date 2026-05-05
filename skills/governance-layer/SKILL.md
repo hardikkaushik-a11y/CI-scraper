@@ -17,6 +17,26 @@ This skill was developed and proven on the Actian CI competitive intelligence pl
 
 ---
 
+## Theoretical foundation
+
+This skill addresses the **technical–governance gap** documented in Responsible AI (RAI) literature — the observation that the field has produced extensive *algorithmic* solutions to RAI tensions (differential privacy, fairness-weighted aggregation, secure aggregation, communication-efficient architectures) but limited *integrated frameworks* that combine technical implementation with institutional accountability structures.
+
+The gap is well-characterised in distributed ML / federated learning contexts. A 2026 systematic literature review of 12 peer-reviewed papers spanning healthcare, maritime computing, intelligent transportation, video surveillance, and organisational decision-making found that:
+
+- **Privacy** appears as a primary concern in all 12 papers (the dominant RAI principle)
+- **Fairness** appears in 5 papers
+- **Accountability and transparency** receive comparatively limited attention — only 2 of 12 papers treat them as primary concerns
+- **Governance-oriented solutions are notably absent** from the literature; only one paper (Choudhary et al., 2024) conducts empirical analysis of organisational governance implications
+- The structural tensions between RAI principles (privacy ↔ utility, privacy ↔ fairness, privacy ↔ transparency, fairness ↔ performance) "cannot be resolved through technical solutions alone" — they require normative input from domain experts, affected communities, and regulators
+
+(Source: Kaushik, H. (2026). *Tensions between Responsible AI Principles in Federated Learning*. TUM Seminar Paper, March 2026.)
+
+**What this means for the skill:** governance is a first-class system property, not a retrofit. By making source traceability, data classification, and pipeline audit visible to stakeholders at the UI and build-output layers, this skill operationalises governance in a way that complements (rather than competes with) algorithmic solutions to RAI tensions. The pattern works because it does not try to *resolve* the tensions algorithmically — it makes them *visible and auditable* so they can be governed institutionally.
+
+When pitching the governance layer to stakeholders, frame it as: *"the production application of an integrated framework — algorithmic outputs (the AI-generated verdicts) wrapped in institutional accountability primitives (sources, classifications, audit trail) — addressing the documented technical-governance gap in Responsible AI."*
+
+---
+
 ## When to apply this skill
 
 Apply when ANY of the following are true:
