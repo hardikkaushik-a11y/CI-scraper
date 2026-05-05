@@ -115,7 +115,18 @@ _BLOCKED_URL_PATHS_RE = re.compile(
     r'|/partner(?:s)?/'          # /partners/ (partner listing, not event)
     r'|/about(?:/company)?/?$'   # /about, /about/company (bare pages)
     r'|/careers?/'               # /career/ or /careers/
-    r'|/job(?:s)?/',             # /jobs/
+    r'|/job(?:s)?/'              # /jobs/
+    r'|/forms?/'                 # /form/ or /forms/ — sales contact forms
+    r'|/talk-to-sales'           # /talk-to-sales-contact/ etc.
+    r'|/contact-?(?:us|sales)?'  # /contact, /contact-us, /contact-sales
+    r'|/request-(?:a-)?demo'     # /request-demo, /request-a-demo
+    r'|/get-(?:a-)?demo'         # /get-demo, /get-a-demo
+    r'|/book-(?:a-)?demo'        # /book-demo, /book-a-demo
+    r'|/demo/?$'                 # bare /demo/ or /demo
+    # Vendor-specific marketing-content landing pages masquerading as events
+    r'|/wtf-[\w-]+'              # atlan.com/wtf-context-layer/ — clickbait talk landing
+    r'|/live-demo-series'        # atlan.com/live-demo-series-* — generic recurring webinar series
+    ,
     re.I,
 )
 
@@ -140,6 +151,25 @@ def _title_year_in_past(title: str) -> bool:
 def is_blocked_url(url: str) -> bool:
     """Return True if this URL should never be scraped (product page, docs, etc.)."""
     return bool(_BLOCKED_URL_PATHS_RE.search(url))
+
+
+# Marketing taglines / positioning copy masquerading as launch announcements.
+# Patterns: superlative opener + ends with period (i.e., a slogan, not a headline).
+# e.g. "The only platform that brings all the humans of data & AI together."
+_MARKETING_TAGLINE_RE = re.compile(
+    r"^\s*(?:The\s+(?:only|first|leading|leader|most|best|fastest|smartest|simplest|"
+    r"complete|unified|trusted)\s+\w[\w\s]+?[.!]\s*$"
+    r"|"  # OR bare slogans about "humans of data" / "data + AI together"
+    r"^\s*(?:The|Where|When)\s+\w[\w\s,&'+/-]+(?:humans|teams|people|everyone)\s+of\s+"
+    r"(?:data|AI|analytics)[\w\s,&'+/-]*[.!]\s*$"
+    r")",
+    re.I,
+)
+
+
+def is_marketing_tagline(title: str) -> bool:
+    """Drop slogan-style titles ('The only platform that...', etc.) — not signals."""
+    return bool(_MARKETING_TAGLINE_RE.match((title or "").strip()))
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -537,13 +567,37 @@ def classify_item(company: str, title: str, description: str) -> dict | None:
 # DEDUPLICATION — file-based, same principle as seen_jobs.db
 # ══════════════════════════════════════════════════════════════════════════
 
+# Dedup is keyed by (company, url) — same conference URL legitimately appears
+# on multiple vendors' events pages (Snowflake Summit, Databricks DAIS, Gartner
+# D&A all show up across catalog/observability/vector vendor sites). Treat each
+# vendor's perspective on a shared event as a distinct signal.
+
 def load_seen_urls() -> set:
-    if SEEN_FILE.exists():
-        try:
-            return set(json.loads(SEEN_FILE.read_text()))
-        except Exception:
-            return set()
-    return set()
+    """Returns set of 'company|url' composite keys.
+
+    One-time migration: if file is in legacy plain-URL format (no '|' chars
+    in any entry), discard it and start fresh. The persisted dedup state
+    becomes meaningless under the new schema and a clean rescrape is cheap
+    (~30s) and gets all real events back.
+    """
+    if not SEEN_FILE.exists():
+        return set()
+    try:
+        raw = json.loads(SEEN_FILE.read_text())
+    except Exception:
+        return set()
+    if not isinstance(raw, list):
+        return set()
+    # Detect legacy flat-URL format and drop it
+    if raw and not any("|" in str(x) for x in raw[:20]):
+        print("  [INFO] seen_signals.json in legacy format — resetting for company-aware dedup")
+        return set()
+    return set(raw)
+
+
+def seen_key(company: str, url: str) -> str:
+    """Composite dedup key — each company's perspective on a shared URL is distinct."""
+    return f"{company}|{url}"
 
 
 def save_seen_urls(seen: set) -> None:
@@ -1479,9 +1533,10 @@ def main():
         except Exception:
             existing = []
 
-    # Index existing signals by URL for fast dedup
-    existing_urls = {s["url"] for s in existing}
-    seen_urls.update(existing_urls)
+    # Index existing signals by (company, url) for fast dedup — same URL
+    # legitimately appears across multiple vendors' events pages
+    existing_keys = {seen_key(s.get("company", ""), s.get("url", "")) for s in existing}
+    seen_urls.update(existing_keys)
 
     new_signals: list[dict] = []
     today_str = date.today().isoformat()
@@ -1518,28 +1573,29 @@ def main():
             title = item["title"]
             pub   = item["published_date"]
 
-            # Skip already seen
-            if url in seen_urls:
+            # Skip already seen — composite (company, url) so the same conference
+            # URL appearing on multiple vendors' events pages is NOT cross-deduped
+            if seen_key(company, url) in seen_urls:
                 continue
 
             # Hard URL block — product pages, docs, resources, careers, etc.
             if is_blocked_url(url):
-                seen_urls.add(url)
+                seen_urls.add(seen_key(company, url))
                 continue
 
             # Nav title block — "Resource Center", "Architecture Center", etc.
             if _NAV_TITLE_RE.match(title.strip()):
-                seen_urls.add(url)
+                seen_urls.add(seen_key(company, url))
                 continue
 
             # Skip items outside rolling window — mark seen so we skip next run too
             if not within_window(pub):
-                seen_urls.add(url)
+                seen_urls.add(seen_key(company, url))
                 continue
 
             # Skip items with no title or URL
             if not title or not url:
-                seen_urls.add(url)
+                seen_urls.add(seen_key(company, url))
                 continue
 
             # Classify via rule-based logic (PHASE 2.5: Anthropic disabled)
@@ -1548,39 +1604,39 @@ def main():
 
             if not classification:
                 print(f"    [WARN] Classification failed — skipping")
-                seen_urls.add(url)
+                seen_urls.add(seen_key(company, url))
                 continue
 
             # Hard exclude: noise content patterns regardless of type
             gate_text = title + " " + item["description"][:300] + " " + url
             if _NOISE_RE.search(gate_text):
-                seen_urls.add(url)
+                seen_urls.add(seen_key(company, url))
                 continue
 
             # ── Event quality gate — 4-tier filter ─────────────────────────────
             if classification["type"] != "product_launch":
                 # Tier 1: Named educational series — always skip
                 if _SERIES_BLACKLIST_RE.search(gate_text):
-                    seen_urls.add(url)
+                    seen_urls.add(seen_key(company, url))
                     continue
                 # Tier 2: City-stop training — skip if city + training keywords present
                 if _CITY_RE.search(gate_text) and _LOW_VALUE_WEBINAR_RE.search(gate_text):
-                    seen_urls.add(url)
+                    seen_urls.add(seen_key(company, url))
                     continue
                 # Tier 3: Generic noise — skip workshops/training UNLESS strategic override
                 if (_WORKSHOP_RE.search(gate_text) or _LOW_VALUE_WEBINAR_RE.search(gate_text)):
                     if not _STRATEGIC_OVERRIDE_RE.search(gate_text):
-                        seen_urls.add(url)
+                        seen_urls.add(seen_key(company, url))
                         continue
                 # Tier 4: Webinar hard gate — drop ALL webinars unless they are
                 # explicitly a product launch (launch webinar is fine, info webinar is not)
                 if _WEBINAR_RE.search(gate_text):
                     if not _PRODUCT_LAUNCH_STRONG_RE.search(gate_text):
-                        seen_urls.add(url)
+                        seen_urls.add(seen_key(company, url))
                         continue
                 # Tier 5: Hackathons — always dropped, no strategic CI value
                 if _HACKATHON_RE.search(gate_text):
-                    seen_urls.add(url)
+                    seen_urls.add(seen_key(company, url))
                     continue
 
             # Event gating: blog posts must contain an explicit event keyword to pass
@@ -1588,7 +1644,7 @@ def main():
             # event-like keywords during type classification, so they pass through
             if classification["type"] == "blog_post":
                 if not _EVENT_GATE_RE.search(gate_text):
-                    seen_urls.add(url)
+                    seen_urls.add(seen_key(company, url))
                     continue
 
             signal = {
@@ -1612,7 +1668,7 @@ def main():
             }
 
             new_signals.append(signal)
-            seen_urls.add(url)
+            seen_urls.add(seen_key(company, url))
             processed += 1
             time.sleep(0.5)  # Rate limit between Sonnet calls
 
@@ -1642,19 +1698,19 @@ def main():
             item_url = item["url"]
             title = item["title"]
 
-            if item_url in seen_urls:
+            if seen_key(company, item_url) in seen_urls:
                 continue
             if not title:
                 continue
 
             # Hard URL block — product pages, docs, resources, etc. (all companies)
             if is_blocked_url(item_url):
-                seen_urls.add(item_url)
+                seen_urls.add(seen_key(company, item_url))
                 continue
 
             # Nav title block — "Resource Center", "Architecture Center", etc.
             if _NAV_TITLE_RE.match(title.strip()):
-                seen_urls.add(item_url)
+                seen_urls.add(seen_key(company, item_url))
                 continue
 
             # Classify — but check for explicit product launch language first.
@@ -1671,6 +1727,13 @@ def main():
             if item.get("event_date"):
                 classification["event_date"] = item["event_date"]
 
+            # Drop marketing taglines / slogan headlines that the link scanner
+            # snagged as 'launches' (e.g. Atlan's "The only platform that brings
+            # all the humans of data & AI together." linking at /forms/talk-to-sales/)
+            if is_marketing_tagline(title):
+                seen_urls.add(seen_key(company, item_url))
+                continue
+
             # ── Event quality gate — 4-tier filter (event page items) ────────────
             if classification["type"] != "product_launch":
                 # Tier 0 (HARD RULE): an event without a parseable date is NOT an event.
@@ -1682,27 +1745,27 @@ def main():
                     if derived:
                         classification["event_date"] = derived
                     else:
-                        seen_urls.add(item_url)
+                        seen_urls.add(seen_key(company, item_url))
                         continue
 
                 combined = title + " " + item.get("description", "") + " " + item_url
                 # Tier 1: Named educational series — always skip
                 if _SERIES_BLACKLIST_RE.search(combined):
-                    seen_urls.add(item_url)
+                    seen_urls.add(seen_key(company, item_url))
                     continue
                 # Tier 2: City-stop training — skip if city + training keywords
                 if _CITY_RE.search(combined) and _LOW_VALUE_WEBINAR_RE.search(combined):
-                    seen_urls.add(item_url)
+                    seen_urls.add(seen_key(company, item_url))
                     continue
                 # Tier 3: Generic noise — skip UNLESS strategic override passes
                 if _WORKSHOP_RE.search(combined) or _LOW_VALUE_WEBINAR_RE.search(combined):
                     if not _STRATEGIC_OVERRIDE_RE.search(combined):
-                        seen_urls.add(item_url)
+                        seen_urls.add(seen_key(company, item_url))
                         continue
                 # Tier 4: Webinars — drop unless explicitly a product launch webinar
                 if _WEBINAR_RE.search(combined):
                     if not _PRODUCT_LAUNCH_STRONG_RE.search(combined):
-                        seen_urls.add(item_url)
+                        seen_urls.add(seen_key(company, item_url))
                         continue
 
             signal = {
@@ -1726,7 +1789,7 @@ def main():
             }
 
             new_signals.append(signal)
-            seen_urls.add(item_url)
+            seen_urls.add(seen_key(company, item_url))
             added += 1
             type_label = "🚀 LAUNCH" if classification["type"] == "product_launch" else "📅 event"
             print(f"  ✓ [{type_label}] {title[:55]} | {item.get('event_date', 'no date')}")

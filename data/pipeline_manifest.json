@@ -1,12 +1,12 @@
 {
-  "run_at": "2026-05-05T11:32:52Z",
+  "run_at": "2026-05-05T12:23:10Z",
   "sources": {
     "signals.json": {
-      "records": 36,
+      "records": 35,
       "data_classification": "PUBLIC"
     },
     "competitive_signals.json": {
-      "records": 62,
+      "records": 58,
       "data_classification": "PUBLIC"
     },
     "news.json": {
@@ -20,7 +20,7 @@
   },
   "output": {
     "competitors": 11,
-    "launches": 2,
-    "events": 60
+    "launches": 1,
+    "events": 57
   }
 }
