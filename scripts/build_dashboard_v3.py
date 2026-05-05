@@ -60,7 +60,7 @@ AREA_TOKENS = {
     "AI Analyst":         {"fg": "oklch(0.44 0.13 245)", "bg": "oklch(0.96 0.03 245)", "bd": "oklch(0.88 0.06 245)", "dot": "oklch(0.56 0.14 245)"},
 }
 
-TEAMS = ["All", "Product", "PMM", "Marketing", "SDRs", "Executives"]
+TEAMS = ["All", "Product", "PMM", "Marketing", "Sales", "Executives"]
 
 TARGET_FUNCTIONS = ["Sales", "Engineering", "Product Management", "Solution Engineering", "Partners/Alliances"]
 
@@ -127,10 +127,10 @@ def derive_routes(signal, verdict):
     """
     # Primary: verdict.team_routing — computed from hiring + news + launches + events
     verdict_routing = verdict.get("team_routing") or []
-    allowed = {"Product", "PMM", "Marketing", "SDRs", "Executives"}
+    allowed = {"Product", "PMM", "Marketing", "Sales", "Executives"}
     verdict_routing = [r for r in verdict_routing if r in allowed]
     if verdict_routing:
-        order = ["Product", "PMM", "Marketing", "SDRs", "Executives"]
+        order = ["Product", "PMM", "Marketing", "Sales", "Executives"]
         return [t for t in order if t in verdict_routing]
 
     # Fallback: legacy threat + hiring-volume logic (keeps older data usable)
@@ -142,7 +142,7 @@ def derive_routes(signal, verdict):
     if threat == "CRITICAL" or (threat in ("HIGH", "MEDIUM") and posting_count > 20):
         routes.append("Marketing")
     if threat in ("CRITICAL", "HIGH"):
-        routes.append("SDRs")
+        routes.append("Sales")
     seen = set()
     unique = []
     for r in routes:
@@ -176,7 +176,7 @@ def relative_updated(last_updated_str):
 def derive_event_teams(relevance):
     r = (relevance or "").upper()
     if r == "HIGH":
-        return ["PMM", "Marketing", "SDRs"]
+        return ["PMM", "Marketing", "Sales"]
     if r == "MEDIUM":
         return ["PMM", "Marketing"]
     return ["Product"]
@@ -258,34 +258,90 @@ def build_function_trends(per_company, allowed_companies):
 
 
 def derive_team_actions(company, threat, verdict, recommended_actions, fallback):
-    """Derive per-team action strings from verdict fields."""
-    ci = verdict.get("competitive_impact", {})
-    if not isinstance(ci, dict):
-        ci = {}
+    """Route recommended_actions to per-team buckets by their category prefix.
+
+    recommended_actions look like:
+      "Product (differentiate): Build X..."
+      "GTM (target segment): Brief AEs on Y..."
+      "Marketing (campaign): Launch Z..."
+      "Timing (immediate): Within 2 weeks ..."
+
+    We map the leading category to a team lens. Actions are "do this", verdicts
+    are "this is happening" — they must be distinct strings.
+    """
+    ci = verdict.get("competitive_impact", {}) or {}
     overlap = ci.get("overlap_with_actian", "")
     at_risk = ci.get("at_risk_segments", "")
-    primary = str(verdict.get("primary_interpretation", ""))
-    what = str(verdict.get("what_is_happening", ""))
     why = str(verdict.get("why_it_matters", ""))
-    # Try to get a specific recommended action
-    specific = ""
-    for act in (recommended_actions or []):
-        if len(act) > 40 and "monitor" not in act.lower():
-            specific = re.sub(r"^\[[^\]]+\]\s*", "", act)
-            break
-    base = specific or fallback
 
-    # No truncation — render full sentences. UI handles wrapping.
+    CATEGORY_TO_TEAM = {
+        "product": "Product",
+        "engineering": "Product",
+        "tech": "Product",
+        "pmm": "PMM",
+        "competitive intelligence": "PMM",
+        "battlecard": "PMM",
+        "marketing": "Marketing",
+        "campaign": "Marketing",
+        "messaging": "Marketing",
+        "comms": "Marketing",
+        "gtm": "Sales",
+        "sales": "Sales",
+        "go-to-market": "Sales",
+        "executive": "Executives",
+        "executives": "Executives",
+        "strategy": "Executives",
+        "strategic": "Executives",
+    }
+
+    buckets = {"Product": [], "PMM": [], "Marketing": [], "Sales": [], "Executives": []}
+    untagged = []
+
+    for raw in (recommended_actions or []):
+        text = (raw or "").strip()
+        if not text:
+            continue
+        # Strip "[Team]" legacy prefix if present
+        text = re.sub(r"^\[[^\]]+\]\s*", "", text)
+        # Match leading "Category" or "Category (qualifier)" followed by : - or —
+        m = re.match(r"^([A-Za-z][A-Za-z &/\-]*?)(?:\s*\([^)]*\))?\s*[:\-—]\s*(.+)$", text, re.S)
+        if m:
+            cat_raw = m.group(1).strip().lower()
+            body = m.group(2).strip()
+            team = CATEGORY_TO_TEAM.get(cat_raw)
+            if team:
+                buckets[team].append(body)
+                continue
+        untagged.append(text)
+
     def s(x):
         return (x or "").strip()
 
+    def first_or(team, default):
+        return s(buckets[team][0]) if buckets[team] else s(default)
+
+    spillover = untagged[:]  # use as fallback for empty buckets
+
+    def fb(default):
+        return spillover.pop(0) if spillover else default
+
+    pmm_default = (
+        f"Update {company} battlecard — {overlap or why}".strip(" —")
+        if (overlap or why) else fallback
+    )
+    sales_default = f"At-risk accounts: {at_risk}. {fallback}" if at_risk else fallback
+    exec_default = (
+        s(why) if threat in ("CRITICAL", "HIGH")
+        else f"Monitor {company} — {threat.title()} threat."
+    )
+
     return {
-        "All": s(base),
-        "Product": s(primary or what or base),
-        "PMM": s(f"Update {company} battlecard — {overlap or why or base}") if overlap or why else s(base),
-        "Marketing": s(why or what or base),
-        "SDRs": s(f"At-risk accounts: {at_risk}. {base}" if at_risk else base),
-        "Executives": s(why or base) if threat in ("CRITICAL", "HIGH") else f"Monitor {company} — {threat.title()} threat.",
+        "All":        s(fallback),
+        "Product":    first_or("Product", fb(fallback)),
+        "PMM":        first_or("PMM", fb(pmm_default)),
+        "Marketing":  first_or("Marketing", fb(fallback)),
+        "Sales":      first_or("Sales", fb(sales_default)),
+        "Executives": first_or("Executives", fb(exec_default)),
     }
 
 
@@ -489,7 +545,7 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
                 return f"Competitive overlap: {overlap}. {why}".strip()
             return why or what
 
-        def _sdrs_verdict():
+        def _sales_verdict():
             if at_risk:
                 return f"At-risk segments: {at_risk}. {what}".strip()
             return what
@@ -535,7 +591,7 @@ def build_competitors(signals, verdicts, per_company=None, comp_signals=None, ne
                 "Product":    primary or what,
                 "PMM":        _pmm_verdict(),
                 "Marketing":  why or what,
-                "SDRs":       _sdrs_verdict(),
+                "Sales":      _sales_verdict(),
                 "Executives": _exec_verdict(),
             },
             "action": derive_team_actions(company, threat, verdict, recommended_actions, verdict_action),
